@@ -4,4 +4,6 @@
 * [General Layout](general-layout/README.md)
 * [General Concepts](general-concepts/README.md)
 * [User Management and Global Actions](user-management/README.md)
-* [Using the system](using-the-system/README.md)
+* [Using the System](using-the-system/README.md)
+* [Administration](administration/README.md)
+* [Categories and Types](categories-and-types/README.md)

@@ -270,3 +270,349 @@ The last option is a checkbox that restricts all of the results to attributes th
 
 !["You can view the event that an attribute belongs to with the view button, or you can edit/delete the attribute via the buttons on the right."](figures/search_attribute_result.png)
 
+
+## Updating and modifying events and attributes:
+
+Every event and attribute can easily be edited. First of all it is important to find the event or attribute that is to be edited, using any of the methods mentioned in the section on [browsing past events](#browsing_events).
+Once it is found, the edit button (whether it be under actions when events/attributes get listed or simply on the event view) will bring up the same screen as what is used to create the entry of the same type (for an event it would be the event screen as [seen here](#Creating an event), for an attribute the attribute screen as [described here](#add-attributes-to-the-event)).
+Keep in mind that editing any event (either directly or indirectly through an attribute) will unpublish it, meaning that you'll have to publish it (through the event view) again once you are done.
+
+## Tagging:
+
+As described earlier, users with tagging rights can arbitrarily tag events using tags chosen from a pool of available options. If you have tagging privileges and would like to create a new tag, navigate to Event Actions - Add Tag. You'll be presented with the following form:
+
+![Enter a name for the tag and click on the color field to be able to pick a colour for it.](figures/tag.png)
+
+Fill out the following fields:
+*   **Name**: Pick a name for the tag. Try to use consistent naming conventions across your instance, to avoid confusion.
+*   **Colour**: You can choose a colour for the tag by clicking on the colour field and using the colour picker tool. Try to avoid having duplicate or similar looking colours to help avoid confusion.
+
+## Templating:
+
+Newer users can easily be overwhelmed by having to manually populate events with attributes without any guidance. What sort of information should go into the event? What should be the category and type of a C2 IP? Templates allow users to use simple forms to populate events.
+Even though MISP ships with a few default templates, it is possible for users (with the appropriate templating privilege) to create new templates for their users or for all users of the instance. Let's look at how you can create a template.
+First go to Event Actions - Add Template to go to the event creation view.
+
+![Fill in the generic information about the template.](figures/create_template.png)
+
+The following fields have to be filled out:
+*   **Name**: The name of the template should describe what type of an event it should be used to generate attributes.
+*   **Tags**: You can attach tags to the template - an event populated using the template would automatically receive the tag(s). Add new tags using the + button. If you chnage your mind about a tag you can remove it with the cross next to the tag name.
+*   **Event Description**: A short description about the events that this template should be used for.
+*   **Share this template with others**: The template can be set to be usable by any organisation on the instance or only by the one that has created it.
+
+Once the skeleton template is created, you can start populating the template with data. There are 3 types of elements that can be used during the creation of a template: attribute, file and text elements. Text elements divide the template into sections with an information field, followed by all of the attribute/file fields until a new text field is read. Don't worry about the order of the elements during creation, they can be re-arranged using drag & drop. Let's look at the 3 element types:
+
+**Attribute Element**
+
+![This element will generate regular attributes based on user entry.](figures/template_attribute.png)
+
+The following fields have to be filled out:
+*   **Name**: The field name that will be presented to the user.
+*   **Description**: A brief description of the element. Make sure that you provide sufficient information to the user to make it obvious what is expected.
+*   **Category**: The category used for any attributes created using this template element.
+*   **Type**: The type or complex type used for any attributes created using this template element. Complex types allow for several related types to be used on data entry. For example, a "file" complex type element allows for filenames and hashes.
+*   **Use Complex types**: If the category permits it, switch to a complex type using this checkbox.
+*   **Automatically mark for IDS**: If checked, any attributes generated using this element will be marked for IDS exporting.
+*   **Mandatory element**: If the elemnt is marked as mandatory, then the template form can only be submitted by users if this field is filled out.
+*   **Batch import element**: Allow for multiple values to be entered (separated by line breaks).
+
+**File Element**
+
+![This element will generate attachments based on user entry.](figures/template_file.png)
+
+The following fields have to be filled out:
+*   **Name**: The field name that will be presented to the user.
+*   **Description**: A brief description of the element. Make sure that you provide sufficient information to the user to make it obvious what is expected.
+*   **Category**: The category to be used by all attachments uploaded through this element. 
+*   **Malware**: If the uploaded files are malicious and should be encrypted and password protected, mark this checkbox.
+*   **Mandatory element**: If it should be required to upload an attachment, check this checkbox.
+*   **Batch import element**: Ticking this checkbox allows users to upload several files using this element.
+
+**Text Element**
+
+![This element will start a section in the template, which continues until the next text element or the end of the template.](figures/template_text.png)
+
+The following fields have to be filled out:
+*   **Name**: The name of the section that will be presented to the user.
+*   **Text**: The description of the section. Explain briefly to the user what the following attribute/file elements will be dealing with. There are several ways to split a template into sections, try to have ease of use in mind while creating it.
+
+## Contacting the reporter:
+
+To get in touch with the reporter of a previously registered event, just find the event for which you would like to contact the reporter by either finding it on the list of events, by finding it through one of its attributes or by finding it through a related event.
+Once the event is found and the event view opened, click the button titled "Contact Reporter". This will bring up a view where you can enter your message that is to be e-mailed to all members of the reporting organisation that subscribe to receiving such reports or the reporting user himself. Along with your message, the detailed information about the event in question will be included in the e-mail.
+
+![Enter your message to the reporter and choose whether his/her entire organisation should get the message or not by ticking the check-box.](figures/contact_reporter.png)
+
+By default, the message will be sent to every member of the organisation that posted the event in the first place, but if you tick the check-box below the message field before sending the mail, only the person that reported the event will get e-mailed. 
+
+## Automation:
+It is possible to quickly and conveniently export the data contained within the system using the automation features located in the main menu on the left (available to users with authentication key access only). There are various sets of data that can be exported, by using the authentication key provided by the system (also shown on the export page). If for whatever reason you would need to invalidate your current key and get a new one instead (for example due to the old one becoming compromised) just hit the reset link next to the authentication key in the export view or in your "my profile" view.
+To find out about the various export formats and the usage within the automation functions, please read the page on the [API's usage](#api).
+
+## Exporting data:
+
+For users that do not have authentication key access, an alternate export feature is available that relies on your interactive login to the site. To access these, just use the export menu button to the left and you'll be presented with a list of export options.<br/> 
+Depending on your server's configuration, you will be presented with one of two possible pages, depending on whether you have background processing enabled or not.
+
+#### Export page with background jobs disabled
+
+The page will list a set of export formats that you can immediately download as a file. Just click on the desired export format and MISP will start collecting all the data that you will receive in a file. Keep in mind that this can be a lengthy process. To avoid having to wait, consult with your instance's site administrator about enabling the background processing.
+
+![Use the export features here to quickly download data in various formats](figures/export.png)
+
+#### Export page with background jobs enabled
+
+If the background jobs are enabled, you'll be redirected to a different version of the export page. Here you will see a table with all of the major export formats and the current status of the cached export files. Keep in mind that these are generated on an organisation by organisation basis, so even though others have generated newer export caches your organisation may have an outdated cache. You can simply issue a generate command (by clicking the "Generate" button) on the desired export type and the background workers will start fetching and assembling your cache. A progress bar will show the progress of the export process.
+Once done, you can click "Download" to download the freshly generated cache file. If the cache is already up to date from before, then you don't have to regenerate the cache, just click on the "download" button.
+You may have noticed that the TEXT export only has a generate button - this is because TEXT exports are made up of a lot of types of exports, all of which get generated together. To download any of these files, just click on any of the attribute types at the bottom of the table.
+A quick description of each of the fields in the table:
+*   **Type**: The type of the export (such as XML, Suricata, MD5, etc.).
+*   **Last Update**: The generation date of the current cache for the given export type.
+*   **Description**: A description of the export format. 
+*   **Outdated**: This compares the cache generation date to the last timestamp when an event was updated and lets you know whether the cache is outdated or not. 
+*   **Progress**: Shows the progress of the last initiated generation process.
+*   **Actions**: Download or Generate the given cache with these buttons. 
+
+![Use the export features here to quickly download data in various formats](figures/export_bg.png)
+
+#### Exporting search results and individual events
+Apart from the options offered by the export pages, it's also possible to export all events involved in a search attribute result table, by using the "Download results as XML" button on the left menu bar.
+
+![Download a .xml from all the events that are shown through an attribute in the search results.](figures/export_search.png) 
+
+Each event's view has its own export feature, both as an XML export and as a .ioc file. To reach these features, just navigate to an event and use the appropriate buttons on the right side.
+
+![Download a .xml or a .ioc of the event.](figures/export_search.png)
+
+## Connecting to other instances:
+
+Apart from being a self contained repository of attacks/malware, one of the main features of MISP is its ability to connect to other instances and share (parts of) its information. The following options allow you to set up and maintain such connections.
+
+### Setting up a connection to another server:
+
+In order to share data with a remote server via pushes and pulls, you need to request a valid authentication key from the hosting organisation of the remote instance. When clicking on List Servers and then on New Server, a form comes up that needs to be filled out in order for your instance to connect to it. The following fields need to be filled out:
+
+![Make sure that you enter the authentication key that you have been given by the hosting organisation of the remote instance, instead of the one you have gotten from this one.](figures/add_server.png)
+
+*   **Base URL:** The URL of the remote server.
+*   **Organization:** The organisation that runs the remote server. It is very impoportant that this setting is filled out exactly as the organisation name set up in the bootstrap file of the remote instance.
+*   **Authkey:** The authentication key that you have received from the hosting organisation of the remote instance.
+*   **Push:** This check-box controls whether your server is allowed to push to the remote instance.
+*   **Pull:** This check-box controls whether your server can request to pull all data from the remote instance.
+*   **Self Signed:** Ticking this checkbox will allow syncing with instances using self-signed certificates.
+*   **Certificate File:** If the instance that you want to connect to has their entire own certificate chain, you can use this to import a .pem file with it and override CakePHP's standard root CA file.
+
+**If you are an administrator**, trying to allow another instance to connect to your own, it is vital that two rules are followed when setting up a synchronisation account: 
+*   The synchronisation user has to have the sync permission and full read/write/publish privileges turned on
+*   Both the sync user and the organisation setting in your instance's Config/bootstrap.php file have to match the organisation identifier of the hosting organisation.
+
+### Browsing the currently set up server connections and interacting with them:
+
+If you ever need to change the data about the linked servers or remove any connections, you have the following options to view and manipulate the server connections, when clicking on List Servers: (you will be able to see a list of all servers that your server connects to, including the base address, the organisation running the server the last pushed and pulled event IDs and the control buttons.).
+
+![Apart from editing / deleting the link to the remote server, you can issue a push all or pull all command from here.](figures/list_servers.png)
+
+*   **Editing the connection to the:** By clicking edit a view, [that is identical to the new instance view](#setting-up-a-connection-to-another-server), is loaded, with all the current information of the instance pre-entered.
+*   **Deleting the connection to the instance:** Clicking the delete button will delete the link to the instance.
+*   **Push all:** By clicking this button, all events that are eligible to be pushed on the instance you are on will start to be pushed to the remote instance. Events and attributes that exist on the far end will be updated.
+*   **Pull all:** By clicking this button, all events that are set to be pull-able or full access on the remote server will be copied to this instance. Existing events will not be updated.
+
+## Rest API:
+
+The platform is also [RESTfull](http://en.wikipedia.org/wiki/Representational_state_transfer), so this means that you can use structured format (XML or JSON) to access Events data.
+
+### Requests
+
+Use any HTTP compliant library to perform requests.
+You can choose which format you would like to use as input/output for the REST calls by specifying the Accept and Content-Type headers.
+
+The following headers are required if you wish to recieve / push XML data:
+**Authorization**: _your authorisation key_
+**Accept**: _application/xml_
+**Content-Type**: _application/xml_
+
+The following headers are required if you wish to recieve / push JSON data:
+**Authorization**: _your authorisation key_
+**Accept**: _application/json_
+**Content-Type**: _application/json_
+The following table shows the relation of the request type and the resulting action:
+
+| HTTP format       | URL            | Controller action invoked     |
+| ----------------- | -------------- | ----------------------------- |
+| GET               | /events        | EventsController::index()     |
+| GET               | /events/123    | EventsController::view(123)   |
+| POST              | /events        | EventsController::add()       |
+| PUT               | /events/123    | EventsController::edit(123)   |
+| DELETE            | /events/123    | EventsController::delete(123) |
+| POST              | /events/123    | EventsController::edit(123)   |
+
+*Attachments are included using base64 encoding below the `data` tag.
+<br/>
+
+### Example - Get single Event
+
+In this example we fetch the details of a single Event (and thus also his Attributes).
+The request should be:
+
+`GET https://your_misp_url/events/123`
+
+And with the HTTP Headers:
+`Accept: application/xml`
+`Authorization: your_api_key`
+
+The response you're going to get is the following data:
+
+```xml
+<pre><?xml version="1.0" encoding="UTF-8" standalone="no"?>;
+<response>
+	<Event>
+		<id>57</id>
+		<org>NCIRC</org>
+		<date>2014-03-04</date>
+		<threat_level_id>1</threat_level_id>
+		<info>Code monkey doing code monkey stuff</info>
+		<published>1</published>
+		<uuid>50aa54aa-f7a0-4d74-910d-10f0ff32448e</uuid>
+		<attribute_count>1</attribute_count>
+		<analysis>1</analysis>
+		<timestamp>1393327600</timestamp>
+		<distribution>1</distribution>
+		<proposal_email_lock>0</proposal_email_lock>
+		<orgc>Iglocska</orgc>
+		<locked>0</locked>
+		<publish_timestamp>1393327600</publish_timestamp>
+		<Attribute>
+			<id>9577</id>
+			<type>other</type>
+			<category>Artifacts dropped</category>
+			<to_ids>1</to_ids>
+			<uuid>50aa54bd-adec-4544-b494-10f0ff32448e</uuid>
+			<event_id>57</event_id>
+			<distribution>1</distribution>
+			<timestamp>1393327600</timestamp>
+			<comment>This is an Attribute</comment>
+			<value>Some_attribute</value>
+			<ShadowAttribute />
+		</Attribute>
+		<ShadowAttribute />
+		<RelatedEvent />
+	</Event>
+	<xml_version>2.2.0</xml_version>
+</response>
+```
+
+
+#### Example - Add new Event
+
+In this example we want to add a single Event.
+The request should be:
+
+```
+POST https://your_misp_url/events
+Accept: application/xml
+Authorization: your_api_key
+```
+
+And the request body:
+
+```xml
+<Event>
+	<date>2014-03-04</date>
+	<threat_level_id>1</threat_level_id>
+	<info>Something concise</info>
+	<published>1</published>
+	<analysis>1</analysis>
+	<distribution>1</distribution>
+	<Attribute>
+		<type>other</type>
+		<category>Artifacts dropped</category>
+		<to_ids>1</to_ids>
+		<distribution>1</distribution>
+		<comment>This is an Attribute</comment>
+		<value>Some_attribute</value>
+	</Attribute>
+</Event>
+```
+
+The response you're going to get is the following data:
+
+```
+HTTP/1.1 100 Continue
+HTTP/1.1 200 Continue
+Date: Tue, 04-Mar-2014 15:00:00
+Server: Apache/2.2.22 (Ubuntu) PHP/5.4.9-4ubuntu2.3
+X-Powered-By: PHP/5.4.9-4ubuntu2.3
+Set-Cookie: CAKEPHP=deleted; expires=Wed, 05-Mar-2014 15:00:00 GMT; path=/
+Set-Cookie: CAKEPHP=a4ok3lr5p9n5drqj27025i4le3; expires Tue, 04-Mar-2014 15:00:00 GMT; path=/; HttpOnly
+Content-Length: 1 kB
+Content-Type: application/xml
+```
+
+```xml
+<?xml version = "1.0" encoding = "UTF-8"?>
+<response>
+	<Event>
+		<id>76</id>
+		<org>NCIRC</org>
+		<date>2014-03-04</date>
+		<threat_level_id>1</threat_level_id>
+		<info>Something concise</info>
+		<published>1</published>
+		<uuid>50aa54aa-f7a0-4d74-920d-10f0ff32448e</uuid>
+		<attribute_count>1</attribute_count>
+		<analysis>1</analysis>
+		<timestamp>1393328991</timestamp>
+		<distribution>1</distribution>
+		<proposal_email_lock>0</proposal_email_lock>
+		<orgc>Iglocska</orgc>
+		<locked>0</locked>
+		<publish_timestamp>1393947960</publish_timestamp>
+		<Attribute>
+			<id>10462</id>
+			<type>other</type>
+			<category>Artifacts dropped</category>
+			<to_ids>1</to_ids>
+			<uuid>50aa54bd-adec-4544-b412-10f0ff32448e</uuid>
+			<event_id>76</event_id>
+			<distribution>1</distribution>
+			<timestamp>1393328991</timestamp>
+			<comment/>
+			<value>Some_attribute</value>
+			<ShadowAttribute/>
+		</Attribute>
+		<ShadowAttribute/>
+		<RelatedEvent>
+			<id>75</id>
+			<org>NCIRC</org>
+			<date>2012-11-19</date>
+			<info>Code monkey doing code monkey stuff</info>
+			<uuid>50aa54aa-f7a0-4d74-910d-10f0ff32448e</uuid>
+			<published>1</published>
+			<analysis>1</analysis>
+			<attribute_count>1</attribute_count>
+			<orgc>Iglocska</orgc>
+			<timestamp>1393327600</timestamp>
+			<distribution>1</distribution>
+			<proposal_email_lock>0</proposal_email_lock>
+			<locked>0</locked>
+			<threat_level_id>1</threat_level_id>
+			<publish_timestamp>1393947655</publish_timestamp>
+		</RelatedEvent>
+	</Event>
+	<xml_version>2.2.0</xml_version>
+</response>
+```
+
+The respone from requesting an invalid page
+
+```xml
+<?xml version = "1.0" encoding = "UTF-8"?>
+<response>
+	<name>Not Found</name>
+	<url>/The_meaning_of_life</url>
+</response>
+```
+
+
+
