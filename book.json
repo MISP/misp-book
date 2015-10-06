@@ -1,5 +1,5 @@
 {
-    "plugins": ["autocover"],
+    "plugins": ["autocover", "github"],
     "links": { "sidebar": {        "MISP @ GitHub": "https://github.com/MISP/MISP"
                         }},
     "pluginsConfig": {
@@ -18,6 +18,9 @@
             "background": {
                 "color": "#FFFFFF"
             }
+        },
+        "github": {
+                "url": "https://github.com/MISP/"
         }
-    }
+}
 }
