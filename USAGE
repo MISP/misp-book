@@ -1,0 +1,22 @@
+
+Install notes
+=============
+
+~~~
+npm install gitbook-plugin-autocover
+~~~
+
+Usage
+=====
+
+If you want to generate the PDF output (you need to have Calibre installed):
+
+~~~
+gitbook pdf
+~~~
+
+and if you want to want to serve the HTML pages on 127.0.0.1:4000:
+
+~~~
+gitbook serve
+~~~

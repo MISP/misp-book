@@ -1,0 +1,23 @@
+{
+    "plugins": ["autocover"],
+    "links": { "sidebar": {        "MISP @ GitHub": "https://github.com/MISP/MISP"
+                        }},
+    "pluginsConfig": {
+        "autocover": {
+            "title": "User guide of MISP Malware Information Sharing Platform, a Threat Sharing Platform.",
+            "author": "MISP Contributors",
+            "font": {
+                "size": null,
+                "family": "Impact",
+                "color": "#000000"
+            },
+            "size": {
+                "w": 1800,
+                "h": 2360
+            },
+            "background": {
+                "color": "#FFFFFF"
+            }
+        }
+    }
+}
