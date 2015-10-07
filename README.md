@@ -1,6 +1,6 @@
 # Introduction
 
-User guide of Malware Information Sharing Platform (MISP) - A Threat Sharing Platform. The user guide audience is security analysts, ICT professionals, security incident handler, malware reverser using MISP to share threat indicators or integrating MISP into other security monitoring tools. The user guide includes the day-to-day usage of the MISP graphical user interface along with the automated interfaces (API) to integrate MISP in a security environment.
+User guide for Malware Information Sharing Platform (MISP) - A Threat Sharing Platform. This user guide is intended for ICT professionals like security analysts, security incident handler, or malware reverse engineers who share threat indicators using MISP or integrate MISP into other security monitoring tools. The user guide includes day-to-day usage of the MISP's graphical user interface along with its automated interfaces (API), in order to integrate MISP within a security environment.
 
 ## Acknowledgement
 
