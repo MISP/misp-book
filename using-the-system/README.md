@@ -55,10 +55,13 @@ Keep in mind that the system searches for regular expressions in the value field
 ### Populate from Template
 
 Templates allow users to rapidly populate events of a specific type by filling out a series of pre-defined fields. Users with template creation privileges can create new templates for their organisations or for all organisations on their instance. If you are interested in template creation, please refer to the templating section.
-For users trying to populate an event, after clicking on the populate from template button, you'll be presented with a list of all currently accessible templates. Pick the one that best describes the event that you are creating. </p>
+For users trying to populate an event, after clicking on the populate from template button, you'll be presented with a list of all currently accessible templates. Pick the one that best describes the event that you are creating. 
+
 ![Choose the most appropriate template for your event.](figures/template_choice.png)
+
 Once you have chosen a template, you'll be presented with the actual form contained within. Make sure you fill out as many fields as possible with the mandatory fields - marked by a star in a bracket such as this: (*) - are filled out.
 Templates are devided into sections, with each section having a title and a description in addition to a series of fields. Each field can be an attribute or a file attachment field. An attribute field has the following components:
+
 ![MISP will generate attributes based on the field's settings and the data that you provide.](figures/template_field.png)
 
 *  **Field**: The name of the field along with an indication if the field is mandatory.
@@ -352,7 +355,7 @@ To find out about the various export formats and the usage within the automation
 
 ## Exporting data:
 
-For users that do not have authentication key access, an alternate export feature is available that relies on your interactive login to the site. To access these, just use the export menu button to the left and you'll be presented with a list of export options.<br/> 
+For users that do not have authentication key access, an alternate export feature is available that relies on your interactive login to the site. To access these, just use the export menu button to the left and you'll be presented with a list of export options.
 Depending on your server's configuration, you will be presented with one of two possible pages, depending on whether you have background processing enabled or not.
 
 #### Export page with background jobs disabled
