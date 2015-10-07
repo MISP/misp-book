@@ -1,3 +1,5 @@
+<!-- toc -->
+
 ### Attribute Categories vs Types
 
 |Category| Internal reference | Targeting data | Antivirus detection | Payload delivery | Artifacts dropped | Payload installation |

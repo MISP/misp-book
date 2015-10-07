@@ -1,3 +1,5 @@
+<!-- toc -->
+
 ## Using the system
 
 ### Creating an event:

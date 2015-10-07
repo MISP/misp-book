@@ -1,3 +1,5 @@
+<!-- toc -->
+
 ## User Management and Global Actions
 
 ### First run of the system

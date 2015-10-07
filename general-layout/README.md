@@ -1,3 +1,5 @@
+<!-- toc -->
+
 ## General Layout
 
 ### The top bar
