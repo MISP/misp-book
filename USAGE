@@ -5,6 +5,7 @@ Install notes
 ~~~
 npm install gitbook-plugin-autocover
 npm install gitbook-plugin-github
+npm install gitbook-plugin-toc
 ~~~
 
 Usage

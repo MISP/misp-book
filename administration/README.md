@@ -1,3 +1,5 @@
+<!-- toc -->
+
 ## Administration
 
 ### Server settings and diagnostics
