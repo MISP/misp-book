@@ -266,3 +266,69 @@ Apart from off-loading long-lasting jobs to the background workers, there is a s
 	
 ![Site administrators can schedule reccuring tasks on this page.](figures/schedule.png)
 
+
+### Various administration tricks
+
+#### Default sharing level
+
+Choose your default sharing level to match your usage scenario for MISP. The setting is named *default_event_distribution* and the values can be:
+
+*   Your organisation only (default)
+*   This community only
+*   Connected communities
+*   All communities
+
+You can also set a default distribution level for attributes contained in an event with *default_attribute_distribution*, and it has the same values as the default sharing level for events plus an additional one that allows attributes to inherit the sharing level of the event.
+
+#### Adding organisation logos
+
+You can add logo for organisations in MISP by uploading them via the tab **Manage files** under the **Administration** menu & **Server Settings** sub-menu.
+The filename must be exactly the same as the organisation name that you will use in MISP.
+It is recommended to use PNG files of 48x48 pixels.
+
+#### The \_schdlr\_ worker is not starting
+
+If you already made sure that you copied the config file under the cakeresque directory, it might be due to the FQDN of the server hosting the instance has changed. A way to fix this is to flush temporary data stored in redis. This can be done by logging in redis, for example when logging in with redis-cli, and issuing a flushall command.
+
+#### How to redirect HTTP to HTTPS
+
+    ```
+<VirtualHost *:80>
+        ServerAdmin misp@misp.misp
+        ServerName misp.misp.misp
+        ServerAlias misp-int.misp.misp
+
+        Redirect permanent / https://misp.misp.misp
+
+        LogLevel warn
+        ErrorLog /var/log/apache2/misp.local_error.log
+        CustomLog /var/log/apache2/misp.local_access.log combined
+        ServerSignature Off
+</VirtualHost>
+
+<VirtualHost *:443>
+        ServerAdmin misp@misp.misp
+        ServerName misp.misp.misp
+        ServerAlias misp-int.misp.misp
+
+        DocumentRoot /var/www/MISP/app/webroot
+        <Directory /var/www/MISP/app/webroot>
+                Options -Indexes
+                AllowOverride all
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        SSLEngine On
+        SSLCertificateFile /etc/ssl/misp.misp.misp/misp.crt
+        SSLCertificateKeyFile /etc/ssl/misp.misp.misp/misp.key
+        SSLCertificateChainFile /etc/ssl/misp.misp.misp/mispCA.crt
+
+        LogLevel warn
+        ErrorLog /var/log/apache2/misp.local_error.log
+        CustomLog /var/log/apache2/misp.local_access.log combined
+        ServerSignature Off
+</VirtualHost>
+    ```
+   (Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+
