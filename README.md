@@ -9,6 +9,7 @@ The MISP user guide is a collaborative effort between all the contributors to [M
 - Belgian Ministry of Defence (CERT)
 - [CIRCL Computer Incident Response Center Luxembourg](https://www.circl.lu/)
 - Iklody IT Solutions
-- NATO NCIRC
+- [NATO NCIRC](http://www.ncirc.nato.int/)
+- Cthulhu Solutions
 - [CERT-EU](https://cert.europa.eu)
 
