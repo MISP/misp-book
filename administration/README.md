@@ -292,7 +292,7 @@ If you already made sure that you copied the config file under the cakeresque di
 
 #### How to redirect HTTP to HTTPS
 
-    ```
+```
 <VirtualHost *:80>
         ServerAdmin misp@misp.misp
         ServerName misp.misp.misp
@@ -330,5 +330,6 @@ If you already made sure that you copied the config file under the cakeresque di
         ServerSignature Off
 </VirtualHost>
     ```
+
    (Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
