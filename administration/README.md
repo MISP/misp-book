@@ -267,7 +267,7 @@ Apart from off-loading long-lasting jobs to the background workers, there is a s
 ![Site administrators can schedule reccuring tasks on this page.](figures/schedule.png)
 
 
-### Various administration tricks
+### Various administration tips & tricks
 
 #### Default sharing level
 
@@ -292,6 +292,7 @@ If you already made sure that you copied the config file under the cakeresque di
 
 #### How to redirect HTTP to HTTPS
 
+Here is a sample configuration for Apache webserver.
 ```
 <VirtualHost *:80>
         ServerAdmin misp@misp.misp
@@ -329,7 +330,25 @@ If you already made sure that you copied the config file under the cakeresque di
         CustomLog /var/log/apache2/misp.local_access.log combined
         ServerSignature Off
 </VirtualHost>
-    ```
+ ```
+   Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
-   (Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+#### Support & feature requests
+
+The preferred method for support & feature requests is to use the [GitHub ticketing system](https://github.com/MISP/MISP/issues).
+
+If you want to discuss about something related to MISP, want help from the community, etc... You have 
+the [MISP Users mailing list](https://groups.google.com/forum/#!forum/misp-users) and the [MISP developers mailing list](https://groups.google.com/forum/#!forum/misp-devel).
+
+A number of companies are also offering custom development, consulting, and support around MISP, please check [the support page of the MISP Project website](http://www.misp-project.org/#support).
+
+#### More information in the notification emails about new events
+
+The setting MISP.extended_alert_subject allows you to have an extended subject. One word of warning though. If you’re using encryption : the subject will not be encrypted. Be aware that you might leak some sensitive information this way. Below is an example how the two subject types look like. First with the option disabled, then with the option enabled.
+```
+Event 7 - Low - TLP Amber
+Event 8 - OSINT - Dissecting  XXX... - Low - TLP Amber
+```
+
+   Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
