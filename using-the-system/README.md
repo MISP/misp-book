@@ -128,6 +128,10 @@ You can also import the data from a ThreatConnect export csv file. The following
 
 The result will be a list of attributes that get added to the currently selected event, each of which will be marked with a comment that indicates that its origin being from a ThreatConnect import.
 
+### Adding IOCs from a PDF report
+
+You can You can use a generic script called [IOC parser](https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event: [report_to_misp] (https://github.com/PaloAltoNetworks-BD/report_to_misp/). 
+
 ### Publish an event:
 
 ![Only use publish (no email) for minor changes such as the correction of typos.](figures/publish.png)
@@ -618,6 +622,8 @@ The respone from requesting an invalid page
 	<url>/The_meaning_of_life</url>
 </response>
 ```
+
+
 
 
 

@@ -266,3 +266,89 @@ Apart from off-loading long-lasting jobs to the background workers, there is a s
 	
 ![Site administrators can schedule reccuring tasks on this page.](figures/schedule.png)
 
+
+### Various administration tips & tricks
+
+#### Default sharing level
+
+Choose your default sharing level to match your usage scenario for MISP. The setting is named *default_event_distribution* and the values can be:
+
+*   Your organisation only (default)
+*   This community only
+*   Connected communities
+*   All communities
+
+You can also set a default distribution level for attributes contained in an event with *default_attribute_distribution*, and it has the same values as the default sharing level for events plus an additional one that allows attributes to inherit the sharing level of the event.
+
+#### Adding organisation logos
+
+You can add logo for organisations in MISP by uploading them via the tab **Manage files** under the **Administration** menu & **Server Settings** sub-menu.
+The filename must be exactly the same as the organisation name that you will use in MISP.
+It is recommended to use PNG files of 48x48 pixels.
+
+#### The \_schdlr\_ worker is not starting
+
+If you already made sure that you copied the config file under the cakeresque directory, it might be due to the FQDN of the server hosting the instance has changed. A way to fix this is to flush temporary data stored in redis. This can be done by logging in redis, for example when logging in with redis-cli, and issuing a flushall command.
+
+#### How to redirect HTTP to HTTPS
+
+Here is a sample configuration for Apache webserver.
+```
+<VirtualHost *:80>
+        ServerAdmin misp@misp.misp
+        ServerName misp.misp.misp
+        ServerAlias misp-int.misp.misp
+
+        Redirect permanent / https://misp.misp.misp
+
+        LogLevel warn
+        ErrorLog /var/log/apache2/misp.local_error.log
+        CustomLog /var/log/apache2/misp.local_access.log combined
+        ServerSignature Off
+</VirtualHost>
+
+<VirtualHost *:443>
+        ServerAdmin misp@misp.misp
+        ServerName misp.misp.misp
+        ServerAlias misp-int.misp.misp
+
+        DocumentRoot /var/www/MISP/app/webroot
+        <Directory /var/www/MISP/app/webroot>
+                Options -Indexes
+                AllowOverride all
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        SSLEngine On
+        SSLCertificateFile /etc/ssl/misp.misp.misp/misp.crt
+        SSLCertificateKeyFile /etc/ssl/misp.misp.misp/misp.key
+        SSLCertificateChainFile /etc/ssl/misp.misp.misp/mispCA.crt
+
+        LogLevel warn
+        ErrorLog /var/log/apache2/misp.local_error.log
+        CustomLog /var/log/apache2/misp.local_access.log combined
+        ServerSignature Off
+</VirtualHost>
+ ```
+   Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+
+#### Support & feature requests
+
+The preferred method for support & feature requests is to use the [GitHub ticketing system](https://github.com/MISP/MISP/issues).
+
+If you want to discuss about something related to MISP, want help from the community, etc... You have 
+the [MISP Users mailing list](https://groups.google.com/forum/#!forum/misp-users) and the [MISP developers mailing list](https://groups.google.com/forum/#!forum/misp-devel).
+
+A number of companies are also offering custom development, consulting, and support around MISP, please check [the support page of the MISP Project website](http://www.misp-project.org/#support).
+
+#### More information in the notification emails about new events
+
+The setting MISP.extended_alert_subject allows you to have an extended subject. One word of warning though. If you’re using encryption : the subject will not be encrypted. Be aware that you might leak some sensitive information this way. Below is an example how the two subject types look like. First with the option disabled, then with the option enabled.
+```
+Event 7 - Low - TLP Amber
+Event 8 - OSINT - Dissecting  XXX... - Low - TLP Amber
+```
+
+   Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+
