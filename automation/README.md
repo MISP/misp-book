@@ -76,18 +76,29 @@ The XML download also accepts two additional the following optional parameters i
 https://<misp url>/events/xml/download/[eventid]/[withattachments]/[tags]/[from]/[to]/[last]
 ~~~~
 
-   eventid: Restrict the download to a single event
-   withattachments: A boolean field that determines whether attachments should be encoded and a second parameter that controls the eligible tags.
-   tags: To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
+<dl>
+<dt>eventid</dt>
+<dd>Restrict the download to a single event</dd>
+<dt>withattachments</dt>
+<dd>A boolean field that determines whether attachments should be encoded and a second parameter that controls the eligible tags.</dd>
+<dt>tags</dt> 
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
    commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
-   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:
+   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:<dd>
+</dl>
+
 ~~~~
 https://<misp url>/events/xml/download/false/true/tag1&&tag2&&!tag3
 ~~~~
 
-   from: Events with the date set to a date after the one specified in the from field (format: 2015-02-15)
-   to: Events with the date set to a date before the one specified in the to field (format: 2015-02-15)
-   last: Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)
+<dl>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+</dl>
 
 The keywords false or null should be used for optional empty parameters in the URL. Also check out the User Guide to read about the [REST API](../using-the-system/README.md#rest-api).
 
@@ -107,10 +118,17 @@ You can specify additional flags for CSV exports as follows:
 https://<misp url>/events/csv/download/[eventid]/[ignore]/[tags]/[category]/[type]/[includeContext]/[from]/[to]/[last]
 ~~~~
 
-eventid: Restrict the download to a single event
-ignore: Setting this flag to true will include attributes that are not marked "to_ids".
-tags: To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:
+<dl>
+<dt>eventid</dt>
+<dd>Restrict the download to a single event</dd>
+<dt>ignore</dt>
+<dd>Setting this flag to true will include attributes that are not marked "to_ids".</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
+commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
+</dl>
+
+For example, to include tag1 and tag2 but exclude tag3 you would use:
 
 For example, to only download a csv generated of the "domain" type and the "Network activity" category attributes all events except for the one and further restricting it to events that are tagged "tag1" or "tag2" but not "tag3", only allowing attributes that are IDS flagged use the following syntax:
 
@@ -118,12 +136,20 @@ For example, to only download a csv generated of the "domain" type and the "Netw
 https://<misp url>/events/csv/download/false/false/tag1&&tag2&&!tag3/Network%20activity/domain
 ~~~~
 
-category: The attribute category, any valid MISP attribute category is accepted.
-type: The attribute type, any valid MISP attribute type is accepted.
-includeContext: Include the event data with each attribute.
-from: Events with the date set to a date after the one specified in the from field (format: 2015-02-15)
-to: Events with the date set to a date before the one specified in the to field (format: 2015-02-15)
-last: Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)
+<dl>
+<dt>category</dt>
+<dd>The attribute category, any valid MISP attribute category is accepted.</dd>
+<dt>type</dt>
+<dd>The attribute type, any valid MISP attribute type is accepted.</dd>
+<dt>includeContext</dt>
+<dd>Include the event data with each attribute.</dd>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+</dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
 
