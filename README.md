@@ -15,7 +15,7 @@ The MISP user guide is a collaborative effort between all the contributors to [M
 
 ## License
 
-The MISP user guide is dual-licensed under [GNU Affero General Public License version 3](http://www.gnu.org/licenses/agpl-3.0.html) and CC-BY-SA.
+The MISP user guide is dual-licensed under [GNU Affero General Public License version 3](http://www.gnu.org/licenses/agpl-3.0.html) and [CC-BY-SA 4.0 international](https://creativecommons.org/licenses/by-sa/4.0/).
 
 * Copyright (C) 2012 Christophe Vandeplas
 * Copyright (C) 2012 Belgian Defence
