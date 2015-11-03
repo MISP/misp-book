@@ -89,5 +89,5 @@ https://<misp url>/events/xml/download/false/true/tag1&&tag2&&!tag3
    to: Events with the date set to a date before the one specified in the to field (format: 2015-02-15)
    last: Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)
 
-The keywords false or null should be used for optional empty parameters in the URL. Also check out the User Guide to read about the REST API (LINKTODO).
+The keywords false or null should be used for optional empty parameters in the URL. Also check out the User Guide to read about the [REST API](../using-the-system/README.md#rest-api).
 
