@@ -214,9 +214,61 @@ The keywords false or null should be used for optional empty parameters in the U
 An example for a Suricata export for all events excluding those tagged tag1, without all of the commented information at the start of the file would look like this:
 
 ~~~~
-https://misppriv.circl.lu/events/nids/suricata/download/null/true/!tag1 
+https://<misp url>/events/nids/suricata/download/null/true/!tag1
 ~~~~
 
 Administration is able to maintain a white-list containing host, domain name and IP numbers to exclude from the NIDS export.
 
+## Hash - HIDS database export
+
+Automatic export of MD5/SHA1 checksums contained in file-related attributes. This list can be used to feed forensic software when searching for
+   suspicious files. Only published events and attributes marked as IDS Signature are exported.
+
+You can configure your tools to automatically download all the MD5 hashes from MISP:
+
+~~~~
+https://<misp url>/events/hids/md5/download
+~~~~
+
+Or the SHA1 hashes:
+
+~~~~
+https://<misp url>/events/hids/sha1/download
+~~~~
+
+The API's full format is as follow:
+
+~~~~
+https://<misp url>/events/hids/[format]/download/[tags]/[from]/[to]/[last]
+~~~~
+
+<dl>
+<dt>format</dt>
+<dd>The export format, can be "md5" or "sha1"</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
+   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
+   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:</dd>
+</dl>
+
+~~~~
+https://<misp url>/events/hids/md5/download/tag1&&tag2&&!tag3
+~~~~
+
+<dl>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+</dl>
+
+The keywords false or null should be used for optional empty parameters in the URL.
+
+For example, to only show sha1 values from events tagged tag1, use:
+
+~~~~
+https://<misp url>/events/hids/sha1/download/tag1
+~~~~
 
