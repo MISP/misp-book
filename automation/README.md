@@ -272,3 +272,66 @@ For example, to only show sha1 values from events tagged tag1, use:
 https://<misp url>/events/hids/sha1/download/tag1
 ~~~~
 
+## STIX export
+
+You can export MISP events in MITRE's STIX format (to read more about [STIX](https://stix.mitre.org/)). The STIX XML export is currently very slow and can lead to timeouts with larger events or collections of events. The STIX JSON return format does not suffer from this issue.
+
+Usage of the API:
+
+~~~~
+https://<misp url>/events/stix/download
+~~~~
+
+Search parameters can be passed to the function via url parameters or by POSTing an xml or json object (depending on the return type). The following parameters can be passed to the STIX export tool: id, withAttachments, tags. Both id and tags can use the && (and) and ! (not) operators to build queries. Using the url parameters, the syntax is as follows:
+
+~~~~
+https://<misp url>/events/stix/download/[id]/[withAttachments]/[tags]/[from]/[to]/[last]
+~~~~
+
+<dl>
+<dt>id</dt>
+<dd>The event's ID</dd>
+<dt>withAttachments</dt>
+<dd>Encode attachments where applicable</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
+</dl>
+
+For example, to include tag1 and tag2 but exclude tag3 you would use:
+
+~~~~
+https://<misp url>/events/stix/download/false/true/tag1&&tag2&&!tag3 
+~~~~
+
+<dl>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+</dl>
+
+You can post an XML or JSON object containing additional parameters in the following formats.
+
+If you use JSON query objects:
+
+~~~~
+https://<misp url>/events/stix/download.json
+~~~~
+
+~~~~json
+{"request": {"id":["!51","!62"],"withAttachment":false,"tags":["APT1","!OSINT"],"from":false,"to":"2015-02-15"}}                                            
+~~~~
+
+If you use XML query objects:
+
+~~~~
+https://<misp url>/events/stix/download
+~~~~
+
+~~~~xml
+<request><id>!51</id><id>!62</id><withAttachment>false</withAttachment><tags>APT1</tags><tags>!OSINT</tags><from>false</from><to>2015-02-15</to></request>
+~~~~
+
+
