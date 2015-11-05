@@ -599,6 +599,7 @@ To just return a list of attributes, use the following syntax:
 <dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
 <dt>eventid</dt>
 <dd>The events that should be included / excluded from the search</dd>
+</dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
 
@@ -621,9 +622,26 @@ You can also use search for IP addresses using CIDR. Make sure that you use '|' 
 https://<misp url>/attributes/restSearch/download/192.168.1.1|16/ip-src/null/CIRCL 
 ~~~~
 
+## Export attributes of event with specified type as XML
+
+If you want to export all attributes of a pre-defined type that belong to an event, use the following syntax:
+
+~~~~
+https://<misp url>/attributes/returnAttributes/download/[id]/[type]/[sigOnly]
+~~~~
+
+sigOnly is an optional flag that will block all attributes from being exported that don't have the IDS flag turned on. It is possible to search for several types with the '&&' operator and to exclude values with the '!' operator. For example, to get all IDS signature attributes of type md5 and sha256, but not filename|md5 and filename|sha256 from event 25, use the following:
+
+~~~~
+https://<misp url>/attributes/returnAttributes/download/25/md5&&sha256&&!filename/true
+~~~~
+
 ## Download attachment or malware sample
 
 If you know the attribute ID of a malware-sample or an attachment, you can download it with the following syntax:
+
 ~~~~
 https://<misp url>/attributes/downloadAttachment/download/[Attribute_id]
 ~~~~
+
+
