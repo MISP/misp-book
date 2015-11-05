@@ -612,12 +612,18 @@ search will automatically search for colons instead). For example, in order to s
 192.168 or 127.0 but not 0.1 and are of the type ip-src, excluding the events that were tagged tag1 use the following syntax:
 
 ~~~~
-https://<misp circl>/attributes/restSearch/download/192.168&&127.0&&!0.1/ip-src/false/CIRCL/!tag1
+https://<misp url>/attributes/restSearch/download/192.168&&127.0&&!0.1/ip-src/false/CIRCL/!tag1
 ~~~~
 
 You can also use search for IP addresses using CIDR. Make sure that you use '|' (pipe) instead of '/' (slashes). Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead). See below for an example:
 
 ~~~~
-https://<misp circl>/attributes/restSearch/download/192.168.1.1|16/ip-src/null/CIRCL 
+https://<misp url>/attributes/restSearch/download/192.168.1.1|16/ip-src/null/CIRCL 
 ~~~~
 
+## Download attachment or malware sample
+
+If you know the attribute ID of a malware-sample or an attachment, you can download it with the following syntax:
+~~~~
+https://<misp url>/attributes/downloadAttachment/download/[Attribute_id]
+~~~~
