@@ -334,9 +334,38 @@ https://<misp url>/events/stix/download
 <request><id>!51</id><id>!62</id><withAttachment>false</withAttachment><tags>APT1</tags><tags>!OSINT</tags><from>false</from><to>2015-02-15</to></request>
 ~~~~
 
+### Various ways to narrow down the search results of the STIX export
+
+For example, to retrieve all events tagged "APT1" but excluding events tagged "OSINT" and excluding events #51 and #62 without any attachments:
+~~~~
+https://<misp url>/events/stix/download/!51&&!62/false/APT1&&!OSINT/2015-02-15
+~~~~
+
+To export the same events using a POST request use:
+~~~~
+https://<misp url>/events/stix/download.json
+~~~~
+
+Together with this JSON object in the POST message:
+
+~~~~json
+{"request": {"id":["!51","!62"],"tags":["APT1","!OSINT"],"from":"2015-02-15"}}
+~~~~
+XML is automatically assumed when using the STIX export:
+
+~~~~
+https://<misp url>/events/stix/download
+~~~~
+
+The same search could be accomplished using the following POSTed XML object (note that ampersands need to be escaped, or alternatively separate id and tag elements can be used):
+
+~~~~xml
+<request><id>!51</id><id>!62</id><tags>APT1</tags><tags>!OSINT</tags><from>2015-02-15</from></request>
+~~~~
+
 ## RPZ export
 
-You can export RPZ zone files for DNS level firewalling by using the RPZ export functionality of MISP. The file generated will include all of the IDS
+You can export RPZ zone files for DNS level firewall by using the RPZ export functionality of MISP. The file generated will include all of the IDS
 flagged domain, hostname and IP-src/IP-dst attribute values that you have access to.
 
 It is possible to further restrict the exported values using the following filters:
