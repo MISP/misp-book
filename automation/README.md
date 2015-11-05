@@ -513,3 +513,111 @@ For example, to retrieve all attributes for event #5, including non IDS marked a
 https://<misp url>/attributes/text/download/all/null/5/true
 ~~~~
 
+## RESTful searches with XML result export
+
+It is possible to search the database for attributes based on a list of criteria.
+
+To return an event with all of its attributes, relations, shadowAttributes, use the following syntax:
+
+~~~~
+https://<misp url>/events/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]
+~~~~
+
+<dl>
+<dt>value</dt>
+<dd>Search for the given value in the attributes' value field.</dd>
+<dt>type</dt>
+<dd>The attribute type, any valid MISP attribute type is accepted.</dd>
+<dt>category</dt>
+<dd>The attribute category, any valid MISP attribute category is accepted.</dd>
+<dt>org</dt>
+<dd>Search by the creator organisation by supplying the organisation idenfitier.</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
+   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
+</dl>
+
+For example, to include tag1 and tag2 but exclude tag3 you would use:
+
+~~~~
+https://<misp url>/events/restSearch/download/null/null/null/null/tag1&&tag2&&!tag3
+~~~~
+
+<dl>
+<dt>quickfilter</dt>
+<dd>Enabling this (by passing "1" as the argument) will make the search ignore all of the other arguments, except for the auth key and value. MISP will return an xml / json (depending on the header sent) of all events that have a sub-string match on value in the event info, event orgc, or any of the attribute value1 / value2 fields, or in the attribute comment.</dd>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dt>eventid</dt>
+<dd>The events that should be included / excluded from the search</dd>
+</dl>
+
+The keywords false or null should be used for optional empty parameters in the URL.
+
+For example, to find any event with the term "red october" mentioned, use the following syntax (the example is shown as a POST request instead of a GET, which is highly recommended):
+
+POST to:
+
+~~~~
+https://<misp url>/events/restSearch/download
+~~~~
+
+POST message payload (XML):
+
+~~~~xml
+   <request><value>red october</value><searchall>1</searchall><eventid>!15</eventid></request>
+~~~~
+
+POST message payload (JSON):
+
+~~~~json
+{"request": {"value":"red october","searchall":1,"eventid":"!15"}} 
+~~~~
+
+To just return a list of attributes, use the following syntax:
+
+<dl>
+<dt>value</dt>
+<dd>Search for the given value in the attributes' value field.</dd>
+<dt>type</dt>
+<dd>The attribute type, any valid MISP attribute type is accepted.</dd>
+<dt>category</dt>
+<dd>The attribute category, any valid MISP attribute category is accepted.</dd>
+<dt>org</dt>
+<dd>Search by the creator organisation by supplying the organisation identifier.</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dt>eventid</dt>
+<dd>The events that should be included / excluded from the search</dd>
+
+The keywords false or null should be used for optional empty parameters in the URL.
+
+~~~~
+https://<misp url>/attributes/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[from]/[to]/[last]/[eventid]
+~~~~
+
+Value, type, category and org are optional. It is possible to search for several terms in each category by joining them with the '&&' operator. It is
+also possible to negate a term with the '!' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the
+search will automatically search for colons instead). For example, in order to search for all attributes created by your organisation that contain
+192.168 or 127.0 but not 0.1 and are of the type ip-src, excluding the events that were tagged tag1 use the following syntax:
+
+~~~~
+https://<misp circl>/attributes/restSearch/download/192.168&&127.0&&!0.1/ip-src/false/CIRCL/!tag1
+~~~~
+
+You can also use search for IP addresses using CIDR. Make sure that you use '|' (pipe) instead of '/' (slashes). Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead). See below for an example:
+
+~~~~
+https://<misp circl>/attributes/restSearch/download/192.168.1.1|16/ip-src/null/CIRCL 
+~~~~
+
