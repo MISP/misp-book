@@ -334,4 +334,54 @@ https://<misp url>/events/stix/download
 <request><id>!51</id><id>!62</id><withAttachment>false</withAttachment><tags>APT1</tags><tags>!OSINT</tags><from>false</from><to>2015-02-15</to></request>
 ~~~~
 
+## RPZ export
 
+You can export RPZ zone files for DNS level firewalling by using the RPZ export functionality of MISP. The file generated will include all of the IDS
+flagged domain, hostname and IP-src/IP-dst attribute values that you have access to.
+
+It is possible to further restrict the exported values using the following filters:
+
+<dl>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
+   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search when passed through the url. Use semicolons
+   instead (the search will automatically search for colons instead).</dd>
+<dt>id</dt>
+<dd>The event's ID</dd>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-03)</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-03)</dd>
+</dl>
+
+MISP will inject header values into the zone file as well as define the action taken for each of the values that can all be overwritten. By default these values are either the default values shipped with the application, or ones that are overwritten by your site administrator. The values are as follows:
+
+| Value name | Default value |
+| --- | :---: |
+|RPZ_policy| DROP|
+|RPZ_walled_garden| 127.0.0.1|
+|RPZ_serial| $date00|
+|RPZ_refresh| 2h|
+|RPZ_retry| 30m|
+|RPZ_expiry| 30d|
+|RPZ_minimum_ttl| 1h|
+|RPZ_ttl| 1w|
+|RPZ_ns| localhost.|
+|RPZ_email| root.localhost|
+
+To override the above values, either use the url parameters as described below:
+
+~~~~
+https://<misp url>/attributes/rpz/download/[tags]/[eventId]/[from]/[to]/[policy]/[walled_garden]/[ns]/[email]/[serial]/[refresh]/[retry]/[expiry]/[minim
+um_ttl]/[ttl]
+~~~~
+
+Or POST an XML or JSON object with the above listed options:
+
+~~~~xml
+<request><tags>OSINT&&!OUTDATED</tags><policy>walled-garden</policy><walled_garden>teamliquid.net</walled_garden><refresh>5h</refresh></request>
+~~~~
+
+~~~~json
+{"request": {"tags": ["OSINT", "!OUTDATED"], "policy": "walled-garden", "walled_garden": "teamliquid.net", "refresh": "5h"}
+~~~~
