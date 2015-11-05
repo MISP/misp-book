@@ -414,3 +414,102 @@ Or POST an XML or JSON object with the above listed options:
 ~~~~json
 {"request": {"tags": ["OSINT", "!OUTDATED"], "policy": "walled-garden", "walled_garden": "teamliquid.net", "refresh": "5h"}
 ~~~~
+
+## Text export
+
+An export of all attributes of a specific type to a plain text file. By default only published and IDS flagged attributes are exported.
+
+You can configure your tools to automatically download the following files:
+
+~~~~
+https://<misp url>/attributes/text/download/md5
+https://<misp url>/attributes/text/download/sha1
+https://<misp url>/attributes/text/download/sha256
+https://<misp url>/attributes/text/download/filename
+https://<misp url>/attributes/text/download/filename|md5
+https://<misp url>/attributes/text/download/filename|sha1
+https://<misp url>/attributes/text/download/filename|sha256
+https://<misp url>/attributes/text/download/ip-src
+https://<misp url>/attributes/text/download/ip-dst
+https://<misp url>/attributes/text/download/hostname
+https://<misp url>/attributes/text/download/domain
+https://<misp url>/attributes/text/download/email-src
+https://<misp url>/attributes/text/download/email-dst
+https://<misp url>/attributes/text/download/email-subject
+https://<misp url>/attributes/text/download/email-attachment
+https://<misp url>/attributes/text/download/url
+https://<misp url>/attributes/text/download/http-method
+https://<misp url>/attributes/text/download/user-agent
+https://<misp url>/attributes/text/download/regkey
+https://<misp url>/attributes/text/download/regkey|value
+https://<misp url>/attributes/text/download/AS
+https://<misp url>/attributes/text/download/snort
+https://<misp url>/attributes/text/download/pattern-in-file
+https://<misp url>/attributes/text/download/pattern-in-traffic
+https://<misp url>/attributes/text/download/pattern-in-memory
+https://<misp url>/attributes/text/download/yara
+https://<misp url>/attributes/text/download/vulnerability
+https://<misp url>/attributes/text/download/attachment
+https://<misp url>/attributes/text/download/malware-sample
+https://<misp url>/attributes/text/download/link
+https://<misp url>/attributes/text/download/comment
+https://<misp url>/attributes/text/download/text
+https://<misp url>/attributes/text/download/other
+https://<misp url>/attributes/text/download/named pipe
+https://<misp url>/attributes/text/download/mutex
+https://<misp url>/attributes/text/download/target-user
+https://<misp url>/attributes/text/download/target-email
+https://<misp url>/attributes/text/download/target-machine
+https://<misp url>/attributes/text/download/target-org
+https://<misp url>/attributes/text/download/target-location
+https://<misp url>/attributes/text/download/target-external
+~~~~
+
+To restrict the results by tags, use the usual syntax. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead). To get ip-src values from events tagged tag1 but not tag2 use:
+
+~~~~
+https://<misp url>/attributes/text/download/ip-src/tag1&&
+~~~~
+
+As of version 2.3.38, it is possible to restrict the text exports on two additional flags. The first allows the user to restrict based on event ID,
+whilst the second is a boolean switch allowing non IDS flagged attributes to be exported. Additionally, choosing "all" in the type field will return
+all eligible attributes.
+
+~~~~
+https://<misp url>/attributes/text/download/[type]/[tags]/[event_id]/[allowNonIDS]/[from]/[to]/[last]
+~~~~
+
+<dl>
+<dt>type</dt>
+<dd>The attribute type, any valid MISP attribute type is accepted.</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
+</dl>
+
+For example, to include tag1 and tag2 but exclude tag3 you would use:
+
+~~~~
+https://<misp url>/attributes/text/download/all/tag1&&tag2&&!tag3 
+~~~~
+
+<dl>
+<dt>event_id</dt>
+<dd>Restrict the results to the given event IDs.</dd>
+<dt> allowNonIDS</dt>
+<dd>Allow attributes to be exported that are not marked as "to_ids".</dd>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+</dl>
+
+The keywords false or null should be used for optional empty parameters in the URL.
+
+For example, to retrieve all attributes for event #5, including non IDS marked attributes too, use the following line:
+
+~~~~
+https://<misp url>/attributes/text/download/all/null/5/true
+~~~~
+
