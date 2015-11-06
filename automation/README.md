@@ -678,4 +678,51 @@ A description of all the parameters in the passed object:
 <dd>If set, it will only fetch data from the given event ID.</dd>
 </dl>
 
+## Upload malware samples using the "Upload Sample" API
+
+~~~~
+https://<misp url>/events/upload_sample/[Event_id]
+~~~~
+
+This API will allow you to populate an event that you have modify rights to with malware samples (and all related hashes). Alternatively, if you do not supply an event ID, it will create a new event for you.
+
+The files have to be base64 encoded and POSTed as explained below. All samples will be zipped and password protected (with the password being "infected"). The hashes of the original file will be captured as additional attributes.
+
+The event ID is optional. MISP will accept either a JSON or an XML object posted to the above URL.
+
+The general structure of the expected objects is as follows:
+
+~~~~json
+{"request": {"files": [{"filename": filename1, "data": base64encodedfile1}, {"filename": filename2, "data": base64encodedfile2}],
+   "optional_parameter1", "optional_parameter2", "optional_parameter3"}} 
+~~~~
+
+JSON:
+
+~~~~json
+{"request":{"files": [{"filename": "test1.txt", "data": "dGVzdA=="}, {"filename": "test2.txt", "data": "dGVzdDI="}], "distribution": 1, "info" : "test", "event_id": 15}}
+~~~~
+
+XML:
+
+~~~~xml
+<request><files><filename>test3.txt</filename><data>dGVzdA==</data></files><files><filename>test4.txt</filename><data>dGVzdDI=</data></files><info>test</info><distribution>1</distribution><event_id>15</event_id></request>
+~~~~
+
+The following optional parameters are expected:
+
+<dl>
+<dt>event_id</dt>
+<dd>The Event's ID is optional. It can be either supplied via the URL or the POSTed object, but the URL has priority if both are provided. Not supplying an event ID will cause MISP to create a single new event for all of the POSTed malware samples. You can define the default settings for the event, otherwise a set of default settings will be used.</dd>
+<dt>distribution</dt>
+<dd>The distribution setting used for the attributes and for the newly created event, if relevant. [0-3]</dd>
+<dt>to_ids</dt>
+<dd>You can flag all attributes created during the transaction to be marked as "to_ids" or not.</dd>
+<dt>category</dt>
+<dd>The category that will be assigned to the uploaded samples. Valid options are: Payload delivery, Artifacts dropped, Payload Installation, External Analysis.</dd>
+<dt>info</dt>
+<dd>Used to populate the event info field if no event ID supplied. Alternatively, if not set, MISP will simply generate a message showing that it's a malware sample collection generated on the given day.</dd>
+<dt>analysis</dt>
+<dd>The analysis level of the newly created event, if applicable. [0-2] threat_level_id: The threat level ID of the newly created event, if applicatble. [0-3]</dd>
+</dl>
 
