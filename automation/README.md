@@ -1,6 +1,6 @@
 <!-- toc -->
 
-##  Automation
+#  Automation API
 
 Automation functionality is designed to automatically generate signatures for intrusion detection systems. To enable signature generation for a given attribute, Signature field of this attribute must be set to Yes. Note that not all attribute types are applicable for signature generation, currently we only support NIDS signature generation for IP, domains, host names, user agents etc., and hash list generation for MD5/SHA1 values of file artifacts. Support for more attribute types is planned. To to make this functionality available for automated tools an authentication key is used. This makes it easier for your tools to access the data without further form-based-authentication.
 
@@ -774,3 +774,13 @@ XML:
 ~~~~
 
 None of the above fields are mandatory, but at least one of them has to be provided.
+
+# Automation using PyMISP
+
+PyMISP is a Python library to access MISP platforms via their REST API.
+
+PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
+
+[PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
+
+
