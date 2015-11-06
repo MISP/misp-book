@@ -747,3 +747,30 @@ Where "tag" is the ID of the tag. You can also use the name of the tag the follo
 {"request": {"Event": {"id": "228", "tag": "OSINT"}}}
 ~~~~
 
+## Proposals API
+
+You can interact with the proposals via the API directly since version 2.3.148.
+
+|HTTP|URL|Explanation|Expected Payload|Response|
+|----|---|-----------|----------------|--------|
+|GET|/shadow_attributes/view/[proposal_id]|View a proposal|N/A|ShadowAttribute object|
+|POST|/shadow_attributes/add/[event_id]|Propose a new attribute to an event|ShadowAttribute object|ShadowAttribute object|
+|POST|/shadow_attributes/edit/[attribute_id]|Propose an edit to an attribute|ShadowAttribute object|ShadowAttribute object|
+|POST|/shadow_attributes/accept/[proposal_id]|Accept a proposal|N/A|Message|
+|POST|/shadow_attributes/discard/[proposal_id]|Discard a proposal|N/A|Message|
+
+When posting a shadow attribute object, use the following format
+
+JSON:
+
+~~~~json
+{"request": {"ShadowAttribute": {"value": "5.5.5.5", "to_ids": false, "type": "ip-dst", "category": "Network activity"}}}
+~~~~
+
+XML:
+
+~~~~xml
+<request><ShadowAttribute><value>5.5.5.5</value><to_ids>0</to_ids><type>ip-src</type><category>Network activity</category></ShadowAttribute></request>
+~~~~
+
+None of the above fields are mandatory, but at least one of them has to be provided.
