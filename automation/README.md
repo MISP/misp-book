@@ -644,4 +644,38 @@ If you know the attribute ID of a malware-sample or an attachment, you can downl
 https://<misp url>/attributes/downloadAttachment/download/[Attribute_id]
 ~~~~
 
+## Download malware sample by hash
+
+You can also download samples by knowing its MD5 hash. Simply pass the hash along as a JSON/XML object or in the URL (with the URL having overruling the passed objects) to receive a JSON/XML object back with the zipped sample base64 encoded along with some contextual information.
+
+You can also use this API to get all samples from events that contain the passed hash. For this functionality, just pass the "allSamples" flag along.
+Note that if you are getting all samples from matching events, you can use all supported hash types (md5, sha1, sha256) for the lookup.
+
+You can also get all the samples from an event with a given event ID, by passing along the eventID parameter. Make sure that either an event ID or a hash is passed along, otherwise an error message will be returned. Also, if no hash is set, the allSamples flag will get set automatically.   
+
+https://<misp url>/attributes/downloadSample/[hash]/[allSamples]/[eventID]
+
+POST message payload (XML):
+
+~~~~
+<request><hash>7c12772809c1c0c3deda6103b10fdfa0</hash><allSamples>1</allSamples><eventID>13</eventID</request>
+~~~~
+
+POST message payload (json):
+
+~~~~
+{"request": {"hash": "7c12772809c1c0c3deda6103b10fdfa0", "allSamples": 1, "eventID": 13}}
+~~~~
+
+A description of all the parameters in the passed object:
+
+<dl>
+<dt>hash</dt>
+<dd>A hash in MD5 format. If allSamples is set, this can be any one of the following: md5, sha1, sha256.</dd>
+<dt>allSamples</dt>
+<dd>If set, it will return all samples from events that have a match for the hash provided above.</dd>
+<dt>eventID</dt>
+<dd>If set, it will only fetch data from the given event ID.</dd>
+</dl>
+
 
