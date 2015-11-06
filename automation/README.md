@@ -726,3 +726,24 @@ The following optional parameters are expected:
 <dd>The analysis level of the newly created event, if applicable. [0-2] threat_level_id: The threat level ID of the newly created event, if applicatble. [0-3]</dd>
 </dl>
 
+## Add or remove tags from events
+
+You can add or remove an existing tag from an event in the following way:
+
+~~~~
+https://<misp url>/events/addTag
+https://<misp url>/events/removeTag
+~~~~
+
+Just POST a JSON object in the following format (to the appropriate API depending on whether you want to add or delete a tag from an event):
+
+~~~~json
+{"request": {"Event": {"id": "228", "tag": "8"}}}
+~~~~
+
+Where "tag" is the ID of the tag. You can also use the name of the tag the following way (has to be an exact match):
+
+~~~~json
+{"request": {"Event": {"id": "228", "tag": "OSINT"}}}
+~~~~
+
