@@ -1,6 +1,6 @@
 <!-- toc -->
 
-### MISP Attribute Categories vs Types (MISP version 2.3)
+# MISP Attribute Categories vs Types (MISP version 2.3)
 
 |Category| Internal reference | Targeting data | Antivirus detection | Payload delivery | Artifacts dropped | Payload installation |
 | --- |:---:|:---:|:---:|:---:|:---:|:---:|
@@ -149,7 +149,7 @@
 *   **target-location**: Attack Targets Physical Location(s)
 *   **target-external**: External Target Orginizations Affected by this Attack
 
-### Attribute Categories vs Types (MISP version 2.4-beta)
+# Attribute Categories vs Types (MISP version 2.4-beta)
 
 |Category| Internal reference | Targeting data | Antivirus detection | Payload delivery | Artifacts dropped | Payload installation |
 | --- |:---:|:---:|:---:|:---:|:---:|:---:|
