@@ -409,7 +409,7 @@
 |pipe| |
 |ssl-cert-attributes| |
 
-### Categories
+### Categories (in 2.4 Beta)
 
 *   **Internal reference**: Reference used by the publishing party (e.g. ticket number)
 *   **Targeting data**: Targeting information to include recipient email, infected machines, department, and or locations.<br/>
@@ -425,7 +425,7 @@
 *   **Financial fraud**: Financial Fraud indicators, for example: IBAN Numbers, BIC codes, Credit card numbers, etc.
 *   **Other**: Attributes that are not part of any other category
 
-### Types
+### Types (in 2.4 Beta)
 
 *   **md5**: You are encouraged to use filename|md5 instead. A checksum in md5 format, only use this if you don't know the correct filename
 *   **sha1**: You are encouraged to use filename|sha1 instead. A checksum in sha1 format, only use this if you don't know the correct filename
