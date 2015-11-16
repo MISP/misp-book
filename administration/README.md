@@ -361,6 +361,7 @@ select ip,email,count(id) as c from logs WHERE ip IS NOT NULL group by ip,email 
 ```
 
 This will give you a top 10 table per ip and username:
+```
 +----------------+----------------------------------+------+
 | ip             | email                            | c    |
 +----------------+----------------------------------+------+
@@ -369,3 +370,4 @@ This will give you a top 10 table per ip and username:
 | 9.10.11.12     | fred@somewhere.eu                | 1317 |
 | 13.14.15.16    | SYSTEM                           |   16 |
 +----------------+----------------------------------+------+
+```
