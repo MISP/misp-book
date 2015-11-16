@@ -352,3 +352,20 @@ Event 8 - OSINT - Dissecting  XXX... - Low - TLP Amber
 
    Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
+#### Get top API users
+
+Enable the _log_auth_ setting in the server settings. Optionally enable _log_client_ip_ if you want to get stats per client ip.
+Log into your mysql server and run the following query:
+```
+select ip,email,count(id) as c from logs WHERE ip IS NOT NULL group by ip,email order by c desc limit 10;
+```
+
+This will give you a top 10 table per ip and username:
++----------------+----------------------------------+------+
+| ip             | email                            | c    |
++----------------+----------------------------------+------+
+| 1.2.3.4        | bob@nsa.gov                      | 4124 |
+| 5.6.7.8        | vladimir@kremlin.ru              | 1932 |
+| 9.10.11.12     | fred@somewhere.eu                | 1317 |
+| 13.14.15.16    | SYSTEM                           |   16 |
++----------------+----------------------------------+------+
