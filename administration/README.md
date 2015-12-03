@@ -371,3 +371,14 @@ This will give you a top 10 table per ip and username:
 | 13.14.15.16    | SYSTEM                           |   16 |
 +----------------+----------------------------------+------+
 ```
+
+#### Troubleshooting MISP not connecting to redis but redis-cli working
+
+If you have an IPv6 enabled OS, but an older redis version that does not support IPv6 (<v2.8), MISP might fail to connect to the redis server while redis-cli is working.
+The reason is that redis-cli is connecting to 127.0.0.1 directly, while the calls inside the CakeResque library used by MISP are done using "*localhost*" which resolves both to the IPv4 and IPv6 loopback addresses. For some reasons, the use of the IPv6 address is attempted first which fails.
+You can confirm this by trying to connect to redis using **telnet localhost 6379**. If it fails, the error message should mention the IPv6 loopback address (::1).
+Two ways to fix it:
+1) Upgrade your redis to a server that supports IPv6 (v2.8+). This is the preferred recommendation.
+2) Comment the localhost mapping to IPv6 address in /etc/hosts
+
+
