@@ -6,3 +6,4 @@ Indicator of compromise (IOC or IoC) is an artifact observed on a network or in 
 
 # NIDS
 Network Intrustion Detection System
+
