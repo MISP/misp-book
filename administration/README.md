@@ -382,7 +382,10 @@ You can confirm this by trying to connect to redis using **telnet localhost 6379
 
 
 Two ways to fix it:
+
 1) Upgrade your redis to a server that supports IPv6 (v2.8+). This is the preferred recommendation.
+
 2) Comment the localhost mapping to IPv6 address in /etc/hosts
+
 
 
