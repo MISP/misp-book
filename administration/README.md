@@ -333,6 +333,49 @@ Here is a sample configuration for Apache webserver.
  ```
    Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
+#### Increase max size of Samples / other files
+
+Trying to upload a large samples (>50M) might cause the following error:
+```[!] 500 Server Error: Internal Server Error```
+
+Or will give you an error page in browser.
+
+The error logs on the system will show you the following:
+
+```
+PHP Warning:  POST Content-Length of 57526024 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: https://XYZ/attributes/add_attachment/1948
+```
+
+And / Or
+
+```
+PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 76705009 bytes) in /var/www/MISP/app/Lib/cakephp/lib/Cake/Network/CakeRequest.php on line 996
+```
+
+To fix that you have to adjust the php settings:
+```
+vi /etc/php5/apache2/php.ini
+```
+
+Increase to the following values (or more if you like to)
+```
+; Maximum size of POST data that PHP will accept.
+; Its value may be 0 to disable the limit. It is ignored if POST data reading
+; is disabled through enable_post_data_reading.
+; http://php.net/post-max-size
+post_max_size = 256M
+[...]
+; Maximum amount of memory a script may consume (128MB)
+; http://php.net/memory-limit
+memory_limit = 1024M
+```
+
+And then restart apache2
+
+```
+service apache2 restart
+```
+
 #### Support & feature requests
 
 The preferred method for support & feature requests is to use the [GitHub ticketing system](https://github.com/MISP/MISP/issues).
