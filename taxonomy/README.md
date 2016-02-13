@@ -28,7 +28,7 @@ exportable. This means that you can export your classification with other MISP i
 
 If you want to enable a specific taxonomy, you can click on the cross to enable it. Then you can even cherry-pick the tags you want to use on the system. If you want to use the whole taxonomy, select all and then click on the cross in the top left.
 
-## Contributing taxonimies
+## Contributing a taxonomy
 
 It is quite easy. Create a JSON file describing your taxonomy as triple tags (e.g. check an existing one like [Admiralty Scale](https://github.com/MISP/misp-taxonomies/tree/master/admiralty-scale)), create a directory matching your name space, put your machinetag file in the directory and pull your request. That's it. Everyone can benefit from your taxonomy and can be automatically enabled in information sharing tools like [MISP](https://www.github.com/MISP/MISP).
 
