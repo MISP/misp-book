@@ -99,11 +99,11 @@ https://<misp url>/events/xml/download/false/true/tag1&&tag2&&!tag3
 
 <dl>
 <dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL. Also check out the User Guide to read about the [REST API](../using-the-system/README.md#rest-api).
@@ -150,11 +150,11 @@ https://<misp url>/events/csv/download/false/false/tag1&&tag2&&!tag3/Network%20a
 <dt>includeContext</dt>
 <dd>Include the event data with each attribute.</dd>
 <dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
@@ -202,11 +202,11 @@ https://<misp url>/events/nids/snort/download/false/false/tag1&&tag2&&!tag3
 
 <dl>
 <dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 6d or 12h or 30m)</dd>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 6d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
@@ -257,11 +257,11 @@ https://<misp url>/events/hids/md5/download/tag1&&tag2&&!tag3
 
 <dl>
 <dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
@@ -305,11 +305,11 @@ https://<misp url>/events/stix/download/false/true/tag1&&tag2&&!tag3
 
 <dl>
 <dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 </dl>
 
 You can post an XML or JSON object containing additional parameters in the following formats.
@@ -498,11 +498,11 @@ https://<misp url>/attributes/text/download/all/tag1&&tag2&&!tag3
 <dt> allowNonIDS</dt>
 <dd>Allow attributes to be exported that are not marked as "to_ids".</dd>
 <dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
@@ -547,11 +547,11 @@ https://<misp url>/events/restSearch/download/null/null/null/null/tag1&&tag2&&!t
 <dt>quickfilter</dt>
 <dd>Enabling this (by passing "1" as the argument) will make the search ignore all of the other arguments, except for the auth key and value. MISP will return an xml / json (depending on the header sent) of all events that have a sub-string match on value in the event info, event orgc, or any of the attribute value1 / value2 fields, or in the attribute comment.</dd>
 <dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 <dt>eventid</dt>
 <dd>The events that should be included / excluded from the search</dd>
 </dl>
@@ -592,11 +592,11 @@ To just return a list of attributes, use the following syntax:
 <dt>tags</dt>
 <dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
 <dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15)</dd>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
 <dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m)</dd>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 <dt>eventid</dt>
 <dd>The events that should be included / excluded from the search</dd>
 </dl>
