@@ -87,7 +87,7 @@
 |whois-registrant-email| | | | | | |
 |whois-registrant-phone| | | | | | |
 |whois-registrant-name| | | | | | |
-|whois-registar| | | | | | |
+|whois-registrar| | | | | | |
 |whois-creation-date| | | | | | |
 |targeted-threat-index| | | | | | |
 |mailslot| | | | | | |
@@ -179,7 +179,7 @@
 |whois-registrant-email| | | | X | | |
 |whois-registrant-phone| | | | X | | |
 |whois-registrant-name| | | | X | | |
-|whois-registar| | | | X | | |
+|whois-registrar| | | | X | | |
 |whois-creation-date| | | | X | | |
 |targeted-threat-index| | | | | | |
 |mailslot| | | | | | |
@@ -271,7 +271,7 @@
 |whois-registrant-email| |
 |whois-registrant-phone| |
 |whois-registrant-name| |
-|whois-registar| |
+|whois-registrar| |
 |whois-creation-date| |
 |targeted-threat-index| |
 |mailslot| |
@@ -379,7 +379,7 @@
 *   **whois-registrant-email**: The e-mail of a domain's registrant, obtained from the WHOIS information.
 *   **whois-registrant-phone**: The phone number of a domain's registrant, obtained from the WHOIS information.
 *   **whois-registrant-name**: The name of a domain's registrant, obtained from the WHOIS information.
-*   **whois-registar**: The registar of the domain, obtained from the WHOIS information.
+*   **whois-registrar**: The registrar of the domain, obtained from the WHOIS information.
 *   **whois-creation-date**: The date of domain's creation, obtained from the WHOIS information.
 *   **targeted-threat-index**:
 *   **mailslot**: MailSlot interprocess communication
