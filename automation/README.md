@@ -26,6 +26,22 @@ The authorization is performed by using the following header:
 Authorization: YOUR API KEY
 ~~~~
 
+### Accept and Content-Type headers
+
+When performing your request, depending on the type of request, you might need to explicitly specify in what content type you want to get your results. This is done by setting one of the below Accept headers:
+
+~~~~
+Accept: application/json
+Accept: application/xml
+~~~~
+
+When submitting data in a POST, PUT or DELETE operation you also need to specify in what content-type you encoded the payload. This is done by setting one of the below Content-Type headers:
+
+~~~~
+Content-Type: application/json
+Content-Type: application/xml
+~~~~
+
 ### XML Export
 
 An automatic export of all events and attributes (except file attachments) is available under a custom XML format.
