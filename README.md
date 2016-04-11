@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/MISP/misp-book.svg?branch=master)](https://travis-ci.org/MISP/misp-book)
 
-![MISP logo](http://raw.githubusercontent.com/MISP/MISP/master/INSTALL/logos/misp-logo.png)
+![MISP logo](https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/logos/misp-logo.png)
 
 User guide for Malware Information Sharing Platform (MISP) - A Threat Sharing Platform. This user guide is intended for ICT professionals like security analysts, security incident handler, or malware reverse engineers who share threat indicators using MISP or integrate MISP into other security monitoring tools. The user guide includes day-to-day usage of the MISP's graphical user interface along with its automated interfaces (API), in order to integrate MISP within a security environment.
 
