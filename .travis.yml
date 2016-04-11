@@ -1,0 +1,15 @@
+language: node_js
+
+dist: trusty
+
+sudo: required
+
+install:
+    - sudo apt-get -y install libgif-dev calibre
+    - npm install gitbook-cli -g
+    - npm install gitbook-plugin-autocover
+    - npm install gitbook-plugin-github
+    - npm install gitbook-plugin-toc
+
+script:
+    - gitbook build
