@@ -814,7 +814,7 @@ Alternatively, it is possible to POST a JSON object and gain additional granular
 <dt>values</dt>
 <dd>Expects a list, MISP will create sightings for any attribute matching any of the given values or for composite attributes, for any of the values matching any element of the attribute value</dd>
 <dt>timestamp</dt>
-<dt>Unix timestamp of the sighting, overrides the current time</dt>
+<dd>Unix timestamp of the sighting, overrides the current time</dd>
 </dl>
 
 Some examples:
