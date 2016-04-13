@@ -791,6 +791,54 @@ XML:
 
 None of the above fields are mandatory, but at least one of them has to be provided.
 
+## Sightings API
+
+MISP allows Sightings data to be conveyed in several ways. 
+
+The most basic way is to POST a blank message to the Sightings API with the attribute ID or attribute UUID. This will create a sightings entry with the creation of the entry as the timestamp for the organisation of the authenticated user.
+
+~~~~
+https://<misp url>/sightings/add/[attribute_id]
+https://<misp url>/sightings/add/[attribute_uuid]
+~~~~
+
+Alternatively, it is possible to POST a JSON object and gain additional granularity. The following fields are recognised by the API:
+
+<dl>
+<dt>id</dt>
+<dd>The attribute's ID</dd>
+<dt>uuid</dt>
+<dd>The attribute's UUID</dd>
+<dt>value</dt>
+<dd>Will create a sighting for any attribute with the given value or for composite attributes, for the value matching any element of the attribute value</dd>
+<dt>values</dt>
+<dd>Expects a list, MISP will create sightings for any attribute matching any of the given values or for composite attributes, for any of the values matching any element of the attribute value</dd>
+<dt>timestamp</dt>
+<dt>Unix timestamp of the sighting, overrides the current time</dt>
+</dl>
+
+Some examples:
+
+To create a sighting for attribute #9001:
+
+~~~~json
+{"id":"9001"}
+~~~~
+
+To create a sighting for any attribute with the value being teamliquid.net or 173.231.136.216 with the time of sighting being :
+
+~~~~json
+{"values":["teamliquid.net", "173.231.136.216"], "timestamp":1460558710}
+~~~~
+
+It is also possible to POST a STIX indicator with sighting data to the following URL (keep in mind that the content type has to be XML):
+
+~~~~
+https://<misp url>/sightings/add/stix
+~~~~
+
+MISP will use the sighting's related observables to gather all values and create sightings for each attribute that matches any of the values. If no related observables are provided in the Sighting object, then MISP will fall back to the Indicator itself and use its observables' values to create the sightings. The time of the sighting is the current time, unless the timestamp attribute is set on the Sightings object, in which case that is taken.
+
 # Automation using PyMISP
 
 PyMISP is a Python library to access MISP platforms via their REST API.
