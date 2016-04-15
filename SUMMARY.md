@@ -8,3 +8,4 @@
 * [Administration](administration/README.md)
 * [Automation and MISP API](automation/README.md)
 * [Categories and Types](categories-and-types/README.md)
+* [Appendices](appendices/README.md)
