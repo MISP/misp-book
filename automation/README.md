@@ -841,6 +841,129 @@ https://<misp url>/sightings/add/stix
 
 MISP will use the sighting's related observables to gather all values and create sightings for each attribute that matches any of the values. If no related observables are provided in the Sighting object, then MISP will fall back to the Indicator itself and use its observables' values to create the sightings. The time of the sighting is the current time, unless the timestamp attribute is set on the Sightings object, in which case that is taken.
 
+An example STIX sightings document:
+
+~~~~xml
+<stix:STIX_Package
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:stix="http://stix.mitre.org/stix-1"
+    xmlns:indicator="http://stix.mitre.org/Indicator-2"
+    xmlns:stixCommon="http://stix.mitre.org/common-1"
+    xmlns:cybox="http://cybox.mitre.org/cybox-2"
+    xmlns:AddressObject="http://cybox.mitre.org/objects#AddressObject-2"
+    xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
+    xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+    xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+    xmlns:example="http://example.com/"
+    xsi:schemaLocation="
+    http://stix.mitre.org/stix-1 ../stix_core.xsd
+    http://stix.mitre.org/Indicator-2 ../indicator.xsd
+    http://cybox.mitre.org/objects#DomainNameObject-1 http://cybox.mitre.org/XMLSchema/objects/Domain_Name/1.0/Domain_Name_Object.xsd
+    http://stix.mitre.org/common-1 http://stix.mitre.org/XMLSchema/common/1.1.1/stix_common.xsd
+    http://cybox.mitre.org/default_vocabularies-2 ../cybox/cybox_default_vocabularies.xsd
+    http://stix.mitre.org/default_vocabularies-1 ../stix_default_vocabularies.xsd
+    http://cybox.mitre.org/objects#AddressObject-2 ../cybox/objects/Address_Object.xsd"
+    id="example:STIXPackage-33fe3b22-0201-47cf-85d0-97c02164528d"
+    timestamp="2014-05-08T09:00:00.000000Z"
+    version="1.1.1"
+    >
+    <stix:STIX_Header>
+        <stix:Title>Example watchlist that contains IP information.</stix:Title>
+        <stix:Package_Intent xsi:type="stixVocabs:PackageIntentVocab-1.0">Indicators - Watchlist</stix:Package_Intent>
+    </stix:STIX_Header>
+    <stix:Indicators>
+        <stix:Indicator xsi:type="indicator:IndicatorType" id="example:Indicator-2e20c5b2-56fa-46cd-9662-8f199c69d2c9" timestamp="2014-05-08T09:00:00.000000Z">
+          <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Domain Watchlist</indicator:Type>
+          <indicator:Observable id="example:Observable-87c9a5bb-d005-4b3e-8081-99f720fad62b">
+              <cybox:Object id="example:Object-12c760ba-cd2c-4f5d-a37d-18212eac7928">
+                  <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
+                      <DomainNameObj:Value condition="Equals" apply_condition="ANY">malicious1.example.com##comma##malicious2.example.com##comma##malicious3.example.com</DomainNameObj:Value>
+                  </cybox:Properties>
+              </cybox:Object>
+          </indicator:Observable>
+          <indicator:Sightings>
+            <indicator:Sighting timestamp="2014-05-08T09:00:00.000000Z">
+              <indicator:Source>
+                <stixCommon:Identity>
+                  <stixCommon:Name>FooBar Inc.</stixCommon:Name>
+                </stixCommon:Identity>
+              </indicator:Source>
+              <indicator:Related_Observables>
+                <indicator:Related_Observable>
+                  <stixCommon:Observable id="example:Observable-45b3acdf-1888-4bcc-89a9-6d9f8116fede">
+                    <cybox:Object id="example:Object-a3d36250-42fa-4653-9172-87b87598390c">
+                      <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
+                        <DomainNameObj:Value>malicious2.example.com</DomainNameObj:Value>
+                      </cybox:Properties>
+                    </cybox:Object>
+                  </stixCommon:Observable>
+                </indicator:Related_Observable>
+              </indicator:Related_Observables>
+            </indicator:Sighting>
+          </indicator:Sightings>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>
+~~~~
+
+POSTing this as the message's body to MISP will sight any attributes visible to the user witht he value "malicious2.example.com". For composite types, a match on a component will also trigger a sighting (so for example for attributes of type domain|ip a domain match would be sufficient).
+
+If no Related observables are set in the Sighting itself, MISP will fall back to the observable directly contained in the indicator. So in the following example:
+
+~~~~xml
+<stix:STIX_Package
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:stix="http://stix.mitre.org/stix-1"
+    xmlns:indicator="http://stix.mitre.org/Indicator-2"
+    xmlns:stixCommon="http://stix.mitre.org/common-1"
+    xmlns:cybox="http://cybox.mitre.org/cybox-2"
+    xmlns:AddressObject="http://cybox.mitre.org/objects#AddressObject-2"
+    xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
+    xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
+    xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
+    xmlns:example="http://example.com/"
+    xsi:schemaLocation="
+    http://stix.mitre.org/stix-1 ../stix_core.xsd
+    http://stix.mitre.org/Indicator-2 ../indicator.xsd
+    http://cybox.mitre.org/objects#DomainNameObject-1 http://cybox.mitre.org/XMLSchema/objects/Domain_Name/1.0/Domain_Name_Object.xsd
+    http://stix.mitre.org/common-1 http://stix.mitre.org/XMLSchema/common/1.1.1/stix_common.xsd
+    http://cybox.mitre.org/default_vocabularies-2 ../cybox/cybox_default_vocabularies.xsd
+    http://stix.mitre.org/default_vocabularies-1 ../stix_default_vocabularies.xsd
+    http://cybox.mitre.org/objects#AddressObject-2 ../cybox/objects/Address_Object.xsd"
+    id="example:STIXPackage-33fe3b22-0201-47cf-85d0-97c02164528d"
+    timestamp="2014-05-08T09:00:00.000000Z"
+    version="1.1.1"
+    >
+    <stix:STIX_Header>
+        <stix:Title>Example watchlist that contains IP information.</stix:Title>
+        <stix:Package_Intent xsi:type="stixVocabs:PackageIntentVocab-1.0">Indicators - Watchlist</stix:Package_Intent>
+    </stix:STIX_Header>
+    <stix:Indicators>
+        <stix:Indicator xsi:type="indicator:IndicatorType" id="example:Indicator-2e20c5b2-56fa-46cd-9662-8f199c69d2c9" timestamp="2014-05-08T09:00:00.000000Z">
+          <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Domain Watchlist</indicator:Type>
+          <indicator:Observable id="example:Observable-87c9a5bb-d005-4b3e-8081-99f720fad62b">
+              <cybox:Object id="example:Object-12c760ba-cd2c-4f5d-a37d-18212eac7928">
+                  <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
+                      <DomainNameObj:Value condition="Equals" apply_condition="ANY">malicious1.example.com##comma##malicious2.example.com##comma##malicious3.example.com</DomainNameObj:Value>
+                  </cybox:Properties>
+              </cybox:Object>
+          </indicator:Observable>
+          <indicator:Sightings>
+            <indicator:Sighting timestamp="2014-05-08T09:00:00.000000Z">
+              <indicator:Source>
+                <stixCommon:Identity>
+                  <stixCommon:Name>FooBar Inc.</stixCommon:Name>
+                </stixCommon:Identity>
+              </indicator:Source>
+            </indicator:Sighting>
+          </indicator:Sightings>
+        </stix:Indicator>
+    </stix:Indicators>
+</stix:STIX_Package>
+~~~~
+
+MISP would create sightings for attributes matching any of the following: malicious1.example.com, malicious2.example.com, malicious3.example.com
+
 # Automation using PyMISP
 
 PyMISP is a Python library to access MISP platforms via their REST API.
