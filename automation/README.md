@@ -740,6 +740,8 @@ The following optional parameters are expected:
 <dd>Used to populate the event info field if no event ID supplied. Alternatively, if not set, MISP will simply generate a message showing that it's a malware sample collection generated on the given day.</dd>
 <dt>analysis</dt>
 <dd>The analysis level of the newly created event, if applicable. [0-2] threat_level_id: The threat level ID of the newly created event, if applicatble. [0-3]</dd>
+<dt>comment</dt>
+<dd>This will populate the comment field of any attribute created using this API.</dd>
 </dl>
 
 ## Add or remove tags from events
