@@ -43,3 +43,180 @@ To create an external authenticated user, simply tick the External authenticatio
 #### Logging
 
 For a description of the logging facilities provided by this plugin, please refer to the "Logging of failed authentication attempts" section of the Administration section.
+
+# Appendix B: ACL descriptors
+
+#### Querying the ACL system
+
+MISP allows site admins to query the ACL system for various types of data. This can be interesting when tuning for example WAF access to MISP. All applicable queries can be requested via /servers/queryACL
+
+#### Getting a list of URLs accessible to a role
+
+~~~~
+https://<misp url>/servers/queryACL/printRoleAccess/<role id>
+~~~~
+
+The above URL will return a JSON with all accessible URLs for the given role ID. If no Role ID is provided, a JSON containing all roles and their access lists will be returned. 
+
+Example:
+
+~~~~json
+{
+  "2": {
+    "name": "User",
+    "urls": [
+      "/attributes/add/*",
+      "/attributes/add_attachment/*",
+      "/attributes/add_threatconnect/*",
+      "/attributes/attributeReplace/*",
+      "/attributes/delete/*",
+      "/attributes/deleteSelected/*",
+      "/attributes/download/*",
+      "/attributes/downloadAttachment/*",
+      "/attributes/downloadSample/*",
+      "/attributes/edit/*",
+      "/attributes/editField/*",
+      "/attributes/editSelected/*",
+      "/attributes/fetchEditForm/*",
+      "/attributes/fetchViewValue/*",
+      "/attributes/hoverEnrichment/*",
+      "/attributes/index/*",
+      "/attributes/restSearch/*",
+      "/attributes/returnAttributes/*",
+      "/attributes/rpz/*",
+      "/attributes/search/*",
+      "/attributes/searchAlternate/*",
+      "/attributes/text/*",
+      "/attributes/updateAttributeValues/*",
+      "/attributes/view/*",
+      "/eventDelegations/acceptDelegation/*",
+      "/eventDelegations/delegateEvent/*",
+      "/eventDelegations/deleteDelegation/*",
+      "/eventDelegations/view/*",
+      "/events/add/*",
+      "/events/addIOC/*",
+      "/events/addTag/*",
+      "/events/add_misp_export/*",
+      "/events/contact/*",
+      "/events/csv/*",
+      "/events/delegation_index/*",
+      "/events/delete/*",
+      "/events/downloadExport/*",
+      "/events/downloadOpenIOCEvent/*",
+      "/events/downloadSearchResult/*",
+      "/events/edit/*",
+      "/events/export/*",
+      "/events/exportChoice/*",
+      "/events/filterEventIndex/*",
+      "/events/freeTextImport/*",
+      "/events/hids/*",
+      "/events/index/*",
+      "/events/nids/*",
+      "/events/proposalEventIndex/*",
+      "/events/queryEnrichment/*",
+      "/events/removePivot/*",
+      "/events/removeTag/*",
+      "/events/restSearch/*",
+      "/events/saveFreeText/*",
+      "/events/stix/*",
+      "/events/updateGraph/*",
+      "/events/view/*",
+      "/events/viewEventAttributes/*",
+      "/events/viewGraph/*",
+      "/events/xml/*",
+      "/jobs/cache/*",
+      "/jobs/getGenerateCorrelationProgress/*",
+      "/jobs/getProgress/*",
+      "/logs/event_index/*",
+      "/logs/maxDateActivity/*",
+      "/logs/returnDates/*",
+      "/organisations/fetchOrgsForSG/*",
+      "/organisations/fetchSGOrgRow/*",
+      "/organisations/index/*",
+      "/organisations/landingpage/*",
+      "/organisations/view/*",
+      "/pages/display/*",
+      "/posts/add/*",
+      "/posts/delete/*",
+      "/posts/edit/*",
+      "/regexp/index/*",
+      "/roles/index/*",
+      "/roles/view/*",
+      "/servers/fetchServersForSG/*",
+      "/shadowAttributes/accept/*",
+      "/shadowAttributes/acceptSelected/*",
+      "/shadowAttributes/add/*",
+      "/shadowAttributes/add_attachment/*",
+      "/shadowAttributes/delete/*",
+      "/shadowAttributes/discard/*",
+      "/shadowAttributes/discardSelected/*",
+      "/shadowAttributes/download/*",
+      "/shadowAttributes/edit/*",
+      "/shadowAttributes/editField/*",
+      "/shadowAttributes/fetchEditForm/*",
+      "/shadowAttributes/index/*",
+      "/shadowAttributes/view/*",
+      "/sharingGroups/index/*",
+      "/sharingGroups/view/*",
+      "/sightings/add/*",
+      "/sightings/delete/*",
+      "/tags/add/*",
+      "/tags/delete/*",
+      "/tags/edit/*",
+      "/tags/index/*",
+      "/tags/quickAdd/*",
+      "/tags/selectTag/*",
+      "/tags/selectTaxonomy/*",
+      "/tags/showEventTag/*",
+      "/tags/view/*",
+      "/tags/viewTag/*",
+      "/taxonomies/index/*",
+      "/taxonomies/taxonomyMassConfirmation/*",
+      "/taxonomies/view/*",
+      "/templateElements/index/*",
+      "/templates/deleteTemporaryFile/*",
+      "/templates/index/*",
+      "/templates/populateEventFromTemplate/*",
+      "/templates/submitEventPopulation/*",
+      "/templates/templateChoices/*",
+      "/templates/uploadFile/*",
+      "/templates/view/*",
+      "/threads/index/*",
+      "/threads/view/*",
+      "/threads/viewEvent/*",
+      "/users/dashBoard/*",
+      "/users/downloadTerms/*",
+      "/users/edit/*",
+      "/users/histogram/*",
+      "/users/index/*",
+      "/users/login/*",
+      "/users/logout/*",
+      "/users/memberslist/*",
+      "/users/resetauthkey/*",
+      "/users/routeafterlogin/*",
+      "/users/statistics/*",
+      "/users/terms/*",
+      "/users/updateLoginTime/*",
+      "/users/view/*",
+      "/whitelists/index/*"
+    ]
+  }
+}
+~~~~
+
+#### Getting a list of all accessible controllers and actions in MISP
+
+~~~~
+https://<misp url>/servers/queryACL/printAllFunctionNames
+~~~~
+
+This URL will return a JSON with all controller and all mapped functions within them. 
+
+#### Viewing a list of yet unmapped functions
+
+~~~~
+https://<misp url>/servers/queryACL/findMissingFunctionNames
+~~~~
+
+Functions that have not been tied into the new ACL yet show up here. These functions will (until added to the ACL) only be accessible to site admins.
+
