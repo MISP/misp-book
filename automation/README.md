@@ -974,6 +974,76 @@ https://<misp url>/attributes/describeTypes
 
 Depending on the headers passed the returrned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
 
+# Attribute statistics API
+
+If you are interested in the attribute type or attribute category data distibution on your instance, MISP offers an API that will create an aggregates list. To access the API, simple sent a GET request to:
+
+~~~~
+https://<misp url>/attributes/attributeStatistics/[context]/[percentage]
+~~~~
+
+Where the following parameters can be set:
+
+<dl>
+<dt>Context</dt>
+<dd>Set whether you are interested in the type or category statistics of your instnace. This parameter can be either set to "type" or "category", with type being the default setting if the parameter is not set.</dd>
+<dt>Percentage</dt>
+<dd>An optional field, if set, it will return the results in percentages instead of the count.</dd>
+</dl>
+
+The results are always returned as JSON.
+
+Sample output of the types in percentages from CIRCL's MISP instance:
+
+~~~~json
+{
+    "AS": "0.015%",
+    "attachment": "0.177%",
+    "btc": "0.005%",
+    "campaign-name": "0.005%",
+    "comment": "1.47%",
+    "domain": "15.992%",
+    "domain|ip": "0.005%",
+    "email-attachment": "0.207%",
+    "email-dst": "0.121%",
+    "email-src": "0.192%",
+    "email-subject": "0.146%",
+    "filename": "3.698%",
+    "filename|md5": "0.349%",
+    "filename|sha1": "0.894%",
+    "filename|sha256": "0.652%",
+    "hostname": "17.558%",
+    "http-method": "0.045%",
+    "ip-dst": "7.087%",
+    "ip-src": "2.707%",
+    "link": "5.748%",
+    "malware-sample": "0.702%",
+    "malware-type": "0.005%",
+    "md5": "21.064%",
+    "mutex": "0.278%",
+    "named pipe": "0.03%",
+    "other": "1.495%",
+    "pattern-in-file": "0.192%",
+    "pattern-in-memory": "0.303%",
+    "pattern-in-traffic": "0.051%",
+    "regkey": "0.126%",
+    "regkey|value": "0.187%",
+    "sha1": "8.921%",
+    "sha256": "5.597%",
+    "snort": "0.045%",
+    "target-machine": "0.248%",
+    "target-org": "0.01%",
+    "target-user": "0.106%",
+    "text": "0.934%",
+    "threat-actor": "0.005%",
+    "url": "2.258%",
+    "user-agent": "0.081%",
+    "vulnerability": "0.182%",
+    "whois-registrant-email": "0.01%",
+    "x509-fingerprint-sha1": "0.01%",
+    "yara": "0.086%"
+}
+~~~~
 
 # Automation using PyMISP
 
