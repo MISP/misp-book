@@ -964,6 +964,17 @@ If no Related observables are set in the Sighting itself, MISP will fall back to
 
 MISP would create sightings for attributes matching any of the following: malicious1.example.com, malicious2.example.com, malicious3.example.com
 
+# Describe types API
+
+MISP can procedurally describe all attribute types and attribute categories it currently supports including the category - type mappings. To access this information simply send a GET request to:
+
+~~~~
+https://<misp url>/attributes/describeTypes
+~~~~
+
+Depending on the headers passed the returrned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
+
+
 # Automation using PyMISP
 
 PyMISP is a Python library to access MISP platforms via their REST API.
