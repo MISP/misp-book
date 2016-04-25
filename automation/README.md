@@ -906,7 +906,7 @@ An example STIX sightings document:
 </stix:STIX_Package>
 ~~~~
 
-POSTing this as the message's body to MISP will sight any attributes visible to the user witht he value "malicious2.example.com". For composite types, a match on a component will also trigger a sighting (so for example for attributes of type domain|ip a domain match would be sufficient).
+POSTing this as the message's body to MISP will sight any attributes visible to the user with he value "malicious2.example.com". For composite types, a match on a component will also trigger a sighting (so for example for attributes of type domain|ip a domain match would be sufficient).
 
 If no Related observables are set in the Sighting itself, MISP will fall back to the observable directly contained in the indicator. So in the following example:
 
@@ -972,11 +972,11 @@ MISP can procedurally describe all attribute types and attribute categories it c
 https://<misp url>/attributes/describeTypes
 ~~~~
 
-Depending on the headers passed the returrned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
+Depending on the headers passed the returned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
 
 # Attribute statistics API
 
-If you are interested in the attribute type or attribute category data distibution on your instance, MISP offers an API that will create an aggregates list. To access the API, simple sent a GET request to:
+If you are interested in the attribute type or attribute category data distribution on your instance, MISP offers an API that will create an aggregates list. To access the API, simple sent a GET request to:
 
 ~~~~
 https://<misp url>/attributes/attributeStatistics/[context]/[percentage]
@@ -986,7 +986,7 @@ Where the following parameters can be set:
 
 <dl>
 <dt>Context</dt>
-<dd>Set whether you are interested in the type or category statistics of your instnace. This parameter can be either set to "type" or "category", with type being the default setting if the parameter is not set.</dd>
+<dd>Set whether you are interested in the type or category statistics of your instance. This parameter can be either set to "type" or "category", with type being the default setting if the parameter is not set.</dd>
 <dt>Percentage</dt>
 <dd>An optional field, if set, it will return the results in percentages instead of the count.</dd>
 </dl>
