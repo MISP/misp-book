@@ -793,6 +793,16 @@ XML:
 
 None of the above fields are mandatory, but at least one of them has to be provided.
 
+## Sharing groups
+
+MISP allows sharing groups to be retrieved via the API.
+
+~~~~
+https://<misp url>/sharing_groups/index.json
+~~~~
+
+Based on the API key used, the list of visible sharing groups will be returned in a JSON file. The JSON includes the organization parts of a given sharing group along with the associated server.
+
 ## Sightings API
 
 MISP allows Sightings data to be conveyed in several ways. 
