@@ -803,6 +803,22 @@ https://<misp url>/sharing_groups/index.json
 
 Based on the API key used, the list of visible sharing groups will be returned in a JSON file. The JSON includes the organization parts of a given sharing group along with the associated server.
 
+## Enable and disable feeds via the API
+
+The MISP feeds can be enabled via the API.
+
+A feed can be enabled by POSTing on the following url (feed_id is the id of the feed):
+
+~~~~
+/feeds/enable/feed_id
+~~~~
+
+A feed can be disabled by POSTing on the following url (feed_id is the id of the feed):
+
+~~~~
+/feeds/disable/feed_id
+~~~~
+
 ## Sightings API
 
 MISP allows Sightings data to be conveyed in several ways. 
