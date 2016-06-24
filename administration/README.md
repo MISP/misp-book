@@ -32,7 +32,7 @@ Each of the setting pages is a table with each row representing a setting. Colou
 
 The workers tab shows a list of the workers that MISP can use. You can restart the workers using the restart all workers, If the button doesn't work, make sure that the workers were started using the apache user. This can however only be done using the command line, refer to the INSTALL.txt documentation on how to let the workers automatically start on each boot.
 	
-*   **Worker Type**: The worker type is determined by the queue it monitors. MISP currently has 4 queues (cache, default, email and a special _schdlr_ queue).
+*   **Worker Type**: The worker type is determined by the queue it monitors. MISP currently has 4 queues (cache, default, prio, email and a special _schdlr_ queue).
 *   **Worker Id**: The ID is made up of the machine name, the PID of the worker and the queue it monitors.
 *   **Status**: Displays OK if the worker is running. If the _schdlr_ worker is the only one not running make sure that you copy the config file into the cakeresque directory as described in the INSTALL.txt documentation.
 	
