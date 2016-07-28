@@ -678,18 +678,30 @@ Body:
 
 The list of valid parameters:
 <dl>
-<dt>searchpublished:</dt>/n<dd>Filters on published or unpulished events [0,1] - negatable</dd>
-<dt>searchinfo:</dt><dd>Filters on strings found in the event info - negatable</dd>
-<dt>searchtag:</dt><dd>Filters on attached tag names - negatable</dd>
-<dt>searcheventid:</dt><dd>Filters on specific event IDs - negatable</dd>
-<dt>searchthreatlevel:</dt><dd>Filters on a given event threat level [1,2,3,4] - negatable</dd>
-<dt>searchdistribution:</dt><dd>Filters on the distribution level [0,1,2,3] - negatable</dd>
-<dt>searchanalysis:</dt><dd>Filters on the given analysis phase of the event [0,1,2,3] - negatable</dd>
-<dt>searchattribute:</dt><dd>Filters on a contained attribute value - negatable</dd>
-<dt>searchorg:</dt><dd>Filters on the creator organisation - negatable</dd>
-<dt>searchemail:</dt><dd>Filters on the creator user's email address (admin only) - negatable</dd>
-<dt>searchDatefrom:</dt><dd>Filters on the date, anything newer than the given date in YYYY-MM-DD format is taken - non-negatable</dd>
-<dt>searchDateuntil:</dt><dd>Filters on the date, anything older than the given date in YYYY-MM-DD format is taken - non-negatable</dd>
+<dt>searchpublished:</dt>
+<dd>Filters on published or unpulished events [0,1] - negatable</dd>
+<dt>searchinfo:</dt>
+<dd>Filters on strings found in the event info - negatable</dd>
+<dt>searchtag:</dt>
+<dd>Filters on attached tag names - negatable</dd>
+<dt>searcheventid:</dt>
+<dd>Filters on specific event IDs - negatable</dd>
+<dt>searchthreatlevel:</dt>
+<dd>Filters on a given event threat level [1,2,3,4] - negatable</dd>
+<dt>searchdistribution:</dt>
+<dd>Filters on the distribution level [0,1,2,3] - negatable</dd>
+<dt>searchanalysis:</dt>
+<dd>Filters on the given analysis phase of the event [0,1,2,3] - negatable</dd>
+<dt>searchattribute:</dt>
+<dd>Filters on a contained attribute value - negatable</dd>
+<dt>searchorg:</dt>
+<dd>Filters on the creator organisation - negatable</dd>
+<dt>searchemail:</dt>
+<dd>Filters on the creator user's email address (admin only) - negatable</dd>
+<dt>searchDatefrom:</dt>
+<dd>Filters on the date, anything newer than the given date in YYYY-MM-DD format is taken - non-negatable</dd>
+<dt>searchDateuntil:</dt>
+<dd>Filters on the date, anything older than the given date in YYYY-MM-DD format is taken - non-negatable</dd>
 </dl>
 
 ## Download attachment or malware sample
