@@ -672,7 +672,7 @@ Content-type: application/json
 Body: 
 
 ~~~~json
-{"searchinfo":"Locky", "searchpublished":1, "searchdistribution":!0}
+{"searchinfo":"Locky", "searchpublished":1, "searchdistribution":0}
 ~~~~
 
 
