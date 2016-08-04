@@ -16,6 +16,7 @@ The MISP user guide is a collaborative effort between all the contributors to [M
 - [NATO NCIRC](http://www.ncirc.nato.int/)
 - Cthulhu Solutions
 - [CERT-EU](https://cert.europa.eu)
+- hibouu
 
 ## Contributing
 
