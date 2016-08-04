@@ -474,4 +474,10 @@ Two ways to fix it:
 2) Comment the localhost mapping to IPv6 address in /etc/hosts
 
 
+#### Errors about fields or tables
 
+If you have errors with fields or tables that you can see in the error.log or in the page (if you enabled _debug_ or _site_admin_debug_ settings), an easy first them to make most of them go away is to use the **clean cache** feature on the _server settings_ menu, _diagnostics_ tab.
+An example of error message:
+```
+Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Task.job_id' in 'field list'
+```
