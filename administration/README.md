@@ -3,19 +3,32 @@
 ## Administration
 
 * [Users](#users)
-* Organisations
-* Role
-* Tools
-* Server Settings
+* [Organisations](#organisations)
+* [Roles](#roles)
+* [Tools](#tools)
+* [Server Settings](#server-settings)
 * Jobs
 * Scheduled Tasks
+
+
+:warning: This page is under modification for updating the content. Current status:
+
+- [x] Users
+- [x] Organisations
+- [x] Roles
+- [x] Tools
+- [ ] Server Settings
+- [ ] Jobs
+- [ ] Scheduled Tasks 
+
+- - -
 
 ### Users
 As an admin, you can set up new accounts for users, edit the profiles of users, delete them, or just have a look at all the viewers’ profiles. Organisation admins are restricted to executing the same actions on their organisation’s users only.
 
 #### Adding a new user:
 
-To add a new user, click on the New User button in the administration menu to the left and fill out the following fields in the view that is loaded:
+To add a new user, click on the Add User button in the administration menu to the left and fill out the following fields in the view that is loaded:
 
 ![Fill this form out to add a new user. Keep in mind that the drop-down menu titled Role controls the privileges the user will have.](figures/add_user.png)
 
@@ -55,14 +68,14 @@ To list all current users of the system, just click on List Users under the admi
 	*    **Reset Password:** Use this action for reseting password. If you have created a new user without password, tick the 'First time registration' checkbox for sending a welcome message. Otherwise a  reset password message will be sent.
 ![Reset password.](figures/reset_pwd.png)
 	*    **Edit the user:** Same options of create user's view. Few options are only available here:
-		*    **Terms accepted:** Indicates whether the user has accepted the terms of use already or not.
+		*   **Terms accepted:** Indicates whether the user has accepted the terms of use already or not.
 		*   **Change Password:** Setting this flag will require the user to change password after the next login.
 		*   **Reset Auth Key:** Use this link for generate a new AuthKey.
-![Reset password.](figures/edit_users.png)
+![Edit user.](figures/edit_users.png)
 	*    **Delete the user:** If you want to delete a user.
-![Reset password.](figures/delete_user.png)
-	*    **Display the user:** Display all user's information.
-![Reset password.](figures/display_user.png)
+![delete user.](figures/delete_user.png)
+	*    **Display the user:** Display all user's information.<br />
+![display user.](figures/display_user.png)
 
 #### Contacting a user:
 
@@ -77,9 +90,122 @@ Site admins can use the "Contact users" feature to send all or individual user a
 
 Keep in mind that all e-mails sent through this system will, in addition to your own message, will be signed in the name of the instance's host organisation's support team, will include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's PGP signature for users that have a PGP key set (and thus are eligible for an encrypted e-mail).
 
+- - -
+
+### Organisations
+
+Each users belongs to an organisation. As admin, you can manage these organisations.
+
+#### Adding a new organisation:
+
+To add a new organisation, click on the Add Organisation button in the administration menu to the left and fill out the following fields in the view that is loaded:
+
+![Fill this form out to add a new organisation.](figures/add_org.png)
+
+*   **Local organisation:** If the organisation should have access to this instance, tick this checkbox. If you would only like to add a known external organisation for inclusion in sharing groups, uncheck it.
+*   **Organisation Identifier:** Name your organisation. If you want to add a picture, you should add a file on the webserver using the 'Server Settings menu'. Picture should have the same name. To learn more about server settings menu, [click here](#server-settings).
+*   **Uuid:** Unique identifier. If you want to share organisation between MISP multi-instance, use the same Uuid.
+*   **A brief description of the organisation:** A word for describing the organisation.
+*   **Nationality:** A drop-down list for selecting the country of organisation.
+*   **Sector:** Define the sector of organisation (financial, transport, telecom...)
+*   **Type of organisation:** Define the type of the organisation.
+*   **Contacts:** You can add some contact details for the organisation.
+
+#### Listing all organisation:
+
+To list all current organisation of the system, just click on List Organisations under the administration menu to the left. There are 3 tabs in this view for filtering the local organisations, remote organisations and both. Default view display local organisations. For all views the following columns of information are available:
+
+![List of organisations.](figures/list_org.png)
+
+*   **Id:** The organisation's automatically assigned ID number.
+*   **Logo:** Picture of the organisation.
+*   **Name:** Name of the organisation.
+*   **Uuid:** Unique identifier of orgnisation. Share this Uuid for using it between MISP's multi-instance.
+*   **Description:** Description of the organisation.
+*   **Nationality:** Country of the organisation.
+*   **Sector:** Sector defined for the organisation.
+*   **Type:** Type of organisation.
+*   **Contacts:** Contacts of orgnisation.
+*   **Added by:** Login of the user which have added the organisation
+*   **Local:** Flag defined if the organisation is local or remote.
+*   **Actions:**  There are 3 options available: edit, delete or display organisation's information. These options are also available on the left menu when you are on the display view.
+	*    **Edit Organisation:** Same options of create organisation's view.
+![Edit organisation.](figures/edit_org.png)	
+	*    **Delete Organisation:** Use this option for deleting organisation.<br />
+![Delete organisation.](figures/delete_org.png)	 
+	*    **View Organisation:** Use this option for displaying information about organisation selected. In this view, you can display the user belongs to this organisation and events published by organisation.
+![View organisation.](figures/view_org.png)	
+
+#### Merge organisations:
+Merge Organisation menu is available only in the view organisation, under the left menu. Merge one organisation to another will transfer all users and data from one to another. On the left the organisation to merge, on the right the target one.
+
+![Merge organisations.](figures/merge_org.png)
+
+- - -
+
+### Roles
+
+Privileges are assigned to users by assigning them to rule groups, which use one of four options determining what they can do with events and four additional privilege elevating settings. The four options for event manipulation are: Read Only, Manage My Own Events, Manage Organisation Events, Manage & Publish Organisation Events. A short description is provided below:
+
+*   **Read Only:** This allows the user to browse events that his organisation has access to, but doesn't allow any changes to be made to the database.
+*   **Manage My Own Events:** The second option, gives its users rights to create, modify or delete their own events, but they cannot publish them.
+*   **Manage Organization Events:** Allows users to create events or modify and delete events created by a member of their organisation.
+*   **Manage & Publish Organisation Events:** This last setting, gives users the right to do all of the above and also to publish the events of their organisation.
+
+The extra permissions are defined below:
+
+*   **Perm Admin:** Gives the user limited administrator privileges, this setting is used for the organisation admins.
+*   **Perm Audit:** Grants access to the logs. With the exception of site admins, only logs generated by the user's own org are visible.
+*   **Perm Tagger:** Allow user to assign tags to events.
+*   **Perm Sharing Group:** Grant access to edit or create sharing groups.
+*   **Perm Site Admin:** Gives the user full administrator privileges, this setting is used for the site admins.
+*   **Perm Auth:** This setting enables the authentication key of the role's users to be used for rest requests.
+*   **Perm Tag Editor:** Grand access to edit or create new local tags or from taxonomies. 
+*   **Perm Delegate:** Grant access to delegate the publication of an event to a third-party organization.
+*   **Perm Sync:** This setting allows the users of the role to be used as a synchronisation user. The authentication key of this user can be handed out to the administrator of a remote MISP instance to allow the synchronisation features to work.
+*   **Perm Regexp Access:** Allows the users with this permission enabled to edit the regular expression table. Be careful when giving out this permission, incorrect regular expressions can be very harmful (infinite loops, loss of data, etc.).
+*   **Perm Template:** Grant access to create or modify templates.
+
+#### Adding a new role:
+
+When creating a new role, you will have to enter a name for the role to be created and set up the permissions (as described above) using the drop-down menu and the check-boxes.
+
+![Add a new role.](figures/add_role.png)
+
+#### Listing roles:
+
+By clicking on the List Roles button, you can view a list of all the currently registered roles and a list of the permission flags turned on for each. In addition, you can find buttons that allow you to edit and delete the roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
+
+![You can Edit or Delete roles using the action buttons to the right in each row. Keep in mind that a role has to be no members before it can be deleted.](figures/list_roles.png)
+
+*   **Id:** The role's automatically assigned ID number.
+*   **Name:** The name of role.
+*   **Permission:** One of the 4 permissions: Read Only, Manage My Own Events, Manage Organization Events, Manage & Publish Organisation Events. 
+*   **Extra Permissions flag:** Flag for each extra permissions: Admin, Site Admin, Sync Actions, Audit Actions, Auth key access, Regex Actions, Tagger, Tag Editor, Template Editor, Sharing Group Editor, Deletagions Access.
+*   **Action Buttons:** There are 2 options available: Edit Role or Delete it.
+	*    **Edit Role:** Same options of create role's view.<br />
+![Edit Role.](figures/edit_roles.png)
+	*    **Delete Role:** Use this option for deleting a role.<br />
+![Delete Role.](figures/delete_roles.png)
+
+- - -
+
+### Tools
+
+MISP has a couple of administrative tools that help administrators keep their instance up to date and healthy. The list of these small tools can change rapidly with each new version, but they should be self-explanatory. Make sure to check this section after upgrading to a new version, just in case there is a new upgrade script in there - though if this is the case it will be mentioned in the upgrade instructions.
+
+![Administrative Tools.](figures/tools.png)
+
+- - -
+
+### Server Settings
+
+Since version 2.3, MISP has a settings and diagnostics tool that allows site-admins to manage and diagnose their MISP installation. You can access this by navigating to Administration - Server settings.
+
+
 ### Server settings and diagnostics
 
-Since version 2.3, MISP has a settings and diagnostics tool that allows site-admins to manage and diagnose their MISP installation. You can access this by navigating to Administration - Server settings
+
 
 ![Server settings overview with all of the tabs explained.](figures/settings_1.png)
 
@@ -149,32 +275,6 @@ When viewing the list of whitelisted addresses, the following pieces of informat
 
 ![You can edit or delete currently white-listed addresses using the action buttons on this list.](figures/whitelist.png)
 
-### Managing the roles
-
-Privileges are assigned to users by assigning them to rule groups, which use one of four options determining what they can do with events and four additional privilege elevating settings. The four options for event manipulation are: Read Only, Manage My Own Events, Manage Organisation Events, Manage & Publish Organisation Events. The extra privileges are admin, sync, authentication key usage and audit permission
-
-*   **Read Only:** This allows the user to browse events that his organisation has access to, but doesn't allow any changes to be made to the database.
-*   **Manage My Own Events:** The second option, gives its users rights to create, modify or delete their own events, but they cannot publish them.
-*   **Manage Organization Events:** allows users to create events or modify and delete events created by a member of their organisation.
-*   **Manage & Publish Organisation Events:** This last setting, gives users the right to do all of the above and also to publish the events of their organisation.
-*   **Perm sync:** This setting allows the users of the role to be used as a synchronisation user. The authentication key of this user can be handed out to the administrator of a remote MISP instance to allow the synchronisation features to work.
-*   **Perm auth:** This setting enables the authentication key of the role's users to be used for rest requests.
-*   **Perm admin:** Gives the user limited administrator privileges, this setting is used for the organisation admins.
-*   **Perm site admin:** Gives the user full administrator privileges, this setting is used for the site admins.
-*   **Perm audit:** Grants access to the logs. With the exception of site admins, only logs generated by the user's own org are visible.
-*   **Perm regexp access:** Allows the users with this permission enabled to edit the regular expression table. Be careful when giving out this permission, incorrect regular expressions can be very harmful (infinite loops, loss of data, etc.).
-*   **Perm tagger:** Allows the user with this permission to create custom tags and assign them to events.
-
-#### Creating roles:
-
-When creating a new role, you will have to enter a name for the role to be created and set up the permissions (as described above) using the radio toggle and the four check-boxes.
-
-#### Listing roles:
-
-By clicking on the List Roles button, you can view a list of all the currently registered roles and a list of the permission flags turned on for each. In addition, you can find buttons that allow you to edit and delete the roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
-
-![You can View, Edit or Delete roles using the action buttons to the right in each row. Keep in mind that a role has to be devoid of members before it can be deleted.](figures/list_groups.png)
-
 ### Using the logs of MISP
 
 Users with audit permissions are able to browse or search the logs that MISP automatically appends each time certain actions are taken (actions that modify data or if a user logs in and out).
@@ -219,10 +319,6 @@ Another way to browse the logs is to search it by filtering the results accordin
 *   **Title:** There are several ways in which to use this field, since the title fields contain several bits of information and the search searches for any substrings contained within the field, it is possible to just search for the ID number of a logged event, the username / server's name / event's name / attribute's name of the event target.
 *   **Change:** With the help of this field, you can search for various specific changes or changes to certain variables (such as published will find all the log entries where an event has gotten published, ip-src will find all attributes where a source IP address has been entered / edited, etc).
 
-
-### Administrative Tools
-
-MISP has a couple of administrative tools that help administrators keep their instance up to date and healthy. The list of these small tools can change rapidly with each new version, but they should be self-explanatory. Make sure to check this section after upgrading to a new version, just in case there is a new upgrade script in there - though if this is the case it will be mentioned in the upgrade instructions.
 
 ### Background Processing
 
