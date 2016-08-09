@@ -131,7 +131,7 @@ To list all current organisation of the system, just click on List Organisations
 *   **Actions:**  There are 3 options available: edit, delete or display organisation's information. These options are also available on the left menu when you are on the display view.
 	*    **Edit Organisation:** Same options of create organisation's view.
 ![Edit organisation.](figures/edit_org.png)	
-	*    **Delete Organisation:** Use this option for deleting organisation.
+	*    **Delete Organisation:** Use this option for deleting organisation.<br />
 ![Delete organisation.](figures/delete_org.png)	 
 	*    **View Organisation:** Use this option for displaying information about organisation selected. In this view, you can display the user belongs to this organisation and events published by organisation.
 ![View organisation.](figures/view_org.png)	
@@ -183,9 +183,9 @@ By clicking on the List Roles button, you can view a list of all the currently r
 *   **Permission:** One of the 4 permissions: Read Only, Manage My Own Events, Manage Organization Events, Manage & Publish Organisation Events. 
 *   **Extra Permissions flag:** Flag for each extra permissions: Admin, Site Admin, Sync Actions, Audit Actions, Auth key access, Regex Actions, Tagger, Tag Editor, Template Editor, Sharing Group Editor, Deletagions Access.
 *   **Action Buttons:** There are 2 options available: Edit Role or Delete it.
-	*    **Edit Role:** Same options of create role's view.
+	*    **Edit Role:** Same options of create role's view.<br />
 ![Edit Role.](figures/edit_roles.png)
-	*    **Delete Role:** Use this option for deleting a role.
+	*    **Delete Role:** Use this option for deleting a role.<br />
 ![Delete Role.](figures/delete_roles.png)
 
 - - -
