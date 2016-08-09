@@ -74,7 +74,7 @@ To list all current users of the system, just click on List Users under the admi
 ![Edit user.](figures/edit_users.png)
 	*    **Delete the user:** If you want to delete a user.
 ![delete user.](figures/delete_user.png)
-	*    **Display the user:** Display all user's information.
+	*    **Display the user:** Display all user's information.<br />
 ![display user.](figures/display_user.png)
 
 #### Contacting a user:
