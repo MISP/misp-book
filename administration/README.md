@@ -70,7 +70,7 @@ To list all current users of the system, just click on List Users under the admi
 	*    **Edit the user:** Same options of create user's view. Few options are only available here:
 		*   **Terms accepted:** Indicates whether the user has accepted the terms of use already or not.
 		*   **Change Password:** Setting this flag will require the user to change password after the next login.
-		*   **Reset Auth Key:** Use this link for generate a new AuthKey.\s\s
+		*   **Reset Auth Key:** Use this link for generate a new AuthKey.
 ![Edit user.](figures/edit_users.png)
 	*    **Delete the user:** If you want to delete a user.
 ![delete user.](figures/delete_user.png)
