@@ -107,6 +107,15 @@ MISP warninglists are lists of well-known indicators that can be associated to p
 ![Sync Actions](figures/SyncActions.png)
 
 *   **List Servers:** Connect your MISP instance to other instances, or view and modify the currently established connections.
+<!-- Fix provided by elhoim -->
+It may be that you have an Error Message in the page (if you enabled debug or site_admin_debug settings). An example of error message:
+
+![Error message](figures/pb-list-server.png)
+
+An easy first them to make most of them go away is to use the clean cache feature on the server settings menu, diagnostics tab.
+
+![cleanscript](figures/cleanscript.png)
+
 
 *  **List Feeds:** Follow the RSS feeds of other organization or CERTs worldwide.  
 
