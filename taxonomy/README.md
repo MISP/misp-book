@@ -18,53 +18,53 @@ The following taxonomies are described:
 
 1. [Admiralty Scale](./admiralty-scale): The Admiralty Scale (also called the NATO System) is used to rank the reliability of a source and the credibility of an information.
 
-- [adversary](./adversary) An overview and description of the adversary infrastructure.
+2. [adversary](./adversary) An overview and description of the adversary infrastructure.
 
-- CIRCL [Taxonomy - Schemes of Classification in Incident Response and Detection](./circl) CIRCL Taxonomy is a simple scheme for incident classification and area topic where the incident took place.
+3. CIRCL [Taxonomy - Schemes of Classification in Incident Response and Detection](./circl) CIRCL Taxonomy is a simple scheme for incident classification and area topic where the incident took place.
 
-- [Cyber Kill Chain](./kill-chain) from Lockheed Martin as described in [Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary Campaigns and Intrusion Kill Chains](http://www.lockheedmartin.com/content/dam/lockheed/data/corporate/documents/LM-White-Paper-Intel-Driven-Defense.pdf).
+4. [Cyber Kill Chain](./kill-chain) from Lockheed Martin as described in [Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary Campaigns and Intrusion Kill Chains](http://www.lockheedmartin.com/content/dam/lockheed/data/corporate/documents/LM-White-Paper-Intel-Driven-Defense.pdf).
 
-- DE German (DE) [Government classification markings (VS)](./de-vs) Taxonomy for the handling of protectively marked information in MISP with German (DE) Government classification markings (VS).
+5. DE German (DE) [Government classification markings (VS)](./de-vs) Taxonomy for the handling of protectively marked information in MISP with German (DE) Government classification markings (VS).
 
-- [DHS CIIP Sectors](./dhs-ciip-sectors) DHS critical sectors as described in https://www.dhs.gov/critical-infrastructure-sectors.
+6. [DHS CIIP Sectors](./dhs-ciip-sectors) DHS critical sectors as described in https://www.dhs.gov/critical-infrastructure-sectors.
 
-- [eCSIRT](./ecsirt) eCSIRT incident classification Appendix C of the eCSIRT EU project including IntelMQ updates.
+7. [eCSIRT](./ecsirt) eCSIRT incident classification Appendix C of the eCSIRT EU project including IntelMQ updates.
 
-- [ENISA](./enisa) ENISA Threat Taxonomy - A tool for structuring threat information [as published](https://www.enisa.europa.eu/topics/threat-risk-management/threats-and-trends/enisa-threat-landscape/etl2015/enisa-threat-taxonomy-a-tool-for-structuring-threat-information)
+8. [ENISA](./enisa) ENISA Threat Taxonomy - A tool for structuring threat information [as published](https://www.enisa.europa.eu/topics/threat-risk-management/threats-and-trends/enisa-threat-landscape/etl2015/enisa-threat-taxonomy-a-tool-for-structuring-threat-information)
 
-- [Estimative Language](./estimative-language) Estimative language - including likelihood or probability of event based on the Intelligence Community Directive 203 (ICD 203) (6.2.(a)).
+9. [Estimative Language](./estimative-language) Estimative language - including likelihood or probability of event based on the Intelligence Community Directive 203 (ICD 203) (6.2.(a)).
 
-- [EU critical sectors](./eu-critical-sectors) Market operators and public administrations that must comply to some notifications requirements under EU NIS directive.
+10. [EU critical sectors](./eu-critical-sectors) Market operators and public administrations that must comply to some notifications requirements under EU NIS directive.
 
-- [EUCI](./euci) EU classified information (EUCI) means any information or material designated by a EU security classification, the unauthorised disclosure of which could cause varying degrees of prejudice to the interests of the European Union or of one or more of the Member States [as described](http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32013D0488&from=EN).
+11. [EUCI](./euci) EU classified information (EUCI) means any information or material designated by a EU security classification, the unauthorised disclosure of which could cause varying degrees of prejudice to the interests of the European Union or of one or more of the Member States [as described](http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32013D0488&from=EN).
 
-- [Europol Incident](./europol-incident) EUROPOL class of incident taxonomy
+12. [Europol Incident](./europol-incident) EUROPOL class of incident taxonomy
 
-- [Europol Events](./europol-events) - EUROPOL type of events taxonomy
+13. [Europol Events](./europol-events) - EUROPOL type of events taxonomy
 
-- [FIRST CSIRT Case](./csirt_case_classification) FIRST CSIRT Case Classification.
+14. [FIRST CSIRT Case](./csirt_case_classification) FIRST CSIRT Case Classification.
 
-- [FIRST Information Exchange Policy (IEP)](./iep) framework
+15. [FIRST Information Exchange Policy (IEP)](./iep) framework
 
-- [Information Security Indicators](./information-security-indicators) Information security indicators have been standardized by the [ETSI Industrial Specification Group (ISG) ISI](http://www.etsi.org/technologies-clusters/technologies/information-security-indicators). These indicators provide the basis to switch from a qualitative to a quantitative culture in IT Security Scope of measurements: External and internal threats (attempt and success), user's deviant behaviours, nonconformities and/or vulnerabilities (software, configuration, behavioural, general security framework).
+16. [Information Security Indicators](./information-security-indicators) Information security indicators have been standardized by the [ETSI Industrial Specification Group (ISG) ISI](http://www.etsi.org/technologies-clusters/technologies/information-security-indicators). These indicators provide the basis to switch from a qualitative to a quantitative culture in IT Security Scope of measurements: External and internal threats (attempt and success), user's deviant behaviours, nonconformities and/or vulnerabilities (software, configuration, behavioural, general security framework).
 
-- [Information Security Marking Metadata](./dni-ism) (ISM)  [V13](http://www.dni.gov/index.php/about/organization/chief-information-officer/information-security-marking-metadata) as described by DNI.gov.
+17. [Information Security Marking Metadata](./dni-ism) (ISM)  [V13](http://www.dni.gov/index.php/about/organization/chief-information-officer/information-security-marking-metadata) as described by DNI.gov.
 
-- [Malware](./malware) Malware classification based on a [SANS whitepaper about malware](https://www.sans.org/reading-room/whitepapers/incident/malware-101-viruses-32848).
+18. [Malware](./malware) Malware classification based on a [SANS whitepaper about malware](https://www.sans.org/reading-room/whitepapers/incident/malware-101-viruses-32848).
 
-- [ms-caro-malware](./ms-caro-malware) Malware Type and Platform classification based on Microsoft's implementation of the Computer Antivirus Research Organization (CARO) Naming Scheme and Malware Terminology.
+19. [ms-caro-malware](./ms-caro-malware) Malware Type and Platform classification based on Microsoft's implementation of the Computer Antivirus Research Organization (CARO) Naming Scheme and Malware Terminology.
 
-- [NATO Classification Marking](./nato) Marking of Classified and Unclassified materials as described by the North Atlantic Treaty Organization, NATO.
+20. [NATO Classification Marking](./nato) Marking of Classified and Unclassified materials as described by the North Atlantic Treaty Organization, NATO.
 
-- [Open Threat Taxonomy v1.1 (SANS)](./open-threat) based on James Tarala of SANS (http://www.auditscripts.com/resources/open_threat_taxonomy_v1.1a.pdf).
+21. [Open Threat Taxonomy v1.1 (SANS)](./open-threat) based on James Tarala of SANS (http://www.auditscripts.com/resources/open_threat_taxonomy_v1.1a.pdf).
 
-- [OSINT Open Source Intelligence - Classification](./osint)
+22. [OSINT Open Source Intelligence - Classification](./osint)
 
-- [The Permissible Actions Protocol - or short: PAP](./pap) PAP was designed to indicate how the received information can be used. It's a protocol/taxonomy similar to TLP informing the recipients of information what they can do with the received information.
+23. [The Permissible Actions Protocol - or short: PAP](./pap) PAP was designed to indicate how the received information can be used. It's a protocol/taxonomy similar to TLP informing the recipients of information what they can do with the received information.
 
-- [TLP - Traffic Light Protocol](./tlp) The Traffic Light Protocol - or short: TLP - was designed with the objective to create a favorable classification scheme for sharing sensitive information while keeping the control over its distribution at the same time.
+24. [TLP - Traffic Light Protocol](./tlp) The Traffic Light Protocol - or short: TLP - was designed with the objective to create a favorable classification scheme for sharing sensitive information while keeping the control over its distribution at the same time.
 
-- Vocabulary for Event Recording and Incident Sharing [VERIS](./veris)
+25. Vocabulary for Event Recording and Incident Sharing [VERIS](./veris)
 
 A taxonomy contains a series of tags that can use as normal tags in your MISP instance.
 
