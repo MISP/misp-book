@@ -10,7 +10,7 @@ You can access the taxonomy by going into 'Event Actions' and select 'List Taxon
 ![MISP Taxonomy index](./figures/taxonomies-index.png)
 
 The following taxonomies can be used in MISP (as local or distributed tags) or in other tools willing to share common taxonomies among security information sharing tools.
-
+ 
 ![Overview of the MISP taxonomies](./figures/taxonomy-explanation.png)
 
 
