@@ -10,7 +10,7 @@ You can access the taxonomy by going into 'Event Actions' and select 'List Taxon
 ![MISP Taxonomy index](./figures/taxonomies-index.png)
 
 The following taxonomies can be used in MISP (as local or distributed tags) or in other tools willing to share common taxonomies among security information sharing tools.
- 
+
 ![Overview of the MISP taxonomies](./figures/taxonomy-explanation.png)
 
 
@@ -135,6 +135,29 @@ Once you are happy with your file go to MISP Web GUI taxonomies/index and update
 ### Filtering the distribution of events among MISP instances
 
 Applying rules for distribution based on tags:
+
+### MISP Taxonomies - tools
+
+[machinetag.py](https://github.com/MISP/misp-taxonomies/blob/master/tools/machinetag.py) is a parsing tool to dump taxonomies expressed in Machine Tags (Triple Tags) and list all valid tags from a specific taxonomy.
+
+~~~~shell
+% cd tools
+% python machinetag.py
+        admiralty-scale:source-reliability="a"
+        admiralty-scale:source-reliability="b"
+        admiralty-scale:source-reliability="c"
+        admiralty-scale:source-reliability="d"
+        admiralty-scale:source-reliability="e"
+        admiralty-scale:source-reliability="f"
+        admiralty-scale:information-credibility="1"
+        admiralty-scale:information-credibility="2"
+        admiralty-scale:information-credibility="3"
+        admiralty-scale:information-credibility="4"
+        admiralty-scale:information-credibility="5"
+        admiralty-scale:information-credibility="6"
+        ...
+~~~~
+
 ### Other use cases using MISP taxonomies
 
 Tags can be used to set events for further processing by external tools (e.g. VirusTotal auto-expansion using Viper).
