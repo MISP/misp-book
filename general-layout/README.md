@@ -114,7 +114,11 @@ It may be that you have an Error Message in the page (if you enabled debug or si
 
 An easy first them to make most of them go away is to use the clean cache feature on the server settings menu, diagnostics tab.
 
-![cleanscript](figures/cleanscript.png)
+![cleanscript](figures/cleanscript1.png)
+
+You must then scroll down the page.
+
+![cleanscript](figures/cleanscript2.png)
 
 
 *  **List Feeds:** Follow the RSS feeds of other organization or CERTs worldwide.  
