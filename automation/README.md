@@ -1123,6 +1123,89 @@ Sample output of the types in percentages from CIRCL's MISP instance:
 }
 ~~~~
 
+# User management
+
+MISP allows administrators to create and manage users via its REST API
+
+The API is available in JSON format so make sure you use the following headers:
+
+~~~~
+Authorization: [Your auth key]
+Content-type: application/json
+Accept: application/json
+
+~~~~
+
+To fetch all users send a GET request to:
+
+~~~~
+https://<misp url>/admin/users
+~~~~
+
+To view a user simply send a GET request to the following url:
+
+~~~~
+https://<misp url>/admin/users/view/[user id]
+~~~~
+
+To create a new user, send a POST request to:
+
+~~~~
+https://<misp url>/admin/users/add
+~~~~
+
+Sample input:
+
+~~~~
+{
+    "email":"andras.iklody@circl.lu",
+    "org\_id":1,
+    "role\_id":1
+}
+~~~~
+
+To view the mandatory and optional fields, use a GET request on the above URL.
+
+Sample output:
+
+~~~~
+{
+    "name": "\/admin\/users\/add API description",
+    "description": "POST a User object in JSON format to this API to create a new user.",
+    "mandatory_fields": [
+        "email",
+        "org_id",
+        "role_id"
+    ],
+    "optional_fields": [
+        "password",
+        "external_auth_required",
+        "external_auth_key",
+        "enable_password",
+        "nids_sid",
+        "server_id",
+        "gpgkey",
+        "certif_public",
+        "autoalert",
+        "contactalert",
+        "disabled",
+        "change_pw",
+        "termsaccepted",
+        "newsread"
+    ],
+    "url": "\/admin\/users\/add"
+}
+~~~~
+
+To edit an existing user send a POST request to: 
+
+~~~~
+https://<misp url>/admin/users/edit/[user id]
+~~~~
+
+Only the fields POSTed will be updated, the rest is left intact. To view all possible parameters, simply send a GET request to the above URL.
+
+
 # Automation using PyMISP
 
 PyMISP is a Python library to access MISP platforms via their REST API.
@@ -1130,5 +1213,4 @@ PyMISP is a Python library to access MISP platforms via their REST API.
 PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
 
 [PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
-
 
