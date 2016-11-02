@@ -1206,6 +1206,12 @@ https://<misp url>/admin/users/edit/[user id]
 Only the fields POSTed will be updated, the rest is left intact. To view all possible parameters, simply send a GET request to the above URL.
 
 
+You can also delete users by POSTing to the below URL, but keep in mind that disabling users (by setting the disabled flag via an edit) is always prefered to keep user associations to events intact.
+
+~~~~
+https://<misp url>/admin/users/delete/[user id]
+~~~~
+
 # Automation using PyMISP
 
 PyMISP is a Python library to access MISP platforms via their REST API.
