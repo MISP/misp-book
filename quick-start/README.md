@@ -2,7 +2,7 @@
 And Justice for All! -->
 
 # Quick Start
-The Malware Information Sharing Platform (MISP) tool facilitates the exchange of Indicators of Compromise (IOCs) about targeted malware and attacks, within your comunity of trusted members. MISP is a distributed IOC database containing technical and non-technical information. Exchanging such information should result in faster detection of targeted attacks and improve the detection ratio, whilst also reducing the number of false positives.
+The Malware Information Sharing Platform (MISP) tool facilitates the exchange of Indicators of Compromise (IOCs) about targeted malware and attacks, within your community of trusted members. MISP is a distributed IOC database containing technical and non-technical information. Exchanging such information should result in faster detection of targeted attacks and improve the detection ratio, whilst also reducing the number of false positives.
 
 
 ## Create an Event
@@ -29,7 +29,7 @@ just what you need. Simply paste your list of indicators (separated by line-brea
 
 ![FreeText Import result](figures/FreeTextImportResult.jpg)
 
-The tool will help you to find similarities between your inport and other issues already registered in MISP.
+The tool will help you to find similarities between your import and other issues already registered in MISP.
 
 ![FreeText Suggest](figures/FreeTextSuggest.jpg)
 
