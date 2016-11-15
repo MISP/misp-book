@@ -7,5 +7,6 @@
 * [Using the System](using-the-system/README.md)
 * [Administration](administration/README.md)
 * [Automation and MISP API](automation/README.md)
+* [PyMISP - Python Library to access MISP](pymisp/README.md)
 * [Categories and Types](categories-and-types/README.md)
 * [Appendices](appendices/README.md)
