@@ -78,9 +78,9 @@ from pymisp import PyMISP
 from keys import misp_url, misp_key
 import argparse
 ~~~~
-First of all, it is obvious that we need to import PyMISP.  
+First of all, it is obvious that we need to import PyMISP.
 Then we also need to know both the instance with which we will work and the API key to use: Both should be stored in the keys.py file.  
-Finally we import argparse so the script can handle arguments. 
+Finally we import argparse library so the script can handle arguments.
 ~~~~python
 # For python2 & 3 compat, a bit dirty, but it seems to be the least bad one
 try:
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     parser.add_argument("-v", "--value", help="The value of the attribute")
     args = parser.parse_args()
 ~~~~
-Then the function start by preparing the awaited arguments:
+Then the function starts by preparing the awaited arguments:
 * event: The event that will get a new attribute
 * type: The type of the attribute that will be added. See [here](../categories-and-types/README.md) for more informations 
 * value: The value of the new attribute
@@ -119,7 +119,7 @@ In order to add the new argument, we first need to fetch the event in the MISP d
 ~~~~python
 	print(event)
 ~~~~
-Finally the new event is printed, so we can check that the attribute was correctly added, and that a category was give to it automatically..
+Finally the new event is printed, so we can check that the attribute was correctly added, and that a category was attached to it automatically.
 
 ### Existing examples
 
@@ -129,7 +129,7 @@ Let us have a look at some of these examples:
 
 #### add_named_attribute.py
 
-Allow to add an argument to an existing event by givng only the type of the attribute. The category will be set with a default value.
+Allow to add an argument to an existing event by giving only the type of the attribute. The category will be set with a default value.
 
 Arguments:
 * **event**: The id of the event to update.
@@ -159,8 +159,8 @@ Allow a user to create a new event on the MISP instance.
 Arguments:
 * **distrib**: The distribution setting used for the attributes and for the newly created event, if relevant. [0-3].
 * **info**: Used to populate the event info field if no event ID supplied.
-* **analysis**: The analysis level of the newly created event, if applicatble. [0-2]
-* **threat**: The threat level ID of the newly created event, if applicatble. [1-4]
+* **analysis**: The analysis level of the newly created event, if applicable. [0-2]
+* **threat**: The threat level ID of the newly created event, if applicable. [1-4]
 
 #### del.py
 
