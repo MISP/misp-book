@@ -68,6 +68,61 @@ Once you are done with it, you are ready to start.
 
 ### Using PyMISP
 
+To have a better understanding of how to use PyMISP, we will have a look at one of the existing examples: add\_named\_attribute.py
+This script allow us to add an attribute to an existing event while knowing only its type (the category is determined by default).
+~~~~
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from pymisp import PyMISP
+from keys import misp_url, misp_key
+import argparse
+~~~~
+First of all, it is obvious that we need to import PyMISP.  
+Then we also need to know both the instance with which we will work and the API key to use: Both should be stored in the keys.py file.  
+Finally we import argparse so the script can handle arguments. 
+~~~~
+# For python2 & 3 compat, a bit dirty, but it seems to be the least bad one
+try:
+    input = raw_input
+except NameError:
+    pass
+~~~~
+Just a few lines to be sure that pyhon 2 and 3 are supported
+~~~~
+def init(url, key):
+    return PyMISP(url, key, True, 'json', debug=True)
+~~~~
+This function will create a PyMISP object that will be used later to interact with the MISP instance.
+As seen in the [api.py](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L85), a PyMISP object need to know both the url of the MISP instance and the API key to use. It can also take additionnal and not mandatory data, such as the use or not of SSL or the name of the export format.
+~~~~
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Create an event on MISP.')
+    parser.add_argument("-e", "--event", type=int, help="The id of the event to update.")
+    parser.add_argument("-t", "--type", help="The type of the added attribute")
+    parser.add_argument("-v", "--value", help="The value of the attribute")
+    args = parser.parse_args()
+~~~~
+Then the function start by preparing the awaited arguments:
+* event: The event that will get a new attribute
+* type: The type of the attribute that will be added. See [here](../categories-and-types/README.md) for more informations 
+* value: The value of the new attribute
+~~~~
+    misp = init(misp_url, misp_key)
+~~~~
+Thanks to the previously created function, we create a PyMISP object.
+~~~~
+    event = misp.get_event(args.event)
+    event = misp.add_named_attribute(event, args.type, args.value)
+~~~~
+In order to add the new argument, we first need to fetch the event in the MISP database using the [get\_event](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L223) function which only need the event\_id. Then only once we have it, we can call the function [add\_named\_attribute](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L372) that will add the argument. 
+~~~~
+print(event)
+~~~~
+Finally the new event is printed, so we can check that the attribute was correctly added, and that a category was give to it automatically..
+
+### Existing examples
+
 As the name implies you will find several example scripts in the examples folder. For each you can get help if you do `scriptname.py -h`
 
 Let us have a look at some of these examples:
