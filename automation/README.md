@@ -487,7 +487,7 @@ To restrict the results by tags, use the usual syntax. Please be aware the colon
 https://<misp url>/attributes/text/download/ip-src/tag1&&
 ~~~~
 
-As of version 2.3.38, it is possible to restrict the text exports on two additional flags. The first allows the user to restrict based on event ID,
+It is possible to restrict the text exports on additional flags. The first allows the user to restrict based on event ID,
 whilst the second is a boolean switch allowing non IDS flagged attributes to be exported. Additionally, choosing "all" in the type field will return
 all eligible attributes.
 
@@ -500,6 +500,14 @@ https://<misp url>/attributes/text/download/[type]/[tags]/[event_id]/[allowNonID
 <dd>The attribute type, any valid MISP attribute type is accepted.</dd>
 <dt>tags</dt>
 <dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
+<dt>allowNonIDS</dt>
+<dd>Include attributes that would normally be excluded due to the IDS flag not being set or due to being whitelisted</dd>
+<dt>from</dt>
+<dd>Set the lowest "date" field value that should be included in the export (format YYYY-MM-DD)</dd>
+<dt>to</dt>
+<dd>Set the highest "date" field value that should be included in the export (format YYYY-MM-DD)</dd>
+<dt>last</dt>
+<dd>Set the timeframe of the export based on the "timestamp" value. The parameter uses a time + metric notation (valid examples: "2w", "60m", "24h")</dd>
 </dl>
 
 For example, to include tag1 and tag2 but exclude tag3 you would use:
