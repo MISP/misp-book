@@ -544,7 +544,7 @@ It is possible to search the database for attributes based on a list of criteria
 To return an event with all of its attributes, relations, shadowAttributes, use the following syntax:
 
 ~~~~
-https://<misp url>/events/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]
+https://<misp url>/events/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
 ~~~~
 
 <dl>
@@ -578,6 +578,10 @@ https://<misp url>/events/restSearch/download/null/null/null/null/tag1&&tag2&&!t
 <dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 <dt>eventid</dt>
 <dd>The events that should be included / excluded from the search</dd>
+<dt>withAttachments</dt>
+<dd>Include the attachments/encrypted samples in the export</dd>
+<dt>metadata</dt>
+<dd>Only fetch the event metadata (event data, tags, relations) and skip the attributes</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
@@ -622,13 +626,15 @@ To just return a list of attributes, use the following syntax:
 <dt>last</dt>
 <dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 <dt>eventid</dt>
-<dd>The events that should be included / excluded from the search</dd>
+<dd>The events that should be included / excluded from the search.</dd>
+<dt>uuid</dt>
+<dd>The returned events must include an attribute with the given UUID, or alternatively the event's UUID must match the value(s) passed.</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
 
 ~~~~
-https://<misp url>/attributes/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[from]/[to]/[last]/[eventid]
+https://<misp url>/attributes/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[from]/[to]/[last]/[eventid]/[withattachments]/[uuid]
 ~~~~
 
 Value, type, category and org are optional. It is possible to search for several terms in each category by joining them with the '&&' operator. It is
