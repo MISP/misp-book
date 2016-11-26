@@ -136,8 +136,20 @@ https://<misp url>/events/csv/download
 
 You can specify additional flags for CSV exports as follows:
 
+POST to: 
 ~~~~
-https://<misp url>/events/csv/download/[eventid]/[ignore]/[tags]/[category]/[type]/[includeContext]/[from]/[to]/[last]
+https://<misp url>/events/csv/download
+~~~~
+
+Headers: 
+~~~~
+Authorization: <your auth key>
+Content-type: application/json
+~~~~
+
+Body:
+~~~~json
+{"parameter1":"value1", "parameter2":1, "parameter3":["value3", "value4", "!value5"]}
 ~~~~
 
 <dl>
@@ -146,19 +158,7 @@ https://<misp url>/events/csv/download/[eventid]/[ignore]/[tags]/[category]/[typ
 <dt>ignore</dt>
 <dd>Setting this flag to true will include attributes that are not marked "to_ids".</dd>
 <dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
-</dl>
-
-For example, to include tag1 and tag2 but exclude tag3 you would use:
-
-For example, to only download a csv generated of the "domain" type and the "Network activity" category attributes all events except for the one and further restricting it to events that are tagged "tag1" or "tag2" but not "tag3", only allowing attributes that are IDS flagged use the following syntax:
-
-~~~~
-https://<misp url>/events/csv/download/false/false/tag1&&tag2&&!tag3/Network%20activity/domain
-~~~~
-
-<dl>
+<dd>Simply add a list of tags that should be included or negated (by prepending the tag name with a "!"). Any event with a negated tag will be ignored, even if an included tag is matching. An example is included further down.</dd>
 <dt>category</dt>
 <dd>The attribute category, any valid MISP attribute category is accepted.</dd>
 <dt>type</dt>
@@ -173,10 +173,30 @@ https://<misp url>/events/csv/download/false/false/tag1&&tag2&&!tag3/Network%20a
 <dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 </dl>
 
-The keywords false or null should be used for optional empty parameters in the URL.
+For example, to only download a csv generated of the "domain" type and the "Network activity" category attributes all events except for the one and further restricting it to events that are tagged "tag1" or "tag2" but not "tag3", only allowing attributes that are IDS flagged use the following syntax:
 
+POST to: 
+~~~~
+https://<misp url>/events/csv/download
+~~~~
+
+Headers: 
+~~~~
+Authorization: <your auth key>
+Content-type: application/json
+~~~~
+
+Body:
+~~~~json
+{"tags":["tag1", "tag2", "!tag3"], "category":"Network activity", "type": "domain"}
+~~~~
+
+Alternatively you can fall back to the deprecated syntax of passing parameters in a GET request via the URL, however this is discouraged:
+~~~~
+https://<misp url>/events/csv/download/[eventid]/[ignore]/[tags]/[category]/[type]/[includeContext]/[from]/[to]/[last]
+~~~~
+If you use the deprecated URL parameter method, keep in mind that the keywords false or null should be used for optional empty parameters.
 To export the attributes of all events that are of the type "domain", use the following syntax:
-
 ~~~~
 https://<misp url>/events/csv/download/false/false/false/false/domain
 ~~~~
