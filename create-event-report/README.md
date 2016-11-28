@@ -2,7 +2,7 @@
 
 You need specific permission to create an event. 
 
-For this example, I choose a report found on (Bleeping Computer)[http://www.bleepingcomputer.com/news/security/researcher-finds-the-karma-ransomware-being-distributed-via-pay-per-install-network/], so OSINT.
+For this example, I choose a report found on [Bleeping Computer](http://www.bleepingcomputer.com/news/security/researcher-finds-the-karma-ransomware-being-distributed-via-pay-per-install-network/), so OSINT.
 
 ![Report title](figures/report_title.png)
 
@@ -63,7 +63,7 @@ Again, we fill it with the required data.
 Then we submit it by clicking on the blue button
 _Et voilà!_
 
-![MAGIC](figures/popadd.png)
+![MAGIC](figures/popadded.png)
 
 Okay, now it is time to get serious and add some Indicators of Compromise. In this report, they are mainly listed at the end.
 
@@ -99,7 +99,7 @@ Here, MISP detected by itself what should be the category and type associated to
 
 If the results of MISP were not what you expected, you can still modify it, however MISP will only suggest suitable category/type regarding the format of your data. You can change this for each attribute individually or  all at the same time using the option on the bottom right of the form. The same principle also applies for the comments, individually or for all.
 
-![freetext import suggestions](figures/freesuggest.png)
+![freetext import suggestions](figures/freesuggest.png)  
 (Yes I have two cursors, MISP is magic!)
 
 We only have have the network indicators left, and as you might have guessed, we will let MISP determined for us which type is the best for the data we will give it. So let us go for it.
