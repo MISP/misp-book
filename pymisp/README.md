@@ -322,8 +322,8 @@ osintcircl = requests.get('{}manifest.json'.format(url))
 
 misp = PyMISP('http://misp.test/', 'key', False, 'json')
 for uri in osintcircl.json():
-            req = requests.get('{}{}.json'.format(url,uri))
-                misp.add_event(req.json())
+        req = requests.get('{}{}.json'.format(url,uri))
+        misp.add_event(req.json())
 ~~~~
 
 #### ioc-2-misp
