@@ -304,6 +304,28 @@ valid_attribute_distribution_levels = ['0', '1', '2', '3', '4', '5']
 
 ~~~~
 
+#### Consuming feed
+
+As the feed is a simple set of MISP json files, the file can be easily imported
+directly into any MISP instance. The script below processes the manifest file of an OSINT
+feed and reimport them in a MISP directly.
+
+~~~~
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+from pymisp import PyMISP
+import requests
+
+url = 'https://www.circl.lu/doc/misp/feed-osint/'
+osintcircl = requests.get('{}manifest.json'.format(url))
+
+misp = PyMISP('http://misp.test/', 'key', False, 'json')
+for uri in osintcircl.json():
+            req = requests.get('{}{}.json'.format(url,uri))
+                misp.add_event(req.json())
+~~~~
+
 #### ioc-2-misp
 
 Allow to import OpenIOC files into MISP easily. It is also possible to set specific tags on these events.
