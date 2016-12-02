@@ -306,11 +306,11 @@ valid_attribute_distribution_levels = ['0', '1', '2', '3', '4', '5']
 
 #### Consuming feed
 
-As the feed is a simple set of MISP json files, the file can be easily imported
+As the feed is a simple set of MISP json files, the files can be easily imported
 directly into any MISP instance. The script below processes the manifest file of an OSINT
 feed and reimport them in a MISP directly.
 
-~~~~
+~~~~python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
