@@ -1,6 +1,3 @@
-<!-- Hey You! -->
-<!-- Please Donate https://www.razoo.com/us/story/Solitary-Watch-Lifelines-2016 -->
-
 ## Taxonomies
 
 In MISP 2.4, a flexible mechanism has been introduced to support various [taxonomy of classification](https://github.com/MISP/misp-taxonomies).
