@@ -10,6 +10,5 @@
 * [PyMISP - Python Library to access MISP](pymisp/README.md)
 * [Create an event based on a report](create-event-report/README.md)
 * [Taxonomies](taxonomy/README.md)
-* [Galaxies](galaxy/README.md)
 * [Categories and Types](categories-and-types/README.md)
 * [Appendices](appendices/README.md)
