@@ -1,3 +1,5 @@
+<!-- toc -->
+
 ## Taxonomies
 
 In MISP 2.4, a flexible mechanism has been introduced to support various [taxonomy of classification](https://github.com/MISP/misp-taxonomies).
@@ -13,57 +15,71 @@ The following taxonomies can be used in MISP (as local or distributed tags) or i
 
 The following taxonomies are described:
 
-1. [Admiralty Scale](./admiralty-scale): The Admiralty Scale (also called the NATO System) is used to rank the reliability of a source and the credibility of an information.
+1. [Admiralty Scale](https://github.com/MISP/misp-taxonomies/tree/master/admiralty-scale): The Admiralty Scale (also called the NATO System) is used to rank the reliability of a source and the credibility of an information.
 
-2. [adversary](./adversary) An overview and description of the adversary infrastructure.
+2. [adversary](https://github.com/MISP/misp-taxonomies/tree/master/adversary) An overview and description of the adversary infrastructure.
 
-3. CIRCL [Taxonomy - Schemes of Classification in Incident Response and Detection](./circl) CIRCL Taxonomy is a simple scheme for incident classification and area topic where the incident took place.
+3. CIRCL [Taxonomy - Schemes of Classification in Incident Response and Detection](https://github.com/MISP/misp-taxonomies/tree/master/circl) CIRCL Taxonomy is a simple scheme for incident classification and area topic where the incident took place.
 
-4. [Cyber Kill Chain](./kill-chain) from Lockheed Martin as described in [Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary Campaigns and Intrusion Kill Chains](http://www.lockheedmartin.com/content/dam/lockheed/data/corporate/documents/LM-White-Paper-Intel-Driven-Defense.pdf).
+4. [Cyber Kill Chain](https://github.com/MISP/misp-taxonomies/tree/master/kill-chain) from Lockheed Martin as described in [Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary Campaigns and Intrusion Kill Chains](http://www.lockheedmartin.com/content/dam/lockheed/data/corporate/documents/LM-White-Paper-Intel-Driven-Defense.pdf).
 
-5. DE German (DE) [Government classification markings (VS)](./de-vs) Taxonomy for the handling of protectively marked information in MISP with German (DE) Government classification markings (VS).
+5. DE German (DE) [Government classification markings (VS)](https://github.com/MISP/misp-taxonomies/tree/master/de-vs) Taxonomy for the handling of protectively marked information in MISP with German (DE) Government classification markings (VS).
 
-6. [DHS CIIP Sectors](./dhs-ciip-sectors) DHS critical sectors as described in https://www.dhs.gov/critical-infrastructure-sectors.
+6. [DHS CIIP Sectors](https://github.com/MISP/misp-taxonomies/tree/master/dhs-ciip-sectors) DHS critical sectors as described in https://www.dhs.gov/critical-infrastructure-sectors.
 
-7. [eCSIRT](./ecsirt) eCSIRT incident classification Appendix C of the eCSIRT EU project including IntelMQ updates.
+7. [Diamond Model for Intrusion Analysis](https://github.com/MISP/misp-taxonomies/tree/master/diamond-model), a phase-based model developed by Lockheed Martin, aims to help categorise and identify the stage of an attack.
 
-8. [ENISA](./enisa) ENISA Threat Taxonomy - A tool for structuring threat information [as published](https://www.enisa.europa.eu/topics/threat-risk-management/threats-and-trends/enisa-threat-landscape/etl2015/enisa-threat-taxonomy-a-tool-for-structuring-threat-information)
+8. [Domain Name Abuse](https://github.com/MISP/misp-taxonomies/tree/master/domain-abuse) - taxonomy to tag domain names used for cybercrime. Use europol-incident to tag abuse-activity
 
-9. [Estimative Language](./estimative-language) Estimative language - including likelihood or probability of event based on the Intelligence Community Directive 203 (ICD 203) (6.2.(a)).
+9. [eCSIRT](https://github.com/MISP/misp-taxonomies/tree/master/ecsirt) eCSIRT incident classification Appendix C of the eCSIRT EU project including IntelMQ updates.
 
-10. [EU critical sectors](./eu-critical-sectors) Market operators and public administrations that must comply to some notifications requirements under EU NIS directive.
+10. [ENISA](https://github.com/MISP/misp-taxonomies/tree/master/enisa) ENISA Threat Taxonomy - A tool for structuring threat information [as published](https://www.enisa.europa.eu/topics/threat-risk-management/threats-and-trends/enisa-threat-landscape/etl2015/enisa-threat-taxonomy-a-tool-for-structuring-threat-information)
 
-11. [EUCI](./euci) EU classified information (EUCI) means any information or material designated by a EU security classification, the unauthorised disclosure of which could cause varying degrees of prejudice to the interests of the European Union or of one or more of the Member States [as described](http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32013D0488&from=EN).
+11. [Estimative Language](https://github.com/MISP/misp-taxonomies/tree/master/estimative-language) Estimative language - including likelihood or probability of event based on the Intelligence Community Directive 203 (ICD 203) (6.2.(a)).
 
-12. [Europol Incident](./europol-incident) EUROPOL class of incident taxonomy
+12. [EU Marketop and Publicadmin][EU critical sectors](https://github.com/MISP/misp-taxonomies/tree/master/eu-marketop-and-publicadmin) Market operators and public administrations that must comply to some notifications requirements under EU NIS directive.
 
-13. [Europol Events](./europol-events) - EUROPOL type of events taxonomy
+13. [EUCI](https://github.com/MISP/misp-taxonomies/tree/master/euci) EU classified information (EUCI) means any information or material designated by a EU security classification, the unauthorised disclosure of which could cause varying degrees of prejudice to the interests of the European Union or of one or more of the Member States [as described](http://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32013D0488&from=EN).
 
-14. [FIRST CSIRT Case](./csirt_case_classification) FIRST CSIRT Case Classification.
+14. [Europol Incident](https://github.com/MISP/misp-taxonomies/tree/master/europol-incident) EUROPOL class of incident taxonomy
 
-15. [FIRST Information Exchange Policy (IEP)](./iep) framework
+15. [Europol Events](https://github.com/MISP/misp-taxonomies/tree/master/europol-events) - EUROPOL type of events taxonomy
 
-16. [Information Security Indicators](./information-security-indicators) Information security indicators have been standardized by the [ETSI Industrial Specification Group (ISG) ISI](http://www.etsi.org/technologies-clusters/technologies/information-security-indicators). These indicators provide the basis to switch from a qualitative to a quantitative culture in IT Security Scope of measurements: External and internal threats (attempt and success), user's deviant behaviours, nonconformities and/or vulnerabilities (software, configuration, behavioural, general security framework).
+16. [FIRST CSIRT Case](https://github.com/MISP/misp-taxonomies/tree/master/csirt_case_classification) FIRST CSIRT Case Classification.
 
-17. [Information Security Marking Metadata](./dni-ism) (ISM)  [V13](http://www.dni.gov/index.php/about/organization/chief-information-officer/information-security-marking-metadata) as described by DNI.gov.
+17. [FIRST Information Exchange Policy (IEP)](https://github.com/MISP/misp-taxonomies/tree/master/iep) framework
 
-18. [Malware](./malware) Malware classification based on a [SANS whitepaper about malware](https://www.sans.org/reading-room/whitepapers/incident/malware-101-viruses-32848).
+18. [French gov information classification system](https://github.com/MISP/misp-taxonomies/tree/master/fr-classif)
 
-19. [ms-caro-malware](./ms-caro-malware) Malware Type and Platform classification based on Microsoft's implementation of the Computer Antivirus Research Organization (CARO) Naming Scheme and Malware Terminology.
+19. [Information Security Indicators](https://github.com/MISP/misp-taxonomies/tree/master/information-security-indicators) Information security indicators have been standardized by the [ETSI Industrial Specification Group (ISG) ISI](http://www.etsi.org/technologies-clusters/technologies/information-security-indicators). These indicators provide the basis to switch from a qualitative to a quantitative culture in IT Security Scope of measurements: External and internal threats (attempt and success), user's deviant behaviours, nonconformities and/or vulnerabilities (software, configuration, behavioural, general security framework).
 
-20. [NATO Classification Marking](./nato) Marking of Classified and Unclassified materials as described by the North Atlantic Treaty Organization, NATO.
+20. [Information Security Marking Metadata](https://github.com/MISP/misp-taxonomies/tree/master/dni-ism) (ISM)  [V13](http://www.dni.gov/index.php/about/organization/chief-information-officer/information-security-marking-metadata) as described by DNI.gov.
 
-21. [Open Threat Taxonomy v1.1 (SANS)](./open-threat) based on James Tarala of SANS (http://www.auditscripts.com/resources/open_threat_taxonomy_v1.1a.pdf).
+21. [Malware](https://github.com/MISP/misp-taxonomies/tree/master/malware_classification) classification based on different categories. Based on a [SANS whitepaper about malware](https://www.sans.org/reading-room/whitepapers/incident/malware-101-viruses-32848).
 
-22. [OSINT Open Source Intelligence - Classification](./osint)
+22. Malware Type and Platform classification based on Microsoft's implementation of the [Computer Antivirus Research Organization (CARO)](https://github.com/MISP/misp-taxonomies/tree/master/ms-caro-malware-full) Naming Scheme and Malware Terminology. Based on [Microsoft Malware naming convntions](https://www.microsoft.com/en-us/security/portal/mmpc/shared/malwarenaming.aspx), [Microsoft Glossary](https://www.microsoft.com/security/portal/mmpc/shared/glossary.aspx), [Microsoft Objective Criteria](https://www.microsoft.com/security/portal/mmpc/shared/objectivecriteria.aspx), and [CARO's definitions](http://www.caro.org/definitions/index.html). Malware families are extracted from Microsoft SIRs since 2008 based on [Microsoft Malware, virus, and threat encyclopedia](https://www.microsoft.com/en-us/security/portal/threat/threats.aspx). Note that SIRs do NOT include all Microsoft malware families.
 
-23. [The Permissible Actions Protocol - or short: PAP](./pap) PAP was designed to indicate how the received information can be used. It's a protocol/taxonomy similar to TLP informing the recipients of information what they can do with the received information.
+23. [MISP taxonomy](https://github.com/MISP/misp-taxonomies/tree/master/misp) to infer with MISP behavior or operation.
 
-24. [TLP - Traffic Light Protocol](./tlp) The Traffic Light Protocol - or short: TLP - was designed with the objective to create a favorable classification scheme for sharing sensitive information while keeping the control over its distribution at the same time.
+24. [ms-caro-malware](https://github.com/MISP/misp-taxonomies/tree/master/ms-caro-malware) Malware Type and Platform classification based on Microsoft's implementation of the Computer Antivirus Research Organization (CARO) Naming Scheme and Malware Terminology.
 
-25. Vocabulary for Event Recording and Incident Sharing [VERIS](./veris)
+25. [NATO Classification Marking](https://github.com/MISP/misp-taxonomies/tree/master/nato) Marking of Classified and Unclassified materials as described by the North Atlantic Treaty Organization, NATO.
 
-A taxonomy contains a series of tags that can use as normal tags in your MISP instance.
+26. [Open Threat Taxonomy v1.1 (SANS)](https://github.com/MISP/misp-taxonomies/tree/master/open-threat) based on James Tarala of SANS (http://www.auditscripts.com/resources/open_threat_taxonomy_v1.1a.pdf).
+
+27. [OSINT Open Source Intelligence - Classification](https://github.com/MISP/misp-taxonomies/tree/master/osint)
+
+28. [The Permissible Actions Protocol - or short: PAP](https://github.com/MISP/misp-taxonomies/tree/master/pap) PAP was designed to indicate how the received information can be used. It's a protocol/taxonomy similar to TLP informing the recipients of information what they can do with the received information.
+
+29. Status of events used in [Request Tracker](https://github.com/MISP/misp-taxonomies/tree/master/rt_event_status).
+
+30. Classification based on [malware stealth](https://github.com/MISP/misp-taxonomies/tree/master/stealth_malware) techniques. Described in [Introducing Stealth Malware Taxonomy](https://vxheaven.org/lib/pdf/Introducing%20Stealth%20Malware%20Taxonomy.pdf)
+
+31. [TLP - Traffic Light Protocol](https://github.com/MISP/misp-taxonomies/tree/master/tlp) The Traffic Light Protocol - or short: TLP - was designed with the objective to create a favorable classification scheme for sharing sensitive information while keeping the control over its distribution at the same time.
+
+32. Vocabulary for Event Recording and Incident Sharing [VERIS](https://github.com/MISP/misp-taxonomies/tree/master/veris)
+
+A taxonomy contains a series of tags that can be used as normal tags in your MISP instance.
 
 Tagging is a simple way to attach a classification to an event. In the early version of MISP, tagging was local to an instance. Classification must be globally used to be efficient. After evaluating different solutions of classification, we build a new scheme using the concept of machine tags.
 
