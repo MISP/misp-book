@@ -21,6 +21,7 @@ During this first step, you will be create a basic event without any actual attr
       Upon push: downgrade to This Community only and push. Upon pull: pull and downgrade to This Community only.
   *   **All communities:** This will share the event with all MISP communities, allowing the event to be freely propagated from one server to the next.
       Upon push: push. Upon pull: pull.
+  *   **Sharing group:** This will share the event to the defined sharing group. This includes only the organisations defined in the sharing group. The distribution can be local and cross-instance depending of the sharing group definition.
 *   **Threat Level:** This field indicates the risk level of the event. Incidents can be categorised into three different threat categories (low, medium, high). This field can alternatively be left as undefined. The 3 options are:
   *  **Low:** General mass malware.
   *  **Medium:** Advanced Persistent Threats (APT)
