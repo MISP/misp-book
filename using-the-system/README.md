@@ -59,11 +59,15 @@ Keep in mind that the system searches for regular expressions in the value field
 
 Sharing groups in MISP are a more granular way to create re-usable distribution lists for events/attributes that allow users to include organisations from their own instance (local organisations) as well as organisations from directly, or indirectly connected instances (external organisations). Sharing groups can be created by any user that has the sharing group editor permission. Additionally, sharing groups can be edited by any user that has the aforementioned permission in addition to being a member of the sharing group's creating organisation, or any organisation that is marked as an "extender" of the sharing group. The main use for the extend feature is delegating the rights to add users to trusted partners. For example, when sharing with a different industry sector, knowing all actors that should receive the information is often not possible, so delegating the rights to extend the event to a trusted representative of said sector would allow for someone with more insight to find and add the proper list of partners for the sharing group.
 
+![A sample sharing group setup involving 3 instances and showing the various ways to include/exclude organisations](figures/sync.png)
+
 The most general use-cases for sharing groups are creating re-usable topical subgroups in MISP that share events or for ad-hoc sharing scenarios (such as several organisations involved in a specific incident wanting to work together). Generally sharing groups add a level of complexity for the users involved as well as a performance overhead on the data marked with it. 
 
 As a best-practice recommendation, using traditional distribution methods is prefered unless they cannot cover the given use-case. Also, whilst sharing groups can be assigned to both events and attributes, it is highly recommended to use the special "inherit" distribution setting on attributes whenever the attribute's sharing group would match the event's.
 
 Sharing groups consist of the following elements, each of which has its own page in the sharing group creator/editor tool (accessed via the Global actions -> List Sharing Groups and Add Sharing Group functionalities):
+
+![The general tab of the sharing group tool](figures/sgpage1.png)
 
 *  **General:** Metadata describing the intent of the sharing group
   *  **Name:** The unique name of the sharing group.
@@ -71,14 +75,20 @@ Sharing groups consist of the following elements, each of which has its own page
   *  **Description:** A natural-text representation of the intent of the sharing group.
   *  **Make the sharing group selectable (active):** A sharing group can be made passive by unchecking this setting. All events and attributes will continue to adhere to a passive sharing group's distribution setting, however, the sharing group will not be offered as a selectable option when setting the distribution of events/attributes. The idea behind this is that ad-hoc sharing groups that have outlived their purpose can be retired in order to reduce the clutter in the UI.
 
+![The organisations tab of the sharing group tool](figures/sgpage2.png)
+
 *  **Organisations:** The second page of the tool contains the distribution list containing all organisations directly named as a member of the sharing group
   *  **Add Local/remote organisations:** The organisations are split into two lists (shown as two tabs in the tool) for local and known remote/external organisations. Local organisations are expected to have at least one local user on the instance whilst remote organisations do not. Synchronising with remote instances will create remote organisations whenever a new event is received of a yet unknown organisation. Remote organisations can always be converted to local organisations - this becomes interesting if a user of an external organisation requests access to your MISP instance.
   *  **Extend checkmark:** Checking the extend checkmark makes the selected organisation an extender of the sharing group, meaning they can edit the sharing group. It is expected of these trusted partners that they adhere to the "releasable to" tag set on the general page. The organisation creating the sharing group is always included as an extender.
+
+![The servers tab of the sharing group tool](figures/sgpage3.png)
 
 *  **Servers:** The third page of the tool describes the MISP instances the data marked with the given sharing group are allowed to be synchronised with. Keep in mind that any user that can view an event on a given instance will have the right to pull the event to their home instance, as they are part of the sharing group, however the organisation distribution list will still apply.
   *  **Enable roaming mode:** This setting will disable the server list and rely purely ont he organisation list to distribute the data. If a sync connection's host organisation is in the organisation distribution list the instance becomes eligible for synchronising the data marked with the sharing group. Generally this carries a slightly higher risk as it relies on administrators correctly setting up the host organisation settings, but it removes the need to know the specific instance urls where the event/attribute should flow.
   *  **Add instance:** Add an instance to the distribution list from the sync instances set up under sync actions -> servers
   *  **All orgs:** Checking this checkmark will automatically include all organisations on the given instance in the sharing group. This means that in order to exchange with all users of a linked community, one does not need to know every organisation residing on the instance. This also means that the distribution list will not include the organisation names, which can be interesting for certain privacy sensitive communities.
+
+![The summary tab of the sharing group tool](figures/sgpage4.png)
 
 *  **Summary:** Once everything is set up, MISP will summarise the sharing group in a highlighted text page, which is highly advised to be reviewed before submiting the new sharing group/editing the sharing group. Mistakes in the sharing group settings can lead to organisations that should not be involved in the sharing group getting access or organisations receiving unwanted editing rights to the sharing group. Keep in mind that even if you have submitted a sharing group, it is not propagated until an event/attribute receives the sharing group as the selected distribution.
 
