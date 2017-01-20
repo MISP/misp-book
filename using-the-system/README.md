@@ -13,7 +13,7 @@ During this first step, you will be create a basic event without any actual attr
 
 *   **Date:** The date when the incident has happened. Just click this field and a date-picker will pop up where you can select the desired date.
 *   **Distribution:** This setting controls, who will be able to see this event once it becomes published and eventually when it becomes pulled. Apart from being able to set which users on this server are allowed to see the event, this also controls whether the event will be synchronised to other servers or not. The distribution is inherited by attributes: the most restrictive setting wins. The following options are available:
-  *   **Your organization only:** This setting will only allow members of your organisation to see this. It can be pulled to another instance by one of your organisation members where only your organisation will be able to see it. Events with this setting will not be synchronised. 
+  *   **Your organization only:** This setting will only allow members of your organisation to see this. It can be pulled to another instance by one of your organisation members where only your organisation will be able to see it. Events with this setting will not be synchronised.
       Upon push: do not push. Upon pull : pull.
   *   **This Community-only:** Users that are part of your MISP community will be able to see the event. This includes your own organisation, organisations on this MISP server and organisations running MISP servers that synchronise with this server. Any other organisations connected to such linked servers will be restricted from seeing the event.
       Upon push: do not push. Upon pull: pull and downgrade to Your organization only.
@@ -21,7 +21,7 @@ During this first step, you will be create a basic event without any actual attr
       Upon push: downgrade to This Community only and push. Upon pull: pull and downgrade to This Community only.
   *   **All communities:** This will share the event with all MISP communities, allowing the event to be freely propagated from one server to the next.
       Upon push: push. Upon pull: pull.
-  *   **Sharing group:** Selecting the Sharing group setting brings up a list of possible sharing groups. Using a sharing group as the distribution level will only make the event visible to the organisations listed directly or indirectly via the sharing group settings. For more information on sharing groups, refer to the sharing group section.
+  *   **Sharing group:** This will share the event to the defined sharing group. This includes only the organisations defined in the sharing group. The distribution can be local and cross-instance depending of the sharing group definition. For more information on sharing groups, refer to the sharing group section.
 *   **Threat Level:** This field indicates the risk level of the event. Incidents can be categorised into three different threat categories (low, medium, high). This field can alternatively be left as undefined. The 3 options are:
   *  **Low:** General mass malware.
   *  **Medium:** Advanced Persistent Threats (APT)
@@ -85,7 +85,7 @@ Sharing groups consist of the following elements, each of which has its own page
 ### Populate from Template
 
 Templates allow users to rapidly populate events of a specific type by filling out a series of pre-defined fields. Users with template creation privileges can create new templates for their organisations or for all organisations on their instance. If you are interested in template creation, please refer to the templating section.
-For users trying to populate an event, after clicking on the populate from template button, you'll be presented with a list of all currently accessible templates. Pick the one that best describes the event that you are creating. 
+For users trying to populate an event, after clicking on the populate from template button, you'll be presented with a list of all currently accessible templates. Pick the one that best describes the event that you are creating.
 
 ![Choose the most appropriate template for your event.](figures/template_choice.png)
 
@@ -108,6 +108,8 @@ If you have a list of indicators that you would like to quickly generate attribu
 ![MISP will often find several valid category/type combinations for the values. Do last minute adjustments on the result page.](figures/freetext2.png)
 
 Since there are several category / type combinations that can be valid for a lot of values, MISP will suggest the most common settings. You can alter the category / type / IDS fields manually if you disagree with the results. The options will be restricted to valid category/type combinations for the value that you have entered.
+
+If any correlation is already found, these correlations will be displayed in the result page.
 
 ### Attribute Replace Tool
 
@@ -135,7 +137,7 @@ If you would like to propose a modification to an attribute, or to propose some 
 
 ![An attribute with a proposal attached will turn blue and the proposal itself will be grey. If there is a grey proposal without a blue attribute infront of it, it means that someone has proposed a new attribute](figures/proposal.png)
 
-If the organisation that has created the event is on another connected server, they will be able to accept the proposal once they initiate a pull and receive your proposal. After this they can republish the event, sending the altered attribute back to your instance. 
+If the organisation that has created the event is on another connected server, they will be able to accept the proposal once they initiate a pull and receive your proposal. After this they can republish the event, sending the altered attribute back to your instance.
 
 ### Populate from OpenIOC
 
@@ -147,7 +149,7 @@ It is also possible to attempt to import the data contained in a .ioc file, The 
 
 ### Populate from ThreatConnect
 
-You can also import the data from a ThreatConnect export csv file. The following columns are used by the import tool (and are thus mandatory fields to select during the export): 
+You can also import the data from a ThreatConnect export csv file. The following columns are used by the import tool (and are thus mandatory fields to select during the export):
 *   Type
 *   Value
 *   Confidence
@@ -158,16 +160,16 @@ The result will be a list of attributes that get added to the currently selected
 
 ### Adding IOCs from a PDF report
 
-You can You can use a generic script called [IOC parser](https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event: [report_to_misp] (https://github.com/PaloAltoNetworks-BD/report_to_misp/). 
+You can You can use a generic script called [IOC parser](https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event: [report_to_misp] (https://github.com/PaloAltoNetworks-BD/report_to_misp/).
 
 ### Publish an event:
 
 ![Only use publish (no email) for minor changes such as the correction of typos.](figures/publish.png)
 
 Once all the attributes and attachments that you want to include with the event are uploaded / set, it is time to finalise its creation by publishing the event (click on publish event in the event view). This will alert the eligible users of it (based on the private-controls of the event and its attributes/attachments and whether they have auto-alert turned on), push the event to instances that your instance connects to and propagate it further based on the distribution rules. It also readies the network related attributes for NIDS signature creation (through the NIDS signature export feature, for more information, go to the export section.).
-There is an alternate way of publishing an event without alerting any other users, by using the "publish (no email)" button. This should only be used for minor edits (such as correcting a typo). 
+There is an alternate way of publishing an event without alerting any other users, by using the "publish (no email)" button. This should only be used for minor edits (such as correcting a typo).
 
-If your instance has background jobs enabled then the event might not get published immediately. 
+If your instance has background jobs enabled then the event might not get published immediately.
 
 ## Browsing past events:
 
@@ -221,8 +223,8 @@ It is also possible to filter the events shown by clicking on the small magnifyi
 *   **Threat Level:** The assigned threat level of the event.
 *   **Analysis:** The status of the analysis.
 *   **Distribution:** This shows the distribution rules applied to this event, controlling whether only the creating organisation can see (Your organisation only) it or everyone on the instance (This community only). The two remaining settings allow the event to be propagated to organisations on remote connected instances.
-*   **Info:** A short description of the event itself. Make sure not to put information in here that could be used for correlation purposes and be better suited as an Attribute. 
-*   **Published:** Whether the event has been published or not. Publishing allows the attributes of the event to be used for all eligible exports and it notifies users that have subscribed to the event alerts. Also, a publish initiates a push to all eligible instances. 
+*   **Info:** A short description of the event itself. Make sure not to put information in here that could be used for correlation purposes and be better suited as an Attribute.
+*   **Published:** Whether the event has been published or not. Publishing allows the attributes of the event to be used for all eligible exports and it notifies users that have subscribed to the event alerts. Also, a publish initiates a push to all eligible instances.
 
 **List of Related Events**
 The list of relations is shown on the right hand side of the general event information. Events can be related by having one or more attributes that are exact matches. For example, if two events both contain a source IP attribute of 11.11.11.11 then they are related. The list of events that are related the currently shown one, are listed under "Related Events", as links (titled the related event's date and ID number) to the events themselves.
@@ -231,23 +233,23 @@ The list of relations is shown on the right hand side of the general event infor
 You can control some of the data that is shown on this page using three toggles. The elements that can be disabled are the pivot threads, the attributes (and proposals) and the Discussions. You can collapse these elements and then expand them again using the same button.
 
 **Pivot Threads**
-While moving from event to event through the relation links (a process that we refer to as pivoting), you create a path that shows which events you have traversed. This path is reset by leaving the event view and navigating elsewhere in the application or by deleting the root pivot element. 
+While moving from event to event through the relation links (a process that we refer to as pivoting), you create a path that shows which events you have traversed. This path is reset by leaving the event view and navigating elsewhere in the application or by deleting the root pivot element.
 Each event visited is represented by a bubble in the pivot thread graph, connected by lines that show how the user has arrived at the next connected event. It is possible to jump back to an earlier relation and pivot to another event through that, creating branches in the graph.
 The currently selected event is coloured blue in the graph. If you would like to delete an element from the graph (including all of elements that branch off of it) just click on the small x within a pivot bubble. For a deletion to be possible the following conditions have to be met:
 *   The pivot element to be deleted cannot be on the path that leads to the currently selected event
 *   The pivot element residing in the graph's root can always be deleted - this will simply reset the current pivot thread
 
 **Attributes and Proposals**
-A list of all attributes and proposals attached to the event. The fields for each of them only differ in the available actions and the fact that for proposals to attributes all fields are blank that would stay unchanged if the proposal was accepted (for example, proposing a change to an attribute to turn the IDS flag on will have all fields apart from the IDS flag blank in the proposal. Here is a list of what each of the fields represents: 
+A list of all attributes and proposals attached to the event. The fields for each of them only differ in the available actions and the fact that for proposals to attributes all fields are blank that would stay unchanged if the proposal was accepted (for example, proposing a change to an attribute to turn the IDS flag on will have all fields apart from the IDS flag blank in the proposal. Here is a list of what each of the fields represents:
 *   **Date**: The date of the last modification to the attribute. Proposals don't have a date of last edit.
 *   **Category**: The category of the attribute or proposal. For a list of possible categories visit the section on [categories and types](categories-and-types).
 *   **Type**: The type of the attribute or proposal. For a list of possible categories visit the section on [categories and types](categories-and-types).
-*   **Value**: The value or value-pair of the attribute. This is the main payload of the attribute, which is described by the category and type columns. For certain types of attributes that are made up of value-pairs the two parts will be split by a pipe (|), such as for filename|md5. The value field(s) are used by the correlation engine to find relations between events. In value-pair attributes both values are correlated individually. 
-*   **Comment**: Attributes can have a contextual comment to further describe the attribute. These comments are not used for correlation and are purely informative. 
-*   **Related Events**: A list of the event IDs that also contain an attribute with the same value. 
-*   **IDS**: Flags an attribute as an indicator of compromise, allowing it to be included in all of the eligible exports. 
-*   **Distribution**: Defines the distribution of the attribute individually. An attribute can have a different distribution level than the event. In any case, the lowest distribution level of the two is used. 
-*   **Actions**: The user can interact with the events through these buttons, which will be further described in the next portion of the guide as they differ for attributes and proposals. 
+*   **Value**: The value or value-pair of the attribute. This is the main payload of the attribute, which is described by the category and type columns. For certain types of attributes that are made up of value-pairs the two parts will be split by a pipe (|), such as for filename|md5. The value field(s) are used by the correlation engine to find relations between events. In value-pair attributes both values are correlated individually.
+*   **Comment**: Attributes can have a contextual comment to further describe the attribute. These comments are not used for correlation and are purely informative.
+*   **Related Events**: A list of the event IDs that also contain an attribute with the same value.
+*   **IDS**: Flags an attribute as an indicator of compromise, allowing it to be included in all of the eligible exports.
+*   **Distribution**: Defines the distribution of the attribute individually. An attribute can have a different distribution level than the event. In any case, the lowest distribution level of the two is used.
+*   **Actions**: The user can interact with the events through these buttons, which will be further described in the next portion of the guide as they differ for attributes and proposals.
 
 Depending on the colour coding of the row, you can have an attribute, a proposal to the event or a proposal to an attribute:
 *   **Attributes**: Each uncoloured line represents an Attribute.
@@ -258,14 +260,14 @@ Using the modify button will bring up the attribute creation view, with all data
 
 **Event Discussion Thread**
 
-Each event has its own assigned discussion where users (that are eligible to see the event) can participate in an open discussion. The users are anonymised in the messages, all that other users will see is their user ID number and their organisation. To post a message on the Event Discussion, either use the reply button on a previous post or use the quickresponse field at the bottom of the page. 
+Each event has its own assigned discussion where users (that are eligible to see the event) can participate in an open discussion. The users are anonymised in the messages, all that other users will see is their user ID number and their organisation. To post a message on the Event Discussion, either use the reply button on a previous post or use the quickresponse field at the bottom of the page.
 Each post is made up of the following:
 *   **Date:**The date when the post was created.
 *   **Post navigation:**This should the post's ID as well as a link to jump to the top of the discussion thread on the page itself.
 *   **Organisation logo:**If such an image exists for the organisation that has posted the message, then the logo is shown.
 *   **Message:**The body of the post itself. This can also include automatically generated links to other events and threads as well as show quoted test in embedded bubbles. Editing an event will also append a post with a message indicating that it was edited together with the timestamp of the edit.
 *   **User:**The e-mail address of the poster if he/she is from the organisation as the current user. Alternatively a generated sting is shown that includes the user ID of the user, so that his/her e-mail address could remain hidden whilst still being identifiable.
-*   **Action buttons:**Edit, Delete and Reply. The first two of the three options are only available to the poster of the message or a site admin. Quoting a post will automatically include the original message in [quote] tags. 
+*   **Action buttons:**Edit, Delete and Reply. The first two of the three options are only available to the poster of the message or a site admin. Quoting a post will automatically include the original message in [quote] tags.
 
 Here is a list of the various tools you can use while using this feature:
 *   **Pagination:** There are 5 posts visible on each event page, if there have been more messages posted, use the previous and next button to navigate through the thread. This will not reload the rest of the page.
@@ -273,13 +275,13 @@ Here is a list of the various tools you can use while using this feature:
 *   **Quick Post:** Adding a post will take the user to a separate add Post page, something that can be a bit of an inconvenience. To avoid this, there is a quick post button, where users can add messages on the fly without having to reload the page. On top of the quick post field, 3 buttons allow users to generate quote, event and thread tags quickly.
 
 
-### Event History: 
+### Event History:
 
 View the logs of the event that show how the event has changed over time, including the contribution from other organisations in the form of proposals. There are two ways to get to this view, either by clicking on View Event History on the side menu of an event view, or by clicking on a contribing organisation's logo on the event view. The latter will show a restricted form of the logs, showing only Proposals created by the selected organisation. The fields shown in this view are as described as follows:
 *   **Org**: The logo (or in the lack thereof a string representation) of the organisation.
-*   **Action**: Each entry in the log happens during an action, such as the creation, modification or deletion of data and some special actions (such as accepting a proposal). This field shows which action caused the entry to be created. 
+*   **Action**: Each entry in the log happens during an action, such as the creation, modification or deletion of data and some special actions (such as accepting a proposal). This field shows which action caused the entry to be created.
 *   **Model**: As described above, a log entry is generated on certain actions. This field shows which type of data was affected that caused the log entry to be created (such as a change to the event, the creation of an attribute, the discarding of a proposal, etc).
-*   **Title**: This is a short description of the change itself and it is not nearly as detailed as the information administrators get in the audit logs. However, for attributes and proposals the category / type and value of the created or edited attribute is shown. 
+*   **Title**: This is a short description of the change itself and it is not nearly as detailed as the information administrators get in the audit logs. However, for attributes and proposals the category / type and value of the created or edited attribute is shown.
 *   **Created**: The date and time of the log entry's creation.
 
 ### Listing all attributes:
@@ -361,7 +363,7 @@ The following fields have to be filled out:
 The following fields have to be filled out:
 *   **Name**: The field name that will be presented to the user.
 *   **Description**: A brief description of the element. Make sure that you provide sufficient information to the user to make it obvious what is expected.
-*   **Category**: The category to be used by all attachments uploaded through this element. 
+*   **Category**: The category to be used by all attachments uploaded through this element.
 *   **Malware**: If the uploaded files are malicious and should be encrypted and password protected, mark this checkbox.
 *   **Mandatory element**: If it should be required to upload an attachment, check this checkbox.
 *   **Batch import element**: Ticking this checkbox allows users to upload several files using this element.
@@ -381,7 +383,7 @@ Once the event is found and the event view opened, click the button titled "Cont
 
 ![Enter your message to the reporter and choose whether his/her entire organisation should get the message or not by ticking the check-box.](figures/contact_reporter.png)
 
-By default, the message will be sent to every member of the organisation that posted the event in the first place, but if you tick the check-box below the message field before sending the mail, only the person that reported the event will get e-mailed. 
+By default, the message will be sent to every member of the organisation that posted the event in the first place, but if you tick the check-box below the message field before sending the mail, only the person that reported the event will get e-mailed.
 
 ## Automation:
 It is possible to quickly and conveniently export the data contained within the system using the automation features located in the main menu on the left (available to users with authentication key access only). There are various sets of data that can be exported, by using the authentication key provided by the system (also shown on the export page). If for whatever reason you would need to invalidate your current key and get a new one instead (for example due to the old one becoming compromised) just hit the reset link next to the authentication key in the export view or in your "my profile" view.
@@ -406,17 +408,17 @@ You may have noticed that the TEXT export only has a generate button - this is b
 A quick description of each of the fields in the table:
 *   **Type**: The type of the export (such as XML, Suricata, MD5, etc.).
 *   **Last Update**: The generation date of the current cache for the given export type.
-*   **Description**: A description of the export format. 
-*   **Outdated**: This compares the cache generation date to the last timestamp when an event was updated and lets you know whether the cache is outdated or not. 
+*   **Description**: A description of the export format.
+*   **Outdated**: This compares the cache generation date to the last timestamp when an event was updated and lets you know whether the cache is outdated or not.
 *   **Progress**: Shows the progress of the last initiated generation process.
-*   **Actions**: Download or Generate the given cache with these buttons. 
+*   **Actions**: Download or Generate the given cache with these buttons.
 
 ![Use the export features here to quickly download data in various formats](figures/export_bg.png)
 
 #### Exporting search results and individual events
 Apart from the options offered by the export pages, it's also possible to export all events involved in a search attribute result table, by using the "Download results as XML" button on the left menu bar.
 
-![Download a .xml from all the events that are shown through an attribute in the search results.](figures/export_search.png) 
+![Download a .xml from all the events that are shown through an attribute in the search results.](figures/export_search.png)
 
 Each event's view has its own export feature, both as an XML export and as a .ioc file. To reach these features, just navigate to an event and use the appropriate buttons on the right side.
 
@@ -440,7 +442,7 @@ In order to share data with a remote server via pushes and pulls, you need to re
 *   **Self Signed:** Ticking this checkbox will allow syncing with instances using self-signed certificates.
 *   **Certificate File:** If the instance that you want to connect to has their entire own certificate chain, you can use this to import a .pem file with it and override CakePHP's standard root CA file.
 
-**If you are an administrator**, trying to allow another instance to connect to your own, it is vital that two rules are followed when setting up a synchronisation account: 
+**If you are an administrator**, trying to allow another instance to connect to your own, it is vital that two rules are followed when setting up a synchronisation account:
 *   The synchronisation user has to have the sync permission and full read/write/publish privileges turned on
 *   Both the sync user and the organisation setting in your instance's Config/bootstrap.php file have to match the organisation identifier of the hosting organisation.
 
@@ -650,8 +652,3 @@ The respone from requesting an invalid page
 	<url>/The_meaning_of_life</url>
 </response>
 ```
-
-
-
-
-

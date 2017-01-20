@@ -136,8 +136,20 @@ https://<misp url>/events/csv/download
 
 You can specify additional flags for CSV exports as follows:
 
+POST to: 
 ~~~~
-https://<misp url>/events/csv/download/[eventid]/[ignore]/[tags]/[category]/[type]/[includeContext]/[from]/[to]/[last]
+https://<misp url>/events/csv/download
+~~~~
+
+Headers: 
+~~~~
+Authorization: <your auth key>
+Content-type: application/json
+~~~~
+
+Body:
+~~~~json
+{"parameter1":"value1", "parameter2":1, "parameter3":["value3", "value4", "!value5"]}
 ~~~~
 
 <dl>
@@ -146,19 +158,7 @@ https://<misp url>/events/csv/download/[eventid]/[ignore]/[tags]/[category]/[typ
 <dt>ignore</dt>
 <dd>Setting this flag to true will include attributes that are not marked "to_ids".</dd>
 <dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
-</dl>
-
-For example, to include tag1 and tag2 but exclude tag3 you would use:
-
-For example, to only download a csv generated of the "domain" type and the "Network activity" category attributes all events except for the one and further restricting it to events that are tagged "tag1" or "tag2" but not "tag3", only allowing attributes that are IDS flagged use the following syntax:
-
-~~~~
-https://<misp url>/events/csv/download/false/false/tag1&&tag2&&!tag3/Network%20activity/domain
-~~~~
-
-<dl>
+<dd>Simply add a list of tags that should be included or negated (by prepending the tag name with a "!"). Any event with a negated tag will be ignored, even if an included tag is matching. An example is included further down.</dd>
 <dt>category</dt>
 <dd>The attribute category, any valid MISP attribute category is accepted.</dd>
 <dt>type</dt>
@@ -173,10 +173,30 @@ https://<misp url>/events/csv/download/false/false/tag1&&tag2&&!tag3/Network%20a
 <dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 </dl>
 
-The keywords false or null should be used for optional empty parameters in the URL.
+For example, to only download a csv generated of the "domain" type and the "Network activity" category attributes all events except for the one and further restricting it to events that are tagged "tag1" or "tag2" but not "tag3", only allowing attributes that are IDS flagged use the following syntax:
 
+POST to: 
+~~~~
+https://<misp url>/events/csv/download
+~~~~
+
+Headers: 
+~~~~
+Authorization: <your auth key>
+Content-type: application/json
+~~~~
+
+Body:
+~~~~json
+{"tags":["tag1", "tag2", "!tag3"], "category":"Network activity", "type": "domain"}
+~~~~
+
+Alternatively you can fall back to the deprecated syntax of passing parameters in a GET request via the URL, however this is discouraged:
+~~~~
+https://<misp url>/events/csv/download/[eventid]/[ignore]/[tags]/[category]/[type]/[includeContext]/[from]/[to]/[last]
+~~~~
+If you use the deprecated URL parameter method, keep in mind that the keywords false or null should be used for optional empty parameters.
 To export the attributes of all events that are of the type "domain", use the following syntax:
-
 ~~~~
 https://<misp url>/events/csv/download/false/false/false/false/domain
 ~~~~
@@ -487,7 +507,7 @@ To restrict the results by tags, use the usual syntax. Please be aware the colon
 https://<misp url>/attributes/text/download/ip-src/tag1&&
 ~~~~
 
-As of version 2.3.38, it is possible to restrict the text exports on two additional flags. The first allows the user to restrict based on event ID,
+It is possible to restrict the text exports on additional flags. The first allows the user to restrict based on event ID,
 whilst the second is a boolean switch allowing non IDS flagged attributes to be exported. Additionally, choosing "all" in the type field will return
 all eligible attributes.
 
@@ -500,6 +520,14 @@ https://<misp url>/attributes/text/download/[type]/[tags]/[event_id]/[allowNonID
 <dd>The attribute type, any valid MISP attribute type is accepted.</dd>
 <dt>tags</dt>
 <dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
+<dt>allowNonIDS</dt>
+<dd>Include attributes that would normally be excluded due to the IDS flag not being set or due to being whitelisted</dd>
+<dt>from</dt>
+<dd>Set the lowest "date" field value that should be included in the export (format YYYY-MM-DD)</dd>
+<dt>to</dt>
+<dd>Set the highest "date" field value that should be included in the export (format YYYY-MM-DD)</dd>
+<dt>last</dt>
+<dd>Set the timeframe of the export based on the "timestamp" value. The parameter uses a time + metric notation (valid examples: "2w", "60m", "24h")</dd>
 </dl>
 
 For example, to include tag1 and tag2 but exclude tag3 you would use:
@@ -536,7 +564,7 @@ It is possible to search the database for attributes based on a list of criteria
 To return an event with all of its attributes, relations, shadowAttributes, use the following syntax:
 
 ~~~~
-https://<misp url>/events/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]
+https://<misp url>/events/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
 ~~~~
 
 <dl>
@@ -570,6 +598,10 @@ https://<misp url>/events/restSearch/download/null/null/null/null/tag1&&tag2&&!t
 <dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 <dt>eventid</dt>
 <dd>The events that should be included / excluded from the search</dd>
+<dt>withAttachments</dt>
+<dd>Include the attachments/encrypted samples in the export</dd>
+<dt>metadata</dt>
+<dd>Only fetch the event metadata (event data, tags, relations) and skip the attributes</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
@@ -614,13 +646,15 @@ To just return a list of attributes, use the following syntax:
 <dt>last</dt>
 <dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
 <dt>eventid</dt>
-<dd>The events that should be included / excluded from the search</dd>
+<dd>The events that should be included / excluded from the search.</dd>
+<dt>uuid</dt>
+<dd>The returned events must include an attribute with the given UUID, or alternatively the event's UUID must match the value(s) passed.</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
 
 ~~~~
-https://<misp url>/attributes/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[from]/[to]/[last]/[eventid]
+https://<misp url>/attributes/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[from]/[to]/[last]/[eventid]/[withattachments]/[uuid]
 ~~~~
 
 Value, type, category and org are optional. It is possible to search for several terms in each category by joining them with the '&&' operator. It is
@@ -651,6 +685,58 @@ sigOnly is an optional flag that will block all attributes from being exported t
 ~~~~
 https://<misp url>/attributes/returnAttributes/download/25/md5&&sha256&&!filename/true
 ~~~~
+
+## Filtering event metadata
+
+As described in the REST section, it is possible to retrieve a list of events along with their metadata by sending a GET request to the /events API. However, this API in particular is a bit more versatile. You can pass search parameters along to search among the events on various fields and retrieve a list of matching events (along with their metadata). Use the following URL:
+
+~~~~
+https://<misp url>/events/index 
+~~~~
+
+POST a JSON object with the desired lookup fields and values to receive a JSON back.
+An example for a valid lookup:
+
+~~~~
+Authorization: <your API key>
+Accept: application/json
+Content-type: application/json
+~~~~
+
+Body: 
+
+~~~~json
+{"searchinfo":"Locky", "searchpublished":1, "searchdistribution":0}
+~~~~
+
+
+The list of valid parameters:
+<dl>
+<dt>searchpublished:</dt>
+<dd>Filters on published or unpulished events [0,1] - negatable</dd>
+<dt>searchinfo:</dt>
+<dd>Filters on strings found in the event info - negatable</dd>
+<dt>searchtag:</dt>
+<dd>Filters on attached tag names - negatable</dd>
+<dt>searcheventid:</dt>
+<dd>Filters on specific event IDs - negatable</dd>
+<dt>searchthreatlevel:</dt>
+<dd>Filters on a given event threat level [1,2,3,4] - negatable</dd>
+<dt>searchdistribution:</dt>
+<dd>Filters on the distribution level [0,1,2,3] - negatable</dd>
+<dt>searchanalysis:</dt>
+<dd>Filters on the given analysis phase of the event [0,1,2,3] - negatable</dd>
+<dt>searchattribute:</dt>
+<dd>Filters on a contained attribute value - negatable</dd>
+<dt>searchorg:</dt>
+<dd>Filters on the creator organisation - negatable</dd>
+<dt>searchemail:</dt>
+<dd>Filters on the creator user's email address (admin only) - negatable</dd>
+<dt>searchDatefrom:</dt>
+<dd>Filters on the date, anything newer than the given date in YYYY-MM-DD format is taken - non-negatable</dd>
+<dt>searchDateuntil:</dt>
+<dd>Filters on the date, anything older than the given date in YYYY-MM-DD format is taken - non-negatable</dd>
+</dl>
 
 ## Download attachment or malware sample
 
@@ -793,6 +879,32 @@ XML:
 
 None of the above fields are mandatory, but at least one of them has to be provided.
 
+## Sharing groups
+
+MISP allows sharing groups to be retrieved via the API.
+
+~~~~
+https://<misp url>/sharing_groups/index.json
+~~~~
+
+Based on the API key used, the list of visible sharing groups will be returned in a JSON file. The JSON includes the organization parts of a given sharing group along with the associated server.
+
+## Enable and disable feeds via the API
+
+The MISP feeds can be enabled via the API.
+
+A feed can be enabled by POSTing on the following url (feed_id is the id of the feed):
+
+~~~~
+/feeds/enable/feed_id
+~~~~
+
+A feed can be disabled by POSTing on the following url (feed_id is the id of the feed):
+
+~~~~
+/feeds/disable/feed_id
+~~~~
+
 ## Sightings API
 
 MISP allows Sightings data to be conveyed in several ways. 
@@ -906,7 +1018,7 @@ An example STIX sightings document:
 </stix:STIX_Package>
 ~~~~
 
-POSTing this as the message's body to MISP will sight any attributes visible to the user witht he value "malicious2.example.com". For composite types, a match on a component will also trigger a sighting (so for example for attributes of type domain|ip a domain match would be sufficient).
+POSTing this as the message's body to MISP will sight any attributes visible to the user with he value "malicious2.example.com". For composite types, a match on a component will also trigger a sighting (so for example for attributes of type domain|ip a domain match would be sufficient).
 
 If no Related observables are set in the Sighting itself, MISP will fall back to the observable directly contained in the indicator. So in the following example:
 
@@ -964,6 +1076,176 @@ If no Related observables are set in the Sighting itself, MISP will fall back to
 
 MISP would create sightings for attributes matching any of the following: malicious1.example.com, malicious2.example.com, malicious3.example.com
 
+# Describe types API
+
+MISP can procedurally describe all attribute types and attribute categories it currently supports including the category - type mappings. To access this information simply send a GET request to:
+
+~~~~
+https://<misp url>/attributes/describeTypes
+~~~~
+
+Depending on the headers passed the returned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
+
+# Attribute statistics API
+
+If you are interested in the attribute type or attribute category data distribution on your instance, MISP offers an API that will create an aggregates list. To access the API, simple sent a GET request to:
+
+~~~~
+https://<misp url>/attributes/attributeStatistics/[context]/[percentage]
+~~~~
+
+Where the following parameters can be set:
+
+<dl>
+<dt>Context</dt>
+<dd>Set whether you are interested in the type or category statistics of your instance. This parameter can be either set to "type" or "category", with type being the default setting if the parameter is not set.</dd>
+<dt>Percentage</dt>
+<dd>An optional field, if set, it will return the results in percentages instead of the count.</dd>
+</dl>
+
+The results are always returned as JSON.
+
+Sample output of the types in percentages from CIRCL's MISP instance:
+
+~~~~json
+{
+    "AS": "0.015%",
+    "attachment": "0.177%",
+    "btc": "0.005%",
+    "campaign-name": "0.005%",
+    "comment": "1.47%",
+    "domain": "15.992%",
+    "domain|ip": "0.005%",
+    "email-attachment": "0.207%",
+    "email-dst": "0.121%",
+    "email-src": "0.192%",
+    "email-subject": "0.146%",
+    "filename": "3.698%",
+    "filename|md5": "0.349%",
+    "filename|sha1": "0.894%",
+    "filename|sha256": "0.652%",
+    "hostname": "17.558%",
+    "http-method": "0.045%",
+    "ip-dst": "7.087%",
+    "ip-src": "2.707%",
+    "link": "5.748%",
+    "malware-sample": "0.702%",
+    "malware-type": "0.005%",
+    "md5": "21.064%",
+    "mutex": "0.278%",
+    "named pipe": "0.03%",
+    "other": "1.495%",
+    "pattern-in-file": "0.192%",
+    "pattern-in-memory": "0.303%",
+    "pattern-in-traffic": "0.051%",
+    "regkey": "0.126%",
+    "regkey|value": "0.187%",
+    "sha1": "8.921%",
+    "sha256": "5.597%",
+    "snort": "0.045%",
+    "target-machine": "0.248%",
+    "target-org": "0.01%",
+    "target-user": "0.106%",
+    "text": "0.934%",
+    "threat-actor": "0.005%",
+    "url": "2.258%",
+    "user-agent": "0.081%",
+    "vulnerability": "0.182%",
+    "whois-registrant-email": "0.01%",
+    "x509-fingerprint-sha1": "0.01%",
+    "yara": "0.086%"
+}
+~~~~
+
+# User management
+
+MISP allows administrators to create and manage users via its REST API
+
+The API is available in JSON format so make sure you use the following headers:
+
+~~~~
+Authorization: [Your auth key]
+Content-type: application/json
+Accept: application/json
+
+~~~~
+
+To fetch all users send a GET request to:
+
+~~~~
+https://<misp url>/admin/users
+~~~~
+
+To view a user simply send a GET request to the following url:
+
+~~~~
+https://<misp url>/admin/users/view/[user id]
+~~~~
+
+To create a new user, send a POST request to:
+
+~~~~
+https://<misp url>/admin/users/add
+~~~~
+
+Sample input:
+
+~~~~
+{
+    "email":"andras.iklody@circl.lu",
+    "org\_id":1,
+    "role\_id":1
+}
+~~~~
+
+To view the mandatory and optional fields, use a GET request on the above URL.
+
+Sample output:
+
+~~~~
+{
+    "name": "\/admin\/users\/add API description",
+    "description": "POST a User object in JSON format to this API to create a new user.",
+    "mandatory_fields": [
+        "email",
+        "org_id",
+        "role_id"
+    ],
+    "optional_fields": [
+        "password",
+        "external_auth_required",
+        "external_auth_key",
+        "enable_password",
+        "nids_sid",
+        "server_id",
+        "gpgkey",
+        "certif_public",
+        "autoalert",
+        "contactalert",
+        "disabled",
+        "change_pw",
+        "termsaccepted",
+        "newsread"
+    ],
+    "url": "\/admin\/users\/add"
+}
+~~~~
+
+To edit an existing user send a POST request to: 
+
+~~~~
+https://<misp url>/admin/users/edit/[user id]
+~~~~
+
+Only the fields POSTed will be updated, the rest is left intact. To view all possible parameters, simply send a GET request to the above URL.
+
+
+You can also delete users by POSTing to the below URL, but keep in mind that disabling users (by setting the disabled flag via an edit) is always prefered to keep user associations to events intact.
+
+~~~~
+https://<misp url>/admin/users/delete/[user id]
+~~~~
+
 # Automation using PyMISP
 
 PyMISP is a Python library to access MISP platforms via their REST API.
@@ -971,5 +1253,4 @@ PyMISP is a Python library to access MISP platforms via their REST API.
 PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
 
 [PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
-
 

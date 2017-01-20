@@ -10,6 +10,8 @@ install:
     - npm install gitbook-plugin-autocover
     - npm install gitbook-plugin-github
     - npm install gitbook-plugin-toc
+    - npm install gitbook-plugin-anchors
 
 script:
+    - gitbook install
     - gitbook build
