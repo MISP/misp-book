@@ -1246,6 +1246,99 @@ You can also delete users by POSTing to the below URL, but keep in mind that dis
 https://<misp url>/admin/users/delete/[user id]
 ~~~~
 
+# Organisation management
+
+MISP allows administrators to create and manage organisations via its REST API
+
+The API is available in JSON format so make sure you use the following headers:
+
+~~~~
+Authorization: [Your auth key]
+Content-type: application/json
+Accept: application/json
+~~~~
+
+To fetch all organisations send a GET request to:
+
+~~~~
+https://<misp url>/organisations
+~~~~
+
+To view an individual organisation, send a get request to:
+
+~~~~
+https://<misp url>/organisations/view/id
+~~~~
+
+The management of users happens via three apis:
+
+~~~
+https://<misp url>/admin/organisations/add
+https://<misp url>/admin/organisations/edit/[org id]
+https://<misp url>/admin/organisations/delete/[org id]
+~~~
+
+To delete an organisation simply send a POST or DELETE request to the above URL.
+
+For creating or modifying an organisation, simply POST a JSON containing the relevant fields to the appropriate API. The only mandatory field is the organisation name, with a host of optional parameters
+
+An example for a simple organisation object:
+
+~~~
+{
+    "name": "Blizzard",
+    "nationality": "US"
+}
+~~~
+
+Not setting a field will assume the default settings for the given field in the case of a new organisation whilst it would retain the existing setting for existing organisations. The above example would create the following object in MISP:
+
+~~~
+{
+    "Organisation": {
+        "id": "1108",
+        "name": "Blizzard",
+        "alias": "",
+        "anonymise": false,
+        "date_created": "2017-01-22 17:32:29",
+        "date_modified": "2017-01-22 17:32:29",
+        "description": "",
+        "type": "",
+        "nationality": "US",
+        "sector": "",
+        "created_by": "1",
+        "uuid": "5884de9d-04f0-4d7d-bf15-0b88c0a83865",
+        "contacts": "",
+        "local": true,
+        "landingpage": ""
+    }
+}
+~~~
+
+To query the add or edit APIs for the valid parameters, simply send a GET requests to either API. The result currently looks like this (which might change when new fields are added):
+
+~~~
+{
+    "name": "\/admin\/organisations\/add API description",
+    "description": "POST an Organisation object in JSON format to this API to create a new organsiation.",
+    "mandatory_fields": [
+        "name"
+    ],
+    "optional_fields": [
+        "anonymise",
+        "description",
+        "type",
+        "nationality",
+        "sector",
+        "uuid",
+        "contacts",
+        "local"
+    ],
+    "url": "\/admin\/organisations\/add"
+}
+~~~
+
+
 # Automation using PyMISP
 
 PyMISP is a Python library to access MISP platforms via their REST API.
