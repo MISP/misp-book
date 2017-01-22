@@ -12,4 +12,5 @@
 * [Taxonomies](taxonomy/README.md)
 * [Galaxies](galaxy/README.md) - in progress
 * [Categories and Types](categories-and-types/README.md)
+* [Synchronisation/Sharing](sharing/README.md)
 * [Appendices](appendices/README.md)
