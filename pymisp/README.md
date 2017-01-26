@@ -32,7 +32,7 @@ pip install pymisp
 
 #### Install the lastest version from repo
 ~~~~
-git clone https://github.com/CIRCL/PyMISP.git && cd PyMISP
+git clone https://github.com/MISP/PyMISP.git && cd PyMISP
 python setup.py install
 ~~~~
 
@@ -54,7 +54,7 @@ https://<misp url>/users/view/me
 
 If you did not install using the repository, you can still fetch it to get examples to work on:
 ~~~~
-git clone https://github.com/CIRCL/PyMISP.git
+git clone https://github.com/MISP/PyMISP.git
 ~~~~
 
 In order to use these, you need to create a file named keys.py in the examples folder and edit it to put the url of your MISP instance and your automation key.
