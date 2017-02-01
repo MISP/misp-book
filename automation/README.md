@@ -1338,6 +1338,27 @@ To query the add or edit APIs for the valid parameters, simply send a GET reques
 }
 ~~~
 
+# Discussion API
+
+If you would like to fetch a discussion thread including all of its posts, simply send a GET request to:
+
+~~~~
+https://<misp url>/threads/view/<thread id>
+~~~~
+
+Using the following headers:
+
+~~~~
+Authorization: [Your auth key]
+Content-type: application/json
+Accept: application/json
+~~~~
+
+To get all posts related to an event simply send a GET request to:
+
+~~~~
+https://<misp url>/threads/viewEvent/<event id>
+~~~~
 
 # Automation using PyMISP
 
