@@ -1157,6 +1157,39 @@ Sample output of the types in percentages from CIRCL's MISP instance:
 }
 ~~~~
 
+# Additional statistics
+
+Additional statistics are available as JSON which are the statistics also usable via the user interface. A ".json" can be appended
+to the following URLs:
+
+
+- https://<misp url>/users/statistics/tags.json
+- https://<misp url>/users/statistics.json
+- https://<misp url>/users/statistics/attributehistogram.json
+- https://<misp url>/users/statistics/orgs.json
+
+
+An example output of https://<misp url>/users/statistics.json:
+
+~~~~
+{
+    "stats": {
+        "event_count": 5233,
+        "event_count_month": 21,
+        "attribute_count": 645498,
+        "attribute_count_month": 723,
+        "correlation_count": 207152,
+        "proposal_count": 48944,
+        "user_count": 1073,
+        "org_count": 587,
+        "thread_count": 191,
+        "thread_count_month": 0,
+        "post_count": 337,
+        "post_count_month": 0
+    }
+}
+~~~~
+
 # User management
 
 MISP allows administrators to create and manage users via its REST API
