@@ -17,9 +17,11 @@ The MISP user guide is a collaborative effort between all the contributors to [M
 - Cthulhu Solutions
 - [CERT-EU](https://cert.europa.eu)
 
+and many other contributors especially the ones during the MISP hackathons.
+
 ## Contributing
 
-We welcome contributions to the MISP book. If you want to contribute, clone the [misp-book](https://github.com/MISP/misp-book) repository and pull a request with your changes.
+We welcome contributions to the MISP book. If you want to contribute, clone the [misp-book](https://github.com/MISP/misp-book) repository and pull a request with your changes. You can also [open issues](https://github.com/MISP/misp-book/issues) if you find any errors or propose changes.
 
 ## License
 
@@ -28,7 +30,7 @@ The MISP user guide is dual-licensed under [GNU Affero General Public License ve
 * Copyright (C) 2012 Christophe Vandeplas
 * Copyright (C) 2012 Belgian Defence
 * Copyright (C) 2012 NATO / NCIRC
-* Copyright (C) 2013-2016 Andras Iklody
-* Copyright (C) 2015-2016 Alexandre Dulaunoy
-* Copyright (C) 2014-2016 CIRCL - Computer Incident Response Center Luxembourg
+* Copyright (C) 2013-2017 Andras Iklody
+* Copyright (C) 2015-2017 Alexandre Dulaunoy
+* Copyright (C) 2014-2017 CIRCL - Computer Incident Response Center Luxembourg
 
