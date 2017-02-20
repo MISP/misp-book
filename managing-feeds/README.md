@@ -1,5 +1,14 @@
 <!-- toc -->
 
+# Feeds
+
+Feeds are remote or local resources containing indicators that can be automatically imported in MISP at regular intervals.
+Feeds can be structured in MISP format, CSV format or even free-text format. You can easily import any remote or local URL
+to store them in your MISP instance. It's a simple way to many external sources of information without any programming skills.
+
+Feeds description can be also easily shared among different MISP instances as you can export a feed description as JSON 
+and import it back in another MISP instance.
+
 ## Managing feeds
 
 :warning: You need to be at least site admin to perform these actions.
