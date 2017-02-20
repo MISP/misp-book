@@ -35,24 +35,24 @@ Here you will have access to a dynamic form. Let's check each field by order.
 
   * Freetext Parsed Feed:  
 ![Freetext Parsed Feed](./figures/freetextparsedfeed.png)
-   * Target Event: Which will be the event getting updated with the data from the feed. Can be either "New Event Each Pull" (A new event will be created each time the feed is pulled) or "Fixed Event" (A unique event will be updated with the new data. This event is determined by the next field)  
-![Target Event](./figures/targetevent.png)
-   * Target Event ID: The id of the event where the data will be added (if not set, the field will be set the first time the feed is fetched) 
-   * Exclusion Regex: Add a regex pattern for detecting iocs that should be skipped (this can be useful to exclude any references to the actual report / feed for example)
-   * Auto Publish: If checked, events created thanks to the feed will be automatically published
-   * Override IDS Flag: If checked, the IDS flag will be set to false
-   * Delta Merge: If checked, only data coming from the last fetch are kept, the old ones are deleted.
+    * Target Event: Which will be the event getting updated with the data from the feed. Can be either "New Event Each Pull" (A new event will be created each time the feed is pulled) or "Fixed Event" (A unique event will be updated with the new data. This event is determined by the next field)  
+![Target Event](./figures/targetevent.png)  
+    * Target Event ID: The id of the event where the data will be added (if not set, the field will be set the first time the feed is fetched) 
+    * Exclusion Regex: Add a regex pattern for detecting iocs that should be skipped (this can be useful to exclude any references to the actual report / feed for example)
+    * Auto Publish: If checked, events created thanks to the feed will be automatically published
+    * Override IDS Flag: If checked, the IDS flag will be set to false
+    * Delta Merge: If checked, only data coming from the last fetch are kept, the old ones are deleted.
 
   * Simple CSV Parsed Feed:  
-![Simple CSV Parsed Feed](./figures/simplecsvparsedfeed.png)
-   * Target Event: Which will be the event getting updated with the data from the feed. Can be either "New Event Each Pull" (A new event will be created each time the feed is pulled) or "Fixed Event" (A unique event will be updated with the new data. This event is determined by the next field)  
-   * Target Event ID: The id of the event where the data will be added (if not set, the field will be set the first time the feed is fetched) 
-   * Exclusion Regex: Add a regex pattern for detecting iocs that should be skipped (this can be useful to exclude any references to the actual report / feed for example)
-   * Value field(s) in the CSV: Select one or several fields that should be parsed by the CSV parser and converted into MISP attributes
-   * Delimiter: Set the default CSV delimiter (default = ",")
-   * Auto Publish: If checked, events created thanks to the feed will be automatically published
-   * Override IDS Flag: If checked, the IDS flag will be set to false
-   * Delta Merge: If checked, only data coming from the last fetch are kept, the old ones are deleted.
+![Simple CSV Parsed Feed](./figures/simplecsvparsedfeed.png)  
+    * Target Event: Which will be the event getting updated with the data from the feed. Can be either "New Event Each Pull" (A new event will be created each time the feed is pulled) or "Fixed Event" (A unique event will be updated with the new data. This event is determined by the next field)  
+    * Target Event ID: The id of the event where the data will be added (if not set, the field will be set the first time the feed is fetched) 
+    * Exclusion Regex: Add a regex pattern for detecting iocs that should be skipped (this can be useful to exclude any references to the actual report / feed for example)
+    * Value field(s) in the CSV: Select one or several fields that should be parsed by the CSV parser and converted into MISP attributes
+    * Delimiter: Set the default CSV delimiter (default = ",")
+    * Auto Publish: If checked, events created thanks to the feed will be automatically published
+    * Override IDS Flag: If checked, the IDS flag will be set to false
+    * Delta Merge: If checked, only data coming from the last fetch are kept, the old ones are deleted.
 
 * Distribution: Define the distribution option that will be set on the event created by the feed
 
