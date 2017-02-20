@@ -23,8 +23,7 @@ Here you will have access to a dynamic form. Let's check each field by order.
 * Input Source: Where does the input come from  
 ![Input Source](./figures/inputsource.png)  
   * Network: hosted somewhere outside the platform
-  * Local: Hosted on the local server. On this case, a new choice will appear:
-   * Remove input after ingestion: As implied, if checked, the source is deleted after usage
+  * Local: Hosted on the local server. On this case, a new checkbox "Remove input after ingestion" will appear. If checked, the source is deleted after usage.  
 ![Remove Input](./figures/removeinput.png)
 
 * Url: Url of the feed, where it is located
