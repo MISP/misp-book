@@ -5,6 +5,7 @@
 * [General Concepts](general-concepts/README.md)
 * [User Management and Global Actions](user-management/README.md)
 * [Using the System](using-the-system/README.md)
+* [Delegation of Event](delegation/README.md)
 * [Administration](administration/README.md)
 * [Managing feeds](managing-feeds/README.md)
 * [Automation and MISP API](automation/README.md)
