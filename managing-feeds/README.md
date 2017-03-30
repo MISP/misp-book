@@ -12,7 +12,8 @@ and import it back in another MISP instance.
 
 ## Managing feeds
 
-:warning: You need to be at least site admin to perform these actions.
+>[warning] A site admin role is required to perform these actions.
+
 To do so, you first need to access the list of feeds, using the top menu.
 
 ![List feeds menu](./figures/listfeeds.png)
