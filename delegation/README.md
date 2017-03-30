@@ -13,7 +13,7 @@ When the "Delegate Publishing" option is clicked, a popup will show up:
 ![Delegation Popup](./figures/delagationpopup.png)  
 Here you can choose 
 - to which organisation you wish to delegate the event among all those registered on the server. For this example we are going to ask Setec Astronomy to publish the event for us.
-- The distribution option you would like to put on the event. You can let the other organisation (called "recipient") choose if you don't mind it. For this example, we will request the recipient to share it to all communities, but it is only a suggestion, and the recipient will be able to modify the diffusion setting if wanted.
+- The distribution option you would like to put on the event. You can let the other organisation (called "recipient") choose if you don't mind it. For this example, we will request the recipient to share it to all communities, but it is only a suggestion, and the recipient will be able to modify the diffusion setting if wanted.  
 ![Desired Distribution](./figures/desireddistribution.png)  
 - Finally you can leave a free message to the recipient organisation.  
 ![Distribution ready](./figures/delegationpopup2.png)
