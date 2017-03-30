@@ -8,6 +8,9 @@
     "pluginsConfig": {
         "github": {
                 "url": "https://github.com/MISP/"
+        },
+        "twitter": {
+                "url": "https://www.twitter.com/MISPProject/"
         }
 }
 }
