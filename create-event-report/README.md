@@ -1,6 +1,6 @@
 ## Create an event based on a report
 
-:warning: We need specific permission to create an event. 
+> [warning] A specific permission is required to create an event.
 
 For this example, we will use a report found on [Bleeping Computer](http://www.bleepingcomputer.com/news/security/researcher-finds-the-karma-ransomware-being-distributed-via-pay-per-install-network/), so considered as OSINT.
 
