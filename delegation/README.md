@@ -1,6 +1,11 @@
 # Delegation
 
-In information sharing, privacy of the reporting organisation can be important in case such as an incident doesn't to be linked to a potential victim or to avoid the relation of an organisation to the information shared. MISP has a functionality to delegate the publication and completely remove the binding between the information sharing and the organisation. If you want to publish an event without you or your organisation being tied to it, you can delegate the publication to an other organisation. That also means they will take the ownership of the event.
+In information sharing, privacy of the reporting organisation can be important in case such as:
+
+- an incident doesn't to be linked to a potential victim
+- to avoid the relation of an organisation to the information shared.
+
+MISP has a functionality to delegate the publication and completely remove the binding between the information sharing and the organisation. If you want to publish an event without you or your organisation being tied to it, you can delegate the publication to an other organisation. That also means they will take the ownership of the event.
 
 > [warning] You need to have a role with "Delegation access" to delegate an event.
 
