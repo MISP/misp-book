@@ -8,31 +8,31 @@ In information sharing, privacy of the reporting organisation can be important i
 
 To do so, you first need to put the distribution of the event as "your organisation only".  
 ![Delegation possible](./figures/delegationpossible.png)  
-Otherwise the delagating option will not be available.  
+Otherwise the delegation option will not be available.  
 ![Delegation impossible](./figures/delegationimpossible.png)  
 
-When the "Delegate Publishing" option is clicked, a popup will show up:  
+When the "Delegate Publishing" option is clicked, a pop-up will show up:  
 ![Delegation Popup](./figures/delagationpopup.png)  
 Here you can choose 
 - to which organisation you wish to delegate the event among all those registered on the server. For this example we are going to ask Setec Astronomy to publish the event for us.
 - The distribution option you would like to put on the event. You can let the other organisation (called "recipient") choose if you don't mind it. For this example, we will request the recipient to share it to all communities, but it is only a suggestion, and the recipient will be able to modify the diffusion setting if wanted.  
 ![Desired Distribution](./figures/desireddistribution.png)  
-- Finally you can leave a free message to the recipient organisation.  
-![Distribution ready](./figures/delegationpopup2.png)
+- Finally you can leave a free message to the recipient organisation.
+![Distribution ready](./figures/delegationpopup2.png)  
 
-Once the request is sent, a message will appear on the event to remind you of your request.  
+Once the request is sent, a message will appear on the event to remind you of your request.
 ![Reminder](./figures/delegationrequested.png)  
 You can also see more details by clicking on "View request details"  
 ![Request Details](./figures/requestdetails.png)  
-And you can also discard the request your self, by using this popup or the link in the left menu.
+And you can also discard the request your self, by using this pop-up or the link in the left menu.
 
 ### Answer a delegation request
 
-As the recipient organisation, you will then recieve the request of delegation. You will be notified by a red circl around the envelope on the top right of the screen.  
+As the recipient organisation, you will then receive the request of delegation. You will be notified by a red circle around the envelope on the top right of the screen.  
 ![Notification](./figures/delegationwaiting.png)  
 When you click it, you will be redirected as usual on the dashboard, where we can see one delegation request on the left frame.  
 ![Dashboard](./figures/dashboard.png)  
-Clicking on the "view" link then redirect to an event list view showing all the events other organisations wish to delagate to 	your organisation. Here we only see one event, from Acme Factory.  
+Clicking on the "view" link then redirect to an event list view showing all the events other organisations wish to delegate to your organisation. Here we only see one event, from Acme Factory.
 ![Delegated list](./figures/delagated.png)  
 And here are the metadata of the so called event.  
 ![Delegated event](./figures/delegatedevent.png)  
@@ -43,4 +43,4 @@ You can either discard it:
 ![Discard request](./figures/discarddelegation.png)  
 Or accept the delegation:  
 ![Accept request](./figures/acceptdelegation.png)  
-Please notice that the diffusion desired by the requester will not automatically be set on the event, which will stay as diffused to your own organisation only if the parameter is not modified.
+Please notice that the distribution desired by the requester will not automatically be set on the event, which will stay as distributed to your own organisation only if the parameter is not modified.
