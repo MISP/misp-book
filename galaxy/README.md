@@ -8,19 +8,37 @@ There are default vocabularies available in MISP galaxy but those can be overwri
 
 Existing clusters and vocabularies can be used as-is or as a template. MISP distribution can be applied to each cluster to permit a limited or broader distribution scheme.
 
-The objective is to have a comment set of clusters for organizations starting analysis but that can be expanded to localized information (which is not shared) or additional information (that can be shared).
+The objective is to have a common set of clusters for organizations starting analysis but that can be expanded to localized information (which is not shared) or additional information (that can be shared).
 
-WIP
-
-[MISP galaxy](https://github.com/MISP/misp-galaxy)
+[MISP galaxy](https://github.com/MISP/misp-galaxy) are available on Github.
 
 ### Managing Galaxies in MISP
 
-WIP
+> [warning] You need to have a specific role to manage Galaxies on a MISP instance.
+
+Galaxies management is accessed using the Galaxies link on the top menu.
+
+![MenuGalaxy](./figures/GalaxyMenu.png)
+
+A list with all the galaxies existing on the server will appear.
+
+![GalaxyView](./figures/GalaxyView.png)
+
+Each galaxy can be explored using the icon at the end of the line.
+
+![GalaxyList](./figures/GalaxyList.png)
+
+Here is shown the metadata of the selected galaxy as well as a table with each available value as well as some complementary data such as a description of the value or the activity, that is to say the evolution of the use of each value.
+
+Galaxies can be reimported from the submodules by cliking the "Update Galaxies" link on either the galaxies list or while browsing a specific galaxy. A popup will appear to confirm the reimportation.
+
+![GalaxyUpdate](./figures/GalaxyUpdate.png)
+
+All galaxies will always be updated, even while browsing a specific galaxy.
 
 ### Using Galaxies in MISP Events - Example
 
-For this example, we will try to add a cluster to an existing event. This cluster will contains informations about threath actor known as Sneaky Panda.
+For this example, we will try to add a cluster to an existing event. This cluster will contains informations about threat actor known as Sneaky Panda.
 
 ![EventWithoutCluster](./figures/EventWithoutCluster.png)
 
@@ -56,28 +74,29 @@ Clicking on the addition symbole on the left of Beijing Group extends the module
 
 [Microsoft Activity Group](https://github.com/MISP/misp-galaxy/blob/master/clusters/microsoft-activity-group.json) - Activity groups as described by Microsoft.
 
+[Preventive Measure](https://github.com/MISP/misp-galaxy/blob/master/clusters/preventive-measure.json) - Preventive measures.
+
+[Ransomware](https://github.com/MISP/misp-galaxy/blob/master/clusters/ransomware.json) - Ransomware galaxy based on https://docs.google.com/spreadsheets/d/1TWS238xacAto-fLKh1n5uTsdijWdCEsGIM0Y0Hvmc5g/pubhtml
+
 [TDS - Traffic Direction System](clusters/tds.json) - TDS is a list of Traffic Direction System used by adversaries.
 
 [Threats Actors](https://github.com/MISP/misp-galaxy/blob/master/clusters/threat-actor.json) - Known or estimated adversary groups targeting organizations and employees. Adversary groups are regularly confused with their initial operation or campaign. Threat actors are characteristics of malicious actors (or adversaries) representing a cyber attack threat including presumed intent and historically observed behaviour.
 
 [Tools](https://github.com/MISP/misp-galaxy/blob/master/clusters/tool.json) - Enumeration of software tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
 
-
 #### Vocabularies
 
 ##### Common
-	[certainty-level]
-	(https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/certainty-level.json) -
+[certainty-level](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/certainty-level.json) -
 Certainty level of an associated element or cluster
 
 ##### threat-actor
- 	[intended-effect]
-	(https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/intended-effect.json) - default STIX vocabulary for expressing the intended effect of a threat actor
-	[motivation]
-	(https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/motivation.json) - default STIX vocabulary for expressing the motivation of a threat actor.
-	[planning-and-operational-support]
-	(https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/planning-and-operational-support.json) - default STIX vocabulary for expressing the planning and operational support functions available to a threat actor.
-	[sophistication]
-	(https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/sophistication.json) - default STIX vocabulary for expressing the subjective level of sophistication of a threat actor.
-	[type]
-	(https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/type.json) - default STIX vocabulary for expressing the subjective type of a threat actor.
+[intended-effect](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/intended-effect.json) - default STIX vocabulary for expressing the intended effect of a threat actor
+
+[motivation](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/motivation.json) - default STIX vocabulary for expressing the motivation of a threat actor
+
+[planning-and-operational-support](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/planning-and-operational-support.json) - default STIX vocabulary for expressing the planning and operational support functions available to a threat actor.
+
+[sophistication](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/sophistication.json) - default STIX vocabulary for expressing the subjective level of sophistication of a threat actor.
+
+[type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/type.json) - default STIX vocabulary for expressing the subjective type of a threat actor.
