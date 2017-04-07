@@ -17,7 +17,7 @@
 ![Scenario example](figures/MISP_scenario_example.png)
 
 
-##Setu
+##Setup
 
 ###Adding a server
 
@@ -80,7 +80,9 @@ Test connection can be used to test the connection to the remote server and will
 
 ###Rules
 
-###
+Rules are used to limit sharing to e.g. events with a given tag, or disabling sharing for events containing a certain Tag.
+
+####
 
 ##Collaboration
 
