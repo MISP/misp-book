@@ -1,6 +1,6 @@
 <!-- toc -->
 
-## Sharing / Syncronisation
+## Sharing / Synchronisation
 
 * [Explanation](#users)
 * [Setup](#setup)
@@ -8,7 +8,7 @@
 * [Tools](#tools)
 * [Server Settings](#server-settings)
 
-* Misp's core functionality is sharing where everyone can be a consumer and/or a contributor/producer.
+* MISP's core functionality is sharing where everyone can be a consumer and/or a contributor/producer.
 * Quick benefit without the obligation to contribute
 * Low barrier access to get acquainted to the system
 
@@ -21,7 +21,7 @@
 
 ###Adding a server
 
-Servers can be added by users via 
+Servers can be added by users via
 
 ~~~~
 https://<misp url>/servers/add
@@ -143,7 +143,7 @@ It is possible to get alerts via encrypted mail in the following cases:
 * published events by other user of the MISP instance
 * events pushed to the MISP instance
 * events pulled by the MISP instance
- 
+
 These E-Mail alerts are an opt-in feature
- 
+
 ![Change user settings](figures/profile_receive_alerts.png)
