@@ -76,6 +76,8 @@ You can also upload a certificate file if the instance you are trying to connect
 
 ###Test connection
 
+Test connection can be used to test the connection to the remote server and will give a feedback about local and remote version of MISP.
+
 ###Rules
 
 ###
