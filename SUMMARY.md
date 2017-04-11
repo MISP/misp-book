@@ -14,5 +14,6 @@
 * [Managing feeds](managing-feeds/README.md)
 * [Taxonomies](taxonomy/README.md)
 * [Galaxies](galaxy/README.md) - in progress
+* [Sightings](sightings/README.md) - in progress
 * [Categories and Types](categories-and-types/README.md)
 * [Appendices](appendices/README.md)
