@@ -2,6 +2,7 @@
 
 * [Book Convention](book-convention/README.md)
 * [Quick Start](quick-start/README.md)
+* [Get Your Instance](get-your-instance/README.md)
 * [General Layout](general-layout/README.md)
 * [General Concepts](general-concepts/README.md)
 * [User Management and Global Actions](user-management/README.md)
