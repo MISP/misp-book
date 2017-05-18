@@ -270,7 +270,7 @@
 |passenger-name-record-locator-number| | | | | | |
 |mobile-application-id| | | | | | |
 
-|Category| Suport Tool | Social network | Person | Other |
+|Category| Support Tool | Social network | Person | Other |
 | --- |:---:|:---:|:---:|:---:|
 |md5| | | | |
 |sha1| | | | |
@@ -418,7 +418,7 @@
 *   **Attribution**: Identification of the group, organisation, or country behind the attack
 *   **External analysis**: Any other result from additional analysis of the malware like tools output Examples: pdf-parser output, automated sandbox analysis, reverse engineering report.
 *   **Financial fraud**: Financial Fraud indicators, for example: IBAN Numbers, BIC codes, Credit card numbers, etc.
-*   **Suport Tool**: Tools supporting analysis or detection of the event
+*   **Support Tool**: Tools supporting analysis or detection of the event
 *   **Social network**: Social networks and platforms
 *   **Person**: A human being - natural person
 *   **Other**: Attributes that are not part of any other category or are meant to be used as a component in MISP objects in the future
