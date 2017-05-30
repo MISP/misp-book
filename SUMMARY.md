@@ -19,4 +19,5 @@
 * [Sightings](sightings/README.md) - in progress
 * [Categories and Types](categories-and-types/README.md)
 * [Synchronisation/Sharing](sharing/README.md)
+* [ZeroMQ - MISP publish-subscribe](misp-zmq/README.md)
 * [Appendices](appendices/README.md)
