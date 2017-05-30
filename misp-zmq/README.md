@@ -71,6 +71,37 @@ The `sub.py` will output the JSON objects for the subscribed topic, by default, 
 misp@cpeb:/var/www/MISP/tools/misp-zmq$ python3 -u sub.py  | jq .
 ....
 {
+  "uptime": 50,
+  "status": "And when you're dead I will be still alive."
+}
+{
+  "uptime": 60,
+  "status": "And believe me I am still alive."
+}
+{
+  "uptime": 70,
+  "status": "I'm doing science and I'm still alive."
+}
+{
+  "uptime": 80,
+  "status": "I feel FANTASTIC and I'm still alive."
+}
+{
+  "uptime": 90,
+  "status": "While you're dying I'll be still alive."
+}
+{
+  "Sighting": {
+    "uuid": "592d9588-fda0-490f-bf6e-4e56950d210f",
+    "source": "",
+    "type": "0",
+    "date_sighting": 1496159624,
+    "org_id": "2",
+    "event_id": "8102",
+    "attribute_id": "1044812"
+  }
+}
+{
   "Attribute": {
     "id": "1044802",
     "value2": "",
