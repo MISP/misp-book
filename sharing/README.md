@@ -98,6 +98,8 @@ If you have issues connecting to a remote servers try to do the following things
 
 - try to connect with your user account to the remote server, to ensure the password is still valid and that your API key is valid
 - try to connect with your user account to the remote server and check your roles on the remote server
+- with connection issues do a package capture to find out more
+- if you have a SSL connection issue to a remote server with a signed by a CA that is not included in OS, make sure the whole certificate path is included in the path.
 
 ##Collaboration
 
