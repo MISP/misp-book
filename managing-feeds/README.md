@@ -37,7 +37,7 @@ Here you will have access to a dynamic form. Let's check each field by order.
   * Local: Hosted on the local server. On this case, a new checkbox "Remove input after ingestion" will appear. If checked, the source is deleted after usage.  
 ![Remove Input](./figures/removeinput.png)
 
-* Url: Url of the feed, where it is located
+* Url: Url of the feed, where it is located (for Local hosted files, point to the manifest.json e.g. /home/user/feed-generator/output/manifest.json)
 
 * The Source Format can be:  
 ![Source Format](./figures/sourceformat.png)
