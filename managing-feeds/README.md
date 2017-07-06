@@ -29,6 +29,7 @@ Here you will have access to a dynamic form. Let's check each field by order.
 ![Add feed form](./figures/addfeedform.png)
 
 * Enabled: Is the feed active or not
+* Lookup Visible: If this is not checked, the correlation will only show up to you, if checked, correlations are visible for other users as well
 * Name: Just a name to identify the feed
 * Provider: Name of the content provider
 * Input Source: Where does the input come from  
@@ -78,3 +79,8 @@ To add a tag (resp. organisation), first type it into the top middle (resp. bott
 To remove a tag (resp. organisation), select it in the list and click on the arrow pointing to the inside.  
 ![Remove Filter rules](./figures/removefilterrules.png)  
 ![Remove Filter rules](./figures/removefilterrules2.png)
+
+## Feed correlation
+
+If an indicator from an feed matches an indicator within a MISP event, it will show up as "Feed hits" in the event overview.
+The correlation will not show up in the correlation graph of the event.
