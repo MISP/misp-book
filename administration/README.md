@@ -90,6 +90,9 @@ Site admins can use the "Contact users" feature to send all or individual user a
 
 Keep in mind that all e-mails sent through this system will, in addition to your own message, will be signed in the name of the instance's host organisation's support team, will include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's PGP signature for users that have a PGP key set (and thus are eligible for an encrypted e-mail).
 
+PGP instance key
+: is the PGP key used by the MISP instance and which is only used to sign notification. The PGP key used in the MISP instance must not be used anywhere else and should not be valuable.
+
 - - -
 
 ### Organisations
