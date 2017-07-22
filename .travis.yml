@@ -7,7 +7,7 @@ sudo: required
 install:
     - sudo apt-get -y install libgif-dev calibre
     - npm install -g n
-    - n stable
+    - sudo n stable
     - npm install gitbook-cli -g
     - npm install gitbook-plugin-autocover
     - npm install gitbook-plugin-github
