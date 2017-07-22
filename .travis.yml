@@ -5,7 +5,7 @@ dist: trusty
 sudo: required
 
 install:
-    - sudo apt-get -y install libgif-dev calibre
+    - sudo apt-get -y install libgif-dev calibre npm
     - sudo npm install -g n
     - sudo n stable
     - npm install gitbook-cli -g
