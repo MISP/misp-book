@@ -10,6 +10,10 @@ install:
     - sudo npm install -g n
     - sudo n stable
     - sudo ln -sf /usr/local/n/versions/node/8.0.0/bin/node /usr/bin/node
+    - npm install graceful-fs
+    - npm install object-pick
+    - npm install minimatch
+    - npm install esprima
     - npm install gitbook-cli -g
     - npm install gitbook-plugin-autocover
     - npm install gitbook-plugin-github
