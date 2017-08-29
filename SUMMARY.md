@@ -13,7 +13,6 @@
 * [Automation and MISP API](automation/README.md)
 * [PyMISP - Python Library to Access MISP](pymisp/README.md)
 * [Create an Event Based on a Report](create-event-report/README.md)
-* [Managing Feeds](managing-feeds/README.md)
 * [Taxonomies](taxonomy/README.md)
 * [Galaxies](galaxy/README.md) - in progress
 * [Sightings](sightings/README.md) - in progress
