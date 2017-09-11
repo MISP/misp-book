@@ -17,7 +17,7 @@ During this first step, you will be create a basic event without any actual attr
       Upon push: do not push. Upon pull : pull.
   *   **This Community-only:** Users that are part of your MISP community will be able to see the event. This includes your own organisation, organisations on this MISP server and organisations running MISP servers that synchronise with this server. Any other organisations connected to such linked servers will be restricted from seeing the event.
       Upon push: do not push. Upon pull: pull and downgrade to Your organization only.
-  *   **Connected communities:** Users that are part of your MISP community will be able to see the event. This includes all organisations on this MISP server, all organisations on MISP servers synchronising with this server and the hosting organisations of servers that connect to those afore mentioned servers (so basically any server that is 2 hops away from this one). Any other organisations connected to linked servers that are 2 hops away from this own will be restricted from seeing the event. For more information on community-related distribution levels, click here.
+  *   **Connected communities:** Users that are part of your MISP community will be able to see the event. This includes all organisations on this MISP server, all organisations on MISP servers synchronising with this server and the hosting organisations of servers that connect to those afore mentioned servers (so basically any server that is 2 hops away from this one). Any other organisations connected to linked servers that are 2 hops away from this own will be restricted from seeing the event.
       Upon push: downgrade to This Community only and push. Upon pull: pull and downgrade to This Community only.
   *   **All communities:** This will share the event with all MISP communities, allowing the event to be freely propagated from one server to the next.
       Upon push: push. Upon pull: pull.
@@ -61,7 +61,7 @@ Sharing groups in MISP are a more granular way to create re-usable distribution 
 
 ![A sample sharing group setup involving 3 instances and showing the various ways to include/exclude organisations](figures/sync.png)
 
-The most general use-cases for sharing groups are creating re-usable topical subgroups in MISP that share events or for ad-hoc sharing scenarios (such as several organisations involved in a specific incident wanting to work together). Generally sharing groups add a level of complexity for the users involved as well as a performance overhead on the data marked with it. 
+The most general use-cases for sharing groups are creating re-usable topical subgroups in MISP that share events or for ad-hoc sharing scenarios (such as several organisations involved in a specific incident wanting to work together). Generally sharing groups add a level of complexity for the users involved as well as a performance overhead on the data marked with it.
 
 As a best-practice recommendation, using traditional distribution methods is prefered unless they cannot cover the given use-case. Also, whilst sharing groups can be assigned to both events and attributes, it is highly recommended to use the special "inherit" distribution setting on attributes whenever the attribute's sharing group would match the event's.
 
