@@ -39,7 +39,7 @@ This menu contains all of the main functions of the site as a series of dropdown
 
 ##### Event actions
 
-![List Event Actions](figures/Event Actions.jpg)
+![List Event Actions](figures/EventActions.jpg)
 *   **List Events:** Lists all the events in the system that are not private or belong to your organisation. You can add, modify, delete, publish or view individual events from this view.
 
 *   **Add Event:** Allows you to fill out an event creation form and create the event object, which you can start adding attributes.
