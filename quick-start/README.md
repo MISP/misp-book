@@ -89,4 +89,4 @@ Export functionality is designed to automatically generate signatures for intrus
 
 Simply click on any of the following buttons to download the appropriate data for log correlation.
 
-![Select Format](figures/Select Export.jpg)
+![Select Format](figures/SelectExport.jpg)
