@@ -432,12 +432,13 @@ MISP will inject header values into the zone file as well as define the action t
 |RPZ_minimum_ttl| 1h|
 |RPZ_ttl| 1w|
 |RPZ_ns| localhost.|
+|RPZ_ns_alt||
 |RPZ_email| root.localhost|
 
 To override the above values, either use the url parameters as described below:
 
 ~~~~
-https://<misp url>/attributes/rpz/download/[tags]/[eventId]/[from]/[to]/[policy]/[walled_garden]/[ns]/[email]/[serial]/[refresh]/[retry]/[expiry]/[minim
+https://<misp url>/attributes/rpz/download/[tags]/[eventId]/[from]/[to]/[policy]/[walled_garden]/[ns]/[ns_alt]/[email]/[serial]/[refresh]/[retry]/[expiry]/[minim
 um_ttl]/[ttl]
 ~~~~
 
