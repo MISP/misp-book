@@ -55,6 +55,26 @@ Keep in mind that the system searches for regular expressions in the value field
 *   **For Intrusion Detection System:** This option allows the attribute to be used as an IDS signature when exporting the NIDS data, unless it is being overruled by the white-list. For more information about the whitelist, head over to the [administration](#administration) section.
 *   **Batch import:** If there are several attributes of the same type to enter (such as a list of IP addresses, it is possible to enter them all into the same value-field, separated by a line break between each line. This will allow the system to create separate lines for the each attribute.
 
+
+### Add Object
+
+MISP objects to be used in MISP (2.4.80) system and can be used by other information sharing tool. MISP objects are in addition to MISP attributes to allow advanced combinations of attributes. The creation of these objects and their associated attributes are based on real cyber security use-cases and existing practices in information sharing.
+
+Objects can be added by using the side menu:  
+![This menu allows you to add objects.](figures/add_object.png)
+
+This will open a popup where you can choose the type of object:  
+![Object Popup](figures/select_obj_cat.png)  
+![Object Popup All](figures/select_object.png)
+
+For this example we will try to add an ip|port object:  
+![ip|port form](figures/object_ipport.png)  
+For some objects, there might be attributes that required to be set. For instance in this object, there is a required attribute, "Ip", and it is also required to set one of the attributes between "dst-port" and "src-port". If these requirements are not met, the object will not be valid and therefore not added to the event. Also you can't add an object without setting any attribute.   
+
+After pressing "Submit, you are given the possibility to review your object before saving it.  
+![object preview](figures/object_preview.png)
+
+
 ### Create and manage Sharing Groups
 
 Sharing groups in MISP are a more granular way to create re-usable distribution lists for events/attributes that allow users to include organisations from their own instance (local organisations) as well as organisations from directly, or indirectly connected instances (external organisations). Sharing groups can be created by any user that has the sharing group editor permission. Additionally, sharing groups can be edited by any user that has the aforementioned permission in addition to being a member of the sharing group's creating organisation, or any organisation that is marked as an "extender" of the sharing group. The main use for the extend feature is delegating the rights to add users to trusted partners. For example, when sharing with a different industry sector, knowing all actors that should receive the information is often not possible, so delegating the rights to extend the event to a trusted representative of said sector would allow for someone with more insight to find and add the proper list of partners for the sharing group.
