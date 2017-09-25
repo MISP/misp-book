@@ -71,7 +71,7 @@ For this example we will try to add an ip|port object:
 ![ip|port form](figures/object_ipport.png)  
 For some objects, there might be attributes that required to be set. For instance in this object, there is a required attribute, "Ip", and it is also required to set one of the attributes between "dst-port" and "src-port". If these requirements are not met, the object will not be valid and therefore not added to the event. Also you can't add an object without setting any attribute.   
 
-After pressing "Submit, yYou are given the possibility to review your object before saving it.  
+After pressing "Submit, you are given the possibility to review your object before saving it.  
 ![object preview](figures/object_preview.png)
 
 
