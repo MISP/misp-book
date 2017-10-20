@@ -60,4 +60,4 @@ Clicking on the tool will show sighting details for the whole event.
 
 ### Using sightings on an event (API)
 
-WiP
+Please have a look at the [automation API](../automation/README.md#sightings-api)
