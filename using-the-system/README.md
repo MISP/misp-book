@@ -58,7 +58,7 @@ Keep in mind that the system searches for regular expressions in the value field
 
 ### Add Object
 
-MISP objects to be used in MISP (2.4.80) system and can be used by other information sharing tool. MISP objects are in addition to MISP attributes to allow advanced combinations of attributes. The creation of these objects and their associated attributes are based on real cyber security use-cases and existing practices in information sharing.
+[MISP objects](https://github.com/MISP/misp-objects) to be used in MISP (2.4.80) system and can be used by other information sharing tool. MISP objects are in addition to MISP attributes to allow advanced combinations of attributes. The creation of these objects and their associated attributes are based on real cyber security use-cases and existing practices in information sharing.
 
 Objects can be added by using the side menu:  
 ![This menu allows you to add objects.](figures/add_object.png)
