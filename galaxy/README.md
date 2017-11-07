@@ -70,7 +70,11 @@ Clicking on the addition symbole on the left of Beijing Group extends the module
 
 #### Clusters
 
-[Exploit-kit](https://github.com/MISP/misp-galaxy/blob/master/clusters/exploit-kit.json) - Exploit-Kit is an enumeration of some exploitation kits used by adversaries. The list includes document, browser and router exploit kits. It's not meant to be totally exhaustive but aim at covering the most seen in the past 5 years.
+[Android](https://github.com/MISP/misp-galaxy/blob/master/clusters/android.json) - Android malware galaxy based on multiple open sources.
+
+[Banker](https://github.com/MISP/misp-galaxy/blob/master/clusters/banker.json) - A list of banker malware.
+
+[Exploit Kit](https://github.com/MISP/misp-galaxy/blob/master/clusters/exploit-kit.json) - Exploit-Kit is an enumeration of some exploitation kits used by adversaries. The list includes document, browser and router exploit kits. It's not meant to be totally exhaustive but aim at covering the most seen in the past 5 years.
 
 [Microsoft Activity Group](https://github.com/MISP/misp-galaxy/blob/master/clusters/microsoft-activity-group.json) - Activity groups as described by Microsoft.
 
@@ -78,25 +82,52 @@ Clicking on the addition symbole on the left of Beijing Group extends the module
 
 [Ransomware](https://github.com/MISP/misp-galaxy/blob/master/clusters/ransomware.json) - Ransomware galaxy based on https://docs.google.com/spreadsheets/d/1TWS238xacAto-fLKh1n5uTsdijWdCEsGIM0Y0Hvmc5g/pubhtml
 
-[TDS - Traffic Direction System](clusters/tds.json) - TDS is a list of Traffic Direction System used by adversaries.
+[RAT](https://github.com/MISP/misp-galaxy/blob/master/clusters/rat.json) - remote administration tool or remote access tool (RAT), also called sometimes remote access trojan, is a piece of software or programming that allows a remote "operator" to control a system as if they have physical access to that system.
 
-[Threats Actors](https://github.com/MISP/misp-galaxy/blob/master/clusters/threat-actor.json) - Known or estimated adversary groups targeting organizations and employees. Adversary groups are regularly confused with their initial operation or campaign. Threat actors are characteristics of malicious actors (or adversaries) representing a cyber attack threat including presumed intent and historically observed behaviour.
+[TDS](https://github.com/MISP/misp-galaxy/blob/master/clusters/tds.json) - TDS is a list of Traffic Direction System used by adversaries.
 
-[Tools](https://github.com/MISP/misp-galaxy/blob/master/clusters/tool.json) - Enumeration of software tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
+[Threat Actor](https://github.com/MISP/misp-galaxy/blob/master/clusters/threat-actor.json) - Adversary groups - Known or estimated adversary groups targeting organizations and employees. Adversary groups are regularly confused with their initial operation or campaign. MISP
+
+[Tool](https://github.com/MISP/misp-galaxy/blob/master/clusters/tool.json) - tool is an enumeration of tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
+
+
+[MITRE Attack Pattern](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_attack-pattern.json) - Attack Pattern - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+
+[MITRE Course of Action](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_course-of-action.json) - Course of Action - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+
+[MITRE Intrusion Set](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_intrusion-set.json) - Intrusion Test - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+
+[MITRE Malware](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_malware.json) - Malware - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+
+[MITRE Tool](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_tool.json) - Tool - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+
+
+[Sectors](https://github.com/MISP/misp-galaxy/blob/master/clusters/sectors.json) - Activity sectors
+
+[CertEU Govsector](https://github.com/MISP/misp-galaxy/blob/master/clusters/cert-eu-govsector,json) - Cert EU GovSector/master/clusters/tool.json) - Enumeration of software tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
 
 #### Vocabularies
 
 ##### Common
-[certainty-level](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/certainty-level.json) -
-Certainty level of an associated element or cluster
+
+[certainty-level](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/certainty-level.json) - Certainty level of an associated element or cluster.
+
+[threat-actor-type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/threat-actor-type.json) - threat actor type vocab as defined by Cert EU.
+
+[ttp-category](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/ttp-category.json) - ttp category vocab as defined by Cert EU.
+
+[ttp-type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/ttp-type.json) - ttp type vocab as defined by Cert EU.
 
 ##### threat-actor
-[intended-effect](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/intended-effect.json) - default STIX vocabulary for expressing the intended effect of a threat actor
 
-[motivation](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/motivation.json) - default STIX vocabulary for expressing the motivation of a threat actor
+[cert-eu-motive](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/cert-eu-motive.json) - Motive vocab as defined by Cert EU.
 
-[planning-and-operational-support](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/planning-and-operational-support.json) - default STIX vocabulary for expressing the planning and operational support functions available to a threat actor.
+[intended-effect-vocabulary](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/intended-effect.json) - The IntendedEffectVocab is the default STIX vocabulary for expressing the intended effect of a threat actor. STIX 1.2.1
 
-[sophistication](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/sophistication.json) - default STIX vocabulary for expressing the subjective level of sophistication of a threat actor.
+[motivation-vocabulary](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/motivation.json) - The MotivationVocab is the default STIX vocabulary for expressing the motivation of a threat actor. STIX 1.2.1
 
-[type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/type.json) - default STIX vocabulary for expressing the subjective type of a threat actor.
+[planning-and-operational-support-vocabulary](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/planning-and-operational-support.json) - The PlanningAndOperationalSupportVocab is the default STIX vocabulary for expressing the planning and operational support functions available to a threat actor.
+
+[sophistication](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/sophistication.json) - The ThreatActorSophisticationVocab enumeration is used to define the default STIX vocabulary for expressing the subjective level of sophistication of a threat actor.
+
+[type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/type.json) - The ThreatActorTypeVocab enumeration is used to define the default STIX vocabulary for expressing the subjective type of a threat actor
