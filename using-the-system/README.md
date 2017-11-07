@@ -58,21 +58,7 @@ Keep in mind that the system searches for regular expressions in the value field
 
 ### Add Object
 
-[MISP objects](https://github.com/MISP/misp-objects) to be used in MISP (2.4.80) system and can be used by other information sharing tool. MISP objects are in addition to MISP attributes to allow advanced combinations of attributes. The creation of these objects and their associated attributes are based on real cyber security use-cases and existing practices in information sharing.
-
-Objects can be added by using the side menu:  
-![This menu allows you to add objects.](figures/add_object.png)
-
-This will open a popup where you can choose the type of object:  
-![Object Popup](figures/select_obj_cat.png)  
-![Object Popup All](figures/select_object.png)
-
-For this example we will try to add an ip|port object:  
-![ip|port form](figures/object_ipport.png)  
-For some objects, there might be attributes that required to be set. For instance in this object, there is a required attribute, "Ip", and it is also required to set one of the attributes between "dst-port" and "src-port". If these requirements are not met, the object will not be valid and therefore not added to the event. Also you can't add an object without setting any attribute.   
-
-After pressing "Submit, you are given the possibility to review your object before saving it.  
-![object preview](figures/object_preview.png)
+Please have a look at the [MISP-objects chapter](../misp-object/README.md)
 
 
 ### Create and manage Sharing Groups
