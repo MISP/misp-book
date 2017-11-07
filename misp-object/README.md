@@ -35,11 +35,8 @@ There are also others options that can be added to define an attribute more prec
 - sane_default is a list of default valid value for this attribute. The user can pick a value from this list or choose "Enter value manually"
 - disable_correlation will disable correlation for this value. Usefull for dates for instance
 - recommended value for this field
+- multiple, if set to true, allow the user to add multiple instances of this attribute.
 
 Not all attributes are mandatory, but some can be required. If s, they need to be listed in a list called "required". The object will only be valid if the listed attributes are set.
-
 The same way, there are sometimes when only one attribute in a set is needed. This set can be put in a list called "requiredOneOf". If at least oen of the attributes in this list is set, the object will be valid. 
 
-
-
-### Sharing object 
