@@ -176,7 +176,7 @@ This will describe what to do within events to be shared.
 
 # Sharing-groups
 
-There is an article about sharing groups in [here](using-the-system/#create-and-manage-sharing-groups)
+There is an article about sharing groups in [here](../using-the-system/#create-and-manage-sharing-groups)
 
 #Recommendation
 
