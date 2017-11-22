@@ -217,7 +217,7 @@ The settings and diagnostics tool is split up into several aspects, all accessib
 *   **GnuPG settings**: GPG related settings.
 *   **Proxy settings**: HTTP proxy related settings.
 *   **Security settings**: Settings controlling the brute-force protection and the application's salt key.
-*   **Misc settings**: You change the debug options here, pleqase ensure that debug is always disabled on a production system.
+*   **Misc settings**: You change the debug options here, please ensure that debug is always disabled on a production system.
 *   **Diagnostics**: The diagnostics tool checks if all directories that MISP uses to store data are writeable by the apache user. Also, the tool checks whether the STIX libraries and GPG are working as intended.
 *   **Workers**: Shows the background workers (if enabled) and shows a warning if they are not running. Admins can also restart the workers here.
 *   **Download report**: Download a report in JSON format, compiled of all of the settings visible in the tool.
