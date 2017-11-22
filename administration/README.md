@@ -24,24 +24,24 @@
 - - -
 
 ### Users
-As an admin, you can set up new accounts for users, edit the profiles of users, delete them, or just have a look at all the viewers’ profiles. Organisation admins are restricted to executing the same actions on their organisation’s users only.
+As an admin, you can set up new accounts for users, edit their user profiles, delete them, or just have a look at all the viewers’ profiles. Organisation admins are restricted to executing these actions exclusively within their own organisation’s users only.
 
 #### Adding a new user:
 
-To add a new user, click on the Add User button in the administration menu to the left and fill out the following fields in the view that is loaded:
+To add a new user, click on the Add User button in the administration menu to the left and populate the fields available the loaded view:
 
-![Fill this form out to add a new user. Keep in mind that the drop-down menu titled Role controls the privileges the user will have.](figures/add_user.png)
+![Fill this form out to add a new user. Keep in mind that the drop-down menu titled "Role" controls privileges the user will have.](figures/add_user.png)
 
-*   **Email:** The user's e-mail address, this will be used as his/her login name and as an address to send all the automatic e-mails and e-mails sent by contacting the user as the reporter of an event.
-*   **Set password:** Tick the box if you want to define a temporary password for the user. If you don't, you'll should use the action button 'reset password' on 'List Users' view for generating one and send it by email to the user.
-*   **Password:** *This textbox is displayed only when 'Set password' is ticked.* A Temporary password for the user that he/she should change after the first login. Make sure that it is at least 6 characters long, includes a digit or a special character and contains at least one upper-case and at least one lower-case character.
+*   **Email:** The user's e-mail address, this will be used as his/her login name and as an address to send all automatated e-mails as well as e-mails sent by contacting the user as the reporter of an event.
+*   **Set password:** Tick the box if you want to define a temporary user-password for the user. If you don't, you should use the action button 'reset password' in the 'List Users' view to generate one and send it by email to the user.
+*   **Password:** *This textbox is displayed only when 'Set password' is ticked.* A Temporary password for the user that he/she should change after the first login. Ensure that the password is at least 6 characters long, includes a digit or a special character and contains at least one upper-case and at least one lower-case character.
 *   **Confirm Password:** *This textbox is displayed only when 'Set password' is ticked.* This should be an exact copy of the Password field.
-*   **Organisation:** A drop-down list allows you to choose an organisation for the user. To learn more about organisation, [click here](#organisation).
-*   **Roles:** A drop-down list allows you to choose a role-group that the user should belong to. Roles define the privileges of the user. To learn more about roles, [click here](#managing-the-roles).
-*   **Authkey:** This is assigned automatically and is the unique authentication key of the user (he/she will be able to reset this and receive a new key). It is used for exports and for connecting one server to another, but it requires the user to be assigned to a role that has auth permission enabled.
+*   **Organisation:** A drop-down list enables you to choose an organisation for the user. To learn more about organisation, [click here](#organisation).
+*   **Roles:** A drop-down list allows you to select a role-group that the user should belong to. Roles define user privileges attributed to the user. To learn more about roles, [click here](#managing-the-roles).
+*   **Authkey:** This is assigned automatically and is the unique authentication key of said user (he/she will be able to reset this and receive a new key). It is used for exports and for connecting one server to another, but it requires the user to be assigned to a role that has auth permission enabled.
 *   **NIDS Sid:** ID of network intrusion detection systems.
-*   **Sync user for:** Use this option for granted the user the right to synchronize the event between MISP server. This option is available for admin, Org Admin and Sync user role.
-*   **Gpgkey:** The key used for encrypting e-mails sent through the system.
+*   **Sync user for:** Use this option for granting the user the right to synchronize the event between MISP server. This option is available for admin, Org Admin and Sync user role.
+*   **Gpgkey:** The key used to encrypt e-mails sent through the system.
 *   **Fetch GPG key:** Fetch GPG public key.
 *   **Receive alerts when events are published:** This option will subscribe the new user to automatically generated e-mails whenever an event is published.
 *   **Receive alerts from "contact reporter" requests:** This option will subscribe the new user to e-mails that are generated when another user tries to get in touch with an event's reporting organisation that matches that of the new user.
@@ -49,7 +49,7 @@ To add a new user, click on the Add User button in the administration menu to th
 
 #### Listing all users:
 
-To list all current users of the system, just click on List Users under the administration menu to the left. A view will be loaded with a list of all users and the following columns of information:
+To list all current users of the system, just click on List Users under the administration menu to the left. A view will load containing a list of all users and the following columns of information:
 
 ![View, Edit or Delete a user using the action buttons to the right.](figures/list_users.png)
 
@@ -57,17 +57,17 @@ To list all current users of the system, just click on List Users under the admi
 *   **Org:** The organisation that the user belongs to.
 *   **Email:** The e-mail address (and login name) of the user.
 *   **Authkey:** Unique authentication key of the user. 
-*   **Autoalert:** Shows whether the user has subscribed to auto-alerts and is always receiving the mass-emails regarding newly published events that he/she is eligible for.
-*   **Contactalert:** Shows whether the user has the subscription to contact reporter e-mails directed at his/her organisation turned on or off.
+*   **Autoalert:** Shows whether the user has subscribed to auto-alerts and is continuing to receive mass-emails regarding newly published events that he/she is eligible for.
+*   **Contactalert:** Shows whether the user has the subscription to contact reporter e-mails directed at his/her organisation is turned on or off.
 *   **Gpgkey:** Shows whether the user has entered a Gpgkey yet.
-*   **Nids Sid:** Shows the currently assigned NIDS ID.
+*   **Nids Sid:** Displays the currently assigned NIDS ID.
 *   **Termsaccepted:** This flag indicates whether the user has accepted the terms of use or not.
 *   **Last login:** Date of last login.
-*   **Disabled:** Show the user status. Enabled or disabled.
-*   **Action Buttons:** There are 4 options available: reset the password, edit the user, delete the user or display user's information. These options are also available on the left menu.
-	*    **Reset Password:** Use this action for reseting password. If you have created a new user without password, tick the 'First time registration' checkbox for sending a welcome message. Otherwise a  reset password message will be sent.
+*   **Disabled:** Displays the user status. Enabled or disabled.
+*   **Action Buttons:** There are 4 options available: reset the password, edit the user, delete the user or display a user's information. These options are also available on the left menu.
+	*    **Reset Password:** Use this action to reset a password. If you've created a new user without A password, tick the 'First time registration' checkbox to send a welcome message. Otherwise a reset password message will be sent.
 ![Reset password.](figures/reset_pwd.png)
-	*    **Edit the user:** Same options of create user's view. Few options are only available here:
+	*    **Edit the user:** Same options of create user's view. Only a few options are available here:
 		*   **Terms accepted:** Indicates whether the user has accepted the terms of use already or not.
 		*   **Change Password:** Setting this flag will require the user to change password after the next login.
 		*   **Reset Auth Key:** Use this link for generate a new AuthKey.
@@ -83,12 +83,12 @@ Site admins can use the "Contact users" feature to send all or individual user a
 
 ![Contact your users here.](figures/contact.png)
 
-*   **Action:** This defines the type of the e-mail, which can be a custom message or a password reset. Password resets automatically include a new temporary password at the bottom of the message and will automatically change the user's password accordingly.
+*   **Action:** This defines the e-mail type, which can be a custom message or a password reset. Password resets automatically include a new temporary password at the bottom of the message and will automatically change the user's password accordingly.
 *   **Subject:** In the case of a custom e-mail, you can enter a subject line here.
 *   **Recipient:** The recipient toggle lets you contact all your users, a single user (which creates a second drop-down list with all the e-mail addresses of the users) and potential future users (which opens up a text field for the e-mail address and a text area field for a PGP public key).
 *   **Custom message checkbox:** This is available for password resets or for welcome message, you can either write your own message (which will be appended with a temporary key and the signature), or let the system generate one automatically.
 
-Keep in mind that all e-mails sent through this system will, in addition to your own message, will be signed in the name of the instance's host organisation's support team, will include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's PGP signature for users that have a PGP key set (and thus are eligible for an encrypted e-mail).
+Keep in mind that all e-mails sent through this system, in addition to your own message, will be signed in the name of the instance's host organisation's support team, the e-ail will also include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's PGP signature for users that have a PGP key set (and thus are eligible for an encrypted e-mail).
 
 :warning: PGP instance key is the PGP key used by the MISP instance and which is only used to sign notification. The PGP key used in the MISP instance must not be used anywhere else and should not be valuable.
 
@@ -100,11 +100,11 @@ Each users belongs to an organisation. As admin, you can manage these organisati
 
 #### Adding a new organisation:
 
-To add a new organisation, click on the Add Organisation button in the administration menu to the left and fill out the following fields in the view that is loaded:
+To add a new organisation, click on the "Add Organisation" button in the administration menu to the left and fill out the following fields in the view that is loaded:
 
 ![Fill this form out to add a new organisation.](figures/add_org.png)
 
-*   **Local organisation:** If the organisation should have access to this instance, tick this checkbox. If you would only like to add a known external organisation for inclusion in sharing groups, uncheck it.
+*   **Local organisation:** If the organisation should have access to this instance, tick the checkbox. If you would only like to add a known external organisation for inclusion in sharing groups, uncheck it.
 *   **Organisation Identifier:** Name your organisation. If you want to add a picture, you should add a file on the webserver using the 'Server Settings menu'. Picture should have the same name. To learn more about server settings menu, [click here](#server-settings).
 *   **Uuid:** Unique identifier. If you want to share organisation between MISP multi-instance, use the same Uuid.
 *   **A brief description of the organisation:** A word for describing the organisation.
@@ -115,27 +115,27 @@ To add a new organisation, click on the Add Organisation button in the administr
 
 #### Listing all organisation:
 
-To list all current organisation of the system, just click on List Organisations under the administration menu to the left. There are 3 tabs in this view for filtering the local organisations, remote organisations and both. Default view display local organisations. For all views the following columns of information are available:
+To list all current organisation of the system, just click on List Organisations under the administration menu to the left. There are 3 tabs in this view to filter local organisations, remote organisations or both. The default view displays local organisations. For all views the following columns of information are available:
 
 ![List of organisations.](figures/list_org.png)
 
 *   **Id:** The organisation's automatically assigned ID number.
 *   **Logo:** Picture of the organisation.
 *   **Name:** Name of the organisation.
-*   **Uuid:** Unique identifier of orgnisation. Share this Uuid for using it between MISP's multi-instance.
+*   **Uuid:** Unique identifier of orgnisation. Share this Uuid when using it between MISP's multi-instance.
 *   **Description:** Description of the organisation.
 *   **Nationality:** Country of the organisation.
 *   **Sector:** Sector defined for the organisation.
 *   **Type:** Type of organisation.
 *   **Contacts:** Contacts of orgnisation.
-*   **Added by:** Login of the user which have added the organisation
+*   **Added by:** Login of the user who added the organisation
 *   **Local:** Flag defined if the organisation is local or remote.
-*   **Actions:**  There are 3 options available: edit, delete or display organisation's information. These options are also available on the left menu when you are on the display view.
+*   **Actions:**  There are 3 options available: edit, delete or display an organisation's information. These options are also available on the left menu when you are on the display view.
 	*    **Edit Organisation:** Same options of create organisation's view.
 ![Edit organisation.](figures/edit_org.png)	
 	*    **Delete Organisation:** Use this option for deleting organisation.<br />
 ![Delete organisation.](figures/delete_org.png)	 
-	*    **View Organisation:** Use this option for displaying information about organisation selected. In this view, you can display the user belongs to this organisation and events published by organisation.
+	*    **View Organisation:** Use this option to display information about the selected organisation. In this view, you can display the user belongs to this organisation and events published by organisation.
 ![View organisation.](figures/view_org.png)	
 
 #### Merge organisations:
@@ -149,36 +149,36 @@ Merge Organisation menu is available only in the view organisation, under the le
 
 Privileges are assigned to users by assigning them to rule groups, which use one of four options determining what they can do with events and four additional privilege elevating settings. The four options for event manipulation are: Read Only, Manage My Own Events, Manage Organisation Events, Manage & Publish Organisation Events. A short description is provided below:
 
-*   **Read Only:** This allows the user to browse events that his organisation has access to, but doesn't allow any changes to be made to the database.
-*   **Manage My Own Events:** The second option, gives its users rights to create, modify or delete their own events, but they cannot publish them.
+*   **Read Only:** This allows a user to browse events that his organisation has access to, but doesn't allow any changes to be made to the database.
+*   **Manage My Own Events:** The second option, gives its users the rights to create, modify or delete their own events, but they cannot publish them.
 *   **Manage Organization Events:** Allows users to create events or modify and delete events created by a member of their organisation.
 *   **Manage & Publish Organisation Events:** This last setting, gives users the right to do all of the above and also to publish the events of their organisation.
 
 The extra permissions are defined below:
 
-*   **Perm Admin:** Gives the user limited administrator privileges, this setting is used for the organisation admins.
+*   **Perm Admin:** Gives the user limited administrator privileges, this setting is used for an organisation's admins.
 *   **Perm Audit:** Grants access to the logs. With the exception of site admins, only logs generated by the user's own org are visible.
 *   **Perm Tagger:** Allow user to assign tags to events.
 *   **Perm Sharing Group:** Grant access to edit or create sharing groups.
-*   **Perm Site Admin:** Gives the user full administrator privileges, this setting is used for the site admins.
+*   **Perm Site Admin:** Gives the user full administrator privileges, this setting is used for site admins.
 *   **Perm Auth:** This setting enables the authentication key of the role's users to be used for rest requests.
-*   **Perm Tag Editor:** Grand access to edit or create new local tags or from taxonomies. 
+*   **Perm Tag Editor:** Grants access to edit or create tags. 
 *   **Perm Delegate:** Grant access to delegate the publication of an event to a third-party organization.
-*   **Perm Sync:** This setting allows the users of the role to be used as a synchronisation user. The authentication key of this user can be handed out to the administrator of a remote MISP instance to allow the synchronisation features to work.
-*   **Perm Regexp Access:** Allows the users with this permission enabled to edit the regular expression table. Be careful when giving out this permission, incorrect regular expressions can be very harmful (infinite loops, loss of data, etc.).
+*   **Perm Sync:** This setting enables the users of the role to be used as a synchronisation user. The authentication key of this user can be handed out to the administrator of a remote MISP instance to allow the synchronisation features to work.
+*   **Perm Regexp Access:** Allows users who have this permission enabled to edit the regular expression table. Be careful when giving out this permission, incorrect regular expressions can be very harmful (infinite loops, loss of data, etc.).
 *   **Perm Template:** Grant access to create or modify templates.
 
 #### Adding a new role:
 
-When creating a new role, you will have to enter a name for the role to be created and set up the permissions (as described above) using the drop-down menu and the check-boxes.
+When creating a new role, you will have to enter a name for the role to be created and set up the permissions (as described above) using the drop-down menu and related check-boxes.
 
 ![Add a new role.](figures/add_role.png)
 
 #### Listing roles:
 
-By clicking on the List Roles button, you can view a list of all the currently registered roles and a list of the permission flags turned on for each. In addition, you can find buttons that allow you to edit and delete the roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
+By clicking on the List Roles button, you can view a list of all currently registered roles and a list of the permission flags enabled for each. In addition, you can find buttons that allow you to edit and delete said roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
 
-![You can Edit or Delete roles using the action buttons to the right in each row. Keep in mind that a role has to be no members before it can be deleted.](figures/list_roles.png)
+![You can Edit or Delete roles using the action buttons to the right in each row. Keep in mind that in order to Delete a role, all members must be removed from said role before it can be deleted.](figures/list_roles.png)
 
 *   **Id:** The role's automatically assigned ID number.
 *   **Name:** The name of role.
@@ -187,14 +187,14 @@ By clicking on the List Roles button, you can view a list of all the currently r
 *   **Action Buttons:** There are 2 options available: Edit Role or Delete it.
 	*    **Edit Role:** Same options of create role's view.<br />
 ![Edit Role.](figures/edit_roles.png)
-	*    **Delete Role:** Use this option for deleting a role.<br />
+	*    **Delete Role:** Use this option to delete a role.<br />
 ![Delete Role.](figures/delete_roles.png)
 
 - - -
 
 ### Tools
 
-MISP has a couple of administrative tools that help administrators keep their instance up to date and healthy. The list of these small tools can change rapidly with each new version, but they should be self-explanatory. Make sure to check this section after upgrading to a new version, just in case there is a new upgrade script in there - though if this is the case it will be mentioned in the upgrade instructions.
+MISP has a couple of administrative tools that help administrators keep their instance up to date and healthy. The list of these small tools can change rapidly with each new version, but they should be self-explanatory. Be sure to check this section after each upgrade to a new version, just in case there's a new upgrade script in there - though if this is the case it will be mentioned in the upgrade instructions.
 
 ![Administrative Tools.](figures/tools.png)
 
@@ -211,13 +211,13 @@ Since version 2.3, MISP has a settings and diagnostics tool that allows site-adm
 
 ![Server settings overview with all of the tabs explained.](figures/settings_1.png)
 
-The settings and diagnostics tool is split up into several aspects, all accessible via the tabs ontop of the tool. For any unset or incorrectly set setting, or failed diagnostic a number next to the tab name will indicate the number and severity of the issues. If the number is written with a red font, it means that the issue is critical. First, let's look at the various tabs:
+The settings and diagnostics tool is split up into several aspects, all accessible via the tabs on top of the tool. For any unset or incorrectly set setting, or failed diagnostic a number next to the tab name will indicate the number and severity of the issues. If the number is written with a red font, it means that the issue is critical. First, let's look at the various tabs:
 *   **Overview**: General overview of the current state of your MISP installation
 *   **MISP settings**: Basic MISP settings. This includes the way MISP handles the default settings for distribution settings, whether background jobs are enabled, etc
 *   **GnuPG settings**: GPG related settings.
 *   **Proxy settings**: HTTP proxy related settings.
 *   **Security settings**: Settings controlling the brute-force protection and the application's salt key.
-*   **Misc settings**: You change the debug options here, but make sure that debug is always disabled on a production system.
+*   **Misc settings**: You change the debug options here, pleqase ensure that debug is always disabled on a production system.
 *   **Diagnostics**: The diagnostics tool checks if all directories that MISP uses to store data are writeable by the apache user. Also, the tool checks whether the STIX libraries and GPG are working as intended.
 *   **Workers**: Shows the background workers (if enabled) and shows a warning if they are not running. Admins can also restart the workers here.
 *   **Download report**: Download a report in JSON format, compiled of all of the settings visible in the tool.
@@ -233,11 +233,11 @@ Each of the setting pages is a table with each row representing a setting. Colou
 
 ![The workers tab.](figures/settings_3.png)
 
-The workers tab shows a list of the workers that MISP can use. You can restart the workers using the restart all workers, If the button doesn't work, make sure that the workers were started using the apache user. This can however only be done using the command line, refer to the INSTALL.txt documentation on how to let the workers automatically start on each boot.
+The workers tab shows a list of the workers that MISP can use. You can restart workers using the "restart all workers" button. If the button doesn't work, make sure that the workers were started using the apache user. This can however only be done using the command line, refer to the INSTALL.txt documentation on how to let the workers automatically start on each boot.
 
 *   **Worker Type**: The worker type is determined by the queue it monitors. MISP currently has 5 queues (cache, default, prio, email and a special _schdlr_ queue).
 *   **Worker Id**: The ID is made up of the machine name, the PID of the worker and the queue it monitors.
-*   **Status**: Displays OK if the worker is running. If the _schdlr_ worker is the only one not running make sure that you copy the config file into the cakeresque directory as described in the INSTALL.txt documentation.
+*   **Status**: Displays OK if the worker is running. If the _schdlr_ worker is the only one not running, make sure that you copy the config file into the cakeresque directory as described in the INSTALL.txt documentation.
 
 
 ### Import Blacklist
@@ -269,11 +269,11 @@ The signature whitelist view, accessible through the administration menu on the 
 
 #### Whitelisting an address:
 
-While in the whitelist view, click on New Whitelist on the left to bring up the add whitelist view to add a new address.
+While in the whitelist view, click on New Whitelist on the left to bring up the "add whitelist" view to add a new address.
 
 #### Managing the list:
 
-When viewing the list of whitelisted addresses, the following pieces of information are shown: The ID of the whitelist entry (assigned automatically when a new address is added), the address itself that is being whitelisted and a set of controls allowing you to delete the entry or edit the address.
+When viewing the list of whitelisted addresses, the following data is shown: The ID of the whitelist entry (assigned automatically when a new address is added), the address itself that is being whitelisted and a set of controls allowing you to delete the entry or edit the address.
 
 ![You can edit or delete currently white-listed addresses using the action buttons on this list.](figures/whitelist.png)
 
