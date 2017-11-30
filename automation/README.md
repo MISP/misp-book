@@ -67,7 +67,7 @@ parameters provide a way to filter the output to specific parameters.
 The URL is appended with json:
 
 ~~~~
-https://<misp url>/events/xml/download.json 
+https://<misp url>/events/xml/download.json
 ~~~~
 
 The query parameters can be the following:
@@ -103,7 +103,7 @@ https://<misp url>/events/xml/download/[eventid]/[withattachments]/[tags]/[from]
 <dd>Restrict the download to a single event</dd>
 <dt>withattachments</dt>
 <dd>A boolean field that determines whether attachments should be encoded and a second parameter that controls the eligible tags.</dd>
-<dt>tags</dt> 
+<dt>tags</dt>
 <dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
    commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
    automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:<dd>
@@ -134,14 +134,44 @@ You can configure your tools to automatically download the following file:
 https://<misp url>/events/csv/download
 ~~~~
 
+This will download all the valid attributes in your MISP instance (might take some time).
+
+You can also configure your tools to download the attributes from a specific event. Here is the old legacy CSV export that will work like exporting all attributes:
+
+~~~~
+https://<misp url>/events/csv/download/<event-id>
+~~~~
+
+Since version 2.4.82, the new export format allows to select more columns using the following query format:
+
+~~~~
+https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value
+~~~~
+
+The order of columns will be honoured including those related to object level information.
+
+To select object level columns, simply pre-pend the given object column’s name by object_, such as:
+
+~~~~
+https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value&object_attributes=uuid,name
+~~~~
+
+The following columns will be returned (all columns related to objects will be prefixed with object_):
+
+~~~~
+timestamp,type,uuid,value,object_uuid,object_name
+~~~~
+
+includeContext option includes the tags for the event for each line.
+
 You can specify additional flags for CSV exports as follows:
 
-POST to: 
+POST to:
 ~~~~
 https://<misp url>/events/csv/download
 ~~~~
 
-Headers: 
+Headers:
 ~~~~
 Authorization: <your auth key>
 Content-type: application/json
@@ -175,12 +205,12 @@ Body:
 
 For example, to only download a csv generated of the "domain" type and the "Network activity" category attributes all events except for the one and further restricting it to events that are tagged "tag1" or "tag2" but not "tag3", only allowing attributes that are IDS flagged use the following syntax:
 
-POST to: 
+POST to:
 ~~~~
 https://<misp url>/events/csv/download
 ~~~~
 
-Headers: 
+Headers:
 ~~~~
 Authorization: <your auth key>
 Content-type: application/json
@@ -336,7 +366,7 @@ https://<misp url>/events/stix/download/[id]/[withAttachments]/[tags]/[from]/[to
 For example, to include tag1 and tag2 but exclude tag3 you would use:
 
 ~~~~
-https://<misp url>/events/stix/download/false/true/tag1&&tag2&&!tag3 
+https://<misp url>/events/stix/download/false/true/tag1&&tag2&&!tag3
 ~~~~
 
 <dl>
@@ -534,7 +564,7 @@ https://<misp url>/attributes/text/download/[type]/[tags]/[event_id]/[allowNonID
 For example, to include tag1 and tag2 but exclude tag3 you would use:
 
 ~~~~
-https://<misp url>/attributes/text/download/all/tag1&&tag2&&!tag3 
+https://<misp url>/attributes/text/download/all/tag1&&tag2&&!tag3
 ~~~~
 
 <dl>
@@ -624,7 +654,7 @@ POST message payload (XML):
 POST message payload (JSON):
 
 ~~~~json
-{"request": {"value":"red october","searchall":1,"eventid":"!15"}} 
+{"request": {"value":"red october","searchall":1,"eventid":"!15"}}
 ~~~~
 
 To just return a list of attributes, use the following syntax:
@@ -670,7 +700,7 @@ https://<misp url>/attributes/restSearch/download/192.168&&127.0&&!0.1/ip-src/fa
 You can also use search for IP addresses using CIDR. Make sure that you use '|' (pipe) instead of '/' (slashes). Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead). See below for an example:
 
 ~~~~
-https://<misp url>/attributes/restSearch/download/192.168.1.1|16/ip-src/null/CIRCL 
+https://<misp url>/attributes/restSearch/download/192.168.1.1|16/ip-src/null/CIRCL
 ~~~~
 
 ## Export attributes of event with specified type as XML
@@ -692,7 +722,7 @@ https://<misp url>/attributes/returnAttributes/download/25/md5&&sha256&&!filenam
 As described in the REST section, it is possible to retrieve a list of events along with their metadata by sending a GET request to the /events API. However, this API in particular is a bit more versatile. You can pass search parameters along to search among the events on various fields and retrieve a list of matching events (along with their metadata). Use the following URL:
 
 ~~~~
-https://<misp url>/events/index 
+https://<misp url>/events/index
 ~~~~
 
 POST a JSON object with the desired lookup fields and values to receive a JSON back.
@@ -704,7 +734,7 @@ Accept: application/json
 Content-type: application/json
 ~~~~
 
-Body: 
+Body:
 
 ~~~~json
 {"searchinfo":"Locky", "searchpublished":1, "searchdistribution":0}
@@ -797,7 +827,7 @@ The general structure of the expected objects is as follows:
 
 ~~~~json
 {"request": {"files": [{"filename": filename1, "data": base64encodedfile1}, {"filename": filename2, "data": base64encodedfile2}],
-   "optional_parameter1", "optional_parameter2", "optional_parameter3"}} 
+   "optional_parameter1", "optional_parameter2", "optional_parameter3"}}
 ~~~~
 
 JSON:
@@ -920,7 +950,7 @@ This API can be also used to download feeds at regular interval via cronjobs or 
 
 ## Sightings API
 
-MISP allows Sightings data to be conveyed in several ways. 
+MISP allows Sightings data to be conveyed in several ways.
 
 The most basic way is to POST a blank message to the Sightings API with the attribute ID or attribute UUID. This will create a sightings entry with the creation of the entry as the timestamp for the organisation of the authenticated user.
 
@@ -1277,7 +1307,7 @@ Sample output:
 }
 ~~~~
 
-To edit an existing user send a POST request to: 
+To edit an existing user send a POST request to:
 
 ~~~~
 https://<misp url>/admin/users/edit/[user id]
@@ -1413,4 +1443,3 @@ PyMISP is a Python library to access MISP platforms via their REST API.
 PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
 
 [PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
-
