@@ -21,12 +21,12 @@ Sighting is applied to every attribute, under the column "Sightings", easily ide
 ![attribute](./figures/attributesighting.png)
 
 These three values show respectively:
-- The number of sighting on the attribute, in green.
-- The number of times the attribute have been marked as false positive, in red.
+- The number of true positives detected with the attribute, in green. Malicious activity as described in the event.
+- The number of times the attribute has been marked as false positive, in red. Non-malicious activity or incorrect detection.
 - The number of different expiration dates that have been affected on this attribute, in orange
 
 Concerning the three icons:
-- The first one (Thumb up) allows to add a sighting on an attribute.
+- The first one (Thumb up) allows to add a sighting (true positive) on an attribute.
 - The second one (Thumb down) allows to mark the attribute as a false positive.
 - The third one (Tool) opens a popup for advanced sightings, showing sightings details and allowing different actions.
 
