@@ -142,28 +142,6 @@ You can also configure your tools to download the attributes from a specific eve
 https://<misp url>/events/csv/download/<event-id>
 ~~~~
 
-Since version 2.4.82, the new export format allows to select more columns using the following query format:
-
-~~~~
-https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value
-~~~~
-
-The order of columns will be honoured including those related to object level information.
-
-To select object level columns, simply pre-pend the given object column’s name by object_, such as:
-
-~~~~
-https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value&object_attributes=uuid,name
-~~~~
-
-The following columns will be returned (all columns related to objects will be prefixed with object_):
-
-~~~~
-timestamp,type,uuid,value,object_uuid,object_name
-~~~~
-
-includeContext option includes the tags for the event for each line.
-
 You can specify additional flags for CSV exports as follows:
 
 POST to:
@@ -230,6 +208,32 @@ To export the attributes of all events that are of the type "domain", use the fo
 ~~~~
 https://<misp url>/events/csv/download/false/false/false/false/domain
 ~~~~
+
+#### Update 2.4.82
+Since version 2.4.82, the new export format allows to select more columns using the following query format:
+
+~~~~
+https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value
+~~~~
+
+The order of columns will be honoured including those related to object level information.
+
+To select object level columns, simply pre-pend the given object column’s name by object_, such as:
+
+~~~~
+https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value&object_attributes=uuid,name
+~~~~
+
+The following columns will be returned (all columns related to objects will be prefixed with object_):
+
+~~~~
+timestamp,type,uuid,value,object_uuid,object_name
+~~~~
+
+includeContext option includes the tags for the event for each line.
+
+
+
 
 ### NIDS rules export
 
