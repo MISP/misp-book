@@ -104,7 +104,7 @@ Clicking on the addition symbole on the left of Beijing Group extends the module
 
 [Sectors](https://github.com/MISP/misp-galaxy/blob/master/clusters/sectors.json) - Activity sectors
 
-[CertEU Govsector](https://github.com/MISP/misp-galaxy/blob/master/clusters/cert-eu-govsector,json) - Cert EU GovSector/master/clusters/tool.json) - Enumeration of software tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
+[CertEU Govsector](https://github.com/MISP/misp-galaxy/blob/master/clusters/cert-eu-govsector.json) - Cert EU GovSector/master/clusters/tool.json) - Enumeration of software tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
 
 #### Vocabularies
 
