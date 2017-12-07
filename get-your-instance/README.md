@@ -40,14 +40,12 @@ The instructions in this manual covers VirtualBox only. If you prefer another vi
 
 The MISP image is pre-configured to be reachable on the private IP address **192.168.56.50** by SSH. The GUI is reachable by **http://192.168.56.50/**.
 
+You should have two interfaces on your VirtualBox configuration (NAT and host-only). You can also configure access to the MISP instance by doing port forwarding on the NAT interface.
+
 MISP credentials:
 
-*   **GUI User:** user@misp.training : Password1234
-*   **GUI Admin:** admin@misp.training : Password1234
+*   **GUI Admin:** admin@admin.test:admin  (it's the site admin account with full rights, feel free to create other users)
 *   **Shell/SSH:** misp : Password1234
-*   **MySQL User:** misp : Password1234
-*   **MySQL Root:** root : Password1234
-
 
 #### Potential issues
 
