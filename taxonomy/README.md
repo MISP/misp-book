@@ -2,18 +2,15 @@
 
 ## Taxonomies
 
-In MISP 2.4, a flexible mechanism has been introduced to support various [taxonomy of classification](https://github.com/MISP/misp-taxonomies).
+In MISP 2.4.X, a flexible mechanism has been introduced to support various [taxonomy of classification](https://github.com/MISP/misp-taxonomies).
 
-You can access the taxonomy by going into 'Event Actions' and select 'List Taxonomies'.
+You can access the taxonomy by going into 'Event Actions' and select 'List Taxonomies'. For fresh install, make sure to click 'Update Taxonomies' to view available taxonomies.
 
 ![MISP Taxonomy index](./figures/taxonomies-index.png)
 
 The following taxonomies can be used in MISP (as local or distributed tags) or in other tools willing to share common taxonomies among security information sharing tools.
 
 ![Overview of the MISP taxonomies](./figures/taxonomy-explanation.png)
-
-
-The following taxonomies are described:
 
 1. [Admiralty Scale](https://github.com/MISP/misp-taxonomies/tree/master/admiralty-scale): The Admiralty Scale (also called the NATO System) is used to rank the reliability of a source and the credibility of an information.
 
@@ -131,19 +128,50 @@ For more information, "[Information Sharing and Taxonomies Practical Classificat
 
 ## Adding a private taxonomy
 
-<!-- ========================== I don't know if this part is nor yet relevant? ================================================= -->
-
 ~~~~ shell
 $ cd /var/www/MISP/app/files/taxonomies/
 $ mkdir privatetaxonomy
 $ vi machinetag.json
 ~~~~
 
-Create a JSON file Create a JSON file describing your taxonomy as triple tags.
+Create a JSON file describing your taxonomy as triple tags.
+
+~~~~ shell
+For example :
+mkdir jirafields
+vim machinetag.json
+~~~~
+
+Sample JSON with triple tags. You can use JSON validator to ame sure there is no syntax error.
+
+~~~~ shell
+{
+  "namespace": "jirafields",
+  "description": "Some descriptive words",
+  "version": 1,
+  "predicates": [
+    {
+      "value": "xxxxxxx",
+      "expanded": "xxxxxxx"
+    }
+  ],
+  "values": [
+    {
+      "predicate": "xxxxxx",
+      "entry": [
+        {
+          "value": "xxxxx",
+          "expanded": "xxxxxx"
+        }
+      ]
+    }
+  ]
+}
+~~~~
 
 Once you are happy with your file go to MISP Web GUI taxonomies/index and update the taxonomies, the newly created taxonomy should be visible, now you need to activate the tags within your taxonomy.
 
-## How using Taxonomy in MISP
+## How to use Taxonomy in MISP
 
 ### Filtering the distribution of events among MISP instances
 
