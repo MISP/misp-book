@@ -6,6 +6,9 @@ In MISP 2.4.X, a flexible mechanism has been introduced to support various [taxo
 
 You can access the taxonomy by going into 'Event Actions' and select 'List Taxonomies'. For fresh install, make sure to click 'Update Taxonomies' to view available taxonomies.
 
+A [complete list of the available taxonomies](https://www.misp-project.org/taxonomies.html) [PDF](https://www.misp-project.org/taxonomies.pdf) are available on the MISP project website.
+
+
 ![MISP Taxonomy index](./figures/taxonomies-index.png)
 
 The following taxonomies can be used in MISP (as local or distributed tags) or in other tools willing to share common taxonomies among security information sharing tools.
@@ -138,30 +141,30 @@ Create a JSON file describing your taxonomy as triple tags.
 
 ~~~~ shell
 For example :
-mkdir jirafields
+mkdir sample
 vim machinetag.json
 ~~~~
 
-Sample JSON with triple tags. You can use JSON validator to ame sure there is no syntax error.
+Sample JSON with triple tags. You can use the JSON validator to be sure that there is no syntax error.
 
 ~~~~ shell
 {
-  "namespace": "jirafields",
+  "namespace": "sample",
   "description": "Some descriptive words",
   "version": 1,
   "predicates": [
     {
-      "value": "xxxxxxx",
-      "expanded": "xxxxxxx"
+      "value": "my-predicate",
+      "expanded": "my-predicate"
     }
   ],
   "values": [
     {
-      "predicate": "xxxxxx",
+      "predicate": "my-predicate",
       "entry": [
         {
-          "value": "xxxxx",
-          "expanded": "xxxxxx"
+          "value": "a-value",
+          "expanded": "A value"
         }
       ]
     }
@@ -179,7 +182,7 @@ Applying rules for distribution based on tags:
 
 ### MISP Taxonomies - tools
 
-[machinetag.py](https://github.com/MISP/misp-taxonomies/blob/master/tools/machinetag.py) is a parsing tool to dump taxonomies expressed in Machine Tags (Triple Tags) and list all valid tags from a specific taxonomy.
+- [machinetag.py](https://github.com/MISP/misp-taxonomies/blob/master/tools/machinetag.py) is a parsing tool to dump taxonomies expressed in Machine Tags (Triple Tags) and list all valid tags from a specific taxonomy.
 
 ~~~~shell
 % cd tools
@@ -198,6 +201,8 @@ Applying rules for distribution based on tags:
         admiralty-scale:information-credibility="6"
         ...
 ~~~~
+
+- [PyTaxonomies](https://github.com/MISP/PyTaxonomies) - Python module to use the MISP Taxonomies
 
 ### Other use cases using MISP taxonomies
 
