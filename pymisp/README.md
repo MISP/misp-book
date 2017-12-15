@@ -105,7 +105,7 @@ if __name__ == '__main__':
 ~~~~
 Then the function starts by preparing the awaited arguments:
 * event: The event that will get a new attribute
-* type: The type of the attribute that will be added. See [here](../categories-and-types/README.md) for more informations 
+* type: The type of the attribute that will be added. See [here](../categories-and-types/README.md) for more information 
 * value: The value of the new attribute
 ~~~~python
     misp = init(misp_url, misp_key)
