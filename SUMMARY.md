@@ -19,4 +19,5 @@
 * [Categories and Types](categories-and-types/README.md)
 * [Synchronisation/Sharing](sharing/README.md)
 * [ZeroMQ - MISP publish-subscribe](misp-zmq/README.md)
+* [Translations - i18n & l10n](translation/README.md)
 * [Appendices](appendices/README.md)
