@@ -591,6 +591,18 @@ For example, to retrieve all attributes for event #5, including non IDS marked a
 ~~~~
 https://<misp url>/attributes/text/download/all/null/5/true
 ~~~~
+   
+## RESTful searches with JSON result
+
+It is possible to search the database for attributes based on a list of criteria
+
+To return an event with all of its attributes, relations, shadowAttributes, use the following syntax:
+
+~~~~
+https://<misp url>/attributes/restSearch/json/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
+~~~~
+
+   
 
 ## RESTful searches with XML result export
 
