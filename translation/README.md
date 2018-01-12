@@ -26,6 +26,39 @@ You want to have ultimate flexibility and that line should look more like this:
 <p><?php echo __('Are you sure you want to delete Proposal #%s?', $id);?></p>
 ```
 
+## Quirks
+
+Lines like this:
+
+```
+echo $this->Form->button('Submit', array('class' => 'btn btn-primary'));$
+```
+
+Should be prepared as such:
+
+```
+echo $this->Form->button(__('Submit'), array('class' => 'btn btn-primary'));
+```
+
+Or another case:
+
+```
+echo $this->Form->input('sharing_group_id', array(
+    'options' => array($sharingGroups),
+    'label' => 'Sharing Group',
+));
+```
+
+To:
+
+```
+echo $this->Form->input('sharing_group_id', array(
+    'options' => array($sharingGroups),
+    'label' => __('Sharing Group'),
+));
+```
+
+
 ## Let us know!
 
 If you plan to do a translation or localization, please open a ticket on the issue system: https://github.com/MISP/MISP-book/issues
