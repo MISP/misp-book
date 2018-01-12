@@ -4,9 +4,27 @@
 
 Please read the following CakePHP documentation about i18n & l10n: https://book.cakephp.org/2.0/en/core-libraries/internationalization-and-localization.html
 
-## Add an .md per translation effort
+## Add one .md per translation effort
 
-Please add a file à la: ja_JP.md (Japanese_Japan) or it_CH.md (Italian_Switzerland), in which you briefly describe what the current status is and what has been translated and which parts might be gotchas.
+Please add a file à la: ja_JP.md (Japanese_Japan) or it_CH.md (Italian_Switzerland), in which you briefly describe what the current status of your translation effort is and what has been translated and which parts might be gotchas.
+
+## Style
+
+Please follow whatever is the purest and most intelligible form of written language.
+
+## Formatting
+
+It is important to use correct formatting. This is wrong:
+
+```
+<p><?php echo __('Are you sure you want to delete Proposal #') . $id . '?' ?></p>
+```
+
+You want to have ultimate flexibility and that line should look more like this:
+
+```
+<p><?php echo __('Are you sure you want to delete Proposal #%s?', $id);?></p>
+```
 
 ## Let us know!
 
