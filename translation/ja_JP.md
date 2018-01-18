@@ -1,6 +1,6 @@
 # ja_JP - i18n & l10n
 
-Currently nothing is translated into Japanese. Preparation efforts will run through out January 2018 and actual translation will begin early February (TBD)
+Currently nothing is translated into Japanese. Preparation efforts will run through-out January 2018 and actual translation will begin early February (TBD)
 
 ## View Folder - Tree View
 
@@ -453,5 +453,4 @@ Folder: View
 -    - [ ] admin_edit.ctp
 -    - [ ] admin_index.ctp
 -    - [ ] index.ctp
-- [ ] tree.txt
 92 directories, 354 files
