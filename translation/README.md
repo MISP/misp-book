@@ -24,18 +24,18 @@ It is important to use correct formatting. This is wrong:
 You want to have ultimate flexibility and that line should look more like this:
 
 ```
-<p><?php echo __('Are you sure you want to delete Proposal #{id}?');?></p>
+<p><?php echo __('Are you sure you want to delete Proposal #{$id}?');?></p>
 ```
 
 In the above example we use an alternative notation of the format string in PHP. Using the above, the generated po-template file ([default.pot](https://github.com/MISP/MISP/blob/2.4/app/Locale/default.pot)) will have the name of the to-be-translated variable in the "msgid" part of the file. Which is easier to read then a non descriptive %s and allows the translator to have context on how the phrase is used in MISP.
 
-In case you have HTML-Tags, move them out of the sentence:
+In case you have HTML-Tags, move them out of the sentence, out of the php code if possible:
 ```
-<p><?php echo __('<h1>Are you sure you want to delete Proposal #%s?', $id);?></h1></p>
+<p><?php echo __('<h1>Are you sure you want to:<br />Delete Proposal #%s?', $id);?></h1></p>
 ```
 
 ```
-<p><?php echo __('%sAre you sure you want to delete Proposal #{id}?', '<h1>');?></h1></p>
+<p><h1><?php echo __('Are you sure you want to:%sDelete Proposal #{$id}?', '<br />');?></h1></p>
 ```
 
 
