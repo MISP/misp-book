@@ -4,6 +4,8 @@
 
 Automation functionality is designed to automatically generate signatures for intrusion detection systems. To enable signature generation for a given attribute, Signature field of this attribute must be set to Yes. Note that not all attribute types are applicable for signature generation, currently we only support NIDS signature generation for IP, domains, host names, user agents etc., and hash list generation for MD5/SHA1 values of file artifacts. Support for more attribute types is planned. To to make this functionality available for automated tools an authentication key is used. This makes it easier for your tools to access the data without further form-based-authentication.
 
+## General
+
 ### Automation URL
 
 The documentation will include a default MISP url in the examples. Don't forget to replace it with your MISP url.
@@ -41,6 +43,913 @@ When submitting data in a POST, PUT or DELETE operation you also need to specify
 Content-Type: application/json
 Content-Type: application/xml
 ~~~~
+
+Example:
+
+~~~~
+curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/
+~~~~
+
+By appending .json or .xml the content type can also be set without the need for a header.
+
+## Automation using PyMISP
+
+PyMISP is a Python library to access MISP platforms via their REST API.
+
+PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
+
+[PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
+
+
+## Status Codes
+
+To be done
+
+- 50x
+
+- 400 - 499
+
+## Error Handling
+
+### Wrong endpoint chosen
+
+#### Example
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/gaaa
+~~~~
+
+~~~~json
+{"name":"Not Found","message":"Not Found","url":"\/servers\/gaaa"}
+~~~~
+
+## Events management
+
+### /events
+
+#### Accepted Methods
+
+- GET
+- POST
+- PUT
+- DELETE
+
+#### Description
+
+Receive, update or delete Events. There is also a good amount of special output formats that can be triggered.
+
+### GET /events
+
+#### Description
+
+Receive events based on criteria
+
+#### URL Arguments
+
+- event_id: Event id to receive
+- event_uuid : Event uuid to receive
+
+
+#### Output
+~~~~json
+[{"id":"1","org_id":"1","date":"2014-12-10","info":"OSINT - F-Secure W32\/Regin, Stage #1","uuid":"54884656-2da8-4625-bf07-43ef950d210b","published":true,"analysis":"2","attribute_count":"39","orgc_id":"2","timestamp":"1418217625","distribution":"3","sharing_group_id":"0","proposal_email_lock":false,"locked":false,"threat_level_id":"1","publish_timestamp":"1515749192","disable_correlation":false,"Org":{"id":"1","name":"ORGNAME"},"Orgc":{"id":"2","name":"CIRCL"},"EventTag":[{"id":"1","event_id":"1","tag_id":"1","Tag":{"id":"1","name":"Type:OSINT","colour":"#1eed40","exportable":true}}],"SharingGroup":{"id":null,"name":null}}]
+~~~~
+
+#### Example
+
+~~~~
+curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/
+~~~~
+
+### POST /events
+
+#### Example
+
+~~~~
+curl -i -H "Accept: application/json" -H "content-type: application/json" -H "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf" --data "@event.json" -X POST http://10.50.13.60/events
+~~~~
+
+### DELETE /events
+
+#### Description
+
+Delete events based on criteria
+
+#### URL Arguments
+
+- event_id: Event id to receive
+- event_uuid : Event uuid to receive
+
+
+#### Output
+~~~~json
+{
+    "name": "Event deleted.",
+    "message": "Event deleted.",
+    "url": "\/events\/delete\/1"
+}
+~~~~
+
+#### Example
+
+
+curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X "DELETE" http://10.50.13.60/events/1
+~~~~
+
+### GET /events/index
+
+#### Description
+
+Return the event index. - Warning, there's a limit on the number of results
+
+#### Output
+~~~~json
+[{"id":"1","org_id":"1","date":"2014-12-10","info":"OSINT - F-Secure W32\/Regin, Stage #1","uuid":"54884656-2da8-4625-bf07-43ef950d210b","published":true,"analysis":"2","attribute_count":"39","orgc_id":"2","timestamp":"1418217625","distribution":"3","sharing_group_id":"0","proposal_email_lock":false,"locked":false,"threat_level_id":"1","publish_timestamp":"1515749192","disable_correlation":false,"Org":{"id":"1","name":"ORGNAME"},"Orgc":{"id":"2","name":"CIRCL"},"EventTag":[{"id":"1","event_id":"1","tag_id":"1","Tag":{"id":"1","name":"Type:OSINT","colour":"#1eed40","exportable":true}}],"SharingGroup":{"id":null,"name":null}}]
+~~~~
+
+#### Example
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/events/index
+~~~~
+
+
+### POST /events/addTag Add or remove tags from events
+
+You can add or remove an existing tag from an event in the following way:
+
+~~~~
+https://<misp url>/events/addTag
+https://<misp url>/events/removeTag
+~~~~
+
+Just POST a JSON object in the following format (to the appropriate API depending on whether you want to add or delete a tag from an event):
+
+~~~~json
+{"request": {"Event": {"id": "228", "tag": "8"}}}
+~~~~
+
+Where "tag" is the ID of the tag. You can also use the name of the tag the following way (has to be an exact match):
+
+~~~~json
+{"request": {"Event": {"id": "228", "tag": "OSINT"}}}
+~~~~
+
+
+### GET /events/pushEventToZMQ/
+
+#### Description
+
+Will push an Event to ZMQ
+
+#### URL Arguments
+
+- event_id
+
+#### Example
+
+~~~~
+curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>events/pushEventToZMQ/223
+~~~~
+
+### GET /events/nids NIDS rules export
+
+Automatic export of all network related attributes is available under the Snort or Suricata rule format. Only published events and attributes marked as IDS Signature are exported.
+
+You can configure your tools to automatically download the following file:
+
+~~~~
+https://<misp url>/events/nids/suricata/download
+https://<misp url>/events/nids/snort/download
+~~~~
+
+The full API syntax is as follows:
+
+~~~~
+https://<misp url>/events/nids/[format]/download/[eventid]/[frame]/[tags]/[from]/[to]/[last]
+~~~~
+
+<dl>
+<dt>format</dt>
+<dd>The export format, can be "suricata" or "snort"</dd>
+<dt>eventid</dt>
+<dd>Restrict the download to a single event</dd>
+<dt>frame</dt>
+<dd>Some commented out explanation framing the data. The reason to disable this would be if you would like to concatenate a list of exports from
+   various select events in order to avoid unnecessary duplication of the comments.</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
+   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
+   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:</dd>
+</dl>
+
+~~~~
+https://<misp url>/events/nids/snort/download/false/false/tag1&&tag2&&!tag3
+~~~~
+
+<dl>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 6d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
+</dl>
+
+The keywords false or null should be used for optional empty parameters in the URL.
+
+An example for a Suricata export for all events excluding those tagged tag1, without all of the commented information at the start of the file would look like this:
+
+~~~~
+https://<misp url>/events/nids/suricata/download/null/true/!tag1
+~~~~
+
+Administration is able to maintain a white-list containing host, domain name and IP numbers to exclude from the NIDS export.
+
+### GET /events/hids Hash - HIDS database export
+
+Automatic export of MD5/SHA1 checksums contained in file-related attributes. This list can be used to feed forensic software when searching for
+   suspicious files. Only published events and attributes marked as IDS Signature are exported.
+
+You can configure your tools to automatically download all the MD5 hashes from MISP:
+
+~~~~
+https://<misp url>/events/hids/md5/download
+~~~~
+
+Or the SHA1 hashes:
+
+~~~~
+https://<misp url>/events/hids/sha1/download
+~~~~
+
+The API's full format is as follow:
+
+~~~~
+https://<misp url>/events/hids/[format]/download/[tags]/[from]/[to]/[last]
+~~~~
+
+<dl>
+<dt>format</dt>
+<dd>The export format, can be "md5" or "sha1"</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
+   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
+   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:</dd>
+</dl>
+
+~~~~
+https://<misp url>/events/hids/md5/download/tag1&&tag2&&!tag3
+~~~~
+
+<dl>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
+</dl>
+
+The keywords false or null should be used for optional empty parameters in the URL.
+
+For example, to only show sha1 values from events tagged tag1, use:
+
+~~~~
+https://<misp url>/events/hids/sha1/download/tag1
+~~~~
+
+### GET /events/stix STIX export
+
+You can export MISP events in MITRE's STIX format (to read more about [STIX](https://stix.mitre.org/)). The STIX XML export is currently very slow and can lead to timeouts with larger events or collections of events. The STIX JSON return format does not suffer from this issue.
+
+Usage of the API:
+
+~~~~
+https://<misp url>/events/stix/download
+~~~~
+
+Search parameters can be passed to the function via url parameters or by POSTing an xml or json object (depending on the return type). The following parameters can be passed to the STIX export tool: id, withAttachments, tags. Both id and tags can use the && (and) and ! (not) operators to build queries. Using the url parameters, the syntax is as follows:
+
+~~~~
+https://<misp url>/events/stix/download/[id]/[withAttachments]/[tags]/[from]/[to]/[last]
+~~~~
+
+<dl>
+<dt>id</dt>
+<dd>The event's ID</dd>
+<dt>withAttachments</dt>
+<dd>Encode attachments where applicable</dd>
+<dt>tags</dt>
+<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
+</dl>
+
+For example, to include tag1 and tag2 but exclude tag3 you would use:
+
+~~~~
+https://<misp url>/events/stix/download/false/true/tag1&&tag2&&!tag3
+~~~~
+
+<dl>
+<dt>from</dt>
+<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
+<dt>to</dt>
+<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
+<dt>last</dt>
+<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
+</dl>
+
+You can post an XML or JSON object containing additional parameters in the following formats.
+
+If you use JSON query objects:
+
+~~~~
+https://<misp url>/events/stix/download.json
+~~~~
+
+~~~~json
+{"request": {"id":["!51","!62"],"withAttachment":false,"tags":["APT1","!OSINT"],"from":false,"to":"2015-02-15"}}                                            
+~~~~
+
+If you use XML query objects:
+
+~~~~
+https://<misp url>/events/stix/download
+~~~~
+
+~~~~xml
+<request><id>!51</id><id>!62</id><withAttachment>false</withAttachment><tags>APT1</tags><tags>!OSINT</tags><from>false</from><to>2015-02-15</to></request>
+~~~~
+
+#### Various ways to narrow down the search results of the STIX export
+
+For example, to retrieve all events tagged "APT1" but excluding events tagged "OSINT" and excluding events #51 and #62 without any attachments:
+~~~~
+https://<misp url>/events/stix/download/!51&&!62/false/APT1&&!OSINT/2015-02-15
+~~~~
+
+To export the same events using a POST request use:
+~~~~
+https://<misp url>/events/stix/download.json
+~~~~
+
+Together with this JSON object in the POST message:
+
+~~~~json
+{"request": {"id":["!51","!62"],"tags":["APT1","!OSINT"],"from":"2015-02-15"}}
+~~~~
+XML is automatically assumed when using the STIX export:
+
+~~~~
+https://<misp url>/events/stix/download
+~~~~
+
+The same search could be accomplished using the following POSTed XML object (note that ampersands need to be escaped, or alternatively separate id and tag elements can be used):
+
+~~~~xml
+<request><id>!51</id><id>!62</id><tags>APT1</tags><tags>!OSINT</tags><from>2015-02-15</from></request>
+~~~~
+
+## Tag management
+
+
+### POST /tags/add
+
+#### Description
+
+
+### POST /tags/attachTagToObject
+
+#### Description
+
+Attaches an Tag to an Object by a given UUID
+
+#### URL Arguments
+
+- tag
+- UUID
+
+#### Response
+~~~~json
+{
+    "name": "Tag tlp3Awhite(7) successfully attached to Attribute(153).",
+    "message": "Tag tlp3Awhite(7) successfully attached to Attribute(153).",
+    "url": "\/tags\/attachTagToObject"
+}
+~~~~
+
+
+#### Example
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
+~~~~
+
+### POST /tags/removeTagFromObject
+
+#### Description
+
+Removes an Tag to an Object by a given UUID
+
+#### URL Arguments
+
+- tag
+- UUID
+
+#### Response
+~~~~json
+{
+    "name": "Tag tlp3Awhite(7) successfully removed from Attribute(153).",
+    "message": "Tag tlp3Awhite(7) successfully removed from Attribute(153).",
+    "url": "\/tags\/removeTagFromObject"
+}
+~~~~
+
+
+#### Example
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/removeTagFromObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
+~~~~
+
+
+
+### GET /tags/tagStatistics/
+
+#### Description
+
+Will give an overview of the used attribute tags
+
+#### Output
+
+~~~~json
+{
+    "tags": {
+        "Type:OSINT": "1",
+        "tlp:white": "1",
+        "osint:source-type=\"technical-report\"": "1",
+        "misp-galaxy:threat-actor=\"Lazarus Group\"": "1",
+        "misp-galaxy:rat=\"FALLCHILL\"": "1"
+    },
+    "taxonomies": []
+}
+~~~~
+
+#### Example
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/tags/tagStatistics/
+~~~~
+
+## Attribute management
+
+
+### GET /attributes
+
+Get an attribute
+
+#### URL Arguments
+
+- attribute uuid
+
+#### URL Attributes
+
+#### Output
+~~~~json
+{"Attribute":{"id":"39","event_id":"1","object_id":"0","object_relation":null,"category":"Payload installation","type":"md5","to_ids":true,"uuid":"548847db-060c-4275-a0c7-15bb950d210b","timestamp":"1418217435","distribution":"3","sharing_group_id":"0","comment":"Regin samples collected.","deleted":false,"disable_correlation":false,"value":"049436bb90f71cf38549817d9b90e2da","event_uuid":"54884656-2da8-4625-bf07-43ef950d210b"}}
+~~~~
+
+#### Example
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/548847db-060c-4275-a0c7-15bb950d210b
+~~~~
+
+
+### GET /attributes/delete/
+
+#### Description
+
+Delete attributes.
+
+#### URL Arguments
+
+- attribute uuid
+
+- attribute id
+
+- attribute id/1 <-- hard delete
+
+#### Output
+~~~~json
+{"message":"Attribute deleted."}
+~~~~
+#### Example
+
+~~~~
+curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345
+~~~~
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/delete/548847db-060c-4275-a0c7-15bb950d210b
+~~~~
+
+
+Hard delete:
+
+~~~~
+curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345/1
+~~~~
+
+
+### GET /attributes/attributeStatistics
+
+#### Description
+
+Will give an overview of the used attribute types
+
+#### Output
+
+~~~~json
+{
+    "attachment": "1",
+    "comment": "1",
+    "filename": "2",
+    "float": "2",
+    "ip-dst": "90",
+    "ip-dst|port": "3",
+    "link": "3",
+    "md5": "16",
+    "port": "3",
+    "sha1": "2",
+    "sha256": "2",
+    "size-in-bytes": "1",
+    "ssdeep": "2"
+}
+~~~~
+
+#### Example
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/attributes/attributeStatistics/
+~~~~
+
+### GET /attributes/describeTypes Describe types API
+
+MISP can procedurally describe all attribute types and attribute categories it currently supports including the category - type mappings. To access this information simply send a GET request to:
+
+#### Example
+~~~~
+https://<misp url>/attributes/describeTypes
+~~~~
+
+Depending on the headers passed the returned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
+
+
+
+## Server management
+
+### GET /servers/getPyMISPVersion
+
+#### Result
+
+~~~~json
+{"version":"2.4.85"}
+~~~~
+
+#### Example
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/getPyMISPVersion.json
+~~~~
+
+### GET /servers/getVersion
+
+#### Result
+~~~~json
+{"version":"2.4.85","perm_sync":true}
+~~~~
+
+#### Example
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/getPyMISPVersion.json
+~~~~
+
+
+## Sightings
+
+### POST /sightings/add/
+
+- attribute_id
+- attribute_uuid
+
+
+## User management
+
+MISP allows administrators to create and manage users via its REST API
+
+
+~~~~
+https://<misp url>/admin/users/view/[user id]
+~~~~
+
+
+### POST /admin/users/add
+
+To create a new user, send a POST request to:
+
+####Sample input:
+
+~~~~
+{
+    "email":"andras.iklody@circl.lu",
+    "org\_id":1,
+    "role\_id":1
+}
+~~~~
+
+To view the mandatory and optional fields, use a GET request on the above URL.
+
+####Sample output
+
+~~~~json
+{
+    "name": "\/admin\/users\/add API description",
+    "description": "POST a User object in JSON format to this API to create a new user.",
+    "mandatory_fields": [
+        "email",
+        "org_id",
+        "role_id"
+    ],
+    "optional_fields": [
+        "password",
+        "external_auth_required",
+        "external_auth_key",
+        "enable_password",
+        "nids_sid",
+        "server_id",
+        "gpgkey",
+        "certif_public",
+        "autoalert",
+        "contactalert",
+        "disabled",
+        "change_pw",
+        "termsaccepted",
+        "newsread"
+    ],
+    "url": "\/admin\/users\/add"
+}
+~~~~
+
+### POST admin/users/edit/
+
+To edit an existing user send a POST request to:
+
+~~~~
+https://<misp url>/admin/users/edit/[user id]
+~~~~
+
+Only the fields POSTed will be updated, the rest is left intact. To view all possible parameters, simply send a GET request to the above URL.
+
+
+### POST admin/users/delete/
+
+You can also delete users by POSTing to the below URL, but keep in mind that disabling users (by setting the disabled flag via an edit) is always prefered to keep user associations to events intact.
+
+#### Parameters
+
+- [user id]
+
+#### Example
+
+~~~~
+https://<misp url>/admin/users/delete/[user id]
+~~~~
+
+### GET admin/users
+
+#### Description
+
+Will output all users
+
+#### Output
+
+~~~~json
+[
+    {
+        "User": {
+            "id": "1",
+            "password": "FOOOOOOOOOO",
+            "org_id": "1",
+            "server_id": "0",
+            "email": "admin@admin.test",
+            "autoalert": false,
+            "authkey": "a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf",
+            "invited_by": "0",
+            "gpgkey": null,
+            "certif_public": "",
+            "nids_sid": "4000000",
+            "termsaccepted": true,
+            "newsread": "0",
+            "role_id": "1",
+            "change_pw": "0",
+            "contactalert": false,
+            "disabled": false,
+            "expiration": null,
+            "current_login": "1515752313",
+            "last_login": "1515748671",
+            "force_logout": false,
+            "date_created": null,
+            "date_modified": null,
+            "org_ci": "ORGNAME"
+        },
+        "Role": {
+            "id": "1",
+            "name": "admin",
+            "perm_auth": true
+        },
+        "Organisation": {
+            "id": "1",
+            "name": "ORGNAME"
+        }
+    }
+]
+~~~~
+
+#### Example
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/admin/users
+~~~~
+
+
+### GET admin/users/view/
+
+#### Description
+
+Will return a single user. To view a user simply send a GET request.
+
+#### Parameters
+
+- id
+
+#### Output
+
+
+~~~~json
+{
+    "User": {
+        "id": "1",
+        "password": "*****",
+        "org_id": "1",
+        "server_id": "0",
+        "email": "admin@admin.test",
+        "autoalert": false,
+        "authkey": "a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf",
+        "invited_by": "0",
+        "gpgkey": null,
+        "certif_public": "",
+        "nids_sid": "4000000",
+        "termsaccepted": true,
+        "newsread": "0",
+        "role_id": "1",
+        "change_pw": "0",
+        "contactalert": false,
+        "disabled": false,
+        "expiration": null,
+        "current_login": "1515752313",
+        "last_login": "1515748671",
+        "force_logout": false,
+        "orgAdmins": []
+    }
+}
+~~~~
+#### Example
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/admin/users/view/1
+~~~~
+
+
+### POST admin/users/add/
+
+
+## Discussion API
+
+If you would like to fetch a discussion thread including all of its posts, simply send a GET request to:
+
+~~~~
+https://<misp url>/threads/view/<thread id>
+~~~~
+
+Using the following headers:
+
+~~~~
+Authorization: [Your auth key]
+Content-type: application/json
+Accept: application/json
+~~~~
+
+To get all posts related to an event simply send a GET request to:
+
+~~~~
+https://<misp url>/threads/viewEvent/<event id>
+~~~~
+
+## Organisation management
+
+MISP allows administrators to create and manage organisations via its REST API
+
+The API is available in JSON format so make sure you use the following headers:
+
+~~~~
+Authorization: [Your auth key]
+Content-type: application/json
+Accept: application/json
+~~~~
+
+To fetch all organisations send a GET request to:
+
+~~~~
+https://<misp url>/organisations
+~~~~
+
+To view an individual organisation, send a get request to:
+
+~~~~
+https://<misp url>/organisations/view/id
+~~~~
+
+The management of users happens via three apis:
+
+~~~
+https://<misp url>/admin/organisations/add
+https://<misp url>/admin/organisations/edit/[org id]
+https://<misp url>/admin/organisations/delete/[org id]
+~~~
+
+To delete an organisation simply send a POST or DELETE request to the above URL.
+
+For creating or modifying an organisation, simply POST a JSON containing the relevant fields to the appropriate API. The only mandatory field is the organisation name, with a host of optional parameters
+
+An example for a simple organisation object:
+
+~~~
+{
+    "name": "Blizzard",
+    "nationality": "US"
+}
+~~~
+
+Not setting a field will assume the default settings for the given field in the case of a new organisation whilst it would retain the existing setting for existing organisations. The above example would create the following object in MISP:
+
+~~~
+{
+    "Organisation": {
+        "id": "1108",
+        "name": "Blizzard",
+        "alias": "",
+        "anonymise": false,
+        "date_created": "2017-01-22 17:32:29",
+        "date_modified": "2017-01-22 17:32:29",
+        "description": "",
+        "type": "",
+        "nationality": "US",
+        "sector": "",
+        "created_by": "1",
+        "uuid": "5884de9d-04f0-4d7d-bf15-0b88c0a83865",
+        "contacts": "",
+        "local": true,
+        "landingpage": ""
+    }
+}
+~~~
+
+To query the add or edit APIs for the valid parameters, simply send a GET requests to either API. The result currently looks like this (which might change when new fields are added):
+
+~~~
+{
+    "name": "\/admin\/organisations\/add API description",
+    "description": "POST an Organisation object in JSON format to this API to create a new organsiation.",
+    "mandatory_fields": [
+        "name"
+    ],
+    "optional_fields": [
+        "anonymise",
+        "description",
+        "type",
+        "nationality",
+        "sector",
+        "uuid",
+        "contacts",
+        "local"
+    ],
+    "url": "\/admin\/organisations\/add"
+}
+~~~
+
+
+
+## Special Cases
+
 
 ### XML Export
 
@@ -233,206 +1142,6 @@ timestamp,type,uuid,value,object_uuid,object_name
 includeContext option includes the tags for the event for each line.
 
 
-
-
-### NIDS rules export
-
-Automatic export of all network related attributes is available under the Snort or Suricata rule format. Only published events and attributes marked as IDS Signature are exported.
-
-You can configure your tools to automatically download the following file:
-
-~~~~
-https://<misp url>/events/nids/suricata/download
-https://<misp url>/events/nids/snort/download
-~~~~
-
-The full API syntax is as follows:
-
-~~~~
-https://<misp url>/events/nids/[format]/download/[eventid]/[frame]/[tags]/[from]/[to]/[last]
-~~~~
-
-<dl>
-<dt>format</dt>
-<dd>The export format, can be "suricata" or "snort"</dd>
-<dt>eventid</dt>
-<dd>Restrict the download to a single event</dd>
-<dt>frame</dt>
-<dd>Some commented out explanation framing the data. The reason to disable this would be if you would like to concatenate a list of exports from
-   various select events in order to avoid unnecessary duplication of the comments.</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
-   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:</dd>
-</dl>
-
-~~~~
-https://<misp url>/events/nids/snort/download/false/false/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 6d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-The keywords false or null should be used for optional empty parameters in the URL.
-
-An example for a Suricata export for all events excluding those tagged tag1, without all of the commented information at the start of the file would look like this:
-
-~~~~
-https://<misp url>/events/nids/suricata/download/null/true/!tag1
-~~~~
-
-Administration is able to maintain a white-list containing host, domain name and IP numbers to exclude from the NIDS export.
-
-## Hash - HIDS database export
-
-Automatic export of MD5/SHA1 checksums contained in file-related attributes. This list can be used to feed forensic software when searching for
-   suspicious files. Only published events and attributes marked as IDS Signature are exported.
-
-You can configure your tools to automatically download all the MD5 hashes from MISP:
-
-~~~~
-https://<misp url>/events/hids/md5/download
-~~~~
-
-Or the SHA1 hashes:
-
-~~~~
-https://<misp url>/events/hids/sha1/download
-~~~~
-
-The API's full format is as follow:
-
-~~~~
-https://<misp url>/events/hids/[format]/download/[tags]/[from]/[to]/[last]
-~~~~
-
-<dl>
-<dt>format</dt>
-<dd>The export format, can be "md5" or "sha1"</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
-   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:</dd>
-</dl>
-
-~~~~
-https://<misp url>/events/hids/md5/download/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-The keywords false or null should be used for optional empty parameters in the URL.
-
-For example, to only show sha1 values from events tagged tag1, use:
-
-~~~~
-https://<misp url>/events/hids/sha1/download/tag1
-~~~~
-
-## STIX export
-
-You can export MISP events in MITRE's STIX format (to read more about [STIX](https://stix.mitre.org/)). The STIX XML export is currently very slow and can lead to timeouts with larger events or collections of events. The STIX JSON return format does not suffer from this issue.
-
-Usage of the API:
-
-~~~~
-https://<misp url>/events/stix/download
-~~~~
-
-Search parameters can be passed to the function via url parameters or by POSTing an xml or json object (depending on the return type). The following parameters can be passed to the STIX export tool: id, withAttachments, tags. Both id and tags can use the && (and) and ! (not) operators to build queries. Using the url parameters, the syntax is as follows:
-
-~~~~
-https://<misp url>/events/stix/download/[id]/[withAttachments]/[tags]/[from]/[to]/[last]
-~~~~
-
-<dl>
-<dt>id</dt>
-<dd>The event's ID</dd>
-<dt>withAttachments</dt>
-<dd>Encode attachments where applicable</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
-</dl>
-
-For example, to include tag1 and tag2 but exclude tag3 you would use:
-
-~~~~
-https://<misp url>/events/stix/download/false/true/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-You can post an XML or JSON object containing additional parameters in the following formats.
-
-If you use JSON query objects:
-
-~~~~
-https://<misp url>/events/stix/download.json
-~~~~
-
-~~~~json
-{"request": {"id":["!51","!62"],"withAttachment":false,"tags":["APT1","!OSINT"],"from":false,"to":"2015-02-15"}}                                            
-~~~~
-
-If you use XML query objects:
-
-~~~~
-https://<misp url>/events/stix/download
-~~~~
-
-~~~~xml
-<request><id>!51</id><id>!62</id><withAttachment>false</withAttachment><tags>APT1</tags><tags>!OSINT</tags><from>false</from><to>2015-02-15</to></request>
-~~~~
-
-### Various ways to narrow down the search results of the STIX export
-
-For example, to retrieve all events tagged "APT1" but excluding events tagged "OSINT" and excluding events #51 and #62 without any attachments:
-~~~~
-https://<misp url>/events/stix/download/!51&&!62/false/APT1&&!OSINT/2015-02-15
-~~~~
-
-To export the same events using a POST request use:
-~~~~
-https://<misp url>/events/stix/download.json
-~~~~
-
-Together with this JSON object in the POST message:
-
-~~~~json
-{"request": {"id":["!51","!62"],"tags":["APT1","!OSINT"],"from":"2015-02-15"}}
-~~~~
-XML is automatically assumed when using the STIX export:
-
-~~~~
-https://<misp url>/events/stix/download
-~~~~
-
-The same search could be accomplished using the following POSTed XML object (note that ampersands need to be escaped, or alternatively separate id and tag elements can be used):
-
-~~~~xml
-<request><id>!51</id><id>!62</id><tags>APT1</tags><tags>!OSINT</tags><from>2015-02-15</from></request>
-~~~~
-
 ## RPZ export
 
 You can export RPZ zone files for DNS level firewall by using the RPZ export functionality of MISP. The file generated will include all of the IDS
@@ -591,6 +1300,18 @@ For example, to retrieve all attributes for event #5, including non IDS marked a
 ~~~~
 https://<misp url>/attributes/text/download/all/null/5/true
 ~~~~
+   
+## RESTful searches with JSON result
+
+It is possible to search the database for attributes based on a list of criteria
+
+To return an event with all of its attributes, relations, shadowAttributes, use the following syntax:
+
+~~~~
+https://<misp url>/attributes/restSearch/json/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
+~~~~
+
+   
 
 ## RESTful searches with XML result export
 
@@ -865,26 +1586,6 @@ The following optional parameters are expected:
 <dd>This will populate the comment field of any attribute created using this API.</dd>
 </dl>
 
-## Add or remove tags from events
-
-You can add or remove an existing tag from an event in the following way:
-
-~~~~
-https://<misp url>/events/addTag
-https://<misp url>/events/removeTag
-~~~~
-
-Just POST a JSON object in the following format (to the appropriate API depending on whether you want to add or delete a tag from an event):
-
-~~~~json
-{"request": {"Event": {"id": "228", "tag": "8"}}}
-~~~~
-
-Where "tag" is the ID of the tag. You can also use the name of the tag the following way (has to be an exact match):
-
-~~~~json
-{"request": {"Event": {"id": "228", "tag": "OSINT"}}}
-~~~~
 
 ## Proposals API
 
@@ -1123,15 +1824,6 @@ If no Related observables are set in the Sighting itself, MISP will fall back to
 
 MISP would create sightings for attributes matching any of the following: malicious1.example.com, malicious2.example.com, malicious3.example.com
 
-# Describe types API
-
-MISP can procedurally describe all attribute types and attribute categories it currently supports including the category - type mappings. To access this information simply send a GET request to:
-
-~~~~
-https://<misp url>/attributes/describeTypes
-~~~~
-
-Depending on the headers passed the returned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
 
 # Attribute statistics API
 
@@ -1209,12 +1901,12 @@ Sample output of the types in percentages from CIRCL's MISP instance:
 Additional statistics are available as JSON which are the statistics also usable via the user interface. A ".json" can be appended
 to the following URLs:
 
-
+~~~~
 - https://<misp url>/users/statistics/tags.json
 - https://<misp url>/users/statistics.json
 - https://<misp url>/users/statistics/attributehistogram.json
 - https://<misp url>/users/statistics/orgs.json
-
+~~~~
 
 An example output of https://<misp url>/users/statistics.json:
 
@@ -1237,213 +1929,6 @@ An example output of https://<misp url>/users/statistics.json:
 }
 ~~~~
 
-# User management
-
-MISP allows administrators to create and manage users via its REST API
-
-The API is available in JSON format so make sure you use the following headers:
-
-~~~~
-Authorization: [Your auth key]
-Content-type: application/json
-Accept: application/json
-
-~~~~
-
-To fetch all users send a GET request to:
-
-~~~~
-https://<misp url>/admin/users
-~~~~
-
-To view a user simply send a GET request to the following url:
-
-~~~~
-https://<misp url>/admin/users/view/[user id]
-~~~~
-
-To create a new user, send a POST request to:
-
-~~~~
-https://<misp url>/admin/users/add
-~~~~
-
-Sample input:
-
-~~~~
-{
-    "email":"andras.iklody@circl.lu",
-    "org\_id":1,
-    "role\_id":1
-}
-~~~~
-
-To view the mandatory and optional fields, use a GET request on the above URL.
-
-Sample output:
-
-~~~~
-{
-    "name": "\/admin\/users\/add API description",
-    "description": "POST a User object in JSON format to this API to create a new user.",
-    "mandatory_fields": [
-        "email",
-        "org_id",
-        "role_id"
-    ],
-    "optional_fields": [
-        "password",
-        "external_auth_required",
-        "external_auth_key",
-        "enable_password",
-        "nids_sid",
-        "server_id",
-        "gpgkey",
-        "certif_public",
-        "autoalert",
-        "contactalert",
-        "disabled",
-        "change_pw",
-        "termsaccepted",
-        "newsread"
-    ],
-    "url": "\/admin\/users\/add"
-}
-~~~~
-
-To edit an existing user send a POST request to:
-
-~~~~
-https://<misp url>/admin/users/edit/[user id]
-~~~~
-
-Only the fields POSTed will be updated, the rest is left intact. To view all possible parameters, simply send a GET request to the above URL.
 
 
-You can also delete users by POSTing to the below URL, but keep in mind that disabling users (by setting the disabled flag via an edit) is always prefered to keep user associations to events intact.
 
-~~~~
-https://<misp url>/admin/users/delete/[user id]
-~~~~
-
-# Organisation management
-
-MISP allows administrators to create and manage organisations via its REST API
-
-The API is available in JSON format so make sure you use the following headers:
-
-~~~~
-Authorization: [Your auth key]
-Content-type: application/json
-Accept: application/json
-~~~~
-
-To fetch all organisations send a GET request to:
-
-~~~~
-https://<misp url>/organisations
-~~~~
-
-To view an individual organisation, send a get request to:
-
-~~~~
-https://<misp url>/organisations/view/id
-~~~~
-
-The management of users happens via three apis:
-
-~~~
-https://<misp url>/admin/organisations/add
-https://<misp url>/admin/organisations/edit/[org id]
-https://<misp url>/admin/organisations/delete/[org id]
-~~~
-
-To delete an organisation simply send a POST or DELETE request to the above URL.
-
-For creating or modifying an organisation, simply POST a JSON containing the relevant fields to the appropriate API. The only mandatory field is the organisation name, with a host of optional parameters
-
-An example for a simple organisation object:
-
-~~~
-{
-    "name": "Blizzard",
-    "nationality": "US"
-}
-~~~
-
-Not setting a field will assume the default settings for the given field in the case of a new organisation whilst it would retain the existing setting for existing organisations. The above example would create the following object in MISP:
-
-~~~
-{
-    "Organisation": {
-        "id": "1108",
-        "name": "Blizzard",
-        "alias": "",
-        "anonymise": false,
-        "date_created": "2017-01-22 17:32:29",
-        "date_modified": "2017-01-22 17:32:29",
-        "description": "",
-        "type": "",
-        "nationality": "US",
-        "sector": "",
-        "created_by": "1",
-        "uuid": "5884de9d-04f0-4d7d-bf15-0b88c0a83865",
-        "contacts": "",
-        "local": true,
-        "landingpage": ""
-    }
-}
-~~~
-
-To query the add or edit APIs for the valid parameters, simply send a GET requests to either API. The result currently looks like this (which might change when new fields are added):
-
-~~~
-{
-    "name": "\/admin\/organisations\/add API description",
-    "description": "POST an Organisation object in JSON format to this API to create a new organsiation.",
-    "mandatory_fields": [
-        "name"
-    ],
-    "optional_fields": [
-        "anonymise",
-        "description",
-        "type",
-        "nationality",
-        "sector",
-        "uuid",
-        "contacts",
-        "local"
-    ],
-    "url": "\/admin\/organisations\/add"
-}
-~~~
-
-# Discussion API
-
-If you would like to fetch a discussion thread including all of its posts, simply send a GET request to:
-
-~~~~
-https://<misp url>/threads/view/<thread id>
-~~~~
-
-Using the following headers:
-
-~~~~
-Authorization: [Your auth key]
-Content-type: application/json
-Accept: application/json
-~~~~
-
-To get all posts related to an event simply send a GET request to:
-
-~~~~
-https://<misp url>/threads/viewEvent/<event id>
-~~~~
-
-# Automation using PyMISP
-
-PyMISP is a Python library to access MISP platforms via their REST API.
-
-PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
-
-[PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
