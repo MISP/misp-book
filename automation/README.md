@@ -1824,6 +1824,55 @@ If no Related observables are set in the Sighting itself, MISP will fall back to
 
 MISP would create sightings for attributes matching any of the following: malicious1.example.com, malicious2.example.com, malicious3.example.com
 
+## Warninglists API
+
+
+### GET warninglists/index
+
+#### Description
+
+Return the index of warninglists enabled on the MISP instance
+#### Parameters
+
+- id
+
+#### Output
+
+
+~~~~json
+...
+{"Warninglists":[{"Warninglist":{"id":"17","name":"List of known Office 365 URLs and IP address ranges","type":"string","description":"Office 365 URLs and IP address ranges","version":"20170212","enabled":true,"warninglist_entry_count":"1516","valid_attributes":"ip-src, ip-dst, domain|ip, hostname"}},{"Warninglist":{"id":"16","name":"List of known google domains","type":"string","description":"Event contains one or more entries of known google domains","version":"3","enabled":true,"warninglist_entry_count":"665","valid_attributes":"domain, hostname, domain|ip"}},{"Warninglist":{"id":"15","name":"List of hashes for EICAR test virus","type":"string","description":"Event contains one or more entries based on hashes for EICAR test virus","version":"1","enabled":true,"warninglist_entry_count":"15","valid_attributes":"md5, sha1, sha256, sha512, filename|md5, filename|sha1, filename|sha256, filename|sha512"}},{"Warninglist":{"id":"14","name":"Top 1000 website from Alexa","type":"string","description":"Event contains one or more entries from the top 1000 of the most used website (Alexa).","version":"20170212","enabled":true,"warninglist_entry_count":"1000","valid_attributes":"hostname, domain"}},{"Warninglist":{"id":"13","name":"TLDs as known by IANA","type":"string","description":"Event contains one or more TLDs as attribute with an IDS flag set","version":"2","enabled":true,"warninglist_entry_count":"1290","valid_attributes":"hostname, domain, domain|ip"}},{"Warninglist":{"id":"12","name":"Second level TLDs as known by Mozilla Foundation","type":"string","description":"Event contains one or more second level TLDs as attribute with an IDS flag set","version":"2","enabled":true,"warninglist_entry_count":"6462","valid_attributes":"hostname, domain, domain|ip"}},{"Warninglist":{"id":"11","name":"List of RFC 5735 CIDR blocks","type":"cidr","description":"Event contains one or more entries part of the RFC 5735 CIDR blocks - Special Use IPv4 Addresses","version":"2","enabled":true,"warninglist_entry_count":"15","valid_attributes":"ip-src, ip-dst, domain|ip"}},{"Warninglist":{"id":"10","name":"List of RFC 3849 CIDR blocks","type":"cidr","description":"Event contains one or more entries part of the IPv6 documentation prefix (RFC 3849)","version":"2","enabled":true,"warninglist_entry_count":"1","valid_attributes":"ip-src, ip-dst, domain|ip"}},{"Warninglist":{"id":"9","name":"List of RFC 1918 CIDR blocks","type":"cidr","description":"Event contains one or more entries part of the RFC 1918 CIDR blocks","version":"2","enabled":true,"warninglist_entry_count":"3","valid_attributes":"ip-src, ip-dst, domain|ip"}},{"Warninglist":{"id":"8","name":"List of known IPv6 public DNS resolvers","type":"string","description":"Event contains one or more public IPv6 DNS resolvers as attribute with an IDS flag set","version":"20160803","enabled":true,"warninglist_entry_count":"172","valid_attributes":"ALL"}},{"Warninglist":{"id":"7","name":"List of known IPv4 public DNS resolvers","type":"string","description":"Event contains one or more public IPv4 DNS resolvers as attribute with an IDS flag set","version":"20160803","enabled":true,"warninglist_entry_count":"77857","valid_attributes":"ALL"}},{"Warninglist":{"id":"6","name":"List of RFC 5771 multicast CIDR blocks","type":"cidr","description":"Event contains one or more entries part of the RFC 5771 multicast CIDR blocks","version":"2","enabled":true,"warninglist_entry_count":"16","valid_attributes":"ip-src, ip-dst, domain|ip"}},{"Warninglist":{"id":"5","name":"List of known microsoft domains","type":"string","description":"Event contains one or more entries of known microsoft domains","version":"1","enabled":true,"warninglist_entry_count":"152","valid_attributes":"domain, hostname, domain|ip"}},{"Warninglist":{"id":"4","name":"List of IPv6 link local blocks","type":"cidr","description":"Event contains one or more entries part of the IPv6 link local prefix (RFC 4291)","version":"1","enabled":true,"warninglist_entry_count":"1","valid_attributes":"ip-src, ip-dst, domain|ip"}}
+....
+
+
+~~~~
+#### Example
+~~~~
+curl  --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X "GET" https://10.50.13.60/warninglists/index
+~~~~
+
+### GET warninglists/view/1
+
+#### Description
+
+Return the a warninglist by id
+
+#### Parameters
+
+- id
+
+#### Output
+
+
+~~~~json
+to long
+~~~~
+#### Example
+~~~~
+curl  --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X "GET" https://10.50.13.60/warninglists/view/17
+~~~~
+
+
 
 # Attribute statistics API
 
