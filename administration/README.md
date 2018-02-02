@@ -19,12 +19,12 @@
 - [x] Tools
 - [ ] Server Settings
 - [ ] Jobs
-- [ ] Scheduled Tasks 
+- [ ] Scheduled Tasks
 
 - - -
 
 ### Users
-As an admin, you can set up new accounts for users, edit their user profiles, delete them, or just have a look at all the viewers’ profiles. Organisation admins are restricted to executing these actions exclusively within their own organisation’s users only.
+As an admin (not to be confused with Org Admin), you can set up new accounts for users, edit user profiles, delete them, or just have a look at all the viewers' profiles. Organisation admins (Org Admin) are restricted to executing these actions exclusively within their own organisation’s users only.
 
 #### Adding a new user:
 
@@ -32,7 +32,7 @@ To add a new user, click on the Add User button in the administration menu to th
 
 ![Fill this form out to add a new user. Keep in mind that the drop-down menu titled "Role" controls privileges the user will have.](figures/add_user.png)
 
-*   **Email:** The user's e-mail address, this will be used as his/her login name and as an address to send all automatated e-mails as well as e-mails sent by contacting the user as the reporter of an event.
+*   **Email:** The user's e-mail address, this will be used as his/her login name and as an address to send all automated e-mails as well as e-mails sent by contacting the user as the reporter of an event.
 *   **Set password:** Tick the box if you want to define a temporary user-password for the user. If you don't, you should use the action button 'reset password' in the 'List Users' view to generate one and send it by email to the user.
 *   **Password:** *This textbox is displayed only when 'Set password' is ticked.* A Temporary password for the user that he/she should change after the first login. Ensure that the password is at least 6 characters long, includes a digit or a special character and contains at least one upper-case and at least one lower-case character.
 *   **Confirm Password:** *This textbox is displayed only when 'Set password' is ticked.* This should be an exact copy of the Password field.
@@ -42,7 +42,7 @@ To add a new user, click on the Add User button in the administration menu to th
 *   **NIDS Sid:** ID of network intrusion detection systems.
 *   **Sync user for:** Use this option for granting the user the right to synchronize the event between MISP server. This option is available for admin, Org Admin and Sync user role.
 *   **Gpgkey:** The key used to encrypt e-mails sent through the system.
-*   **Fetch GPG key:** Fetch GPG public key.
+*   **Fetch GPG key:** Fetch GnuPG public key.
 *   **Receive alerts when events are published:** This option will subscribe the new user to automatically generated e-mails whenever an event is published.
 *   **Receive alerts from "contact reporter" requests:** This option will subscribe the new user to e-mails that are generated when another user tries to get in touch with an event's reporting organisation that matches that of the new user.
 *   **Disable this user account:** Tick it if you want to disable this user account.
@@ -56,10 +56,10 @@ To list all current users of the system, just click on List Users under the admi
 *   **Id:** The user's automatically assigned ID number.
 *   **Org:** The organisation that the user belongs to.
 *   **Email:** The e-mail address (and login name) of the user.
-*   **Authkey:** Unique authentication key of the user. 
+*   **Authkey:** Unique authentication key of the user.
 *   **Autoalert:** Shows whether the user has subscribed to auto-alerts and is continuing to receive mass-emails regarding newly published events that he/she is eligible for.
 *   **Contactalert:** Shows whether the user has the subscription to contact reporter e-mails directed at his/her organisation is turned on or off.
-*   **Gpgkey:** Shows whether the user has entered a Gpgkey yet.
+*   **Gpgkey:** Shows whether the user has entered a GnuPG key yet.
 *   **Nids Sid:** Displays the currently assigned NIDS ID.
 *   **Termsaccepted:** This flag indicates whether the user has accepted the terms of use or not.
 *   **Last login:** Date of last login.
@@ -132,11 +132,11 @@ To list all current organisation of the system, just click on List Organisations
 *   **Local:** Flag defined if the organisation is local or remote.
 *   **Actions:**  There are 3 options available: edit, delete or display an organisation's information. These options are also available on the left menu when you are on the display view.
 	*    **Edit Organisation:** Same options of create organisation's view.
-![Edit organisation.](figures/edit_org.png)	
+![Edit organisation.](figures/edit_org.png)
 	*    **Delete Organisation:** Use this option for deleting organisation.<br />
-![Delete organisation.](figures/delete_org.png)	 
+![Delete organisation.](figures/delete_org.png)
 	*    **View Organisation:** Use this option to display information about the selected organisation. In this view, you can display the user belongs to this organisation and events published by organisation.
-![View organisation.](figures/view_org.png)	
+![View organisation.](figures/view_org.png)
 
 #### Merge organisations:
 Merge Organisation menu is available only in the organisation view, under the left menu. Merge one organisation to another will transfer all users and data from one to another. On the left the organisation to merge, on the right the target one.
@@ -162,7 +162,7 @@ The extra permissions are defined below:
 *   **Perm Sharing Group:** Grant access to edit or create sharing groups.
 *   **Perm Site Admin:** Gives the user full administrator privileges, this setting is used for site admins.
 *   **Perm Auth:** This setting enables the authentication key of the role's users to be used for rest requests.
-*   **Perm Tag Editor:** Grants access to edit or create tags. 
+*   **Perm Tag Editor:** Grants access to edit or create tags.
 *   **Perm Delegate:** Grant access to delegate the publication of an event to a third-party organization.
 *   **Perm Sync:** This setting enables the users of the role to be used as a synchronisation user. The authentication key of this user can be handed out to the administrator of a remote MISP instance to allow the synchronisation features to work.
 *   **Perm Regexp Access:** Allows users who have this permission enabled to edit the regular expression table. Be careful when giving out this permission, incorrect regular expressions can be very harmful (infinite loops, loss of data, etc.).
@@ -182,7 +182,7 @@ By clicking on the List Roles button, you can view a list of all currently regis
 
 *   **Id:** The role's automatically assigned ID number.
 *   **Name:** The name of role.
-*   **Permission:** One of the 4 permissions: Read Only, Manage My Own Events, Manage Organization Events, Manage & Publish Organisation Events. 
+*   **Permission:** One of the 4 permissions: Read Only, Manage My Own Events, Manage Organization Events, Manage & Publish Organisation Events.
 *   **Extra Permissions flag:** Flag for each extra permissions: Admin, Site Admin, Sync Actions, Audit Actions, Auth key access, Regex Actions, Tagger, Tag Editor, Template Editor, Sharing Group Editor, Deletagions Access.
 *   **Action Buttons:** There are 2 options available: Edit Role or Delete it.
 	*    **Edit Role:** Same options of create role's view.<br />
@@ -214,11 +214,11 @@ Since version 2.3, MISP has a settings and diagnostics tool that allows site-adm
 The settings and diagnostics tool is split up into several aspects, all accessible via the tabs on top of the tool. For any unset or incorrectly set setting, or failed diagnostic a number next to the tab name will indicate the number and severity of the issues. If the number is written with a red font, it means that the issue is critical. First, let's look at the various tabs:
 *   **Overview**: General overview of the current state of your MISP installation
 *   **MISP settings**: Basic MISP settings. This includes the way MISP handles the default settings for distribution settings, whether background jobs are enabled, etc
-*   **GnuPG settings**: GPG related settings.
+*   **GnuPG settings**: GnuPG related settings.
 *   **Proxy settings**: HTTP proxy related settings.
 *   **Security settings**: Settings controlling brute-force protection and the application's salt key.
 *   **Misc settings**: Settings controlling debug options, please ensure that debug is always disabled on a production system.
-*   **Diagnostics**: The diagnostics tool checks if all directories that MISP uses to store data are writeable by the apache user. Also, the tool checks whether the STIX libraries and GPG are working as intended.
+*   **Diagnostics**: The diagnostics tool checks if all directories that MISP uses to store data are writeable by the apache user. Also, the tool checks whether the STIX libraries and GnuPG are working as intended.
 *   **Workers**: Shows the background workers (if enabled) and shows a warning if they are not running. Admins can also restart the workers here.
 *   **Download report**: Download a report in JSON format, compiled of all of the settings visible in the tool.
 
