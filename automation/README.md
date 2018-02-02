@@ -2,15 +2,15 @@
 
 #  Automation API
 
-Automation functionality is designed to automatically generate signatures for intrusion detection systems. To enable signature generation for a given attribute, Signature field of this attribute must be set to Yes. Note that not all attribute types are applicable for signature generation, currently we only support NIDS signature generation for IP, domains, host names, user agents etc., and hash list generation for MD5/SHA1 values of file artifacts. Support for more attribute types is planned. To to make this functionality available for automated tools an authentication key is used. This makes it easier for your tools to access the data without further form-based-authentication.
+Automation functionality is designed to automatically generate signatures for intrusion detection systems. To enable signature generation for a given attribute, Signature field of this attribute must be set to Yes. Note that not all attribute types are applicable for signature generation, currently we only support NIDS signature generation for IP, domains, host names, user agents etc., and hash list generation for MD5/SHA1 values of file artefacts. Support for more attribute types is planned. To to make this functionality available for automated tools an authentication key is used. This makes it easier for your tools to access the data without further form-based-authentication.
 
 ## General
 
 ### Automation URL
 
-The documentation will include a default MISP url in the examples. Don't forget to replace it with your MISP url.
+The documentation will include a default MISP URL in the examples. Don't forget to replace it with your MISP URL.
 
-Default MISP url in the documentation:
+Default MISP URL in the documentation:
 
 ~~~~
 https://<misp url>/
@@ -20,7 +20,7 @@ https://<misp url>/
 
 The authentication of the automation is performed via a secure key available in the MISP UI interface. Make sure you keep that key secret as it gives access to the entire database! The API key is available in the event actions menu under automation.
 
-Since version 2.2 the usage of the authentication key in the url is deprecated. Instead, pass the auth key in an Authorization header in the request. The legacy option of having the auth key in the url is temporarily still supported but not recommended.
+Since version 2.2 the usage of the authentication key in the URL is deprecated. Instead, pass the auth key in an Authorization header in the request. The legacy option of having the auth key in the URL is temporarily still supported but not recommended.
 
 The authorization is performed by using the following header:
 
@@ -331,7 +331,7 @@ Usage of the API:
 https://<misp url>/events/stix/download
 ~~~~
 
-Search parameters can be passed to the function via url parameters or by POSTing an xml or json object (depending on the return type). The following parameters can be passed to the STIX export tool: id, withAttachments, tags. Both id and tags can use the && (and) and ! (not) operators to build queries. Using the url parameters, the syntax is as follows:
+Search parameters can be passed to the function via URL parameters or by POSTing an xml or json object (depending on the return type). The following parameters can be passed to the STIX export tool: id, withAttachments, tags. Both id and tags can use the && (and) and ! (not) operators to build queries. Using the URL parameters, the syntax is as follows:
 
 ~~~~
 https://<misp url>/events/stix/download/[id]/[withAttachments]/[tags]/[from]/[to]/[last]
@@ -370,7 +370,7 @@ https://<misp url>/events/stix/download.json
 ~~~~
 
 ~~~~json
-{"request": {"id":["!51","!62"],"withAttachment":false,"tags":["APT1","!OSINT"],"from":false,"to":"2015-02-15"}}                                            
+{"request": {"id":["!51","!62"],"withAttachment":false,"tags":["APT1","!OSINT"],"from":false,"to":"2015-02-15"}}
 ~~~~
 
 If you use XML query objects:
@@ -928,7 +928,7 @@ To query the add or edit APIs for the valid parameters, simply send a GET reques
 ~~~
 {
     "name": "\/admin\/organisations\/add API description",
-    "description": "POST an Organisation object in JSON format to this API to create a new organsiation.",
+    "description": "POST an Organisation object in JSON format to this API to create a new organisation.",
     "mandatory_fields": [
         "name"
     ],
@@ -1127,7 +1127,7 @@ https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type
 
 The order of columns will be honoured including those related to object level information.
 
-To select object level columns, simply pre-pend the given object column’s name by object_, such as:
+To select object level columns, simply prepend the given object column's name by object_, such as:
 
 ~~~~
 https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value&object_attributes=uuid,name
@@ -1152,7 +1152,7 @@ It is possible to further restrict the exported values using the following filte
 <dl>
 <dt>tags</dt>
 <dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search when passed through the url. Use semicolons
+   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search when passed through the URL. Use semicolons
    instead (the search will automatically search for colons instead).</dd>
 <dt>id</dt>
 <dd>The event's ID</dd>
@@ -1178,7 +1178,7 @@ MISP will inject header values into the zone file as well as define the action t
 |RPZ_ns_alt||
 |RPZ_email| root.localhost|
 
-To override the above values, either use the url parameters as described below:
+To override the above values, either use the URL parameters as described below:
 
 ~~~~
 https://<misp url>/attributes/rpz/download/[tags]/[eventId]/[from]/[to]/[policy]/[walled_garden]/[ns]/[ns_alt]/[email]/[serial]/[refresh]/[retry]/[expiry]/[minim
@@ -1300,7 +1300,7 @@ For example, to retrieve all attributes for event #5, including non IDS marked a
 ~~~~
 https://<misp url>/attributes/text/download/all/null/5/true
 ~~~~
-   
+
 ## RESTful searches with JSON result
 
 It is possible to search the database for attributes based on a list of criteria
@@ -1311,7 +1311,7 @@ To return an event with all of its attributes, relations, shadowAttributes, use 
 https://<misp url>/attributes/restSearch/json/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
 ~~~~
 
-   
+
 
 ## RESTful searches with XML result export
 
@@ -1509,7 +1509,7 @@ You can also download samples by knowing its MD5 hash. Simply pass the hash alon
 You can also use this API to get all samples from events that contain the passed hash. For this functionality, just pass the "allSamples" flag along.
 Note that if you are getting all samples from matching events, you can use all supported hash types (md5, sha1, sha256) for the lookup.
 
-You can also get all the samples from an event with a given event ID, by passing along the eventID parameter. Make sure that either an event ID or a hash is passed along, otherwise an error message will be returned. Also, if no hash is set, the allSamples flag will get set automatically.   
+You can also get all the samples from an event with a given event ID, by passing along the eventID parameter. Make sure that either an event ID or a hash is passed along, otherwise an error message will be returned. Also, if no hash is set, the allSamples flag will get set automatically.
 
 https://<misp url>/attributes/downloadSample/[hash]/[allSamples]/[eventID]
 
@@ -1629,13 +1629,13 @@ Based on the API key used, the list of visible sharing groups will be returned i
 
 The MISP feeds can be enabled via the API.
 
-A feed can be enabled by POSTing on the following url (feed_id is the id of the feed):
+A feed can be enabled by POSTing on the following URL (feed_id is the id of the feed):
 
 ~~~~
 /feeds/enable/feed_id
 ~~~~
 
-A feed can be disabled by POSTing on the following url (feed_id is the id of the feed):
+A feed can be disabled by POSTing on the following URL (feed_id is the id of the feed):
 
 ~~~~
 /feeds/disable/feed_id
@@ -1699,7 +1699,7 @@ It is also possible to POST a STIX indicator with sighting data to the following
 https://<misp url>/sightings/add/stix
 ~~~~
 
-MISP will use the sighting's related observables to gather all values and create sightings for each attribute that matches any of the values. If no related observables are provided in the Sighting object, then MISP will fall back to the Indicator itself and use its observables' values to create the sightings. The time of the sighting is the current time, unless the timestamp attribute is set on the Sightings object, in which case that is taken.
+MISP will use the sightings related observables to gather all values and create sightings for each attribute that matches any of the values. If no related observables are provided in the Sighting object, then MISP will fall back to the Indicator itself and use its observables' values to create the sightings. The time of the sighting is the current time, unless the timestamp attribute is set on the Sightings object, in which case that is taken.
 
 An example STIX sightings document:
 
