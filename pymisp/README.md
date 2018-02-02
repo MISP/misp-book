@@ -18,19 +18,19 @@ Note that you need to have Auth Key access in your MISP instance to use PyMISP
 * Proposals:  add, edit, accept, discard
 * Full text search and search by attributes
 * Get STIX event
-* Export statistics  
+* Export statistics
 And even more, just look at the api.py file
 
 ### Installation
 
-You can install PyMISP by either using pip or by getting the last version from the [GitHub repository](https://github.com/MISP/PyMISP) 
+You can install PyMISP by either using pip or by getting the last version from the [GitHub repository](https://github.com/MISP/PyMISP)
 
 #### Install from pip
 ~~~~
 pip install pymisp
 ~~~~
 
-#### Install the lastest version from repo
+#### Install the latest version from the repository
 ~~~~
 git clone https://github.com/MISP/PyMISP.git && cd PyMISP
 python setup.py install
@@ -79,7 +79,7 @@ from keys import misp_url, misp_key
 import argparse
 ~~~~
 First of all, it is obvious that we need to import PyMISP.
-Then we also need to know both the instance with which we will work and the API key to use: Both should be stored in the keys.py file.  
+Then we also need to know both the instance with which we will work and the API key to use: Both should be stored in the keys.py file.
 Finally we import argparse library so the script can handle arguments.
 ~~~~python
 # For python2 & 3 compat, a bit dirty, but it seems to be the least bad one
@@ -88,13 +88,13 @@ try:
 except NameError:
     pass
 ~~~~
-Just a few lines to be sure that pyhon 2 and 3 are supported
+Just a few lines to be sure that python 2 and 3 are supported
 ~~~~python
 def init(url, key):
     return PyMISP(url, key, True, 'json', debug=True)
 ~~~~
 This function will create a PyMISP object that will be used later to interact with the MISP instance.
-As seen in the [api.py](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L85), a PyMISP object need to know both the url of the MISP instance and the API key to use. It can also take additionnal and not mandatory data, such as the use or not of SSL or the name of the export format.
+As seen in the [api.py](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L85), a PyMISP object need to know both the URL of the MISP instance and the API key to use. It can also take additional and not mandatory data, such as the use or not of SSL or the name of the export format.
 ~~~~python
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Create an event on MISP.')
@@ -105,7 +105,7 @@ if __name__ == '__main__':
 ~~~~
 Then the function starts by preparing the awaited arguments:
 * event: The event that will get a new attribute
-* type: The type of the attribute that will be added. See [here](../categories-and-types/README.md) for more information 
+* type: The type of the attribute that will be added. See [here](../categories-and-types/README.md) for more information
 * value: The value of the new attribute
 ~~~~python
     misp = init(misp_url, misp_key)
@@ -115,7 +115,7 @@ Thanks to the previously created function, we create a PyMISP object.
     event = misp.get_event(args.event)
     event = misp.add_named_attribute(event, args.type, args.value)
 ~~~~
-In order to add the new argument, we first need to fetch the event in the MISP database using the [get\_event](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L223) function which only need the event\_id. Then only once we have it, we can call the function [add\_named\_attribute](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L372) that will add the argument. 
+In order to add the new argument, we first need to fetch the event in the MISP database using the [get\_event](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L223) function which only need the event\_id. Then only once we have it, we can call the function [add\_named\_attribute](https://github.com/CIRCL/PyMISP/blob/master/pymisp/api.py#L372) that will add the argument.
 ~~~~python
 	print(event)
 ~~~~
@@ -164,7 +164,7 @@ Arguments:
 
 #### del.py
 
-Delete an event or an attribute from a MISP instance. The event has the priority: if both are set, only the event will be deleted. 
+Delete an event or an attribute from a MISP instance. The event has the priority: if both are set, only the event will be deleted.
 
 Arguments:
 * **event**: Event ID to delete.
@@ -172,7 +172,7 @@ Arguments:
 
 #### delete_user.py
 
-Delete the user with the given id. Keep in mind that disabling users (by setting the disabled flag via an edit) is always prefered to keep user associations to events intact.
+Delete the user with the given id. Keep in mind that disabling users (by setting the disabled flag via an edit) is always preferred to keep user associations to events intact.
 
 Arguments:
 * **user_id**: The id of the user you want to delete.
@@ -220,7 +220,7 @@ Arguments:
 
 #### sharing_groups.py
 
-Get a list of the sharing groups from the MISP instance.  
+Get a list of the sharing groups from the MISP instance.
 No argument.
 
 #### sighting.py
@@ -232,7 +232,7 @@ Arguments:
 
 #### stats.py
 
-Output attributes statistics from a MISP instance.  
+Output attributes statistics from a MISP instance.
 No argument.
 
 #### suricata.py
@@ -245,7 +245,7 @@ Arguments:
 
 #### tags.py
 
-Get tags from MISP instance.  
+Get tags from MISP instance.
 No argument.
 
 #### tagstatistics.py
@@ -273,15 +273,15 @@ Arguments:
 * **event**: Not supplying an event ID will cause MISP to create a single new event for all of the POSTed malware samples.
 * **distrib**: The distribution setting used for the attributes and for the newly created event, if relevant. [0-3].
 * **ids**: You can flag all attributes created during the transaction to be marked as \"to_ids\" or not.
-* **categ**: The category that will be assigned to the uploaded samples. Valid options are: Payload delivery, Artifacts dropped, Payload Installation, External Analysis.
+* **categ**: The category that will be assigned to the uploaded samples. Valid options are: Payload delivery, Artefacts dropped, Payload Installation, External Analysis.
 * **info**: Used to populate the event info field if no event ID supplied.
-* **analysis**: The analysis level of the newly created event, if applicatble. [0-2]
-* **threat**: The threat level ID of the newly created event, if applicatble. [1-4]
+* **analysis**: The analysis level of the newly created event, if applicable. [0-2]
+* **threat**: The threat level ID of the newly created event, if applicable. [1-4]
 * **comment**: Comment for the uploaded file(s).
 
-#### users_list.py 
+#### users_list.py
 
-Get a list of the sharing groups from the MISP instance.  
+Get a list of the sharing groups from the MISP instance.
 No argument.
 
 ### Going further
@@ -300,7 +300,7 @@ outputdir = 'output'
 # filters = {'tag' : 'tlp : white|feed-export|!privint', 'org':'CIRCL'}
 filters = {}
 
-valid_attribute_distribution_levels = ['0', '1', '2', '3', '4', '5'] 
+valid_attribute_distribution_levels = ['0', '1', '2', '3', '4', '5']
 
 ~~~~
 
@@ -329,9 +329,9 @@ for uri in osintcircl.json():
 #### ioc-2-misp
 
 Allow to import OpenIOC files into MISP easily. It is also possible to set specific tags on these events.
- 
+
 #### Situational Awareness
 
-* attribute_treemap.py generate a treemap showing the distribution of the attributes on the misp instance.
+* attribute_treemap.py generate a tree-map showing the distribution of the attributes on the MISP instance.
 * tags_* : these functions help having statistics and graphs about the tag repartition.
 
