@@ -47,11 +47,16 @@ https://<misp url>/servers/add
 
 3. Remote Sync Organisation Type
 
-    The organization having the external server you want to sync with. Example: BE
+    MISP has several organisation "pools", one for local and one for known external organisations. When adding a
+    synchronisation connection, you need to define the host organisation of the remote instance. Select which pool
+    you wish to pick the organisation from using this drop-down. You also have the option of adding a new organisation
+    directly from this interface.
 
-4. Local Organisation
+4. Local/Known remote Organisation
 
-    This setting will configure which organisation will be assigned to the events being pulled.
+    Choose the organisation from the selected pool that defines the host organisation on the remote side. Make sure that
+    the remote instance is actually run by the organisation you select as this is used in an integral part of the 
+    sharing mechanism. Do not select your own organisation for this setting.
 
 5. Authkey
 
