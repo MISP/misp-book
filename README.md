@@ -25,7 +25,7 @@ and many other contributors especially the ones during the [MISP hackathons](htt
 
 ## Contributing
 
-We welcome contributions to the MISP book. If you want to contribute, clone the [misp-book](https://github.com/MISP/misp-book) repository and pull a request with your changes. You can also [open issues](https://github.com/MISP/misp-book/issues) if you find any errors or propose changes.
+We welcome contributions to the MISP book. If you want to contribute, fork the [misp-book](https://github.com/MISP/misp-book) repository and pull a request with your changes. You can also [open issues](https://github.com/MISP/misp-book/issues) if you find any errors or propose changes.
 
 ## License
 
