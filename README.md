@@ -21,7 +21,7 @@ The MISP user guide is a collaborative effort between all the contributors to [M
 * Cthulhu Solutions
 * [CERT-EU](https://cert.europa.eu)
 
-and many other contributors especially the ones during the MISP hackathons.
+and many other contributors especially the ones during the [MISP hackathons](https://github.com/MISP/MISP/wiki/Hackathon "MISP Hackathon Wiki").
 
 ## Contributing
 
