@@ -8,7 +8,7 @@ description: Introduction to MISP (Malware Information Sharing Platform)
 
 ![MISP logo](https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/logos/misp-logo.png)
 
-User guide for MISP \(Malware Information Sharing Platform\) - An Open Source Threat Sharing Platform. This user guide is intended for ICT professionals such as security analysts, security incident handlers, or malware reverse engineers who share threat indicators using MISP or integrate MISP into other security monitoring tools. The user guide includes day-to-day usage of the MISP's graphical user interface along with its automated interfaces \(API\), in order to integrate MISP within a security environment.
+User guide for MISP \(Malware Information Sharing Platform\) - An Open Source Threat Intelligence Sharing Platform. This user guide is intended for ICT professionals such as security analysts, security incident handlers, or malware reverse engineers who share threat indicators using MISP or integrate MISP into other security monitoring tools. The user guide includes day-to-day usage of the MISP's graphical user interface along with its automated interfaces \(API\), in order to integrate MISP within a security environment.
 
 ## Acknowledgement
 
