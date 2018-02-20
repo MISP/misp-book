@@ -3,7 +3,7 @@ And Justice for All! -->
 
 # Quick Start
 The Malware Information Sharing Platform (MISP) tool facilitates the exchange of Indicators of Compromise (IOCs) about targeted malware and attacks, within your community of trusted members. MISP is a distributed IOC database containing technical and non-technical information. Exchanging such information should result in faster detection of targeted attacks and improve the detection ratio, whilst also reducing the number of false positives.
-
+With the focus on automation and standards, MISP provides you with a powerful API via PyMISP, jump ahead to these chapters to get started.
 
 ## Create an Event
 
