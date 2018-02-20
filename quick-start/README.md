@@ -13,8 +13,7 @@ You only have to add a few pieces of information to register your Event. Further
 
 ## Describe Event
 
-
-Red is totally normal. No worries.
+Red is totally normal. No worries. (In future releases this will potentially change to a more harmonious color)
 
 ![Describe Event](figures/AddEventOK.jpg)
 
