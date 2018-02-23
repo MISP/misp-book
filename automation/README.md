@@ -2059,7 +2059,7 @@ curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --h
 ]
 ~~~
 
-### POST /modules/query
+### POST /modules/queryEnrichment
 Call any enabled module.
 
 #### Example
@@ -2075,7 +2075,7 @@ Content of dns.json
 Query using MISP API
 
 ~~~bash
-curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --header "Content-Type: application/json" --data @dns.json -X POST http://<MISP>/modules/query
+curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --header "Content-Type: application/json" --data @dns.json -X POST http://<MISP>/modules/queryEnrichment
 ~~~
 
 The output will be following JSON:
