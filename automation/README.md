@@ -1978,6 +1978,122 @@ An example output of https://<misp url>/users/statistics.json:
 }
 ~~~~
 
+# MISP modules
+## Description
+It is possible call misp-modules directly from API.
+If the module needs credentials, API will get the information directly from MISP configuration.
 
+### GET /modules/
+Retrieve a list of all modules enabled.
 
+#### Example 
+~~~bash
+curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://<MISP>/modules/
+~~~
+
+#### Output
+~~~json
+[
+  {
+    "name": "passivetotal",
+    "type": "expansion",
+    "mispattributes": {
+      "input": [
+        "hostname",
+        "domain",
+        "ip-src",
+        "ip-dst"
+      ],
+      "output": [
+        "ip-src",
+        "ip-dst",
+        "hostname",
+        "domain"
+      ]
+    },
+    "meta": {
+      "description": "PassiveTotal expansion service to expand values with multiple Passive DNS sources",
+      "config": [
+        "username",
+        "password"
+      ],
+      "author": "Alexandre Dulaunoy",
+      "version": "0.1"
+    }
+  },
+  {
+    "name": "sourcecache",
+    "type": "expansion",
+    "mispattributes": {
+      "input": [
+        "link"
+      ],
+      "output": [
+        "link"
+      ]
+    },
+    "meta": {
+      "description": "Module to cache web pages of analysis reports, OSINT sources. The module returns a link of the cached page.",
+      "author": "Alexandre Dulaunoy",
+      "version": "0.1"
+    }
+  },
+  {
+    "name": "dns",
+    "type": "expansion",
+    "mispattributes": {
+      "input": [
+        "hostname",
+        "domain"
+      ],
+      "output": [
+        "ip-src",
+        "ip-dst"
+      ]
+    },
+    "meta": {
+      "description": "Simple DNS expansion service to resolve IP address from MISP attributes",
+      "author": "Alexandre Dulaunoy",
+      "version": "0.1"
+    }
+  }
+]
+~~~
+
+### POST /modules/query
+Call any enabled module.
+
+#### Example
+
+Content of dns.json
+~~~json
+{
+  "hostname": "www.foo.be",
+  "module": "dns"
+}
+~~~
+
+Query using MISP API
+
+~~~bash
+curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --header "Content-Type: application/json" --data @dns.json -X POST http://<MISP>/modules/query
+~~~
+
+The output will be following JSON:
+
+~~~json
+{
+  "results": [
+    {
+      "types": [
+        "ip-src",
+        "ip-dst"
+      ],
+      "values": [
+        "188.65.217.78"
+      ]
+    }
+  ]
+}
+~~~
 
