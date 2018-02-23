@@ -27,7 +27,6 @@ The authorization is performed by using the following header:
 ~~~~
 Authorization: YOUR API KEY
 ~~~~
-
 ### Accept and Content-Type headers
 
 When performing your request, depending on the type of request, you might need to explicitly specify in what content type you want to get your results. This is done by setting one of the below Accept headers:
