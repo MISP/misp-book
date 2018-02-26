@@ -55,8 +55,7 @@ By appending .json or .xml the content type can also be set without the need for
 
 PyMISP is a Python library to access MISP platforms via their REST API.
 
-PyMISP allows you to fetch events, add or update events/
-utes, add or update samples or search for attributes.
+PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
 
 [PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
 
