@@ -1315,6 +1315,8 @@ To return an event with all of its attributes, relations, shadowAttributes, use 
 ~~~~
 https://<misp url>/attributes/restSearch/json/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
 ~~~~
+    
+ If you include "includeEventUuid":1" in the json request, it will give you the event_uuid as a result as well.
 
 
 
