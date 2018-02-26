@@ -55,7 +55,8 @@ By appending .json or .xml the content type can also be set without the need for
 
 PyMISP is a Python library to access MISP platforms via their REST API.
 
-PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
+PyMISP allows you to fetch events, add or update events/
+utes, add or update samples or search for attributes.
 
 [PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
 
@@ -508,6 +509,20 @@ curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --heade
 
 ## Attribute management
 
+### POST /attributes/add/
+
+Adds an Attribute to an event
+
+#### URL Arguments
+
+- event id
+
+#### Output
+
+#### Example
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -d "{"event_id":"3542","value":"1.2.3.4","category":"Network activity","type":"ip-dst"}" http://10.50.13.60/attributes/add/3542
+~~~~
 
 ### GET /attributes
 
