@@ -508,6 +508,20 @@ curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --heade
 
 ## Attribute management
 
+### POST /attributes/add/
+
+Adds an Attribute to an event
+
+#### URL Arguments
+
+- event id
+
+#### Output
+
+#### Example
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -d "{"event_id":"3542","value":"1.2.3.4","category":"Network activity","type":"ip-dst"}" http://10.50.13.60/attributes/add/3542
+~~~~
 
 ### GET /attributes
 
