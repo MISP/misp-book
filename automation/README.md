@@ -445,6 +445,12 @@ Attaches an Tag to an Object by a given UUID
 curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
 ~~~~
 
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " -d "{"uuid"="5a0d68b3-6da0-4ced-8233-77bb950d210f" "tag"="tlp:white"}" --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/
+~~~~
+
+
 ### POST /tags/removeTagFromObject
 
 #### Description
