@@ -27,7 +27,6 @@ The authorization is performed by using the following header:
 ~~~~
 Authorization: YOUR API KEY
 ~~~~
-
 ### Accept and Content-Type headers
 
 When performing your request, depending on the type of request, you might need to explicitly specify in what content type you want to get your results. This is done by setting one of the below Accept headers:
@@ -446,6 +445,12 @@ Attaches an Tag to an Object by a given UUID
 curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
 ~~~~
 
+
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " -d "{"uuid"="5a0d68b3-6da0-4ced-8233-77bb950d210f" "tag"="tlp:white"}" --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/
+~~~~
+
+
 ### POST /tags/removeTagFromObject
 
 #### Description
@@ -503,6 +508,20 @@ curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --heade
 
 ## Attribute management
 
+### POST /attributes/add/
+
+Adds an Attribute to an event
+
+#### URL Arguments
+
+- event id
+
+#### Output
+
+#### Example
+~~~~
+curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -d "{"event_id":"3542","value":"1.2.3.4","category":"Network activity","type":"ip-dst"}" http://10.50.13.60/attributes/add/3542
+~~~~
 
 ### GET /attributes
 
@@ -1310,6 +1329,8 @@ To return an event with all of its attributes, relations, shadowAttributes, use 
 ~~~~
 https://<misp url>/attributes/restSearch/json/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
 ~~~~
+    
+ If you include "includeEventUuid":1" in the json request, it will give you the event_uuid as a result as well.
 
 
 
@@ -1978,6 +1999,122 @@ An example output of https://<misp url>/users/statistics.json:
 }
 ~~~~
 
+# MISP modules
+## Description
+It is possible call misp-modules directly from API.
+If the module needs credentials, API will get the information directly from MISP configuration.
 
+### GET /modules/
+Retrieve a list of all modules enabled.
 
+#### Example 
+~~~bash
+curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://<MISP>/modules/
+~~~
+
+#### Output
+~~~json
+[
+  {
+    "name": "passivetotal",
+    "type": "expansion",
+    "mispattributes": {
+      "input": [
+        "hostname",
+        "domain",
+        "ip-src",
+        "ip-dst"
+      ],
+      "output": [
+        "ip-src",
+        "ip-dst",
+        "hostname",
+        "domain"
+      ]
+    },
+    "meta": {
+      "description": "PassiveTotal expansion service to expand values with multiple Passive DNS sources",
+      "config": [
+        "username",
+        "password"
+      ],
+      "author": "Alexandre Dulaunoy",
+      "version": "0.1"
+    }
+  },
+  {
+    "name": "sourcecache",
+    "type": "expansion",
+    "mispattributes": {
+      "input": [
+        "link"
+      ],
+      "output": [
+        "link"
+      ]
+    },
+    "meta": {
+      "description": "Module to cache web pages of analysis reports, OSINT sources. The module returns a link of the cached page.",
+      "author": "Alexandre Dulaunoy",
+      "version": "0.1"
+    }
+  },
+  {
+    "name": "dns",
+    "type": "expansion",
+    "mispattributes": {
+      "input": [
+        "hostname",
+        "domain"
+      ],
+      "output": [
+        "ip-src",
+        "ip-dst"
+      ]
+    },
+    "meta": {
+      "description": "Simple DNS expansion service to resolve IP address from MISP attributes",
+      "author": "Alexandre Dulaunoy",
+      "version": "0.1"
+    }
+  }
+]
+~~~
+
+### POST /modules/queryEnrichment
+Call any enabled module.
+
+#### Example
+
+Content of dns.json
+~~~json
+{
+  "hostname": "www.foo.be",
+  "module": "dns"
+}
+~~~
+
+Query using MISP API
+
+~~~bash
+curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --header "Content-Type: application/json" --data @dns.json -X POST http://<MISP>/modules/queryEnrichment
+~~~
+
+The output will be following JSON:
+
+~~~json
+{
+  "results": [
+    {
+      "types": [
+        "ip-src",
+        "ip-dst"
+      ],
+      "values": [
+        "188.65.217.78"
+      ]
+    }
+  ]
+}
+~~~
 
