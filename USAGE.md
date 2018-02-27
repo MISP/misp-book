@@ -3,11 +3,17 @@ Install notes
 =============
 
 :warning:
-Make sure to be in the *misp-book* repository directory for the npm magic.
+Make sure to be in the *misp-book* repository directory for the *npm magic*.
+Also: The *npm* plugin *autocover* is broken. It pulls an incompatible *canvas* module version. Thus patched repository used (forked from original)
+
+Tested on: Ubuntu 16.04.4 LTS
 
 ```
-sudo apt install npm pkg-config libcairo2-dev
-npm install gitbook gitbook-plugin-autocover gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install -y build-essential
+sudo apt install -y npm pkg-config libcairo2-dev
+npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors
 sudo npm install gitbook-cli -g
 gitbook install
 ```
