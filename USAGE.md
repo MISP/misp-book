@@ -6,6 +6,7 @@ Install notes
 Make sure to be in the *misp-book* repository directory for the npm magic.
 
 ```
+sudo apt install npm pkg-config libcairo2-dev
 npm install gitbook gitbook-plugin-autocover gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors
 sudo npm install gitbook-cli -g
 gitbook install
