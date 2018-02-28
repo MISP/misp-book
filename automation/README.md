@@ -1332,7 +1332,22 @@ https://<misp url>/attributes/restSearch/json/[value]/[type]/[category]/[org]/[t
     
  If you include "includeEventUuid":1" in the json request, it will give you the event_uuid as a result as well.
 
+Be careful if you GET the /attributes/restSearch/json/ without an value, it will return all attributes.
 
+### POST /attributes/restSearch
+
+Do not use that function with GET!
+
+#### Example
+~~~~
+curl -X POST -k -H 'Accept: application/json' -H 'Authorization: API Key' -H 'Content-Type: application/json' -i 'https://URL/attributes/restSearch' --data '{"value":"foobar"}'
+~~~~
+
+~~~~json
+{
+    "response": []
+}
+~~~~
 
 ## RESTful searches with XML result export
 
