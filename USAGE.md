@@ -1,0 +1,79 @@
+
+Install notes
+=============
+
+:warning:
+Make sure to be in the *misp-book* repository directory for the *npm magic*.
+Also: The *npm* plugin *autocover* is broken. It pulls an incompatible *canvas* module version. Thus patched repository used (forked from original)
+
+Tested on: Ubuntu 16.04.4 LTS
+
+```
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install -y build-essential
+sudo apt install -y npm pkg-config libcairo2-dev
+npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors
+sudo npm install gitbook-cli -g
+gitbook install
+```
+
+Usage
+=====
+
+If you want to generate the PDF output (you need to have Calibre installed):
+
+```
+gitbook pdf
+```
+
+on macOS (ebook-convert is not in path):
+
+```
+PATH=$PATH:/Applications/calibre.app/Contents/MacOS/ ; gitbook pdf
+```
+
+and if you want to want to serve the HTML pages on 127.0.0.1:4000:
+
+```
+gitbook serve
+```
+
+macOS Notes
+===========
+
+canvas needs to be compiled and needs the following dependencies:
+
+```
+xcode-select --install
+# If you have homebrew not installed yet:
+## /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# For the more adventureous you can install a cask of calibre which gives you access to *ebook-convert*
+## brew cask install calibre
+brew install pkg-config cairo pango libpng jpeg giflib
+```
+
+:warning:
+Make sure to be in the *misp-book* repository directory for the npm magic.
+
+Installing gitbook and all dependencies wants to look like this (Tested on macOS 11.13.3):
+
+```
+npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors
+npm install gitbook-cli -g
+gitbook install
+```
+
+npm salvage
+===========
+
+In case something with npm breaks, this brings you back to a sane default.
+We still assume we are in the *misp-book* repository working directory.
+
+```
+rm -rf node_modules
+rm package-lock.json
+rm -rf ~/.gitbook
+sudo rm -rf /usr/local/lib/node_modules/gitbook-cli
+```
+
