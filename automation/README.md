@@ -1582,6 +1582,8 @@ This API will allow you to populate an event that you have modify rights to with
 
 The files have to be base64 encoded and POSTed as explained below. All samples will be zipped and password protected (with the password being "infected"). The hashes of the original file will be captured as additional attributes.
 
+For sample upload (for objects in general) there is no check for duplicates.
+
 The event ID is optional. MISP will accept either a JSON or an XML object posted to the above URL.
 
 The general structure of the expected objects is as follows:
