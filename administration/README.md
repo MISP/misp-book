@@ -42,7 +42,7 @@ To add a new user, click on the Add User button in the administration menu to th
 *   **NIDS Sid:** ID of network intrusion detection systems.
 *   **Sync user for:** Use this option for granting the user the right to synchronize the event between MISP server. This option is available for admin, Org Admin and Sync user role.
 *   **Gpgkey:** The key used to encrypt e-mails sent through the system.
-*   **Fetch GPG key:** Fetch GnuPG public key.
+*   **Fetch GnuPG key:** Fetch GnuPG public key.
 *   **Receive alerts when events are published:** This option will subscribe the new user to automatically generated e-mails whenever an event is published.
 *   **Receive alerts from "contact reporter" requests:** This option will subscribe the new user to e-mails that are generated when another user tries to get in touch with an event's reporting organisation that matches that of the new user.
 *   **Disable this user account:** Tick it if you want to disable this user account.
@@ -79,18 +79,18 @@ To list all current users of the system, just click on List Users under the admi
 
 #### Contacting a user:
 
-Site admins can use the "Contact users" feature to send all or individual user an e-mail. Users that have a PGP key set will receive their e-mails encrypted. When clicking this button on the left, you'll be presented with a form that allows you to specify the type of the e-mail, who it should reach and what the content is using the following options:
+Site admins can use the "Contact users" feature to send all or individual user an e-mail. Users that have a GnuPG key set will receive their e-mails encrypted. When clicking this button on the left, you'll be presented with a form that allows you to specify the type of the e-mail, who it should reach and what the content is using the following options:
 
 ![Contact your users here.](figures/contact.png)
 
 *   **Action:** This defines the e-mail type, which can be a custom message or a password reset. Password resets automatically include a new temporary password at the bottom of the message and will automatically change the user's password accordingly.
 *   **Subject:** In the case of a custom e-mail, you can enter a subject line here.
-*   **Recipient:** The recipient toggle lets you contact all your users, a single user (which creates a second drop-down list with all the e-mail addresses of the users) and potential future users (which opens up a text field for the e-mail address and a text area field for a PGP public key).
+*   **Recipient:** The recipient toggle lets you contact all your users, a single user (which creates a second drop-down list with all the e-mail addresses of the users) and potential future users (which opens up a text field for the e-mail address and a text area field for a GnuPG public key).
 *   **Custom message checkbox:** This is available for password resets or for welcome message, you can either write your own message (which will be appended with a temporary key and the signature), or let the system generate one automatically.
 
-Keep in mind that all e-mails sent through this system, in addition to your own message, will be signed in the name of the instance's host organisation's support team, the e-ail will also include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's PGP signature for users that have a PGP key set (and thus are eligible for an encrypted e-mail).
+Keep in mind that all e-mails sent through this system, in addition to your own message, will be signed in the name of the instance's host organisation's support team, the e-ail will also include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's GnuPG signature for users that have a GnuPG key set (and thus are eligible for an encrypted e-mail).
 
-:warning: PGP instance key is the PGP key used by the MISP instance and which is only used to sign notification. The PGP key used in the MISP instance must not be used anywhere else and should not be valuable.
+:warning: GnuPG instance key is the GnuPG key used by the MISP instance and which is only used to sign notification. The GnuPG key used in the MISP instance must not be used anywhere else and should not be valuable.
 
 - - -
 
