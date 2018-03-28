@@ -435,7 +435,7 @@ Login Example:
 }
 ```
 
-When a user gets created, all of the information about the user (id, email, base64 encoded GPG key, role, etc.) gets sent along ZMQ. If this information is modified, the same JSON will be sent along the ZMQ channel, with updated values.
+When a user gets created, all of the information about the user (id, email, base64 encoded GnuPG key, role, etc.) gets sent along ZMQ. If this information is modified, the same JSON will be sent along the ZMQ channel, with updated values.
 For example, if the below user is disabled, the same JSON will be sent, but the `disabled` key will be set to `"1"`
 
 User Creation and User Edit Example:
