@@ -42,7 +42,7 @@ To add a new user, click on the Add User button in the administration menu to th
 *   **NIDS Sid:** ID of network intrusion detection systems.
 *   **Sync user for:** Use this option for granting the user the right to synchronize the event between MISP server. This option is available for admin, Org Admin and Sync user role.
 *   **Gpgkey:** The key used to encrypt e-mails sent through the system.
-*   **Fetch GPG key:** Fetch GnuPG public key.
+*   **Fetch GnuPG key:** Fetch GnuPG public key.
 *   **Receive alerts when events are published:** This option will subscribe the new user to automatically generated e-mails whenever an event is published.
 *   **Receive alerts from "contact reporter" requests:** This option will subscribe the new user to e-mails that are generated when another user tries to get in touch with an event's reporting organisation that matches that of the new user.
 *   **Disable this user account:** Tick it if you want to disable this user account.
