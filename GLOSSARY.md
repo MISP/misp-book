@@ -45,8 +45,8 @@ A MISP instance is an installation of the MISP software and the connected databa
 MISP objects are used in MISP (starting from version 2.4.80) system and can be used by other information sharing tool. MISP objects are in addition to MISP attributes to allow advanced combinations of attributes. The creation of these objects and their associated attributes are based on real cyber security use-cases and existing practices in information sharing. The objects are just shared like any other attributes in MISP even if the other MISP instances don’t have the template of the object. The following document is generated from the machine-readable JSON describing the MISP objects.
 [More](https://www.misp-project.org/objects.html)
 
-## MISP PGP Key
-or GnuPG instance key is the PGP (Pretty Good Privacy) key used by the MISP instance and which is only used to sign notification.
+## MISP GnuPG Key
+or GnuPG instance key is the GnuPG (Gnu Privacy Guard) key used by the MISP instance and which is only used to sign notification.
 The GnuPG key used in the MISP instance must **not** be used anywhere else and should not be valuable.
 
 ## MISP Taxonomies

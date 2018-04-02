@@ -139,7 +139,7 @@ After selecting the action, choose who the target of the e-mails should be (all 
 
 You can then specify (if eligible) what the e-mail address of the target is (for existing users you can choose from a dropdown menu).
 
-In the case of a new user, you can specify the future user's GPG key, to send his/her new key in an encrypted e-mail.
+In the case of a new user, you can specify the future user's GnuPG key, to send his/her new key in an encrypted e-mail.
 
 The system will automatically generate a message for you, but it is also possible to write a custom message if you tick the check-box, but don't worry about assigning a temporary password manually, the system will do that for you, right after your custom message.
 
