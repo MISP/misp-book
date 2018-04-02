@@ -135,9 +135,9 @@ More details on publishing events [here](../using-the-system/#publish-an-event).
 
 ### Community
 
-A community is composed of the local organisations on a MISP server and the remote organisations connected by the sync users. For more information on the concept of community, refer to an [article on MISP information sharing following ISO/IEC 27010](https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/misp-sharing-information-following-ISO-IEC-27010.md), explaining the concept of community.
+A community is composed of the local organisations on a MISP server and the remote organisations connected by the sync users. For more information on the concept of community, refer to an [article on MISP information sharing following ISO/IEC 27010](https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/misp-sharing-information-following-ISO-IEC-27010.md#suitable-data-model), explaining the concept of community.
 
-Specifically, communities are not reversible. Taking the example of <a href="misp-server-sync">the above figure</a>, illustrating the synchronisation between two MISP servers, OrgB.ServerB is part of the MISP ServerA community but OrgB.ServerA is not part of MISP ServerB community.
+Specifically, communities are not reversible. Taking the example of <a href="#misp-server-sync">the above figure</a>, illustrating the synchronisation between two MISP servers, OrgB.ServerB is part of the MISP ServerA community but OrgB.ServerA is not part of MISP ServerB community.
 
 ### Distribution mechanisms
 
