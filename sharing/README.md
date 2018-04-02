@@ -4,7 +4,7 @@
 
 * [Explanation](#users)
 * [Setup](#setup)
-* [Roles](#roles)
+* [Rules](#rules)
 * [Tools](#tools)
 * [Server Settings](#server-settings)
 * [Events](#events)
@@ -15,15 +15,34 @@
 * Quick benefit without the obligation to contribute
 * Low barrier access to get acquainted to the system
 
-##Concept
+## Concept
 
 The following figure shows the concept how different MISP instances could tie together.
 
 ![Scenario example](figures/MISP_scenario_example.png)
 
-##Setup
+## Setup
+### Introduction
 
-###Adding a server
+In MISP, two ways exist to get events:
+
+* **Use case 1**: From another MISP server (also called MISP instance), by synchronising two MISP servers.
+* **Use case 2**: From a link, by using [Feeds](../managing-feeds).
+
+The example below illustrate the synchronisation between two MISP servers (use case 1).
+An organisation B (OrgB) wants to synchronise its MISP server, called ServerB, with the MISP server of an organisation A (Org A), called ServerA. The following steps can be taken to syncronise ServerB with ServerA:
+
+<p align="center">
+  <img src="./figures/misp-sync-servers.svg" alt="Synchronisation between two MISP servers" style="width: 100%;"/>
+</p>
+
+* **Step 1**: Add OrgB as a local organisation on ServerA (OrgB.ServerA).
+* **Step 2**: Add a Sync User (syncuser@OrgB.ServerA) in the organisation OrgB.ServerA on the MISP ServerA.
+* **Step 3**: [Set up a sync server](###adding-a-server) on MISP ServerB using the key (called Authkey) from the sync user (syncuser@OrgB.ServerA) created on MISP serverA.
+
+For additional information on the synchronisation process, refer to the [MISP GitHub issues](https://github.com/MISP/MISP/issues), for example [issue 2595](https://github.com/MISP/MISP/issues/2595).
+
+### Adding a server
 
 Servers can be added by users via
 
@@ -89,15 +108,15 @@ https://<misp url>/servers/add
 
     You can also upload a certificate file if the instance you are trying to connect to has its own signing authority.  (*.pem)
 
-###Test connection
+### Test connection
 
 Test connection can be used to test the connection to the remote server and will give a feedback about local and remote version of MISP.
 
-###Rules
+### Rules
 
 Rules are used to limit sharing to e.g. events with a given tag, or disabling sharing for events containing a certain Tag.
 
-###Troubleshooting
+### Troubleshooting
 
 If you have issues connecting to a remote servers try to do the following things:
 
@@ -106,7 +125,7 @@ If you have issues connecting to a remote servers try to do the following things
 - with connection issues do a package capture to find out more
 - if you have a SSL connection issue to a remote server with a signed by a CA that is not included in OS, make sure the whole certificate path is included in the path.
 
-##Collaboration
+## Collaboration
 
 ### Proposals
 
@@ -128,7 +147,7 @@ https://<misp url>/threads/index
 
 ![Discussions](figures/discussions.png)
 
-####Create a new Topic
+#### Create a new Topic
 
 To create a new topic
 
@@ -138,7 +157,7 @@ https://<misp url>/posts/add
 
 ![Start a topic](figures/discussions_start_topic.png)
 
-####Comment a topic
+#### Comment a topic
 
 A topic can be commented by any user
 
@@ -183,7 +202,7 @@ This will describe what to do within events to be shared.
 
 There is an article about sharing groups in [here](../using-the-system/#create-and-manage-sharing-groups)
 
-#Recommendation
+# Recommendation
 
 The following section will describe what is the best practice how many MISP instances that showed to be good for orgs.
 Of course depending on your specific requirements an architecture could be more spread or simplified.
