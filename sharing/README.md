@@ -2,14 +2,13 @@
 
 ## Sharing / Synchronisation
 
-* [Explanation](#users)
+* [Explanation](#concept)
 * [Setup](#setup)
 * [Rules](#rules)
-* [Tools](#tools)
-* [Server Settings](#server-settings)
+* [Server Settings](#adding-a-server)
 * [Events](#events)
 * [Sharing groups](#sharing-groups)
-* [Recommendations](#recommendations)
+* [Recommendations](#recommendation)
 
 * MISP's core functionality is sharing where everyone can be a consumer and/or a contributor/producer.
 * Quick benefit without the obligation to contribute
@@ -38,7 +37,7 @@ An organisation B (OrgB) wants to synchronise its MISP server, called ServerB, w
 
 * **Step 1**: Add OrgB as a local organisation on ServerA (OrgB.ServerA).
 * **Step 2**: Add a Sync User (syncuser@OrgB.ServerA) in the organisation OrgB.ServerA on the MISP ServerA.
-* **Step 3**: [Set up a sync server](###adding-a-server) on MISP ServerB using the key (called Authkey) from the sync user (syncuser@OrgB.ServerA) created on MISP serverA.
+* **Step 3**: [Set up a sync server](#adding-a-server) on MISP ServerB using the key (called Authkey) from the sync user (syncuser@OrgB.ServerA) created on MISP serverA.
 
 For additional information on the synchronisation process, refer to the [MISP GitHub issues](https://github.com/MISP/MISP/issues), for example [issue 2595](https://github.com/MISP/MISP/issues/2595).
 
