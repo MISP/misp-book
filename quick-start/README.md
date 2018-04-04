@@ -5,6 +5,23 @@ And Justice for All! -->
 The Malware Information Sharing Platform (MISP) tool facilitates the exchange of Indicators of Compromise (IOCs) about targeted malware and attacks, within your community of trusted members. MISP is a distributed IOC database containing technical and non-technical information. Exchanging such information should result in faster detection of targeted attacks and improve the detection ratio, whilst also reducing the number of false positives.
 With the focus on automation and standards, MISP provides you with a powerful API via PyMISP, jump ahead to these chapters to get started.
 
+## Login into MISP
+
+MISP credentials:
+
+*   **GUI Admin:** admin@admin.test:admin  (it's the site admin account with full rights, feel free to create other users)
+
+## Tasks to do after first Start
+
+- [] Change admin password 
+    - Ensure that the password is at least 6 characters long, 
+    - includes a digit or a special character 
+    - and contains at least one upper-case 
+    - and at least one lower-case character.
+- [] Activate Feeds: https://www.circl.lu/doc/misp/managing-feeds/
+- [] Administrate MISP: https://www.circl.lu/doc/misp/administration/
+
+
 ## Create an Event
 
 ![Create an Event in MISP](figures/AddEvent.jpg)
