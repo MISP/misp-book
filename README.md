@@ -1,5 +1,5 @@
 ---
-description: Introduction to MISP (Malware Information Sharing Platform)
+description: Introduction to MISP - Open Source Threat Intelligence Platform (previously known as Malware Information Sharing Platform)
 ---
 
 # Introduction
@@ -34,9 +34,10 @@ The MISP user guide is dual-licensed under [GNU Affero General Public License ve
 * Copyright \(C\) 2012 Christophe Vandeplas
 * Copyright \(C\) 2012 Belgian Defence
 * Copyright \(C\) 2012 NATO / NCIRC
-* Copyright \(C\) 2013-2017 Andras Iklody
-* Copyright \(C\) 2015-2017 Alexandre Dulaunoy
-* Copyright \(C\) 2014-2017 CIRCL - Computer Incident Response Center Luxembourg
+* Copyright \(C\) 2013-2018 Andras Iklody
+* Copyright \(C\) 2015-2018 Alexandre Dulaunoy
+* Copyright \(C\) 2014-2018 CIRCL - Computer Incident Response Center Luxembourg
+* Copyright \(C\) 2018 Camille Schneider
 
 
 
