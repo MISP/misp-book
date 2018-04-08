@@ -157,7 +157,7 @@ It is not decreased when it was originally set to:
 As an example, the figure below illustrates two events **e** and **e'** created by OrgA and respectively shared as "This community only" and "Connected communities" and how they propagate in an illustrative MISP set of intances synchronised with each others.
 
 <p align="center">
-  <a name="misp-server-sync"></a><img src="https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/images/misp-compliance-iso-concepts.svg" alt="Illustration of MISP organisations and community interactions" style="width: 100%;"/></br>
+  <a name="misp-server-sync"></a><img src="https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/images/misp-compliance-iso-concepts.png" alt="Illustration of MISP organisations and community interactions" style="width: 100%;"/></br>
   <span><i>FIGURE: Illustration of MISP organisations and community interactions</i></span>
 </p>
 
