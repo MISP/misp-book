@@ -7,19 +7,27 @@ With the focus on automation and standards, MISP provides you with a powerful AP
 
 ## Login into MISP
 
-MISP credentials:
-
-*   **GUI Admin:** admin@admin.test:admin  (it's the site admin account with full rights, feel free to create other users)
+MISP default credentials:
+<table>
+<tr>
+  <td>Username:</td>
+  <td>admin@admin.test</td>
+</tr>
+<tr>
+  <td>Password:</td>
+  <td>admin</td>
+</tr>
+</table>
 
 ## Tasks to do after first Start
 
-- [] Change admin password 
-    - Ensure that the password is at least 6 characters long, 
+- Change admin password 
+    - Ensure that the password is at least 6 characters long 
     - includes a digit or a special character 
-    - and contains at least one upper-case 
-    - and at least one lower-case character.
-- [] Activate Feeds: https://www.circl.lu/doc/misp/managing-feeds/
-- [] Administrate MISP: https://www.circl.lu/doc/misp/administration/
+    - contains at least one upper-case 
+    - at least one lower-case character.
+- Activate Feeds: https://www.circl.lu/doc/misp/managing-feeds/
+- Administrate MISP: https://www.circl.lu/doc/misp/administration/
 
 
 ## Create an Event
