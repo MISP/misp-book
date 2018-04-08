@@ -2,28 +2,37 @@
 
 ## Sharing / Synchronisation
 
-* [Explanation](#users)
-* [Setup](#setup)
-* [Roles](#roles)
-* [Tools](#tools)
-* [Server Settings](#server-settings)
-* [Events](#events)
-* [Sharing groups](#sharing-groups)
-* [Recommendations](#recommendations)
-
 * MISP's core functionality is sharing where everyone can be a consumer and/or a contributor/producer.
 * Quick benefit without the obligation to contribute
 * Low barrier access to get acquainted to the system
 
-##Concept
+## Synchronisation
+### Concept
 
 The following figure shows the concept how different MISP instances could tie together.
 
 ![Scenario example](figures/MISP_scenario_example.png)
 
-##Setup
+In MISP, two ways exist to get events from remote sources:
 
-###Adding a server
+* **Use case 1**: From another MISP server (also called MISP instance), by synchronising two MISP servers.
+* **Use case 2**: From a link, by using [Feeds](../managing-feeds).
+
+The example below illustrate the synchronisation between two MISP servers (use case 1).
+An organisation B (OrgB) wants to synchronise its MISP server, called ServerB, with the MISP server of an organisation A (Org A), called ServerA. The following steps can be taken to syncronise ServerB with ServerA:
+
+<p align="center">
+  <a name="misp-server-sync"></a><img src="./figures/misp-sync-servers.svg" alt="Synchronisation between two MISP servers" style="width: 100%;"/></br>
+  <span><i>FIGURE: Illustration of the synchronisation between two MISP servers</i></span>
+</p>
+
+* **Step 1**: Add OrgB as a local organisation on ServerA (OrgB.ServerA).
+* **Step 2**: Add a Sync User (syncuser@OrgB.ServerA) in the organisation OrgB.ServerA on the MISP ServerA.
+* **Step 3**: [Set up a sync server](#adding-a-server) on MISP ServerB using the key (called Authkey) from the sync user (syncuser@OrgB.ServerA) created on MISP ServerA.
+
+For additional information on the synchronisation process, refer to the [MISP GitHub issues](https://github.com/MISP/MISP/issues), for example, [issue 2595](https://github.com/MISP/MISP/issues/2595).
+
+### Adding a server
 
 Servers can be added by users via
 
@@ -89,15 +98,15 @@ https://<misp url>/servers/add
 
     You can also upload a certificate file if the instance you are trying to connect to has its own signing authority.  (*.pem)
 
-###Test connection
+### Test connection
 
 Test connection can be used to test the connection to the remote server and will give a feedback about local and remote version of MISP.
 
-###Rules
+### Rules
 
-Rules are used to limit sharing to e.g. events with a given tag, or disabling sharing for events containing a certain Tag.
+Rules are used to limit sharing when synchronising events and attributes, to e.g. events with a given tag, or disabling sharing for events containing a certain Tag.
 
-###Troubleshooting
+### Troubleshooting
 
 If you have issues connecting to a remote servers try to do the following things:
 
@@ -106,7 +115,57 @@ If you have issues connecting to a remote servers try to do the following things
 - with connection issues do a package capture to find out more
 - if you have a SSL connection issue to a remote server with a signed by a CA that is not included in OS, make sure the whole certificate path is included in the path.
 
-##Collaboration
+## Sharing and distribution
+
+The following section describes how distribution mechanisms of events and attributes work.
+
+### Distribution settings
+
+The below five distribution settings are available for events and attributes. Descriptions of those settings can be found [here](../using-the-system/#creating-an-event).
+
+* Your organisation only
+* This community only
+* Connected communities
+* All communities
+* Sharing group
+
+Events that are not published are only distributed/shared to the local organisations on the same MISP server/instance (within the limit of the distribution model).
+Only events that are **published** will be shared with remote organisations on other MISP servers via push/pull mechanisms.
+More details on publishing events [here](../using-the-system/#publish-an-event).
+
+### Community
+
+A community is composed of the local organisations on a MISP server and the remote organisations connected by the sync users. For more information on the concept of community, refer to an [article on MISP information sharing following ISO/IEC 27010](https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/misp-sharing-information-following-ISO-IEC-27010.md#suitable-data-model), explaining the concept of community.
+
+Specifically, communities are not reversible. Taking the example of <a href="#misp-server-sync">the above figure</a>, illustrating the synchronisation between two MISP servers, OrgB.ServerB is part of the MISP ServerA community but OrgB.ServerA is not part of MISP ServerB community.
+
+### Distribution mechanisms
+
+The distribution level of an event is automatically decreased as it is synchronised with other MISP instances, when it was originally set to:
+
+* Community only (to organisation only)
+* Connected community (to community only)
+ 
+It is not decreased when it was originally set to:
+
+* Organisation only
+* All communities
+* Sharing group
+
+[!] This rule does not apply if “Internal instance” has been checked when creating the server.
+
+As an example, the figure below illustrates two events **e** and **e'** created by OrgA and respectively shared as "This community only" and "Connected communities" and how they propagate in an illustrative MISP set of intances synchronised with each others.
+
+<p align="center">
+  <a name="misp-server-sync"></a><img src="https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/images/misp-compliance-iso-concepts.svg" alt="Illustration of MISP organisations and community interactions" style="width: 100%;"/></br>
+  <span><i>FIGURE: Illustration of MISP organisations and community interactions</i></span>
+</p>
+
+### Sharing-groups
+
+There is an article about sharing groups in [here](../using-the-system/#create-and-manage-sharing-groups)
+
+## Collaboration
 
 ### Proposals
 
@@ -128,7 +187,7 @@ https://<misp url>/threads/index
 
 ![Discussions](figures/discussions.png)
 
-####Create a new Topic
+#### Create a new Topic
 
 To create a new topic
 
@@ -138,7 +197,7 @@ https://<misp url>/posts/add
 
 ![Start a topic](figures/discussions_start_topic.png)
 
-####Comment a topic
+#### Comment a topic
 
 A topic can be commented by any user
 
@@ -173,29 +232,20 @@ These E-Mail alerts are an opt-in feature
 
 ![Change user settings](figures/profile_receive_alerts.png)
 
-# Events
 
-This will describe what to do within events to be shared.
-
-* Only events that are **published** will be shared
-
-# Sharing-groups
-
-There is an article about sharing groups in [here](../using-the-system/#create-and-manage-sharing-groups)
-
-#Recommendation
+## Recommendation
 
 The following section will describe what is the best practice how many MISP instances that showed to be good for orgs.
 Of course depending on your specific requirements an architecture could be more spread or simplified.
 
 The architecture is divided into several systems / stages beginning with:
 
-## MISP Staging System
+### MISP Staging System
 
 This systems purpose is to be linked to all available external MISP systems that you have access to.
 It will download all events and do enrichment between these events.
 
-## MISP SECOps System
+### MISP SECOps System
 
 This system is the main system used by human analysts.
 It will it is not linked to any external MISP instance other then the Staging System.
