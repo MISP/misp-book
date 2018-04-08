@@ -22,7 +22,7 @@ The example below illustrate the synchronisation between two MISP servers (use c
 An organisation B (OrgB) wants to synchronise its MISP server, called ServerB, with the MISP server of an organisation A (Org A), called ServerA. The following steps can be taken to syncronise ServerB with ServerA:
 
 <p align="center">
-  <a name="misp-server-sync"></a><img src="./figures/misp-sync-servers.svg" alt="Synchronisation between two MISP servers" style="width: 100%;"/></br>
+  <a name="misp-server-sync"></a><img src="./figures/misp-sync-servers.png" alt="Synchronisation between two MISP servers" style="width: 100%;"/></br>
   <span><i>FIGURE: Illustration of the synchronisation between two MISP servers</i></span>
 </p>
 
