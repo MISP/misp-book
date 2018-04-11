@@ -23,6 +23,7 @@ MISP default credentials:
 
 1. [Change admin password](https://misp.gitbooks.io/misp-book/content/quick-start/#password-policy)
 2. [Activate Feeds](https://www.circl.lu/doc/misp/managing-feeds/)
+3. [Setup your User](https://misp.gitbooks.io/misp-book/content/user-management/#first-run-of-the-system)
 3. [Administrate MISP](https://www.circl.lu/doc/misp/administration/)
 
 ## Password Policy 
