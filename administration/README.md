@@ -34,7 +34,7 @@ To add a new user, click on the Add User button in the administration menu to th
 
 *   **Email:** The user's e-mail address, this will be used as his/her login name and as an address to send all automated e-mails as well as e-mails sent by contacting the user as the reporter of an event.
 *   **Set password:** Tick the box if you want to define a temporary user-password for the user. If you don't, you should use the action button 'reset password' in the 'List Users' view to generate one and send it by email to the user.
-*   **Password:** *This textbox is displayed only when 'Set password' is ticked.* A Temporary password for the user that he/she should change after the first login. Ensure that the password is at least 6 characters long, includes a digit or a special character and contains at least one upper-case and at least one lower-case character.
+*   **Password:** *This textbox is displayed only when 'Set password' is ticked.* A Temporary password for the user that he/she should change after the first login. Ensure that password pass the [MISP password policy](https://misp.gitbooks.io/misp-book/content/quick-start/#password-policy).
 *   **Confirm Password:** *This textbox is displayed only when 'Set password' is ticked.* This should be an exact copy of the Password field.
 *   **Organisation:** A drop-down list enables you to choose an organisation for the user. To learn more about organisation, [click here](#organisation).
 *   **Roles:** A drop-down list allows you to select a role-group that the user should belong to. Roles define user privileges attributed to the user. To learn more about roles, [click here](#managing-the-roles).
