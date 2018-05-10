@@ -27,6 +27,8 @@ and many other contributors especially the ones during the [MISP hackathons](htt
 
 We welcome contributions to the MISP book. If you want to contribute, fork the [misp-book](https://github.com/MISP/misp-book) repository and pull a request with your changes. You can also [open issues](https://github.com/MISP/misp-book/issues) if you find any errors or propose changes.
 
+<div class="pagebreak"></div>
+
 ## License
 
 The MISP user guide is dual-licensed under [GNU Affero General Public License version 3](http://www.gnu.org/licenses/agpl-3.0.html) and [CC-BY-SA 4.0 international](https://creativecommons.org/licenses/by-sa/4.0/).

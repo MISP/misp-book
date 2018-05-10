@@ -41,6 +41,8 @@ If you need a password generator use:
 
 **All Generator tools are only possibilities without any guarantee!**
 
+<div class="pagebreak"></div>
+
 ## Create an Event
 
 ![Create an Event in MISP](figures/AddEvent.jpg)
