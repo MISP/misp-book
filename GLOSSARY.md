@@ -1,5 +1,6 @@
 ## MISP Glossary
 This glossary is meant as a quick lookup document in case of any need of clarification of any threat sharing, threat-intel lingo.
+Be careful when adding terms to the glossary. Adding a generic term like: *MISP* will prevent terms like *MISP noticelist* to be addded. As a matter of definition please use the singular of for any terms.
 In case you use any CCBYSA licensed content, or other pieces that are subject to licensing, make sure to add it as a by-line at the end of the mention.
 
 ## API
@@ -27,10 +28,10 @@ Indicator of compromise (IOC or IoC) is an artefact observed on a network or in 
 ## NIDS
 Network Intrusion Detection System eg. Snort, Suricata
 
-## MISP
+## Malware Information Sharing Platform and Threat Sharing
 Malware Information Sharing Platform and Threat Sharing. Commonly known simply as MISP.
 
-## MISP Attributes
+## MISP Attribute
 Attributes in MISP can be network indicators (e.g. IP address), system indicators (e.g. a string in memory) or even bank account details.
 ◦ A type (e.g. MD5, url) is how an attribute is described.
 ◦ An attribute is always in a category (e.g. Payload delivery) which puts it in a context.
