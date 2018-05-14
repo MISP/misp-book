@@ -54,6 +54,7 @@ MISP formats are described in specification document based on the current implem
 
 ## MISP Galaxy Cluster
 MISP galaxy is a simple method to express a large object called cluster that can be attached to MISP events or attributes. A cluster can be composed of one or more elements. Elements are expressed as key-values. There are default vocabularies available in MISP galaxy but those can be overwritten, replaced or updated as you wish. Existing clusters and vocabularies can be used as-is or as a template. MISP distribution can be applied to each cluster to permit a limited or broader distribution scheme. The following document is generated from the machine-readable JSON describing the MISP galaxy.
+There is a Python module available to work with Galaxy Cluster in a Pythonic way called [PyMISPGalaxies](https://github.com/MISP/PyMISPGalaxies).
 [MISP galaxy GitHub Repo](https://github.com/MISP/misp-galaxy)
 [More](https://www.misp-project.org/galaxy.html)
 
@@ -80,10 +81,12 @@ The GnuPG key used in the MISP instance must **not** be used anywhere else and s
 [Taxonomy](https://en.wikipedia.org/wiki/Taxonomy_(general)) is the practice and science of classification. The word is also used as a count noun: a taxonomy, or taxonomic scheme, is a particular classification. The word finds its roots in the Greek language τάξις, taxis (meaning 'order', 'arrangement') and νόμος, nomos ('law' or 'science').
 Taxonomies that can be used in MISP (2.4) and other information sharing tool and expressed in Machine Tags (Triple Tags). A machine tag is composed of a namespace (MUST), a predicate (MUST) and an (OPTIONAL) value. Machine tags are often called triple tag due to their format.
 For more details on taxonomies and classification [the documentation](https://www.circl.lu/doc/misp-taxonomies/). Partial source ["Taxonomy_(general)"](https://en.wikipedia.org/wiki/Taxonomy_(general)) - [CCBYSA](https://creativecommons.org/licenses/by-sa/3.0/).
+There is a Python module available to work with Taxonomies in a Pythonic way called [PyTaxonomies](https://github.com/MISP/PyTaxonomies).
 [MISP taxonomies GitHub Repo](https://github.com/MISP/misp-taxonomies)
 
 ## MISP warninglists
 MISP warninglists are lists of well-known indicators that can be associated to potential false positives, errors or mistakes.
+There is a Python module available to work with warninglists in a Pythonic way called [PyMISPWarningLists](https://github.com/MISP/PyMISPWarningLists).
 [MISP warninglists GitHub Repo](https://github.com/MISP/misp-warninglists)
 
 ## MISP noticelist
