@@ -662,6 +662,14 @@ curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --heade
 - attribute_id
 - attribute_uuid
 
+The different sightings types are:
+
+~~~~php
+0 => 'sighting',
+1 => 'false-positive',
+2 => 'expiration'
+~~~~
+
 
 ## User management
 
