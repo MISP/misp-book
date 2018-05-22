@@ -28,6 +28,12 @@ The following notification topic channels exist and can be included in the MISP 
 
 To enable MISP ZeroMQ, the feature must be enabled in the Plugin setting tab.
 
+Prior to enabling it, make sure that you have the pyzmq installed by running
+
+~~~~
+sudo pip install pyzmq
+~~~~
+
 ![ZeroMQ configuration](./figures/zmq-config.png)
 
 Each notification channels can be enabled (from event publication to sightings), the MISP site admin can decide which type of message to publish.
