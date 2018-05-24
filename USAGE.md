@@ -12,7 +12,7 @@ curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo apt-get install -y build-essential
 sudo apt install -y npm pkg-config libcairo2-dev
-npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors
+npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-image-class
 sudo npm install gitbook-cli -g
 gitbook install
 ```
@@ -106,7 +106,7 @@ brew install pkg-config cairo pango libpng jpeg giflib
 Installing gitbook and all dependencies wants to look like this (Tested on *macOS 11.13.3*):
 
 ```bash
-npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors
+npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-image-class
 npm install gitbook-cli -g
 gitbook install
 ```

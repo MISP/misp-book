@@ -1,5 +1,6 @@
 ## MISP Glossary
 This glossary is meant as a quick lookup document in case of any need of clarification of any threat sharing, threat-intel lingo.
+Be careful when adding terms to the glossary. Adding a generic term like: *MISP* will prevent terms like *MISP noticelist* to be addded. As a matter of definition please use the singular of for any terms.
 In case you use any CCBYSA licensed content, or other pieces that are subject to licensing, make sure to add it as a by-line at the end of the mention.
 
 ## API
@@ -16,19 +17,37 @@ Sharing groups in MISP are a more granular way to create re-usable distribution 
 
 ## Site admin
 As an admin (not to be confused with Org Admin), you can set up new accounts for users, edit user profiles, delete them, or just have a look at all the viewers' profiles.
-Site admins have access to every administrator feature for all the data located on the system including global features such as the creation and modification of user roles and instance links.
+Site admins have access to every administrator feature for all the data located on the system including global features such as the creation and modification of user roles and instance links. You will also see all other organisations connected or setup in the instance. The site admin can be considered as a super-user of a MISP instance.
+
+## Indicators
+Indicators contain a pattern that can be used to detect suspicious or malicious cyber activity.
 
 ## IOC
-Indicator of compromise (IOC or IoC) is an artefact observed on a network or in an operating system or information channel that could reference an intrusion or a reference to a technique used by an attacker.§
+Indicator of compromise (IOC or IoC) is an artefact observed on a network or in an operating system or information channel that could reference an intrusion or a reference to a technique used by an attacker. IoCs are a subset of indicators.
 
 ## NIDS
 Network Intrusion Detection System eg. Snort, Suricata
 
-## MISP
+## Malware Information Sharing Platform and Threat Sharing
 Malware Information Sharing Platform and Threat Sharing. Commonly known simply as MISP.
+
+## MISP Attribute
+Attributes in MISP can be network indicators (e.g. IP address), system indicators (e.g. a string in memory) or even bank account details.
+◦ A type (e.g. MD5, url) is how an attribute is described.
+◦ An attribute is always in a category (e.g. Payload delivery) which puts it in a context.
+• A category is what describes an attribute.
+◦ An IDS flag on an attribute allows to determine if an attribute can
+
+## MISP Event
+MISP events are encapsulations for contextually linked information
+
+## MISP Extended Events
+MISP can now extend an event (starting from version 2.4.90). This allows users to build full blown events that extend an existing event, giving way to a combined event view that includes a sum total of the event along with all extending events.
+[More](http://www.misp-project.org/2018/04/19/Extended-Events-Feature.html)
 
 ## MISP feeds
 MISP includes a set of public OSINT feeds in its default configuration. The feeds can be used as a source of correlations for all of your events and attributes without the need to import them directly into your system. The MISP feed system allows for fast correlation but also a for quick comparisons of the feeds against one another.
+To get started with MISP we advise to enable the CIRCL OSINT feed withing your MISP instance. This feed is generated with the PyMISP [feed-generator](https://github.com/CIRCL/PyMISP/tree/master/examples/feed-generator).
 [More](http://www.misp-project.org/feeds/)
 
 ## MISP format
@@ -36,13 +55,23 @@ MISP formats are described in specification document based on the current implem
 
 ## MISP Galaxy Cluster
 MISP galaxy is a simple method to express a large object called cluster that can be attached to MISP events or attributes. A cluster can be composed of one or more elements. Elements are expressed as key-values. There are default vocabularies available in MISP galaxy but those can be overwritten, replaced or updated as you wish. Existing clusters and vocabularies can be used as-is or as a template. MISP distribution can be applied to each cluster to permit a limited or broader distribution scheme. The following document is generated from the machine-readable JSON describing the MISP galaxy.
+There is a Python module available to work with Galaxy Cluster in a Pythonic way called [PyMISPGalaxies](https://github.com/MISP/PyMISPGalaxies).
+[MISP galaxy GitHub Repo](https://github.com/MISP/misp-galaxy)
 [More](https://www.misp-project.org/galaxy.html)
+
+## MISP modules
+MISP modules are autonomous modules that can be used for expansion and other services in MISP.
+The modules are written in Python 3 following a simple API interface. The objective is to ease the extensions of MISP functionalities without modifying core components. The API is available via a simple REST API which is independent from MISP installation or configuration.
+MISP modules support is included in MISP starting from version 2.4.28.
+[More](https://www.circl.lu/assets/files/misp-training/switch2016/2-misp-modules.pdf)
+[MISP modules GitHub Repo](https://github.com/MISP/misp-modules)
 
 ## MISP Instance
 A MISP instance is an installation of the MISP software and the connected database. All the data visible to the users is stored locally in the database and data that is shareable (based on the distribution settings) can be synchronised with other instances via the Sync actions. The instance that you are reading this manual on will be referred to as "this instance" or "your instance". The instances that your instance synchronises with will be referred to as "remote instances".
 
 ## MISP Objects
 MISP objects are used in MISP (starting from version 2.4.80) system and can be used by other information sharing tool. MISP objects are in addition to MISP attributes to allow advanced combinations of attributes. The creation of these objects and their associated attributes are based on real cyber security use-cases and existing practices in information sharing. The objects are just shared like any other attributes in MISP even if the other MISP instances don’t have the template of the object. The following document is generated from the machine-readable JSON describing the MISP objects.
+[MISP objects GitHub Repo](https://github.com/MISP/misp-objects)
 [More](https://www.misp-project.org/objects.html)
 
 ## MISP GnuPG Key
@@ -53,6 +82,17 @@ The GnuPG key used in the MISP instance must **not** be used anywhere else and s
 [Taxonomy](https://en.wikipedia.org/wiki/Taxonomy_(general)) is the practice and science of classification. The word is also used as a count noun: a taxonomy, or taxonomic scheme, is a particular classification. The word finds its roots in the Greek language τάξις, taxis (meaning 'order', 'arrangement') and νόμος, nomos ('law' or 'science').
 Taxonomies that can be used in MISP (2.4) and other information sharing tool and expressed in Machine Tags (Triple Tags). A machine tag is composed of a namespace (MUST), a predicate (MUST) and an (OPTIONAL) value. Machine tags are often called triple tag due to their format.
 For more details on taxonomies and classification [the documentation](https://www.circl.lu/doc/misp-taxonomies/). Partial source ["Taxonomy_(general)"](https://en.wikipedia.org/wiki/Taxonomy_(general)) - [CCBYSA](https://creativecommons.org/licenses/by-sa/3.0/).
+There is a Python module available to work with Taxonomies in a Pythonic way called [PyTaxonomies](https://github.com/MISP/PyTaxonomies).
+[MISP taxonomies GitHub Repo](https://github.com/MISP/misp-taxonomies)
+
+## MISP warninglists
+MISP warninglists are lists of well-known indicators that can be associated to potential false positives, errors or mistakes.
+There is a Python module available to work with warninglists in a Pythonic way called [PyMISPWarningLists](https://github.com/MISP/PyMISPWarningLists).
+[MISP warninglists GitHub Repo](https://github.com/MISP/misp-warninglists)
+
+## MISP noticelist
+Notice lists to inform MISP users of the legal, privacy, policy or even technical implications of using specific attributes, categories or objects.
+[MISP noticelist GitHub Repo](https://github.com/MISP/misp-noticelist)
 
 ## Org Admin
 Organisation admins (Org Admin) are restricted to executing site-admin actions exclusively within their own organisation’s users only.
@@ -79,6 +119,28 @@ Pulling is the process of using the configured sync user on a remote instance to
 
 ## Push
 Pushing is the process of using a configured instance link to send an event or all accessible events (limited by the distribution rights) through the REST interface to a remote instance.
+
+## Roles
+Roles are the central place where you can define ACL roles for your local users on your instance.
+You can add new Roles depending on your use case. The following permissions can be given depending on which overall *Permission* the role inherits.
+
+* Permission -> Read Only, Manage My Own Events, Manage Organization Events, Manage & Publish Organization Events
+* Restricted To Site Admin
+* Site Admin
+* Org Admin
+* Sync Action
+* Audit Actions
+* Auth key access
+* Regex Actions
+* Tagger
+* Tag Editor
+* Template Editor
+* Sharing Group Editor
+* Delegations Access
+* Sighting Creator
+* Object Template Editor
+* Memory Limit
+* Max Execution Time
 
 ## Scheduled Tasks
 Certain common tasks can be scheduled for a later execution or for regular recurring executions. These tasks currently include caching all of the export formats, pulling from all eligible instances and pushing to all eligible instances.
