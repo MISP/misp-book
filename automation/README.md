@@ -128,6 +128,15 @@ curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" 
 curl -i -H "Accept: application/json" -H "content-type: application/json" -H "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf" --data "@event.json" -X POST http://10.50.13.60/events
 ~~~~
 
+~~~~
+curl -i -H "Accept: application/json" -H "content-type: application/json" -H "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf" --data "@event.json" -X POST http://10.50.13.60/events
+~~~~
+
+That is how an event JSON object should look like
+~~~~json
+{"Event":{"date":"2015-01-01","threat_level_id":"1","info":"testevent","published":false,"analysis":"0","distribution":"0","Attribute":[{"type":"domain","category":"Network activity","to_ids":false,"distribution":"0","comment":"","value":"test.com"}]}}
+~~~~
+
 ### DELETE /events
 
 #### Description
