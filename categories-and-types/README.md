@@ -1,6 +1,6 @@
 <!-- toc -->
 
-## MISP Attribute Categories vs Types
+### Attribute Categories vs. Types
 
 |Category| Internal reference | Targeting data | Antivirus detection | Payload delivery | Artifacts dropped | Payload installation |
 | --- |:---:|:---:|:---:|:---:|:---:|:---:|
@@ -21,6 +21,8 @@
 |email-dst| | | | X | | |
 |email-subject| | | | X | | |
 |email-attachment| | | | X | | |
+|email-body| | | | X | | |
+|float| | | | | | |
 |url| | | | X | | |
 |http-method| | | | | | |
 |user-agent| | | | X | | |
@@ -32,12 +34,19 @@
 |pattern-in-traffic| | | | X | | X |
 |pattern-in-memory| | | | | X | X |
 |yara| | | | X | X | X |
+|stix2-pattern| | | | X | X | X |
+|sigma| | | | X | X | X |
+|gene| | | | | X | |
+|mime-type| | | | X | X | X |
+|identity-card-number| | | | | | |
+|cookie| | | | | X | |
 |vulnerability| | | | X | | X |
 |attachment| | | X | X | X | X |
 |malware-sample| | | | X | X | X |
 |link| X | | X | X | | |
 |comment| X | X | X | X | X | X |
 |text| X | | X | X | X | X |
+|hex| X | | X | X | X | X |
 |other| X | | X | X | X | X |
 |named pipe| | | | | X | |
 |mutex| | | | | X | |
@@ -55,6 +64,7 @@
 |bin| | | | | | |
 |cc-number| | | | | | |
 |prtn| | | | | | |
+|phone-number| | | | | | |
 |threat-actor| | | | | | |
 |campaign-name| | | | | | |
 |campaign-id| | | | | | |
@@ -64,6 +74,7 @@
 |ssdeep| | | | X | X | X |
 |imphash| | | | X | X | X |
 |pehash| | | | X | | X |
+|impfuzzy| | | | X | X | X |
 |sha224| | | | X | X | X |
 |sha384| | | | X | X | X |
 |sha512| | | | X | X | X |
@@ -73,6 +84,7 @@
 |filename&#124;authentihash| | | | X | X | X |
 |filename&#124;ssdeep| | | | X | X | X |
 |filename&#124;imphash| | | | X | X | X |
+|filename&#124;impfuzzy| | | | X | X | X |
 |filename&#124;pehash| | | | X | X | X |
 |filename&#124;sha224| | | | X | X | X |
 |filename&#124;sha384| | | | X | X | X |
@@ -83,12 +95,15 @@
 |windows-scheduled-task| | | | | X | |
 |windows-service-name| | | | | X | |
 |windows-service-displayname| | | | | X | |
-|whois-registrant-email| | | | | | |
+|whois-registrant-email| | | | X | | |
 |whois-registrant-phone| | | | | | |
 |whois-registrant-name| | | | | | |
+|whois-registrant-org| | | | | | |
 |whois-registrar| | | | | | |
 |whois-creation-date| | | | | | |
 |x509-fingerprint-sha1| | | | X | X | X |
+|x509-fingerprint-md5| | | | X | X | X |
+|x509-fingerprint-sha256| | | | X | X | X |
 |dns-soa-email| | | | | | |
 |size-in-bytes| | | | | | |
 |counter| | | | | | |
@@ -98,6 +113,8 @@
 |ip-dst&#124;port| | | | X | | |
 |ip-src&#124;port| | | | X | | |
 |hostname&#124;port| | | | X | | |
+|mac-address| | | | X | | |
+|mac-eui-64| | | | X | | |
 |email-dst-display-name| | | | X | | |
 |email-src-display-name| | | | X | | |
 |email-header| | | | X | | |
@@ -135,6 +152,8 @@
 |place-port-of-onward-foreign-destination| | | | | | |
 |passenger-name-record-locator-number| | | | | | |
 |mobile-application-id| | | | X | | X |
+|cortex| | | | | | |
+|boolean| | | | | | |
 
 |Category| Persistence mechanism | Network activity | Payload type | Attribution | External analysis | Financial fraud |
 | --- |:---:|:---:|:---:|:---:|:---:|:---:|
@@ -155,6 +174,8 @@
 |email-dst| | X | | | | |
 |email-subject| | | | | | |
 |email-attachment| | | | | | |
+|email-body| | | | | | |
+|float| | | | | | |
 |url| | X | | | X | |
 |http-method| | X | | | | |
 |user-agent| | X | | | X | |
@@ -166,12 +187,19 @@
 |pattern-in-traffic| | X | | | X | |
 |pattern-in-memory| | | | | X | |
 |yara| | | | | | |
+|stix2-pattern| | X | | | | |
+|sigma| | | | | | |
+|gene| | | | | | |
+|mime-type| | | | | | |
+|identity-card-number| | | | | | |
+|cookie| | X | | | | |
 |vulnerability| | | | | X | |
 |attachment| | X | | | X | |
 |malware-sample| | | | | X | |
 |link| | | | | X | |
 |comment| X | X | X | X | X | X |
 |text| X | X | X | X | X | X |
+|hex| X | X | | | | X |
 |other| X | X | X | X | X | X |
 |named pipe| | | | | | |
 |mutex| | | | | | |
@@ -189,6 +217,7 @@
 |bin| | | | | | X |
 |cc-number| | | | | | X |
 |prtn| | | | | | X |
+|phone-number| | | | | | X |
 |threat-actor| | | | X | | |
 |campaign-name| | | | X | | |
 |campaign-id| | | | X | | |
@@ -198,6 +227,7 @@
 |ssdeep| | | | | | |
 |imphash| | | | | | |
 |pehash| | | | | | |
+|impfuzzy| | | | | | |
 |sha224| | | | | | |
 |sha384| | | | | | |
 |sha512| | | | | | |
@@ -207,6 +237,7 @@
 |filename&#124;authentihash| | | | | | |
 |filename&#124;ssdeep| | | | | | |
 |filename&#124;imphash| | | | | | |
+|filename&#124;impfuzzy| | | | | | |
 |filename&#124;pehash| | | | | | |
 |filename&#124;sha224| | | | | | |
 |filename&#124;sha384| | | | | | |
@@ -220,18 +251,23 @@
 |whois-registrant-email| | | | X | | |
 |whois-registrant-phone| | | | X | | |
 |whois-registrant-name| | | | X | | |
+|whois-registrant-org| | | | X | | |
 |whois-registrar| | | | X | | |
 |whois-creation-date| | | | X | | |
 |x509-fingerprint-sha1| | X | | X | X | |
-|dns-soa-email| | | | | | |
+|x509-fingerprint-md5| | | | X | X | |
+|x509-fingerprint-sha256| | | | X | X | |
+|dns-soa-email| | | | X | | |
 |size-in-bytes| | | | | | |
 |counter| | | | | | |
 |datetime| | | | | | |
 |cpe| | | | | | |
-|port| | | | | | |
+|port| | X | | | | |
 |ip-dst&#124;port| | X | | | X | |
 |ip-src&#124;port| | X | | | X | |
 |hostname&#124;port| | | | | | |
+|mac-address| | X | | | X | |
+|mac-eui-64| | X | | | X | |
 |email-dst-display-name| | | | | | |
 |email-src-display-name| | | | | | |
 |email-header| | | | | | |
@@ -269,6 +305,8 @@
 |place-port-of-onward-foreign-destination| | | | | | |
 |passenger-name-record-locator-number| | | | | | |
 |mobile-application-id| | | | | | |
+|cortex| | | | | X | |
+|boolean| | | | | | |
 
 |Category| Support Tool | Social network | Person | Other |
 | --- |:---:|:---:|:---:|:---:|
@@ -289,6 +327,8 @@
 |email-dst| | X | | |
 |email-subject| | | | |
 |email-attachment| | | | |
+|email-body| | | | |
+|float| | | | X |
 |url| | | | |
 |http-method| | | | |
 |user-agent| | | | |
@@ -300,12 +340,19 @@
 |pattern-in-traffic| | | | |
 |pattern-in-memory| | | | |
 |yara| | | | |
+|stix2-pattern| | | | |
+|sigma| | | | |
+|gene| | | | |
+|mime-type| | | | |
+|identity-card-number| | | X | |
+|cookie| | | | |
 |vulnerability| | | | |
 |attachment| X | | | |
 |malware-sample| | | | |
 |link| X | | | |
 |comment| X | X | X | X |
 |text| X | X | X | X |
+|hex| X | | | X |
 |other| X | X | X | X |
 |named pipe| | | | |
 |mutex| | | | |
@@ -323,6 +370,7 @@
 |bin| | | | |
 |cc-number| | | | |
 |prtn| | | | |
+|phone-number| | | X | X |
 |threat-actor| | | | |
 |campaign-name| | | | |
 |campaign-id| | | | |
@@ -332,6 +380,7 @@
 |ssdeep| | | | |
 |imphash| | | | |
 |pehash| | | | |
+|impfuzzy| | | | |
 |sha224| | | | |
 |sha384| | | | |
 |sha512| | | | |
@@ -341,6 +390,7 @@
 |filename&#124;authentihash| | | | |
 |filename&#124;ssdeep| | | | |
 |filename&#124;imphash| | | | |
+|filename&#124;impfuzzy| | | | |
 |filename&#124;pehash| | | | |
 |filename&#124;sha224| | | | |
 |filename&#124;sha384| | | | |
@@ -351,12 +401,15 @@
 |windows-scheduled-task| | | | |
 |windows-service-name| | | | |
 |windows-service-displayname| | | | |
-|whois-registrant-email| | | | |
+|whois-registrant-email| | X | | |
 |whois-registrant-phone| | | | |
 |whois-registrant-name| | | | |
+|whois-registrant-org| | | | |
 |whois-registrar| | | | |
 |whois-creation-date| | | | |
 |x509-fingerprint-sha1| | | | |
+|x509-fingerprint-md5| | | | |
+|x509-fingerprint-sha256| | | | |
 |dns-soa-email| | | | |
 |size-in-bytes| | | | X |
 |counter| | | | X |
@@ -366,6 +419,8 @@
 |ip-dst&#124;port| | | | |
 |ip-src&#124;port| | | | |
 |hostname&#124;port| | | | |
+|mac-address| | | | |
+|mac-eui-64| | | | |
 |email-dst-display-name| | | | |
 |email-src-display-name| | | | |
 |email-header| | | | |
@@ -403,6 +458,8 @@
 |place-port-of-onward-foreign-destination| | | X | |
 |passenger-name-record-locator-number| | | X | |
 |mobile-application-id| | | | |
+|cortex| | | | |
+|boolean| | | | X |
 
 ### Categories
 
@@ -438,10 +495,12 @@
 *   **hostname**: A full host/dnsname of an attacker. Also set the IDS flag on when this hostname is hardcoded in malware
 *   **domain**: A domain name used in the malware. Use this instead of hostname when the upper domain is important or can be used to create links between events.
 *   **domain|ip**: A domain name and its IP address (as found in DNS lookup) separated by a | (no spaces)
-*   **email-src**: The email address (or domainname) used to send the malware.
+*   **email-src**: The email address used to send the malware.
 *   **email-dst**: A recipient email address that is not related to your constituency.
 *   **email-subject**: The subject of the email
 *   **email-attachment**: File name of the email attachment.
+*   **email-body**: Email body
+*   **float**: A floating point value.
 *   **url**: url
 *   **http-method**: HTTP method used by the malware (e.g. POST, GET, ...).
 *   **user-agent**: The user-agent used by the malware in the HTTP request.
@@ -453,12 +512,19 @@
 *   **pattern-in-traffic**: Pattern in network traffic that identifies the malware
 *   **pattern-in-memory**: Pattern in memory dump that identifies the malware
 *   **yara**: Yara signature
+*   **stix2-pattern**: STIX 2 pattern
+*   **sigma**: Sigma - Generic Signature Format for SIEM Systems
+*   **gene**: GENE - Go Evtx sigNature Engine
+*   **mime-type**: A media type (also MIME type and content type) is a two-part identifier for file formats and format contents transmitted on the Internet
+*   **identity-card-number**: Identity card number
+*   **cookie**: HTTP cookie as often stored on the user web client. This can include authentication cookie or session cookie.
 *   **vulnerability**: A reference to the vulnerability used in the exploit
 *   **attachment**: Please upload files using the <em>Upload Attachment</em> button.
 *   **malware-sample**: Please upload files using the <em>Upload Attachment</em> button.
 *   **link**: Link to an external information
 *   **comment**: Comment or description in a human language. This will not be correlated with other attributes
 *   **text**: Name, ID or a reference
+*   **hex**: A value in hexadecimal format
 *   **other**: Other attribute
 *   **named pipe**: Named pipe, use the format \.\pipe\<PipeName>
 *   **mutex**: Mutex, use the format \BaseNamedObjects\<Mutex>
@@ -470,12 +536,13 @@
 *   **target-external**: External Target Organizations Affected by this Attack
 *   **btc**: Bitcoin Address
 *   **iban**: International Bank Account Number
-*   **bic**: Bank Identifier Code Number
+*   **bic**: Bank Identifier Code Number also known as SWIFT-BIC, SWIFT code or ISO 9362 code
 *   **bank-account-nr**: Bank account number without any routing number
 *   **aba-rtn**: ABA routing transit number
 *   **bin**: Bank Identification Number
 *   **cc-number**: Credit-Card Number
 *   **prtn**: Premium-Rate Telephone Number
+*   **phone-number**: Telephone Number
 *   **threat-actor**: A string identifying the threat actor
 *   **campaign-name**: Associated campaign name
 *   **campaign-id**: Associated campaign ID
@@ -485,6 +552,7 @@
 *   **ssdeep**: You are encouraged to use filename|ssdeep instead. A checksum in the SSDeep format, only use this if you don't know the correct filename
 *   **imphash**: You are encouraged to use filename|imphash instead. A hash created based on the imports in the sample, only use this if you don't know the correct filename
 *   **pehash**: PEhash - a hash calculated based of certain pieces of a PE executable file
+*   **impfuzzy**: You are encouraged to use filename|impfuzzy instead. A fuzzy hash created based on the imports in the sample, only use this if you don't know the correct filename
 *   **sha224**: You are encouraged to use filename|sha224 instead. A checksum in sha224 format, only use this if you don't know the correct filename
 *   **sha384**: You are encouraged to use filename|sha384 instead. A checksum in sha384 format, only use this if you don't know the correct filename
 *   **sha512**: You are encouraged to use filename|sha512 instead. A checksum in sha512 format, only use this if you don't know the correct filename
@@ -494,6 +562,7 @@
 *   **filename|authentihash**: A checksum in md5 format
 *   **filename|ssdeep**: A checksum in ssdeep format
 *   **filename|imphash**: Import hash - a hash created based on the imports in the sample.
+*   **filename|impfuzzy**: Import fuzzy hash - a fuzzy hash created based on the imports in the sample.
 *   **filename|pehash**: A filename and a PEhash separated by a |
 *   **filename|sha224**: A filename and a sha-224 hash separated by a |
 *   **filename|sha384**: A filename and a sha-384 hash separated by a |
@@ -507,9 +576,12 @@
 *   **whois-registrant-email**: The e-mail of a domain's registrant, obtained from the WHOIS information.
 *   **whois-registrant-phone**: The phone number of a domain's registrant, obtained from the WHOIS information.
 *   **whois-registrant-name**: The name of a domain's registrant, obtained from the WHOIS information.
+*   **whois-registrant-org**: The org of a domain's registrant, obtained from the WHOIS information.
 *   **whois-registrar**: The registrar of the domain, obtained from the WHOIS information.
 *   **whois-creation-date**: The date of domain's creation, obtained from the WHOIS information.
 *   **x509-fingerprint-sha1**: X509 fingerprint in SHA-1 format
+*   **x509-fingerprint-md5**: X509 fingerprint in MD5 format
+*   **x509-fingerprint-sha256**: X509 fingerprint in SHA-256 format
 *   **dns-soa-email**: RFC1035 mandates that DNS zones should have a SOA (Statement Of Authority) record that contains an email address where a PoC for the domain could be contacted. This can sometimes be used for attribution/linkage between different domains even if protected by whois privacy
 *   **size-in-bytes**: Size expressed in bytes
 *   **counter**: An integer counter, generally to be used in objects
@@ -519,6 +591,8 @@
 *   **ip-dst|port**: IP destination and port number seperated by a |
 *   **ip-src|port**: IP source and port number seperated by a |
 *   **hostname|port**: Hostname and port number seperated by a |
+*   **mac-address**: Mac address
+*   **mac-eui-64**: Mac EUI-64 address
 *   **email-dst-display-name**: Email destination display name
 *   **email-src-display-name**: Email source display name
 *   **email-header**: Email header
@@ -526,7 +600,7 @@
 *   **email-x-mailer**: Email x-mailer header
 *   **email-mime-boundary**: The email mime boundary separating parts in a multipart email
 *   **email-thread-index**: The email thread index header
-*   **email-message-id**:
+*   **email-message-id**: The email message ID
 *   **github-username**: A github user name
 *   **github-repository**: A github repository
 *   **github-organisation**: A github organisation
@@ -556,4 +630,6 @@
 *   **place-port-of-onward-foreign-destination**: A Port where the passenger is transiting to
 *   **passenger-name-record-locator-number**: The Passenger Name Record Locator is a key under which the reservation for a trip is stored in the system. The PNR contains, among other data, the name, flight segments and address of the passenger. It is defined by a combination of five or six letters and numbers.
 *   **mobile-application-id**: The application id of a mobile application
+*   **cortex**: Cortex analysis result
+*   **boolean**: Boolean value - to be used in objects
 
