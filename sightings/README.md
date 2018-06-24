@@ -12,7 +12,7 @@ As said before, Sighting is a way for a user to say that they have seen or notic
 
 Sometimes, some attributes can be considered as false positives, even if the false positive list do not detect them (for instance, if the IDS flag is set to false) so they can also be notified. As well as concerning sighting, the same user can signal a single attribute as a false positive several times.
 
-It also happens that some attributes are only valid a certain time (for instance, in case of a phishing campagne that is assumed to be up for only one week). In this case, people can also assign an expiration date to an attribute, but this time, there can be only one valid expiration date per *organisation*.
+It also happens that some attributes are only valid a certain time (for instance, in case of a phishing campaign that is assumed to be up for only one week). In this case, people can also assign an expiration date to an attribute, but this time, there can be only one valid expiration date per *organisation*.
 
 ### Using sightings on an event (GUI)
 
