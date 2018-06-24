@@ -30,7 +30,7 @@ Each galaxy can be explored using the icon at the end of the line.
 
 Here is shown the metadata of the selected galaxy as well as a table with each available value as well as some complementary data such as a description of the value or the activity, that is to say the evolution of the use of each value.
 
-Galaxies can be reimported from the submodules by cliking the "Update Galaxies" link on either the galaxies list or while browsing a specific galaxy. A popup will appear to confirm the reimportation.
+Galaxies can be reimported from the submodules by clicking the "Update Galaxies" link on either the galaxies list or while browsing a specific galaxy. A popup will appear to confirm the reimportation.
 
 ![GalaxyUpdate](./figures/GalaxyUpdate.png)
 
@@ -64,7 +64,7 @@ We have a match. So we select it and here we go.
 
 Clicking on the magnifying glass next to Threat actor redirects to the list of all threat actors
 Clicking on the magnifying glass next to Beijing Group redirects us to a page about this group
-Clicking on the addition symbole on the left of Beijing Group extends the module.
+Clicking on the addition symbol on the left of Beijing Group extends the module.
 
 ### Available Galaxies
 
