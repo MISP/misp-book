@@ -83,13 +83,13 @@ A taxonomy contains a series of tags that can be used as normal tags in your MIS
 
 Tagging is a simple way to attach a classification to an event. In the early version of MISP, tagging was local to an instance. Classification must be globally used to be efficient. After evaluating different solutions of classification, we build a new scheme using the concept of machine tags.
 
-Taxonomy is a classification of informations. Her, we classified Tags. Taxonomies are implemented in a simple JSON format. Anyone can create their own taxonomy or reuse an existing one.
+Taxonomy is a classification of informations. Taxonomies are implemented in a simple JSON format. Anyone can create their own taxonomy or reuse an existing one.
 
-Taxonomys are in an independent git repository [https://github.com/MISP/misp-taxonomies]
+Taxonomies are in an [independent git repository](https://github.com/MISP/misp-taxonomies). 
 
 These can be **freely reused** and **integrated** in other threat intel tools.
 
-The advantage is that you even set a specific tag as being
+The advantage is that you can set a specific tag as being
 exportable. This means that you can **export** your classification with other MISP instance and **share** the same taxonomies. Tagging is a simple way to attach a classification to an event.
 
 **Classification must be globally used to be efficient.**
@@ -121,7 +121,7 @@ It is quite easy. Create a JSON file describing your taxonomy as triple tags.
 
 How are taxonomies integrated in MISP?
 
-MISP administrator have only to import (or even cherry pick) the namespace or predicates they want to use as tag.
+MISP administrators have only to import (or even cherry pick) the namespace or predicates they want to use as tags.
 
 Tags can be exported to other instances.
 
@@ -172,7 +172,7 @@ Sample JSON with triple tags. You can use the JSON validator to be sure that the
 }
 ~~~~
 
-Once you are happy with your file go to MISP Web GUI taxonomies/index and update the taxonomies, the newly created taxonomy should be visible, now you need to activate the tags within your taxonomy.
+Go to MISP Web GUI taxonomies/index and update the taxonomies once you are happy with your file. The newly created taxonomy should be visible. Now you need to activate the tags within your taxonomy.
 
 ## How to use Taxonomy in MISP
 
@@ -206,11 +206,13 @@ Applying rules for distribution based on tags:
 
 ### Other use cases using MISP taxonomies
 
-Tags can be used to set events for further processing by external tools (e.g. VirusTotal auto-expansion using Viper).
+Tags can be used to:
 
-Ensuring a classification manager classes the events before release (e.g. release of information from air-gapped/classified networks).
+* Set events for further processing by external tools (e.g. VirusTotal auto-expansion using Viper).
 
-Enriching IDS export with tags to fit your NIDS deployment.
+* Ensure a classification manager classes the events before release (e.g. release of information from air-gapped/classified networks).
+
+* Enrich IDS export with tags to fit your NIDS deployment.
 
 ## MISP warning lists: The dilemma of false-positive
 
