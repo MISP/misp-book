@@ -112,7 +112,7 @@ It may be that you have an Error Message in the page (if you enabled debug or si
 
 ![Error message](figures/pb-list-server.png)
 
-An easy first them to make most of them go away is to use the clean cache feature on the server settings menu, diagnostics tab.
+An easy first step to make most of them go away is to use the clean cache feature on the server settings menu, diagnostics tab.
 
 ![cleanscript](figures/cleanscript1.png)
 
