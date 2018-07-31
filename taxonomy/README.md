@@ -69,7 +69,7 @@ The following taxonomies can be used in MISP (as local or distributed tags) or i
 
 27. [OSINT Open Source Intelligence - Classification](https://github.com/MISP/misp-taxonomies/tree/master/osint)
 
-28. [The Permissible Actions Protocol - or short: PAP](https://github.com/MISP/misp-taxonomies/tree/master/pap) PAP was designed to indicate how the received information can be used. It's a protocol/taxonomy similar to TLP informing the recipients of information what they can do with the received information.
+28. [The Permissible Actions Protocol - or short: PAP](https://github.com/MISP/misp-taxonomies/tree/master/PAP) PAP was designed to indicate how the received information can be used. It's a protocol/taxonomy similar to TLP informing the recipients of information what they can do with the received information.
 
 29. Status of events used in [Request Tracker](https://github.com/MISP/misp-taxonomies/tree/master/rt_event_status).
 
