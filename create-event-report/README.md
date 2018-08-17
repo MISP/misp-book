@@ -121,11 +121,13 @@ Oh well, that was unexpected. In fact, it is not that surprising regarding the f
 
 Thanks to the added character, the first string is recognised as an url which is more consistent with the reality. The second also seems okay, so we can now submit both. 
 
-__IMPORTANT:__ The Freetext Import works properly only with a string of data without any spaces in one line. But if you have lines of text with spaces between values, like e.g. 
+### Batch Import
+
+The Freetext Import works properly only with a string of data without any spaces in one line. But if you have lines of text with spaces between values, like e.g. 
 
 ![freetext_with_spaces1](figures/freetext_with_spaces1.png)
 
-not all is lost. You can still import more than one line of data at the same time using the "Add Attribute" option. Copy the data and paste it into the _Value_ box. Choose the right category and type. Now check both checkboxes _for Intrusion Detection System_ and _Batch Import_. The option _Batch Import_ will import your data line for line just like the _Freetext Import_ option without losing any information. Like this:      
+you can still import them at once using the "Add Attribute" option. Click on _Add Attribute_, copy the data and paste it into the _Value_ box. Choose the right category and type. Now check both checkboxes _for Intrusion Detection System_ and _Batch Import_. The option _Batch Import_ will import your data line for line just like the _Freetext Import_ option without losing any information. Like this:      
 
 ![addattribute_freetext](figures/addattribute_freetext.png)
 
