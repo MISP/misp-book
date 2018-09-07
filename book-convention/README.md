@@ -62,6 +62,7 @@ As with the example organisations, we want to make this book as useful as possib
 
 The following IOC examples have been used:
 
-* [Sirefef](https://www.misp-project.org/galaxy.html#_zeroaccess) (aka ZeroAccess)
-* [WannaCry](https://www.misp-project.org/galaxy.html#_wannacry)
-* [Dridex](https://www.misp-project.org/galaxy.html#_dridex)
+* [Sirefef](https://www.misp-project.org/galaxy.html#_zeroaccess) (aka ZeroAccess) Sample Event ID: #31337
+* [WannaCry](https://www.misp-project.org/galaxy.html#_wannacry) Sample Event ID: #42
+* [Dridex](https://www.misp-project.org/galaxy.html#_dridex) Sample Event ID: #23
+
