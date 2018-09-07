@@ -8,6 +8,7 @@ sudo: required
 
 install:
     - sudo apt-get -y install libgif-dev calibre npm
+    - sudo npm config set strict-ssl false
     - sudo npm cache clean -f
     - sudo npm install -g n
     - sudo n stable
@@ -18,6 +19,7 @@ install:
     - npm install gitbook-plugin-github
     - npm install gitbook-plugin-toc
     - npm install gitbook-plugin-anchors
+    - npm install gitbook-plugin-image-class
 
 script:
     - gitbook install
