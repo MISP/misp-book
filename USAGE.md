@@ -5,6 +5,16 @@ Install notes
 :warning: Make sure to be in the *misp-book* repository directory for the *npm magic*.
 Also: The *npm* plugin *autocover* is broken. It pulls an incompatible *canvas* module version. Thus patched repository used (forked from original)
 Finally: You will get a few errors on Ubuntu 18.04 which you can ignore for now. In the rather near future we need to think about an alternative as gitbook glides towards obsoletion and security risk.
+Reason for concern:
+```
+npm WARN deprecated ignore@3.1.2: several bugs fixed in v3.2.1
+npm WARN deprecated tough-cookie@2.2.2: ReDoS vulnerability parsing Set-Cookie https://nodesecurity.io/advisories/130
+npm WARN deprecated node-uuid@1.4.8: Use uuid module instead
+npm WARN deprecated hoek@2.16.3: The major version is no longer supported. Please update to 4.x or newer
+npm WARN deprecated datauri@0.2.1: Potential REDOS vulnerability removed in v1.1.0
+npm WARN deprecated coffee-script@1.12.7: CoffeeScript on NPM has moved to "coffeescript" (no hyphen)
+```
+
 
 Tested on: *Ubuntu 18.04 LTS* *Debian 9.5/sid/testing*
 [Terminal Recording of npm install lines on Ubuntu 18.04](https://asciinema.org/a/84JZMuGu2QlFH59q6mK8jbdQS)

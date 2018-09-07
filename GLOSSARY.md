@@ -1,6 +1,6 @@
 ## MISP Glossary
 This glossary is meant as a quick lookup document in case of any need of clarification of any threat sharing, threat-intel lingo.
-Be careful when adding terms to the glossary. Adding a generic term like: *MISP* will prevent terms like *MISP noticelist* to be addded. As a matter of definition please use the singular of for any terms.
+Be careful when adding terms to the glossary. Adding a generic term like: *MISP* will prevent terms like *MISP noticelist* to be addded. As a matter of definition please use the singular for any terms.
 In case you use any CCBYSA licensed content, or other pieces that are subject to licensing, make sure to add it as a by-line at the end of the mention.
 
 ## API
