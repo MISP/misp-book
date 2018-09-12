@@ -1,5 +1,7 @@
 <!-- Nothing else matters -->
 
+<!-- ToDo: Think about other default user roles that need to be considered and documented or at least hinted too. like: the role Read-only and user have these differences, if any -->
+
 ## General Layout
 
 ### The top bar
@@ -11,15 +13,21 @@ This menu contains all of the main functions of the site as a series of dropdown
 
 *   **Home button:** This button will return you to the start screen of the application, which is the event index page (more about this later).
 *   **Event Actions:** All the malware data entered into MISP is made up of an event object that is described by its connected attributes. The Event actions menu gives access to all the functionality that has to do with the creation, modification, deletion, publishing, searching and listing of events and attributes.
+*   **Galaxies:** Shortcut to the list of [MISP Galaxies](../galaxy/) on the MISP instance.
 *   **Input Filters:** Input filters alter what and how data can be entered into this instance. Apart from the basic validation of attribute entry by type, it is possible for the site administrators to define regular expression replacements and blacklists for certain values in addition to blocking certain values from being exportable. Users can view these replacement and blacklist rules here whilst administrator can alter them.
 *   **Global Actions:** This menu gives you access to information about MISP and this instance. You can view and edit your own profile, view the manual, read the news or the terms of use again, see a list of the active organizations on this instance and a histogram of their contributions by attribute type.
-*   **Discussions:** Link to the discussion threads.
+*   **MISP:** Simple link to your BASEURL
+*   **Steve:** Name (Auto generated from Mail address) of current logged in user
+*   **Envelope:** Link to User Dashboard where you can consult some of your notifications and changes since last visit. Like some of the proposals recieved for your organisation.
+*   **Log out:** The Log out button to end your session immediatly.
 
 #### Admin Menu Bar
 ![Some additional buttons that will appear on top of these when a view provides it.](figures/MenuBarAdmin.jpg)
 *   **Home button:** idem as user.
 
 *   **Event Actions:** ibidem
+
+*   **Galaxies:** You can aditionally update the Galaxies.
 
 *   **Input Filters:** Ibidem
 
@@ -31,9 +39,14 @@ This menu contains all of the main functions of the site as a series of dropdown
 
 *   **Audit:** If you have audit permissions, you can view the logs for your organization (or for site admins for the entire system) here or even search the logs if you are interested in something specific.
 
-*   **Proposal Notifications:** This shows how many proposals your organization has received and across how many events they are spread out. Clicking this will take you to the list of proposals.
+*   **MISP:** ibidem
 
-*   **Log out:** Logs you out of the system.
+*   **Admin:** ibidem
+
+*   **Envelope:** Link to User Dashboard where you can consult some of your notifications and changes since last visit. Like some of the proposals recieved for your organisation.
+
+*   **Log out:** The Log out button to end your session immediatly.
+
 
 ### A list of the contents of each of the above drop-down menus
 
@@ -48,6 +61,8 @@ This menu contains all of the main functions of the site as a series of dropdown
 
 *   **Search Attributes:** You can set search terms for a filtered attribute index view here.
 
+*   **REST client** MISP Online REST client where you can make calls directly to the API via a Web UI.
+
 *   **View Proposals:** Shows a list of all proposals that you are eligible to see.
 
 *   **Events with proposals:** Shows all of the events created by your organisation that has pending proposals.
@@ -55,6 +70,8 @@ This menu contains all of the main functions of the site as a series of dropdown
 *   **List Tags:** List all the tags that have been created by users with tag creation rights on this instance.
 
 *   **Add Tag:** Create a new tag.
+
+*   **List Taxonomies:** List all of the taxonomies installed on the MISP instance. This is also the place to activate the taxonomies as a Org Admin/Site Admin.
 
 *   **List Templates:** List all of the templates created by users with template creation rights on this instance.
 
@@ -72,8 +89,9 @@ This menu contains all of the main functions of the site as a series of dropdown
 
 *   **Signature Whitelist:** You can view the whitelist rules, which contains the values that are blocked from being used for exports and automation on this instance. Site administrators have access to editing this list.
 
-*  **List Warninglists:**
-MISP warninglists are lists of well-known indicators that can be associated to potential false positives, errors or mistakes. The warning lists are integrated in MISP to display an info/warning box at the event and attribute level.
+*  **List Warninglists:** MISP warninglists are lists of well-known indicators that can be associated to potential false positives, errors or mistakes. The warning lists are integrated in MISP to display an info/warning box at the event and attribute level.
+
+*  **List Noticelists:** MISP noticelists are lists of #Todo: Double check description from repo!!!
 
 ##### Global Actions
 
@@ -86,8 +104,6 @@ MISP warninglists are lists of well-known indicators that can be associated to p
 
 *   **Dashboard:** allow you to see your Notifications of Proposals, Events with proposals and Delegation request. Your can see the last changes since your last visit, as Events updates and Events publications.
 
-*   **Members List:** View the number of users per organization and get some statistics about the currently stored attributes.
-
 *   **Organizations:** View the organizations having a presence on this instance, with some useful informations as contact's name.
 
 *   **Role Permissions:** You can view the role permissions here.
@@ -98,28 +114,24 @@ MISP warninglists are lists of well-known indicators that can be associated to p
 
 *   **User Guide:** A link to this user guide.
 
+*   **Categories & Types:** Quick overview of Attribute Categories and Type. e.g: md5 -> Payload delivery, Artifacts dropped, Payload installation, External analysis
+
+*   **Terms & Conditions:** General terms and conditions which can be configured in Administration -> Server Settings -> MISP Settings: MISP.terms_file . From the UI: "The filename of the terms and conditions file. Make sure that the file is located in your MISP/app/files/terms directory"
+
 *   **Statistics:** View a series of statistics about the users and the data on this instance.
 
+*   **List Discussions:** List threads of discussions created on the MISP instance by the organisations connected to this local community.
+
+*   **Start Discussion:** Create a new discussion thread. 
+<!-- #ToDo: Make a reference to best practices on how to use this form of messaging. Sense/non-sense etc... -->
 
 ##### Sync Actions
-
 
 ![Sync Actions](figures/SyncActions.png)
 
 *   **List Servers:** Connect your MISP instance to other instances, or view and modify the currently established connections.
-<!-- Fix provided by elhoim -->
-It may be that you have an Error Message in the page (if you enabled debug or site_admin_debug settings). An example of error message:
 
-![Error message](figures/pb-list-server.png)
-
-An easy first step to make most of them go away is to use the clean cache feature on the server settings menu, diagnostics tab.
-
-![cleanscript](figures/cleanscript1.png)
-
-You must then scroll down the page.
-
-![cleanscript](figures/cleanscript2.png)
-
+<!-- Include example of error message/stack trace differences. -->
 
 *  **List Feeds:** Follow the RSS feeds of other organization or CERTs worldwide.  
 
@@ -129,7 +141,7 @@ You must then scroll down the page.
 
 *   **List Users:** View, modify or delete the currently registered users.
 
-*   **New User:** Create an account for a new user for your organisation. Site administrators can create users for any organisation.
+*   **Add User:** Create an account for a new user for your organisation. Site administrators can create users for any organisation.
 
 *  **Contact Users:** You can use this view to send messages to your current or future users or send them a temporary password.
 
@@ -143,32 +155,36 @@ In the case of a new user, you can specify the future user's GnuPG key, to send 
 
 The system will automatically generate a message for you, but it is also possible to write a custom message if you tick the check-box, but don't worry about assigning a temporary password manually, the system will do that for you, right after your custom message.
 
-*  **List Organizations:** View the organizations having a presence on this instance, with some useful informations.
+*  **List Organisations:** View the organizations having a presence on this instance, with some useful informations.
 
-*  **Add Organization:**
+*  **Add Organisation:**
 
 *   **List Roles:** List, modify or delete currently existing roles.
 
 *   **Add Role:** Create a new role group for the users of this instance, controlling their privileges to create, modify, delete and to publish events and to access certain features such as the logs or automation.
 
-*   **Administrative Tools:** Various tools, upgrade scripts that can help a site-admin run the instance.
-
-*   **Server Settings:** Set up and diagnose your MISP installation.
+*   **Server Settings & Maintenance:** Various tools, upgrade scripts that can help a site-admin run the instance & Set up and diagnose your MISP installation.
 
 *   **Jobs:** View the background jobs and their progress
 
 *   **Scheduled Tasks:** Schedule the pre-defined tasks for your instance (this currently includes export caching, server pull and server push).
+
+*   **Blacklist Event:** Link to form where you can quickly add an event to a blacklist with it's UUID.
+<!-- #Todo: Double check if blacklists and their impacts are explained at all -->
+
+*   **Manage Event Blacklists:** List of blacklisted events on MISP instance.
+
+*   **Blacklists Organisation:** Link to for where you can quickly add an organisation to a blacklist with it's UUID.
+
+<!-- #Todo: Double check if blacklists and their impacts are explained at all -->
+
+*   **Manage Org Blacklists:** List of blacklisted Organisations on this instance.
 
 ##### Audit
 
 ![Audit](figures/Audit.png)
 *   **List Logs:** View the logs of the instance.
 *   **Search Logs:** Search the logs by various attributes.
-
-##### Discussions
-
-*   **List Discussions:** List all of the discussion threads.
-*   **Start Discussion:** Create a new discussion thread.
 
 ### The left bar
 
