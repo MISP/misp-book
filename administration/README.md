@@ -7,19 +7,19 @@
 * [Roles](#roles)
 * [Tools](#tools)
 * [Server Settings](#server-settings)
-* Jobs
-* Scheduled Tasks
+* [Jobs](#jobs)
+* [Scheduled Tasks](#scheduled-tasks)
 
 
 > [warning] This page is under modification for updating the content. Current status:
 
-- [x] Users
-- [x] Organisations
-- [x] Roles
-- [x] Tools
-- [ ] Server Settings
-- [ ] Jobs
-- [ ] Scheduled Tasks
+- [x] Users - Reviewed/Updated on: ?
+- [x] Organisations - Reviewed/Updated on: ?
+- [x] Roles - Reviewed/Updated on: ?
+- [x] Tools - Reviewed/Updated on: ?
+- [ ] Server Settings - Reviewed/Updated on: ?
+- [ ] Jobs aka. Background processing - Reviewed/Updated on: ?
+- [ ] Scheduled Tasks aka. Background processing - Reviewed/Updated on: ?
 
 - - -
 
@@ -329,13 +329,22 @@ If enabled, MISP can delegate a lot of the time intensive tasks to the backgroun
 #### Command Line Tools for the Background Workers
 
 The background workers are powered by [CakeResque](https://github.com/kamisama/Cake-Resque), so all of the CakeResque commands work.
-To start all of the workers needed by MISP go to your `/var/www/MISP/app/Console/worker` (assuming a standard installation path) and execute start.sh.
-To interact with the workers, here is a list of useful commands. Go to your `/var/www/MISP/app/Console` (assuming a standard installation path) and execute one of the following commands as a parameter to `./cake CakeResque.CakeResque` (for example: `./cake CakeResque.CakeResque tail`):
+To start all of the workers needed by MISP go to your `/var/www/MISP/app/Console/worker` (assuming a standard installation path) and execute `start.sh`.
+To interact with the workers, here is a list of useful commands. Go to your `/var/www/MISP/app/Console` (assuming a standard installation path) and execute one of the following commands as a parameter to `./cake CakeResque` (for example: `./cake CakeResque tail`):
 
-*   **tail**: tail the various log files that CakeResque creates, just choose the one from the list that you are interested in.
-*   **cleanup**: terminate the job that a worker is working on with immediate effect. You will be presented with a choice of workers to choose from when executing this command.
-*   **clear**: Clear the queue of a worker immediately.
-*   **stats**: Display some statistics about your workers including the count of successful and failed jobs.
+*   **start**:           Start a new worker.
+*   **startscheduler**:  Start a new scheduler worker.
+*   **stop**:            Stop a worker.
+*   **pause**:           Pause a worker.
+*   **resume**:          Resume a paused worker.
+*   **cleanup**:         Terminate the job that a worker is working on with immediate effect. You will be presented with a choice of workers to choose from when executing this command.
+*   **restart**:         Stop all Resque workers, and start a new one.
+*   **clear**:           Clear all jobs inside a queue
+*   **reset**:           Reset CakeResque internal worker's saved status
+*   **stats**:           Display some statistics about your workers including the count of successful and failed jobs.
+*   **tail**:            Tail the various (workers) log files that CakeResque creates, just choose the one from the list that you are interested in.
+*   **track**:           Track a job status.
+*   **load**:            Load a set of predefined workers.
 
 The other commands should not be required, instead of starting / stopping or restarting workers use the supplied start.sh (it stops all workers and starts them all up again). For further instructions on how to use the console commands for the workers, visit the [CakeResque list of commands](http://cakeresque.kamisama.me/commands#cleanup).
 
@@ -585,3 +594,33 @@ An example of error message:
 ```
 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Task.job_id' in 'field list'
 ```
+
+### Jobs
+
+The Jobs tab gives you an overview on any currently running jobs or jobs that were previously completed and their status.
+
+![Running Jobs](figures/jobs-running.png)
+
+Typically this is one of the places you would turn to even some background process might not complete as expected to get an indication on any issues related to user initiated Jobs.
+
+For ease of use, you can filter the Jobs by 'All', 'Default', 'Email', 'Cache'
+##### Todo: Explain differences Default, Email, Cache
+
+You can also purge the entries, either only by completed status or purge all.
+This is not automated and needs to be done manually.
+
+### Scheduled Tasks
+
+Straight from the UI:
+
+"""
+Here you can schedule pre-defined tasks that will be executed every x hours. You can alter the date and time of the next scheduled execution and the frequency at which it will be repeated (expressed in hours). If you set the frequency to 0 then the task will not be repeated. To change and of the above mentioned settings just click on the appropriate field and hit update all when you are done editing the scheduled tasks.
+
+Warning: Scheduled tasks come with a lot of caveats and little in regards of customisations / granularity. You can instead simply create cron jobs out of the console commands as described here: Automating certain console tasks
+"""
+
+The task scheduler is a sub-par component to enable minimal functionality in terms of automating certain MISP tasks.
+If you have a dedicated and concious MISP Site Admin she can keep an eye on the Scheduler to make sure everything runs smoothly.
+
+For better performance please use a real scheduler like your systems' crontab.
+As a rule of thumb: If you can click on it, MISP can automate it.
