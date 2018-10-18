@@ -40,6 +40,7 @@ The MISP user guide is dual-licensed under [GNU Affero General Public License ve
 * Copyright \(C\) 2015-2018 Alexandre Dulaunoy
 * Copyright \(C\) 2014-2018 CIRCL - Computer Incident Response Center Luxembourg
 * Copyright \(C\) 2018 Camille Schneider
+* Copyright \(C\) 2018 Steve Clement
 
 
 
