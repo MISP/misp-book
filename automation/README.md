@@ -1692,7 +1692,7 @@ A feed can be disabled by POSTing on the following URL (feed_id is the id of the
 /feeds/disable/feed_id
 ~~~~
 
-All feeds can fetch via the API:
+All feeds can cached via the API:
 
 ~~~~
 /feeds/cacheFeeds/all
@@ -1700,6 +1700,13 @@ All feeds can fetch via the API:
 
 or you can replace `all` by the feed format to fetch like `misp` or `freetext`. `all` can be replaced
 with the `id` value of the feed to fetch a specific feed.
+
+To fetch a feed or all feeds:
+
+~~~~
+/feeds/fetchFromFeed/feed_id
+/feeds/fetchFromAllFeeds
+~~~~
 
 This API can be also used to download feeds at regular interval via cronjobs or alike.
 
