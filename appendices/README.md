@@ -1,3 +1,13 @@
+# Summary
+
+[Appendix A: External Authentication](#appendix-a-external-authentication)
+
+[Appendix B: ACL descriptors](#appendix-b-acl-descriptors)
+
+[Appendix C: Official MISP developments](#appendix-c-official-misp-developments)
+
+[Appendix D: Third-party development](#appendix-d-third-party-development)
+
 # Appendix A: External Authentication
 
 #### The external authentication mechanism described
@@ -220,3 +230,91 @@ https://<misp url>/servers/queryACL/findMissingFunctionNames
 
 Functions that have not been tied into the new ACL yet show up here. These functions will (until added to the ACL) only be accessible to site admins.
 
+# Appendix C: Official MISP developments
+
+This section lists the projects that can be found on the main [MISP GitHub](https://github.com/MISP/repositories) page
+ e know of but not officially support and rely on their respective maintainers to keep up to date to the MISP 2.4 developments.
+
+
+| Project | Description | Status |
+| -- | -- | -- |
+| [misp-objects](https://github.com/MISP/misp-objects) | Definition, description and relationship types of MISP objects | Core to MISP, frequently updated and tested |
+
+<!--
+| []() |  | Core to MISP, frequently updated and tested |
+| []() |  | Core to MISP, frequently updated and tested |
+| []() |  | Core to MISP, frequently updated and tested |
+| []() |  | Core to MISP, frequently updated and tested |
+| []() |  | Core to MISP, frequently updated and tested |
+| []() |  | Core to MISP, frequently updated and tested |
+| []() |  | Core to MISP, frequently updated and tested |
+-->
+
+# Appendix D: Third-party development
+
+This section lists some projects we know of but not officially support and rely on their respective maintainers to keep up to date to the MISP 2.4 developments.
+
+| Project | Description | Status |
+| -- | -- | -- |
+| [MISP-STIX-ESM](https://github.com/mohlcyber/MISP-STIX-ESM) | Exports MISP events to STIX and ingest into McAfee ESM | Not tested by MISP core team |
+| [Docker MISP](https://github.com/harvard-itsecurity/docker-misp) | Automated Docker MISP container | Not tested by MISP core team |
+| [misp42splunk](https://github.com/remg427/misp42splunk) | A Splunk app to use MISP in background and combine with TheHive | Not tested by MISP core team |
+| [OTX MISP](https://github.com/gcrahay/otx_misp) | Imports Alienvault OTX pulses to a MISP instance | Not tested by MISP core team |
+| [BTG](https://github.com/conix-security/BTG) | BTG's purpose is to make fast and efficient search on IOC | Not tested by MISP core team |
+| [MISP OSINT Collection](https://github.com/adulau/misp-osint-collection) | Collection of best practices to add OSINT into MISP and/or MISP communities | Not tested by MISP core team |
+| [Ansible MISP](https://github.com/StamusNetworks/ansible-misp) | Ansible playbook to install Malware Information Sharing Platform (MISP) | Not tested by MISP core team |
+| [IBM XFE module](https://github.com/johestephan/XFE) | Various IBM X-Force Exchange modules | Not tested by MISP core team |
+| [MISP dockerized](https://github.com/DCSO/MISP-dockerized-misp-modules) | MISP dockerized is a project designed to provide an easy-to-use and easy-to-install'out of the box' MISP instance that includes everything you need to run MISP with minimal host-side requirements. | Not tested by MISP core team |
+| [MISP dockerized modules](https://github.com/DCSO/MISP-dockerized-misp-modules) | MISP-modules for MISP dockerized | Not tested by MISP core team |
+| [FireMISP](https://github.com/deralexxx/FireMISP) | FireEye Alert json files to MISP Malware information sharing plattform (Alpha) | Not tested by MISP core team |
+| [MISP Chrome Plugin](https://github.com/deralexxx/misp-chrome-plugin) | MISP Chrome plugin for adding and looking up indicators | Not tested by MISP core team |
+| [PySight2MISP](https://github.com/deralexxx/PySight2MISP) | PySight2MISP is a project that can be run to be used as glue between iSight intel API and MISP API | Not tested by MISP core team |
+| [tie2misp](https://github.com/DCSO/tie2misp) | Import DCSO TIE IOCs as MISP events | Not tested by MISP core team |
+| [security onion MISP](https://github.com/weslambert/securityonion-misp) | Grab NIDS rules and Bro Intel generated from a MISP instance and use them in Security Onion | Not tested by MISP core team |
+| [virustream](https://github.com/ntddk/virustream) | A script to track malware IOCs with OSINT on Twitter. | Not tested by MISP core team |
+| [LAC CSV Import](https://github.com/LAC-Japan/MISP-CSVImport) | Register MISP events based on information described in files such as CSV and TSV. | Not tested by MISP core team |
+| [The Hive](https://github.com/TheHive-Project/TheHive) | TheHive: a Scalable, Open Source and Free Security Incident Response Platform | Strong links between core team members, tested and known working |
+| [puppet-misp](https://github.com/voxpupuli/puppet-misp) | This module installs and configures MISP - [puppet forge site](https://forge.puppet.com/puppet/misp) | Not tested by MISP core team |
+| [ansible MISP](https://github.com/juju4/ansible-MISP) | ansible role to setup MISP | Not tested by MISP core team |
+| [OpenDXL ATD MISP](https://github.com/mohlcyber/OpenDXL-ATD-MISP) | Automated threat intelligence collection with McAfee ATD, OpenDXL and MISP | Not tested by MISP core team |
+| [IMAP Proxy](https://github.com/CIRCL/IMAP-Proxy) | Modular IMAP proxy (including PyCIRCLeanMail and MISP forward modules) | Not tested by MISP core team |
+| [AutoMISP](https://github.com/da667/AutoMISP) | automate your MISP installs - This shell script is designed to automatically install [MISP](https://github.com/MISP/MISP) and the [misp-modules](https://github.com/MISP/misp-modules) extension on either Ubuntu 16.04, or 18.04. | Not tested by MISP core team |
+| [Palo Alto Networks report_to_misp](https://github.com/PaloAltoNetworks/report_to_misp) | Parse a report and import the events into MISP | Not tested by MISP core team |
+| [Palo Alto Networks minemeld-misp](https://github.com/PaloAltoNetworks/minemeld-misp) | MineMeld nodes for MISP | Not tested by MISP core team |
+| [golang-misp](https://github.com/0xrawsec/golang-misp) | Golang Library to interact with your MISP instance | Not tested by MISP core team |
+| [MISP MAR](https://github.com/mohlcyber/MISP-MAR) | Integration between MISP platform and McAfee Active Response | Not tested by MISP core team |
+| [MISP IoC Validator](https://github.com/tom8941/MISP-IOC-Validator) | Validate IOC from MISP ; Export results and iocs to SIEM and sensors using syslog and CEF format | Not tested by MISP core team |
+| [vt2misp](https://github.com/eCrimeLabs/vt2misp) | Script to fetch data from virustotal and add it to a specific event as an object | Not tested by MISP core team |
+| [Threat Pinch Lookup](https://github.com/cloudtracer/ThreatPinchLookup) | Documentation and Sharing Repository for ThreatPinch Lookup Chrome & Firefox [Extension](https://chrome.google.com/webstore/detail/threatpinch-lookup/ljdgplocfnmnofbhpkjclbefmjoikgke) | Not tested by MISP core team |
+| [dovehawk](https://github.com/tylabs/dovehawk) | Dovehawk is a Bro module that automatically imports MISP indicators and reports Sightings | Not tested by MISP core team |
+| [yara-exporter](https://github.com/CERT-Bund/yara-exporter) | Exporting MISP event attributes to yara rules usable with Thor apt scanner | Not tested by MISP core team |
+| [volatility-misp](https://github.com/CIRCL/volatility-misp) | Volatility plugin to interface with MISP | Not tested by MISP core team |
+| [misp2bro](https://github.com/thnyheim/misp2bro) | Python script that gets IOC from MISP and converts it into BRO intel files. | Not tested by MISP core team |
+| [TA-misp](https://github.com/stricaud/TA-misp) | Splunk integration with MISP | Not tested by MISP core team |
+
+
+<!--
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+| []() |  | Not tested by MISP core team |
+-->
+
+# Appendix E: Other Threat Intel Ressources
+
+A brief list of online ressources that around #ThreatIntel
+
+* [Curated list of awesome cybersecurity companies and solutions.](https://github.com/Annsec/awesome-cybersecurity/blob/master/README.md) (Updated April 2017)
+* [A curated list of awesome malware analysis tools and resources](https://github.com/rshipp/awesome-malware-analysis/blob/master/README.md). Inspired by [awesome-python](https://github.com/vinta/awesome-python) and [awesome-php](https://github.com/ziadoz/awesome-php).
+* [An authoritative list of awesome devsecops tools with the help from community experiments and contributions](https://github.com/devsecops/awesome-devsecops/blob/master/README.md).[DEV.SEC.OPS](http://devsecops.org)
+* [Advance Python IoC extractor](https://github.com/InQuest/python-iocextract)
