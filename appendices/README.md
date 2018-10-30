@@ -244,10 +244,6 @@ This section lists the projects that can be found on the main [MISP GitHub](http
 | []() |  | Core to MISP, frequently updated and tested |
 | []() |  | Core to MISP, frequently updated and tested |
 | []() |  | Core to MISP, frequently updated and tested |
-| []() |  | Core to MISP, frequently updated and tested |
-| []() |  | Core to MISP, frequently updated and tested |
-| []() |  | Core to MISP, frequently updated and tested |
-| []() |  | Core to MISP, frequently updated and tested |
 -->
 
 # Appendix D: Third-party development
@@ -259,6 +255,7 @@ This section lists some projects we know of but not officially support and rely 
 | [MISP-STIX-ESM](https://github.com/mohlcyber/MISP-STIX-ESM) | Exports MISP events to STIX and ingest into McAfee ESM | Not tested by MISP core team |
 | [Docker MISP](https://github.com/harvard-itsecurity/docker-misp) | Automated Docker MISP container | Not tested by MISP core team |
 | [misp42splunk](https://github.com/remg427/misp42splunk) | A Splunk app to use MISP in background and combine with TheHive | Not tested by MISP core team |
+| [getmispioc](https://github.com/xme/splunk/tree/master/getmispioc) | getiocmisp is a Splunk custom search command that helps to extract IOCs from a MISP instance. | Not tested by MISP core team |
 | [OTX MISP](https://github.com/gcrahay/otx_misp) | Imports Alienvault OTX pulses to a MISP instance | Not tested by MISP core team |
 | [BTG](https://github.com/conix-security/BTG) | BTG's purpose is to make fast and efficient search on IOC | Not tested by MISP core team |
 | [MISP OSINT Collection](https://github.com/adulau/misp-osint-collection) | Collection of best practices to add OSINT into MISP and/or MISP communities | Not tested by MISP core team |
@@ -282,6 +279,7 @@ This section lists some projects we know of but not officially support and rely 
 | [Palo Alto Networks report_to_misp](https://github.com/PaloAltoNetworks/report_to_misp) | Parse a report and import the events into MISP | Not tested by MISP core team |
 | [Palo Alto Networks minemeld-misp](https://github.com/PaloAltoNetworks/minemeld-misp) | MineMeld nodes for MISP | Not tested by MISP core team |
 | [golang-misp](https://github.com/0xrawsec/golang-misp) | Golang Library to interact with your MISP instance | Not tested by MISP core team |
+| [go-misp](https://github.com/Zenithar/go-misp) | Golang MISP [API Client](http://zenithar.org/go/misp) | Not tested by MISP core team |
 | [MISP MAR](https://github.com/mohlcyber/MISP-MAR) | Integration between MISP platform and McAfee Active Response | Not tested by MISP core team |
 | [MISP IoC Validator](https://github.com/tom8941/MISP-IOC-Validator) | Validate IOC from MISP ; Export results and iocs to SIEM and sensors using syslog and CEF format | Not tested by MISP core team |
 | [vt2misp](https://github.com/eCrimeLabs/vt2misp) | Script to fetch data from virustotal and add it to a specific event as an object | Not tested by MISP core team |
@@ -291,20 +289,16 @@ This section lists some projects we know of but not officially support and rely 
 | [volatility-misp](https://github.com/CIRCL/volatility-misp) | Volatility plugin to interface with MISP | Not tested by MISP core team |
 | [misp2bro](https://github.com/thnyheim/misp2bro) | Python script that gets IOC from MISP and converts it into BRO intel files. | Not tested by MISP core team |
 | [TA-misp](https://github.com/stricaud/TA-misp) | Splunk integration with MISP | Not tested by MISP core team |
-
+| [MISP QRadar](https://github.com/karthikkbala/MISP-QRadar-Integration) | The Project can used to integrate QRadar with MISP Threat Sharing Platform | Not tested by MISP core team |
+| [pymisp-suricata_search](https://github.com/raw-data/pymisp-suricata_search) | Multi-threaded suricata search module for MISP | Not tested by MISP core team |
+| [MISP-ThreatExchange](https://github.com/EC-DIGIT-CSIRC/MISP-ThreatExchange) | Script to interface MISP with Facebook ThreatExchange | Not tested by MISP core team |
+| [aptc](https://github.com/jymcheong/aptc) | [Automated Payload Test Controller](https://jymcheong.github.io/aptc/) | Not tested by MISP core team |
+| [aptmap](https://github.com/3c7/aptmap) | A [map](https://aptmap.netlify.com) displaying threat actors from the [misp-galaxy](https://github.com/MISP/misp-galaxy) | Not tested by MISP core team |
+| [mispy](https://github.com/nbareil/mispy) | Another MISP module for Python | Not tested by MISP core team |
+| [MispSharp](https://github.com/DBHeise/MispSharp) | C# Library for MISP | Not tested by MISP core team |
+| [Privacy Aware Sharing of IoCs in MISP](https://github.com/charly077/MISP-privacy-aware-sharing-master-thesis) | [Master Thesis](https://github.com/charly077/MISP-privacy-aware-sharing-master-thesis/blob/master/report/report.pdf) including MISP data. | Master thesis |
 
 <!--
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
 | []() |  | Not tested by MISP core team |
 | []() |  | Not tested by MISP core team |
 | []() |  | Not tested by MISP core team |
