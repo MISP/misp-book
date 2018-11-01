@@ -1,5 +1,7 @@
 # MISP Instance requirements
 
+<!-- toc -->
+
 ## Intro
 
 There are various ways you can run a MISP instance.
