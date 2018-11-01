@@ -1,12 +1,6 @@
 # Summary
 
-[Appendix A: External Authentication](#appendix-a-external-authentication)
-
-[Appendix B: ACL descriptors](#appendix-b-acl-descriptors)
-
-[Appendix C: Official MISP developments](#appendix-c-official-misp-developments)
-
-[Appendix D: Third-party development](#appendix-d-third-party-development)
+<!-- toc -->
 
 # Appendix A: External Authentication
 
