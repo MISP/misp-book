@@ -36,7 +36,8 @@ Attributes in MISP can be network indicators (e.g. IP address), system indicator
 ◦ A type (e.g. MD5, url) is how an attribute is described.
 ◦ An attribute is always in a category (e.g. Payload delivery) which puts it in a context.
 • A category is what describes an attribute.
-◦ An IDS flag on an attribute allows to determine if an attribute can
+◦ An IDS flag on an attribute allows to determine if an attribute can be automated (such as being exported as an IDS ruleset or used for detection). If the IDS flag is not present, the attribute
+can be useful for contextualisation only.
 
 ## MISP Event
 MISP events are encapsulations for contextually linked information
