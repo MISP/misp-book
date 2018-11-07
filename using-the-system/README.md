@@ -52,7 +52,7 @@ Keep in mind that the system searches for regular expressions in the value field
 *   **Contextual Comment:** Add a comment to the attribute. This will not be used for correlation.
 *   **Value:** The actual value of the attribute, enter data about the value based on what is valid for the chosen attribute type. For example, for an attribute of type ip-src (source IP address), 11.11.11.11 would be a valid value. For more information on types and values, [click here](../categories-and-types)
 *   **Contextual Comment:** You can add some comments to the attribute that will not be used for correlation but instead serves as purely an informational field.
-*   **For Intrusion Detection System:** This option allows the attribute to be used as an IDS signature when exporting the NIDS data, unless it is being overruled by the white-list. For more information about the whitelist, head over to the [administration](#administration) section.
+*   **For Intrusion Detection System:** This option allows the attribute to be used as an IDS signature when exporting the NIDS data, unless it is being overruled by the white-list. For more information about the white-list, head over to the [administration](#administration) section. If the IDS flag is not set, the attribute is considered as contextual information and not to be used for automatic detection.
 *   **Batch import:** If there are several attributes of the same type to enter (such as a list of IP addresses, it is possible to enter them all into the same value-field, separated by a line break between each line. This will allow the system to create separate lines for the each attribute.
 
 
