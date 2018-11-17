@@ -26,4 +26,5 @@
 * [ZeroMQ - MISP publish-subscribe](misp-zmq/README.md)
 * [Translations - i18n & l10n](translation/README.md)
 * [FAQ](faq/README.md)
+* [Dev FAQ](dev-faq/README.md)
 * [Appendices](appendices/README.md)
