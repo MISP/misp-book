@@ -4,13 +4,13 @@
 
 Galaxies in MISP are a method used to express a large object called cluster that can be attached to MISP events or attributes. A cluster can be composed of one or more elements. Elements are expressed as key-values.
 
-There are default vocabularies available in MISP galaxy but those can be overwritten, replaced or updated as you wish. Vocabularies are from existing standards (like STIX, Veris, MISP and so on) or custom ones.
+There are default vocabularies available in MISP galaxy but those can be overwritten, replaced or updated as you wish. Vocabularies are from existing standards (like [STIX](https://oasis-open.github.io/cti-documentation/stix/intro), [Veris](http://veriscommunity.net/veris-overview.html), [ATT&CK](https://attack.mitre.org/), MISP and so on) or custom ones you only use for your organization.
 
 Existing clusters and vocabularies can be used as-is or as a template. MISP distribution can be applied to each cluster to permit a limited or broader distribution scheme.
 
 The objective is to have a common set of clusters for organizations starting analysis but that can be expanded to localized information (which is not shared) or additional information (that can be shared).
 
-[MISP galaxy](https://github.com/MISP/misp-galaxy) are available on Github.
+[MISP galaxy](https://github.com/MISP/misp-galaxy) is available on Github.
 
 ### Managing Galaxies in MISP
 
@@ -24,11 +24,11 @@ A list with all the galaxies existing on the server will appear.
 
 ![GalaxyView](./figures/GalaxyView.png)
 
-Each galaxy can be explored using the icon at the end of the line.
+Each galaxy can be explored using the **View** icon at the end of the line.
 
 ![GalaxyList](./figures/GalaxyList.png)
 
-Here is shown the metadata of the selected galaxy as well as a table with each available value as well as some complementary data such as a description of the value or the activity, that is to say the evolution of the use of each value.
+Here the metadata of the selected galaxy is shown. You also see a table with each available value as well as some complementary data such as a description of the value or the activity (MISP Sightings), that is to say the evolution of the use of each value.
 
 Galaxies can be reimported from the submodules by clicking the "Update Galaxies" link on either the galaxies list or while browsing a specific galaxy. A popup will appear to confirm the reimportation.
 
@@ -38,7 +38,7 @@ All galaxies will always be updated, even while browsing a specific galaxy.
 
 ### Using Galaxies in MISP Events - Example
 
-For this example, we will try to add a cluster to an existing event. This cluster will contains informations about threat actor known as Sneaky Panda.
+For this example, we will try to add a cluster to an existing event. This cluster contains information about  threat actor known as Sneaky Panda.
 
 ![EventWithoutCluster](./figures/EventWithoutCluster.png)
 

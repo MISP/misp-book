@@ -19,6 +19,24 @@ This means that the main repository has an update available.
 
 If you want to play it safer or want to integrate it in your Weekly/Bi-Monthly update routine you can track our [Changelog](https://www.misp-project.org/Changelog.txt) a more up to date version is available [here](https://misp.github.io/MISP/Changelog/)
 
+
+## Maintenance mode
+
+### Is there a MISP maintenance mode?
+
+Yes, you want to flip your instances "Live-mode".
+This wants to be done on the CLI if you experience issues:
+
+```bash
+$PATH_TO_MISP/app/Console/cake "MISP.live" 0
+```
+
+Other related MISP Settings
+
+Optional	MISP.maintenance_message	Great things are happening! MISP is undergoing maintenance, but will return shortly. You can contact the administration at $email or call CIRCL.	The message that users will see if the instance is not live.
+
+Critical	MISP.live	true	Unless set to true, the instance will only be accessible by site admins.
+
 ## Update MISP fails
 
 If your MISP instance is outdated, meaning ONLY the core, not the modules or dashboard or python modules, you well see the following.
@@ -81,7 +99,7 @@ OR if you were foolish enough to not install in a Python virtualenv:
 sudo -u www-data misp-modules -l 127.0.0.1 -s &
 ```
 
-:warning: Running misp-modules like this will certainly kill it once you quit the session. Make sure it is in your **/etc/rc.local** or some ther init script that gets run on boot.
+> [warning] Running misp-modules like this will certainly kill it once you quit the session. Make sure it is in your **/etc/rc.local** or some ther init script that gets run on boot.
 
 ## Uninstalling MISP
 
