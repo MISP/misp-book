@@ -19,6 +19,11 @@ This means that the main repository has an update available.
 
 If you want to play it safer or want to integrate it in your Weekly/Bi-Monthly update routine you can track our [Changelog](https://www.misp-project.org/Changelog.txt) a more up to date version is available [here](https://misp.github.io/MISP/Changelog/)
 
+## Hardening
+
+### How do I harden my MISP instance?
+
+You can check the [hardening section](https://misp.github.io/MISP/generic/hardening/) in the install guide.
 
 ## Maintenance mode
 
