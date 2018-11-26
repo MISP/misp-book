@@ -45,7 +45,7 @@ To add a new user, click on the Add User button in the administration menu to th
 *   **Fetch GnuPG key:** Fetch GnuPG public key.
 *   **Receive alerts when events are published:** This option will subscribe the new user to automatically generated e-mails whenever an event is published.
 *   **Receive alerts from "contact reporter" requests:** This option will subscribe the new user to e-mails that are generated when another user tries to get in touch with an event's reporting organisation that matches that of the new user.
-*   **Disable this user account:** Tick it if you want to disable this user account.
+*   **Disable this user account:** Tick it if you want to disable this user account. (preferred to removing an account)
 
 #### Listing all users:
 
@@ -72,7 +72,7 @@ To list all current users of the system, just click on List Users under the admi
 		*   **Change Password:** Setting this flag will require the user to change password after the next login.
 		*   **Reset Auth Key:** Use this link for generate a new AuthKey.
 ![Edit user.](figures/edit_users.png)
-	*    **Delete the user:** If you want to delete a user.
+	*    **Delete the user:** If you want to delete a user. (Note: disabling is the preferred method)
 ![delete user.](figures/delete_user.png)
 	*    **Display the user:** Display all user's information.<br />
 ![display user.](figures/display_user.png)
