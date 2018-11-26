@@ -68,6 +68,8 @@ Clicking on the addition symbol on the left of Beijing Group extends the module.
 
 ### Available Galaxies
 
+<!-- NB. This list is generated dynamically with gen-doc.sh included in this directory. -->
+
 #### Clusters
 
 [Android](https://github.com/MISP/misp-galaxy/blob/master/clusters/android.json) - Android malware galaxy based on multiple open sources.
