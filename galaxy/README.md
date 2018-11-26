@@ -72,62 +72,96 @@ Clicking on the addition symbol on the left of Beijing Group extends the module.
 
 [Android](https://github.com/MISP/misp-galaxy/blob/master/clusters/android.json) - Android malware galaxy based on multiple open sources.
 
+[Backdoor](https://github.com/MISP/misp-galaxy/blob/master/clusters/backdoor.json) - A list of backdoor malware.
+
 [Banker](https://github.com/MISP/misp-galaxy/blob/master/clusters/banker.json) - A list of banker malware.
 
-[Exploit Kit](https://github.com/MISP/misp-galaxy/blob/master/clusters/exploit-kit.json) - Exploit-Kit is an enumeration of some exploitation kits used by adversaries. The list includes document, browser and router exploit kits. It's not meant to be totally exhaustive but aim at covering the most seen in the past 5 years.
+[Botnet](https://github.com/MISP/misp-galaxy/blob/master/clusters/botnet.json) - botnet galaxy
 
-[Microsoft Activity Group](https://github.com/MISP/misp-galaxy/blob/master/clusters/microsoft-activity-group.json) - Activity groups as described by Microsoft.
+[Branded vulnerability](https://github.com/MISP/misp-galaxy/blob/master/clusters/branded_vulnerability.json) - List of known vulnerabilities and attacks with a branding
 
-[Preventive Measure](https://github.com/MISP/misp-galaxy/blob/master/clusters/preventive-measure.json) - Preventive measures.
+[Cert eu govsector](https://github.com/MISP/misp-galaxy/blob/master/clusters/cert-eu-govsector.json) - Cert EU GovSector
 
-[Ransomware](https://github.com/MISP/misp-galaxy/blob/master/clusters/ransomware.json) - Ransomware galaxy based on https://docs.google.com/spreadsheets/d/1TWS238xacAto-fLKh1n5uTsdijWdCEsGIM0Y0Hvmc5g/pubhtml
+[Exploit kit](https://github.com/MISP/misp-galaxy/blob/master/clusters/exploit-kit.json) - Exploit-Kit is an enumeration of some exploitation kits used by adversaries. The list includes document, browser and router exploit kits.It's not meant to be totally exhaustive but aim at covering the most seen in the past 5 years
 
-[RAT](https://github.com/MISP/misp-galaxy/blob/master/clusters/rat.json) - remote administration tool or remote access tool (RAT), also called sometimes remote access trojan, is a piece of software or programming that allows a remote "operator" to control a system as if they have physical access to that system.
+[Malpedia](https://github.com/MISP/misp-galaxy/blob/master/clusters/malpedia.json) - Malware galaxy cluster based on Malpedia.
 
-[TDS](https://github.com/MISP/misp-galaxy/blob/master/clusters/tds.json) - TDS is a list of Traffic Direction System used by adversaries.
+[Microsoft activity group](https://github.com/MISP/misp-galaxy/blob/master/clusters/microsoft-activity-group.json) - Activity groups as described by Microsoft
 
-[Threat Actor](https://github.com/MISP/misp-galaxy/blob/master/clusters/threat-actor.json) - Adversary groups - Known or estimated adversary groups targeting organizations and employees. Adversary groups are regularly confused with their initial operation or campaign. MISP
+[Mitre attack pattern](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-attack-pattern.json) - ATT&CK tactic
 
-[Tool](https://github.com/MISP/misp-galaxy/blob/master/clusters/tool.json) - tool is an enumeration of tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
+[Mitre course of action](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-course-of-action.json) - ATT&CK Mitigation
 
+[Mitre enterprise attack attack pattern](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-enterprise-attack-attack-pattern.json) - ATT&CK tactic
 
-[MITRE Attack Pattern](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_attack-pattern.json) - Attack Pattern - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+[Mitre enterprise attack course of action](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-enterprise-attack-course-of-action.json) - ATT&CK Mitigation
 
-[MITRE Course of Action](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_course-of-action.json) - Course of Action - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+[Mitre enterprise attack intrusion set](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-enterprise-attack-intrusion-set.json) - Name of ATT&CK Group
 
-[MITRE Intrusion Set](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_intrusion-set.json) - Intrusion Test - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+[Mitre enterprise attack malware](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-enterprise-attack-malware.json) - Name of ATT&CK software
 
-[MITRE Malware](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_malware.json) - Malware - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+[Mitre enterprise attack tool](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-enterprise-attack-tool.json) - Name of ATT&CK software
 
-[MITRE Tool](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre_tool.json) - Tool - MITRE Adversarial Tactics, Techniques & Common Knowledge (ATT&CK)
+[Mitre intrusion set](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-intrusion-set.json) - Name of ATT&CK Group
 
+[Mitre malware](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-malware.json) - Name of ATT&CK software
 
-[Sectors](https://github.com/MISP/misp-galaxy/blob/master/clusters/sectors.json) - Activity sectors
+[Mitre mobile attack attack pattern](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-mobile-attack-attack-pattern.json) - ATT&CK tactic
 
-[CertEU Govsector](https://github.com/MISP/misp-galaxy/blob/master/clusters/cert-eu-govsector.json) - Cert EU GovSector/master/clusters/tool.json) - Enumeration of software tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
+[Mitre mobile attack course of action](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-mobile-attack-course-of-action.json) - ATT&CK Mitigation
+
+[Mitre mobile attack intrusion set](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-mobile-attack-intrusion-set.json) - Name of ATT&CK Group
+
+[Mitre mobile attack malware](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-mobile-attack-malware.json) - Name of ATT&CK software
+
+[Mitre mobile attack tool](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-mobile-attack-tool.json) - Name of ATT&CK software
+
+[Mitre pre attack attack pattern](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-pre-attack-attack-pattern.json) - ATT&CK tactic
+
+[Mitre pre attack intrusion set](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-pre-attack-intrusion-set.json) - Name of ATT&CK Group
+
+[Mitre tool](https://github.com/MISP/misp-galaxy/blob/master/clusters/mitre-tool.json) - Name of ATT&CK software
+
+[Preventive measure](https://github.com/MISP/misp-galaxy/blob/master/clusters/preventive-measure.json) - Preventive measures based on the ransomware document overview as published in https://docs.google.com/spreadsheets/d/1TWS238xacAto-fLKh1n5uTsdijWdCEsGIM0Y0Hvmc5g/pubhtml# . The preventive measures are quite generic and can fit any standard Windows infrastructure and their security measures.
+
+[Ransomware](https://github.com/MISP/misp-galaxy/blob/master/clusters/ransomware.json) - Ransomware galaxy based on https://docs.google.com/spreadsheets/d/1TWS238xacAto-fLKh1n5uTsdijWdCEsGIM0Y0Hvmc5g/pubhtml and http://pastebin.com/raw/GHgpWjar
+
+[Rat](https://github.com/MISP/misp-galaxy/blob/master/clusters/rat.json) - remote administration tool or remote access tool (RAT), also called sometimes remote access trojan, is a piece of software or programming that allows a remote "operator" to control a system as if they have physical access to that system.
+
+[Sector](https://github.com/MISP/misp-galaxy/blob/master/clusters/sector.json) - Activity sectors
+
+[Stealer](https://github.com/MISP/misp-galaxy/blob/master/clusters/stealer.json) - A list of malware stealer.
+
+[Tds](https://github.com/MISP/misp-galaxy/blob/master/clusters/tds.json) - TDS is a list of Traffic Direction System used by adversaries
+
+[Threat actor](https://github.com/MISP/misp-galaxy/blob/master/clusters/threat-actor.json) - Known or estimated adversary groups targeting organizations and employees. Adversary groups are regularly confused with their initial operation or campaign.
+
+[Tool](https://github.com/MISP/misp-galaxy/blob/master/clusters/tool.json) - threat-actor-tools is an enumeration of tools used by adversaries. The list includes malware but also common software regularly used by the adversaries.
 
 #### Vocabularies
 
 ##### Common
 
-[certainty-level](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/certainty-level.json) - Certainty level of an associated element or cluster.
+[Certainty level](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/certainty-level.json) - Certainty level of an associated element or cluster.
 
-[threat-actor-type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/threat-actor-type.json) - threat actor type vocab as defined by Cert EU.
+[Sector](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/sector.json) - List of activity sectors
 
-[ttp-category](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/ttp-category.json) - ttp category vocab as defined by Cert EU.
+[Threat actor type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/threat-actor-type.json) - threat actor type vocab as defined by Cert EU.
 
-[ttp-type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/ttp-type.json) - ttp type vocab as defined by Cert EU.
+[Ttp category](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/ttp-category.json) - ttp category vocab as defined by Cert EU.
+
+[Ttp type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/common/ttp-type.json) - ttp type vocab as defined by Cert EU.
 
 ##### threat-actor
 
-[cert-eu-motive](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/cert-eu-motive.json) - Motive vocab as defined by Cert EU.
+[Cert eu motive](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/cert-eu-motive.json) - Motive vocab as defined by Cert EU.
 
-[intended-effect-vocabulary](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/intended-effect.json) - The IntendedEffectVocab is the default STIX vocabulary for expressing the intended effect of a threat actor. STIX 1.2.1
+[Intended effect](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/intended-effect.json) - The IntendedEffectVocab is the default STIX vocabulary for expressing the intended effect of a threat actor
 
-[motivation-vocabulary](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/motivation.json) - The MotivationVocab is the default STIX vocabulary for expressing the motivation of a threat actor. STIX 1.2.1
+[Motivation](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/motivation.json) - The MotivationVocab is the default STIX vocabulary for expressing the motivation of a threat actor.
 
-[planning-and-operational-support-vocabulary](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/planning-and-operational-support.json) - The PlanningAndOperationalSupportVocab is the default STIX vocabulary for expressing the planning and operational support functions available to a threat actor.
+[Planning and operational support](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/planning-and-operational-support.json) - The PlanningAndOperationalSupportVocab is the default STIX vocabulary for expressing the planning and operational support functions available to a threat actor.
 
-[sophistication](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/sophistication.json) - The ThreatActorSophisticationVocab enumeration is used to define the default STIX vocabulary for expressing the subjective level of sophistication of a threat actor.
+[Sophistication](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/sophistication.json) - The ThreatActorSophisticationVocab enumeration is used to define the default STIX vocabulary for expressing the subjective level of sophistication of a threat actor.
 
-[type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/type.json) - The ThreatActorTypeVocab enumeration is used to define the default STIX vocabulary for expressing the subjective type of a threat actor
+[Type](https://github.com/MISP/misp-galaxy/blob/master/vocabularies/threat-actor/type.json) - The ThreatActorTypeVocab enumeration is used to define the default STIX vocabulary for expressing the subjective type of a threat actor.
