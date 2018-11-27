@@ -25,8 +25,9 @@ cd misp-book
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo apt-get install -y build-essential
-sudo apt install -y pkg-config libcairo2-dev libgif-dev
-npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-image-class
+sudo apt install -y pkg-config libcairo2-dev libgif-dev libjpeg-dev
+npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-image-class gitbook-plugin-last-modified gitbook-plugin-last-modified
+
 sudo npm install gitbook-cli -g
 gitbook install
 ```
