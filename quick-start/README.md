@@ -25,15 +25,16 @@ MISP default credentials:
 1. [Change site admin password](https://misp.gitbooks.io/misp-book/content/quick-start/#password-policy)
 2. [Activate Feeds](https://www.circl.lu/doc/misp/managing-feeds/)
 3. [Setup your User](https://misp.gitbooks.io/misp-book/content/user-management/#first-run-of-the-system)
+3.1 Designate a Site Admin and an Org Admin
+3.2 Add some contributing users and assign the corresponding Roles
 4. [MISP Administration](https://www.circl.lu/doc/misp/administration/)
+4.1 Edit your first organisations' name
 
 ## Password Policy 
 - [12]: Ensure that the password is at least 12 characters long
 - [A-Z]: contains at least one upper-case
 - [0-9| ]: includes a digit or a special character 
 - [a-z]: at least one lower-case character.
-
-**Last Updated: April, 2018**
 
 If you need a password generator use:
 - Ubuntu / Debian: [pwgen](https://linux.die.net/man/1/pwgen)
