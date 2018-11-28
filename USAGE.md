@@ -1,18 +1,43 @@
-
 Install notes
 =============
 
-:warning: Make sure to be in the *misp-book* repository directory for the *npm magic*.
-Also: The *npm* plugin *autocover* is broken. It pulls an incompatible *canvas* module version. Thus patched repository used (forked from original)
-Finally: You will get a few errors on Ubuntu 18.04 which you can ignore for now. In the rather near future we need to think about an alternative as gitbook glides towards obsoletion and security risk.
+:warning: Make sure to be in the *misp-book* repository directory for the *npm magic*.<br />
+_Also_: The *npm* plugin *autocover* is broken. It pulls an incompatible *canvas* module version. Thus patched repository used (forked from original)<br />
+_Finally_: You will get a few errors on Ubuntu 18.04 which you can ignore for now. In the rather near future we need to think about an alternative as gitbook glides towards obsoletion and security risk.
+
 Reason for concern:
 ```
-npm WARN deprecated ignore@3.1.2: several bugs fixed in v3.2.1
+npm WARN deprecated sprintf@0.1.5: The sprintf package is deprecated in favor of sprintf-js.
 npm WARN deprecated tough-cookie@2.2.2: ReDoS vulnerability parsing Set-Cookie https://nodesecurity.io/advisories/130
-npm WARN deprecated node-uuid@1.4.8: Use uuid module instead
-npm WARN deprecated hoek@2.16.3: The major version is no longer supported. Please update to 4.x or newer
-npm WARN deprecated datauri@0.2.1: Potential REDOS vulnerability removed in v1.1.0
-npm WARN deprecated coffee-script@1.12.7: CoffeeScript on NPM has moved to "coffeescript" (no hyphen)
+npm WARN deprecated cryptiles@2.0.5: This version is no longer maintained. Please upgrade to the latest version.
+npm WARN deprecated boom@2.10.1: This version is no longer maintained. Please upgrade to the latest version.
+npm WARN deprecated hoek@2.16.3: This version is no longer maintained. Please upgrade to the latest version.
+npm WARN saveError ENOENT: no such file or directory, open '/home/steve/Desktop/code/MISP_Main/misp-book/package.json'
+npm WARN enoent ENOENT: no such file or directory, open '/home/steve/Desktop/code/MISP_Main/misp-book/package.json'
+npm WARN misp-book No description
+npm WARN misp-book No repository field.
+npm WARN misp-book No README data
+npm WARN misp-book No license field.
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@0.3.8 (node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@0.3.8: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+
++ gitbook-plugin-alerts@0.2.0
++ gitbook-plugin-advanced-emoji@0.2.2
++ gitbook-plugin-gist@1.0.0
++ gitbook-plugin-sitemap@1.2.0
++ gitbook-plugin-github@3.0.0
++ gitbook-plugin-toc@0.0.2
++ gitbook-plugin-anchors@0.7.1
++ gitbook-plugin-search@2.2.1
++ gitbook-plugin-codesnippet@1.2.0
++ gitbook-plugin-last-modified@1.0.0
++ gitbook-plugin-image-class@1.0.5
++ gitbook@2.6.9
++ gitbook-plugin-autocover@2.0.1
+updated 13 packages, moved 9 packages and audited 4906 packages in 5.316s
+found 368 vulnerabilities (48 low, 250 moderate, 62 high, 8 critical)
+  run `npm audit fix` to fix them, or `npm audit` for details
+#weHaveBeenWarned
 ```
 
 
@@ -26,11 +51,86 @@ curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo apt-get install -y build-essential
 sudo apt install -y pkg-config libcairo2-dev libgif-dev libjpeg-dev
-npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-image-class gitbook-plugin-last-modified gitbook-plugin-last-modified
+npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-alerts gitbook-plugin-search gitbook-plugin-gist gitbook-plugin-advanced-emoji gitbook-plugin-sitemap gitbook-plugin-codesnippet gitbook-plugin-image-class gitbook-plugin-last-modified
 
 sudo npm install gitbook-cli -g
 gitbook install
 ```
+
+Plugins
+=======
+
+The following plugins are installed and this is how they impact the build.
+
+
++ gitbook-plugin-codesnippet@1.2.0
+
+  You can include any code snippet from a file like follows.
+  ```
+  {% codesnippet "/pymisp/last.py", language="python" %}{% endcodesnippet %}
+  ```
+
+
++ gitbook-plugin-advanced-emoji@0.2.2
+
+  This plainly enables converting ```:smile:``` to :smile:
+  Consult the [Emoji Cheat Sheeet](https://www.webpagefx.com/tools/emoji-cheat-sheet/) for a reference.
+
+
++ gitbook-plugin-alerts@0.2.0
+
+  Info, warning, danger, success blockquotes for your gitbook.
+
+  Warning styling
+  ```
+  > **[warning] For warning**
+  >
+  > Use this for warning messages.
+  ```
+
+  Danger styling
+  ```
+  > **[danger] For danger**
+  >
+  > Use this for danger messages.
+  ```
+
+  Success styling
+  ```
+  > **[success] For info**
+  >
+  > Use this for success messages.
+  ```
+
+
++ gitbook-plugin-gist@1.0.0
+
+  With this plugin you can include GitHub Gists](https://gist.github.com)
+  ```
+  {% gist id="https://gist.github.com/SteveClement/1ba901612a97d63938ed5cf32c2100ee" %}{% endgist %}
+  
+  {% gist id="SteveClement/1ba901612a97d63938ed" %}{% endgist %}
+  
+  {% gist id="SteveClement/1ba901612a97d63938ed",file="README.md" %}{% endgist %}
+  
+  {% gist id="SteveClement/1ba901612a97d63938ed",hideFooter=true %}{% endgist %}
+  ```
+
+
++ gitbook-plugin-sitemap@1.2.0
+
+  With this we include a **sitemape.xml** in the webroot directory.
+
+
++ gitbook-plugin-last-modified@1.0.0
+
+  You will see a **Last modified: Thu Nov 01 2018 16:29:37 GMT+0100 (CET)** string on top of all the generated pages.
+
+
++ gitbook-plugin-image-class@1.0.5
+
+  The [image-class](https://www.npmjs.com/package/gitbook-plugin-image-class) plugin allows you more flexibility in including images.
+  See the above link for examples.
 
 Usage
 =====
