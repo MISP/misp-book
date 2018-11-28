@@ -73,7 +73,7 @@ The following plugins are installed and this is how they impact the build.
 
 + gitbook-plugin-advanced-emoji@0.2.2
 
-  This plainly enables converting :smile: to the corresponding Emoji.
+  This plainly enables converting ```:smile:``` to :smile:
   Consult the [Emoji Cheat Sheeet](https://www.webpagefx.com/tools/emoji-cheat-sheet/) for a reference.
 
 
