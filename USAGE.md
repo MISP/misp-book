@@ -1,9 +1,10 @@
 Install notes
 =============
 
-:warning: Make sure to be in the *misp-book* repository directory for the *npm magic*.
-Also: The *npm* plugin *autocover* is broken. It pulls an incompatible *canvas* module version. Thus patched repository used (forked from original)
-Finally: You will get a few errors on Ubuntu 18.04 which you can ignore for now. In the rather near future we need to think about an alternative as gitbook glides towards obsoletion and security risk.
+:warning: Make sure to be in the *misp-book* repository directory for the *npm magic*.<br />
+_Also_: The *npm* plugin *autocover* is broken. It pulls an incompatible *canvas* module version. Thus patched repository used (forked from original)<br />
+_Finally_: You will get a few errors on Ubuntu 18.04 which you can ignore for now. In the rather near future we need to think about an alternative as gitbook glides towards obsoletion and security risk.
+
 Reason for concern:
 ```
 npm WARN deprecated sprintf@0.1.5: The sprintf package is deprecated in favor of sprintf-js.
@@ -64,72 +65,72 @@ The following plugins are installed and this is how they impact the build.
 
 + gitbook-plugin-codesnippet@1.2.0
 
-You can include any code snippet from a file like follows.
-```
-{% codesnippet "/pymisp/last.py", language="python" %}{% endcodesnippet %}
-```
+  You can include any code snippet from a file like follows.
+  ```
+  {% codesnippet "/pymisp/last.py", language="python" %}{% endcodesnippet %}
+  ```
 
 
 + gitbook-plugin-advanced-emoji@0.2.2
 
-This plainly enables converting :smile: to the corresponding Emoji.
-Consult the [Emoji Cheat Sheeet](https://www.webpagefx.com/tools/emoji-cheat-sheet/) for a reference.
+  This plainly enables converting :smile: to the corresponding Emoji.
+  Consult the [Emoji Cheat Sheeet](https://www.webpagefx.com/tools/emoji-cheat-sheet/) for a reference.
 
 
 + gitbook-plugin-alerts@0.2.0
 
-Info, warning, danger, success blockquotes for your gitbook.
+  Info, warning, danger, success blockquotes for your gitbook.
 
-Warning styling
-```
-> **[warning] For warning**
->
-> Use this for warning messages.
-```
+  Warning styling
+  ```
+  > **[warning] For warning**
+  >
+  > Use this for warning messages.
+  ```
 
-Danger styling
-```
-> **[danger] For danger**
->
-> Use this for danger messages.
-```
+  Danger styling
+  ```
+  > **[danger] For danger**
+  >
+  > Use this for danger messages.
+  ```
 
-Success styling
-```
-> **[success] For info**
->
-> Use this for success messages.
-```
+  Success styling
+  ```
+  > **[success] For info**
+  >
+  > Use this for success messages.
+  ```
 
 
 + gitbook-plugin-gist@1.0.0
 
-With this plugin you can include GitHub Gists](https://gist.github.com)
-```
-{% gist id="https://gist.github.com/SteveClement/1ba901612a97d63938ed5cf32c2100ee" %}{% endgist %}
-
-{% gist id="SteveClement/1ba901612a97d63938ed" %}{% endgist %}
-
-{% gist id="SteveClement/1ba901612a97d63938ed",file="README.md" %}{% endgist %}
-
-{% gist id="SteveClement/1ba901612a97d63938ed",hideFooter=true %}{% endgist %}
-```
+  With this plugin you can include GitHub Gists](https://gist.github.com)
+  ```
+  {% gist id="https://gist.github.com/SteveClement/1ba901612a97d63938ed5cf32c2100ee" %}{% endgist %}
+  
+  {% gist id="SteveClement/1ba901612a97d63938ed" %}{% endgist %}
+  
+  {% gist id="SteveClement/1ba901612a97d63938ed",file="README.md" %}{% endgist %}
+  
+  {% gist id="SteveClement/1ba901612a97d63938ed",hideFooter=true %}{% endgist %}
+  ```
 
 
 + gitbook-plugin-sitemap@1.2.0
 
-With this we include a **sitemape.xml** in the webroot directory.
+  With this we include a **sitemape.xml** in the webroot directory.
 
 
 + gitbook-plugin-last-modified@1.0.0
 
-You will see a **Last modified: Thu Nov 01 2018 16:29:37 GMT+0100 (CET)** string on top of all the generated pages.
+  You will see a **Last modified: Thu Nov 01 2018 16:29:37 GMT+0100 (CET)** string on top of all the generated pages.
 
 
 + gitbook-plugin-image-class@1.0.5
 
-The [image-class](https://www.npmjs.com/package/gitbook-plugin-image-class) plugin allows you more flexibility in including images.
-See the above link for examples.
+  The [image-class](https://www.npmjs.com/package/gitbook-plugin-image-class) plugin allows you more flexibility in including images.
+  See the above link for examples.
 
 Usage
 =====
