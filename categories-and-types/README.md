@@ -12,10 +12,12 @@
 |bic| | | | | X | |
 |bin| | | | | X | |
 |boolean| | | | | | |
+|bro| | | | X | | |
 |btc| | | | | X | |
 |campaign-id| | | X | | | |
 |campaign-name| | | X | | | |
 |cc-number| | | | | X | |
+|cdhash| | X | | | | |
 |comment| X | X | X | X | X | X |
 |cookie| | X | | | | |
 |cortex| | | | X | | |
@@ -166,10 +168,12 @@
 |bic| | | | | | |
 |bin| | | | | | |
 |boolean| | X | | | | |
+|bro| X | | | | | |
 |btc| | | | | | |
 |campaign-id| | | | | | |
 |campaign-name| | | | | | |
 |cc-number| | | | | | |
+|cdhash| | | X | X | | |
 |comment| X | X | X | X | X | X |
 |cookie| X | | | | | |
 |cortex| | | | | | |
@@ -304,9 +308,9 @@
 |windows-scheduled-task| | | | | | |
 |windows-service-displayname| | | | | | |
 |windows-service-name| | | | | | |
-|x509-fingerprint-md5| | | X | X | | |
+|x509-fingerprint-md5| X | | X | X | | |
 |x509-fingerprint-sha1| X | | X | X | | |
-|x509-fingerprint-sha256| | | X | X | | |
+|x509-fingerprint-sha256| X | | X | X | | |
 |xmr| | | | | | |
 |yara| | | X | X | | |
 
@@ -320,10 +324,12 @@
 |bic| | | | |
 |bin| | | | |
 |boolean| | | | |
+|bro| | | | |
 |btc| | | | |
 |campaign-id| | | | |
 |campaign-name| | | | |
 |cc-number| | | | |
+|cdhash| | | | |
 |comment| X | X | X | X |
 |cookie| | | | |
 |cortex| | | | |
@@ -494,10 +500,12 @@
 *   **bic**: Bank Identifier Code Number also known as SWIFT-BIC, SWIFT code or ISO 9362 code
 *   **bin**: Bank Identification Number
 *   **boolean**: Boolean value - to be used in objects
+*   **bro**: An NIDS rule in the Bro rule-format
 *   **btc**: Bitcoin Address
 *   **campaign-id**: Associated campaign ID
 *   **campaign-name**: Associated campaign name
 *   **cc-number**: Credit-Card Number
+*   **cdhash**: An Apple Code Directory Hash, identifying a code-signed Mach-O executable file
 *   **comment**: Comment or description in a human language
 *   **cookie**: HTTP cookie as often stored on the user web client. This can include authentication cookie or session cookie.
 *   **cortex**: Cortex analysis result
