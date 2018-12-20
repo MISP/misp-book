@@ -6,7 +6,7 @@ For this example, we will use a report found on [Bleeping Computer](http://www.b
 
 ![Report title](figures/report_title.png)
 
-### The metadata
+### Adding an event
 
 First of all, we need to create a new event. To do so, we click the "Add Event" option when on the Events list view.
 
@@ -30,6 +30,8 @@ Then just press the blue "Add" button and here we have a brand new event. Empty.
 
 ![EMPTY EVENT YAY](figures/event_metadata.png)  
 (Displayed information can change depending on your role on the MISP instance)
+
+### Adding Attributes
 
 Now it is time to populate this event. But before even adding IoC, we are going to add global information about the report itself: the link of the report and a short explanation or introduction. To do so, we need to click on the "Add Attribute" option in the side menu. This will show us this view:
 
@@ -84,9 +86,11 @@ So we begin with the filename. No real change from before for this one, except t
 
 ![filename](figures/filename.png)
 
+### Freetext Import Tool
+
 Then we can add the hashes in a similar way. We will had them both alone and combined with the filename. In order to do it quickly, we are going to use the freetext import tool, hidden there
 
-![freetext import step 1](figures/freeeeeimport.png)
+![freetext import step 1](figures/freeeeeimport.png) 
 
 It will open a popup with a text area field where we will paste our IoC, one per line. As said previously, we add both the hashes alone and with the filename.
 
@@ -106,13 +110,29 @@ If the results of MISP were not what we expected, we can still modify it, howeve
 We only have the network indicators left, and as said before, we will let MISP determined for us which type is the best for the data we have.
 
 ![freetext import network](figures/free_network.png)
+
 ![type recognition fail](figures/surprise.png)
 
 Oh well, that was unexpected. In fact, it is not that surprising regarding the format of the tor address that look more like a filename than like a url but it is still a problem, since we can't change the type nor the category to a more consistant one. This is indeed one of the limitation of freetext import. To solve this issue, we will use a simple trick: we will add a slash at the end of the tor address so it won't be confused for a filename. 
 
 ![freetext import network](figures/free_network2.png)
+
 ![type recognition fail](figures/nomoresurprise.png)
 
 Thanks to the added character, the first string is recognised as an url which is more consistent with the reality. The second also seems okay, so we can now submit both. 
 
+### Batch Import
+
+The Freetext Import works properly only with a string of data without any spaces in one line. But if you have lines of text with spaces between values, like e.g. 
+
+![freetext_with_spaces1](figures/freetext_with_spaces1.png)
+
+you can still import them at once using the "Add Attribute" option. Click on _Add Attribute_, copy the data and paste it into the _Value_ box. Choose the right category and type. Now check both checkboxes _for Intrusion Detection System_ and _Batch Import_. The option _Batch Import_ will import your data line for line just like the _Freetext Import_ option without losing any information. Like this:      
+
+![addattribute_freetext](figures/addattribute_freetext.png)
+
 And that is all we can get for the main informations and IoC in this report. If we search more carefully, there might still be some information left in it, like the filename of the ransomnote for instance, but we will stop here for this example.
+
+### Modify the event
+
+If you want to modify your event from the home page, you can either double click on the event or click the edit symbol located in the column __Actions__ on the right side. You will be redirected to the editing mode of the selected event.    

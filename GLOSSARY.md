@@ -1,6 +1,6 @@
 ## MISP Glossary
 This glossary is meant as a quick lookup document in case of any need of clarification of any threat sharing, threat-intel lingo.
-Be careful when adding terms to the glossary. Adding a generic term like: *MISP* will prevent terms like *MISP noticelist* to be addded. As a matter of definition please use the singular of for any terms.
+Be careful when adding terms to the glossary. Adding a generic term like: *MISP* will prevent terms like *MISP noticelist* to be addded. As a matter of definition please use the singular for any terms.
 In case you use any CCBYSA licensed content, or other pieces that are subject to licensing, make sure to add it as a by-line at the end of the mention.
 
 ## API
@@ -36,7 +36,8 @@ Attributes in MISP can be network indicators (e.g. IP address), system indicator
 ◦ A type (e.g. MD5, url) is how an attribute is described.
 ◦ An attribute is always in a category (e.g. Payload delivery) which puts it in a context.
 • A category is what describes an attribute.
-◦ An IDS flag on an attribute allows to determine if an attribute can
+◦ An IDS flag on an attribute allows to determine if an attribute can be automated (such as being exported as an IDS ruleset or used for detection). If the IDS flag is not present, the attribute
+can be useful for contextualisation only.
 
 ## MISP Event
 MISP events are encapsulations for contextually linked information
@@ -77,6 +78,9 @@ MISP objects are used in MISP (starting from version 2.4.80) system and can be u
 ## MISP GnuPG Key
 or GnuPG instance key is the GnuPG (Gnu Privacy Guard) key used by the MISP instance and which is only used to sign notification.
 The GnuPG key used in the MISP instance must **not** be used anywhere else and should not be valuable.
+
+## MISP Sightings
+Basically, sighting is a system allowing people to react on attributes on an event. It was originally designed to provide an easy method for user to tell when they see a given attribute, giving it more credibility.
 
 ## MISP Taxonomies
 [Taxonomy](https://en.wikipedia.org/wiki/Taxonomy_(general)) is the practice and science of classification. The word is also used as a count noun: a taxonomy, or taxonomic scheme, is a particular classification. The word finds its roots in the Greek language τάξις, taxis (meaning 'order', 'arrangement') and νόμος, nomos ('law' or 'science').

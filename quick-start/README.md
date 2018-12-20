@@ -21,10 +21,11 @@ MISP default credentials:
 
 ## Tasks to do after first Start
 
-1. [Change admin password](https://misp.gitbooks.io/misp-book/content/quick-start/#password-policy)
+<!-- TODO: Consollidate all sources to misp-book -->
+1. [Change site admin password](https://misp.gitbooks.io/misp-book/content/quick-start/#password-policy)
 2. [Activate Feeds](https://www.circl.lu/doc/misp/managing-feeds/)
 3. [Setup your User](https://misp.gitbooks.io/misp-book/content/user-management/#first-run-of-the-system)
-3. [Administrate MISP](https://www.circl.lu/doc/misp/administration/)
+4. [MISP Administration](https://www.circl.lu/doc/misp/administration/)
 
 ## Password Policy 
 - [12]: Ensure that the password is at least 12 characters long
@@ -38,8 +39,22 @@ If you need a password generator use:
 - Ubuntu / Debian: [pwgen](https://linux.die.net/man/1/pwgen)
 - Website: [LastPass PW Generator](https://lastpass.com/generatepassword.php)
 - Built-in generator in Keepass* and other passwort manager
+- Built-in generator in various web browsers
 
 **All Generator tools are only possibilities without any guarantee!**
+
+<div class="pagebreak"></div>
+
+## tl;dr
+
+### Create an Event
+![Overview create an event in MISP](figures/quick_create.jpg)
+
+### Browse Past Events
+![Overview browse past evente in MISP](figures/quick_browse.jpg)
+
+### Export Events for logsearches
+![Overview export events for logsearches](figures/quick_export.jpg)
 
 <div class="pagebreak"></div>
 
@@ -51,7 +66,7 @@ You only have to add a few pieces of information to register your Event. Further
 
 ## Describe Event
 
-Red is totally normal. No worries. (In future releases this will potentially change to a more harmonious color)
+Red is totally normal. No worries. (In future releases this will change to a more harmonious color)
 
 ![Describe Event](figures/AddEventOK.jpg)
 

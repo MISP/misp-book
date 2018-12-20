@@ -52,7 +52,7 @@ Keep in mind that the system searches for regular expressions in the value field
 *   **Contextual Comment:** Add a comment to the attribute. This will not be used for correlation.
 *   **Value:** The actual value of the attribute, enter data about the value based on what is valid for the chosen attribute type. For example, for an attribute of type ip-src (source IP address), 11.11.11.11 would be a valid value. For more information on types and values, [click here](../categories-and-types)
 *   **Contextual Comment:** You can add some comments to the attribute that will not be used for correlation but instead serves as purely an informational field.
-*   **For Intrusion Detection System:** This option allows the attribute to be used as an IDS signature when exporting the NIDS data, unless it is being overruled by the white-list. For more information about the whitelist, head over to the [administration](#administration) section.
+*   **For Intrusion Detection System:** This option allows the attribute to be used as an IDS signature when exporting the NIDS data, unless it is being overruled by the white-list. For more information about the white-list, head over to the [administration](#administration) section. If the IDS flag is not set, the attribute is considered as contextual information and not to be used for automatic detection.
 *   **Batch import:** If there are several attributes of the same type to enter (such as a list of IP addresses, it is possible to enter them all into the same value-field, separated by a line break between each line. This will allow the system to create separate lines for the each attribute.
 
 
@@ -329,7 +329,7 @@ The last option is a checkbox that restricts all of the results to attributes th
 ## Updating and modifying events and attributes:
 
 Every event and attribute can easily be edited. First of all it is important to find the event or attribute that is to be edited, using any of the methods mentioned in the section on [browsing past events](#browsing_events).
-Once it is found, the edit button (whether it be under actions when events/attributes get listed or simply on the event view) will bring up the same screen as what is used to create the entry of the same type (for an event it would be the event screen as [seen here](#Creating an event), for an attribute the attribute screen as [described here](#add-attributes-to-the-event)).
+Once it is found, the edit button (whether it be under actions when events/attributes get listed or simply on the event view) will bring up the same screen as what is used to create the entry of the same type (for an event it would be the event screen as [seen here](#Creating an event), for an attribute the attribute screen as [described here](#add-attributes-to-the-event)). You can also simply double-click on the event you wish to edit and enter the edit mode. 
 Keep in mind that editing any event (either directly or indirectly through an attribute) will unpublish it, meaning that you'll have to publish it (through the event view) again once you are done.
 
 ## Tagging:

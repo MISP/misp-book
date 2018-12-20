@@ -29,6 +29,10 @@ We welcome contributions to the MISP book. If you want to contribute, fork the [
 
 <div class="pagebreak"></div>
 
+## Format
+
+MISP book is available in [HTML](https://www.circl.lu/doc/misp/), [PDF](https://www.circl.lu/doc/misp/book.pdf), [ePub](https://www.circl.lu/doc/misp/book.epub) and [Kindle mobi format](https://www.circl.lu/doc/misp/book.mobi).
+
 ## License
 
 The MISP user guide is dual-licensed under [GNU Affero General Public License version 3](http://www.gnu.org/licenses/agpl-3.0.html) and [CC-BY-SA 4.0 international](https://creativecommons.org/licenses/by-sa/4.0/).
@@ -40,6 +44,7 @@ The MISP user guide is dual-licensed under [GNU Affero General Public License ve
 * Copyright \(C\) 2015-2018 Alexandre Dulaunoy
 * Copyright \(C\) 2014-2018 CIRCL - Computer Incident Response Center Luxembourg
 * Copyright \(C\) 2018 Camille Schneider
+* Copyright \(C\) 2018 Steve Clement
 
 
 

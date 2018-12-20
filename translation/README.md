@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Please read the following CakePHP documentation about i18n & l10n: https://book.cakephp.org/2.0/en/core-libraries/internationalization-and-localization.html
+Please read the following [CakePHP documentation about i18n & l10n](https://book.cakephp.org/2.0/en/core-libraries/internationalization-and-localization.html).
 
 ## Add one .md per translation effort
 

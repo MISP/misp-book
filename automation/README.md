@@ -1407,6 +1407,10 @@ https://<misp url>/events/restSearch/download/null/null/null/null/tag1&&tag2&&!t
 <dd>Include the attachments/encrypted samples in the export</dd>
 <dt>metadata</dt>
 <dd>Only fetch the event metadata (event data, tags, relations) and skip the attributes</dd>
+<dt>limit</dt>
+<dd>Limit the number of results returned; use together with page.</dd>
+<dt>page</dt>
+<dd>If a limit is set, sets the page to be returned, starting at 1; page 3, limit 100 will return records 201->300). When requesting a page beyond the number of available pages, the returned results list will be empty.</dd>
 </dl>
 
 The keywords false or null should be used for optional empty parameters in the URL.
@@ -1692,7 +1696,7 @@ A feed can be disabled by POSTing on the following URL (feed_id is the id of the
 /feeds/disable/feed_id
 ~~~~
 
-All feeds can fetch via the API:
+All feeds can cached via the API:
 
 ~~~~
 /feeds/cacheFeeds/all
@@ -1700,6 +1704,13 @@ All feeds can fetch via the API:
 
 or you can replace `all` by the feed format to fetch like `misp` or `freetext`. `all` can be replaced
 with the `id` value of the feed to fetch a specific feed.
+
+To fetch a feed or all feeds:
+
+~~~~
+/feeds/fetchFromFeed/feed_id
+/feeds/fetchFromAllFeeds
+~~~~
 
 This API can be also used to download feeds at regular interval via cronjobs or alike.
 

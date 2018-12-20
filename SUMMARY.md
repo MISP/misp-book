@@ -2,6 +2,7 @@
 
 * [Book Convention](book-convention/README.md)
 * [Quick Start](quick-start/README.md)
+* [Requirements](requirements/README.md)
 * [Get Your Instance](get-your-instance/README.md)
 * [General Layout](general-layout/README.md)
 * [General Concepts](general-concepts/README.md)
@@ -24,4 +25,6 @@
 * [Synchronisation/Sharing](sharing/README.md)
 * [ZeroMQ - MISP publish-subscribe](misp-zmq/README.md)
 * [Translations - i18n & l10n](translation/README.md)
+* [FAQ](faq/README.md)
+* [Dev FAQ](dev-faq/README.md)
 * [Appendices](appendices/README.md)
