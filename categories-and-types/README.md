@@ -65,6 +65,8 @@
 |github-organisation| | | | | | |
 |github-repository| | | | X | | |
 |github-username| | | | | | |
+|hassh-md5| | | | X | | |
+|hasshserver-md5| | | | X | | |
 |hex| X | X | | | X | X |
 |hostname| | | | X | | |
 |hostname&#124;port| | | | | | |
@@ -78,6 +80,7 @@
 |ip-src| | | | X | | |
 |ip-src&#124;port| | | | X | | |
 |issue-date-of-the-visa| | | | | | |
+|ja3-fingerprint-md5| | | | X | | |
 |jabber-id| | | | | | |
 |last-name| | | | | | |
 |link| X | | | X | | X |
@@ -221,6 +224,8 @@
 |github-organisation| | | | | | |
 |github-repository| | | | | | |
 |github-username| | | | | | |
+|hassh-md5| X | | X | | | |
+|hasshserver-md5| X | | X | | | |
 |hex| X | X | X | X | | X |
 |hostname| X | | X | | | |
 |hostname&#124;port| X | | X | | | |
@@ -234,6 +239,7 @@
 |ip-src| X | | X | | | |
 |ip-src&#124;port| X | | X | | | |
 |issue-date-of-the-visa| | | | | | |
+|ja3-fingerprint-md5| X | | X | | | |
 |jabber-id| | | | | | |
 |last-name| | | | | | |
 |link| | | X | | | |
@@ -377,6 +383,8 @@
 |github-organisation| | X | | |
 |github-repository| | X | | |
 |github-username| | X | | |
+|hassh-md5| | | | |
+|hasshserver-md5| | | | |
 |hex| | | X | |
 |hostname| | | | |
 |hostname&#124;port| | | | |
@@ -390,6 +398,7 @@
 |ip-src| | | | |
 |ip-src&#124;port| | | | |
 |issue-date-of-the-visa| X | | | |
+|ja3-fingerprint-md5| | | | |
 |jabber-id| | X | | |
 |last-name| X | | | |
 |link| | | X | |
@@ -553,6 +562,8 @@
 *   **github-organisation**: A github organisation
 *   **github-repository**: A github repository
 *   **github-username**: A github user name
+*   **hassh-md5**: hassh is a network fingerprinting standard which can be used to identify specific Client SSH implementations. The fingerprints can be easily stored, searched and shared in the form of an MD5 fingerprint.
+*   **hasshserver-md5**: hasshServer is a network fingerprinting standard which can be used to identify specific Server SSH implementations. The fingerprints can be easily stored, searched and shared in the form of an MD5 fingerprint.
 *   **hex**: A value in hexadecimal format
 *   **hostname**: A full host/dnsname of an attacker
 *   **hostname&#124;port**: Hostname and port number seperated by a &#124;
@@ -566,6 +577,7 @@
 *   **ip-src**: A source IP address of the attacker
 *   **ip-src&#124;port**: IP source and port number seperated by a &#124;
 *   **issue-date-of-the-visa**: The date on which the visa was issued
+*   **ja3-fingerprint-md5**: JA3 is a method for creating SSL/TLS client fingerprints that should be easy to produce on any platform and can be easily shared for threat intelligence.
 *   **jabber-id**: Jabber ID
 *   **last-name**: Last name of a natural person
 *   **link**: Link to an external information
