@@ -32,6 +32,13 @@ Prior to enabling it, make sure that you have the pyzmq installed by running
 
 ~~~~
 sudo pip install pyzmq
+sudo pip install redis
+~~~~
+
+If you have problems and the plugin does not start, the logfile may be helpful.
+
+~~~~
+sudo cat /var/www/MISP/app/tmp/logs/mispzmq.error.log 
 ~~~~
 
 ![ZeroMQ configuration](./figures/zmq-config.png)

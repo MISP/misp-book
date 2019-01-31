@@ -4,6 +4,59 @@
 
 The following page hosts most frequently asked questions as seen on our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/MISP).
 
+## Usage
+
+### How can I see all the deleted events in a MISP instance?
+
+You can use the logging system for this, to see all deleted events, simply go to audit actions -> search logs and use the following parameters:
+
+~~~~
+  model: Event
+  action: delete
+~~~~
+
+This will list all event deletions. To find out more about what a particular deleted event
+was, simply grab the ID from the above search results and search for:
+
+~~~~
+  model: Event
+  action: add
+  model_id: <Event ID retrieved from the listing of all event deletions>
+~~~~
+
+To do the same via the API, first search for the deletions:
+
+~~~~
+  POST request:
+    url: https://url.of.your.misp/logs/index
+    headers:
+      Authorization: <your_api_key>
+      Accept: application/json
+      Content-type: application/json
+    Body:
+      {
+        "model": "Event",
+        "action": "delete"
+      }
+~~~~
+
+Then find the individual event's metadata that was deleted
+
+~~~~
+  POST request:
+    url: https://url.of.your.misp/logs/index
+    headers:
+      Authorization: <your_api_key>
+      Accept: application/json
+      Content-type: application/json
+    Body:
+      {
+        "model": "Event",
+        "action": "add",
+        "model_id": "<Event ID retrieved from the query before>"
+      }
+~~~~
+
 ## Permission issues
 
 If you have any permission issues, please [set the permissions](https://misp.github.io/MISP/INSTALL.ubuntu1804/#5-set-the-permissions) to something sane first.

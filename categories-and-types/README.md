@@ -17,6 +17,7 @@
 |campaign-id| | | X | | | |
 |campaign-name| | | X | | | |
 |cc-number| | | | | X | |
+|cdhash| | X | | | | |
 |comment| X | X | X | X | X | X |
 |cookie| | X | | | | |
 |cortex| | | | X | | |
@@ -64,6 +65,8 @@
 |github-organisation| | | | | | |
 |github-repository| | | | X | | |
 |github-username| | | | | | |
+|hassh-md5| | | | X | | |
+|hasshserver-md5| | | | X | | |
 |hex| X | X | | | X | X |
 |hostname| | | | X | | |
 |hostname&#124;port| | | | | | |
@@ -77,6 +80,7 @@
 |ip-src| | | | X | | |
 |ip-src&#124;port| | | | X | | |
 |issue-date-of-the-visa| | | | | | |
+|ja3-fingerprint-md5| | | | X | | |
 |jabber-id| | | | | | |
 |last-name| | | | | | |
 |link| X | | | X | | X |
@@ -156,6 +160,7 @@
 |x509-fingerprint-sha256| | X | X | X | | |
 |xmr| | | | | X | |
 |yara| | X | | | | |
+|zeek| | | | X | | |
 
 |Category| Network activity | Other | Payload delivery | Payload installation | Payload type | Persistence mechanism |
 | --- |:---:|:---:|:---:|:---:|:---:|:---:|
@@ -172,6 +177,7 @@
 |campaign-id| | | | | | |
 |campaign-name| | | | | | |
 |cc-number| | | | | | |
+|cdhash| | | X | X | | |
 |comment| X | X | X | X | X | X |
 |cookie| X | | | | | |
 |cortex| | | | | | |
@@ -219,6 +225,8 @@
 |github-organisation| | | | | | |
 |github-repository| | | | | | |
 |github-username| | | | | | |
+|hassh-md5| X | | X | | | |
+|hasshserver-md5| X | | X | | | |
 |hex| X | X | X | X | | X |
 |hostname| X | | X | | | |
 |hostname&#124;port| X | | X | | | |
@@ -232,6 +240,7 @@
 |ip-src| X | | X | | | |
 |ip-src&#124;port| X | | X | | | |
 |issue-date-of-the-visa| | | | | | |
+|ja3-fingerprint-md5| X | | X | | | |
 |jabber-id| | | | | | |
 |last-name| | | | | | |
 |link| | | X | | | |
@@ -306,11 +315,12 @@
 |windows-scheduled-task| | | | | | |
 |windows-service-displayname| | | | | | |
 |windows-service-name| | | | | | |
-|x509-fingerprint-md5| | | X | X | | |
+|x509-fingerprint-md5| X | | X | X | | |
 |x509-fingerprint-sha1| X | | X | X | | |
-|x509-fingerprint-sha256| | | X | X | | |
+|x509-fingerprint-sha256| X | | X | X | | |
 |xmr| | | | | | |
 |yara| | | X | X | | |
+|zeek| X | | | | | |
 
 |Category| Person | Social network | Support Tool | Targeting data |
 | --- |:---:|:---:|:---:|:---:|
@@ -327,6 +337,7 @@
 |campaign-id| | | | |
 |campaign-name| | | | |
 |cc-number| | | | |
+|cdhash| | | | |
 |comment| X | X | X | X |
 |cookie| | | | |
 |cortex| | | | |
@@ -374,6 +385,8 @@
 |github-organisation| | X | | |
 |github-repository| | X | | |
 |github-username| | X | | |
+|hassh-md5| | | | |
+|hasshserver-md5| | | | |
 |hex| | | X | |
 |hostname| | | | |
 |hostname&#124;port| | | | |
@@ -387,6 +400,7 @@
 |ip-src| | | | |
 |ip-src&#124;port| | | | |
 |issue-date-of-the-visa| X | | | |
+|ja3-fingerprint-md5| | | | |
 |jabber-id| | X | | |
 |last-name| X | | | |
 |link| | | X | |
@@ -466,6 +480,7 @@
 |x509-fingerprint-sha256| | | | |
 |xmr| | | | |
 |yara| | | | |
+|zeek| | | | |
 
 
 ### Categories
@@ -502,6 +517,7 @@
 *   **campaign-id**: Associated campaign ID
 *   **campaign-name**: Associated campaign name
 *   **cc-number**: Credit-Card Number
+*   **cdhash**: An Apple Code Directory Hash, identifying a code-signed Mach-O executable file
 *   **comment**: Comment or description in a human language
 *   **cookie**: HTTP cookie as often stored on the user web client. This can include authentication cookie or session cookie.
 *   **cortex**: Cortex analysis result
@@ -549,6 +565,8 @@
 *   **github-organisation**: A github organisation
 *   **github-repository**: A github repository
 *   **github-username**: A github user name
+*   **hassh-md5**: hassh is a network fingerprinting standard which can be used to identify specific Client SSH implementations. The fingerprints can be easily stored, searched and shared in the form of an MD5 fingerprint.
+*   **hasshserver-md5**: hasshServer is a network fingerprinting standard which can be used to identify specific Server SSH implementations. The fingerprints can be easily stored, searched and shared in the form of an MD5 fingerprint.
 *   **hex**: A value in hexadecimal format
 *   **hostname**: A full host/dnsname of an attacker
 *   **hostname&#124;port**: Hostname and port number seperated by a &#124;
@@ -562,6 +580,7 @@
 *   **ip-src**: A source IP address of the attacker
 *   **ip-src&#124;port**: IP source and port number seperated by a &#124;
 *   **issue-date-of-the-visa**: The date on which the visa was issued
+*   **ja3-fingerprint-md5**: JA3 is a method for creating SSL/TLS client fingerprints that should be easy to produce on any platform and can be easily shared for threat intelligence.
 *   **jabber-id**: Jabber ID
 *   **last-name**: Last name of a natural person
 *   **link**: Link to an external information
@@ -641,3 +660,4 @@
 *   **x509-fingerprint-sha256**: X509 fingerprint in SHA-256 format
 *   **xmr**: Monero Address
 *   **yara**: Yara signature
+*   **zeek**: An NIDS rule in the Zeek rule-format
