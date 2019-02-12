@@ -166,6 +166,24 @@ There is no official procedure to uninstalling a MISP instance.
 If you want to re-use a machine where MISP was installed, wipe the machine and do a fresh install.
 Consider the data in your MISP instance as potentially confidential and if you synchronized with other instances, be respectful and wipe it clean.
 
+
+## Updating PyMISP to incorporate newer versions of the MISP object templates
+
+In some cases, for instance if a newer version of a MISP object is present on the server but not yet on PyMISP, you want to reflect the current state in your PyMISP installation.
+
+In order to do so, perform the following steps. It fetches the latest object templates and installs PyMISP again:
+
+```
+git clone https://github.com/MISP/PyMISP.git
+cd PyMISP/pymisp/data
+git submodule update --init
+cd misp-objects
+git pull origin master
+cd ../../../
+sudo pip3 install -I .
+```
+
+
   <!-- 
   Comment Place Holder
   -->
