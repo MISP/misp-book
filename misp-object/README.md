@@ -11,10 +11,15 @@ Objects can be added by using the side menu:
 
 This will open a popup where you can choose the type of object:  
 ![Object Popup](figures/select_obj_cat.png)  
-![Object Popup All](figures/select_object.png)
+If there are only few templates available for this type, they will all be shown this way:
+![Object Popup All](figures/select_object1.png)
+Otherwise you will be able to search and select the desired object within a scrolling list (a search field is available)
+ ![Object Popup All](figures/select_object2.png)
+A description of each object is shown by hovering the info icon or directly besides it.
 
 For this example we will try to add an ip|port object:  
 ![ip|port form](figures/object_ipport.png)  
+Note: This screenshot displays an old version of the template
 For some objects, there might be attributes that required to be set. For instance in this object, there is a required attribute, "Ip", and it is also required to set one of the attributes between "dst-port" and "src-port". If these requirements are not met, the object will not be valid and therefore not added to the event. Also you can't add an object without setting any attribute.   
 
 After pressing "Submit, you are given the possibility to review your object before saving it.  
