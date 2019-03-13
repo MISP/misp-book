@@ -184,6 +184,15 @@ sudo pip3 install -I .
 ```
 
 
+## How to disable freetext/custom/user-created tags and only allow certain tags
+
+Remove the "tag editor" from the permissions that you grant to users. 
+Set all tags that you do not want to "hidden".
+There is a server setting to treat all incoming tags as hidden by default: `MISP.incoming_tags_disabled_by_default`
+
+**Important** Make sure that you don't remove "tag editor" from sync users, or you'll be stripping tags from synchronized data.
+
+
   <!-- 
   Comment Place Holder
   -->
