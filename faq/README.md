@@ -193,6 +193,13 @@ There is a server setting to treat all incoming tags as hidden by default: `MISP
 **Important** Make sure that you don't remove "tag editor" from sync users, or you'll be stripping tags from synchronized data.
 
 
+## How to enable the csv import module? 
+
+In Server Settings & Maintenance -> Plugin Settings -> Import -> set "Plugin.Import_csvimport_enabled" to true. 
+Afterwards you'll find the csvimport from within the newly created event: "Populate from..." 
+
+Don't use from the main site ("Import from...").
+
   <!-- 
   Comment Place Holder
   -->
