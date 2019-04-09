@@ -208,6 +208,16 @@ That's a security measure for form tampering protection.
 All forms have a timeout (~15min) and all of them can only be submitted once. If you use your browser's "back" button and resubmit the form MISP will consider it as a potential attempt at form tampering.
 
 
+## Importing large feeds creates PHP Fatal error
+
+When importing a large feed like the CIRCL feed, the job reaches 99% and then fails.
+The log file records:
+```
+PHP Fatal error: Allowed memory size of 536870912 bytes exhausted (tried to allocate 1941504 bytes) in /var/www/MISP/app/Model/Feed.php on line 691
+```
+
+In this case you will need to increase the memory_limit option in `php.ini` file
+
   <!-- 
   Comment Place Holder
   -->
