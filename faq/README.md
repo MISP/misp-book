@@ -200,6 +200,14 @@ Afterwards you'll find the csvimport from within the newly created event: "Popul
 
 Don't use from the main site ("Import from...").
 
+
+## Why do I see 'The request has been black-holed' when I submit forms?
+
+That's a security measure for form tampering protection.
+
+All forms have a timeout (~15min) and all of them can only be submitted once. If you use your browser's "back" button and resubmit the form MISP will consider it as a potential attempt at form tampering.
+
+
   <!-- 
   Comment Place Holder
   -->
