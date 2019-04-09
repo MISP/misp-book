@@ -195,6 +195,8 @@ There is a server setting to treat all incoming tags as hidden by default: `MISP
 
 ## How to enable the csv import module? 
 
+First you have to enable the import services: double-click on "false" in the very first line and change it to "true".
+
 In Server Settings & Maintenance -> Plugin Settings -> Import -> set "Plugin.Import_csvimport_enabled" to true. 
 Afterwards you'll find the csvimport from within the newly created event: "Populate from..." 
 
@@ -217,6 +219,31 @@ PHP Fatal error: Allowed memory size of 536870912 bytes exhausted (tried to allo
 ```
 
 In this case you will need to increase the memory_limit option in `php.ini` file
+
+
+## config.php is not writeable
+
+```
+Warning: app/Config/config.php is not writeable. This means that any setting changes made here will NOT be saved.
+```
+
+According to the install guide, make sure to:
+```
+chown -R apache:apache /var/www/MISP
+find /var/www/MISP -type d -exec chmod g=rx {} \;
+chmod -R g+r,o= /var/www/MISP
+```
+If it still doesn't work, make sure SELinxu is not enabled or modify the rule set:
+```
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
+```
+
 
   <!-- 
   Comment Place Holder
