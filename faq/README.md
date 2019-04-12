@@ -193,6 +193,58 @@ There is a server setting to treat all incoming tags as hidden by default: `MISP
 **Important** Make sure that you don't remove "tag editor" from sync users, or you'll be stripping tags from synchronized data.
 
 
+## How to enable the csv import module? 
+
+First you have to enable the import services: double-click on "false" in the very first line and change it to "true".
+
+In Server Settings & Maintenance -> Plugin Settings -> Import -> set "Plugin.Import_csvimport_enabled" to true. 
+Afterwards you'll find the csvimport from within the newly created event: "Populate from..." 
+
+Don't use from the main site ("Import from...").
+
+
+## Why do I see 'The request has been black-holed' when I submit forms?
+
+That's a security measure for form tampering protection.
+
+All forms have a timeout (~15min) and all of them can only be submitted once. If you use your browser's "back" button and resubmit the form MISP will consider it as a potential attempt at form tampering.
+
+
+## Importing large feeds creates PHP Fatal error
+
+When importing a large feed like the CIRCL feed, the job reaches 99% and then fails.
+The log file records:
+```
+PHP Fatal error: Allowed memory size of 536870912 bytes exhausted (tried to allocate 1941504 bytes) in /var/www/MISP/app/Model/Feed.php on line 691
+```
+
+In this case you will need to increase the memory_limit option in `php.ini` file
+
+
+## config.php is not writeable
+
+```
+Warning: app/Config/config.php is not writeable. This means that any setting changes made here will NOT be saved.
+```
+
+According to the install guide, make sure to:
+```
+chown -R apache:apache /var/www/MISP
+find /var/www/MISP -type d -exec chmod g=rx {} \;
+chmod -R g+r,o= /var/www/MISP
+```
+If it still doesn't work, make sure SELinxu is not enabled or modify the rule set:
+```
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
+```
+
+
   <!-- 
   Comment Place Holder
   -->
