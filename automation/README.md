@@ -1641,6 +1641,14 @@ The following optional parameters are expected:
 <dd>This will populate the comment field of any attribute created using this API.</dd>
 </dl>
 
+The **threat_level_id** is mapped as such:
+
+```
+0 = high
+1 = medium
+2 = low
+3 = undefined
+```
 
 ## Proposals API
 

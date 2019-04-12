@@ -66,6 +66,10 @@ vim keys.py
 
 Once you are done with it, you are ready to start.
 
+This is how **keys.py** looks:
+
+{% codesnippet "/pymisp/keys.py", language="python" %}{% endcodesnippet %}
+
 ### Using PyMISP
 
 To have a better understanding of how to use PyMISP, we will have a look at one of the existing examples: add\_named\_attribute.py
@@ -334,4 +338,8 @@ Allow to import OpenIOC files into MISP easily. It is also possible to set speci
 
 * attribute_treemap.py generate a tree-map showing the distribution of the attributes on the MISP instance.
 * tags_* : these functions help having statistics and graphs about the tag repartition.
+
+#### Simple example on fetching the last events
+
+{% codesnippet "/pymisp/last.py", language="python" %}{% endcodesnippet %}
 

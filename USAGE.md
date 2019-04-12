@@ -48,9 +48,10 @@ Tested on: *Ubuntu 18.04 LTS* *Debian 9.5/sid/testing*
 git clone git@github.com:MISP/misp-book.git
 cd misp-book
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo apt-get install -y build-essential
+sudo apt install -y nodejs
+sudo apt install -y build-essential
 sudo apt install -y pkg-config libcairo2-dev libgif-dev libjpeg-dev
+sudo apt install -y calibre  # for generating PDFs
 npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-alerts gitbook-plugin-search gitbook-plugin-gist gitbook-plugin-advanced-emoji gitbook-plugin-sitemap gitbook-plugin-codesnippet gitbook-plugin-image-class gitbook-plugin-last-modified gitbook-plugin-fontsettings
 
 sudo npm install gitbook-cli -g

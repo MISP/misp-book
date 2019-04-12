@@ -77,7 +77,7 @@ To list all current users of the system, just click on List Users under the admi
 	*    **Display the user:** Display all user's information.<br />
 ![display user.](figures/display_user.png)
 
-#### Contacting a user:
+#### Contacting a user
 
 Site admins can use the "Contact users" feature to send all or individual user an e-mail. Users that have a GnuPG key set will receive their e-mails encrypted. When clicking this button on the left, you'll be presented with a form that allows you to specify the type of the e-mail, who it should reach and what the content is using the following options:
 
@@ -98,7 +98,7 @@ Keep in mind that all e-mails sent through this system, in addition to your own 
 
 Each users belongs to an organisation. As admin, you can manage these organisations.
 
-#### Adding a new organisation:
+#### Adding a new organisation
 
 To add a new organisation, click on the "Add Organisation" button in the administration menu to the left and fill out the following fields in the view that is loaded:
 
@@ -113,7 +113,7 @@ To add a new organisation, click on the "Add Organisation" button in the adminis
 *   **Type of organisation:** Define the type of the organisation.
 *   **Contacts:** You can add some contact details for the organisation.
 
-#### Listing all organisation:
+#### Listing all organisation
 
 To list all current organisation of the system, just click on List Organisations under the administration menu to the left. There are 3 tabs in this view to filter local organisations, remote organisations or both. The default view displays local organisations. For all views the following columns of information are available:
 
@@ -138,7 +138,7 @@ To list all current organisation of the system, just click on List Organisations
 	*    **View Organisation:** Use this option to display information about the selected organisation. In this view, you can display the user belongs to this organisation and events published by organisation.
 ![View organisation.](figures/view_org.png)
 
-#### Merge organisations:
+#### Merge organisations
 Merge Organisation menu is available only in the organisation view, under the left menu. Merge one organisation to another will transfer all users and data from one to another. On the left the organisation to merge, on the right the target one.
 
 ![Merge organisations.](figures/merge_org.png)
@@ -168,13 +168,13 @@ The extra permissions are defined below:
 *   **Perm Regexp Access:** Allows users who have this permission enabled to edit the regular expression table. Be careful when giving out this permission, incorrect regular expressions can be very harmful (infinite loops, loss of data, etc.).
 *   **Perm Template:** Grant access to create or modify templates.
 
-#### Adding a new role:
+#### Adding a new role
 
 When creating a new role, you will have to enter a name for the role to be created and set up permissions (as described above) using the drop-down menu and related check-boxes.
 
 ![Add a new role.](figures/add_role.png)
 
-#### Listing roles:
+#### Listing roles
 
 By clicking on the List Roles button, you can view a list of all currently registered roles and a list of the permission flags enabled for each. In addition, you can find buttons that allow you to edit and delete said roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
 
@@ -239,6 +239,46 @@ The workers tab shows a list of the workers that MISP can use. You can restart w
 *   **Worker Id**: The ID is made up of the machine name, the PID of the worker and the queue it monitors.
 *   **Status**: Displays OK if the worker is running. If the _schdlr_ worker is the only one not running, make sure that you copy the config file into the cakeresque directory as described in the INSTALL.txt documentation.
 
+#### Worker types
+
+**cache** 
+
+  Role:
+  Interdependence:
+
+
+**default** 
+
+  Role:
+  Interdependence:
+
+
+**email** 
+
+  Role:
+  Interdependence:
+
+
+**prio** 
+
+  Role:
+  Interdependence:
+
+
+**scheduler** 
+  Role:
+  Interdependence:
+
+#### Workers dead
+
+Even if the workers are dead, any actions related to them are on-hold. Nothing is lost.
+Simply restarting the worker will resume any operations.
+
+You can either relaunch them via the UI or manually by running **sudo -u www-data bash /var/www/MISP/app/Console/worker/start.sh
+** on the CLI.
+For reference, below is the script in question.
+
+{% codesnippet "/automation/start_workers.sh", language="bash" %}{% endcodesnippet %}
 
 ### Import Blacklist
 
@@ -267,11 +307,11 @@ Administrators can add, edit or delete regular expression rules, these "expressi
 
 The signature whitelist view, accessible through the administration menu on the left, allows administrators to create and maintain a list of addresses that are whitelisted from ever being added to the NIDS signatures. Addresses listed here will be commented out when exporting the NIDS list.
 
-#### Whitelisting an address:
+#### Whitelisting an address
 
 While in the whitelist view, click on New Whitelist on the left to bring up the "add whitelist" view to add a new address.
 
-#### Managing the list:
+#### Managing the list
 
 When viewing the list of whitelisted addresses, the following data is shown: The ID of the whitelist entry (assigned automatically when a new address is added), the address itself that is being whitelisted and a set of controls allowing you to delete the entry or edit the address.
 
@@ -292,7 +332,7 @@ Generally, the following actions are logged:
 *   **Regexp:** Creation, deletion, modification
 
 
-#### Browsing logs:
+#### Browsing logs
 
 Listing all the log entries will display the following columns generated by the users of your organisation (or all organisations in the case of site admins):
 
@@ -604,7 +644,7 @@ The Jobs tab gives you an overview on any currently running jobs or jobs that we
 Typically this is one of the places you would turn to even some background process might not complete as expected to get an indication on any issues related to user initiated Jobs.
 
 For ease of use, you can filter the Jobs by 'All', 'Default', 'Email', 'Cache'
-##### Todo: Explain differences Default, Email, Cache
+##### TODO: Explain differences Default, Email, Cache
 
 You can also purge the entries, either only by completed status or purge all.
 This is not automated and needs to be done manually.
@@ -624,3 +664,32 @@ If you have a dedicated and concious MISP Site Admin she can keep an eye on the 
 
 For better performance please use a real scheduler like your systems' crontab.
 As a rule of thumb: If you can click on it, MISP can automate it.
+
+### MISP Backup
+
+Currently there exists this backup script simply called [misp-backup.sh](https://github.com/MISP/MISP/tree/2.4/tools/misp-backup)
+
+All you need is to copy the the sample config and make sure it is correct. Then launch the script.
+
+```bash
+cd /var/www/MISP/tools/misp-backup
+sudo -u www-data cp misp-backup.conf.sample misp-backup.conf
+sudo ./misp-backup.sh
+```
+
+Script output:
+```bash
+/var/www/MISP/tools/misp-backup   2.4 ● $ sudo ./misp-backup.sh
+File ./misp-backup.conf exists.
+copy of org images and other custom images
+MySQL Dump
+/var/www/MISP/tools/misp-backup
+MISP Backup Completed, OutputDir: /opt/backup
+FileName: MISP-Backup-20181128_163215.tar.gz
+FullName: /opt/backup/MISP-Backup-20181128_163214.tar.gz
+```
+### MISP Restore
+
+In a similar fashion you can restore your MISP instance with the **misp-restore.sh** script.
+Read the script for details.
+
