@@ -40,10 +40,10 @@ Attributes in MISP can be network indicators (e.g. IP address), system indicator
 can be useful for contextualisation only.
 
 ## Observable
-Some other SIEMs or formats (STIX) use the term observable. This is the same as an attribute in MISP-speak.
+Some other SIEMs or formats (STIX) use the term observable. This is the same as an attribute in MISP-speak. Usually an observable is a MISP attribute without the IDS flag set.
 
 ## MISP Event
-MISP events are encapsulations for contextually linked information
+MISP events are encapsulations for contextually related information represented as attribute and object.
 
 ## MISP Extended Events
 MISP can now extend an event (starting from version 2.4.90). This allows users to build full blown events that extend an existing event, giving way to a combined event view that includes a sum total of the event along with all extending events.
