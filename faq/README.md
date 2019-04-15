@@ -221,6 +221,28 @@ PHP Fatal error: Allowed memory size of 536870912 bytes exhausted (tried to allo
 In this case you will need to increase the memory_limit option in `php.ini` file
 
 
+## I deleted the admin user by mistake
+
+
+Now, I only have Org Admin.
+
+You have several options:
+
+1. Delete the org admin. MISP automatically creates a new default site admin user if no users are found in the db (mysql: truncate users;)
+
+2. Upgrade a user to a site admin, such as an org admin user:
+```
+SELECT id, email from users;
+```
+Note down the ID you want to upgrade.  Let's say this is 2 for the example's sake.
+```
+SELECT id, name from roles;
+```
+Note down the role ID you want to upgrade. Let's say this is 1 for the example's sake.
+```
+UPDATE users set role_id = 1 where id = 2;
+```
+
 ## config.php is not writeable
 
 ```
