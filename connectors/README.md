@@ -41,6 +41,15 @@ To configure the samples, you'll need to register a new application in the Micro
 
 1. Under API permissions click `Add a permission`, choose Microsoft Graph, under `Application permissions`, under ThreatIndicators add ThreatIndicators.ReadWrite.OwnedBy. You will be taken back to the API permissions screen, click `Grant admin consent for Default Directory`
     >Note: See the [Microsoft Graph permissions reference](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) for more information about Graph's permission model.
+    
+1. Modify the RequestManager.py file to comment out line 121-124. (This allows the script to run without failing due to line 123 being divided by `avg_speed` incase it starts as `0`.
+
+1. Modify the script.py to add in `config.misp_verifycert` at line 13. Ensure it looks like below.
+```
+ misp = PyMISP(config.misp_domain, config.misp_key, config.misp_verifycert)
+```
+
+1. Modify config.py file to add in `misp_verifycert = False` anywhere in the file.
 
 As the final step in configuring the script, modify the config.py file in the root folder of your cloned repo.
 
@@ -138,6 +147,11 @@ Configure a sync user.
 
 `misp_key = '<misp key>'`
 
+### Verify Cert
+This gives you the option to choose if python should validate the certificate of the misp instance. (This allows ease within testing environments) 
+
+`misp_verifycert = False` IT IS RECOMENDED TO USE A VALID SSL CERT IN PRODUCTION AND CHANGE THIS TO TRUE
+
 ## Instructions on Reading TiIndicators That Have Been Pushed
 In the command line, run `python3 script.py -r`
 
@@ -155,5 +169,7 @@ Every request is logged as a json file under the directory "logs". The name of t
 Below is a CRONTAB entry example of running the script every Sunday at 2am
 
 0 2 * * Sun /home/mark/misp-graph-script/python3 script.sh
+
+
 
 This README.md has been adapted from the README.md found here [Microsoft Graph MISP sample](https://github.com/microsoftgraph/security-api-solutions/blob/master/Samples/MISP/README.md)
