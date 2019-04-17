@@ -2,7 +2,7 @@
 
 # Frequently Asked Questions
 
-The following page hosts most frequently asked questions as seen on our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/MISP).
+The following page hosts most frequently asked questions as seen on our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/Support).
 
 ## Usage
 
