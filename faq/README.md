@@ -266,6 +266,9 @@ chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
 ```
 
+## How to update object templates?
+
+`git submodule update` in your MISP directory (or via the diagnostic page) and just click “Update Objects” in List Object Templates.
 
   <!-- 
   Comment Place Holder
