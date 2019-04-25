@@ -266,6 +266,25 @@ chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
 ```
 
+## How to debug misp-dashboard
+
+This is the full chain from MISP to the live dashboard and some tips to find out which link is faulty.
+
+1. MISP
+Ensure that ZMQ is installed and enabled with the correct settings
+
+2. MISP ZMQ
+You can use MISP/tools/misp-zmq/sub.py which will subscribe to the ZMQ and print the data
+
+3. ZMQ_subscriber
+You can change the logging level from logging.INFO to logging.DEBUG and look in the logs for the string Pushed: *
+Or add a print statement in the put_in_redis_list function
+
+4. ZMQ_dispatcher
+Look in the logs for the string Handling *
+
+5. Server (Flask) and Browser (live Dashboard)
+Open the Web developer Network tab in your browser and look for the url /_logs with Content-Type: text/event-stream;
 
   <!-- 
   Comment Place Holder
