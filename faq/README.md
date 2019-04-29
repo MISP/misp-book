@@ -266,6 +266,19 @@ chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
 ```
 
+## How to update object templates?
+
+`git submodule update` in your MISP directory (or via the diagnostic page) and just click “Update Objects” in List Object Templates.
+
+## What to do if my REST client is throwing SSL errors when trying to query my MISP instance?
+
+The REST client will use the framework's certificate store to validate the contacted host. If your root CA / self-signed certificate is not known by the certificate store, the request will fail. You can skip the SSL validation altogether using the "Skip SSL validation" checkbox.
+
+## What to do if my REST client cannot reach the host, despite me being able to issue requests using Curl / Postman / etc.?
+
+The REST client issues instructions to your MISP server to contact a remote host (most commonly itself). Always consider how your MISP server can address itself when using the REST client, by default it will prepend the requested relative path in the URL field with the instance's baseurl.
+
+If your MISP cannot reach itself via the baseurl the request will fail. You can use the "Use full path - disclose my API key" checkbox along with the full URL in the URL field to instruct MISP to use another path than what it would construct using the baseurl. 
 
   <!-- 
   Comment Place Holder
