@@ -2,7 +2,60 @@
 
 # Frequently Asked Questions
 
-The following page hosts most frequently asked questions as seen on our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/MISP).
+The following page hosts most frequently asked questions as seen on our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/Support).
+
+## Usage
+
+### How can I see all the deleted events in a MISP instance?
+
+You can use the logging system for this, to see all deleted events, simply go to audit actions -> search logs and use the following parameters:
+
+~~~~
+  model: Event
+  action: delete
+~~~~
+
+This will list all event deletions. To find out more about what a particular deleted event
+was, simply grab the ID from the above search results and search for:
+
+~~~~
+  model: Event
+  action: add
+  model_id: <Event ID retrieved from the listing of all event deletions>
+~~~~
+
+To do the same via the API, first search for the deletions:
+
+~~~~
+  POST request:
+    url: https://url.of.your.misp/logs/index
+    headers:
+      Authorization: <your_api_key>
+      Accept: application/json
+      Content-type: application/json
+    Body:
+      {
+        "model": "Event",
+        "action": "delete"
+      }
+~~~~
+
+Then find the individual event's metadata that was deleted
+
+~~~~
+  POST request:
+    url: https://url.of.your.misp/logs/index
+    headers:
+      Authorization: <your_api_key>
+      Accept: application/json
+      Content-type: application/json
+    Body:
+      {
+        "model": "Event",
+        "action": "add",
+        "model_id": "<Event ID retrieved from the query before>"
+      }
+~~~~
 
 ## Permission issues
 
@@ -112,6 +165,107 @@ There is no official procedure to uninstalling a MISP instance.
 
 If you want to re-use a machine where MISP was installed, wipe the machine and do a fresh install.
 Consider the data in your MISP instance as potentially confidential and if you synchronized with other instances, be respectful and wipe it clean.
+
+
+## Updating PyMISP to incorporate newer versions of the MISP object templates
+
+In some cases, for instance if a newer version of a MISP object is present on the server but not yet on PyMISP, you want to reflect the current state in your PyMISP installation.
+
+In order to do so, perform the following steps. It fetches the latest object templates and installs PyMISP again:
+
+```
+git clone https://github.com/MISP/PyMISP.git
+cd PyMISP/pymisp/data
+git submodule update --init
+cd misp-objects
+git pull origin master
+cd ../../../
+sudo pip3 install -I .
+```
+
+
+## How to disable freetext/custom/user-created tags and only allow certain tags
+
+Remove the "tag editor" from the permissions that you grant to users. 
+Set all tags that you do not want to "hidden".
+There is a server setting to treat all incoming tags as hidden by default: `MISP.incoming_tags_disabled_by_default`
+
+**Important** Make sure that you don't remove "tag editor" from sync users, or you'll be stripping tags from synchronized data.
+
+
+## How to enable the csv import module? 
+
+First you have to enable the import services: double-click on "false" in the very first line and change it to "true".
+
+In Server Settings & Maintenance -> Plugin Settings -> Import -> set "Plugin.Import_csvimport_enabled" to true. 
+Afterwards you'll find the csvimport from within the newly created event: "Populate from..." 
+
+Don't use from the main site ("Import from...").
+
+
+## Why do I see 'The request has been black-holed' when I submit forms?
+
+That's a security measure for form tampering protection.
+
+All forms have a timeout (~15min) and all of them can only be submitted once. If you use your browser's "back" button and resubmit the form MISP will consider it as a potential attempt at form tampering.
+
+
+## Importing large feeds creates PHP Fatal error
+
+When importing a large feed like the CIRCL feed, the job reaches 99% and then fails.
+The log file records:
+```
+PHP Fatal error: Allowed memory size of 536870912 bytes exhausted (tried to allocate 1941504 bytes) in /var/www/MISP/app/Model/Feed.php on line 691
+```
+
+In this case you will need to increase the memory_limit option in `php.ini` file
+
+
+## I deleted the admin user by mistake
+
+
+Now, I only have Org Admin.
+
+You have several options:
+
+1. Delete the org admin. MISP automatically creates a new default site admin user if no users are found in the db (mysql: truncate users;)
+
+2. Upgrade a user to a site admin, such as an org admin user:
+```
+SELECT id, email from users;
+```
+Note down the ID you want to upgrade.  Let's say this is 2 for the example's sake.
+```
+SELECT id, name from roles;
+```
+Note down the role ID you want to upgrade. Let's say this is 1 for the example's sake.
+```
+UPDATE users set role_id = 1 where id = 2;
+```
+
+## config.php is not writeable
+
+```
+Warning: app/Config/config.php is not writeable. This means that any setting changes made here will NOT be saved.
+```
+
+According to the install guide, make sure to:
+```
+chown -R apache:apache /var/www/MISP
+find /var/www/MISP -type d -exec chmod g=rx {} \;
+chmod -R g+r,o= /var/www/MISP
+```
+If it still doesn't work, make sure SELinxu is not enabled or modify the rule set:
+```
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
+chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
+chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
+```
+
 
   <!-- 
   Comment Place Holder

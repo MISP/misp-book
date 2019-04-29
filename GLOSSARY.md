@@ -39,8 +39,11 @@ Attributes in MISP can be network indicators (e.g. IP address), system indicator
 ◦ An IDS flag on an attribute allows to determine if an attribute can be automated (such as being exported as an IDS ruleset or used for detection). If the IDS flag is not present, the attribute
 can be useful for contextualisation only.
 
+## Observable
+Some other SIEMs or formats (STIX) use the term observable. This is the same as an attribute in MISP-speak. Usually an observable is a MISP attribute without the IDS flag set.
+
 ## MISP Event
-MISP events are encapsulations for contextually linked information
+MISP events are encapsulations for contextually related information represented as attribute and object.
 
 ## MISP Extended Events
 MISP can now extend an event (starting from version 2.4.90). This allows users to build full blown events that extend an existing event, giving way to a combined event view that includes a sum total of the event along with all extending events.
@@ -148,6 +151,11 @@ You can add new Roles depending on your use case. The following permissions can 
 
 ## Scheduled Tasks
 Certain common tasks can be scheduled for a later execution or for regular recurring executions. These tasks currently include caching all of the export formats, pulling from all eligible instances and pushing to all eligible instances.
+
+## Standard MISP Install
+Any MISP instance install that is strongly aligned with our [official install guides](https://misp.github.io/MISP/).
+This is mostly to make sure you have a similar folder structure, /var/www/MISP for an Ubuntu Server Install.
+It will also be easier to debug any Web Server issues or other system related problems.
 
 ## Sync User
 A user of a role that grants sync permissions, these users (and their authentication keys) are used to serve as the points of connection between instances. Events pushed to an instance are pushed to a sync user, who then creates the events on the remote instance. Events pulled are added by the sync user that is used to connect the remote instance to your instance. As an administrator, keep in mind that a sync user needs auth key and publish permissions, has to have undergone the mandatory password change and has to have accepted the Terms of Use in order for the sync to work. Please make sure that all of these steps are taken before attempting to push or pull.

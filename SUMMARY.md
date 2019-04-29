@@ -20,9 +20,10 @@
 * [Sightings](sightings/README.md) - in progress
 * [Warning lists](warninglists/README.md) - in progress
 * [Notice lists](noticelists/README.md) - in progress
-* [Modules](modules/README.md) - in progress
 * [Categories and Types](categories-and-types/README.md)
 * [Synchronisation/Sharing](sharing/README.md)
+* [External Connectors](connectors/README.md)
+* [Modules](modules/README.md) - in progress
 * [ZeroMQ - MISP publish-subscribe](misp-zmq/README.md)
 * [Translations - i18n & l10n](translation/README.md)
 * [FAQ](faq/README.md)
