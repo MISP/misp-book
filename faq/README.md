@@ -368,6 +368,12 @@ SG Option 2 (b has to pull from C):
   orgs: a, b, c
   instances: A, C
 ```
-  <!-- 
+
+## Is it possible to propose objects to an event?
+
+This is not possible yet.
+What you can do at the moment: Create a new event and extend it with the other (foreign) event.
+
+<!-- 
   Comment Place Holder
   -->
