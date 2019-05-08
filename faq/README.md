@@ -61,6 +61,54 @@ Then find the individual event's metadata that was deleted
 
 If you have any permission issues, please [set the permissions](https://misp.github.io/MISP/INSTALL.ubuntu1804/#5-set-the-permissions) to something sane first.
 
+### RHEL/CentOS
+
+There are a plethora of issues that might arise when using SELinux when it comes to permissions.
+First, please familiarize yourself with [the basics](https://opensource.com/article/18/7/sysadmin-guide-selinux) of SELinux.
+RedHat has a comprehensive [SELINUX USER'S AND ADMINISTRATOR'S GUIDE](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/selinux_users_and_administrators_guide/index).
+
+For file system permissions, refer to the [install guide](https://misp.github.io/MISP/INSTALL.rhel7/#5-set-file-permissions) first.
+
+Another way to see what SELinux might not be happy about is to use **ausearch**. This assumes Audit is enabled.
+
+```bash
+# Just php-fpm
+sudo ausearch -c 'php-fpm' --message AVC
+# All messages
+sudo ausearch --message AVC
+```
+
+#### Redis Connection problems
+
+If you have the following in **error.log**
+
+```
+2019-05-08 10:16:05 Error: [RedisException] Permission denied
+Request URL: /events/view/1
+Stack Trace:
+#0 /var/www/MISP/app/Model/AppModel.php(1776): Redis->connect('127.0.0.1', 6379)
+#1 /var/www/MISP/app/Model/Feed.php(329): AppModel->setupRedis()
+#2 /var/www/MISP/app/Model/Event.php(2073): Feed->attachFeedCorrelations(Array, Array, Array, false)
+#3 /var/www/MISP/app/Controller/EventsController.php(1547): Event->fetchEvent(Array, Array)
+#4 [internal function]: EventsController->view('1')
+#5 /var/www/MISP/app/Lib/cakephp/lib/Cake/Controller/Controller.php(499): ReflectionMethod->invokeArgs(Object(EventsController), Array)
+#6 /var/www/MISP/app/Lib/cakephp/lib/Cake/Routing/Dispatcher.php(193): Controller->invokeAction(Object(CakeRequest))
+#7 /var/www/MISP/app/Lib/cakephp/lib/Cake/Routing/Dispatcher.php(167): Dispatcher->_invoke(Object(EventsController), Object(CakeRequest))
+#8 /var/www/MISP/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#9 {main}
+```
+
+This means that apache/php-fpm cannot connect over the network (localhost included).
+
+Fix:
+
+```bash
+sudo setsebool -P httpd_can_network_connect on
+# Perhaps a reload is not needed, but good practice wants us to test it anyways.
+sudo systemctl restart rh-php72-php-fpm.service
+sudo systemctl restart httpd.service
+```
+
 ## When to update MISP?
 
 One question might be how often to update MISP.
@@ -265,6 +313,26 @@ chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
 chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
 ```
+
+## How to debug misp-dashboard
+
+This is the full chain from MISP to the live dashboard and some tips to find out which link is faulty.
+
+1. MISP
+Ensure that ZMQ is installed and enabled with the correct settings
+
+2. MISP ZMQ
+You can use MISP/tools/misp-zmq/sub.py which will subscribe to the ZMQ and print the data
+
+3. ZMQ_subscriber
+You can change the logging level from logging.INFO to logging.DEBUG and look in the logs for the string Pushed: *
+Or add a print statement in the put_in_redis_list function
+
+4. ZMQ_dispatcher
+Look in the logs for the string Handling *
+
+5. Server (Flask) and Browser (live Dashboard)
+Open the Web developer Network tab in your browser and look for the url /_logs with Content-Type: text/event-stream;
 
 ## How to update object templates?
 

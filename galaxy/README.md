@@ -36,6 +36,64 @@ Galaxies can be reimported from the submodules by clicking the "Update Galaxies"
 
 All galaxies will always be updated, even while browsing a specific galaxy.
 
+### Adding a custom Galaxy repository in MISP (WiP - notFunctional)
+
+[Fork](https://help.github.com/articles/fork-a-repo/) the [misp-galaxy](https://github.com/MISP/misp-galaxy/) repository to your github account.
+
+Once you have forked the repo you can do the following, assuming you have followed the Standard MISP Install.
+
+```bash
+cd /var/www/MISP/app/files/
+sudo rm -rf misp-galaxy
+# Replace the following line with your fork
+sudo -u www-data git clone https://github.com/SteveClement/misp-galaxy.git
+```
+
+Once this is done double check if you can still see the Galaxies in the Web UI.
+
+> [warning] This will impact the UI "Update MISP" functionality in administration. Your git head might get [detached](https://git-scm.com/docs/gitglossary#gitglossary-aiddefdetachedHEADadetachedHEAD) in your misp-galaxy repo.
+
+### Adding a new Galaxy (WiP - notFuctional)
+
+#### Dependencies
+
+To create your own Galaxies the following tools are needed to run the validation scripts.
+
+- jsonschema (>v2.4)
+- jq
+- moreutils (sponge)
+
+On a Debian flavoured distribution you can potentially do this:
+
+```bash
+sudo apt install jq moreutils python3-jsonschema
+sudo wget -O /usr/local/bin/jsonschema https://gist.githubusercontent.com/SteveClement/e6ac60e153e9657913000216fc77c6ef/raw/c273ace06ad338d609dd2c84a0a6e215a268ea11/jsonschema
+sudo chmod +x /usr/local/bin/jsonschema # This will only work with jsonschema >2.4 (before no CLI interface was available)
+```
+
+
+#### Create a fork
+
+To add your custom Galaxy it is preferable to [fork](https://help.github.com/articles/fork-a-repo/) the [misp-galaxy](https://github.com/MISP/misp-galaxy/) repository. See above for details.
+
+#### Understanding directory structure
+
+
+
+#### Removing a Galaxy to better understand the add
+
+Let's start with removing a single Galaxy. 
+
+```bash
+cd /var/www/MISP/app/files/misp-galaxy
+sudo -u www-data rm galaxies/android.json
+sudo -u www-data rm clusters/android.json
+sudo -u www-data /var/www/MISP/app/Console/cake Admin updateGalaxies force
+```
+
+After this you will have removed the android Galaxy Cluster.
+
+
 ### Using Galaxies in MISP Events - Example
 
 For this example, we will try to add a cluster to an existing event. This cluster contains information about  threat actor known as Sneaky Panda.
@@ -51,6 +109,7 @@ A popup will appear proposising to explore a particular galaxy or all at the sam
 ![NoSneakyPanda](./figures/NoSneakyPanda.png)
 
 Wait. No Sneaky Panda? Hm that's strange. Or maybe it is only registred as a alias. Let's have a look! To do so we will use the search field which stay on top of the list. So what do we get? Beijing Group, is it an alias of our threat actor.
+
 
 ![Search](./figures/Search.png)
 
