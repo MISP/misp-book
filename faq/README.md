@@ -348,6 +348,26 @@ The REST client issues instructions to your MISP server to contact a remote host
 
 If your MISP cannot reach itself via the baseurl the request will fail. You can use the "Use full path - disclose my API key" checkbox along with the full URL in the URL field to instruct MISP to use another path than what it would construct using the baseurl. 
 
+## How would one set up a sharing group with a remote org, where we only share a mutual community instance (i.e. we both have sync users on that instance). On our local instance, they exist as a remote org (from events that have synced from their instance via our shared community instance). 
+
+It is not possible to do that. Keep in mind that if you are both on a mutual community instance, someone is in charge of that instance that will have database and admin level access. They would be able to inspect the data you exchange on their community instance with one another, so MISP will block any attempt to share with them.
+
+If you really want to go through the community instance to exchange with them, you explicitly have to include the host organisation of the community instance (they would get access if they wanted to anyway, this way we can ensure that you are clear about that):
+
+- You are org a on instance A.
+- Your partner that you want to share with is org b on instance B.
+- You have no way of directly reaching org b, but you both have access to instance C, which is run by org c (the sharing instance)
+- In order to reach org b, you have two options for sharing groups, depending on whether you want to be able to push to them or want to rely on them pulling data from the community instance:
+```
+SG Option 1 (push all the way to B)
+  orgs: a, b, c
+  instances, A, B, C
+```
+```
+SG Option 2 (b has to pull from C):
+  orgs: a, b, c
+  instances: A, C
+```
   <!-- 
   Comment Place Holder
   -->
