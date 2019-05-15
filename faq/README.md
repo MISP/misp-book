@@ -374,6 +374,22 @@ SG Option 2 (b has to pull from C):
 This is not possible yet.
 What you can do at the moment: Create a new event and extend it with the other (foreign) event.
 
+
+## How to use the enforceWarninglist parameter in REST search?
+
+If you would like to export IoCs, for example into a suricata rule and exclude all values matching your warning lists, you can use the following:
+
+```
+{
+    "returnFormat": "suricata",
+    "eventid": "24344",
+    "published": 0,
+    "enforceWarninglist": 1
+}
+```
+
+Keep in mind that unpublished events need the `"published": 0` parameter in order to be exported.
+
 <!-- 
   Comment Place Holder
   -->
