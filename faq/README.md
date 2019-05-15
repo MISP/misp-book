@@ -382,7 +382,6 @@ If you would like to export IoCs, for example into a suricata rule and exclude a
 ```
 {
     "returnFormat": "suricata",
-    "eventid": "24344",
     "published": 0,
     "enforceWarninglist": 1
 }
