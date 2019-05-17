@@ -690,7 +690,7 @@ https://<misp url>/admin/users/view/[user id]
 
 To create a new user, send a POST request to:
 
-####Sample input:
+####Sample input
 
 ~~~~
 {

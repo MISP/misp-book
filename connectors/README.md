@@ -26,7 +26,7 @@ After the prerequisites are installed or met, perform the following steps to use
 
 ## App Registration
 To configure the samples, you'll need to register a new application in the Microsoft [Application Registration Portal](https://apps.dev.microsoft.com/).
-### Follow these steps to register a new application:
+### Follow these steps to register a new application
 1. Sign in to the [Azure Portal](https://portal.azure.com/) using either your personal or work or school account.
 
 1. Under My Azure Active Directory, choose App registrations (if you are suggested to use the preview, use that) choose New registration.

@@ -2,7 +2,7 @@
 
 ## Using the system
 
-### Creating an event:
+### Creating an event
 
 The process of entering an event can be split into 3 phases, the creation of the event itself, populating it with attributes
 and attachments and finally publishing it.
@@ -33,7 +33,7 @@ During this first step, you will be create a basic event without any actual attr
 *   **Event Description:** The info field, where the malware/incident can get a brief description starting with the internal reference. This field should be as brief and concise as possible, the more detailed description happens through attributes in the next stage of the event's creation. Keep in mind that the system will automatically replace detected text strings that match a regular expression entry set up by your server's administrator(s).
 *   **GFI Sandbox:** It is possible to upload the exported .zip file from GFI sandbox with the help of this tool. These will be dissected by the MISP and a list of attributes and attachments will automatically be generated from the .zip file. Whilst this does most of the work needed to be done in the second step of the event's creation, it is important to manually look over all the data that is being entered.
 
-### Add attributes to the event:
+### Add attributes to the event
 
 The second step of creating an event is to populate it with attributes and attachments. This can be done by adding them manually or importing the attributes from an external format (OpenIOC, ThreatConnect). To import from an external format or to upload an attachment use the options in the menu on the left.
 
@@ -134,7 +134,7 @@ If you would like to create and maintain an event with a set of indicators that 
 
 Simply select the desired category / type combination, choose whether the attributes should be marked for IDS exports and paste the new list of indicators into the textarea. Attributes of the same category/type that are present in the event but not the new list will be removed, values in the pasted list that do not yet exist as attributes will be created as attributes and values that already have matching attributes will be left untouched.
 
-### Add attachments to the event:
+### Add attachments to the event
 
 You can also upload attachments, such as the malware itself, report files from external analysis or simply artifacts dropped by the malware. Clicking on the add attachment button brings up a form that allows you to quickly attach a file to the event. The following fields need to be filled out:
 
@@ -177,7 +177,7 @@ The result will be a list of attributes that get added to the currently selected
 
 You can You can use a generic script called [IOC parser](https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event: [report_to_misp] (https://github.com/PaloAltoNetworks-BD/report_to_misp/).
 
-### Publish an event:
+### Publish an event
 
 ![Only use publish (no email) for minor changes such as the correction of typos.](figures/publish.png)
 
@@ -186,10 +186,10 @@ There is an alternate way of publishing an event without alerting any other user
 
 If your instance has background jobs enabled then the event might not get published immediately.
 
-## Browsing past events:
+## Browsing past events
 
 The MISP interface allows the user to have an overview over or to search for events and attributes of events that are already stored in the system in various ways.
-### To list all events:
+### To list all events
 
 On the left menu bar, the option "List events" will generate a list of the last 60 events. While the attributes themselves aren't shown in this view, the following pieces of information can be seen:
 
@@ -290,7 +290,7 @@ Here is a list of the various tools you can use while using this feature:
 *   **Quick Post:** Adding a post will take the user to a separate add Post page, something that can be a bit of an inconvenience. To avoid this, there is a quick post button, where users can add messages on the fly without having to reload the page. On top of the quick post field, 3 buttons allow users to generate quote, event and thread tags quickly.
 
 
-### Event History:
+### Event History
 
 View the logs of the event that show how the event has changed over time, including the contribution from other organisations in the form of proposals. There are two ways to get to this view, either by clicking on View Event History on the side menu of an event view, or by clicking on a contribing organisation's logo on the event view. The latter will show a restricted form of the logs, showing only Proposals created by the selected organisation. The fields shown in this view are as described as follows:
 *   **Org**: The logo (or in the lack thereof a string representation) of the organisation.
@@ -299,7 +299,7 @@ View the logs of the event that show how the event has changed over time, includ
 *   **Title**: This is a short description of the change itself and it is not nearly as detailed as the information administrators get in the audit logs. However, for attributes and proposals the category / type and value of the created or edited attribute is shown.
 *   **Created**: The date and time of the log entry's creation.
 
-### Listing all attributes:
+### Listing all attributes
 	Apart from having a list of all the events, it is also possible to get a list of all the stored attributes in the system by clicking on the list attributes button. The produced list of attributes will include the followings fields:
 
 ![Use the buttons to the right to view the event that this attribute belongs to or to modify/delete the attribute.](figures/list_attributes2.png)
@@ -312,7 +312,7 @@ View the logs of the event that show how the event has changed over time, includ
 *   **IDS:** Shows whether the attribute has been flagged for NIDS signature generation or not.
 *   **Actions:** A set of buttons that allow you to view the event that the attribute is tied to, to edit the attribute (using the same view as what is used to set up attributes, but filled out with the attribute's current data) and a delete button.
 
-### Searching for attributes:
+### Searching for attributes
 
 Apart from being able to list all events, it is also possible to search for data contained in the value field of an attribute, by clicking on the "Search Attributes" button.
 
@@ -325,13 +325,13 @@ The last option is a checkbox that restricts all of the results to attributes th
 !["You can view the event that an attribute belongs to with the view button, or you can edit/delete the attribute via the buttons on the right."](figures/search_attribute_result.png)
 
 
-## Updating and modifying events and attributes:
+## Updating and modifying events and attributes
 
 Every event and attribute can easily be edited. First of all it is important to find the event or attribute that is to be edited, using any of the methods mentioned in the section on [browsing past events](#browsing_events).
 Once it is found, the edit button (whether it be under actions when events/attributes get listed or simply on the event view) will bring up the same screen as what is used to create the entry of the same type (for an event it would be the event screen as [seen here](#Creating an event), for an attribute the attribute screen as [described here](#add-attributes-to-the-event)). You can also simply double-click on the event you wish to edit and enter the edit mode. 
 Keep in mind that editing any event (either directly or indirectly through an attribute) will unpublish it, meaning that you'll have to publish it (through the event view) again once you are done.
 
-## Tagging:
+## Tagging
 
 As described earlier, users with tagging rights can arbitrarily tag events using tags chosen from a pool of available options. If you have tagging privileges and would like to create a new tag, navigate to Event Actions - Add Tag. You'll be presented with the following form:
 
@@ -341,7 +341,7 @@ Fill out the following fields:
 *   **Name**: Pick a name for the tag. Try to use consistent naming conventions across your instance, to avoid confusion.
 *   **Colour**: You can choose a colour for the tag by clicking on the colour field and using the colour picker tool. Try to avoid having duplicate or similar looking colours to help avoid confusion.
 
-## Templating:
+## Templating
 
 Newer users can easily be overwhelmed by having to manually populate events with attributes without any guidance. What sort of information should go into the event? What should be the category and type of a C2 IP? Templates allow users to use simple forms to populate events.
 Even though MISP ships with a few default templates, it is possible for users (with the appropriate templating privilege) to create new templates for their users or for all users of the instance. Let's look at how you can create a template.
@@ -391,7 +391,7 @@ The following fields have to be filled out:
 *   **Name**: The name of the section that will be presented to the user.
 *   **Text**: The description of the section. Explain briefly to the user what the following attribute/file elements will be dealing with. There are several ways to split a template into sections, try to have ease of use in mind while creating it.
 
-## Contacting the reporter:
+## Contacting the reporter
 
 To get in touch with the reporter of a previously registered event, just find the event for which you would like to contact the reporter by either finding it on the list of events, by finding it through one of its attributes or by finding it through a related event.
 Once the event is found and the event view opened, click the button titled "Contact Reporter". This will bring up a view where you can enter your message that is to be e-mailed to all members of the reporting organisation that subscribe to receiving such reports or the reporting user himself. Along with your message, the detailed information about the event in question will be included in the e-mail.
@@ -400,11 +400,11 @@ Once the event is found and the event view opened, click the button titled "Cont
 
 By default, the message will be sent to every member of the organisation that posted the event in the first place, but if you tick the check-box below the message field before sending the mail, only the person that reported the event will get e-mailed.
 
-## Automation:
+## Automation
 It is possible to quickly and conveniently export the data contained within the system using the automation features located in the main menu on the left (available to users with authentication key access only). There are various sets of data that can be exported, by using the authentication key provided by the system (also shown on the export page). If for whatever reason you would need to invalidate your current key and get a new one instead (for example due to the old one becoming compromised) just hit the reset link next to the authentication key in the export view or in your "my profile" view.
 To find out about the various export formats and the usage within the automation functions, please read the page on the [API's usage](#api).
 
-## Exporting data:
+## Exporting data
 
 For users that do not have authentication key access, an alternate export feature is available that relies on your interactive login to the site. To access these, just use the export menu button to the left and you'll be presented with a list of export options.
 Depending on your server's configuration, you will be presented with one of two possible pages, depending on whether you have background processing enabled or not.
@@ -439,11 +439,11 @@ Each event's view has its own export feature, both as an XML export and as a .io
 
 ![Download a .xml or a .ioc of the event.](figures/export_search.png)
 
-## Connecting to other instances:
+## Connecting to other instances
 
 Apart from being a self contained repository of attacks/malware, one of the main features of MISP is its ability to connect to other instances and share (parts of) its information. The following options allow you to set up and maintain such connections.
 
-### Setting up a connection to another server:
+### Setting up a connection to another server
 
 In order to share data with a remote server via pushes and pulls, you need to request a valid authentication key from the hosting organisation of the remote instance. When clicking on List Servers and then on New Server, a form comes up that needs to be filled out in order for your instance to connect to it. The following fields need to be filled out:
 
@@ -461,7 +461,7 @@ In order to share data with a remote server via pushes and pulls, you need to re
 *   The synchronisation user has to have the sync permission and full read/write/publish privileges turned on
 *   Both the sync user and the organisation setting in your instance's Config/bootstrap.php file have to match the organisation identifier of the hosting organisation.
 
-### Browsing the currently set up server connections and interacting with them:
+### Browsing the currently set up server connections and interacting with them
 
 If you ever need to change the data about the linked servers or remove any connections, you have the following options to view and manipulate the server connections, when clicking on List Servers: (you will be able to see a list of all servers that your server connects to, including the base address, the organisation running the server the last pushed and pulled event IDs and the control buttons.).
 
@@ -472,7 +472,7 @@ If you ever need to change the data about the linked servers or remove any conne
 *   **Push all:** By clicking this button, all events that are eligible to be pushed on the instance you are on will start to be pushed to the remote instance. Events and attributes that exist on the far end will be updated.
 *   **Pull all:** By clicking this button, all events that are set to be pull-able or full access on the remote server will be copied to this instance. Existing events will not be updated.
 
-## Rest API:
+## Rest API
 
 The platform is also [RESTfull](http://en.wikipedia.org/wiki/Representational_state_transfer), so this means that you can use structured format (XML or JSON) to access Events data.
 
