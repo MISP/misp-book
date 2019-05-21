@@ -26,7 +26,7 @@ An organisation B (OrgB) wants to synchronise its MISP server, called ServerB, w
   <span><i>FIGURE: Illustration of the synchronisation between two MISP servers</i></span>
 </p>
 
-* **Step 1**: Add OrgB as a local organisation on ServerA (OrgB.ServerA).
+* **Step 1**: Add OrgB as a local organisation on ServerA (OrgB.ServerA) using OrgB's existing UUID from their local organisation on ServerB.
 * **Step 2**: Add a Sync User (syncuser@OrgB.ServerA) in the organisation OrgB.ServerA on the MISP ServerA.
 * **Step 3**: [Set up a sync server](#adding-a-server) on MISP ServerB using the key (called Authkey) from the sync user (syncuser@OrgB.ServerA) created on MISP ServerA.
 
