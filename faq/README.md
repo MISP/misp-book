@@ -389,6 +389,17 @@ If you would like to export IoCs, for example into a suricata rule and exclude a
 
 Keep in mind that unpublished events need the `"published": 0` parameter in order to be exported.
 
+## Column not found issue
+
+When a user attempts to add an object to an event and the following error is received (Level 1 debug enabled):
+
+```SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Event.org_id' in 'where clause’```
+
+One potential resolution is to upgrade MISP to 2.4.107.
+
+#### Symptoms
+Users with the site-admin role are able to add objects to events without any error. This error was encountered when a user belonged to every role **except** site-admin.
+
 <!-- 
   Comment Place Holder
   -->
