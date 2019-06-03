@@ -78,7 +78,7 @@ sudo ausearch -c 'php-fpm' --message AVC
 sudo ausearch --message AVC
 ```
 
-#### Redis Connection problems
+### Redis Connection problems
 
 If you have the following in **error.log**
 
@@ -108,6 +108,42 @@ sudo setsebool -P httpd_can_network_connect on
 sudo systemctl restart rh-php72-php-fpm.service
 sudo systemctl restart httpd.service
 ```
+
+## RHEL/CentOS SELinux debug
+
+More often than not there might be issues with SELinux when not configured correctly. The below will give you pointers where to look and how to figure out what is wrong.
+
+You can investigate SELinux issues without any tools by opening the audit log it generates. This log is found at /var/log/audit/audit.log. However, unless you know exactly what to look for and have a lot of free time, you’re going to find it difficult making sense of the log.
+
+Install some handy tools:
+
+```bash
+# Note: This will pull in some X tools, you have been warned
+sudo yum install setroubleshoot setools
+```
+
+We now have a tool called sealert that analyzes the audit log used by SELinux. Sealert will scan the log file and will then generate a report containing all discovered SELinux issues.
+In this overview of what went wrong you will see suggestions on how to fix them after the issue detected.
+
+To run sealert from the command-line, we need to point it to the SELinux audit log.
+
+```bash
+sudo sealert -a /var/log/audit/audit.log
+```
+
+#### Clearing the audit logs
+
+It is not recommended to clear the audit logs as they might contain information needed in the future for troubleshooting or security investigations. However, if that is not the case, just empty the audit log:
+
+```bash
+# > /var/log/audit/audit.log
+```
+
+[Partial source](https://www.serverlab.ca/tutorials/linux/administration-linux/troubleshooting-selinux-centos-red-hat/)
+
+[StackExchange](https://unix.stackexchange.com/questions/337704/selinux-is-preventing-nginx-from-writing-via-php-fpm)
+
+[Gentoo Wiki](https://wiki.gentoo.org/wiki/SELinux/Logging#Clearing_the_audit_logs)
 
 ## When to update MISP?
 
