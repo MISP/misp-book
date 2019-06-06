@@ -436,6 +436,22 @@ One potential resolution is to upgrade MISP to 2.4.107.
 #### Symptoms
 Users with the site-admin role are able to add objects to events without any error. This error was encountered when a user belonged to every role **except** site-admin.
 
+## WatchList Customization
+
+### How to create a customized WatchList.
+
+WatchLists are stored within folder under /var/www/MISP/app/files/warninglists/lists
+Every folder contains a list.json file.
+Create a new folder and copy and modify an existing list (or create a new one from scratch).
+Ensure the "name" value within the file is unique.
+Increment the version number when the file is changed.
+
+Within the MISP GUI, go to WarningLists and "Update WarningLists".
+
+The new WarningList will now show up. In case of errors, check the permissions on the list.json and it's folder.
+
+To modify the list or to add entries to it, go back to the file via the CLI, modify the file and reload it via the GUI ("Update WarningLists".
+
 <!-- 
   Comment Place Holder
   -->
