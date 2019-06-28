@@ -8,6 +8,8 @@ In information sharing, privacy of the reporting organisation can be important i
 MISP has a functionality to delegate the publication and completely remove the binding between the information shared and its organisation. If you want to publish an event without you or your organisation being tied to it, you can delegate the publication to an other organisation. That also means they will take the ownership of the event.
 
 > [warning] You need to have a role with "Delegation access" to delegate an event.
+> 
+> [warning] Also activate MISP.delegation parameter in your instance.
 
 ### Send a delegation request
 
