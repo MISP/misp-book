@@ -134,6 +134,7 @@ For more information, "[Information Sharing and Taxonomies Practical Classificat
 ~~~~ shell
 $ cd /var/www/MISP/app/files/taxonomies/
 $ mkdir privatetaxonomy
+$ cd privatetaxonomy
 $ vi machinetag.json
 ~~~~
 
@@ -142,6 +143,7 @@ Create a JSON file describing your taxonomy as triple tags.
 ~~~~ shell
 For example :
 mkdir sample
+cd sample
 vim machinetag.json
 ~~~~
 
