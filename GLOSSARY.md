@@ -92,6 +92,9 @@ For more details on taxonomies and classification [the documentation](https://ww
 There is a Python module available to work with Taxonomies in a Pythonic way called [PyTaxonomies](https://github.com/MISP/PyTaxonomies).
 [MISP taxonomies GitHub Repo](https://github.com/MISP/misp-taxonomies)
 
+## Local tags
+You can create tags locally if you are a member of the given MISP instance’s host organisation, enabling “in-place” tagging for synchronisation and export filtering. MISP events are not modified while using the local tags and are in turn always stripped before being synchronised with other MISP instances and sharing communities. Local tags allow users to avoid violating the ownership model of MISP, but still be able to tag any event or attribute for further dissemination and data contextualisation. Local tagging works for tags, tag collections, galaxies and matrix-like galaxies such as ATT&CK.
+
 ## MISP warninglists
 MISP warninglists are lists of well-known indicators that can be associated to potential false positives, errors or mistakes.
 There is a Python module available to work with warninglists in a Pythonic way called [PyMISPWarningLists](https://github.com/MISP/PyMISPWarningLists).
