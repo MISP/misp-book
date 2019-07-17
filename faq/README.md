@@ -452,6 +452,12 @@ The new WarningList will now show up. In case of errors, check the permissions o
 
 To modify the list or to add entries to it, go back to the file via the CLI, modify the file and reload it via the GUI ("Update WarningLists".
 
+
+## How to upgrade PHP on RHEL/CentOS from php71 to php72?
+
+To our knowledge, there is no way to "upgrade" PHP. You'll need to install php72 like you're doing a fresh install
+You may try copying your php71-php.ini to your php72-directory which may work. We would recommend redoing the config though.
+
 <!-- 
   Comment Place Holder
   -->
