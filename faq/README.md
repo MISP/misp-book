@@ -456,7 +456,13 @@ To modify the list or to add entries to it, go back to the file via the CLI, mod
 ## How to upgrade PHP on RHEL/CentOS from php71 to php72?
 
 To our knowledge, there is no way to "upgrade" PHP. You'll need to install php72 like you're doing a fresh install
-You may try copying your php71-php.ini to your php72-directory which may work. We would recommend redoing the config though.
+You may try copying your `php71-php.ini` to your php72-directory which may work. We would recommend redoing the config though.
+
+
+## How to add a galaxy to an event via PyMISP
+
+A galaxy can be assigned like a tag. You can use the add tag function and copy the full conntector-tag. Example `misp-galaxy:ransomware=“Locky”`, which can be found in `/galaxy_clusters/view/`
+
 
 <!-- 
   Comment Place Holder
