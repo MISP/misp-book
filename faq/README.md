@@ -453,10 +453,83 @@ The new WarningList will now show up. In case of errors, check the permissions o
 To modify the list or to add entries to it, go back to the file via the CLI, modify the file and reload it via the GUI ("Update WarningLists".
 
 
-## How to upgrade PHP on RHEL/CentOS from php71 to php72?
+## How to upgrade PHP on RHEL/CentOS?
 
-To our knowledge, there is no way to "upgrade" PHP. You'll need to install php72 like you're doing a fresh install
-You may try copying your `php71-php.ini` to your php72-directory which may work. We would recommend redoing the config though.
+To our knowledge, there is no way to "upgrade" PHP. You'll need to install the new PHP version like you're doing a fresh install.
+You may try copying your old `php.ini` to your new PHP config directory which may work. We would recommend redoing the config though.
+
+### Example: Upgrade from PHP 7.2 to 7.3 on CentOS 7
+
+#### Enable repository
+
+```
+$ sudo yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+$ sudo yum-config-manager --enable remi-php73
+```
+
+#### Install packages
+
+```
+$ sudo yum install -y php73-php php73-php-cli php73-php-fpm php73-php-devel php73-php-mysqlnd php73-php-mbstring php73-php-xml php73-php-bcmath php73-php-opcache php73-php-gd php73-php-pecl-redis4 php73-php-pecl-gnupg php73-php-pear
+```
+
+> Confirm GPG key if required:
+>
+> ```
+> Retrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+> Importing GPG key 0x00F97F56:
+>  Userid     : "Remi Collet <RPMS@FamilleCollet.com>"
+>  Fingerprint: 1ee0 4cce 88a4 ae4a a29a 5df5 004e 6f47 00f9 7f56
+>  Package    : remi-release-7.6-2.el7.remi.noarch (installed)
+>  From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-remi
+> Is this ok [y/N]: y
+> ```
+
+#### Install required PEAR-modules
+
+```
+$ sudo php73-pear channel-update pear.php.net
+Updating channel "pear.php.net"
+Update of Channel "pear.php.net" succeeded
+$ sudo php73-pear install /var/www/MISP/INSTALL/dependencies/Console_CommandLine/package.xml
+install ok: channel://pear.php.net/Console_CommandLine-1.2.2
+$ sudo php73-pear install /var/www/MISP/INSTALL/dependencies/Crypt_GPG/package.xml
+install ok: channel://pear.php.net/Crypt_GPG-1.6.3
+```
+
+#### PHP configuration
+
+Edit `/etc/opt/remi/php73/php.ini`:
+
+> ```
+> date.timezone = "Europe/Berlin"
+> max_execution_time = 300
+> memory_limit = 512M
+> upload_max_filesize = 50M
+> post_max_size = 50M
+> ```
+
+#### Switch to PHP 7.3
+
+```
+$ sudo systemctl stop rh-php70-php-fpm
+$ sudo systemctl start php73-php-fpm
+# check if everything's fine
+$ sudo systemctl status php73-php-fpm
+```
+
+Now check if the MISP web UI is accessible and if the diagnostics page shows any errors.
+
+> The diagnostics page will show "PHP CLI Version (>7.2 recommended): Unknown (Issues determining version)". That's a [known issue](https://github.com/MISP/MISP/issues/2334).
+
+#### Disable/enable services
+
+```
+$ sudo systemctl disable rh-php70-php-fpm
+Removed symlink /etc/systemd/system/multi-user.target.wants/rh-php70-php-fpm.service.
+$ sudo systemctl enable php73-php-fpm
+Created symlink from /etc/systemd/system/multi-user.target.wants/php73-php-fpm.service to /usr/lib/systemd/system/php73-php-fpm.service.
+```
 
 
 ## How to add a galaxy to an event via PyMISP
