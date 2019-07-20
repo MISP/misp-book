@@ -156,6 +156,68 @@ This means that the main repository has an update available.
 
 If you want to play it safer or want to integrate it in your Weekly/Bi-Monthly update routine you can track our [Changelog](https://www.misp-project.org/Changelog.txt) a more up to date version is available [here](https://misp.github.io/MISP/Changelog/)
 
+Further on we do regular tagged releases. (Approximately once per month.)
+The releases happen either if a milestone has been hit for a certain feature/improvement/fix or for any security related matters.
+
+Thus you have the choice of either tracking 2.4 which is on a rolling release schedule, or track the tagged releases.
+
+### How to switch from tagged releases and back?
+
+This can be achieved with the following git commands:
+
+```bash
+$ cd /var/www/MISP # aka. $PATH_TO_MISP
+$ sudo -H -u www-data git checkout tags/$(git describe --tags `git rev-list --tags --max-count=1`)
+
+## OS Upgrades
+
+In theory all should "just work"(tm), but in practice the following dependencies might make your install unstable and need a little though before just doing the updates.
+
+* php/pear
+* python
+* apache
+* init scheme/scripts
+* mariadb/mysql
+* redis
+* git
+
+### PHP
+
+This is probably the most likely one that might get you into trouble.
+The following happened on a Debian Testing lately. During the upgrade php got upgraded to php-7.3 and seemingly some php-7.2 dependencies were deinstalled and the system now had 2 concurrent versions of php installed.
+The fix was to remove any *libapache2-mod-php7.2* packages and make sure that *apt remove libapache2-mod-php7.3* was installed. Most certainly you need to add symbolic links to */etc/apache2/mods-enabled* to make php7.3 work.
+Then double check if all the php dependencies are install, refer to the install documents.
+
+The same for pear, where we mostly use 2 (bundled) packages: Console Command Line, Crypt GPG.
+If you upgrade from a very old and out of date version of MISP this might raise issues.
+
+php.ini might also become problematic if you just erase the recommended defaults.
+
+### Python3
+
+If you use python2 for MISP, please read the install docs about MISP being Python 3 only.
+Currently Python3.6 is minimum. It is known working on 3.7 with some minor difficulties (see PyMISP issues).
+The biggest issue is certainly with PyMISP doig unexpected things when python might be updated.
+Using a virtualenv, whilst not always ideal for all setups, will at least make sure that problems are contained a little more.
+
+### Apache
+
+Mostly config issues might be a show stopper. And major version updates where some underlying config might need to be changed.
+
+### init/systemd
+
+MISP launches a couple of things on boot. Changing what handles boot behavious might have an impact.
+
+### MariaDB/MySQL/redis
+
+Similar to apache, most importantly always take good care that the DB engine is not all of a sudden changed without you noticing it.
+From minor to major updates, rarely things might need to be adapted.
+
+### git
+
+Currently (as of v2.4.108) the git-cli command is used in MISP core. In very rare cases where the expected output changes, this might be an issue.
+Included here more as an FYI then anything else.
+
 ## Hardening
 
 ### How do I harden my MISP instance?
