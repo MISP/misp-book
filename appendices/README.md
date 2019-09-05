@@ -309,3 +309,90 @@ A brief list of online ressources that around #ThreatIntel
 * [A curated list of awesome malware analysis tools and resources](https://github.com/rshipp/awesome-malware-analysis/blob/master/README.md). Inspired by [awesome-python](https://github.com/vinta/awesome-python) and [awesome-php](https://github.com/ziadoz/awesome-php).
 * [An authoritative list of awesome devsecops tools with the help from community experiments and contributions](https://github.com/devsecops/awesome-devsecops/blob/master/README.md).[DEV.SEC.OPS](http://devsecops.org)
 * [Advance Python IoC extractor](https://github.com/InQuest/python-iocextract)
+
+# Appendix F: LDAP Authentication
+
+MISP currently support LDAP authentication thought Apache mod_authnz_ldap module. 
+This manual will show how to configure LDAP authentication on Centos 7.
+
+#### How it works
+
+The real authentication will happens in Apache and then Apache will send the `REMOTE_USER` HTTP header to MISP application.  
+
+#### Installation and configuration
+
+1. Install MISP according to documentation
+2. Install `mod_authnz_ldap` Apache module
+    ```
+   yum install mod_ldap
+   ```
+3. Install `mod_ldap` PHP module
+    ```
+    yum install rh-php72-php-ldap
+    ```
+4. Prepare variables for configuration
+
+* `{{ LDAP_SERVER }}` – FQDN or IP address of LDAP server. For example: `ldap://example.com`
+* `{{ LDAP_BASE_DN }}` – DN for path that contains users. For example: `cn=users,cn=accounts,dc=example,dc=com`
+* `{{ LDAP_BIND_DN }}` – user that can read. For example: `uid=misp,cn=sysaccounts,cn=etc,dc=example,dc=com`
+* `{{ LDAP_BIND_PASSWORD }}` – password for that user.
+* `{{ LDAP_USER_GROUP }}` – group with access to MISP. For example: `cn=misp-users,cn=groups,cn=accounts,dc=example,dc=com`
+
+5. Configure `mod_authnz_ldap` in Apache config in `/etc/httpd/conf.d/misp.ssl.conf`
+    ```apacheconfig
+    <Directory /var/www/MISP/app/webroot>
+    AuthType Basic
+    AuthName "LDAP account"
+    AuthBasicProvider ldap
+    AuthLDAPBindAuthoritative on
+    AuthLDAPURL {{ LDAP_SERVER }}/{{ LDAP_BASE_DN }}?uid
+    AuthLDAPBindDN {{ LDAP_BIND_DN }}
+    AuthLDAPBindPassword "{{ LDAP_BIND_PASSWORD }}"
+    Require ldap-group {{ LDAP_USER_GROUP }}
+    Require valid-user
+    </Directory>
+    ```
+    
+6. Configure MISP ApacheSecureAuth in `app/Config/config.php`
+
+    ```php
+    'ApacheSecureAuth' => array(
+      'apacheEnv' => 'REMOTE_USER',
+      'ldapServer' => '{{ LDAP_SERVER }}',
+      'ldapDN' => '{{ LDAP_BASE_DN }}',
+      'ldapSearchFilter' => '(objectclass=inetuser)',
+      'ldapReaderUser' => '{{ LDAP_BIND_DN }}',
+      'ldapReaderPassword' => '{{ LDAP_BIND_PASSWORD }}',
+      'ldapUserGroup' => '{{ LDAP_USER_GROUP }}',
+      'updateUser' => true,
+    );
+    ```
+
+Required variables are:
+
+* `apacheEnv` – name of the HTTP header that will contain user name. Usually `REMOTE_USER`
+* `ldapServer` – FQDN or IP address of LDAP server. TODO: Encryption
+* `ldapReaderUser` – DN or RDN LDAP user with permission to read LDAP information about users
+* `ldapReaderPassword` – password for that user
+* `ldapDN` – DN for path that contains users
+
+Optional variables are:
+
+* `ldapSearchFilter` - LDAP search filter.
+* `ldapSearchAttribute` - LDAP attribute that contains username. Default: `uid`
+* `ldapEmailField` - LDAP attribute (string) or attributes (array) that will be checked if contains user e-mail address. Default: `mail`
+* `ldapFilter` – fields that will be fetched from LDAP server. Default: `mail` and `memberof`
+* `ldapUserGroup` - LDAP group that must be assigned to user to access MISP. Default: not set
+* `updateUser` - if `true`, MISP will create user if they exists in LDAP but not in MISP and update existing users information (like e-mail address) from LDAP. Default: `false`
+* `ldapDefaultOrg` – default organisation ID for user from LDAP. By default it is first organisation in database.
+* `ldapDefaultRoleId` - default role for newly created user. It can be integer or array. Must be defined if `updateUser` is set to `true` (without that variable, user will be disabled).
+* `ldapProtocol` - protocol version used. Default: 3.
+* `ldapNetworkTimeout` - timeout for communication with LDAP server in seconds. Default: 5 seconds.
+* `ldapAllowReferrals` - follow referrals returned by the LDAP server. Default: `false`.
+* `ldapStartTls` - enable STARTTLS. Default: `false`.
+
+#### Debugging
+
+Setting LDAP authentication can be sometimes tricky and when it doesnt work as expected, you should first check Apache log (by default in `/var/log/httpd/misp.local_error.log`) if they contains information about LDAP authentication.
+If everything looks OK, then you can check MISP error log (by default in `/var/www/MISP/app/tmp/logs/`) that can contain useful information with problem description. 
+
