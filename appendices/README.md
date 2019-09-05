@@ -332,7 +332,7 @@ The real authentication will happen in Apache and then Apache will send the `REM
     ```
 4. Prepare variables for configuration
 
-* `{{ LDAP_SERVER }}` – FQDN or IP address of LDAP server. For example: `ldap://example.com`
+* `{{ LDAP_SERVER }}` – a full LDAP URI of server. For example: `ldap://example.com`
 * `{{ LDAP_BASE_DN }}` – DN for path that contains users. For example: `cn=users,cn=accounts,dc=example,dc=com`
 * `{{ LDAP_BIND_DN }}` – user that can read. For example: `uid=misp,cn=sysaccounts,cn=etc,dc=example,dc=com`
 * `{{ LDAP_BIND_PASSWORD }}` – password for that user.
@@ -368,19 +368,19 @@ The real authentication will happen in Apache and then Apache will send the `REM
     );
     ```
 
-Required variables are:
+Required variables:
 
 * `apacheEnv` – name of the HTTP header that will contain user name. Usually `REMOTE_USER`
-* `ldapServer` – FQDN or IP address of LDAP server. TODO: Encryption
+* `ldapServer` – a full LDAP URI of the form ldap://hostname:port or ldaps://hostname:port for SSL encryption
 * `ldapReaderUser` – DN or RDN LDAP user with permission to read LDAP information about users
 * `ldapReaderPassword` – password for that user
 * `ldapDN` – DN for path that contains users
 
-Optional variables are:
+Optional variables:
 
 * `ldapSearchFilter` - LDAP search filter.
 * `ldapSearchAttribute` - LDAP attribute that contains username. Default: `uid`
-* `ldapEmailField` - LDAP attribute (string) or attributes (array) that will be checked if contains user e-mail address. Default: `mail`
+* `ldapEmailField` - LDAP attribute (string) or attributes (array) that will be checked if contains user e-mail address. If you want to change or add field, you should also add that field/fields to `ldapFilter`. Default: `mail`
 * `ldapFilter` – fields that will be fetched from LDAP server. Default: `mail` and `memberof`
 * `ldapUserGroup` - LDAP group that must be assigned to user to access MISP. Default: not set
 * `updateUser` - if `true`, MISP will update existing users information (like e-mail address or role) from LDAP after login. Default: `false`
