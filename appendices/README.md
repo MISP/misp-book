@@ -312,12 +312,12 @@ A brief list of online ressources that around #ThreatIntel
 
 # Appendix F: LDAP Authentication
 
-MISP currently support LDAP authentication thought Apache mod_authnz_ldap module. 
+MISP currently supports LDAP authentication thought Apache mod_authnz_ldap module. 
 This manual will show how to configure LDAP authentication on Centos 7.
 
 #### How it works
 
-The real authentication will happens in Apache and then Apache will send the `REMOTE_USER` HTTP header to MISP application.  
+The real authentication will happen in Apache and then Apache will send the `REMOTE_USER` HTTP header to MISP application.  
 
 #### Installation and configuration
 
@@ -383,7 +383,7 @@ Optional variables are:
 * `ldapEmailField` - LDAP attribute (string) or attributes (array) that will be checked if contains user e-mail address. Default: `mail`
 * `ldapFilter` – fields that will be fetched from LDAP server. Default: `mail` and `memberof`
 * `ldapUserGroup` - LDAP group that must be assigned to user to access MISP. Default: not set
-* `updateUser` - if `true`, MISP will create user if they exists in LDAP but not in MISP and update existing users information (like e-mail address) from LDAP. Default: `false`
+* `updateUser` - if `true`, MISP will update existing users information (like e-mail address or role) from LDAP after login. Default: `false`
 * `ldapDefaultOrg` – default organisation ID for user from LDAP. By default it is first organisation in database.
 * `ldapDefaultRoleId` - default role for newly created user. It can be integer or array. Must be defined if `updateUser` is set to `true` (without that variable, user will be disabled).
 * `ldapProtocol` - protocol version used. Default: 3.
@@ -393,6 +393,13 @@ Optional variables are:
 
 #### Debugging
 
-Setting LDAP authentication can be sometimes tricky and when it doesnt work as expected, you should first check Apache log (by default in `/var/log/httpd/misp.local_error.log`) if they contains information about LDAP authentication.
-If everything looks OK, then you can check MISP error log (by default in `/var/www/MISP/app/tmp/logs/`) that can contain useful information with problem description. 
+Setting LDAP authentication can be sometimes tricky and when it doesn't work as expected, you should first check Apache log (by default in `/var/log/httpd/misp.local_error.log`) if they contain information about LDAP authentication. If everything looks OK, then you can check MISP error log (by default in `/var/www/MISP/app/tmp/logs/`) that can contain useful information with problem description.
+
+#### Caveats
+
+* MISP will authenticate user just according to `REMOTE_USER` header. So be sure that this header can be sent just by Apache HTTP server, not directly by user.
+* When user is disabled in LDAP, it will not disabled in MISP. That means that user cannot login, but for example notification e-mails still works.
+* In My Profile page, users can still change their e-mail address or password. But password change will have no effect and e-mail will be changed back to value from LDAP after next login. Or you can disable user self-management by setting `MISP.disableUserSelfManagement` to `false`.
+* Logout is currently not supported, so you should set `CustomAuth_disable_logout` to `true`.
+
 
