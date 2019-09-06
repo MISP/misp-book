@@ -310,10 +310,9 @@ A brief list of online ressources that around #ThreatIntel
 * [An authoritative list of awesome devsecops tools with the help from community experiments and contributions](https://github.com/devsecops/awesome-devsecops/blob/master/README.md).[DEV.SEC.OPS](http://devsecops.org)
 * [Advance Python IoC extractor](https://github.com/InQuest/python-iocextract)
 
-# Appendix F: LDAP Authentication
+# Appendix F: Kerberos Authentication
 
-MISP currently supports LDAP authentication thought Apache mod_authnz_ldap module. 
-This manual will show how to configure LDAP authentication on Centos 7.
+MISP currently supports Kerberos authentication thought Apache.
 
 #### How it works
 
@@ -322,10 +321,7 @@ The real authentication will happen in Apache and then Apache will send the `REM
 #### Installation and configuration
 
 1. Install MISP according to documentation
-2. Install `mod_authnz_ldap` Apache module
-    ```
-   yum install mod_ldap
-   ```
+2. Configure Apache to send `REMOTE_USER` with username (this configuration is not part of this manual)
 3. Install `mod_ldap` PHP module
     ```
     yum install rh-php72-php-ldap
@@ -337,23 +333,8 @@ The real authentication will happen in Apache and then Apache will send the `REM
 * `{{ LDAP_BIND_DN }}` – user that can read. For example: `uid=misp,cn=sysaccounts,cn=etc,dc=example,dc=com`
 * `{{ LDAP_BIND_PASSWORD }}` – password for that user.
 * `{{ LDAP_USER_GROUP }}` – group with access to MISP. For example: `cn=misp-users,cn=groups,cn=accounts,dc=example,dc=com`
-
-5. Configure `mod_authnz_ldap` in Apache config in `/etc/httpd/conf.d/misp.ssl.conf`
-    ```apacheconfig
-    <Directory /var/www/MISP/app/webroot>
-    AuthType Basic
-    AuthName "LDAP account"
-    AuthBasicProvider ldap
-    AuthLDAPBindAuthoritative on
-    AuthLDAPURL {{ LDAP_SERVER }}/{{ LDAP_BASE_DN }}?uid
-    AuthLDAPBindDN {{ LDAP_BIND_DN }}
-    AuthLDAPBindPassword "{{ LDAP_BIND_PASSWORD }}"
-    Require ldap-group {{ LDAP_USER_GROUP }}
-    Require valid-user
-    </Directory>
-    ```
     
-6. Configure MISP ApacheSecureAuth in `app/Config/config.php`
+5. Configure MISP ApacheSecureAuth in `app/Config/config.php`
 
     ```php
     'ApacheSecureAuth' => array(
@@ -371,13 +352,13 @@ The real authentication will happen in Apache and then Apache will send the `REM
 Required variables:
 
 * `apacheEnv` – name of the HTTP header that will contain user name. Usually `REMOTE_USER`
-* `ldapServer` – a full LDAP URI of the form ldap://hostname:port or ldaps://hostname:port for SSL encryption
-* `ldapReaderUser` – DN or RDN LDAP user with permission to read LDAP information about users
-* `ldapReaderPassword` – password for that user
+* `ldapServer` – a full LDAP URI of the form ldap://hostname:port or ldaps://hostname:port for TLS encryption
 * `ldapDN` – DN for path that contains users
 
 Optional variables:
 
+* `ldapReaderUser` – DN or RDN LDAP user with permission to read LDAP information about users. If your server supports anonymous bind, this is not necessary.
+* `ldapReaderPassword` – password for `ldapReader` user.
 * `ldapSearchFilter` - LDAP search filter.
 * `ldapSearchAttribute` - LDAP attribute that contains username. Default: `uid`
 * `ldapEmailField` - LDAP attribute (string) or attributes (array) that will be checked if contains user e-mail address. If you want to change or add field, you should also add that field/fields to `ldapFilter`. Default: `mail`
@@ -393,13 +374,11 @@ Optional variables:
 
 #### Debugging
 
-Setting LDAP authentication can be sometimes tricky and when it doesn't work as expected, you should first check Apache log (by default in `/var/log/httpd/misp.local_error.log`) if they contain information about LDAP authentication. If everything looks OK, then you can check MISP error log (by default in `/var/www/MISP/app/tmp/logs/`) that can contain useful information with problem description.
+Setting LDAP authentication can be sometimes tricky and when it doesn't work as expected, you should first check Apache log (by default in `/var/log/httpd/misp.local_error.log`) if they contain information about Kerberos authentication. If everything looks OK, then you can check MISP error log (by default in `/var/www/MISP/app/tmp/logs/`) that can contain useful information with problem description.
 
 #### Caveats
 
 * MISP will authenticate user just according to `REMOTE_USER` header. So be sure that this header can be sent just by Apache HTTP server, not directly by user.
 * When user is disabled in LDAP, it will not disabled in MISP. That means that user cannot login, but for example notification e-mails still works.
 * In My Profile page, users can still change their e-mail address or password. But password change will have no effect and e-mail will be changed back to value from LDAP after next login. Or you can disable user self-management by setting `MISP.disableUserSelfManagement` to `false`.
-* Logout is currently not supported, so you should set `CustomAuth_disable_logout` to `true`.
-
-
+* Logout is not supported, so you should set `CustomAuth_disable_logout` to `true`.
