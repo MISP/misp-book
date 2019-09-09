@@ -377,3 +377,4 @@ Because LDAP and MISP users are paired by e-mail address, it is possible to migr
 * When a user is disabled in LDAP and also in MISP and then enabled in LDAP, it will be enabled in MISP for next login just when `updateUser` is set to `true`.
 * Currently it is not possible to log in with both LDAP and local (MISP) accounts.
 * Admins can change users email address. But when `updateUser` is set to true, when the user will log in again, the e-mail address will be updated from LDAP.
+* `Security.require_password_confirmation` setting currently doesnt work with LDAP authentication. But on the other hand, since user cannot change e-mail address and password, this setting is not important.
