@@ -301,15 +301,6 @@ This section lists some projects we know of but not officially support and rely 
 | []() |  | Not tested by MISP core team |
 -->
 
-# Appendix E: Other Threat Intel Ressources
-
-A brief list of online ressources that around #ThreatIntel
-
-* [Curated list of awesome cybersecurity companies and solutions.](https://github.com/Annsec/awesome-cybersecurity/blob/master/README.md) (Updated April 2017)
-* [A curated list of awesome malware analysis tools and resources](https://github.com/rshipp/awesome-malware-analysis/blob/master/README.md). Inspired by [awesome-python](https://github.com/vinta/awesome-python) and [awesome-php](https://github.com/ziadoz/awesome-php).
-* [An authoritative list of awesome devsecops tools with the help from community experiments and contributions](https://github.com/devsecops/awesome-devsecops/blob/master/README.md).[DEV.SEC.OPS](http://devsecops.org)
-* [Advance Python IoC extractor](https://github.com/InQuest/python-iocextract)
-
 # Appendix F: LDAP Authentication
 
 MISP supports LDAP authentication from version 2.4.xxx. This manual will show how to configure LDAP authentication. 
@@ -349,13 +340,13 @@ MISP supports LDAP authentication from version 2.4.xxx. This manual will show ho
 
 Required variables:
 
-* `enabled` – if it is true, all users must log in trought LDAP account.
+* `enabled` – if it is true, all users must log in through LDAP account.
 * `ldapServer` – a full LDAP URI of the form ldap://hostname:port or ldaps://hostname:port for TLS encryption.
-* `ldapDN` – DN for path that contains users.
+* `ldapDN` – DN for a path that contains users.
 
 Optional variables:
 
-* `name` – indentity provider name. Will be shown in login screen and user editing for. Can contain HTML.
+* `name` – identity provider name. Will be shown in the login screen and user editing for. Can contain HTML.
 * `ldapReaderUser` – DN or RDN LDAP user with permission to read LDAP information about users.
 * `ldapReaderPassword` – password for that user.
 * `ldapSearchFilter` - LDAP search filter.
@@ -363,8 +354,9 @@ Optional variables:
 * `ldapEmailField` - LDAP attribute (string) or attributes (array) that will be checked if contains user e-mail address. If you want to change or add field, you should also add that field/fields to `ldapAttributes`. Default: `mail`.
 * `ldapAttributes` – fields that will be fetched from LDAP server. Default: `mail` and `memberof`.
 * `ldapUserGroup` - LDAP group that must be assigned to user to access MISP. Default: not set.
-* `updateUser` - if `true`, MISP will update existing users information (like e-mail address or role) from LDAP after login. Default: `false`.
-* `ldapDefaultOrg` – default organisation ID for user from LDAP. By default it is first organisation in database.
+* `createUser` - if `true`, MISP will create new user from LDAP. Default `true`.
+* `updateUser` - if `true`, MISP will update existing users information (e-mail address and role) from LDAP after login. Default: `false`.
+* `ldapDefaultOrg` – default organization ID for user from LDAP. By default it is the first organization in the database.
 * `ldapDefaultRoleId` - default role for newly created user. It can be integer or array when key contains LDAP group and value assigned role ID. Must be defined if `updateUser` is set to `true` (without that variable, user will be disabled).
 * `ldapProtocol` - protocol version used. Default: 3.
 * `ldapNetworkTimeout` - timeout for communication with LDAP server in seconds. Default: 5 seconds.
@@ -373,8 +365,15 @@ Optional variables:
 
 #### Debugging
 
-Setting LDAP authentication can be sometimes tricky. For debugging, you can check MISP error log (by default in `/var/www/MISP/app/tmp/logs/`) that can contain useful information with problem description.
+Setting LDAP authentication can be sometimes tricky. For debugging, you can check MISP error log (by default in `/var/www/MISP/app/tmp/logs/error.log`) or debug log (by default in `/var/www/MISP/app/tmp/logs/debug.log`) that can contain useful information with problem description.
+
+#### Migrating existing user to LDAP
+
+Because LDAP and MISP users are paired by e-mail address, it is possible to migrate existing user account to LDAP managed. When you enable LDAP support and LDAP user will try to log in, an existing user in MISP with the same e-mail address will be found and then assigned to LDAP user.
 
 #### Caveats
 
-* When user is disabled in LDAP, it will not disabled in MISP. That means that user cannot login, but for example notification e-mails still works or it is possible to use user Auth key to access MISP information.
+* When a user is disabled in LDAP or is removed from the required group, it will be not automatically disabled in MISP. That means that user will be disabled when he tries to login (with form or with Auth key), but for example, notification e-mails will still work until he tries to log in.
+* When a user is disabled in LDAP and also in MISP and then enabled in LDAP, it will be enabled in MISP for next login just when `updateUser` is set to `true`.
+* Currently it is not possible to log in with both LDAP and local (MISP) accounts.
+* Admins can change users email address. But when `updateUser` is set to true, when the user will log in again, the e-mail address will be updated from LDAP.
