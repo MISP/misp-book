@@ -549,7 +549,7 @@ curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --heade
 ~~~~
 
 
-### GET /attributes/delete/
+### POST /attributes/delete/
 
 #### Description
 
@@ -570,18 +570,18 @@ Delete attributes.
 #### Example
 
 ~~~~
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345
+curl -X POST --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345
 ~~~~
 
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/delete/548847db-060c-4275-a0c7-15bb950d210b
+curl -X POST --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/delete/548847db-060c-4275-a0c7-15bb950d210b
 ~~~~
 
 
 Hard delete:
 
 ~~~~
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345/1
+curl -X POST --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345/1
 ~~~~
 
 
