@@ -75,7 +75,7 @@ To be done
 #### Example
 
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/gaaa
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/gaaa
 ~~~~
 
 ~~~~json
@@ -125,7 +125,7 @@ curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" 
 #### Example
 
 ~~~~
-curl -i -H "Accept: application/json" -H "content-type: application/json" -H "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf" --data "@event.json" -X POST http://10.50.13.60/events
+curl -i -H "Accept: application/json" -H "content-type: application/json" -H "Authorization: YOUR API KEY" --data "@event.json" -X POST http://10.50.13.60/events
 ~~~~
 
 That is how an event JSON object should look like
@@ -159,7 +159,7 @@ Delete events based on criteria
 
 curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X "DELETE" http://10.50.13.60/events/1
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X "DELETE" http://10.50.13.60/events/1
 ~~~~
 
 ### GET /events/index
@@ -176,7 +176,7 @@ Return the event index. - Warning, there's a limit on the number of results
 #### Example
 
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/events/index
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/events/index
 ~~~~
 
 
@@ -447,12 +447,12 @@ Attaches an Tag to an Object by a given UUID
 
 #### Example
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
 ~~~~
 
 
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " -d "{"uuid"="5a0d68b3-6da0-4ced-8233-77bb950d210f" "tag"="tlp:white"}" --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/
+curl --header "Authorization: YOUR API KEY " -d "{"uuid"="5a0d68b3-6da0-4ced-8233-77bb950d210f" "tag"="tlp:white"}" --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/
 ~~~~
 
 
@@ -479,7 +479,7 @@ Removes an Tag to an Object by a given UUID
 
 #### Example
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/removeTagFromObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/removeTagFromObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
 ~~~~
 
 
@@ -508,7 +508,7 @@ Will give an overview of the used attribute tags
 #### Example
 
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/tags/tagStatistics/
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/tags/tagStatistics/
 ~~~~
 
 ## Attribute management
@@ -525,7 +525,7 @@ Adds an Attribute to an event
 
 #### Example
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -d "{"event_id":"3542","value":"1.2.3.4","category":"Network activity","type":"ip-dst"}" http://10.50.13.60/attributes/add/3542
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -d "{"event_id":"3542","value":"1.2.3.4","category":"Network activity","type":"ip-dst"}" http://10.50.13.60/attributes/add/3542
 ~~~~
 
 ### GET /attributes
@@ -545,7 +545,7 @@ Get an attribute
 
 #### Example
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/548847db-060c-4275-a0c7-15bb950d210b
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/548847db-060c-4275-a0c7-15bb950d210b
 ~~~~
 
 
@@ -574,7 +574,7 @@ curl -X POST --header "Authorization: YOUR API KEY" --header "Accept: applicatio
 ~~~~
 
 ~~~~
-curl -X POST --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/delete/548847db-060c-4275-a0c7-15bb950d210b
+curl -X POST --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/delete/548847db-060c-4275-a0c7-15bb950d210b
 ~~~~
 
 
@@ -614,7 +614,7 @@ Will give an overview of the used attribute types
 #### Example
 
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/attributes/attributeStatistics/
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/attributes/attributeStatistics/
 ~~~~
 
 ### GET /attributes/describeTypes Describe types API
@@ -643,7 +643,7 @@ Depending on the headers passed the returned data will be a JSON object or an XM
 #### Example
 
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/getPyMISPVersion.json
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/getPyMISPVersion.json
 ~~~~
 
 ### GET /servers/getVersion
@@ -656,7 +656,7 @@ curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --heade
 #### Example
 
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/getPyMISPVersion.json
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/getPyMISPVersion.json
 ~~~~
 
 
@@ -776,7 +776,7 @@ Will output all users
             "server_id": "0",
             "email": "admin@admin.test",
             "autoalert": false,
-            "authkey": "a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf",
+            "authkey": "YOUR API KEY",
             "invited_by": "0",
             "gpgkey": null,
             "certif_public": "",
@@ -810,7 +810,7 @@ Will output all users
 
 #### Example
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/admin/users
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/admin/users
 ~~~~
 
 
@@ -836,7 +836,7 @@ Will return a single user. To view a user simply send a GET request.
         "server_id": "0",
         "email": "admin@admin.test",
         "autoalert": false,
-        "authkey": "a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf",
+        "authkey": "YOUR API KEY",
         "invited_by": "0",
         "gpgkey": null,
         "certif_public": "",
@@ -857,7 +857,7 @@ Will return a single user. To view a user simply send a GET request.
 ~~~~
 #### Example
 ~~~~
-curl --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/admin/users/view/1
+curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/admin/users/view/1
 ~~~~
 
 
@@ -1918,7 +1918,7 @@ Return the index of warninglists enabled on the MISP instance
 ~~~~
 #### Example
 ~~~~
-curl  --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X "GET" https://10.50.13.60/warninglists/index
+curl  --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X "GET" https://10.50.13.60/warninglists/index
 ~~~~
 
 ### GET warninglists/view/1
@@ -1939,7 +1939,7 @@ to long
 ~~~~
 #### Example
 ~~~~
-curl  --header "Authorization: a4PLf8QICdDdOmFjwdtSYqkCqn9CvN0VQt7mpUUf " --header "Accept: application/json" --header "Content-Type: application/json" -X "GET" https://10.50.13.60/warninglists/view/17
+curl  --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X "GET" https://10.50.13.60/warninglists/view/17
 ~~~~
 
 
