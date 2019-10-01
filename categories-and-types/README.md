@@ -26,6 +26,7 @@
 |counter| | | | | | |
 |country-of-residence| | | | | | |
 |cpe| | | | | | |
+|dash| | | | | X | |
 |date-of-birth| | | | | | |
 |datetime| | | | | | |
 |dns-soa-email| | | X | | | |
@@ -189,6 +190,7 @@
 |counter| | X | | | | |
 |country-of-residence| | | | | | |
 |cpe| | X | | | | |
+|dash| | | | | | |
 |date-of-birth| | | | | | |
 |datetime| | X | | | | |
 |dns-soa-email| | | | | | |
@@ -352,6 +354,7 @@
 |counter| | | | |
 |country-of-residence| X | | | |
 |cpe| | | | |
+|dash| | | | |
 |date-of-birth| X | | | |
 |datetime| | | | |
 |dns-soa-email| | | | |
@@ -535,6 +538,7 @@
 *   **counter**: An integer counter, generally to be used in objects
 *   **country-of-residence**: The country of residence of a natural person
 *   **cpe**: Common platform enumeration
+*   **dash**: Dash Address
 *   **date-of-birth**: Date of birth of a natural person (in YYYY-MM-DD format)
 *   **datetime**: Datetime in the ISO 8601 format
 *   **dns-soa-email**: RFC1035 mandates that DNS zones should have a SOA (Statement Of Authority) record that contains an email address where a PoC for the domain could be contacted. This can sometimes be used for attribution/linkage between different domains even if protected by whois privacy
