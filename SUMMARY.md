@@ -12,6 +12,7 @@
 * [Extending Events](extended-events/README.md) - in progress
 * [Administration](administration/README.md)
 * [Managing Feeds](managing-feeds/README.md)
+* [Updating Python dependencies](updating-python/README.md)
 * [Automation and MISP API](automation/README.md)
 * [PyMISP - Python Library to Access MISP](pymisp/README.md)
 * [Create an Event Based on a Report](create-event-report/README.md)
