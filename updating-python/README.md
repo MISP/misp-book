@@ -1,4 +1,4 @@
-# Updating Python
+# Updating Python Dependencies
 
 MISP requires a couple of python libraries to be installed for the entire set of functionalities to work properly.
 
