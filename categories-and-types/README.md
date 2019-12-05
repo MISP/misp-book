@@ -45,6 +45,7 @@
 |email-subject| | | | | | |
 |email-thread-index| | | | | | |
 |email-x-mailer| | | | | | |
+|eppn| | | | | | |
 |filename| | X | | X | | |
 |filename&#124;authentihash| | X | | | | |
 |filename&#124;impfuzzy| | X | | | | |
@@ -204,11 +205,12 @@
 |email-message-id| | | X | | | |
 |email-mime-boundary| | | X | | | |
 |email-reply-to| | | X | | | |
-|email-src| | | X | | | |
+|email-src| X | | X | | | |
 |email-src-display-name| | | X | | | |
 |email-subject| X | | X | | | |
 |email-thread-index| | | X | | | |
 |email-x-mailer| | | X | | | |
+|eppn| X | | | | | |
 |filename| | | X | X | | X |
 |filename&#124;authentihash| | | X | X | | |
 |filename&#124;impfuzzy| | | X | X | | |
@@ -373,6 +375,7 @@
 |email-subject| | | | |
 |email-thread-index| | | | |
 |email-x-mailer| | | | |
+|eppn| | X | | |
 |filename| | | | |
 |filename&#124;authentihash| | | | |
 |filename&#124;impfuzzy| | | | |
@@ -557,6 +560,7 @@
 *   **email-subject**: The subject of the email
 *   **email-thread-index**: The email thread index header
 *   **email-x-mailer**: Email x-mailer header
+*   **eppn**: eduPersonPrincipalName - eppn - the NetId of the person for the purposes of inter-institutional authentication. Should be stored in the form of user@univ.edu, where univ.edu is the name of the local security domain.
 *   **filename**: Filename
 *   **filename&#124;authentihash**: A checksum in md5 format
 *   **filename&#124;impfuzzy**: Import fuzzy hash - a fuzzy hash created based on the imports in the sample.
@@ -584,16 +588,16 @@
 *   **hasshserver-md5**: hasshServer is a network fingerprinting standard which can be used to identify specific Server SSH implementations. The fingerprints can be easily stored, searched and shared in the form of an MD5 fingerprint.
 *   **hex**: A value in hexadecimal format
 *   **hostname**: A full host/dnsname of an attacker
-*   **hostname&#124;port**: Hostname and port number seperated by a &#124;
+*   **hostname&#124;port**: Hostname and port number separated by a &#124;
 *   **http-method**: HTTP method used by the malware (e.g. POST, GET, ...).
 *   **iban**: International Bank Account Number
 *   **identity-card-number**: Identity card number
 *   **impfuzzy**: A fuzzy hash of import table of Portable Executable format
 *   **imphash**: Import hash - a hash created based on the imports in the sample.
 *   **ip-dst**: A destination IP address of the attacker or C&C server
-*   **ip-dst&#124;port**: IP destination and port number seperated by a &#124;
+*   **ip-dst&#124;port**: IP destination and port number separated by a &#124;
 *   **ip-src**: A source IP address of the attacker
-*   **ip-src&#124;port**: IP source and port number seperated by a &#124;
+*   **ip-src&#124;port**: IP source and port number separated by a &#124;
 *   **issue-date-of-the-visa**: The date on which the visa was issued
 *   **ja3-fingerprint-md5**: JA3 is a method for creating SSL/TLS client fingerprints that should be easy to produce on any platform and can be easily shared for threat intelligence.
 *   **jabber-id**: Jabber ID
