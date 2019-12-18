@@ -2,38 +2,40 @@
 
 # Frequently Asked Questions
 
-The following page hosts most frequently asked questions as seen on our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/Support).
+The following page hosts some frequently asked questions as noticed in our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/Support) channels.
 
-# General questions
-### 1. Where can I get support?
+## General questions
+### Where can I get support?
 
-If you have feature requests or you found a bug you can open a ticket on [MISP's github repository issues](https://github.com/MISP/MISP/issues).
+If you have feature requests or you found a bug you can open a ticket on [MISP's GitHub repository issue](https://github.com/MISP/MISP/issues) tracker.
 
-If you want to discuss about something related to MISP, want help from the community, etc... You have 
-the [MISP Users mailing list](https://groups.google.com/forum/#!forum/misp-users) or the [MISP Gitter channel](https://gitter.im/MISP/MISP).
+If you want to discuss something related to MISP or want help from the MISP community, join the appropriate MISP Gitter channel:
 
-A number of companies are also offering custom development, consulting, and support around MISP, please check [the support page of the MISP Project website](http://www.misp-project.org/#support).
+- [MISP Developer Room](https://gitter.im/MISP/MISP) Dev discussions
+- [MISP Support Room](https://gitter.im/MISP/Support) OMGoo! My MISP doesn't work discussions
+- [MISP Sharing Room](https://gitter.im/MISP/Sharing) Threat Intelligence Sharing discussions
+- [misp-cloud Room](https://gitter.im/MISP/misp-cloud) Using MISP in the clouds discussions
 
-### 2. What are the hardware requirements?
+### What are the hardware requirements?
 
 From a hardware perspective, MISP's requirements are quite humble, a web server with 2+ cores and 8-16 GB of memory should be plenty, though more is always better of course. A lot of it depends on the data set and the number of users you are dealing with. 
 
-For software we recommend a standard LAMP stack on top of Ubuntu 18.04. For details on the exact dependencies please refer to the [installation guide](https://github.com/MISP/MISP/blob/2.4/docs/INSTALL.ubuntu1804.md) as well as the [requirements for the MISP modules](https://github.com/MISP/misp-modules/blob/master/REQUIREMENTS). 
+We recommend a standard LAMP stack on top of Ubuntu >18.04 LTS. For details on the exact dependencies please refer to the [installation guide](https://misp.github.io/MISP/INSTALL.ubuntu1804/) as well as the [requirements for the MISP modules](https://github.com/MISP/misp-modules/blob/master/REQUIREMENTS). 
 
 During a [Hackathon](https://hackathon.hack.lu) a small tool called [MISP-Sizer](https://misp-project.org/MISP-sizer/) was conceived. It will give you a **very rough** idea on what requirements are if you have a bigger installation. [source-code is here](https://github.com/MISP/MISP-sizer)
 
 ***
-# Specific questions
-### 1. Can I configure MISP encrypted notification emails to contain more information in the subject?
+## Specific questions
+### Can I configure MISP encrypted notification emails to contain more information in the subject?
 
-The setting MISP.extended_alert_subject allows you to have an extended subject. One word of warning though. If you’re using encryption : the subject will not be encrypted. Be aware that you might leak some sensitive information this way. Below is an example how the two subject types look like. First with the option disabled, then with the option enabled.
+The setting 'MISP.extended_alert_subject' allows you to have an extended subject. /!\ Beware if you’re using encryption: the subject will not be encrypted. Be aware that you might leak some sensitive information this way. Below is an example how the two subject types look like. First with the option disabled, then with the option enabled.
 
     Event 7 - Low - TLP Amber
     Event 8 - OSINT - Dissecting  XXX... - Low - TLP Amber
 
 (Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
-### 2. How can I restart the workers?
+### How can I restart the workers?
 
 The workers can be restarted from the web interface: 
     
@@ -49,7 +51,7 @@ If you are on RHEL / Fedora based systems:
 
     su -s /bin/bash apache -c 'bash /var/www/MISP/app/Console/worker/start.sh'
 
-### 3. How can I redirect HTTP to HTTPs?
+### How can I redirect HTTP to HTTPs?
 
 ```
 <VirtualHost *:80>
@@ -109,7 +111,7 @@ You can set a similar configuration setting for the attributes. The setting defa
 
 (Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
-### 6. How can I add organisation logos?
+### How can I add organisation logos?
     
 MISP can be made more appealing to the eye by adding some graphics. You can set your organisation logo by adding an image (.png) that has the same name as your organisation in the directory */var/www/MISP/app/webroot/img/orgs/*. Similarly you can add a footer logo. Add an image to the directory */var/www/MISP/app/webroot/img/custom/* and define the footer logo in the config file (config.php).
 
@@ -117,17 +119,17 @@ Another way of doing it is by logging in your MISP instance with administrator r
 
 (Partially taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
-### 7. All workers are starting correctly except _schdlr_ . How can I fix this?
+### All workers are starting correctly except _schdlr_ . How can I fix this?
 
-This can happen if the FQDN of the server hosting the instance has changed. A way to fix this is to flush temporary data stored in redis. This can be done by logging in redis, for example when logging in with redis-cli, and issuing a _*flushall*_ command.
+This can happen if the [FQDN](https://en.wikipedia.org/wiki/Fully_qualified_domain_name) of the server hosting the instance has changed. A way to fix this is to flush temporary data stored in redis. This can be done by logging in redis, for example when logging in with redis-cli, and issuing a _*flushall*_ command.
 
-### 8. How can I import data directly from PDF reports?
+### How can I import data directly from PDF reports?
 
 You can use a generic script called IOC parser (https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event (https://github.com/PaloAltoNetworks-BD/report_to_misp/). You have also the option to select all the text and paste it in the free-text import form.
 
 Another option is the new [OCR import module](https://github.com/MISP/misp-modules) that can be used via the import modules. You will need to install the OCR software tesseract.
 
-### 9. I am having trouble updating beyond version 2.4.50 (stuck loading any page beyond the login), what can I do?
+### I am having trouble updating beyond version 2.4.50 (stuck loading any page beyond the login), what can I do?
 
 This is most likely due to the fact that MISP did not clean up expired sessions prior to version 2.4.51 automatically and relied on a site admin occasionally cleaning it up using the button found on the diagnostics page. Once you upgrade to 2.4.51, MISP will try to cull the table with each page load by a site-admin, which in some cases if the table has grown to extreme sizes it will get stuck on. To resolve the issue, log into mysql:
 
@@ -146,7 +148,7 @@ and execute the following commands:
 
 After this everything should work and the session table will be trimmed each time a site admin loads a page.
 
-### 10. I have many failed jobs when doing email notification. What should I do?
+### I have many failed jobs when doing email notification. What should I do?
 
 This is most probably due to some encryption failing for some users. We strongly advise to review the current
 PGP keys and to ensure that they keys are not expired or not supported. The keys can be reviewed at the following
@@ -156,7 +158,7 @@ location in MISP:
   https://<YOUR MISP URL>/users/verifyGPG
   ```
 
-### 11. I have issues with pushing events
+### I have issues with pushing events
 
 - What does connection test for the specific server telling?
 
@@ -184,12 +186,12 @@ of a standard MISP setup, we recommend to enable the redis session handling. To 
   session.save_path = "tcp://127.0.0.1:6379
 ~~~
 
-### 13. Upgrading from MISP 2.4.65 to MISP 2.4.66 - Unable to merge due to the Composer file.
+### Upgrading from MISP 2.4.65 to MISP 2.4.66 - Unable to merge due to the Composer file.
 
 In MISP 2.4.66, Composer is included by default to avoid the risk of downloading a rogue PHP Composer version (if the composer repository is compromised or MiTM are performed) via the download and php execution. But when upgrading (via a git pull), the git merge process might complain about the composer phar file still being there. You can safely remove that file and `git pull origin 2.4` again.
 
 
-### 14. Is there TAXII support? 
+### Is there TAXII support? 
 
 A TAXII 1 implementation can be found at https://github.com/MISP/MISP-Taxii-Server . 
 This is mostly a TAXII server hooked up to MISP, meant to receive STIX files to its in box and uploading them to MISP.
@@ -197,11 +199,11 @@ There is also an experimental feature to push MISP events to the TAXII server wh
 
 TAXII 2 support will be provided in the future once the specification, which is at time of writing in draft, reaches a stable form.
 
-### 15. Wipe MISP data - Remove all data
+### Wipe MISP data - Remove all data
 
 If you need to start from scratch with your MISP database and remove all data you can use the [`misp-wipe`](https://github.com/MISP/MISP/tree/2.4/tools/misp-wipe)  script provided in the `tools/` folder.
 
-### 16. Constantly acknowledging my self-signed certificate drives me nuts
+### Constantly acknowledging my self-signed certificate drives me nuts
 
 You want to add it in 2 places: Your browser(s) and your OS.
 
@@ -232,7 +234,7 @@ Sources: [CLI](https://askubuntu.com/questions/645818/how-to-install-certificate
 
 [For the Firefox Browser](https://superuser.com/questions/1054724/how-to-make-firefox-ignore-all-ssl-certification-errors)
 
-### 17. How can I change the theme?
+### How can I change the theme?
 
 MISP uses [bootstrap.css](https://getbootstrap.com) the specific CSS file can be found on a typical MISP install at `/var/www/MISP/app/webroot/css/bootstrap.css`. 
 
@@ -250,7 +252,7 @@ Some bootswatch themes applied on MISP:
 * https://i.imgur.com/JuMGm8U.png
 * https://i.imgur.com/v1Wu6xW.png
 
-### 18. How can I deal with a MISP instance that has pulled in feeds over and over into new events, generating hundreds of GBs of junk correlations, rendering the instance unusable?
+### How can I deal with a MISP instance that has pulled in feeds over and over into new events, generating hundreds of GBs of junk correlations, rendering the instance unusable?
 
 
 Step 1: ensure that all your CSV/freetext source_format feeds are using the fixed event setting. If you want to make sure this is the case, you can run this SQL query instead of doing it manually:
@@ -273,14 +275,14 @@ Step 4: recorrelate your data, depending on which method you've used in Step 2 y
   - either go to your administration -> server settings -> MISP tab and set `MISP.completely_disable_correlation` to false
   - recorrelate your current data-set via the recorrelate attributes tool on `/pages/display/administration`
 
-### 19. I can no longer log in. How do I reset the admin password?
+### I can no longer log in. How do I reset the admin password?
 
 You can reset the password via the console. 
 See https://github.com/MISP/MISP/issues/1160
 
 `/var/www/MISP/app/Console/cake Password [email] [password]`
 
-## Usage
+## Usage questions
 
 ### How can I see all the deleted events in a MISP instance?
 
@@ -407,7 +409,7 @@ To run sealert from the command-line, we need to point it to the SELinux audit l
 sudo sealert -a /var/log/audit/audit.log
 ```
 
-#### Clearing the audit logs
+### Clearing the audit logs
 
 It is not recommended to clear the audit logs as they might contain information needed in the future for troubleshooting or security investigations. However, if that is not the case, just empty the audit log:
 
