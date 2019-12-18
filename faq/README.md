@@ -4,6 +4,7 @@
 
 The following page hosts some frequently asked questions as noticed in our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/Support) channels.
 
+***
 ## General questions
 ### Where can I get support?
 
@@ -33,7 +34,7 @@ The setting 'MISP.extended_alert_subject' allows you to have an extended subject
     Event 7 - Low - TLP Amber
     Event 8 - OSINT - Dissecting  XXX... - Low - TLP Amber
 
-(Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+(Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/))
 
 ### How can I restart the workers?
 
@@ -92,15 +93,15 @@ If you are on RHEL / Fedora based systems:
 </VirtualHost>
 ```
 
-(Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
-### 4. When I try to access my new installation, I am redirected to localhost:8443 and get an error.
+### When I try to access my new installation, I am redirected to localhost:8443 and get an error.
 
 By default, MISP runs on a local instance and is setup for local access upon installation. This allows you to setup security and customizations before making it available elsewhere. If you would like to access the MISP instance from a remote host (including another VM host/client), assign an IP to the MISP host and point your browser accordingly. Upon login, you may get the “localhost:8443” redirection. Change that piece of the URL back to the IP assigned to the MISP host (or associated DNS name) and refresh the browser. Once in, go to Administration - Server Settings and Maintenance - MISP settings. You can change the top two items to your MISP IP or DNS name and the redirect will start using that address instead of 'localhost'.
 
-### 5. How can I define the default sharing level?
+### How can I define the default sharing level?
 
-MISP allows you to define the group of people with whom you want to share your threat data. If you do not set it to your preferred default then it’s likely that at one given moment you’ll make an error and share your intel with the wrong group. Defining the sharing level is done with the setting default_event_distribution in the configuration file. There are three levels
+MISP allows you to define the group of people with whom you want to share your threat data. If you do not set it to your preferred default then it’s likely that at one given moment you’ll make an error and share your intel with the wrong group. Defining the sharing level is done with the setting default_event_distribution in the configuration file. There are three levels:
 
     0 : Your organisation only (default)
     1 : This community only
@@ -109,15 +110,24 @@ MISP allows you to define the group of people with whom you want to share your t
 
 You can set a similar configuration setting for the attributes. The setting default_attribute_distribution has the same values as default_event_distribution. Additionally it has the value event which allows the attribute to get the setting from the event to which it belongs.
 
-(Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
-### How can I add organisation logos?
+### How can I add an organisation logo and/or foter logo?
+
+MISP can be made more appealing to the eye by adding some graphics.
+
+As Org.- or Site-admin navigate to *Administration* -> *List organisations* and edit the corresponding organization.
+Withing this editor you will be able to update the logo.
+
+Other ways to achieve this, would be:
     
-MISP can be made more appealing to the eye by adding some graphics. You can set your organisation logo by adding an image (.png) that has the same name as your organisation in the directory */var/www/MISP/app/webroot/img/orgs/*. Similarly you can add a footer logo. Add an image to the directory */var/www/MISP/app/webroot/img/custom/* and define the footer logo in the config file (config.php).
+Set your organisation logo by adding an image (.png) that has the same name as your organisation in the directory */var/www/MISP/app/webroot/img/orgs/*.
 
-Another way of doing it is by logging in your MISP instance with administrator rights, go in the menu *Administration*, sub-menu *Server Settings*, tab *Manage files*. 
+Yet another way of doing this is by logging into your MISP instance with Admin rights, navigate to *Administration* -> *Server Settings*, tab -> *Manage files*. 
 
-(Partially taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+You can add a footer logo. Add an image to the directory */var/www/MISP/app/webroot/img/custom/* and define the footer logo in the config file (config.php) or in *Adminitration* -> *Server Settings...* -> *MISP settings* (search for: "footer_logo") point to the location on-disk of the image.
+
+Partial source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
 ### All workers are starting correctly except _schdlr_ . How can I fix this?
 
@@ -125,13 +135,17 @@ This can happen if the [FQDN](https://en.wikipedia.org/wiki/Fully_qualified_doma
 
 ### How can I import data directly from PDF reports?
 
+/!\ This section needs review, verification and eventual amendments to make sure it works.
+
 You can use a generic script called IOC parser (https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event (https://github.com/PaloAltoNetworks-BD/report_to_misp/). You have also the option to select all the text and paste it in the free-text import form.
 
 Another option is the new [OCR import module](https://github.com/MISP/misp-modules) that can be used via the import modules. You will need to install the OCR software tesseract.
 
 ### I am having trouble updating beyond version 2.4.50 (stuck loading any page beyond the login), what can I do?
 
-This is most likely due to the fact that MISP did not clean up expired sessions prior to version 2.4.51 automatically and relied on a site admin occasionally cleaning it up using the button found on the diagnostics page. Once you upgrade to 2.4.51, MISP will try to cull the table with each page load by a site-admin, which in some cases if the table has grown to extreme sizes it will get stuck on. To resolve the issue, log into mysql:
+/!\ This applies to an earlier version of MISP, do not randomly try this fix on valuable data. By all means try it on a test-machine and report back if your problem was solved by this.
+
+This is most likely due to the fact that MISP did not clean up expired sessions prior to version 2.4.51 automatically and relied on a site-admin occasionally cleaning it up using the button found on the diagnostics page. Once you upgrade to 2.4.51, MISP will try to cull the table with each page load by a site-admin, which in some cases if the table has grown to extreme sizes it will get stuck on. To resolve the issue, log into mysql:
 
 `mysql -u [misp-db-user-name] -p [misp-db-name];`
 
@@ -146,50 +160,51 @@ and execute the following commands:
      INDEX `expires` (`expires`)
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-After this everything should work and the session table will be trimmed each time a site admin loads a page.
+After this everything should work and the session table will be trimmed each time a site-admin loads a page.
 
 ### I have many failed jobs when doing email notification. What should I do?
 
 This is most probably due to some encryption failing for some users. We strongly advise to review the current
-PGP keys and to ensure that they keys are not expired or not supported. The keys can be reviewed at the following
+PGP keys and to ensure that they keys are not expired or perhaps not supported anymore (weak keys). The keys can be reviewed at the following
 location in MISP:
 
   ```
   https://<YOUR MISP URL>/users/verifyGPG
   ```
 
+### Upgrading from MISP 2.4.65 to MISP 2.4.66 - Unable to merge due to the Composer file.
+
+In MISP 2.4.66, Composer is included by default to avoid the risk of downloading a rogue PHP Composer version (if the composer repository is compromised or MiTM are performed) via the download and php execution. But when upgrading (via a git pull), the git merge process might complain about the composer phar file still being there. You can safely remove that file and `git pull origin 2.4` again.
+
 ### I have issues with pushing events
 
-- What does connection test for the specific server telling?
+- What does the 'Connection test' for the specific server report? (*Sync Actions* -> *List Servers*)
 
-- Is the event you assume is ready to push published?
+- Is the event you assume to push/pull ready to be published?
 
-- Is the distribution level set to not to restricted?
+- Is the distribution level set not too restrictive?
 
-- Have you enabled push in the server config you want to push to?
+- Have you enabled push in the servers config you want to push to?
 
-- Do you have any limitations to the push rules e.g. limited to a certain TLP Level tag?
+- Do you have any limitations to the push rules e.g. limited to a certain TLP Level tag or other?
 
 - What is written in your job log?
 
   https://<YOUR MISP URL>/jobs/index
 
-Have a look at: /var/www/MISP/app/tmp/logs and /var/log/apache2/misp
+Have a look at: /var/www/MISP/app/tmp/logs and /var/log/apache2/misp (or the relevant apache log folder of the instance in cause)
 
-### 12. I have many users or API access, what's the best PHP session handler?
+### I have many users or API accesses, what's the best PHP session handler?
 
-We strongly recommend production-level MISP installation to rely on PHP session in Redis. As Redis is already part
-of a standard MISP setup, we recommend to enable the redis session handling. To configure the redis session handling in PHP, edit : 
+We strongly recommend production-level MISP installations to rely on PHP session in Redis. As Redis is already part
+of a standard MISP setup, we recommend to enable the redis session handling.
+
+To configure the redis session handling in PHP, edit : 
 
 ~~~
   session.save_handler = redis
   session.save_path = "tcp://127.0.0.1:6379
 ~~~
-
-### Upgrading from MISP 2.4.65 to MISP 2.4.66 - Unable to merge due to the Composer file.
-
-In MISP 2.4.66, Composer is included by default to avoid the risk of downloading a rogue PHP Composer version (if the composer repository is compromised or MiTM are performed) via the download and php execution. But when upgrading (via a git pull), the git merge process might complain about the composer phar file still being there. You can safely remove that file and `git pull origin 2.4` again.
-
 
 ### Is there TAXII support? 
 
@@ -197,7 +212,7 @@ A TAXII 1 implementation can be found at https://github.com/MISP/MISP-Taxii-Serv
 This is mostly a TAXII server hooked up to MISP, meant to receive STIX files to its in box and uploading them to MISP.
 There is also an experimental feature to push MISP events to the TAXII server when they're published - that's in `scripts/push_published_to_taxii.py`. It seems to work, but may occasionally re-upload duplicate events to MISP.
 
-TAXII 2 support will be provided in the future once the specification, which is at time of writing in draft, reaches a stable form.
+TAXII 2 is provided in the future once the specification, which is at time of writing in draft, reaches a stable form.
 
 ### Wipe MISP data - Remove all data
 
@@ -254,39 +269,38 @@ Some bootswatch themes applied on MISP:
 
 ### How can I deal with a MISP instance that has pulled in feeds over and over into new events, generating hundreds of GBs of junk correlations, rendering the instance unusable?
 
-
-Step 1: ensure that all your CSV/freetext source_format feeds are using the fixed event setting. If you want to make sure this is the case, you can run this SQL query instead of doing it manually:
+*Step 1:* ensure that all your CSV/freetext source_format feeds are using the fixed event setting. If you want to make sure this is the case, you can run this SQL query instead of doing it manually:
 
 ```
 UPDATE feeds SET fixed_event = 1 WHERE source_format="csv" OR source_format="freetext";
 ```
 
-Step 2: purge all of your correlations (this will make the next steps much faster), for which you have two methods at your disposal:
+*Step 2:* purge all of your correlations (this will make the next steps much faster), for which you have two methods at your disposal:
   - either go to your administration -> server settings -> MISP tab and set `MISP.completely_disable_correlation` to true
   - via MYSQL run `TRUNCATE correlations;`
 
-Step 3: purge all of your feed data that have been pulled into multiple events. The easiest way of doing this: check which feeds are enabled (ignore misp source format feeds, they are not causing issues) and note down the IDs. Afterwards, use the CLI cleanup tool to remove all the feed events:
+*Step 3:* purge all of your feed data that have been pulled into multiple events. The easiest way of doing this: check which feeds are enabled (ignore misp source format feeds, they are not causing issues) and note down the IDs. Afterwards, use the CLI cleanup tool to remove all the feed events:
 
 `/var/www/MISP/app/Console/cake Admin purgeFeedEvents [user_id] [feed_id]`
 
 Execute this for each feed that you had enabled, replacing user_id with your admin user's ID and feed_id with the individual feed IDs on your list.
 
-Step 4: recorrelate your data, depending on which method you've used in Step 2 you have two options:
-  - either go to your administration -> server settings -> MISP tab and set `MISP.completely_disable_correlation` to false
+*Step 4:* recorrelate your data, depending on which method you've used in *Step 2* you have two options:
+  - either go to your *Administration* -> *Server Settings...* -> *MISP...* tab and set `MISP.completely_disable_correlation` to *false*
   - recorrelate your current data-set via the recorrelate attributes tool on `/pages/display/administration`
 
 ### I can no longer log in. How do I reset the admin password?
 
 You can reset the password via the console. 
-See https://github.com/MISP/MISP/issues/1160
+See [Issue #1160](https://github.com/MISP/MISP/issues/1160)
 
 `/var/www/MISP/app/Console/cake Password [email] [password]`
 
+***
 ## Usage questions
-
 ### How can I see all the deleted events in a MISP instance?
 
-You can use the logging system for this, to see all deleted events, simply go to audit actions -> search logs and use the following parameters:
+You can use the logging system for this, to see all deleted events, simply go to *Audit* -> *Search Logs* and use the following parameters:
 
 ~~~~
   model: Event
@@ -345,7 +359,7 @@ There are a plethora of issues that might arise when using SELinux when it comes
 First, please familiarize yourself with [the basics](https://opensource.com/article/18/7/sysadmin-guide-selinux) of SELinux.
 RedHat has a comprehensive [SELINUX USER'S AND ADMINISTRATOR'S GUIDE](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/selinux_users_and_administrators_guide/index).
 
-For file system permissions, refer to the [install guide](https://misp.github.io/MISP/INSTALL.rhel7/#5-set-file-permissions) first.
+For file system permissions, refer to the [install guide](https://misp.github.io/MISP/INSTALL.rhel8/#5-set-file-permissions) first.
 
 Another way to see what SELinux might not be happy about is to use **ausearch**. This assumes Audit is enabled.
 
@@ -517,7 +531,7 @@ Other related MISP Settings
 
 Optional	MISP.maintenance_message	Great things are happening! MISP is undergoing maintenance, but will return shortly. You can contact the administration at $email or call CIRCL.	The message that users will see if the instance is not live.
 
-Critical	MISP.live	true	Unless set to true, the instance will only be accessible by site admins.
+Critical	MISP.live	true	Unless set to true, the instance will only be accessible by site-admins.
 
 ## Update MISP fails
 
@@ -652,9 +666,9 @@ Now, I only have Org Admin.
 
 You have several options:
 
-1. Delete the org admin. MISP automatically creates a new default site admin user if no users are found in the db (mysql: truncate users;)
+1. Delete the org admin. MISP automatically creates a new default site-admin user if no users are found in the db (mysql: truncate users;)
 
-2. Upgrade a user to a site admin, such as an org admin user:
+2. Upgrade a user to a site-admin, such as an org admin user:
 ```
 SELECT id, email from users;
 ```
