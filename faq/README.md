@@ -4,6 +4,282 @@
 
 The following page hosts most frequently asked questions as seen on our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/Support).
 
+# General questions
+### 1. Where can I get support?
+
+If you have feature requests or you found a bug you can open a ticket on [MISP's github repository issues](https://github.com/MISP/MISP/issues).
+
+If you want to discuss about something related to MISP, want help from the community, etc... You have 
+the [MISP Users mailing list](https://groups.google.com/forum/#!forum/misp-users) or the [MISP Gitter channel](https://gitter.im/MISP/MISP).
+
+A number of companies are also offering custom development, consulting, and support around MISP, please check [the support page of the MISP Project website](http://www.misp-project.org/#support).
+
+### 2. What are the hardware requirements?
+
+From a hardware perspective, MISP's requirements are quite humble, a web server with 2+ cores and 8-16 GB of memory should be plenty, though more is always better of course. A lot of it depends on the data set and the number of users you are dealing with. 
+
+For software we recommend a standard LAMP stack on top of Ubuntu 18.04. For details on the exact dependencies please refer to the [installation guide](https://github.com/MISP/MISP/blob/2.4/docs/INSTALL.ubuntu1804.md) as well as the [requirements for the MISP modules](https://github.com/MISP/misp-modules/blob/master/REQUIREMENTS). 
+
+During a [Hackathon](https://hackathon.hack.lu) a small tool called [MISP-Sizer](https://misp-project.org/MISP-sizer/) was conceived. It will give you a **very rough** idea on what requirements are if you have a bigger installation. [source-code is here](https://github.com/MISP/MISP-sizer)
+
+***
+# Specific questions
+### 1. Can I configure MISP encrypted notification emails to contain more information in the subject?
+
+The setting MISP.extended_alert_subject allows you to have an extended subject. One word of warning though. If you’re using encryption : the subject will not be encrypted. Be aware that you might leak some sensitive information this way. Below is an example how the two subject types look like. First with the option disabled, then with the option enabled.
+
+    Event 7 - Low - TLP Amber
+    Event 8 - OSINT - Dissecting  XXX... - Low - TLP Amber
+
+(Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+
+### 2. How can I restart the workers?
+
+The workers can be restarted from the web interface: 
+    
+    administration -> server settings -> workers -> restart all
+
+You can also follow the manual process below.
+
+If you are on Ubuntu / Debian based systems:
+
+    sudo su -l www-data -s /bin/bash -c "bash /var/www/MISP/app/Console/worker/start.sh"
+
+If you are on RHEL / Fedora based systems:
+
+    su -s /bin/bash apache -c 'bash /var/www/MISP/app/Console/worker/start.sh'
+
+### 3. How can I redirect HTTP to HTTPs?
+
+```
+<VirtualHost *:80>
+        ServerAdmin misp@misp.misp
+        ServerName misp.misp.misp
+        ServerAlias misp-int.misp.misp
+
+        Redirect permanent / https://misp.misp.misp
+
+        LogLevel warn
+        ErrorLog /var/log/apache2/misp.local_error.log
+        CustomLog /var/log/apache2/misp.local_access.log combined
+        ServerSignature Off
+</VirtualHost>
+
+<VirtualHost *:443>
+        ServerAdmin misp@misp.misp
+        ServerName misp.misp.misp
+        ServerAlias misp-int.misp.misp
+
+        DocumentRoot /var/www/MISP/app/webroot
+        <Directory /var/www/MISP/app/webroot>
+                Options -Indexes
+                AllowOverride all
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        SSLEngine On
+        SSLCertificateFile /etc/ssl/misp.misp.misp/misp.crt
+        SSLCertificateKeyFile /etc/ssl/misp.misp.misp/misp.key
+        SSLCertificateChainFile /etc/ssl/misp.misp.misp/mispCA.crt
+
+        LogLevel warn
+        ErrorLog /var/log/apache2/misp.local_error.log
+        CustomLog /var/log/apache2/misp.local_access.log combined
+        ServerSignature Off
+</VirtualHost>
+```
+
+(Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+
+### 4. When I try to access my new installation, I am redirected to localhost:8443 and get an error.
+
+By default, MISP runs on a local instance and is setup for local access upon installation. This allows you to setup security and customizations before making it available elsewhere. If you would like to access the MISP instance from a remote host (including another VM host/client), assign an IP to the MISP host and point your browser accordingly. Upon login, you may get the “localhost:8443” redirection. Change that piece of the URL back to the IP assigned to the MISP host (or associated DNS name) and refresh the browser. Once in, go to Administration - Server Settings and Maintenance - MISP settings. You can change the top two items to your MISP IP or DNS name and the redirect will start using that address instead of 'localhost'.
+
+### 5. How can I define the default sharing level?
+
+MISP allows you to define the group of people with whom you want to share your threat data. If you do not set it to your preferred default then it’s likely that at one given moment you’ll make an error and share your intel with the wrong group. Defining the sharing level is done with the setting default_event_distribution in the configuration file. There are three levels
+
+    0 : Your organisation only (default)
+    1 : This community only
+    2 : Connected communities
+    3 : All communities
+
+You can set a similar configuration setting for the attributes. The setting default_attribute_distribution has the same values as default_event_distribution. Additionally it has the value event which allows the attribute to get the setting from the event to which it belongs.
+
+(Taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+
+### 6. How can I add organisation logos?
+    
+MISP can be made more appealing to the eye by adding some graphics. You can set your organisation logo by adding an image (.png) that has the same name as your organisation in the directory */var/www/MISP/app/webroot/img/orgs/*. Similarly you can add a footer logo. Add an image to the directory */var/www/MISP/app/webroot/img/custom/* and define the footer logo in the config file (config.php).
+
+Another way of doing it is by logging in your MISP instance with administrator rights, go in the menu *Administration*, sub-menu *Server Settings*, tab *Manage files*. 
+
+(Partially taken from http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+
+### 7. All workers are starting correctly except _schdlr_ . How can I fix this?
+
+This can happen if the FQDN of the server hosting the instance has changed. A way to fix this is to flush temporary data stored in redis. This can be done by logging in redis, for example when logging in with redis-cli, and issuing a _*flushall*_ command.
+
+### 8. How can I import data directly from PDF reports?
+
+You can use a generic script called IOC parser (https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event (https://github.com/PaloAltoNetworks-BD/report_to_misp/). You have also the option to select all the text and paste it in the free-text import form.
+
+Another option is the new [OCR import module](https://github.com/MISP/misp-modules) that can be used via the import modules. You will need to install the OCR software tesseract.
+
+### 9. I am having trouble updating beyond version 2.4.50 (stuck loading any page beyond the login), what can I do?
+
+This is most likely due to the fact that MISP did not clean up expired sessions prior to version 2.4.51 automatically and relied on a site admin occasionally cleaning it up using the button found on the diagnostics page. Once you upgrade to 2.4.51, MISP will try to cull the table with each page load by a site-admin, which in some cases if the table has grown to extreme sizes it will get stuck on. To resolve the issue, log into mysql:
+
+`mysql -u [misp-db-user-name] -p [misp-db-name];`
+
+and execute the following commands:
+
+   DROP cake_sessions;
+   CREATE TABLE IF NOT EXISTS `cake_sessions` (
+     `id` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
+     `data` text COLLATE utf8_bin NOT NULL,
+     `expires` int(11) NOT NULL,
+     PRIMARY KEY (`id`),
+     INDEX `expires` (`expires`)
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+After this everything should work and the session table will be trimmed each time a site admin loads a page.
+
+### 10. I have many failed jobs when doing email notification. What should I do?
+
+This is most probably due to some encryption failing for some users. We strongly advise to review the current
+PGP keys and to ensure that they keys are not expired or not supported. The keys can be reviewed at the following
+location in MISP:
+
+  ```
+  https://<YOUR MISP URL>/users/verifyGPG
+  ```
+
+### 11. I have issues with pushing events
+
+- What does connection test for the specific server telling?
+
+- Is the event you assume is ready to push published?
+
+- Is the distribution level set to not to restricted?
+
+- Have you enabled push in the server config you want to push to?
+
+- Do you have any limitations to the push rules e.g. limited to a certain TLP Level tag?
+
+- What is written in your job log?
+
+  https://<YOUR MISP URL>/jobs/index
+
+Have a look at: /var/www/MISP/app/tmp/logs and /var/log/apache2/misp
+
+### 12. I have many users or API access, what's the best PHP session handler?
+
+We strongly recommend production-level MISP installation to rely on PHP session in Redis. As Redis is already part
+of a standard MISP setup, we recommend to enable the redis session handling. To configure the redis session handling in PHP, edit : 
+
+~~~
+  session.save_handler = redis
+  session.save_path = "tcp://127.0.0.1:6379
+~~~
+
+### 13. Upgrading from MISP 2.4.65 to MISP 2.4.66 - Unable to merge due to the Composer file.
+
+In MISP 2.4.66, Composer is included by default to avoid the risk of downloading a rogue PHP Composer version (if the composer repository is compromised or MiTM are performed) via the download and php execution. But when upgrading (via a git pull), the git merge process might complain about the composer phar file still being there. You can safely remove that file and `git pull origin 2.4` again.
+
+
+### 14. Is there TAXII support? 
+
+A TAXII 1 implementation can be found at https://github.com/MISP/MISP-Taxii-Server . 
+This is mostly a TAXII server hooked up to MISP, meant to receive STIX files to its in box and uploading them to MISP.
+There is also an experimental feature to push MISP events to the TAXII server when they're published - that's in `scripts/push_published_to_taxii.py`. It seems to work, but may occasionally re-upload duplicate events to MISP.
+
+TAXII 2 support will be provided in the future once the specification, which is at time of writing in draft, reaches a stable form.
+
+### 15. Wipe MISP data - Remove all data
+
+If you need to start from scratch with your MISP database and remove all data you can use the [`misp-wipe`](https://github.com/MISP/MISP/tree/2.4/tools/misp-wipe)  script provided in the `tools/` folder.
+
+### 16. Constantly acknowledging my self-signed certificate drives me nuts
+
+You want to add it in 2 places: Your browser(s) and your OS.
+
+The following steps can be performed on the CLI to install the Certificate:
+
+```bash
+sudo mkdir -m 0755 /usr/local/share/ca-certificates/MISP
+sudo cp /etc/ssl/private/misp.local.crt /usr/local/share/ca-certificates/MISP
+sudo chmod 0644 /usr/local/share/ca-certificates/MISP/misp.local.crt
+sudo update-ca-certificates
+```
+
+For the Chrome Browser:
+
+1. Visit: "Advanced Settings" -> chrome://settings/?search=Manage+certificates
+2. Scroll down to: Manage Certificates (click)
+3. Select: "Authorities"
+4. Click: "Import"
+5. Browse to your .crt file and import it.
+6. On the next screen tick: "Trust this certificate for identifying websites"
+7. Done, enjoy the new gained quality of life
+
+Note: Chrome might expect a [Subject Alternative Name](https://en.wikipedia.org/wiki/Subject_Alternative_Name) make sure you created your certificate with '-extension san'.
+
+To allow insecure localhost connections enable this option: chrome://flags/#allow-insecure-localhost
+
+Sources: [CLI](https://askubuntu.com/questions/645818/how-to-install-certificates-for-command-line) and [Chrome](https://origin-symwisedownload.symantec.com/resources/webguides/sslv/sslva_first_steps/Content/Topics/Configure/ssl_chrome_cert.htm)/[Chrome insecure localhost](https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate)
+
+[For the Firefox Browser](https://superuser.com/questions/1054724/how-to-make-firefox-ignore-all-ssl-certification-errors)
+
+### 17. How can I change the theme?
+
+MISP uses [bootstrap.css](https://getbootstrap.com) the specific CSS file can be found on a typical MISP install at `/var/www/MISP/app/webroot/css/bootstrap.css`. 
+
+You can customize this for your own needs. There are also pre-made boostrap themes which you can use as-is or build upon. 
+
+Before making any changes, confirm the version of boostrap currenlty used by running `head -5 /var/www/MISP/app/webroot/css/bootstrap.css`. You can find themes on sites like [Bootswatch](https://bootswatch.com/2/). 
+
+To replace the current theme with a theme you found on bootsplash, run: `wget https://bootswatch.com/2/readable/bootstrap.css   -O /var/www/MISP/app/webroot/css/bootstrap.css` , replacing the URL as needed. 
+
+Some bootswatch themes applied on MISP: 
+* https://i.imgur.com/usONTLk.png
+* https://i.imgur.com/5XMjB7o.png
+* https://i.imgur.com/5gc57VU.png
+* https://i.imgur.com/4AJCPgf.png
+* https://i.imgur.com/JuMGm8U.png
+* https://i.imgur.com/v1Wu6xW.png
+
+### 18. How can I deal with a MISP instance that has pulled in feeds over and over into new events, generating hundreds of GBs of junk correlations, rendering the instance unusable?
+
+
+Step 1: ensure that all your CSV/freetext source_format feeds are using the fixed event setting. If you want to make sure this is the case, you can run this SQL query instead of doing it manually:
+
+```
+UPDATE feeds SET fixed_event = 1 WHERE source_format="csv" OR source_format="freetext";
+```
+
+Step 2: purge all of your correlations (this will make the next steps much faster), for which you have two methods at your disposal:
+  - either go to your administration -> server settings -> MISP tab and set `MISP.completely_disable_correlation` to true
+  - via MYSQL run `TRUNCATE correlations;`
+
+Step 3: purge all of your feed data that have been pulled into multiple events. The easiest way of doing this: check which feeds are enabled (ignore misp source format feeds, they are not causing issues) and note down the IDs. Afterwards, use the CLI cleanup tool to remove all the feed events:
+
+`/var/www/MISP/app/Console/cake Admin purgeFeedEvents [user_id] [feed_id]`
+
+Execute this for each feed that you had enabled, replacing user_id with your admin user's ID and feed_id with the individual feed IDs on your list.
+
+Step 4: recorrelate your data, depending on which method you've used in Step 2 you have two options:
+  - either go to your administration -> server settings -> MISP tab and set `MISP.completely_disable_correlation` to false
+  - recorrelate your current data-set via the recorrelate attributes tool on `/pages/display/administration`
+
+### 19. I can no longer log in. How do I reset the admin password?
+
+You can reset the password via the console. 
+See https://github.com/MISP/MISP/issues/1160
+
+`/var/www/MISP/app/Console/cake Password [email] [password]`
+
 ## Usage
 
 ### How can I see all the deleted events in a MISP instance?
