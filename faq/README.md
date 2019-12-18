@@ -288,6 +288,18 @@ Execute this for each feed that you had enabled, replacing user_id with your adm
 *Step 4:* recorrelate your data, depending on which method you've used in *Step 2* you have two options:
   - either go to your *Administration* -> *Server Settings...* -> *MISP...* tab and set `MISP.completely_disable_correlation` to *false*
   - recorrelate your current data-set via the recorrelate attributes tool on `/pages/display/administration`
+  
+### I have a long list of events that I want to delete via the API, do I really have to loop through each and issue a delete to /events/delete?
+
+No, the delete action also accepts a list of IDs when it comes to bulk event deletions. 
+
+Simply POST your ID list to `/events/delete` in the following format:
+
+```
+{
+  "id": [1,3,5,7,9]
+}
+```
 
 ### I can no longer log in. How do I reset the admin password?
 
