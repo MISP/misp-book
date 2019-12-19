@@ -16,8 +16,8 @@ description: Convention Used in MISP-Book
 
 ## Language
 
-The language in this book is american english.
-All the screenshots and examples are in english.
+The language in this book is American English.
+All the screenshots and examples are in English.
 
 ## CoC
 
