@@ -2,9 +2,13 @@
 
 Below you will find various tweaks and tips when integrating 3rd party connectors.
 
-## Microsoft Azure Sentinel
+## Microsoft Azure Sentinel 
 
 [Azure Sentinel](https://azure.microsoft.com/en-us/services/azure-sentinel/)
+
+## Microsoft Defender ATP
+
+[Microsoft Defender ATP](https://www.microsoft.com/en-us/microsoft-365/windows/microsoft-defender-atp/)
 
 # MISP to Microsoft Graph Security Script
 The script provides clients with MISP instances to migrate threat indicators to the Microsoft Graph Security API. 
@@ -66,6 +70,8 @@ Once changes are complete, save the config file.
 ## Configurations
 ### Target Product
 `targetProduct = "Azure Sentinel"`
+**or**
+`targetProduct = "Microsoft Defender ATP"`
 
 ### Misp Event Filter
 Filters can be set in the config.py file under the "misp_event_filters" property
@@ -131,6 +137,8 @@ misp_event_filters = []
 This gets all events.
 
 ### Action
+Possible **action** values are: `alert`, `allow`, `block`.
+
 `action = "alert"` (This is default).
 
 ### Passive Only
@@ -146,6 +154,9 @@ The Misp Auth Key is required to fetch data from your Misp instance.
 Configure a sync user.
 
 `misp_key = '<misp key>'`
+
+### Misp Domain
+Misp Domain is the base URL of your MISP instance.
 
 ### Verify Cert
 This gives you the option to choose if python should validate the certificate of the misp instance. (This allows ease within testing environments) 
