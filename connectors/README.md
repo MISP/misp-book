@@ -54,7 +54,7 @@ Follow these steps to register a new application:
  misp = PyMISP(config.misp_domain, config.misp_key, config.misp_verifycert)
 ```
 
-1. Modify config.py file to add in `misp_verifycert = False` anywhere in the file.
+10. Modify config.py file to add in `misp_verifycert = False` anywhere in the file.
 
 As the final step in configuring the script, modify the config.py file in the root folder of your cloned repo.
 
