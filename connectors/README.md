@@ -13,7 +13,7 @@ The <b> MISP to Microsoft Graph Security Script </b> enables you to connect your
 # MISP to Microsoft Graph Security Script
 The script provides clients with MISP instances to migrate threat indicators to the [Microsoft Graph Security API](https://aka.ms/graphsecuritydocs). 
 
-For more information on Microsoft Graph Security API visit [Microsoft Graph Security API](https://aka.ms/graphsecuritydocs). 
+For more information on Microsoft Graph Security API visit [Microsoft Graph Security API](https://aka.ms/graphsecuritydocs). <br/>
 For more information on Microsoft Graph visit [Microsoft Graph](https://developer.microsoft.com/en-us/graph).
 
 ## Prerequisites
