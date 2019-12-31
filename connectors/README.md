@@ -1,15 +1,20 @@
 # External Connectors
 
-Below you will find various tweaks and tips when integrating 3rd party connectors.
+The <b> MISP to Microsoft Graph Security Script </b> enables you to connect your custom threat indicators or Indicators of Comprosmise (IoCs) and make these available in the following Microsoft products. 
 
-## Microsoft Azure Sentinel
+## Azure Sentinel 
 
 [Azure Sentinel](https://azure.microsoft.com/en-us/services/azure-sentinel/)
 
-# MISP to Microsoft Graph Security Script
-The script provides clients with MISP instances to migrate threat indicators to the Microsoft Graph Security API. 
+## Microsoft Defender ATP
 
-For more information on Microsoft Security Graph visit [Microsoft Graph] (https://developer.microsoft.com/en-us/graph)
+[Microsoft Defender ATP](https://www.microsoft.com/en-us/microsoft-365/windows/microsoft-defender-atp/)
+
+# MISP to Microsoft Graph Security Script
+The script provides clients with MISP instances to migrate threat indicators to the [Microsoft Graph Security API](https://aka.ms/graphsecuritydocs). 
+
+For more information on Microsoft Graph Security API visit [Microsoft Graph Security API](https://aka.ms/graphsecuritydocs). <br/>
+For more information on Microsoft Graph visit [Microsoft Graph](https://developer.microsoft.com/en-us/graph).
 
 ## Prerequisites
 Before installing the sample:
@@ -25,21 +30,21 @@ After the prerequisites are installed or met, perform the following steps to use
 1. To run script, go to the root directory of misp-graph-script and enter `PYTHONHASHSEED=0 python3 script.py` in the command line. 
 
 ## App Registration
-To configure the samples, you'll need to register a new application in the Microsoft [Application Registration Portal](https://apps.dev.microsoft.com/).
-### Follow these steps to register a new application
-1. Sign in to the [Azure Portal](https://portal.azure.com/) using either your personal or work or school account.
+To configure the sample, you'll need to register a new application in the Microsoft [Application Registration Portal](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps).
+Follow these steps to register a new application:
+1. Sign in to the [Application Registration Portal](https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps) using either your personal or work or school account.
 
-1. Under My Azure Active Directory, choose App registrations (if you are suggested to use the preview, use that) choose New registration.
+1. Choose **New registration**.
 
-1. Enter an application name, and choose Register
+1. Enter an application name, and choose **Register**.
 
-1. Next you'll see the registration page for your app. Copy and save the `Application (client) Id` & `Directory (tenant) ID` field.You will need it later to complete the configuration process.
+1. Next you'll see the overview page for your app. Copy and save the **Application Id** field. You will need it later to complete the configuration process.
 
-1. Under Certificates & secrets, choose `New client secret` and give it a name. A new password will be displayed under Client secrets. Copy this password. This will be your `client secret`.  You will need it later to complete the configuration process.
+1. Under **Certificates & secrets**, choose **New client secret** and add a quick description. A new secret will be displayed in the **Value** column. Copy this password. You will need it later to complete the configuration process and it will not be shown again.
 
-1. Under Authentication, find Implicit grant choose both `Access tokens` & `ID tokens` and save.
+1. Under **API permissions**, choose **Add a permission > Microsoft Graph**.
 
-1. Under API permissions click `Add a permission`, choose Microsoft Graph, under `Application permissions`, under ThreatIndicators add ThreatIndicators.ReadWrite.OwnedBy. You will be taken back to the API permissions screen, click `Grant admin consent for Default Directory`
+1. Under **Application Permissions**, add the permissions/scopes required for the sample. This sample requires **ThreatIndicators.ReadWrite.OwnedBy**.
     >Note: See the [Microsoft Graph permissions reference](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) for more information about Graph's permission model.
     
 1. Modify the RequestManager.py file to comment out line 121-124. (This allows the script to run without failing due to line 123 being divided by `avg_speed` incase it starts as `0`.
@@ -49,11 +54,11 @@ To configure the samples, you'll need to register a new application in the Micro
  misp = PyMISP(config.misp_domain, config.misp_key, config.misp_verifycert)
 ```
 
-1. Modify config.py file to add in `misp_verifycert = False` anywhere in the file.
+10. Modify config.py file to add in `misp_verifycert = False` anywhere in the file.
 
 As the final step in configuring the script, modify the config.py file in the root folder of your cloned repo.
 
-Update tenent, client_id, and client_secret in config.py
+Update tenant, client_id, and client_secret in config.py
 ```
 graph_auth = {
     'tenant': '<tenant id>',
@@ -66,6 +71,8 @@ Once changes are complete, save the config file.
 ## Configurations
 ### Target Product
 `targetProduct = "Azure Sentinel"`
+**or**
+`targetProduct = "Microsoft Defender ATP"`
 
 ### Misp Event Filter
 Filters can be set in the config.py file under the "misp_event_filters" property
@@ -131,6 +138,8 @@ misp_event_filters = []
 This gets all events.
 
 ### Action
+Possible **action** values are: `alert`, `allow`, `block`.
+
 `action = "alert"` (This is default).
 
 ### Passive Only
@@ -161,7 +170,7 @@ In the command line, run `python3 script.py -r`
    * To aggregate all the requests that resulted in errors to a file, run `cat *_error_* > <filename>.txt` in the command line.
 
 ## Script Output
-As the script runs, it prints out the request body sent to the Graph API and the response from the Graph API.
+As the script runs, it prints out the request body sent to the Microsoft Graph Security API and the response from the Microsoft Graph Security API.
 
 Every request is logged as a json file under the directory "logs". The name of the json file is the datetime of when the request is completed.
 
@@ -172,4 +181,4 @@ Below is a CRONTAB entry example of running the script every Sunday at 2am
 
 
 
-This README.md has been adapted from the README.md found here [Microsoft Graph MISP sample](https://github.com/microsoftgraph/security-api-solutions/blob/master/Samples/MISP/README.md)
+This README.md has been adapted from the README.md found in the [Microsoft Graph Security API MISP sample](https://aka.ms/tipmispsample). For most recent changes, visit [Microsoft Graph Security API MISP sample](https://aka.ms/tipmispsample). Provide your feedback on this sample by [filing a GitHub request](https://github.com/microsoftgraph/security-api-solutions/issues/new).
