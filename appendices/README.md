@@ -233,6 +233,7 @@ This section lists the projects that can be found on the main [MISP GitHub](http
 | Project | Description | Status |
 | -- | -- | -- |
 | [misp-objects](https://github.com/MISP/misp-objects) | Definition, description and relationship types of MISP objects | Core to MISP, frequently updated and tested |
+| [Best Practices in ThreatIntel](https://github.com/MISP/best-practices-in-threat-intelligence) | Best practices in threat intelligence | Book available here: https://www.misp-project.org/best-practices-in-threat-intelligence.html |
 
 <!--
 | []() |  | Core to MISP, frequently updated and tested |
