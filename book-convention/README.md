@@ -22,7 +22,7 @@ All the screenshots and examples are in English.
 ## CoC
 
 The same code of conduct applies to this book as for the main MISP project.
-As a book can some times be considered the inadvertent sould of a piece of software, please take good care and consideration of our `Code of Conduct`. The CoC [can be read here](https://github.com/MISP/MISP/blob/2.4/code_of_conduct.md).
+As a book can some times be considered the inadvertent soul of a piece of software, please take good care and consideration of our `Code of Conduct`. The CoC [can be read here](https://github.com/MISP/MISP/blob/2.4/code_of_conduct.md).
 
 ## Example install
 
