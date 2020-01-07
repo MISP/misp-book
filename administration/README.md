@@ -208,7 +208,6 @@ Since version 2.3, MISP has a settings and diagnostics tool that allows site-adm
 ### Server settings and diagnostics
 
 
-
 ![Server settings overview with all of the tabs explained.](figures/settings_1.png)
 
 The settings and diagnostics tool is split up into several aspects, all accessible via the tabs on top of the tool. For any unset or incorrectly set setting, or failed diagnostic a number next to the tab name will indicate the number and severity of the issues. If the number is written with a red font, it means that the issue is critical. First, let's look at the various tabs:
@@ -421,6 +420,46 @@ Apart from off-loading long-lasting jobs to the background workers, there is a s
 
 
 ### Various administration tips & tricks
+
+
+#### Setting a Publish Alert Filter
+
+To regulate the reception of e-mail from MISP it is possible to create filters. Each individual user account can apply such filter.
+
+The filter can be configured by the user but also by the organization administrator.
+
+After login goto Administration -> Set User Setting:
+
+![Set User settings](figures/setUserSetting.png)
+
+A new screen appears. Make sure the “Setting” drop down box shows “publish_alert_filter”:
+
+![Set User settings](figures/setUserSetting2.png)
+
+The text field “Value” contains the filter, which needs to be provided in JSON format. Important JSON-objects which can be used here go by the name AND”, “OR” and “NOT”. These should be structured in a logical tree.
+
+The filtering can be applied to tags or to a publishing organization.
+
+In the following example, all notifications will be filtered which carry ‘tlp.white’ and ‘tlp.green’ in the name of the tag:
+
+```
+{
+
+    "NOT": {
+
+        "Tag.name" : [ "tlp.white", "tlp.green" ]
+
+    }
+
+}
+```
+
+The publish_alert_filter setting allows one filter definition to be active.
+
+After applying the configuration, the filter will show up in the “My Settings” menu:
+
+![Set User settings](figures/setUserSetting3.png)
+
 
 #### Default sharing level
 
