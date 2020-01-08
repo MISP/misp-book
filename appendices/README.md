@@ -306,7 +306,6 @@ This section lists some projects we know of but not officially support and rely 
 
 A brief list of online ressources that around #ThreatIntel
 
-* [Curated list of awesome cybersecurity companies and solutions.](https://github.com/Annsec/awesome-cybersecurity/blob/master/README.md) (Updated April 2017)
 * [A curated list of awesome malware analysis tools and resources](https://github.com/rshipp/awesome-malware-analysis/blob/master/README.md). Inspired by [awesome-python](https://github.com/vinta/awesome-python) and [awesome-php](https://github.com/ziadoz/awesome-php).
 * [An authoritative list of awesome devsecops tools with the help from community experiments and contributions](https://github.com/devsecops/awesome-devsecops/blob/master/README.md).[DEV.SEC.OPS](http://devsecops.org)
 * [Advance Python IoC extractor](https://github.com/InQuest/python-iocextract)
