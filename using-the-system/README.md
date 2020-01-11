@@ -112,7 +112,7 @@ Templates are devided into sections, with each section having a title and a desc
 *  **Field**: The name of the field along with an indication if the field is mandatory.
 *  **Description**: A short description of the field.
 *  **Types**: The value(s) that are valid for the field. In the case of several types being shown here, you can enter value(s) matching any one of the types, or in the case of a batch import field, any mixture of the given types.
-*  **Text field**: This field can either be a single line textfield or a multi-line text area. For the former, enter a single value of the above indicated type, whilst for the latter you cna paste a list of values separated by line-breaks.
+*  **Text field**: This field can either be a single line textfield or a multi-line text area. For the former, enter a single value of the above indicated type, whilst for the latter you can paste a list of values separated by line-breaks.
 
 ### Freetext Import Tool
 
