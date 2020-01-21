@@ -1,2 +1,13 @@
+# Temp md files
 *.md~
+
+# Compiled assets
 book.pdf
+book.epub
+book.mobi
+
+# Compiled book
+_book
+
+# node foo
+node_modules
