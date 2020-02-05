@@ -175,7 +175,7 @@ The result will be a list of attributes that get added to the currently selected
 
 ### Adding IOCs from a PDF report
 
-You can You can use a generic script called [IOC parser](https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event: [report_to_misp] (https://github.com/PaloAltoNetworks-BD/report_to_misp/).
+You can use a generic script called [IOC parser](https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event: [report_to_misp] (https://github.com/PaloAltoNetworks-BD/report_to_misp/).
 
 ### Publish an event
 
