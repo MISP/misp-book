@@ -55,6 +55,144 @@ Once this is done double check if you can still see the Galaxies in the Web UI.
 
 ### Adding a new Galaxy (WiP - notFuctional)
 
+#### Context
+
+A galaxy is designed to provide more info than a tag. It comes in two formats: regular or matrix-shape. In a tag, you can only display one label and one color. In a galaxy, you can display:
+- name
+- synonymous
+- description
+- categories (for matrix-galaxies)
+
+#### Directory structure
+
+Galaxies are represented by two json files stored in:
+```bash
+/var/www/MISP/app/files/misp-galaxy/galaxies/mygalaxy.json
+/var/www/MISP/app/files/misp-galaxy/clusters/mygalaxy.json
+```
+The __/galaxies__ file contains metatdatas and galaxy structure.
+The __/clusters__ file contains actual data.
+
+__WARNING__: files names are very important: they will be used to chain the files together.
+The cluster file is linked to the galaxy file through a json property (__type__) which MUST equal the cluster file name (more later).
+
+#### The galaxy file
+The galaxy file provides the framework for the data stored in the cluster file.
+For example:
+```bash
+{
+  "description": "attck4fraud - Principles of MITRE ATT&CK in the fraud domain",
+  "icon": "map",
+  "kill_chain_order": {
+    "fraud-tactics": [
+      "Initiation",
+      "Target Compromise",
+      "Perform Fraud",
+      "Obtain Fraudulent Assets",
+      "Assets Transfer",
+      "Monetisation"
+    ]
+  },
+  "name": "attck4fraud",
+  "namespace": "misp",
+  "type": "financial-fraud",
+  "uuid": "cc0c8ae9-aec2-42c6-9939-f4f82b051836",
+  "version": 1
+}
+```
+* __description__: generalities about the galaxy (1)
+* __icon__: the icon used in the MISP interface (2)
+* __name__: the name of the galaxy (3)
+* __namespace__: the namespace where is stored the galaxy. Namespace are used to regroup similar galaxies (4)
+* __type__: __IMPORTANT field__, it MUST match the cluster file name to actually chain both files together (5)
+* __uuid__: as any MISP object, it has a uuid. __IMPORTANT__, it MUST be repeated in the uuid property of the cluster file (6)
+* __version__: as usual in MISP, versioning, especially to force update (7)
+* __kill_chain_order__: a special and optionnal field: it will be used if you want to create a matrix-galaxy. In this field, you insert a named table (_fraud-tactics_ in the example above) containing the categories labels of you data. They will be used then in the cluster file (8)
+
+More detail on galaxy fields here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9
+
+#### The cluster file
+
+The cluster file provides the actual data of the galaxy.
+For example (Attck4fraud):
+```bash
+{
+  "authors": [
+    "Francesco Bigarella"
+  ],
+  "category": "guidelines",
+  "description": "attck4fraud - Principles of MITRE ATT&CK in the fraud domain",
+  "name": "attck4fraud",
+  "source": "Open Sources",
+  __"type": "financial-fraud",__
+  __"uuid": "cc0c8ae9-aec2-42c6-9939-f4f82b051836"__,
+  "values": [
+    {
+      "description": "In the context of ATT&CK for Fraud, phishing is described as the sending of fraudulent emails to a large audience in order to obtain sensitive information (PII, credentials, payment information). Phishing is never targeted to a specific individual or organisation. Phishing tries to create a sense of urgency or curiosity in order to capture the victim.",
+      "meta": {
+        "detection": "Email sender is spoofed; Email sender belongs to a domain recently created; Presence of typos or poor grammar in the email text; The request in the mail is unsolicited and creates urgency; No recollection of the subject or the sender of the phishing email; Request for credentials; Presence of a suspicious URL or attachment.",
+        "examples": [
+          "Phishing messages were sent to Amazon users posing as the Amazon customer support",
+          "Fake Apple invoices were sent to Apple App Store customers in order to obtain their Apple ID credentials"
+        ],
+        "external_id": "FT1001",
+        "kill_chain": [
+          "fraud-tactics:Initiation"
+        ],
+        "mitigation": "Implementation of DKIM and SPF authentication to detected spoofed email senders; anti-phishing solutions.",
+        "refs": [
+          "https://blog.malwarebytes.com/cybercrime/2015/02/amazon-notice-ticket-number-phish-seeks-card-details/",
+          "https://www.bleepingcomputer.com/news/security/widespread-apple-id-phishing-attack-pretends-to-be-app-store-receipts/"
+        ],
+        ...
+  ],
+  "version": 3
+}
+```
+* __authors__: descriptive field
+* __category__: descriptive field
+* __description__: descriptive field
+* __name__: same as in /galaxy file, used in the Matrix display
+* __source__: descriptive field
+* __type__: IMPORTANT, this field MUST match the /galaxy and /cluster files names AND the type field in the /galaxy file name -5 in above paragraph-
+* __uuid__: IMPORTANT, this field MUST match the /galaxy uuid field -6 in above paragraph-
+* __values__: a table containing the actual values
+* __data fileds__: fields used to describe single data are detailed here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9
+* __kill_chain__: IMPORTANT, provide the column of the Matrix where the data will be displayed:
+    __arg1__: MUST match /galaxy file's kill_chain arg (_fraud-tactics_ in the example)
+    __arg2__: name of the column of the data (_Initiation_ in the example)
+
+More details on /cluster fields can be found here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9
+
+#### Implementation
+* Once your files are ready, ALWAYS submit them in a json validator such as:
+https://jsonformatter.curiousconcept.com/
+
+Do it before putting them into your instance, it will save your sanity.
+
+* Copy/paste your files in both folders (/galaxies and /clusters)
+
+* Go to Galaxies/List galaxies and clic on Update galaxies
+
+* Your new galaxy should be displayed on the screen with the others
+
+* Your galaxy is available in the events for selecting in the right namespace
+
+#### Troubleshooting
+
+* __The galaxy does not udpate, galaxy is empty__
+    * Check json validation
+    * Update version of files
+    * Check files names
+
+* __Matrix is not displayed__
+    * Check the kill_chain_order array in the /galaxies json
+    * Check the chaining
+
+
+
+
+
 #### Dependencies
 
 To create your own Galaxies the following tools are needed to run the validation scripts.
