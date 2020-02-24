@@ -78,7 +78,7 @@ The cluster file is linked to the galaxy file through a json property (__type__)
 
 #### The galaxy managment GUI
 
-[!GalaxyManagment](./figues/GalaxyManagmentGui.png)
+![GalaxyManagment](./figues/GalaxyManagmentGui.png)
 
 #### The galaxy file
 The galaxy file provides the framework for the data stored in the cluster file.
