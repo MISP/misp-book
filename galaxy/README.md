@@ -76,6 +76,10 @@ The __/clusters__ file contains actual data.
 __WARNING__: files names are very important: they will be used to chain the files together.
 The cluster file is linked to the galaxy file through a json property (__type__) which MUST equal the cluster file name (more later).
 
+#### The galaxy managment GUI
+
+[!GalaxyManagment](./figues/GalaxyManagmentGui.png)
+
 #### The galaxy file
 The galaxy file provides the framework for the data stored in the cluster file.
 For example:
