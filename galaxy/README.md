@@ -80,6 +80,8 @@ The cluster file is linked to the galaxy file through a json property (__type__)
 
 ![GalaxyManagment](./figures/GalaxyManagmentGui.png)
 
+In this windows, you will be able to check all your galaxies and if your newly created ones are OK.
+
 #### The galaxy file
 The galaxy file provides the framework for the data stored in the cluster file.
 For example:
@@ -104,6 +106,9 @@ For example:
   "version": 1
 }
 ```
+
+![GalaxyJson](.figures/GalaxyJson.png)
+
 * __description__: generalities about the galaxy (1)
 * __icon__: the icon used in the MISP interface (2)
 * __name__: the name of the galaxy (3)
@@ -153,18 +158,22 @@ For example (Attck4fraud):
   "version": 3
 }
 ```
-* __authors__: descriptive field
-* __category__: descriptive field
-* __description__: descriptive field
-* __name__: same as in /galaxy file, used in the Matrix display
-* __source__: descriptive field
-* __type__: IMPORTANT, this field MUST match the /galaxy and /cluster files names AND the type field in the /galaxy file name -5 in above paragraph-
-* __uuid__: IMPORTANT, this field MUST match the /galaxy uuid field -6 in above paragraph-
-* __values__: a table containing the actual values
-* __data fileds__: fields used to describe single data are detailed here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9
-* __kill_chain__: IMPORTANT, provide the column of the Matrix where the data will be displayed:
+
+![ClusterJson](.figures/ClusterJson.png)
+
+* __authors__: descriptive field (1)
+* __category__: descriptive field (2)
+* __description__: descriptive field (3)
+* __name__: same as in /galaxy file, used in the Matrix display (4)
+* __source__: descriptive field (5)
+* __type__: IMPORTANT, this field MUST match the /galaxy and /cluster files names AND the type field in the /galaxy file name -5 in above paragraph- (6)
+* __uuid__: IMPORTANT, this field MUST match the /galaxy uuid field -6 in above paragraph- (7)
+* __values__: a table containing the actual values (8)
+* __data fileds__: fields used to describe single data are detailed here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9 (9)
+* __kill_chain__: IMPORTANT, provide the column of the Matrix where the data will be displayed: (10)
     __arg1__: MUST match /galaxy file's kill_chain arg (_fraud-tactics_ in the example)
     __arg2__: name of the column of the data (_Initiation_ in the example)
+*__version__: same as for galaxies
 
 More details on /cluster fields can be found here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9
 
@@ -172,7 +181,7 @@ More details on /cluster fields can be found here: https://tools.ietf.org/html/d
 * Once your files are ready, ALWAYS submit them in a json validator such as:
 https://jsonformatter.curiousconcept.com/
 
-Do it before putting them into your instance, it will save your sanity.
+Do it before putting them into your instance, your sanity is at stake.
 
 * Copy/paste your files in both folders (/galaxies and /clusters)
 
