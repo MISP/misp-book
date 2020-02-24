@@ -186,7 +186,7 @@ Do it before putting them into your instance, your sanity is at stake.
 * Copy/paste your files in both folders (/galaxies and /clusters)
 
 * Go to Galaxies/List galaxies and clic on Update galaxies
-
+w
 * Your new galaxy should be displayed on the screen with the others
 
 * Your galaxy is available in the events for selecting in the right namespace
