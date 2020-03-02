@@ -197,11 +197,126 @@ w
     * Check json validation
     * Update version of files
     * Check files names
+    * erase the galaxy in the GUI and update
 
 * __Matrix is not displayed__
     * Check the kill_chain_order array in the /galaxies json
     * Check the chaining
 
+#### Example
+We will create a galaxy from scratch. To demonstrate MISP can handle any type of use-case, we will not work on malware but on Shadowrun pen and paper RPG.
+In this RPG, 2060's large megacorporations launch paramilitary actions against each other. They can belong to 3 main categories (ranked by international standards):
+- AAA: extraterritorial corporation and seating at the top-10 council;
+- AA: only extraterritorial compagnies;
+- A: nation-scale corporation.
+A corporation can act in several fields:
+- energy
+- IT
+- biotechnology
+- cybertechnology (body enhancement)
+It can work on several continent:
+- Europe;
+- Asia;
+- Africa;
+- Oceania;
+- America.
+All these context elements are enough to build a galaxy.
+
+* the galaxy file: galaxies/shadowrun.json
+
+```
+{
+  "description": "My Shadowrun test galaxy",
+  "icon": "user-secret",
+  "name": "shadowrun",
+  "namespace": "RPG",
+  "type": "shadowrun",
+  "uuid": "7a956b4d-613c-4c08-b5d6-19974682aea8",
+  "version": 1
+}
+```
+Keep the uuid and type, it will be necessary later.
+
+* Check your json
+* Click on update and see your work:
+![GalaxyDisp](.figures/GalaxyDisp.png)
+
+* the cluster file: clusters/shadowrun.json
+
+```
+{
+  "authors": [
+    "myself"
+  ],
+  "category": "RPG",
+  "description": "Shadowrun galaxy",
+  "name": "shadowrun corporations",
+  "source": "Internal",
+  "type": "shadowrun",
+  "uuid": "7a956b4d-613c-4c08-b5d6-19974682aea8",
+  "values": [
+    {
+      "description": "extraterritorial corporation and seating at the top-10 council.",
+      "meta": {
+        "Corporate council seat": "Yes",
+        "examples": [
+          "Renraku",
+		  "Shiawase",
+		  "Aztechnology",
+		  "Ares Macrotechnologies",
+          "Saeder Krupps"
+        ]                   
+      },
+      "uuid": "43e1b900-5a03-11ea-9ad1-080027cbfd66",
+      "value": "AAA"
+    },
+    {
+      "description": "only extraterritorial compagnies.",
+      "meta": {
+        "Corporate council seat": "No",
+        "examples": [
+          "Shibata",
+		  "Monobe",
+		  "Zeta Impchem",		  
+          "ESUS"
+        ]                   
+      },
+      "uuid": "7aad2dd4-5a03-11ea-ad69-080027cbfd66",
+      "value": "AA"
+    },
+    {
+      "description": "nation-scale corporation.",
+      "meta": {
+        "Corporate council seat": "No",
+        "examples": [
+          "Genom",
+		  "KSAF",
+		  "Seretech",
+		  "Infocore",		  
+          "MicroDek (ex-Microsoft)",
+		  "Tan Tien"
+        ]                   
+      },
+      "uuid": "7aad2dd4-5a03-11ea-ad69-080027cbfd66",
+      "value": "A"
+    }    
+  ],
+  "version": 1
+}
+```
+IMPORTANT: 
+* the ""uuid": "7a956b4d-613c-4c08-b5d6-19974682aea8"," is the same in both files
+* the cluster filename is the same as the "type" field in the galaxy file
+* CHECK YOUR JSON (https://jsonformatter.curiousconcept.com/) AND SAVE YOUR SANITY!
+
+We check the thing by clicking on the update button in the galaxy GUI:
+![ClusterDisp](.figures/ClusterDisp.png)
+
+
+We can test our work on the MISP GUI:
+![GalaxySelect](.figures/GalaxySelect.png)
+
+Remark: we created a simple galaxy. We will later see how to create a Matrix-shaped one.
 
 
 

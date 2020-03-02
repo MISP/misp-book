@@ -1,0 +1,192 @@
+{
+  "authors": [
+    "myself"
+  ],
+  "category": "RPG",
+  "description": "Shadowrun galaxy",
+  "name": "shadowrun corporations",
+  "source": "Internal",
+  "type": "shadowrun",
+  "uuid": "7a956b4d-613c-4c08-b5d6-19974682aea8",
+  "values": [
+    {
+      "description": "extraterritorial corporation and seating at the top-10 council.",
+      "meta": {
+        "Corporate council seat": "Yes",
+        "examples": [
+          "Renraku",
+		  "Shiawase",
+		  "Aztechnology",
+		  "Ares Macrotechnologies",
+          "Saeder Krupps"
+        ]                   
+      },
+      "uuid": "43e1b900-5a03-11ea-9ad1-080027cbfd66",
+      "value": "AAA"
+    },
+    {
+      "description": "only extraterritorial compagnies.",
+      "meta": {
+        "Corporate council seat": "No",
+        "examples": [
+          "Shibata",
+		  "Monobe",
+		  "Zeta Impchem",		  
+          "ESUS"
+        ]                   
+      },
+      "uuid": "7aad2dd4-5a03-11ea-ad69-080027cbfd66",
+      "value": "AA"
+    },
+    {
+      "description": "nation-scale corporation.",
+      "meta": {
+        "Corporate council seat": "No",
+        "examples": [
+          "Genom",
+		  "KSAF",
+		  "Seretech",
+		  "Infocore",		  
+          "MicroDek (ex-Microsoft)",
+		  "Tan Tien"
+        ]                   
+      },
+      "uuid": "7aad2dd4-5a03-11ea-ad69-080027cbfd66",
+      "value": "A"
+    },
+	,
+	{
+      "description": "energy sector: exploitation, , refining, selling",
+      "meta": {        
+        "examples": [
+          "Saeder Krupps",		  
+        ],
+		"subsectors": [
+			"petroleum",
+			"electricity",
+			"gas",
+			"bio" 
+		]
+      },
+      "uuid": "293e7e5c-51a8-411f-9b47-d52ed62d4b78",
+      "value": "energy"
+    }, 
+	{
+      "description": "cybertechnology sector: manufacturing, selling and implanting modifications.",
+      "meta": {
+        "Delta clinic (for implanting)": [
+		"Yes",
+		"No"
+		],
+        "examples": [
+          "headware",
+		  "bodyware",
+		  "eyeware",
+		  "earware",		  
+          "cyberlimbs"
+        ]                   
+      },
+      "uuid": "7e962290-cba7-49ad-95c2-115575c8a9d2",
+      "value": "cybertechnology"
+    },
+	{
+      "description": "Biotechnology: bioware, genetics, etc",
+      "meta": {        
+        "examples": [
+          "bioware",
+		  "genetics",
+		  "biodrones",
+		  "biocosmetics"
+        ]                   
+      },
+      "uuid": "c899564c-bfe4-460f-a2ed-aae98e1355a3",
+      "value": "biotechnology"
+    },
+	{
+      "description": "IT: softwares, hardware, cybersec",
+      "meta": {        
+        "examples": [
+          "software dev",
+		  "hardware manufacturing",
+		  "intrusion countermeasrures"		  
+        ]                   
+      },
+      "uuid": "16c49ba4-8a79-4f67-a98a-07cdc08f8a2d",
+      "value": "IT"
+    },	
+	{
+      "description": "Europe",
+      "meta": {        
+        "examples": [
+          "France",
+		  "Belgium",
+		  "Luxembourg",
+		  "Germany",
+		  "Italy"
+        ]                   
+      },
+      "uuid": "8e745c22-9b14-4334-887a-0000eda58f75",
+      "value": "Europe"
+    },
+	{
+      "description": "Asia",
+      "meta": {        
+        "examples": [
+          "China",
+		  "Japan",
+		  "Thailand"		  
+        ]                   
+      },
+      "uuid": "95d4ff78-42f8-4fe8-bb63-af2c7e500ec8",
+      "value": "Asia"
+    },
+	{
+      "description": "Russia and former USSR",
+      "meta": {        
+        "examples": [
+          "Russia",
+		  "kazakhstan"		  		  
+        ]                   
+      },
+      "uuid": "87a3ac08-6ffc-45eb-826e-e8e0af392563",
+      "value": "Russia"
+    },
+	{
+      "description": "Africa",
+      "meta": {        
+        "examples": [
+          "Nigeria",
+		  "Malia",
+		  "Algeria"		  
+        ]                   
+      },
+      "uuid": "aba705b7-fcb4-4bf4-81d4-b896314f53ed",
+      "value": "Africa"
+    },
+	{
+      "description": "Oceania",
+      "meta": {        
+        "examples": [
+          "Asutralia",
+		  "Polynesia"
+        ]                   
+      },
+      "uuid": "ae28830b-b90f-48d9-8b89-acda0864ff4e",
+      "value": "Oceania"
+    },
+		{
+      "description": "America",
+      "meta": {        
+        "examples": [
+          "UCAS",
+		  "CAS",
+		  "Pueblo Corporate COuncil",
+		  "AZtlan"		  
+        ]                   
+      },
+      "uuid": "d41c6222-4d10-43e9-9a8e-47d586eaf0e7",
+      "value": "America"
+    },
+  ],
+  "version": 2
+}
