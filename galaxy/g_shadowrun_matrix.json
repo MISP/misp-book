@@ -1,0 +1,16 @@
+{
+  "description": "My Shadowrun test matrix galaxy",
+  "kill_chain_order": {
+    "shadowrun": [
+      "ranking",
+      "sector",
+      "area"
+    ],
+  "icon": "user-secret",
+  "name": "shadowrun_matrix",
+  "namespace": "RPG",
+  "type": "shadowrun",
+  "uuid": "1b013b10-5c6e-11ea-8881-0800275bbff6",
+  "version": 2
+}
+}
