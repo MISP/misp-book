@@ -107,7 +107,7 @@ For example:
 }
 ```
 
-![GalaxyJson](.figures/GalaxyJson.png)
+![GalaxyJson](./figures/GalaxyJson.png)
 
 * __description__: generalities about the galaxy (1)
 * __icon__: the icon used in the MISP interface (2)
@@ -159,7 +159,7 @@ For example (Attck4fraud):
 }
 ```
 
-![ClusterJson](.figures/ClusterJson.png)
+![ClusterJson](./figures/ClusterJson.png)
 
 * __authors__: descriptive field (1)
 * __category__: descriptive field (2)
@@ -241,7 +241,7 @@ Keep the uuid and type, it will be necessary later.
 
 * Check your json
 * Click on update and see your work:
-![GalaxyDisp](.figures/GalaxyDisp.png)
+![GalaxyDisp](./figures/GalaxyDisp.png)
 
 * the cluster file: clusters/shadowrun.json
 
@@ -444,14 +444,14 @@ IMPORTANT:
 * CHECK YOUR JSON (https://jsonformatter.curiousconcept.com/) AND SAVE YOUR SANITY!
 
 We check the thing by clicking on the update button in the galaxy GUI:
-![ClusterDisp](.figures/ClusterDisp.png)
+![ClusterDisp](./figures/ClusterDisp.png)
 
 
 We can test our work on the MISP GUI:
-![GalaxySelect](.figures/GalaxySelect.png)
-![GalaxySelect2](.figures/GalaxySelect2.png)
-![GalaxyFinal](.figures/GalaxyFinal.png)
-![GalaxySelect3](.figures/GalaxySelect3.png)
+![GalaxySelect](./figures/GalaxySelect.png)
+![GalaxySelect2](./figures/GalaxySelect2.png)
+![GalaxyFinal](./figures/GalaxyFinal.png)
+![GalaxySelect3](./figures/GalaxySelect3.png)
 Remark: we created a simple galaxy. We will later see how to create a Matrix-shaped one.
 
 ##### Matrix-shaped galaxy
@@ -482,7 +482,7 @@ In the cluster json, reference to the categories are done:
 ```
 
 The final result:
-![MatrixDisp](.figures/MatrixDisp.png)
+![MatrixDisp](./figures/MatrixDisp.png)
 
 #### Dependencies
 
