@@ -1,9 +1,0 @@
-{
-  "description": "My Shadowrun test galaxy",
-  "icon": "user-secret",
-  "name": "shadowrun",
-  "namespace": "RPG",
-  "type": "shadowrun",
-  "uuid": "7a956b4d-613c-4c08-b5d6-19974682aea8",
-  "version": 2
-}
