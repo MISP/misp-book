@@ -315,6 +315,7 @@ We check the thing by clicking on the update button in the galaxy GUI:
 
 We can test our work on the MISP GUI:
 ![GalaxySelect](.figures/GalaxySelect.png)
+![GalaxySelect2](.figures/GalaxySelect2.png)
 
 Remark: we created a simple galaxy. We will later see how to create a Matrix-shaped one.
 
