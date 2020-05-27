@@ -67,6 +67,7 @@
 |frequent-flyer-number| | | | | | |
 |gender| | | | | | |
 |gene| | X | | | | |
+|git-commit-id| | | | | | X |
 |github-organisation| | | | | | |
 |github-repository| | | | X | | |
 |github-username| | | | | | |
@@ -234,6 +235,7 @@
 |frequent-flyer-number| | | | | | |
 |gender| | | | | | |
 |gene| | | | | | |
+|git-commit-id| | | | | | |
 |github-organisation| | | | | | |
 |github-repository| | | | | | |
 |github-username| | | | | | |
@@ -401,6 +403,7 @@
 |frequent-flyer-number| X | | | |
 |gender| X | | | |
 |gene| | | | |
+|git-commit-id| | | | |
 |github-organisation| | X | | |
 |github-repository| | X | | |
 |github-username| | X | | |
@@ -588,6 +591,7 @@
 *   **frequent-flyer-number**: The frequent flyer number of a passenger
 *   **gender**: The gender of a natural person (Male, Female, Other, Prefer not to say)
 *   **gene**: GENE - Go Evtx sigNature Engine
+*   **git-commit-id**: A git commit ID.
 *   **github-organisation**: A github organisation
 *   **github-repository**: A github repository
 *   **github-username**: A github user name
