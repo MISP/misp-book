@@ -1003,6 +1003,20 @@ sudo sudo systemctl restart apache2
 3. Scroll down to the **PHP Settings** section and verify
 
 
+### What are the required steps after a MISP installation to have a properly running instance?
+
+- First login with the installation credentials and change the password immediatly (especially if your instance is publicly accessible)
+- Set the base_url to the hostname of your machine (apache virtualhost name)
+- Create a new organisation which will be the host organisation running the MISP instance
+- Set the new organisation in `MISP.host_org_id` to replace the default one
+- Set messages like `MISP.footermidleft` and alike to a proper message to help your users
+- Create a new user as `admin` role with the new organisation
+- Log with the new user, if successful, remove the default user used during the installation such as `admin@admin.test`
+- Select and enable required taxonomies for your sharing community
+- Select and enable the external feeds (as caching only if you don't want full events but you can get the full feeds too)
+- Select and enable the warning-list (if you don't know what to enable, select all)
+- Add the remote MISP instances where you have access to (either caching only or full pull if you want the complete events)
+
 <!-- 
   Comment Place Holder
   -->
