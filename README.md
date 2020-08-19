@@ -40,11 +40,9 @@ The MISP user guide is dual-licensed under [GNU Affero General Public License ve
 * Copyright \(C\) 2012 Christophe Vandeplas
 * Copyright \(C\) 2012 Belgian Defence
 * Copyright \(C\) 2012 NATO / NCIRC
-* Copyright \(C\) 2013-2018 Andras Iklody
-* Copyright \(C\) 2015-2018 Alexandre Dulaunoy
-* Copyright \(C\) 2014-2018 CIRCL - Computer Incident Response Center Luxembourg
+* Copyright \(C\) 2013-2020 Andras Iklody
+* Copyright \(C\) 2015-2020 Alexandre Dulaunoy
+* Copyright \(C\) 2014-2020 CIRCL - Computer Incident Response Center Luxembourg
 * Copyright \(C\) 2018 Camille Schneider
-* Copyright \(C\) 2018 Steve Clement
-
-
+* Copyright \(C\) 2018-2020 Steve Clement
 

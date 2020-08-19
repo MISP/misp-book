@@ -86,9 +86,9 @@ Site admins can use the "Contact users" feature to send all or individual user a
 *   **Action:** This defines the e-mail type, which can be a custom message or a password reset. Password resets automatically include a new temporary password at the bottom of the message and will automatically change the user's password accordingly.
 *   **Subject:** In the case of a custom e-mail, you can enter a subject line here.
 *   **Recipient:** The recipient toggle lets you contact all your users, a single user (which creates a second drop-down list with all the e-mail addresses of the users) and potential future users (which opens up a text field for the e-mail address and a text area field for a GnuPG public key).
-*   **Custom message checkbox:** This is available for password resets or for welcome message, you can either write your own message (which will be appended with a temporary key and the signature), or let the system generate one automatically.
+*   **Custom message checkbox:** This is available for password resets and for welcome messages. You can either write your own message (which will be appended with a temporary key and the signature), or let the system generate one automatically.
 
-Keep in mind that all e-mails sent through this system, in addition to your own message, will be signed in the name of the instance's host organisation's support team, the e-ail will also include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's GnuPG signature for users that have a GnuPG key set (and thus are eligible for an encrypted e-mail).
+Keep in mind that all e-mails sent through this system, in addition to your own message, will be signed in the name of the instance's host organisation's support team, the e-mail will also include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's GnuPG signature for users that have a GnuPG key set (and thus are eligible for an encrypted e-mail).
 
 :warning: GnuPG instance key is the GnuPG key used by the MISP instance and which is only used to sign notification. The GnuPG key used in the MISP instance must not be used anywhere else and should not be valuable.
 
@@ -113,9 +113,9 @@ To add a new organisation, click on the "Add Organisation" button in the adminis
 *   **Type of organisation:** Define the type of the organisation.
 *   **Contacts:** You can add some contact details for the organisation.
 
-#### Listing all organisation
+#### Listing all organisations
 
-To list all current organisation of the system, just click on List Organisations under the administration menu to the left. There are 3 tabs in this view to filter local organisations, remote organisations or both. The default view displays local organisations. For all views the following columns of information are available:
+To list all current organisations of the system, just click on List Organisations under the administration menu to the left. There are 3 tabs in this view to filter local organisations, remote organisations or both. The default view displays local organisations. For all views the following columns of information are available:
 
 ![List of organisations.](figures/list_org.png)
 
@@ -130,6 +130,7 @@ To list all current organisation of the system, just click on List Organisations
 *   **Contacts:** Contacts of organisation.
 *   **Added by:** Login of the user who added the organisation
 *   **Local:** Flag defined if the organisation is local or remote.
+*   **Users:** The amount of users on this instance belonging to the organisation.
 *   **Actions:**  There are 3 options available: edit, delete or display an organisation's information. These options are also available on the left menu when you are on the display view.
 	*    **Edit Organisation:** Same options of create organisation's view.
 ![Edit organisation.](figures/edit_org.png)
@@ -139,7 +140,7 @@ To list all current organisation of the system, just click on List Organisations
 ![View organisation.](figures/view_org.png)
 
 #### Merge organisations
-Merge Organisation menu is available only in the organisation view, under the left menu. Merge one organisation to another will transfer all users and data from one to another. On the left the organisation to merge, on the right the target one.
+Merge Organisation menu is available only in the organisation view, under the left menu. Merging one organisation into another will transfer all users and data from one organisation to a different one. The organisation of which the users and data will be transferred is displayed on the left, the target organisation is displayed on the right.
 
 ![Merge organisations.](figures/merge_org.png)
 
@@ -149,10 +150,10 @@ Merge Organisation menu is available only in the organisation view, under the le
 
 Privileges are assigned to users by assigning them to rule groups. Rule groups use one of four options determining what they can do with events as well as four additional privilege elevation settings. These are the four options to edit the full options available in the Roles section: Read Only, Manage My Own Events, Manage Organisation Events, Manage & Publish Organisation Events. A short description is provided below:
 
-*   **Read Only:** This allows a user to browse events that his organisation has access to, but doesn't allow any changes to be made to the database.
-*   **Manage My Own Events:** The second option, gives its users the rights to create, modify or delete their own events, but they cannot publish them.
+*   **Read Only:** Allows a user to browse events that his organisation has access to, but doesn't allow any changes to be made to the database.
+*   **Manage My Own Events:** Allows users to create, modify or delete their own events, but they cannot publish them.
 *   **Manage Organization Events:** Allows users to create events or modify and delete events created by a member of their organisation.
-*   **Manage & Publish Organisation Events:** This last setting, gives users the right to do all of the above and also to publish the events of their organisation.
+*   **Manage & Publish Organisation Events:** Gives users the right to do all of the above and to publish the events of their organisation.
 
 The extra permissions are defined below:
 
@@ -176,7 +177,7 @@ When creating a new role, you will have to enter a name for the role to be creat
 
 #### Listing roles
 
-By clicking on the List Roles button, you can view a list of all currently registered roles and a list of the permission flags enabled for each. In addition, you can find buttons that allow you to edit and delete said roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
+By clicking on the List Roles button, you can view a list of all currently registered roles and their enabled permissions. In addition, you can find buttons that allow you to edit and delete said roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
 
 ![You can Edit or Delete roles using the action buttons to the right in each row. Keep in mind that in order to Delete a role, all members of a Role must be removed from said role before it can be deleted.](figures/list_roles.png)
 
@@ -208,7 +209,6 @@ Since version 2.3, MISP has a settings and diagnostics tool that allows site-adm
 ### Server settings and diagnostics
 
 
-
 ![Server settings overview with all of the tabs explained.](figures/settings_1.png)
 
 The settings and diagnostics tool is split up into several aspects, all accessible via the tabs on top of the tool. For any unset or incorrectly set setting, or failed diagnostic a number next to the tab name will indicate the number and severity of the issues. If the number is written with a red font, it means that the issue is critical. First, let's look at the various tabs:
@@ -220,7 +220,7 @@ The settings and diagnostics tool is split up into several aspects, all accessib
 *   **Misc settings**: Settings controlling debug options, please ensure that debug is always disabled on a production system.
 *   **Diagnostics**: The diagnostics tool checks if all directories that MISP uses to store data are writeable by the apache user. Also, the tool checks whether the STIX libraries and GnuPG are working as intended.
 *   **Workers**: Shows the background workers (if enabled) and shows a warning if they are not running. Admins can also restart the workers here.
-*   **Download report**: Download a report in JSON format, compiled of all of the settings visible in the tool.
+*   **Download report**: Download a report of all the settings visible in the tool, in JSON format.
 
 ![The settings tabs explained.](figures/settings_2.png)
 
@@ -229,13 +229,13 @@ Each of the setting pages is a table with each row representing a setting. Colou
 *   **Setting**: The setting name.
 *   **Value**: The current value of the setting.
 *   **Description**: A description of what the setting does.
-*   **Error Message**: If the setting is incorrect / not set, then this field will let the user know what is wrong.
+*   **Error Message**: If the setting is incorrect / not set, this field will let the user know what is wrong.
 
 ![The workers tab.](figures/settings_3.png)
 
 The workers tab shows a list of the workers that MISP can use. You can restart workers using the "restart all workers" button. If the button doesn't work, make sure that the workers were started using the apache user. This can however only be done using the command line, refer to the INSTALL.txt documentation on how to let the workers automatically start on each boot.
 
-*   **Worker Type**: The worker type is determined by the queue it monitors. MISP currently has 5 queues (cache, default, prio, email and a special _schdlr_ queue).
+*   **Worker Type**: The worker type is determined by the queue it monitors. MISP currently has 6 queues (cache, default, prio, email, update and a special _schdlr_ queue).
 *   **Worker Id**: The ID is made up of the machine name, the PID of the worker and the queue it monitors.
 *   **Status**: Displays OK if the worker is running. If the _schdlr_ worker is the only one not running, make sure that you copy the config file into the cakeresque directory as described in the INSTALL.txt documentation.
 
@@ -259,6 +259,12 @@ The workers tab shows a list of the workers that MISP can use. You can restart w
   Interdependence:
 
 
+**update** 
+
+  Role:
+  Interdependence:
+
+
 **prio** 
 
   Role:
@@ -266,8 +272,10 @@ The workers tab shows a list of the workers that MISP can use. You can restart w
 
 
 **scheduler** 
+
   Role:
   Interdependence:
+
 
 #### Workers dead
 
@@ -421,6 +429,46 @@ Apart from off-loading long-lasting jobs to the background workers, there is a s
 
 
 ### Various administration tips & tricks
+
+
+#### Setting a Publish Alert Filter
+
+To regulate the reception of e-mail from MISP it is possible to create filters. Each individual user account can apply such filter.
+
+The filter can be configured by the user but also by the organization administrator.
+
+After login goto Administration -> Set User Setting:
+
+![Set User settings](figures/setUserSetting.png)
+
+A new screen appears. Make sure the “Setting” drop down box shows “publish_alert_filter”:
+
+![Set User settings](figures/setUserSetting2.png)
+
+The text field “Value” contains the filter, which needs to be provided in JSON format. Important JSON-objects which can be used here go by the name AND”, “OR” and “NOT”. These should be structured in a logical tree.
+
+The filtering can be applied to tags or to a publishing organization.
+
+In the following example, all notifications will be filtered which carry ‘tlp.white’ and ‘tlp.green’ in the name of the tag:
+
+```
+{
+
+    "NOT": {
+
+        "Tag.name" : [ "tlp.white", "tlp.green" ]
+
+    }
+
+}
+```
+
+The publish_alert_filter setting allows one filter definition to be active.
+
+After applying the configuration, the filter will show up in the “My Settings” menu:
+
+![Set User settings](figures/setUserSetting3.png)
+
 
 #### Default sharing level
 

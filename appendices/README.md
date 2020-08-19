@@ -233,6 +233,7 @@ This section lists the projects that can be found on the main [MISP GitHub](http
 | Project | Description | Status |
 | -- | -- | -- |
 | [misp-objects](https://github.com/MISP/misp-objects) | Definition, description and relationship types of MISP objects | Core to MISP, frequently updated and tested |
+| [Best Practices in ThreatIntel](https://github.com/MISP/best-practices-in-threat-intelligence) | Best practices in threat intelligence | Book available here: https://www.misp-project.org/best-practices-in-threat-intelligence.html |
 
 <!--
 | []() |  | Core to MISP, frequently updated and tested |
@@ -300,6 +301,14 @@ This section lists some projects we know of but not officially support and rely 
 | []() |  | Not tested by MISP core team |
 | []() |  | Not tested by MISP core team |
 -->
+
+# Appendix E: Other Threat Intel Ressources
+
+A brief list of online ressources that around #ThreatIntel
+
+* [A curated list of awesome malware analysis tools and resources](https://github.com/rshipp/awesome-malware-analysis/blob/master/README.md). Inspired by [awesome-python](https://github.com/vinta/awesome-python) and [awesome-php](https://github.com/ziadoz/awesome-php).
+* [An authoritative list of awesome devsecops tools with the help from community experiments and contributions](https://github.com/devsecops/awesome-devsecops/blob/master/README.md).[DEV.SEC.OPS](http://devsecops.org)
+* [Advance Python IoC extractor](https://github.com/InQuest/python-iocextract)
 
 # Appendix F: LDAP Authentication
 

@@ -7,7 +7,7 @@
 The process of entering an event can be split into 3 phases, the creation of the event itself, populating it with attributes
 and attachments and finally publishing it.
 
-During this first step, you will be create a basic event without any actual attributes, but storing general information such as a description, time and risk level of the incident. To start creating the event, click on the New Event button on the left and fill out the form you are presented with. The following fields need to be filled out:
+During this first step, you will create a basic event without any actual attributes, but storing general information such as a description, time and risk level of the incident. To start creating the event, click on the New Event button on the left and fill out the form you are presented with. The following fields need to be filled out:
 
 ![Fill this form out to create a skeleton event, before proceeding to populate it with attributes and attachments.](figures/add_event.png)
 
@@ -89,7 +89,7 @@ Sharing groups consist of the following elements, each of which has its own page
 ![The servers tab of the sharing group tool](figures/sgpage3.png)
 
 *  **Servers:** The third page of the tool describes the MISP instances the data marked with the given sharing group are allowed to be synchronised with. Keep in mind that any user that can view an event on a given instance will have the right to pull the event to their home instance, as they are part of the sharing group, however the organisation distribution list will still apply.
-  *  **Enable roaming mode:** This setting will disable the server list and rely purely ont he organisation list to distribute the data. If a sync connection's host organisation is in the organisation distribution list the instance becomes eligible for synchronising the data marked with the sharing group. Generally this carries a slightly higher risk as it relies on administrators correctly setting up the host organisation settings, but it removes the need to know the specific instance urls where the event/attribute should flow.
+  *  **Enable roaming mode:** This setting will disable the server list and rely purely on the organisation list to distribute the data. If a sync connection's host organisation is in the organisation distribution list the instance becomes eligible for synchronising the data marked with the sharing group. Generally this carries a slightly higher risk as it relies on administrators correctly setting up the host organisation settings, but it removes the need to know the specific instance urls where the event/attribute should flow.
   *  **Add instance:** Add an instance to the distribution list from the sync instances set up under sync actions -> servers
   *  **All orgs:** Checking this checkmark will automatically include all organisations on the given instance in the sharing group. This means that in order to exchange with all users of a linked community, one does not need to know every organisation residing on the instance. This also means that the distribution list will not include the organisation names, which can be interesting for certain privacy sensitive communities.
 
@@ -112,7 +112,7 @@ Templates are devided into sections, with each section having a title and a desc
 *  **Field**: The name of the field along with an indication if the field is mandatory.
 *  **Description**: A short description of the field.
 *  **Types**: The value(s) that are valid for the field. In the case of several types being shown here, you can enter value(s) matching any one of the types, or in the case of a batch import field, any mixture of the given types.
-*  **Text field**: This field can either be a single line textfield or a multi-line text area. For the former, enter a single value of the above indicated type, whilst for the latter you cna paste a list of values separated by line-breaks.
+*  **Text field**: This field can either be a single line textfield or a multi-line text area. For the former, enter a single value of the above indicated type, whilst for the latter you can paste a list of values separated by line-breaks.
 
 ### Freetext Import Tool
 
@@ -175,7 +175,7 @@ The result will be a list of attributes that get added to the currently selected
 
 ### Adding IOCs from a PDF report
 
-You can You can use a generic script called [IOC parser](https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event: [report_to_misp] (https://github.com/PaloAltoNetworks-BD/report_to_misp/).
+You can use a generic script called [IOC parser](https://github.com/armbues/ioc_parser) or use a script published by Palo Alto to convert IOC parser output to a MISP event: [report_to_misp] (https://github.com/PaloAltoNetworks-BD/report_to_misp/).
 
 ### Publish an event
 
@@ -328,7 +328,7 @@ The last option is a checkbox that restricts all of the results to attributes th
 ## Updating and modifying events and attributes
 
 Every event and attribute can easily be edited. First of all it is important to find the event or attribute that is to be edited, using any of the methods mentioned in the section on [browsing past events](#browsing_events).
-Once it is found, the edit button (whether it be under actions when events/attributes get listed or simply on the event view) will bring up the same screen as what is used to create the entry of the same type (for an event it would be the event screen as [seen here](#Creating an event), for an attribute the attribute screen as [described here](#add-attributes-to-the-event)). You can also simply double-click on the event you wish to edit and enter the edit mode. 
+Once it is found, the edit button (whether it be under actions when events/attributes get listed or simply on the event view) will bring up the same screen as what is used to create the entry of the same type (for an event it would be the event screen as [seen here](#Creating an event), for an attribute the attribute screen as [described here](#add-attributes-to-the-event)). You can also simply double-click on the event you wish to edit and enter the edit mode.
 Keep in mind that editing any event (either directly or indirectly through an attribute) will unpublish it, meaning that you'll have to publish it (through the event view) again once you are done.
 
 ## Tagging
