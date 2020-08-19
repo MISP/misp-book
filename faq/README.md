@@ -25,6 +25,14 @@ We recommend a standard LAMP stack on top of Ubuntu >18.04 LTS. For details on t
 
 During a [Hackathon](https://hackathon.hack.lu) a small tool called [MISP-Sizer](https://misp-project.org/MISP-sizer/) was conceived. It will give you a **very rough** idea on what requirements are if you have a bigger installation. [source-code is here](https://github.com/MISP/MISP-sizer)
 
+
+### How to monitor MISP?
+
+Currently there are 2 documented ways to monitor MISP.
+
+Either with [MUNIN](http://munin-monitoring.org/) -> [misp-monitor](https://github.com/SteveClement/misp-monitor) for instructions.
+Or [OpenNMS](https://www.opennms.com/) -> [Instructions here](https://www.misp-project.org/2020/08/18/MISP-Monitoring-with-OpenNMS.html) 
+
 ***
 ## Specific questions
 ### Can I configure MISP encrypted notification emails to contain more information in the subject?
