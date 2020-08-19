@@ -41,7 +41,7 @@ found 368 vulnerabilities (48 low, 250 moderate, 62 high, 8 critical)
 ```
 
 
-Tested on: *Ubuntu 18.04 LTS* *Debian 9.5/sid/testing*
+Tested on: *Ubuntu 18.04/20.04 LTS* *Debian 10.5/sid/testing*
 [Terminal Recording of npm install lines on Ubuntu 18.04](https://asciinema.org/a/84JZMuGu2QlFH59q6mK8jbdQS)
 
 ```bash
