@@ -30,7 +30,6 @@ A user of a role that grants sync permissions, these users (and their authentica
 ### Synchronisation
 What we call synchronisation is an exchange of data between two (or more) MISP instances through our pull and push mechanisms.
 ### Tagging
-Users with tagging rights can assigned various dynamically created tags to events, allowing an arbitrary link between events to be created. It is possible to filter events based on these tags and they can also be used to filter events for the automation.
+Users with tagging rights can assign various dynamically created tags to events, allowing an arbitrary link between events to be created. It is possible to filter events based on these tags and they can also be used to filter events for the automation.
 ### Templating
 Users with templating rights can create easy to fill forms that help with the event creation process.
-
