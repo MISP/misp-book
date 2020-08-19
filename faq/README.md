@@ -902,6 +902,120 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/php73-php-fpm.s
 
 A galaxy can be assigned like a tag. You can use the add tag function and copy the full conntector-tag. Example `misp-galaxy:ransomware=“Locky”`, which can be found in `/galaxy_clusters/view/`
 
+## Updating PHP from 7.2 to 7.4.5 on Ubuntu 18.04
+
+### Installation
+
+1. Disable and Uninstall Currently Installed SSDEEP
+```bash
+sudo phpdismod ssdeep
+sudo pecl uninstall ssdeep
+sudo apt purge ssdeep
+sudo rm -rf /etc/php/7.2/mods-available/ssdeep.ini
+```
+
+2. Install PHP 7.4.5
+```bash
+sudo apt install software-properties-common -qy
+sudo add-apt-repository ppa:ondrej/php -y
+sudo apt update
+sudo apt install -qy \
+    libapache2-mod-php7.4 \
+    php7.4 \
+    php7.4-cli \
+    php7.4-dev \
+    php7.4-json \
+    php7.4-xml \
+    php7.4-mysql \
+    php7.4-opcache \
+    php7.4-readline \
+    php7.4-mbstring \
+    php-redis \
+    php-gnupg \
+    php-gd
+sudo apt update
+sudo apt upgrade -y
+```
+
+3. Install SSDEEP
+```bash
+cd /usr/local/src
+sudo rm -rf ssdeep-2.14.1.tar.gz ssdeep-2.14.1
+sudo wget https://github.com/ssdeep-project/ssdeep/releases/download/release-2.14.1/ssdeep-2.14.1.tar.gz
+sudo tar zxvf ssdeep-2.14.1.tar.gz
+cd ssdeep-2.14.1
+sudo ./configure --datadir=/usr --prefix=/usr --localstatedir=/var --sysconfdir=/etc
+sudo make
+sudo make install
+```
+
+4. Test SSDEEP
+```bash
+ssdeep -h
+```
+
+5. Install ssdeep_php
+```bash
+  sudo pecl channel-update pecl.php.net
+  sudo pecl install ssdeep
+```
+
+6. Enable SSDEEP in both 7.2 and 7.4 (** as root** `sudo su`)
+```bash
+echo 'extension=ssdeep.so' >  /etc/php/7.2/mods-available/ssdeep.ini
+echo 'extension=ssdeep.so' >  /etc/php/7.4/mods-available/ssdeep.ini
+```
+
+7. Enable SSDEEP PHP Mod
+```bash
+sudo phpenmod ssdeep
+```
+
+8. Set PHP 7.4.5 to default PHP
+```bash
+sudo a2dismod php7.2
+sudo a2enmod php7.4
+sudo update-alternatives --set php /usr/bin/php7.4
+```
+
+9. [Optional] Set better values for defaults
+```bash
+sudo sed -i "s/max_execution_time = 30/max_execution_time = 300/" /etc/php/7.4/apache2/php.ini ; \
+sudo sed -i "s/memory_limit = 128M/memory_limit = 2048M/" /etc/php/7.4/apache2/php.ini ; \
+sudo sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 500M/" /etc/php/7.4/apache2/php.ini ; \
+sudo sed -i "s/post_max_size = 8M/post_max_size = 500M/" /etc/php/7.4/apache2/php.ini ; \
+sudo sed -i "s/max_execution_time = 30/max_execution_time = 300/" /etc/php/7.4/cli/php.ini ; \
+sudo sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 500M/" /etc/php/7.4/cli/php.ini ; \
+sudo sed -i "s/post_max_size = 8M/post_max_size = 5000M/" /etc/php/7.4/cli/php.ini ;
+```
+
+10. Restart Apache to implement changes
+```bash
+sudo sudo systemctl restart apache2
+```
+
+### Verification of php 7.2 to 7.4
+
+1.   **Administration** > **Server Settings & Maintenance**
+
+2.   **Diagnostics**
+
+3. Scroll down to the **PHP Settings** section and verify
+
+
+### What are the required steps after a MISP installation to have a properly running instance?
+
+- First login with the installation credentials and change the password immediatly (especially if your instance is publicly accessible)
+- Set the base_url to the hostname of your machine (apache virtualhost name)
+- Create a new organisation which will be the host organisation running the MISP instance
+- Set the new organisation in `MISP.host_org_id` to replace the default one
+- Set messages like `MISP.footermidleft` and alike to a proper message to help your users
+- Create a new user as `admin` role with the new organisation
+- Log with the new user, if successful, remove the default user used during the installation such as `admin@admin.test`
+- Select and enable required taxonomies for your sharing community
+- Select and enable the external feeds (as caching only if you don't want full events but you can get the full feeds too)
+- Select and enable the warning-list (if you don't know what to enable, select all)
+- Add the remote MISP instances where you have access to (either caching only or full pull if you want the complete events)
 
 <!-- 
   Comment Place Holder
