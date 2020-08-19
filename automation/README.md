@@ -82,6 +82,77 @@ curl --header "Authorization: YOUR API KEY " --header "Accept: application/json"
 {"name":"Not Found","message":"Not Found","url":"\/servers\/gaaa"}
 ~~~~
 
+## Search
+
+It is possible to search in the database for a list of attributes or events based on a list of criterias.
+
+To return attributes or events in a desired format, use the following URL and header settings:
+
+URL:
+~~~~
+YOUR_MISP_URL/attributes/restSearch
+YOUR_MISP_URL/events/restSearch
+~~~~
+
+Headers:
+~~~~
+Accept: application/json
+Content-type: application/json
+Authorization: YOUR_API_KEY
+~~~~
+
+The next feature to take care of then is the body of the query. This is where you are going to put your filters.  
+As an example, if we want to export all the IP addresses that have a TLP marking and not marked as TLP:red, you can find below the corresponding filters to use:
+~~~~json
+{
+    "returnFormat": "json",
+    "type": {
+        "OR": [
+            "ip-src",
+            "ip-dst"
+        ]
+    },
+    "tags": {
+        "NOT": [
+            "tlp:red"
+        ],
+        "OR": [
+            "tlp:%"
+        ]
+    }
+}
+~~~~
+
+Find below a non exhaustive list of parameters that can be used to filter data in your search (some parameters specific to given export formats are not mentioned):
+- **returnFormat**: Set the return format of the search (Currently supported: json, xml, openioc, suricata, snort - more formats are being moved to restSearch with the goal being that all searches happen through this API). Can be passed as the first parameter after restSearch or via the JSON payload.
+- **limit**: Limit the number of results returned, depending on the scope (for example 10 attributes or 10 full events).
+- **page**: If a limit is set, sets the page to be returned. page 3, limit 100 will return records 201->300).
+- **value**: Search for the given value in the attributes' value field.
+- **type**: The attribute type, any valid MISP attribute type is accepted.
+- **category**: The attribute category, any valid MISP attribute category is accepted.
+- **org**: Search by the creator organisation by supplying the organisation identifier.
+- **tags**: To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'.
+- **quickfilter**: Enabling this (by passing "1" as the argument) will make the search ignore all of the other arguments, except for the auth key and value. MISP will return an xml / json (depending on the header sent) of all events that have a sub-string match on value in the event info, event orgc, or any of the attribute value1 / value2 fields, or in the attribute comment.
+- **from**: Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.
+- **to**: Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.
+- **eventid**: The events that should be included / excluded from the search
+- **withAttachments**: If set, encodes the attachments / zipped malware samples as base64 in the data field within each attribute
+- **metadata**: Only the metadata (event, tags, relations) is returned, attributes and proposals are omitted.
+- **uuid**: Restrict the results by uuid.
+- **publish_timestamp**: Restrict the results by the timestamp of the last publishing of the event. The input can be a timetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **last**: (Deprecated synonym for publish_timestamp) Restrict the results by the timestamp of the last publishing of the event. The input can be a timetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **timestamp**: Restrict the results by the timestamp (last edit). Any event with a timestamp newer than the given timestamp will be returned. In case you are dealing with /attributes as scope, the attribute's timestamp will be used for the lookup. The input can be a timetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **published**: Set whether published or unpublished events should be returned. Do not set the parameter if you want both.
+- **enforceWarninglist**: Remove any attributes from the result that would cause a hit on a warninglist entry.
+- **to_ids**: By default (0) all attributes are returned that match the other filter parameters, irregardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
+- **deleted**: If this parameter is set to 1, it will return soft-deleted attributes along with active ones. By using "only" as a parameter it will limit the returned data set to soft-deleted data only.
+- **includeEventUuid**: Instead of just including the event ID, also include the event UUID in each of the attributes.
+- **event_timestamp**: Only return attributes from events that have received a modification after the given timestamp. The input can be a timetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **sgReferenceOnly**: If this flag is set, sharing group objects will not be included, instead only the sharing group ID is set.
+- **eventinfo**: Filter on the event's info field.
+- **searchall**: Search for a full or a substring (delimited by % for substrings) in the event info, event tags, attribute tags, attribute values or attribute comment fields.
+- **attackGalaxy**: Select the ATT&CK matrix like galaxy to use when using returnFormat = attack. Defaults to the Mitre ATT&CK library via mitre-attack-pattern.
+
 ## Events management
 
 ### /events

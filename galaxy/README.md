@@ -53,7 +53,704 @@ Once this is done double check if you can still see the Galaxies in the Web UI.
 
 > [warning] This will impact the UI "Update MISP" functionality in administration. Your git head might get [detached](https://git-scm.com/docs/gitglossary#gitglossary-aiddefdetachedHEADadetachedHEAD) in your misp-galaxy repo.
 
-### Adding a new Galaxy (WiP - notFuctional)
+### Adding a new Galaxy
+
+#### Context
+
+A galaxy is designed to provide more info than a tag. It comes in two formats: regular or matrix-shape. In a tag, you can only display one label and one color. In a galaxy, you can display:
+- name
+- synonymous
+- description
+- categories (for matrix-galaxies)
+
+#### Directory structure
+
+Galaxies are represented by two json files stored in:
+```bash
+/var/www/MISP/app/files/misp-galaxy/galaxies/mygalaxy.json
+/var/www/MISP/app/files/misp-galaxy/clusters/mygalaxy.json
+```
+The __/galaxies__ file contains metatdatas and galaxy structure.
+The __/clusters__ file contains actual data.
+
+
+#### The galaxy managment GUI
+
+![GalaxyManagment](./figures/GalaxyManagmentGui.png)
+
+In this windows, you will be able to check all your galaxies and if your newly created ones are OK.
+
+#### The galaxy file
+The galaxy file provides the framework for the data stored in the cluster file.
+For example:
+```bash
+{
+  "description": "attck4fraud - Principles of MITRE ATT&CK in the fraud domain",
+  "icon": "map",
+  "kill_chain_order": {
+    "fraud-tactics": [
+      "Initiation",
+      "Target Compromise",
+      "Perform Fraud",
+      "Obtain Fraudulent Assets",
+      "Assets Transfer",
+      "Monetisation"
+    ]
+  },
+  "name": "attck4fraud",
+  "namespace": "misp",
+  "type": "financial-fraud",
+  "uuid": "cc0c8ae9-aec2-42c6-9939-f4f82b051836",
+  "version": 1
+}
+```
+
+![GalaxyJson](./figures/GalaxyJson.png)
+
+* __description__: generalities about the galaxy (1)
+* __icon__: the icon used in the MISP interface (2)
+* __name__: the name of the galaxy (3)
+* __namespace__: the namespace where is stored the galaxy. Namespace are used to regroup similar galaxies (4)
+* __type__: __IMPORTANT field__, it MUST match the galaxy and cluster files name to actually chain both files together (5)
+* __uuid__: as any MISP object, it has a uuid. __IMPORTANT__, it MUST be repeated in the uuid property of the cluster file (6)
+* __version__: as usual in MISP, versioning, especially to force update (7)
+* __kill_chain_order__: a special and optionnal field: it will be used if you want to create a matrix-galaxy. In this field, you insert a named table (_fraud-tactics_ in the example above) containing the categories labels of you data. They will be used then in the cluster file (8)
+
+More detail on galaxy fields here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9
+
+#### The cluster file
+
+The cluster file provides the actual data of the galaxy.
+For example (Attck4fraud):
+```bash
+{
+  "authors": [
+    "Francesco Bigarella"
+  ],
+  "category": "guidelines",
+  "description": "attck4fraud - Principles of MITRE ATT&CK in the fraud domain",
+  "name": "attck4fraud",
+  "source": "Open Sources",
+  __"type": "financial-fraud",__
+  __"uuid": "cc0c8ae9-aec2-42c6-9939-f4f82b051836"__,
+  "values": [
+    {
+      "description": "In the context of ATT&CK for Fraud, phishing is described as the sending of fraudulent emails to a large audience in order to obtain sensitive information (PII, credentials, payment information). Phishing is never targeted to a specific individual or organisation. Phishing tries to create a sense of urgency or curiosity in order to capture the victim.",
+      "meta": {
+        "detection": "Email sender is spoofed; Email sender belongs to a domain recently created; Presence of typos or poor grammar in the email text; The request in the mail is unsolicited and creates urgency; No recollection of the subject or the sender of the phishing email; Request for credentials; Presence of a suspicious URL or attachment.",
+        "examples": [
+          "Phishing messages were sent to Amazon users posing as the Amazon customer support",
+          "Fake Apple invoices were sent to Apple App Store customers in order to obtain their Apple ID credentials"
+        ],
+        "external_id": "FT1001",
+        "kill_chain": [
+          "fraud-tactics:Initiation"
+        ],
+        "mitigation": "Implementation of DKIM and SPF authentication to detected spoofed email senders; anti-phishing solutions.",
+        "refs": [
+          "https://blog.malwarebytes.com/cybercrime/2015/02/amazon-notice-ticket-number-phish-seeks-card-details/",
+          "https://www.bleepingcomputer.com/news/security/widespread-apple-id-phishing-attack-pretends-to-be-app-store-receipts/"
+        ],
+        ...
+  ],
+  "version": 3
+}
+```
+
+![ClusterJson](./figures/ClusterJson.png)
+
+* __authors__: descriptive field (1)
+* __category__: descriptive field (2)
+* __description__: descriptive field (3)
+* __name__: same as in /galaxy file, used in the Matrix display (4)
+* __source__: descriptive field (5)
+* __type__: IMPORTANT, this field MUST match the /galaxy and /cluster files names AND the type field in the /galaxy file name -5 in above paragraph- (6)
+* __uuid__: IMPORTANT, this field MUST match the /galaxy uuid field -6 in above paragraph- (7)
+* __values__: a table containing the actual values (8)
+* __data fileds__: fields used to describe single data are detailed here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9 (9)
+* __kill_chain__: IMPORTANT, provide the column of the Matrix where the data will be displayed: (10)
+	* __arg1__: MUST match /galaxy file's kill_chain arg (_fraud-tactics_ in the example)
+	* __arg2__: name of the column of the data (_Initiation_ in the example)
+* __version__: same as for galaxies
+
+More details on /cluster fields can be found here: https://tools.ietf.org/html/draft-dulaunoy-misp-galaxy-format-06#page-9
+
+#### Implementation
+* Once your files are ready, ALWAYS submit them in a json validator such as:
+https://jsonformatter.curiousconcept.com/ . Do it before putting them into your instance, your sanity is at stake.
+
+* Copy/paste your files in both folders (/galaxies and /clusters)
+
+* Go to Galaxies/List galaxies and clic on Update galaxies
+
+* Your new galaxy should be displayed on the screen with the others
+
+![GalaxyDisp](./figures/GalaxyDisp.png)
+
+* Your galaxy is available in the events for selecting in the right namespace
+
+![GalaxySelect](./figures/GalaxySelect.png)
+
+#### Troubleshooting
+
+* __The galaxy does not update, galaxy is empty__
+    * Check json validation
+	* Remove commas on last items of any {} or []
+    * Update version of files
+    * Check files names
+    * Delete the galaxy in the GUI and update
+
+* __Matrix is not displayed__
+    * Check the kill_chain_order array in the /galaxies json
+    * Check the chaining
+
+#### Example
+We will create a galaxy from scratch. To demonstrate MISP can handle any type of use-case, we will not work on malware but on Shadowrun pen and paper RPG.
+In this RPG, 2060's large megacorporations launch paramilitary actions against each other. They can belong to 3 main categories (ranked by international standards):
+- AAA: extraterritorial corporation and seating at the top-10 council;
+- AA: only extraterritorial compagnies;
+- A: nation-scale corporation.
+
+A corporation can act in several fields:
+- energy
+- IT
+- biotechnology
+- cybertechnology (body enhancement)
+
+It can work on several continent:
+- Europe;
+- Asia;
+- Africa;
+- Oceania;
+- America.
+
+All these context elements are enough to build a galaxy.
+
+##### Simple galaxy
+
+* the galaxy file: galaxies/shadowrun.json
+
+```
+{
+  "description": "My Shadowrun test galaxy",
+  "icon": "user-secret",
+  "name": "shadowrun",
+  "namespace": "RPG",
+  "type": "shadowrun",
+  "uuid": "7a956b4d-613c-4c08-b5d6-19974682aea8",
+  "version": 1
+}
+```
+Keep the uuid and type, it will be necessary later.
+
+* Check your json
+* Click on update and see your work:
+![GalaxyDisp](./figures/GalaxyDisp.png)
+
+* the cluster file: clusters/shadowrun.json
+
+```
+{
+  "authors": [
+    "myself"
+  ],
+  "category": "RPG",
+  "description": "Shadowrun galaxy",
+  "name": "shadowrun corporations",
+  "source": "Internal",
+  "type": "shadowrun",
+  "uuid": "7a956b4d-613c-4c08-b5d6-19974682aea8",
+  "values": [
+    {
+      "description": "extraterritorial corporation and seating at the top-10 council.",
+      "meta": {
+        "Corporate council seat": "Yes",
+        "examples": [
+          "Renraku",
+		  "Shiawase",
+		  "Aztechnology",
+		  "Ares Macrotechnologies",
+          "Saeder Krupps"
+        ]                   
+      },
+      "uuid": "43e1b900-5a03-11ea-9ad1-080027cbfd66",
+      "value": "AAA"
+    },
+    {
+      "description": "only extraterritorial compagnies.",
+      "meta": {
+        "Corporate council seat": "No",
+        "examples": [
+          "Shibata",
+		  "Monobe",
+		  "Zeta Impchem",		  
+          "ESUS"
+        ]                   
+      },
+      "uuid": "7aad2dd4-5a03-11ea-ad69-080027cbfd66",
+      "value": "AA"
+    },
+    {
+      "description": "nation-scale corporation.",
+      "meta": {
+        "Corporate council seat": "No",
+        "examples": [
+          "Genom",
+		  "KSAF",
+		  "Seretech",
+		  "Infocore",		  
+          "MicroDek (ex-Microsoft)",
+		  "Tan Tien"
+        ]                   
+      },
+      "uuid": "50c0d622-5c67-11ea-bd4b-0800275bbff6",
+      "value": "A"
+    },
+	{
+      "description": "energy sector: exploitation, , refining, selling",
+      "meta": {        
+        "examples": [
+          "Saeder Krupps"	  
+        ],
+		"subsectors": [
+			"petroleum",
+			"electricity",
+			"gas",
+			"bio" 
+		]
+      },
+      "uuid": "293e7e5c-51a8-411f-9b47-d52ed62d4b78",
+      "value": "energy"
+    },
+		{
+	  "description": "cybertechnology sector: manufacturing, selling and implanting modifications.",
+	  "meta": {
+		"Delta clinic (for implanting)": [
+		"Yes",
+		"No"
+		],
+		"examples": [
+		  "headware",
+		  "bodyware",
+		  "eyeware",
+		  "earware",		  
+		  "cyberlimbs"
+		]                   
+	  },
+      "uuid": "7e962290-cba7-49ad-95c2-115575c8a9d2",
+      "value": "cybertechnology"
+    },
+	{
+      "description": "Biotechnology: bioware, genetics, etc",
+      "meta": {        
+        "examples": [
+          "bioware",
+		  "genetics",
+		  "biodrones",
+		  "biocosmetics"
+        ]                   
+      },
+      "uuid": "c899564c-bfe4-460f-a2ed-aae98e1355a3",
+      "value": "biotechnology"
+    },
+	{
+      "description": "IT: softwares, hardware, cybersec",
+      "meta": {        
+        "examples": [
+          "software dev",
+		  "hardware manufacturing",
+		  "intrusion countermeasrures"		  
+        ]                   
+      },
+      "uuid": "16c49ba4-8a79-4f67-a98a-07cdc08f8a2d",
+      "value": "IT"
+    },	
+	{
+      "description": "Europe",
+      "meta": {        
+        "examples": [
+          "France",
+		  "Belgium",
+		  "Luxembourg",
+		  "Germany",
+		  "Italy"
+        ]                   
+      },
+      "uuid": "8e745c22-9b14-4334-887a-0000eda58f75",
+      "value": "Europe"
+    },
+	{
+      "description": "Asia",
+      "meta": {        
+        "examples": [
+          "China",
+		  "Japan",
+		  "Thailand"		  
+        ]                   
+      },
+      "uuid": "95d4ff78-42f8-4fe8-bb63-af2c7e500ec8",
+      "value": "Asia"
+    },
+	{
+      "description": "Russia and former USSR",
+      "meta": {        
+        "examples": [
+          "Russia",
+		  "kazakhstan"		  		  
+        ]                   
+      },
+      "uuid": "87a3ac08-6ffc-45eb-826e-e8e0af392563",
+      "value": "Russia"
+    },
+	{
+      "description": "Africa",
+      "meta": {        
+        "examples": [
+          "Nigeria",
+		  "Malia",
+		  "Algeria"		  
+        ]                   
+      },
+      "uuid": "aba705b7-fcb4-4bf4-81d4-b896314f53ed",
+      "value": "Africa"
+    },
+	{
+      "description": "Oceania",
+      "meta": {        
+        "examples": [
+          "Asutralia",
+		  "Polynesia"
+        ]                   
+      },
+      "uuid": "ae28830b-b90f-48d9-8b89-acda0864ff4e",
+      "value": "Oceania"
+    },
+		{
+      "description": "America",
+      "meta": {        
+        "examples": [
+          "UCAS",
+		  "CAS",
+		  "Pueblo Corporate COuncil",
+		  "AZtlan"		  
+        ]                   
+      },
+      "uuid": "d41c6222-4d10-43e9-9a8e-47d586eaf0e7",
+      "value": "America"
+    }
+  ],
+  "version": 3
+}
+```
+
+__IMPORTANT: __
+* the ""uuid": "7a956b4d-613c-4c08-b5d6-19974682aea8"," is the same in both files
+* the cluster filename is the same as the "type" field in the galaxy file
+* CHECK YOUR JSON (https://jsonformatter.curiousconcept.com/) AND SAVE YOUR SANITY!
+
+We check the thing by clicking on the update button in the galaxy GUI:
+![ClusterDisp](./figures/ClusterDisp.png)
+
+
+We can test our work on the MISP GUI:
+
+![GalaxySelect](./figures/GalaxySelect.png)
+![GalaxySelect2](./figures/GalaxySelect2.png)
+![GalaxyFinal](./figures/GalaxyFinal.png)
+![GalaxySelect3](./figures/GalaxySelect3.png)
+
+Remark: we created a simple galaxy. We will later see how to create a Matrix-shaped one.
+
+##### Matrix-shaped galaxy
+
+To create a matrix-shaped galaxy, a new field is added: 
+* __kill_chain__ for the /galaxy json
+* __kill_chain_order__ for the /cluster json
+
+In the galaxy json, categories are listed:
+```
+"kill_chain":[
+	"killchain_name":[
+	"category_1",
+	"category_2",
+	"category_3"
+	]
+}
+```
+
+The final galaxy file:
+
+```
+{
+  "description": "My Shadowrun test matrix galaxy",
+  "icon": "user-secret",
+  "kill_chain_order": {
+    "shadowrun": [
+      "ranking",
+      "sector",
+      "area"
+    ]
+	},
+  "name": "shadowrun_matrix",
+  "namespace": "RPG",
+  "type": "shadowrun",
+  "uuid": "1b013b10-5c6e-11ea-8881-0800275bbff6",
+  "version": 1
+}
+```
+
+In the cluster json, reference to the categories are done:
+```
+"values": [
+    {
+      "description": "",
+      "meta": {
+	  "kill_chain": [
+          "killchain_name:category_1"
+        ],
+```
+
+The final cluster file:
+
+```
+{
+  "authors": [
+    "myself"
+  ],
+  "category": "RPG",
+  "description": "Shadowrun matrix galaxy",
+  "name": "shadowrun corporations",
+  "source": "Internal",
+  "type": "shadowrun",
+  "uuid": "1b013b10-5c6e-11ea-8881-0800275bbff6",
+  "values": [
+    {
+      "description": "extraterritorial corporation and seating at the top-10 council.",
+      "meta": {
+	  "kill_chain": [
+          "shadowrun:ranking"
+        ],
+        "Corporate council seat": "Yes",
+        "examples": [
+          "Renraku",
+		  "Shiawase",
+		  "Aztechnology",
+		  "Ares Macrotechnologies",
+          "Saeder Krupps"
+        ]                   
+      },
+      "uuid": "43e1b900-5a03-11ea-9ad1-080027cbfd66",
+      "value": "AAA"
+    },
+    {
+      "description": "only extraterritorial compagnies.",
+      "meta": {
+	  "kill_chain": [
+          "shadowrun:ranking"
+        ],
+        "Corporate council seat": "No",
+        "examples": [
+          "Shibata",
+		  "Monobe",
+		  "Zeta Impchem",		  
+          "ESUS"
+        ]                   
+      },
+      "uuid": "7aad2dd4-5a03-11ea-ad69-080027cbfd66",
+      "value": "AA"
+    },
+    {
+      "description": "nation-scale corporation.",
+      "meta": {
+	  "kill_chain": [
+          "shadowrun:ranking"
+        ],
+        "Corporate council seat": "No",
+        "examples": [
+          "Genom",
+		  "KSAF",
+		  "Seretech",
+		  "Infocore",		  
+          "MicroDek (ex-Microsoft)",
+		  "Tan Tien"
+        ]                   
+      },
+      "uuid": "50c0d622-5c67-11ea-bd4b-0800275bbff6",
+      "value": "A"
+    },
+	{
+      "description": "energy sector: exploitation, , refining, selling",
+      "meta": {
+		"kill_chain": [
+          "shadowrun:sector"
+        ],	  
+        "examples": [
+          "Saeder Krupps"	  
+        ],
+		"subsectors": [
+			"petroleum",
+			"electricity",
+			"gas",
+			"bio" 
+		]
+      },
+      "uuid": "293e7e5c-51a8-411f-9b47-d52ed62d4b78",
+      "value": "energy"
+    },
+		{
+	  "description": "cybertechnology sector: manufacturing, selling and implanting modifications.",
+	  "meta": {
+	  "kill_chain": [
+          "shadowrun:sector"
+        ],	  
+		"Delta clinic (for implanting)": [
+		"Yes",
+		"No"
+		],
+		"examples": [
+		  "headware",
+		  "bodyware",
+		  "eyeware",
+		  "earware",		  
+		  "cyberlimbs"
+		]                   
+	  },
+      "uuid": "7e962290-cba7-49ad-95c2-115575c8a9d2",
+      "value": "cybertechnology"
+    },
+	{
+      "description": "Biotechnology: bioware, genetics, etc",
+      "meta": {        
+	  "kill_chain": [
+          "shadowrun:sector"
+        ],	  
+        "examples": [
+          "bioware",
+		  "genetics",
+		  "biodrones",
+		  "biocosmetics"
+        ]                   
+      },
+      "uuid": "c899564c-bfe4-460f-a2ed-aae98e1355a3",
+      "value": "biotechnology"
+    },
+	{
+      "description": "IT: softwares, hardware, cybersec",
+      "meta": {       
+		"kill_chain": [
+          "shadowrun:sector"
+        ],	  	  
+        "examples": [
+          "software dev",
+		  "hardware manufacturing",
+		  "intrusion countermeasrures"		  
+        ]                   
+      },
+      "uuid": "16c49ba4-8a79-4f67-a98a-07cdc08f8a2d",
+      "value": "IT"
+    },	
+	{
+      "description": "Europe",
+      "meta": {    
+		"kill_chain": [
+          "shadowrun:area"
+        ],	  	  
+        "examples": [
+          "France",
+		  "Belgium",
+		  "Luxembourg",
+		  "Germany",
+		  "Italy"
+        ]                   
+      },
+      "uuid": "8e745c22-9b14-4334-887a-0000eda58f75",
+      "value": "Europe"
+    },
+	{
+      "description": "Asia",
+      "meta": {        
+	  "kill_chain": [
+          "shadowrun:area"
+        ],	  	  
+        "examples": [
+          "China",
+		  "Japan",
+		  "Thailand"		  
+        ]                   
+      },
+      "uuid": "95d4ff78-42f8-4fe8-bb63-af2c7e500ec8",
+      "value": "Asia"
+    },
+	{
+      "description": "Russia and former USSR",
+      "meta": {       
+		"kill_chain": [
+          "shadowrun:area"
+        ],	  	  	  
+        "examples": [
+          "Russia",
+		  "kazakhstan"		  		  
+        ]                   
+      },
+      "uuid": "87a3ac08-6ffc-45eb-826e-e8e0af392563",
+      "value": "Russia"
+    },
+	{
+      "description": "Africa",
+      "meta": {   
+		"kill_chain": [
+          "shadowrun:area"
+        ],	  	  	  
+        "examples": [
+          "Nigeria",
+		  "Malia",
+		  "Algeria"		  
+        ]                   
+      },
+      "uuid": "aba705b7-fcb4-4bf4-81d4-b896314f53ed",
+      "value": "Africa"
+    },
+	{
+      "description": "Oceania",
+      "meta": {
+		"kill_chain": [
+          "shadowrun:area"
+        ],	  	  	  
+        "examples": [
+          "Asutralia",
+		  "Polynesia"
+        ]                   
+      },
+      "uuid": "ae28830b-b90f-48d9-8b89-acda0864ff4e",
+      "value": "Oceania"
+    },
+		{
+      "description": "America",
+      "meta": {
+		"kill_chain": [
+          "shadowrun:area"
+        ],	  	  
+        "examples": [
+          "UCAS",
+		  "CAS",
+		  "Pueblo Corporate COuncil",
+		  "AZtlan"		  
+        ]                   
+      },
+      "uuid": "d41c6222-4d10-43e9-9a8e-47d586eaf0e7",
+      "value": "America"
+    }
+  ],
+  "version": 4
+}
+
+```
+
+
+The final result:
+![MatrixDisp](./figures/MatrixDisp.png)
+
+Done! Eventually!
 
 #### Dependencies
 
