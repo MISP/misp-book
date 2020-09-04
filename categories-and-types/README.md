@@ -33,6 +33,7 @@
 |dns-soa-email| | | X | | | |
 |domain| | | | X | | |
 |domain&#124;ip| | | | X | | |
+|email| | | X | | | |
 |email-attachment| | | | | | |
 |email-body| | | | | | |
 |email-dst| | | | | | |
@@ -118,6 +119,8 @@
 |payment-details| | | | | | |
 |pdb| | X | | | | |
 |pehash| | | | | | |
+|pgp-private-key| | X | | | | |
+|pgp-public-key| | X | | | | |
 |phone-number| | | | | X | |
 |place-of-birth| | | | | | |
 |place-port-of-clearance| | | | | | |
@@ -211,6 +214,7 @@
 |dns-soa-email| | | | | | |
 |domain| X | | X | | | |
 |domain&#124;ip| X | | | | | |
+|email| X | | X | | | |
 |email-attachment| | | X | | | |
 |email-body| | | X | | | |
 |email-dst| X | | X | | | |
@@ -296,6 +300,8 @@
 |payment-details| | | | | | |
 |pdb| | | | | | |
 |pehash| | | X | X | | |
+|pgp-private-key| | X | | | | |
+|pgp-public-key| | X | | | | |
 |phone-number| | X | | | | |
 |place-of-birth| | | | | | |
 |place-port-of-clearance| | | | | | |
@@ -389,6 +395,7 @@
 |dns-soa-email| | | | |
 |domain| | | | |
 |domain&#124;ip| | | | |
+|email| X | X | | |
 |email-attachment| | | | |
 |email-body| | | | |
 |email-dst| | X | | |
@@ -474,6 +481,8 @@
 |payment-details| X | | | |
 |pdb| | | | |
 |pehash| | | | |
+|pgp-private-key| X | X | | |
+|pgp-public-key| X | X | | |
 |phone-number| X | | | |
 |place-of-birth| X | | | |
 |place-port-of-clearance| X | | | |
@@ -587,15 +596,16 @@
 *   **dns-soa-email**: RFC1035 mandates that DNS zones should have a SOA (Statement Of Authority) record that contains an email address where a PoC for the domain could be contacted. This can sometimes be used for attribution/linkage between different domains even if protected by whois privacy
 *   **domain**: A domain name used in the malware
 *   **domain&#124;ip**: A domain name and its IP address (as found in DNS lookup) separated by a &#124;
+*   **email**: An e-mail address
 *   **email-attachment**: File name of the email attachment.
 *   **email-body**: Email body
-*   **email-dst**: A recipient email address
+*   **email-dst**: The destination email address. Used to describe the recipient when describing an e-mail.
 *   **email-dst-display-name**: Email destination display name
 *   **email-header**: Email header
 *   **email-message-id**: The email message ID
 *   **email-mime-boundary**: The email mime boundary separating parts in a multipart email
 *   **email-reply-to**: Email reply to header
-*   **email-src**: The email address used to send the malware.
+*   **email-src**: The source email address. Used to describe the sender when describing an e-mail.
 *   **email-src-display-name**: Email source display name
 *   **email-subject**: The subject of the email
 *   **email-thread-index**: The email thread index header
@@ -672,6 +682,8 @@
 *   **payment-details**: Payment details
 *   **pdb**: Microsoft Program database (PDB) path information
 *   **pehash**: PEhash - a hash calculated based of certain pieces of a PE executable file
+*   **pgp-private-key**: A PGP private key
+*   **pgp-public-key**: A PGP public key
 *   **phone-number**: Telephone Number
 *   **place-of-birth**: Place of birth of a natural person
 *   **place-port-of-clearance**: The port of clearance
