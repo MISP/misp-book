@@ -113,6 +113,7 @@
 |passport-country| | | | | | |
 |passport-expiration| | | | | | |
 |passport-number| | | | | | |
+|pattern-filename| | | | | | |
 |pattern-in-file| | X | | X | | |
 |pattern-in-memory| | X | | X | | |
 |pattern-in-traffic| | | | X | | |
@@ -155,6 +156,7 @@
 |target-machine| | | | | | |
 |target-org| | | | | | |
 |target-user| | | | | | |
+|telfhash| | X | | | | |
 |text| X | X | X | X | X | X |
 |threat-actor| | | X | | | |
 |tlsh| | | | | | |
@@ -294,6 +296,7 @@
 |passport-country| | | | | | |
 |passport-expiration| | | | | | |
 |passport-number| | | | | | |
+|pattern-filename| | | | | | |
 |pattern-in-file| X | | X | X | | |
 |pattern-in-memory| | | | X | | |
 |pattern-in-traffic| X | | X | X | | |
@@ -336,6 +339,7 @@
 |target-machine| | | | | | |
 |target-org| | | | | | |
 |target-user| | | | | | |
+|telfhash| | | X | X | | |
 |text| X | X | X | X | X | X |
 |threat-actor| | | | | | |
 |tlsh| | | X | X | | |
@@ -475,6 +479,7 @@
 |passport-country| X | | | |
 |passport-expiration| X | | | |
 |passport-number| X | | | |
+|pattern-filename| | | | |
 |pattern-in-file| | | | |
 |pattern-in-memory| | | | |
 |pattern-in-traffic| | | | |
@@ -517,6 +522,7 @@
 |target-machine| | | | X |
 |target-org| | | | X |
 |target-user| | | | X |
+|telfhash| | | | |
 |text| X | X | X | |
 |threat-actor| | | | |
 |tlsh| | | | |
@@ -676,6 +682,7 @@
 *   **passport-country**: The country in which the passport was issued
 *   **passport-expiration**: The expiration date of a passport
 *   **passport-number**: The passport number of a natural person
+*   **pattern-filename**: A pattern in the name of a file
 *   **pattern-in-file**: Pattern in file that identifies the malware
 *   **pattern-in-memory**: Pattern in memory dump that identifies the malware
 *   **pattern-in-traffic**: Pattern in network traffic that identifies the malware
@@ -718,6 +725,7 @@
 *   **target-machine**: Attack Targets Machine Name(s)
 *   **target-org**: Attack Targets Department or Organization(s)
 *   **target-user**: Attack Targets Username(s)
+*   **telfhash**: telfhash is symbol hash for ELF files, just like imphash is imports hash for PE files.
 *   **text**: Name, ID or a reference
 *   **threat-actor**: A string identifying the threat actor
 *   **tlsh**: A checksum in the Trend Micro Locality Sensitive Hash format
