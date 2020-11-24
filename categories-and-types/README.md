@@ -94,6 +94,7 @@
 |issue-date-of-the-visa| | | | | | |
 |ja3-fingerprint-md5| | | | X | | |
 |jabber-id| | | | | | |
+|jarm-fingerprint| | | | X | | |
 |kusto-query| | X | | | | |
 |last-name| | | | | | |
 |link| X | | | X | | X |
@@ -277,6 +278,7 @@
 |issue-date-of-the-visa| | | | | | |
 |ja3-fingerprint-md5| X | | X | | | |
 |jabber-id| | | | | | |
+|jarm-fingerprint| X | | X | | | |
 |kusto-query| | | | | | |
 |last-name| | | | | | |
 |link| | | X | | | |
@@ -460,6 +462,7 @@
 |issue-date-of-the-visa| X | | | |
 |ja3-fingerprint-md5| | | | |
 |jabber-id| | X | | |
+|jarm-fingerprint| | | | |
 |kusto-query| | | | |
 |last-name| X | | | |
 |link| | | X | |
@@ -663,6 +666,7 @@
 *   **issue-date-of-the-visa**: The date on which the visa was issued
 *   **ja3-fingerprint-md5**: JA3 is a method for creating SSL/TLS client fingerprints that should be easy to produce on any platform and can be easily shared for threat intelligence.
 *   **jabber-id**: Jabber ID
+*   **jarm-fingerprint**: JARM is a method for creating SSL/TLS server fingerprints.
 *   **kusto-query**: Kusto query - Kusto from Microsoft Azure is a service for storing and running interactive analytics over Big Data.
 *   **last-name**: Last name of a natural person
 *   **link**: Link to an external information
