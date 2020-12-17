@@ -26,7 +26,7 @@
 |cortex| | | | X | | |
 |counter| | | | | | |
 |country-of-residence| | | | | | |
-|cpe| | | | | | |
+|cpe| | | | X | | |
 |dash| | | | | X | |
 |date-of-birth| | | | | | |
 |datetime| | | | | | |
@@ -94,6 +94,7 @@
 |issue-date-of-the-visa| | | | | | |
 |ja3-fingerprint-md5| | | | X | | |
 |jabber-id| | | | | | |
+|jarm-fingerprint| | | | X | | |
 |kusto-query| | X | | | | |
 |last-name| | | | | | |
 |link| X | | | X | | X |
@@ -129,6 +130,7 @@
 |place-port-of-original-embarkation| | | | | | |
 |port| | | | | | |
 |primary-residence| | | | | | |
+|process-state| | X | | | | |
 |prtn| | | | | X | |
 |redress-number| | | | | | |
 |regkey| | X | | X | | |
@@ -209,7 +211,7 @@
 |cortex| | | | | | |
 |counter| | X | | | | |
 |country-of-residence| | | | | | |
-|cpe| | X | | | | |
+|cpe| | X | X | X | | |
 |dash| | | | | | |
 |date-of-birth| | | | | | |
 |datetime| | X | | | | |
@@ -277,6 +279,7 @@
 |issue-date-of-the-visa| | | | | | |
 |ja3-fingerprint-md5| X | | X | | | |
 |jabber-id| | | | | | |
+|jarm-fingerprint| X | | X | | | |
 |kusto-query| | | | | | |
 |last-name| | | | | | |
 |link| | | X | | | |
@@ -312,6 +315,7 @@
 |place-port-of-original-embarkation| | | | | | |
 |port| X | X | | | | |
 |primary-residence| | | | | | |
+|process-state| | | | | | |
 |prtn| | | | | | |
 |redress-number| | | | | | |
 |regkey| | | | | | X |
@@ -460,6 +464,7 @@
 |issue-date-of-the-visa| X | | | |
 |ja3-fingerprint-md5| | | | |
 |jabber-id| | X | | |
+|jarm-fingerprint| | | | |
 |kusto-query| | | | |
 |last-name| X | | | |
 |link| | | X | |
@@ -495,6 +500,7 @@
 |place-port-of-original-embarkation| X | | | |
 |port| | | | |
 |primary-residence| X | | | |
+|process-state| | | | |
 |prtn| | | | |
 |redress-number| X | | | |
 |regkey| | | | |
@@ -595,7 +601,7 @@
 *   **cortex**: Cortex analysis result
 *   **counter**: An integer counter, generally to be used in objects
 *   **country-of-residence**: The country of residence of a natural person
-*   **cpe**: Common platform enumeration
+*   **cpe**: Common Platform Enumeration - structured naming scheme for information technology systems, software, and packages.
 *   **dash**: Dash Address
 *   **date-of-birth**: Date of birth of a natural person (in YYYY-MM-DD format)
 *   **datetime**: Datetime in the ISO 8601 format
@@ -663,6 +669,7 @@
 *   **issue-date-of-the-visa**: The date on which the visa was issued
 *   **ja3-fingerprint-md5**: JA3 is a method for creating SSL/TLS client fingerprints that should be easy to produce on any platform and can be easily shared for threat intelligence.
 *   **jabber-id**: Jabber ID
+*   **jarm-fingerprint**: JARM is a method for creating SSL/TLS server fingerprints.
 *   **kusto-query**: Kusto query - Kusto from Microsoft Azure is a service for storing and running interactive analytics over Big Data.
 *   **last-name**: Last name of a natural person
 *   **link**: Link to an external information
@@ -698,6 +705,7 @@
 *   **place-port-of-original-embarkation**: The orignal port of embarkation
 *   **port**: Port number
 *   **primary-residence**: The primary residence of a natural person
+*   **process-state**: State of a process
 *   **prtn**: Premium-Rate Telephone Number
 *   **redress-number**: The Redress Control Number is the record identifier for people who apply for redress through the DHS Travel Redress Inquiry Program (DHS TRIP). DHS TRIP is for travelers who have been repeatedly identified for additional screening and who want to file an inquiry to have erroneous information corrected in DHS systems
 *   **regkey**: Registry key or value
