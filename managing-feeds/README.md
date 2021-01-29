@@ -84,3 +84,12 @@ To remove a tag (resp. organisation), select it in the list and click on the arr
 
 If an indicator from an feed matches an indicator within a MISP event, it will show up as "Feed hits" in the event overview.
 The correlation will not show up in the correlation graph of the event.
+
+## Default feeds
+
+The MISP project supplies a list of open-source feeds.  You can load these feed definitions
+by using the 'Load default feed metadata' feature on the Feeds page.  This feature creates new
+feeds by importing the entries in file app/files/feed-metadata/defaults.json to the database.
+Existing feeds are not changed. The feature checks for duplicates using the feed URL. If a feed
+with the same URL already exists in the database, that entry is not imported. This ensures that
+local modifications such as name, distribution or enabled status are never overwritten.
