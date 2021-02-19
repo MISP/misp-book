@@ -315,7 +315,15 @@ You can reset the password via the console.
 See [Issue #1160](https://github.com/MISP/MISP/issues/1160)
 
 `/var/www/MISP/app/Console/cake Password [email] [password]`
+### How do I set the baseurl from the command line?
 
+You can change the baseurl via the console. 
+
+    sudo -u www-data /var/www/MISP/app/Console/cake Baseurl [baseurl]
+    
+You can confirm the baseurl is updated correctly by checking the config.php file
+
+    grep baseurl /var/www/MISP/app/Config/config.php
 ***
 ## Usage questions
 ### How can I see all the deleted events in a MISP instance?
