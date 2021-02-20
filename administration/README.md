@@ -447,7 +447,15 @@ A new screen appears. Make sure the “Setting” drop down box shows “publish
 
 The text field “Value” contains the filter, which needs to be provided in JSON format. Important JSON-objects which can be used here go by the name AND”, “OR” and “NOT”. These should be structured in a logical tree.
 
-The filtering can be applied to tags or to a publishing organization.
+The filtering can be applied to tags, the publishing organization and the threat level. Valid filters:
+
+- AttributeTag.name
+- EventTag.name
+- Tag.name (checks against both event and attribute tags)
+- Orgc.uuid (creator org uuid)
+- Orgc.name (creator org name)
+- ThreatLevel.name
+
 
 In the following example, all notifications will be filtered which carry ‘tlp.white’ and ‘tlp.green’ in the name of the tag:
 
