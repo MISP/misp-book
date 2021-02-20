@@ -156,10 +156,30 @@ It is not decreased when it was originally set to:
 
 As an example, the figure below illustrates two events **e** and **e'** created by OrgA and respectively shared as "This community only" and "Connected communities" and how they propagate in an illustrative MISP set of intances synchronised with each others.
 
-<p align="center">
-  <a name="misp-server-sync"></a><img src="https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/images/misp-compliance-iso-concepts.png" alt="Illustration of MISP organisations and community interactions" style="width: 100%;"/></br>
-  <span><i>FIGURE: Illustration of MISP organisations and community interactions</i></span>
-</p>
+![Illustration of MISP organisations and community interactions](figures/misp-compliance-iso-concepts.png)
+
+#### Syncing scenarios with communities distribution
+***The below scenarios are if “Internal instance” has not been checked when creating the server.***
+
+##### Push from instance A to instance B
+In this scenario, which organisation the sync user belongs to does not influence the outcome of the push.
+
+| Instance A  | Instance B  |
+| ----------- | ----------- |
+| Your organisation only      | Event/object/attribute not pushed       |
+| This community only   | Event/object/attribute not pushed        |
+| Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B       |
+| All communities   | Event/object/attribute distribution stays all communities        |
+
+##### Pulling from instance A to instance B
+Rule of thumb: if the user configured to pull from server A can see the event on instance A, the event will be synced.
+
+| Instance A  | Instance B  |
+| ----------- | ----------- |
+| Your organisation only      | Event/object/attribute pulled in only if the sync user is member of the host organisation on A       |
+| This community only   | Event/object/attribute distribution decreased to 'Your organisation only' on B     |
+| Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B       |
+| All communities   | Event/object/attribute distribution stays all communities        |
 
 ### Sharing-groups
 
