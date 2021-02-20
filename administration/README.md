@@ -740,4 +740,75 @@ FullName: /opt/backup/MISP-Backup-20181128_163214.tar.gz
 
 In a similar fashion you can restore your MISP instance with the **misp-restore.sh** script.
 Read the script for details.
+### Command line interface (CLI) commands
+
+The below info is also available in the MISP GUI. Go to event actions -> automation -> bottom of the page
+
+#### Administering MISP via the CLI
+##### Get Setting
+    MISP/app/Console/cake Admin getSetting [setting]
+##### Set Setting
+    MISP/app/Console/cake Admin setSetting [setting] [value]
+##### Get Authkey
+    MISP/app/Console/cake Admin getAuthkey [email]
+##### Reset Authkey
+    MISP/app/Console/cake Authkey [email] [api_key | optional]
+##### Set Baseurl
+    MISP/app/Console/cake Baseurl [baseurl]
+##### Change Password
+    MISP/app/Console/cake Password [email] [new_password] [--override_password_change]
+##### Clear Bruteforce Entries
+    MISP/app/Console/cake Admin clearBruteforce [user_email]
+##### Run Database Update
+    MISP/app/Console/cake Admin updateDatabase
+##### Update All JSON Structures
+    MISP/app/Console/cake Admin updateJSON
+##### Update Galaxy Definitions
+    MISP/app/Console/cake Admin updateGalaxies
+##### Update Taxonomy Definitions
+    MISP/app/Console/cake Admin updateTaxonomies
+##### Update Object Templates
+    MISP/app/Console/cake Admin updateObjectTemplates
+##### Update Warninglists
+    MISP/app/Console/cake Admin updateWarningLists
+##### Update Noticelists
+    MISP/app/Console/cake Admin updateNoticeLists
+##### Update MISP
+    MISP/app/Console/cake Admin updateMISP
+##### Set Default Role
+    MISP/app/Console/cake Admin setDefaultRole [role_id]
+##### Get IPs For User ID
+    MISP/app/Console/cake Admin UserIP [user_id]
+##### Get User ID For User IP
+    MISP/app/Console/cake Admin IPUser [ip]
+#### Automating certain console tasks
+If you would like to automate tasks such as caching feeds or pulling from server instances, you can do it using the following command line tools. Simply execute the given commands via the command line / create cron jobs easily out of them.
+##### PullAll
+    MISP/app/Console/cake Server pullAll [user_id] [full|update]
+##### Pull
+    MISP/app/Console/cake Server pull [user_id] [server_id] [full|update]
+##### Push
+    MISP/app/Console/cake Server push [user_id] [server_id]
+##### Cache Feeds For Quick Lookups
+    MISP/app/Console/cake Server cacheFeed [user_id] [feed_id|all|csv|text|misp]
+##### Fetch Feeds As Local Data
+    MISP/app/Console/cake Server fetchFeed [user_id] [feed_id|all|csv|text|misp]
+##### Run Enrichment
+    MISP/app/Console/cake Event enrichment [user_id] [event_id] [json_encoded_module_list]
+##### Test Server
+    MISP/app/Console/cake Server test [server_id]
+##### List Servers
+    MISP/app/Console/cake Server listServers
+#### Managing the background workers
+The background workers can be managed via the CLI in addition to the UI / API management tools.
+##### Get List Of Workers
+    MISP/app/Console/cake Admin getWorkers [all|dead]
+##### Start A Worker
+    MISP/app/Console/cake Admin startWorker [queue_name]
+##### Restart A Worker
+    MISP/app/Console/cake Admin restartWorker [worker_pid]
+##### Restart All Workers
+    MISP/app/Console/cake Admin restartWorkers
+##### Kill A Worker
+    MISP/app/Console/cake Admin killWorker [worker_pid]
 
