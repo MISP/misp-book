@@ -687,7 +687,7 @@ Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Ta
 
 The Jobs tab gives you an overview on any currently running jobs or jobs that were previously completed and their status.
 
-![Running Jobs](figures/jobs-running.png)
+![Running Jobs](figures/jobs.png)
 
 Typically this is one of the places you would turn to even some background process might not complete as expected to get an indication on any issues related to user initiated Jobs.
 

@@ -115,7 +115,7 @@ It is quite easy. Create a JSON file describing your taxonomy as triple tags.
 
  The following taxonomy namespaces are reserved and used internally to MISP.
 
- - [galaxy](./galaxy/) mapping taxonomy with cluster:element:"value".
+ - [galaxy](../galaxy/) mapping taxonomy with cluster:element:"value".
 
 ## Adding Taxonomy in MISP
 
