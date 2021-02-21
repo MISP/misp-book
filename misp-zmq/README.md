@@ -2,11 +2,11 @@
 
 ## MISP ZeroMQ
 
-MISP includes a flexible publish-subscribe model to allow real-time integration of the MISP activities (event publication, attribute creation or removal, sighting).
-The MISP ZeroMQ plugin operates at global level in MISP which means standard distribution rules don't apply and every activities will be published within the ZeroMQ pub-sub
+MISP includes a flexible publish-subscribe model to allow real-time integration of MISP activities (event publication, attribute creation or removal, sighting).
+The MISP ZeroMQ plugin operates at global level in MISP which means standard distribution rules don't apply and every activity will be published within the ZeroMQ pub-sub
 channels.
 
-MISP ZeroMQ functionality can be used for various model of integration or to extend MISP functionalities:
+MISP ZeroMQ functionality can be used for various models of integration or to extend MISP functionalities:
 
 - real-time search of indicators into a SIEM
 - automatic expansion
@@ -28,7 +28,7 @@ The following notification topic channels exist and can be included in the MISP 
 
 To enable MISP ZeroMQ, the feature must be enabled in the Plugin setting tab.
 
-Prior to enabling it, make sure that you have the pyzmq installed by running
+Prior to enabling it, make sure that you have pyzmq installed by running
 
 ~~~~
 sudo pip install pyzmq
@@ -43,15 +43,15 @@ sudo cat /var/www/MISP/app/tmp/logs/mispzmq.error.log
 
 ![ZeroMQ configuration](./figures/zmq-config.png)
 
-Each notification channels can be enabled (from event publication to sightings), the MISP site admin can decide which type of message to publish.
+Each notification channel can be enabled (from event publication to sightings), the MISP site admin can decide which types of messages to publish.
 
 By default, the ZMQ pub-sub channel is available to localhost only on TCP port 50000. The binding of the pub-sub channel can be updated in the
 configuration interface as shown above
 
 ### MISP ZeroMQ debugging and testing
 
-In the diagnostic section, ZeroMQ service can be started and stopped. There is a small status option to give
-information about the numbers of events processed by the service.
+In the diagnostic section, ZeroMQ service can be started and stopped. There is a status check that can be run to give
+information about the number of events processed by the service.
 
 ![ZeroMQ diagnostics](./figures/zmq-diagnostics.png)
 
@@ -140,7 +140,7 @@ misp@cpeb:/var/www/MISP/tools/misp-zmq$ python3 -u sub.py  | jq .
 ### Notification Schemas
 Each notification channel uses a slightly different JSON schema. Consult this section to identify which MISP components exist in a channel:
 #### misp_json - events published
-When an event is published to ZMQ (which is different from being published in MISP) the ZMQ notification will just contain the MISP event data along with all its component children.
+When an event is published to ZMQ (which is different from being published in MISP) the ZMQ notification will contain the MISP event data along with all its component children.
 These components include:
   * A list of attributes
   * A list of objects, which contain their own lists of attributes
@@ -257,7 +257,7 @@ Example:
 #### misp_json_attribute - attribute updated or created
 The attributes appear to have the most diversity depending on the action applied to them.
 
-When an attribute gets created, just the attribute gets sent out via ZMQ. Its parent event id is sent inside the attribute JSON, but there is no extra event metadata like there is when an attribute is deleted or modified.
+When an attribute gets created, the attribute gets sent out via ZMQ. The parent event id is included in the attribute JSON, but there is no extra event metadata like there is when an attribute is deleted or modified.
 
 Create Example:
 ```
@@ -284,7 +284,7 @@ Create Example:
 ```
 
 Edited attribute notifications send metadata about their parent events and information about the attribute's sharing group, attribute-level tags, and sightings data.
-It's important to note that only the new value of the edited attribute is sent along the ZMQ channel. In order to diff the new and old values, you'd have to have a copy of the old attribute value stored somewhere and can use the attribute's `uuid` key (which never changes) to correlate the new and old values.
+It's important to note that only the new value of the edited attribute is sent along the ZMQ channel. In order to see the difference between the new and old values, you'd need to have a copy of the old attribute value stored somewhere. If you do, you can use the attribute's `uuid` key (which never changes) to correlate the new and old values.
 
 Edit Example:
 ```
@@ -393,7 +393,7 @@ Delete Example:
 }
 ```
 #### misp_json_sighting - sighting added to an attribute or an event
-The message sent for sightings is fairly simple, with the type of sighting (0 = Addition, 1 = False Positive), the date (in seconds-since-epoch format), the id of the attribute it applies to, and the id of the attribute's parent event.
+The message sent for sightings is fairly simple, with the type of sighting (0 = Addition, 1 = False Positive), the date (in seconds-since-epoch format), the id of the attribute it applies to and the id of the attribute's parent event.
 
 Addition Example:
 ```
@@ -427,8 +427,8 @@ False Positive Example:
 }
 ```
 #### misp_json_user - user updates or creation
-An update is sent through ZMQ when users log in. There are actually two messages in this - both being fairly sparse.
-The `current_login` message just contains who logged in and what time (in seconds-since-epoch format) it happened. The `last_login` message contains who just logged in, what time the login occurred (technically the date the record was modified, but it's modified when the user logs in, so it appears to be interchangeable in this case), and what time the user last logged in.
+An update is sent through ZMQ when users log in. There are actually two messages for this - both being fairly sparse.
+The `current_login` message contains who logged in and at what time (in seconds-since-epoch format) the login happened. The `last_login` message contains who just logged in, what time the previous login occurred (last_login) and the time the record was modified, which should be the same as current_login time.
 
 Login Example:
 ```
@@ -448,7 +448,7 @@ Login Example:
 }
 ```
 
-When a user gets created, all of the information about the user (id, email, base64 encoded GnuPG key, role, etc.) gets sent along ZMQ. If this information is modified, the same JSON will be sent along the ZMQ channel, with updated values.
+When a user gets created, all of the information about the user (id, email, base64 encoded GnuPG key, role, etc.) gets sent to ZMQ. If this information is modified, the same JSON will be sent along the ZMQ channel, with updated values.
 For example, if the below user is disabled, the same JSON will be sent, but the `disabled` key will be set to `"1"`
 
 User Creation and User Edit Example:
@@ -482,7 +482,7 @@ User Creation and User Edit Example:
 }
 ```
 #### misp_json_organisation - organisation updates or creation
-Org notifications are sent when Orgs are updated and created, but not deleted. They are generally the same, except the fields `created_by` and `date_created` are present when an Org is created.
+Org notifications are sent when Orgs are updated and created, but not when they are deleted. They are generally the same, with the additional fields `created_by` and `date_created` being present when an Org is created.
 
 Creation Example:
 ```
