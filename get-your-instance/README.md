@@ -41,6 +41,18 @@ The MISP image is pre-configured to be reachable on the private IP address **loc
 
 You should have two interfaces on your VirtualBox configuration (NAT and host-only). You can also configure access to the MISP instance by doing port forwarding on the NAT interface.
 
+Depending on your setup (for example accessing the VM from another host), you might want to change the base URL in MISP server settings. This can be done from the command line:
+
+    sudo -u www-data /var/www/MISP/app/Console/cake Baseurl [baseurl]
+    
+You can confirm the baseurl is updated correctly by checking the config.php file:
+
+    grep baseurl /var/www/MISP/app/Config/config.php
+
+You can set the external_baseurl via the GUI or via the command below later. Changing it is never required to access the GUI.
+
+    sudo -u www-data /var/www/MISP/app/Console/cake Admin setSetting external_baseurl [external_baseurl]
+
 MISP credentials:
 
 *   **GUI Admin:** admin@admin.test:admin  (it's the site admin account with full rights, feel free to create other users)
