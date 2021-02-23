@@ -171,3 +171,6 @@ Users with tagging rights can assigned various dynamically created tags to event
 
 ## Templating
 Users with templating rights can create easy to fill forms that help with the event creation process.
+
+## Community
+A community is composed of the local organisations on a MISP server and the remote organisations connected by the sync users.
