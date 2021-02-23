@@ -201,13 +201,8 @@ MISP has a couple of administrative tools that help administrators keep their in
 
 - - -
 
-## Server Settings
-
-Since version 2.3, MISP has a settings and diagnostics tool that allows site-admins to manage and diagnose their MISP installation. You can access this by navigating to Administration - Server settings.
-
-
-## Server settings and diagnostics
-
+##  Server settings and maintenance
+Since version 2.3, MISP has a settings and diagnostics tool that allows site-admins to manage and diagnose their MISP installation. You can access this by navigating to Administration - Server settings & Maintenance.
 
 ![Server settings overview with all of the tabs explained.](figures/settings_1.png)
 
@@ -288,13 +283,9 @@ For reference, below is the script in question.
 
 {% codesnippet "/automation/start_workers.sh", language="bash" %}{% endcodesnippet %}
 
-## Import Blacklist
+## Blocklists
 
-It is possible to ban certain values from ever being entered into the system via an event info field or an attribute value. This is done by blacklisting the value in this section.
-
-### Adding and modifying entries
-
-Administrators can add, edit or delete blacklisted items by using the appropriate functions in the list's action menu and the menu on the left.
+It is possible to block certain events or organisations from ever being added to the system. Administrators can add, edit or delete blocklisted items. The appropriate pages are linked in the Administration menu.
 
 ## Import Regexp
 
@@ -335,7 +326,7 @@ Generally, the following actions are logged:
 *   **Attribute:** Creation, deletion, modification
 *   **ShadowAttribute:** Creation, deletion, Accept, Discard
 *   **Roles:** Creation, deletion, modification
-*   **Blacklist:** Creation, deletion, modification
+*   **Blocklist:** Creation, deletion, modification
 *   **Whitelist:** Creation, deletion, modification
 *   **Regexp:** Creation, deletion, modification
 
