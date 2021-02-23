@@ -1,6 +1,6 @@
 <!-- toc -->
 
-## Administration
+# Administration
 
 * [Users](#users)
 * [Organisations](#organisations)
@@ -23,10 +23,10 @@
 
 - - -
 
-### Users
+## Users
 As an admin (not to be confused with Org Admin), you can set up new accounts for users, edit user profiles, delete them, or just have a look at all the viewers' profiles. Organisation admins (Org Admin) are restricted to executing these actions exclusively within their own organisation’s users only.
 
-#### Adding a new user
+### Adding a new user
 
 To add a new user, click on the Add User button in the administration menu to the left and populate the fields available the loaded view:
 
@@ -47,7 +47,7 @@ To add a new user, click on the Add User button in the administration menu to th
 *   **Receive alerts from "contact reporter" requests:** This option will subscribe the new user to e-mails that are generated when another user tries to get in touch with an event's reporting organisation that matches that of the new user.
 *   **Disable this user account:** Tick it if you want to disable this user account. (preferred to removing an account)
 
-#### Listing all users
+### Listing all users
 
 To list all current users of the system, just click on List Users under the administration menu to the left. A view will load containing a list of all users and the following columns of information:
 
@@ -77,7 +77,7 @@ To list all current users of the system, just click on List Users under the admi
 	*    **Display the user:** Display all user's information.<br />
 ![display user.](figures/display_user.png)
 
-#### Contacting a user
+### Contacting a user
 
 Site admins can use the "Contact users" feature to send all or individual user an e-mail. Users that have a GnuPG key set will receive their e-mails encrypted. When clicking this button on the left, you'll be presented with a form that allows you to specify the type of the e-mail, who it should reach and what the content is using the following options:
 
@@ -94,11 +94,11 @@ Keep in mind that all e-mails sent through this system, in addition to your own 
 
 - - -
 
-### Organisations
+## Organisations
 
 Each users belongs to an organisation. As admin, you can manage these organisations.
 
-#### Adding a new organisation
+### Adding a new organisation
 
 To add a new organisation, click on the "Add Organisation" button in the administration menu to the left and fill out the following fields in the view that is loaded:
 
@@ -113,7 +113,7 @@ To add a new organisation, click on the "Add Organisation" button in the adminis
 *   **Type of organisation:** Define the type of the organisation.
 *   **Contacts:** You can add some contact details for the organisation.
 
-#### Listing all organisations
+### Listing all organisations
 
 To list all current organisations of the system, just click on List Organisations under the administration menu to the left. There are 3 tabs in this view to filter local organisations, remote organisations or both. The default view displays local organisations. For all views the following columns of information are available:
 
@@ -139,14 +139,14 @@ To list all current organisations of the system, just click on List Organisation
 	*    **View Organisation:** Use this option to display information about the selected organisation. In this view, you can display the user belongs to this organisation and events published by organisation.
 ![View organisation.](figures/view_org.png)
 
-#### Merge organisations
+### Merge organisations
 Merge Organisation menu is available only in the organisation view, under the left menu. Merging one organisation into another will transfer all users and data from one organisation to a different one. The organisation of which the users and data will be transferred is displayed on the left, the target organisation is displayed on the right.
 
 ![Merge organisations.](figures/merge_org.png)
 
 - - -
 
-### Roles
+## Roles
 
 Privileges are assigned to users by assigning them to rule groups. Rule groups use one of four options determining what they can do with events as well as four additional privilege elevation settings. These are the four options to edit the full options available in the Roles section: Read Only, Manage My Own Events, Manage Organisation Events, Manage & Publish Organisation Events. A short description is provided below:
 
@@ -169,13 +169,13 @@ The extra permissions are defined below:
 *   **Perm Regexp Access:** Allows users who have this permission enabled to edit the regular expression table. Be careful when giving out this permission, incorrect regular expressions can be very harmful (infinite loops, loss of data, etc.).
 *   **Perm Template:** Grant access to create or modify templates.
 
-#### Adding a new role
+### Adding a new role
 
 When creating a new role, you will have to enter a name for the role to be created and set up permissions (as described above) using the drop-down menu and related check-boxes.
 
 ![Add a new role.](figures/add_role.png)
 
-#### Listing roles
+### Listing roles
 
 By clicking on the List Roles button, you can view a list of all currently registered roles and their enabled permissions. In addition, you can find buttons that allow you to edit and delete said roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
 
@@ -193,7 +193,7 @@ By clicking on the List Roles button, you can view a list of all currently regis
 
 - - -
 
-### Tools
+## Tools
 
 MISP has a couple of administrative tools that help administrators keep their instance up to date and healthy. The list of these small tools can change rapidly with each new version, but they should be self-explanatory. Be sure to check this section after each upgrade to a new version, just in case there's a new upgrade script in there - though if this is the case it will be mentioned in the upgrade instructions.
 
@@ -201,13 +201,8 @@ MISP has a couple of administrative tools that help administrators keep their in
 
 - - -
 
-### Server Settings
-
-Since version 2.3, MISP has a settings and diagnostics tool that allows site-admins to manage and diagnose their MISP installation. You can access this by navigating to Administration - Server settings.
-
-
-### Server settings and diagnostics
-
+##  Server settings and maintenance
+Since version 2.3, MISP has a settings and diagnostics tool that allows site-admins to manage and diagnose their MISP installation. You can access this by navigating to Administration - Server settings & Maintenance.
 
 ![Server settings overview with all of the tabs explained.](figures/settings_1.png)
 
@@ -239,7 +234,7 @@ The workers tab shows a list of the workers that MISP can use. You can restart w
 *   **Worker Id**: The ID is made up of the machine name, the PID of the worker and the queue it monitors.
 *   **Status**: Displays OK if the worker is running. If the _schdlr_ worker is the only one not running, make sure that you copy the config file into the cakeresque directory as described in the INSTALL.txt documentation.
 
-#### Worker types
+### Worker types
 
 **cache** 
 
@@ -277,7 +272,7 @@ The workers tab shows a list of the workers that MISP can use. You can restart w
   Interdependence:
 
 
-#### Workers dead
+### Workers dead
 
 Even if the workers are dead, any actions related to them are on-hold. Nothing is lost.
 Simply restarting the worker will resume any operations.
@@ -288,44 +283,40 @@ For reference, below is the script in question.
 
 {% codesnippet "/automation/start_workers.sh", language="bash" %}{% endcodesnippet %}
 
-### Import Blacklist
+## Blocklists
 
-It is possible to ban certain values from ever being entered into the system via an event info field or an attribute value. This is done by blacklisting the value in this section.
+It is possible to block certain events or organisations from ever being added to the system. Administrators can add, edit or delete blocklisted items. The appropriate pages are linked in the Administration menu.
 
-#### Adding and modifying entries
-
-Administrators can add, edit or delete blacklisted items by using the appropriate functions in the list's action menu and the menu on the left.
-
-### Import Regexp
+## Import Regexp
 
 The system allows administrators to set up rules for regular expressions that will automatically alter newly entered or imported events (from GFI Sandbox).
 
-#### The purpose of Import Regexp entries
+### The purpose of Import Regexp entries
 
 They can be used for several things, such as unifying the capitalisation of file paths for more accurate event correlation or to automatically censor the usernames and use system path variable names (changing C:\Users\UserName\Appdata\Roaming\file.exe to %APPDATA%\file.exe).
 The second use is blocking, if a regular expression is entered with a blank replacement, any event info or attribute value containing the expression will not be added. Please make sure the entered regexp expression follows the preg_replace pattern rules as described [here](http://php.net/manual/en/function.preg-replace.php)
 
-#### Adding and modifying entries
+### Adding and modifying entries
 
 Administrators can add, edit or delete regular expression rules, these "expressions" are made up of a regex pattern that the system searches for and a replacement for the detected pattern.
 
 ![Add, edit or remove Regexp entries that will affect all newly created attributes here.](figures/regexp.png)
 
-### Managing the Signature whitelist
+## Managing the Signature whitelist
 
 The signature whitelist view, accessible through the administration menu on the left, allows administrators to create and maintain a list of addresses that are whitelisted from ever being added to the NIDS signatures. Addresses listed here will be commented out when exporting the NIDS list.
 
-#### Whitelisting an address
+### Whitelisting an address
 
 While in the whitelist view, click on New Whitelist on the left to bring up the "add whitelist" view to add a new address.
 
-#### Managing the list
+### Managing the list
 
 When viewing the list of whitelisted addresses, the following data is shown: The ID of the whitelist entry (assigned automatically when a new address is added), the address itself that is being whitelisted and a set of controls allowing you to delete the entry or edit the address.
 
 ![You can edit or delete currently white-listed addresses using the action buttons on this list.](figures/whitelist.png)
 
-### Using MISP logs
+## Using MISP logs
 
 Users with audit permissions are able to browse or search logs that MISP automatically appends each time certain actions are taken (actions that modify data or if a user logs in and out).
 Generally, the following actions are logged:
@@ -335,12 +326,12 @@ Generally, the following actions are logged:
 *   **Attribute:** Creation, deletion, modification
 *   **ShadowAttribute:** Creation, deletion, Accept, Discard
 *   **Roles:** Creation, deletion, modification
-*   **Blacklist:** Creation, deletion, modification
+*   **Blocklist:** Creation, deletion, modification
 *   **Whitelist:** Creation, deletion, modification
 *   **Regexp:** Creation, deletion, modification
 
 
-#### Browsing logs
+### Browsing logs
 
 Listing all the log entries will display the following columns generated by the users of your organisation (or all organisations in the case of site admins):
 
@@ -359,7 +350,7 @@ Listing all the log entries will display the following columns generated by the 
 
 ![You can search logs using this form, narrow down your search by populating several fields.](figures/search_log.png)
 
-#### Searching Logs
+### Searching Logs
 
 Another way to browse the logs is to search it by filtering the results according to the following fields (the search is a sub-string search, the sub-string has to be an exact match for the entry in the field that is being searched for):
 
@@ -370,11 +361,11 @@ Another way to browse the logs is to search it by filtering the results accordin
 *   **Change:** With the help of this field, you can search for various specific changes or changes to certain variables (Ex.: using  "Published" as the search term for and find all log entries where an event has been "Published", ip-src will find all attributes where a source IP address has been entered / edited, etc).
 
 
-### Background Processing
+## Background Processing
 
 If enabled, MISP can delegate a lot of the time intensive tasks to the background workers. These will then be executed in sequence, allowing the users of the instance to keep using the system without a hiccup and without having to wait for the process to finish. It also allows for certain tasks to be scheduled and automated.
 
-#### Command Line Tools for the Background Workers
+### Command Line Tools for the Background Workers
 
 The background workers are powered by [CakeResque](https://github.com/kamisama/Cake-Resque), so all of the CakeResque commands work.
 To start all of the workers needed by MISP go to your `/var/www/MISP/app/Console/worker` (assuming a standard installation path) and execute `start.sh`.
@@ -396,7 +387,7 @@ To interact with the workers, here is a list of useful commands. Go to your `/va
 
 The other commands should not be required, instead of starting / stopping or restarting workers use the supplied start.sh (it stops all workers and starts them all up again). For further instructions on how to use the console commands for the workers, visit the [CakeResque list of commands](http://cakeresque.kamisama.me/commands#cleanup).
 
-#### Monitoring the Background Processes
+### Monitoring the Background Processes
 
 The "Jobs" menu item within the Administration menu allows site admins to get an overview of all of the current and past scheduled jobs. Admins can see the status of each job, and what the queued job is trying to do. If a job fails, it will try to set an error message here too. The following columns are shown in the jobs table:
 
@@ -413,7 +404,7 @@ The "Jobs" menu item within the Administration menu allows site admins to get an
 
 ![Site administrators can monitor the process of all queued jobs here.](figures/jobs.png)
 
-#### Scheduling Jobs and Recurring Jobs
+### Scheduling Jobs and Recurring Jobs
 
 Apart from off-loading long-lasting jobs to the background workers, there is a second major benefit of enabling the background workers: Site-administrators can schedule recurring tasks for the jobs that generally take the longest to execute. At the moment this includes pushing / pulling other instances and generating a full export cache for every organisation and export type. MISP comes with these 3 tasks pre-defined, but further tasks are planned. The following fields make up the scheduled tasks table:
 
@@ -428,10 +419,10 @@ Apart from off-loading long-lasting jobs to the background workers, there is a s
 ![Site administrators can schedule recurring tasks on this page.](figures/schedule.png)
 
 
-### Various administration tips & tricks
+## Various administration tips & tricks
 
 
-#### Setting a Publish Alert Filter
+### Setting a Publish Alert Filter
 
 To regulate the reception of e-mail from MISP it is possible to create filters. Each individual user account can apply such filter.
 
@@ -478,7 +469,7 @@ After applying the configuration, the filter will show up in the “My Settings�
 ![Set User settings](figures/setUserSetting3.png)
 
 
-#### Default sharing level
+### Default sharing level
 
 Choose your default sharing level to match your usage scenario for MISP. The setting is named *default_event_distribution* and the values can be:
 
@@ -489,17 +480,17 @@ Choose your default sharing level to match your usage scenario for MISP. The set
 
 You can also set a default distribution level for attributes contained in an event with *default_attribute_distribution*, and it has the same values as the default sharing level for events plus an additional one that allows attributes to inherit the sharing level of the event.
 
-#### Adding organisation logos
+### Adding organisation logos
 
 You can add a logo for your organisations in MISP by uploading them via the tab **Manage files** under the **Administration** menu & **Server Settings** sub-menu.
 The filename must be exactly the same as the organisation name that you will use in MISP.
 It is recommended to use PNG files of 48x48 pixels.
 
-#### The \_schdlr\_ worker is not starting
+### The \_schdlr\_ worker is not starting
 
 If you already made sure that you copied the config file under the cakeresque directory, it might be due to the FQDN of the server hosting the instance has changed. A way to fix this is to flush temporary data stored in redis. This can be done by logging in redis, for example when logging in with redis-cli, and issuing a flushall command.
 
-#### How to redirect HTTP to HTTPS
+### How to redirect HTTP to HTTPS
 
 Here is a sample configuration for Apache webserver.
 ```
@@ -542,7 +533,7 @@ Here is a sample configuration for Apache webserver.
  ```
    Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
-#### Increase max size of Samples / other files
+### Increase max size of Samples / other files
 
 Trying to upload a large samples (>50M) might cause the following error:
 ```[!] 500 Server Error: Internal Server Error```
@@ -585,7 +576,7 @@ And then restart apache2
 service apache2 restart
 ```
 
-#### Support & feature requests
+### Support & feature requests
 
 The preferred method for support & feature requests is to use the [GitHub ticketing system](https://github.com/MISP/MISP/issues).
 
@@ -594,7 +585,7 @@ the [MISP Users mailing list](https://groups.google.com/forum/#!forum/misp-users
 
 A number of companies offer custom development, consulting, and support around MISP, please check [the support page of the MISP Project website](http://www.misp-project.org/#support).
 
-#### More information in the notification emails about new events
+### More information in the notification emails about new events
 
 The setting MISP.extended_alert_subject allows you to have an extended subject. One word of warning though. If you’re using encryption : the subject will not be encrypted. Be aware that you might leak some sensitive information this way. Below is an example how the two subject types look like. First with the option disabled, then with the option enabled.
 ```
@@ -604,7 +595,7 @@ Event 8 - OSINT - Dissecting  XXX… - Low - TLP Amber
 
    Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
 
-#### Get top API users
+### Get top API users
 
 Enable the _log_auth_ setting in the server settings. Optionally enable _log_client_ip_ if you want to get stats per client ip.
 Log into your mysql server and run the following query:
@@ -624,7 +615,7 @@ This will give you a top 10 table per ip and username:
 +----------------+----------------------------------+------+
 ```
 
-#### MISP Logs
+### MISP Logs
 
 By default, MISP has several layers of logs that can be used to trouble-shoot and monitor the system. Let's walk through each of the available logs:
 
@@ -637,7 +628,7 @@ By default, MISP has several layers of logs that can be used to trouble-shoot an
 *   **MISP scheduler error log**: Generated by MISP scheduler worker, logging any exceptions generated during the scheduling of a background job. It is the equivalent of the MISP error log for scheduled jobs. It can normally be found at /var/www/MISP/app/tmp/logs/resque-scheduler-error.log
 *   **MISP scheduler logs**: Rotating logs generated by MISP scheduler worker, logging any schedulings of jobs to be executed by workers. This is part of the normal operation of the scheduler worker and doesn't have to be monitored, though it can help when debugging issues. Normally found at /var/www/MISP/app/tmp/logs/resque-scheduler-[current date].log
 
-#### Logging of failed authentication attempts
+### Logging of failed authentication attempts
 
 By default, MISP logs all failed login and authentication attempts in the built in Audit logs. To view any such failed attempts, simply log in as a site admin and navigate to Audit - List logs.
 
@@ -661,13 +652,13 @@ In order to enable IP logging for any logged request in MISP, navigate to Admini
 
 It is also possible to enable full logging of API and external authentication requests using the MISP.log\_auth setting in the same location, but keep in mind that this is highly verbose and will log every request made. In addition to the information above, all accessed resource URLs are also logged.
 
-#### Clearing expired sessions
+### Clearing expired sessions
 
 By default the garbage collection of sessions is disabled in PHP. It is possible to enable it, but it's not recommended and as such MISP provides a manual way of clearing the sessions.
 
 Navigate to the diagnostics screen of MISP (Administration - Server settings - Diagnostics) and near the bottom of the page there will be a counter showing the count of currently stored expired sessions. Simply purge them by clicking the applicable button when the number grows too large.
 
-#### Troubleshooting MISP not connecting to redis but redis-cli working
+### Troubleshooting MISP not connecting to redis but redis-cli working
 
 If you have an IPv6 enabled OS, but an older redis version that does not support IPv6 (<v2.8), MISP might fail to connect to the redis server while redis-cli is working.
 The reason is that redis-cli is connecting to 127.0.0.1 directly, while the calls inside the CakeResque library used by MISP are done using "*localhost*" which resolves both to the IPv4 and IPv6 loopback addresses. For some reasons, the use of the IPv6 address is attempted first which fails.
@@ -683,7 +674,7 @@ Two ways to fix it:
 2) Comment the localhost mapping to IPv6 address in /etc/hosts
 
 
-#### Errors about fields or tables
+### Errors about fields or tables
 
 If you have errors with fields or tables that you can see in the error.log or in the page (if you enabled _debug_ or _site_admin_debug_ settings), an easy fix to make most of them go away is to use the **clean cache** feature on the _server settings_ menu, _diagnostics_ tab.
 An example of error message:
@@ -691,7 +682,7 @@ An example of error message:
 Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Task.job_id' in 'field list'
 ```
 
-### Jobs
+## Jobs
 
 The Jobs tab gives you an overview on any currently running jobs or jobs that were previously completed and their status.
 
@@ -700,7 +691,7 @@ The Jobs tab gives you an overview on any currently running jobs or jobs that we
 Typically this is one of the places you would turn to even some background process might not complete as expected to get an indication on any issues related to user initiated Jobs.
 
 For ease of use, you can filter the Jobs by 'All', 'Default', 'Email', 'Cache'
-##### TODO: Explain differences Default, Email, Cache
+### TODO: Explain differences Default, Email, Cache
 
 You can also purge the entries, either only by completed status or purge all.
 This is not automated and needs to be done manually.
@@ -721,7 +712,7 @@ If you have a dedicated and concious MISP Site Admin she can keep an eye on the 
 For better performance please use a real scheduler like your systems' crontab.
 As a rule of thumb: If you can click on it, MISP can automate it.
 
-### MISP Backup
+## MISP Backup
 
 Currently there exists this backup script simply called [misp-backup.sh](https://github.com/MISP/MISP/tree/2.4/tools/misp-backup)
 
@@ -744,79 +735,79 @@ MISP Backup Completed, OutputDir: /opt/backup
 FileName: MISP-Backup-20181128_163215.tar.gz
 FullName: /opt/backup/MISP-Backup-20181128_163214.tar.gz
 ```
-### MISP Restore
+## MISP Restore
 
 In a similar fashion you can restore your MISP instance with the **misp-restore.sh** script.
 Read the script for details.
-### Command line interface (CLI) commands
+## Command line interface (CLI) commands
 
 The below info is also available in the MISP GUI. Go to event actions -> automation -> bottom of the page
 
-#### Administering MISP via the CLI
-##### Get Setting
+### Administering MISP via the CLI
+#### Get Setting
     MISP/app/Console/cake Admin getSetting [setting]
-##### Set Setting
+#### Set Setting
     MISP/app/Console/cake Admin setSetting [setting] [value]
-##### Get Authkey
+#### Get Authkey
     MISP/app/Console/cake Admin getAuthkey [email]
-##### Reset Authkey
+#### Reset Authkey
     MISP/app/Console/cake Authkey [email] [api_key | optional]
-##### Set Baseurl
+#### Set Baseurl
     MISP/app/Console/cake Baseurl [baseurl]
-##### Change Password
+#### Change Password
     MISP/app/Console/cake Password [email] [new_password] [--override_password_change]
-##### Clear Bruteforce Entries
+#### Clear Bruteforce Entries
     MISP/app/Console/cake Admin clearBruteforce [user_email]
-##### Run Database Update
+#### Run Database Update
     MISP/app/Console/cake Admin updateDatabase
-##### Update All JSON Structures
+#### Update All JSON Structures
     MISP/app/Console/cake Admin updateJSON
-##### Update Galaxy Definitions
+#### Update Galaxy Definitions
     MISP/app/Console/cake Admin updateGalaxies
-##### Update Taxonomy Definitions
+#### Update Taxonomy Definitions
     MISP/app/Console/cake Admin updateTaxonomies
-##### Update Object Templates
+#### Update Object Templates
     MISP/app/Console/cake Admin updateObjectTemplates
-##### Update Warninglists
+#### Update Warninglists
     MISP/app/Console/cake Admin updateWarningLists
-##### Update Noticelists
+#### Update Noticelists
     MISP/app/Console/cake Admin updateNoticeLists
-##### Update MISP
+#### Update MISP
     MISP/app/Console/cake Admin updateMISP
-##### Set Default Role
+#### Set Default Role
     MISP/app/Console/cake Admin setDefaultRole [role_id]
-##### Get IPs For User ID
+#### Get IPs For User ID
     MISP/app/Console/cake Admin UserIP [user_id]
-##### Get User ID For User IP
+#### Get User ID For User IP
     MISP/app/Console/cake Admin IPUser [ip]
-#### Automating certain console tasks
+### Automating certain console tasks
 If you would like to automate tasks such as caching feeds or pulling from server instances, you can do it using the following command line tools. Simply execute the given commands via the command line / create cron jobs easily out of them.
-##### PullAll
+#### PullAll
     MISP/app/Console/cake Server pullAll [user_id] [full|update]
-##### Pull
+#### Pull
     MISP/app/Console/cake Server pull [user_id] [server_id] [full|update]
-##### Push
+#### Push
     MISP/app/Console/cake Server push [user_id] [server_id]
-##### Cache Feeds For Quick Lookups
+#### Cache Feeds For Quick Lookups
     MISP/app/Console/cake Server cacheFeed [user_id] [feed_id|all|csv|text|misp]
-##### Fetch Feeds As Local Data
+#### Fetch Feeds As Local Data
     MISP/app/Console/cake Server fetchFeed [user_id] [feed_id|all|csv|text|misp]
-##### Run Enrichment
+#### Run Enrichment
     MISP/app/Console/cake Event enrichment [user_id] [event_id] [json_encoded_module_list]
-##### Test Server
+#### Test Server
     MISP/app/Console/cake Server test [server_id]
-##### List Servers
+#### List Servers
     MISP/app/Console/cake Server listServers
-#### Managing the background workers
+### Managing the background workers
 The background workers can be managed via the CLI in addition to the UI / API management tools.
-##### Get List Of Workers
+#### Get List Of Workers
     MISP/app/Console/cake Admin getWorkers [all|dead]
-##### Start A Worker
+#### Start A Worker
     MISP/app/Console/cake Admin startWorker [queue_name]
-##### Restart A Worker
+#### Restart A Worker
     MISP/app/Console/cake Admin restartWorker [worker_pid]
-##### Restart All Workers
+#### Restart All Workers
     MISP/app/Console/cake Admin restartWorkers
-##### Kill A Worker
+#### Kill A Worker
     MISP/app/Console/cake Admin killWorker [worker_pid]
 
