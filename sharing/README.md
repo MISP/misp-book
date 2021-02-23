@@ -1,13 +1,13 @@
 <!-- toc -->
 
-## Sharing / Synchronisation
+# Sharing / Synchronisation
 
 * MISP's core functionality is sharing where everyone can be a consumer and/or a contributor/producer.
 * Quick benefit without the obligation to contribute
 * Low barrier access to get acquainted to the system
 
-## Synchronisation
-### Concept
+# Synchronisation
+## Concept
 
 The following figure shows the concept how different MISP instances could tie together.
 
@@ -32,7 +32,7 @@ An organisation B (OrgB) wants to synchronise its MISP server, called ServerB, w
 
 For additional information on the synchronisation process, refer to the [MISP GitHub issues](https://github.com/MISP/MISP/issues), for example, [issue 2595](https://github.com/MISP/MISP/issues/2595).
 
-### Adding a server
+## Adding a server
 
 Servers can be added by users via
 
@@ -98,15 +98,15 @@ https://<misp url>/servers/add
 
     You can also upload a certificate file if the instance you are trying to connect to has its own signing authority.  (*.pem)
 
-### Test connection
+## Test connection
 
 Test connection can be used to test the connection to the remote server and will give a feedback about local and remote version of MISP.
 
-### Rules
+## Rules
 
 Rules are used to limit sharing when synchronising events and attributes, to e.g. events with a given tag, or disabling sharing for events containing a certain Tag.
 
-### Troubleshooting
+## Troubleshooting
 
 If you have issues connecting to a remote servers try to do the following things:
 
@@ -139,6 +139,10 @@ A community is composed of the local organisations on a MISP server and the remo
 
 Specifically, communities are not reversible. Taking the example of <a href="#misp-server-sync">the above figure</a>, illustrating the synchronisation between two MISP servers, OrgB.ServerB is part of the MISP ServerA community but OrgB.ServerA is not part of MISP ServerB community.
 
+### Sharing-groups
+
+There is an article about sharing groups in [here](../using-the-system/#create-and-manage-sharing-groups)
+
 ### Distribution mechanisms
 
 The distribution level of an event is automatically decreased as it is synchronised with other MISP instances, when it was originally set to:
@@ -158,32 +162,56 @@ As an example, the figure below illustrates two events **e** and **e'** created 
 
 ![Illustration of MISP organisations and community interactions](figures/misp-compliance-iso-concepts.png)
 
+#### General syncing rules
+- The owner organisation of the event on instance B is set to the organisation of the sync user.
+- The creator user is the authkey user when pushing
+- The creator user is the user triggering the pull when pulling. This user can be different than the authkey user.
+- Rule of thumb: if the user configured to pull from instance A to B can see the event on instance A, the event will be synced.
+
 #### Syncing scenarios with communities distribution
-***The below scenarios are if “Internal instance” has not been checked when creating the server.***
 
-##### Push from instance A to instance B
-In this scenario, which organisation the sync user belongs to does not influence the outcome of the push.
+##### Internal instance flag not set
+The below scenarios are if “Internal instance” has not been checked when creating the server. This is the usual scenario.
+###### Push from instance A to instance B - usual scenario
+Which organisation the remote sync user belongs to has no impact on which events are pushed.
 
-| Instance A  | Instance B  |
-| ----------- | ----------- |
-| Your organisation only      | Event/object/attribute not pushed       |
-| This community only   | Event/object/attribute not pushed        |
+| Instance A  | Instance B                                                                        |
+| ----------- | --------------------------------------------------------------------------------- |
+| Your organisation only      | Event/object/attribute not pushed                                                 |
+| This community only   | Event/object/attribute not pushed                                                 |
 | Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B       |
-| All communities   | Event/object/attribute distribution stays all communities        |
+| All communities   | Event/object/attribute distribution stays 'all communities'                       |
 
-##### Pulling from instance A to instance B
-Rule of thumb: if the user configured to pull from server A can see the event on instance A, the event will be synced.
+###### Pulling from instance A to instance B - usual scenario
+Rule of thumb: if the user configured to pull from instance A can see the event on instance A, the event will be synced.
 
-| Instance A  | Instance B  |
-| ----------- | ----------- |
-| Your organisation only      | Event/object/attribute pulled in only if the sync user is member of the host organisation on A       |
-| This community only   | Event/object/attribute distribution decreased to 'Your organisation only' on B     |
-| Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B       |
-| All communities   | Event/object/attribute distribution stays all communities        |
+| Instance A  | Instance B                                                                                                                                                                     |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Your organisation only      | Event/object/attribute pulled in only if the sync user is member of the event's owner organisation on A. Event distribution stays 'Your organisation only' on instance B       |
+| This community only   | Event/object/attribute distribution decreased to 'Your organisation only' on B                                                                                                 |
+| Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B                                                                                                    |
+| All communities   | Event/object/attribute distribution stays all communities on B                                                                                                                 |
 
-### Sharing-groups
+##### Internal instance flag  set
+The below scenarios are if “Internal instance” has been checked when creating the server. This is the *not* the usual scenario and *potentially dangerous*. The internal instance flag can be used when both instances have the same hosting organisation. 
 
-There is an article about sharing groups in [here](../using-the-system/#create-and-manage-sharing-groups)
+###### Push from instance A to instance B - internal flag set scenario
+| Instance A  | Instance B                                                                                                                                                                                                                                          |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Your organisation only      | Event/object/attribute not pushed if triggering push of already locally (on instance A) published event. Event/object/attribute synced on publication of an event, even if the organisation publishing is not the host organisation of the instance |
+| This community only   | Event/object/attribute distribution stays 'This community only' on B                                                                                                                                                                                |
+| Connected communities      | Event/object/attribute distribution stays 'Connected communities' on B                                                                                                                                                                              |
+| All communities   | Event/object/attribute distribution stays 'All communities on B'                                                                                                                                                                                    |
+
+###### Pulling from instance A to instance B - internal flag set scenario
+Rule of thumb: if the user configured to pull from instance A can see the event on instance A, the event will be synced.
+
+| Instance A  | Instance B                                                                                                                                                      |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Your organisation only      | Event/object/attribute pulled in only if the sync user is member of the event's owner organisation. Event distribution stays 'Your organisation only' on B      |
+| This community only   | Event/object/attribute distribution decreased to 'Your organisation only' on B                                                                                  |
+| Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B                                                                                     |
+| All communities   | Event/object/attribute distribution stays 'All communities' on B                                                                                                |
 
 ## Collaboration
 
