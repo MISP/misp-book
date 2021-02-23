@@ -105,7 +105,7 @@ Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-sta
 
 ### When I try to access my new installation, I am redirected to localhost:8443 and get an error.
 
-By default, MISP runs on a local instance and is setup for local access upon installation. This allows you to setup security and customizations before making it available elsewhere. If you would like to access the MISP instance from a remote host (including another VM host/client), assign an IP to the MISP host and point your browser accordingly. Upon login, you may get the “localhost:8443” redirection. Change that piece of the URL back to the IP assigned to the MISP host (or associated DNS name) and refresh the browser. Once in, go to Administration - Server Settings and Maintenance - MISP settings. You can change the top two items to your MISP IP or DNS name and the redirect will start using that address instead of 'localhost'.
+By default, MISP runs on a local instance and is setup for local access upon installation. This allows you to setup security and customizations before making it available elsewhere. If you would like to access the MISP instance from a remote host (including another VM host/client), assign an IP to the MISP host and point your browser accordingly. Please refer to [how to set the baseurl from command line](#how-do-i-set-the-baseurl-from-the-command-line). Once the update is done, you should then be able to access the instance using the set IP/DNS name.
 
 ### How can I define the default sharing level?
 
