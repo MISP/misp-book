@@ -302,19 +302,19 @@ Administrators can add, edit or delete regular expression rules, these "expressi
 
 ![Add, edit or remove Regexp entries that will affect all newly created attributes here.](figures/regexp.png)
 
-## Managing the Signature whitelist
+## Managing the Signature allowedlist
 
-The signature whitelist view, accessible through the administration menu on the left, allows administrators to create and maintain a list of addresses that are whitelisted from ever being added to the NIDS signatures. Addresses listed here will be commented out when exporting the NIDS list.
+The signature allowedlist view, accessible through the administration menu on the left, allows administrators to create and maintain a list of addresses that are allowlisted from ever being added to the NIDS signatures. Addresses listed here will be commented out when exporting the NIDS list.
 
-### Whitelisting an address
+### Allowlisting an address
 
-While in the whitelist view, click on New Whitelist on the left to bring up the "add whitelist" view to add a new address.
+While in the allowedlist view, click on New Allowedlist on the left to bring up the "add allowedlist" view to add a new address.
 
 ### Managing the list
 
-When viewing the list of whitelisted addresses, the following data is shown: The ID of the whitelist entry (assigned automatically when a new address is added), the address itself that is being whitelisted and a set of controls allowing you to delete the entry or edit the address.
+When viewing the list of allowlisted addresses, the following data is shown: The ID of the allowlist entry (assigned automatically when a new address is added), the address itself that is being allowlisted and a set of controls allowing you to delete the entry or edit the address.
 
-![You can edit or delete currently white-listed addresses using the action buttons on this list.](figures/whitelist.png)
+![You can edit or delete currently allowlisted addresses using the action buttons on this list.](figures/allowedlist.png)
 
 ## Using MISP logs
 
@@ -327,7 +327,7 @@ Generally, the following actions are logged:
 *   **ShadowAttribute:** Creation, deletion, Accept, Discard
 *   **Roles:** Creation, deletion, modification
 *   **Blocklist:** Creation, deletion, modification
-*   **Whitelist:** Creation, deletion, modification
+*   **Allowlist:** Creation, deletion, modification
 *   **Regexp:** Creation, deletion, modification
 
 

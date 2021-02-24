@@ -14,7 +14,7 @@ This menu contains all of the main functions of the site as a series of dropdown
 *   **Home button:** This button will return you to the start screen of the application, which is the event index page (more about this later).
 *   **Event Actions:** All the malware data entered into MISP is made up of an event object that is described by its connected attributes. The Event actions menu gives access to all the functionality that has to do with the creation, modification, deletion, publishing, searching and listing of events and attributes.
 *   **Galaxies:** Shortcut to the list of [MISP Galaxies](../galaxy/) on the MISP instance.
-*   **Input Filters:** Input filters alter what and how data can be entered into this instance. Apart from the basic validation of attribute entry by type, it is possible for the site administrators to define regular expression replacements and blacklists for certain values in addition to blocking certain values from being exportable. Users can view these replacement and blacklist rules here whilst administrator can alter them.
+*   **Input Filters:** Input filters alter what and how data can be entered into this instance. Apart from the basic validation of attribute entry by type, it is possible for the site administrators to define regular expression replacements and blocklists for certain values in addition to blocking certain values from being exportable. Users can view these replacement and blocklist rules here whilst administrator can alter them.
 *   **Global Actions:** This menu gives you access to information about MISP and this instance. You can view and edit your own profile, view the manual, read the news or the terms of use again, see a list of the active organizations on this instance and a histogram of their contributions by attribute type.
 *   **MISP:** Simple link to your BASEURL
 *   **Steve:** Name (Auto generated from Mail address) of current logged in user
@@ -87,7 +87,7 @@ This menu contains all of the main functions of the site as a series of dropdown
 
 *   **Import Regexp:** You can view the Regular Expression rules, which modify the data that can be entered into the system. This can and should be used to help filter out personal information from automatic imports (such as removing the username from windows file paths), having unified representation for certain common values for easier correlation or simply standardizing certain input. It is also possible to block certain values from being inserted. As a site administrator or a user with regex permission, you can also edit these rules.
 
-*   **Signature Whitelist:** You can view the whitelist rules, which contains the values that are blocked from being used for exports and automation on this instance. Site administrators have access to editing this list.
+*   **Signature Allowlist:** You can view the allowlist rules, which contains the values that are blocked from being used for exports and automation on this instance. Site administrators have access to editing this list.
 
 *  **List Warninglists:** MISP warninglists are lists of well-known indicators that can be associated to potential false positives, errors or mistakes. The warning lists are integrated in MISP to display an info/warning box at the event and attribute level.
 
@@ -122,7 +122,7 @@ This menu contains all of the main functions of the site as a series of dropdown
 
 *   **List Discussions:** List threads of discussions created on the MISP instance by the organisations connected to this local community.
 
-*   **Start Discussion:** Create a new discussion thread. 
+*   **Start Discussion:** Create a new discussion thread.
 <!-- #ToDo: Make a reference to best practices on how to use this form of messaging. Sense/non-sense etc... -->
 
 ##### Sync Actions
@@ -169,16 +169,16 @@ The system will automatically generate a message for you, but it is also possibl
 
 *   **Scheduled Tasks:** Schedule the pre-defined tasks for your instance (this currently includes export caching, server pull and server push).
 
-*   **Blacklist Event:** Link to form where you can quickly add an event to a blacklist with it's UUID.
-<!-- #Todo: Double check if blacklists and their impacts are explained at all -->
+*   **Blocklist Event:** Link to form where you can quickly add an event to a blocklist with it's UUID.
+<!-- #Todo: Double check if blocklists and their impacts are explained at all -->
 
-*   **Manage Event Blacklists:** List of blacklisted events on MISP instance.
+*   **Manage Event Blocklists:** List of blocklisted events on MISP instance.
 
-*   **Blacklists Organisation:** Link to for where you can quickly add an organisation to a blacklist with it's UUID.
+*   **blocklist Organisation:** Link to for where you can quickly add an organisation to a blocklist with it's UUID.
 
-<!-- #Todo: Double check if blacklists and their impacts are explained at all -->
+<!-- #Todo: Double check if blocklists and their impacts are explained at all -->
 
-*   **Manage Org Blacklists:** List of blacklisted Organisations on this instance.
+*   **Manage Org blocklists:** List of blocklisted Organisations on this instance.
 
 ##### Audit
 

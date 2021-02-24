@@ -135,7 +135,7 @@ Folder: View
 -    - [ ] missing_connection.ctp
 -    - [ ] missing_datasource_config.ctp
 -    - [ ] pdo_error.ctp
-- [ ] EventBlacklists
+- [ ] EventBlocklists
 -    - [ ] add.ctp
 -    - [ ] edit.ctp
 -    - [ ] index.ctp
@@ -284,7 +284,7 @@ Folder: View
 -    -    - [ ] delete.ctp
 -    - [ ] get_row.ctp
 -    - [ ] revise_object.ctp
-- [ ] OrgBlacklists
+- [ ] OrgBlocklists
 -    - [ ] add.ctp
 -    - [ ] edit.ctp
 -    - [ ] index.ctp
@@ -448,7 +448,7 @@ Folder: View
 -    -    - [ ] getToggleField.ctp
 -    - [ ] index.ctp
 -    - [ ] view.ctp
-- [ ] Whitelists
+- [ ] Allowedlists
 -    - [ ] admin_add.ctp
 -    - [ ] admin_edit.ctp
 -    - [ ] admin_index.ctp

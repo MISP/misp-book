@@ -341,7 +341,7 @@ An example for a Suricata export for all events excluding those tagged tag1, wit
 https://<misp url>/events/nids/suricata/download/null/true/!tag1
 ~~~~
 
-Administration is able to maintain a white-list containing host, domain name and IP numbers to exclude from the NIDS export.
+Administration is able to maintain an allowedlist containing host, domain name and IP numbers to exclude from the NIDS export.
 
 ### GET /events/hids Hash - HIDS database export
 
@@ -1368,7 +1368,7 @@ https://<misp url>/attributes/text/download/[type]/[tags]/[event_id]/[allowNonID
 <dt>tags</dt>
 <dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
 <dt>allowNonIDS</dt>
-<dd>Include attributes that would normally be excluded due to the IDS flag not being set or due to being whitelisted</dd>
+<dd>Include attributes that would normally be excluded due to the IDS flag not being set or due to being allowlisted</dd>
 <dt>from</dt>
 <dd>Set the lowest "date" field value that should be included in the export (format YYYY-MM-DD)</dd>
 <dt>to</dt>
