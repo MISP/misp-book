@@ -283,9 +283,56 @@ For reference, below is the script in question.
 
 {% codesnippet "/automation/start_workers.sh", language="bash" %}{% endcodesnippet %}
 
-## Blocklists
+## Blocklists and block rules
 
 It is possible to block certain events or organisations from ever being added to the system. Administrators can add, edit or delete blocklisted items. The appropriate pages are linked in the Administration menu.
+
+### Event blocklist
+Blocklisting an event prevents the event from being added on the instance. Blocklisting an existing event will not result in the event being removed. The event will still be editable as well. Blocklisting events functionality is enabled by default. If blocklisting events is enabled, deleted events will automatically be added to the event blocklist. Enabling/disabling event blocklisting can be done using the MISP settings view.
+![MISP settings page, showing the settings to enable event and org blocklisting](./figures/blocklist-setting.png)
+
+#### Blocklisting an event
+The blocklist event screen can be accessed through the main administration menu. You can enter the UUID of one event or a list of event UUIDs (one per line). If the optional fields creating organisation, event info or comment are filled in, their values will be added for all added UUIDs.
+
+![Add event blocklist entries view](./figures/add-event-blocklist-entry.png)
+
+#### Viewing event blocklist entries
+The list of blocklisted events can be accessed through the main administration menu. You can delete a blocklist entry or access the edit screens for specific blocklisted events from here.
+![Event blocklist index page](./figures/event-blocklists-index.png)
+
+
+### Event block rules
+Event block rules allow you to add a simple tag filter to block events from being added or synced.
+
+An example of a rule can be found below:
+
+    {
+    "tags": ["tag1", "tag2"]
+    }
+
+The rule will block:
+- Syncing of events with "tag1" or "tag2"
+- Direct adding of events with "tag1" or "tag2" in one go, for example using /events/add
+
+The rule will not block:
+- The adding of "tag1" or "tag2" to an existing event through non syncing actions, for example by adding it via the graphical user interface.
+
+It is not possible to add more complex rules with boolean logic (NOT, AND).
+
+### Organisation blocklist
+Blocklisting an organisation prevents the creation of any event by the blocklisted organisation. It does not prevent a local user from the blocklisted organisation from logging in or viewing data.
+![A blocklist entry is blocking you from creating any events error message](./figures/add-event-blocklisted-message.png)
+
+When syncing, events created by blocklisted organisations will not be added to the instance. Updates will also not propagate. A user from a blocklisted organisation can still edit an event from the blocklisted organisation locally though. Blocklisting organisations functionality is enabled by default. Enabling/disabling organisation blocklisting can be done using the MISP settings view.
+![MISP settings page, showing the settings to enable event and org blocklisting](./figures/blocklist-setting.png)
+#### Blocklisting an organisation
+The blocklist organisation screen can be accessed through the main administration menu. You can enter the UUID of one organisation or a list of organisations UUIDs (one per line). If the optional fields organisation name or comment are filled in, their values will be added for all added UUIDs.
+
+![Blocklist organisation view](./figures/blocklist-organisation.png)
+
+#### Viewing organisation blocklist entries
+The list of blocklisted organisations can be accessed through the main administration menu. You can delete a blocklist entry or access the edit screens for specific blocklisted organisations from here.
+![Organisation blocklist index page](./figures/organisation-blocklists-index.png)
 
 ## Import Regexp
 
