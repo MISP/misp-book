@@ -13,4 +13,4 @@ mv book.epub _book
 mv book.mobi _book
 chmod +r _book/book.pdf _book/book.epub _book/book.mobi
 cd _book
-#rsync -azv . circl@cpab.circl.lu:/var/www/nwww.circl.lu/doc/misp/ && rm -rf _book
+rsync -azv . circl@cpab.circl.lu:/var/www/nwww.circl.lu/doc/misp/ && rm -rf _book
