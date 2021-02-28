@@ -19,6 +19,7 @@ install:
     - npm install gitbook-plugin-anchors
     - npm install gitbook-plugin-image-class
     - npm install gitbook-plugin-codesnippet
+    - npm install gitbook-plugin-last-modified
 
 script:
     - npm install honkit
