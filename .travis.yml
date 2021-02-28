@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - "7"
+    - "14"
 
 dist: trusty
 
@@ -12,7 +12,6 @@ install:
     - sudo npm cache clean -f
     - sudo npm install -g n
     - sudo n stable
-    - sudo ln -sf /usr/local/n/versions/node/8.0.0/bin/node /usr/bin/node
     - sudo npm update -g
     - npm install honkit
     - npm install gitbook-plugin-autocover
@@ -23,5 +22,5 @@ install:
     - npm install gitbook-plugin-codesnippet
 
 script:
-    - npx honkit install
+    - npm install honkit
     - npx honkit build
