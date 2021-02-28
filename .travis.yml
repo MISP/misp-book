@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-    - "7"
+    - "14"
 
 dist: trusty
 
@@ -12,15 +12,18 @@ install:
     - sudo npm cache clean -f
     - sudo npm install -g n
     - sudo n stable
-    - sudo ln -sf /usr/local/n/versions/node/8.0.0/bin/node /usr/bin/node
     - sudo npm update -g
-    - npm install gitbook-cli -g
-    - npm install gitbook-plugin-autocover
+    - npm install honkit
     - npm install gitbook-plugin-github
     - npm install gitbook-plugin-toc
     - npm install gitbook-plugin-anchors
     - npm install gitbook-plugin-image-class
+    - npm install gitbook-plugin-codesnippet
+    - npm install gitbook-plugin-last-modified
+    - npm install gitbook-plugin-sitemap
+    - npm install gitbook-plugin-advanced-emoji
+    - npm install gitbook-plugin-image-class
 
 script:
-    - gitbook install
-    - gitbook build
+    - npm install honkit
+    - npx honkit build

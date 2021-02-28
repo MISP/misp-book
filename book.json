@@ -1,10 +1,10 @@
 {
-    "title": "User guide of MISP Malware Information Sharing Platform, a Threat Sharing Platform.",
-    "description": "User guide of MISP Malware Information Sharing Platform, a Threat Sharing Platform.",
+    "title": "User guide of MISP intelligence sharing platform",
+    "description": "User guide of MISP intelligence sharing platform",
     "language": "en",
     "author": "MISP Contributors",
-    "plugins": ["autocover", "github", "toc", "anchors", "alerts", "advanced-emoji", "image-class", "last-modified", "search", "sitemap", "codesnippet", "gist", "fontsettings"],
-    "links": { "sidebar": {        "MISP @ GitHub": "https://github.com/MISP/MISP", "PDF Format": "https://www.circl.lu/doc/misp/book.pdf" }},
+    "plugins": ["toc", "github", "codesnippet", "last-modified", "anchors", "sitemap", "advanced-emoji", "image-class"],
+    "links": { "sidebar": { "MISP @ GitHub": "https://github.com/MISP", "PDF": "https://www.circl.lu/doc/misp/book.pdf", "EPUB": "https://www.circl.lu/doc/misp/book.epub", "MOBI": "https://www.circl.lu/doc/misp/book.mobi"}},
     "pluginsConfig": {
         "github": {
                 "url": "https://github.com/MISP/"
