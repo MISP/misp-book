@@ -14,13 +14,14 @@ install:
     - sudo n stable
     - sudo ln -sf /usr/local/n/versions/node/8.0.0/bin/node /usr/bin/node
     - sudo npm update -g
-    - npm install gitbook-cli -g
+    - npm install honkit
     - npm install gitbook-plugin-autocover
     - npm install gitbook-plugin-github
     - npm install gitbook-plugin-toc
     - npm install gitbook-plugin-anchors
     - npm install gitbook-plugin-image-class
+    - npm install gitbook-plugin-codesnippet
 
 script:
-    - gitbook install
-    - gitbook build
+    - npx honkit install
+    - npx honkit build
