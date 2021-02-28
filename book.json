@@ -16,7 +16,7 @@
                 "hostname": "https://www.circl.lu/doc/misp/"
         },
         "fontsettings": {
-            "theme": "night",
+            "theme": "white",
             "family": "sans",
             "size": 2
         },
