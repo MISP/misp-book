@@ -20,6 +20,7 @@ install:
     - npm install gitbook-plugin-image-class
     - npm install gitbook-plugin-codesnippet
     - npm install gitbook-plugin-last-modified
+    - npm install gitbook-plugin-sitemap
 
 script:
     - npm install honkit
