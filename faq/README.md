@@ -28,10 +28,14 @@ During a [Hackathon](https://hackathon.hack.lu) a small tool called [MISP-Sizer]
 
 ### How to monitor MISP?
 
-Currently there are 2 documented ways to monitor MISP.
+There are many ways to monitoring MISP via the MISP or using external tools. The following documentation is available
+for different monitoring tools:
 
-Either with [MUNIN](http://munin-monitoring.org/) -> [misp-monitor](https://github.com/SteveClement/misp-monitor) for instructions.
-Or [OpenNMS](https://www.opennms.com/) -> [Instructions here](https://www.misp-project.org/2020/08/18/MISP-Monitoring-with-OpenNMS.html) 
+- Using [Cacti](https://www.cacti.net/), a blog post with the [instruction](https://www.misp-project.org/2020/08/22/MISP-Monitoring-with-Cacti.html) is available.
+- Using [Munin](http://munin-monitoring.org/), [misp-monitor](https://github.com/SteveClement/misp-monitor) for instructions.
+- Using [Nagios](https://www.nagios.org/), [Monitoring MISP with Nagios](https://blog.rootshell.be/2020/08/25/monitoring-misp-with-nagios/)
+- Using [OpenNMS](https://www.opennms.com/), a blog post with the [instructions](https://www.misp-project.org/2020/08/18/MISP-Monitoring-with-OpenNMS.html) is availabe.
+- [Live monitoring of MISP usage](https://github.com/MISP/misp-monitoring) via the httpd logs. 
 
 ***
 ## Specific questions
