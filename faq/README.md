@@ -28,7 +28,7 @@ During a [Hackathon](https://hackathon.hack.lu) a small tool called [MISP-Sizer]
 
 ### How to monitor MISP?
 
-There are many ways to monitoring MISP via the MISP or using external tools. The following documentation is available
+There are many ways to monitor MISP via the MISP API or relying on external tools. The following documentation is available
 for different monitoring tools:
 
 - Using [Cacti](https://www.cacti.net/), a blog post with the [instruction](https://www.misp-project.org/2020/08/22/MISP-Monitoring-with-Cacti.html) is available.
