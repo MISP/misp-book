@@ -1,3 +1,0 @@
-<!-- toc -->
-
-## MISP-noticelist
