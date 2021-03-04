@@ -57,7 +57,7 @@ Keep in mind that the system searches for regular expressions in the value field
 
 ### Add Object
 
-Please have a look at the [MISP-objects chapter](../misp-object/README.md)
+Please have a look at the [MISP objects chapter](../misp-objects/README.md)
 
 
 ### Create and manage Sharing Groups
