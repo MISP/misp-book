@@ -531,11 +531,11 @@ curl --header "Authorization: YOUR API KEY " -d "{"uuid"="5a0d68b3-6da0-4ced-823
 
 #### Description
 
-Removes an Tag to an Object by a given UUID
+Removes a Tag from an Object (attribute or event) with given UUID
 
 #### URL Arguments
 
-- tag
+- tag           (as id or name)
 - UUID
 
 #### Response
@@ -549,10 +549,25 @@ Removes an Tag to an Object by a given UUID
 
 
 #### Example
-~~~~
+~~~
 curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/removeTagFromObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
-~~~~
-
+~~~
+~~~
+curl \
+ -d '{"uuid":"85752e06-7644-40c8-8190-f8bbe9e7b2c7","tag":"tlp:white"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/tags/removeTagFromObject
+~~~
+~~~
+curl \
+ -d '{"uuid":"85752e06-7644-40c8-8190-f8bbe9e7b2c7","tag":7}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/tags/removeTagFromObject
+~~~
 
 
 ### GET /tags/tagStatistics/
