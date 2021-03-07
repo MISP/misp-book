@@ -179,7 +179,6 @@ Receive events based on criteria
 - event_id: Event id to receive
 - event_uuid : Event uuid to receive
 
-
 #### Output
 ~~~~json
 [{"id":"1","org_id":"1","date":"2014-12-10","info":"OSINT - F-Secure W32\/Regin, Stage #1","uuid":"54884656-2da8-4625-bf07-43ef950d210b","published":true,"analysis":"2","attribute_count":"39","orgc_id":"2","timestamp":"1418217625","distribution":"3","sharing_group_id":"0","proposal_email_lock":false,"locked":false,"threat_level_id":"1","publish_timestamp":"1515749192","disable_correlation":false,"Org":{"id":"1","name":"ORGNAME"},"Orgc":{"id":"2","name":"CIRCL"},"EventTag":[{"id":"1","event_id":"1","tag_id":"1","Tag":{"id":"1","name":"Type:OSINT","colour":"#1eed40","exportable":true}}],"SharingGroup":{"id":null,"name":null}}]
@@ -251,27 +250,67 @@ curl --header "Authorization: YOUR API KEY " --header "Accept: application/json"
 ~~~~
 
 
-### POST /events/addTag Add or remove tags from events
+### POST /events/AddTag
 
-You can add or remove an existing tag from an event in the following way:
+Add a tag or a tag collection to an existing event.
 
-~~~~
-https://<misp url>/events/addTag
-https://<misp url>/events/removeTag
-~~~~
+#### URL Arguments
+- event     (id)
+- tag         (id, name or collection_[collection_id])
 
-Just POST a JSON object in the following format (to the appropriate API depending on whether you want to add or delete a tag from an event):
+Examples:
 
-~~~~json
-{"request": {"Event": {"id": "228", "tag": "8"}}}
-~~~~
+~~~
+curl \
+ -d '{"event":"1210","tag":"tlp:green"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/events/addTag
+~~~
+~~~
+curl \
+ -d '{"event":"1210","tag":"383"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/events/addTag
+~~~
+~~~
+curl \
+ -d '{"event":"1210","tag":"collection_1"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/events/addTag
+~~~
 
-Where "tag" is the ID of the tag. You can also use the name of the tag the following way (has to be an exact match):
+### POST /events/removeTag
 
-~~~~json
-{"request": {"Event": {"id": "228", "tag": "OSINT"}}}
-~~~~
+Remove a tag from an existing event. Note that removing a tag collection in one go is not possible.
 
+#### URL Arguments
+- event     (id)
+- tag         (id, name).
+
+Examples:
+
+~~~
+curl \
+ -d '{"event":"1210","tag":"tlp:amber"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/events/removeTag
+~~~
+~~~
+curl \
+ -d '{"event":"1210","tag":"987"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/events/removeTag
+~~~
 
 ### GET /events/pushEventToZMQ/
 
@@ -489,7 +528,6 @@ The same search could be accomplished using the following POSTed XML object (not
 
 ## Tag management
 
-
 ### POST /tags/add
 
 #### Description
@@ -499,44 +537,51 @@ The same search could be accomplished using the following POSTed XML object (not
 
 #### Description
 
-Attaches an Tag to an Object by a given UUID
+Attaches a tag to an object by a given UUID. Note that adding a tag collection via this endpoint is not possible. Please refer to /events/addTag and /attributes/addTag for that functionality.
+
+This endpoint exists for convenience reasons and might be slightly less performant than /events/addTag and /attributes/addTag.
 
 #### URL Arguments
 
-- tag
 - UUID
+- tag           (as id or name)
 
 #### Response
-~~~~json
+~~~json
 {
     "name": "Tag tlp3Awhite(7) successfully attached to Attribute(153).",
     "message": "Tag tlp3Awhite(7) successfully attached to Attribute(153).",
     "url": "\/tags\/attachTagToObject"
 }
-~~~~
-
-
+~~~
 #### Example
-~~~~
+~~~
 curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
-~~~~
-
-
-~~~~
+~~~
+~~~
 curl --header "Authorization: YOUR API KEY " -d "{"uuid"="5a0d68b3-6da0-4ced-8233-77bb950d210f" "tag"="tlp:white"}" --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/
-~~~~
-
+~~~
+~~~
+curl \
+ -d '{"uuid":"e76949e6-5ccb-4483-bef2-0e4cac73d236","tag":"6"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/tags/attachTagToObject
+~~~
 
 ### POST /tags/removeTagFromObject
 
 #### Description
 
-Removes a Tag from an Object (attribute or event) with given UUID
+Removes a tag from an object (attribute or event) with given UUID.
+
+This endpoint exists for convenience reasons and might be slightly less performant than /events/removeTag and /attributes/removeTag.
 
 #### URL Arguments
 
-- tag           (as id or name)
 - UUID
+- tag           (as id or name)
 
 #### Response
 ~~~~json
@@ -670,6 +715,67 @@ Hard delete:
 curl -X POST --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345/1
 ~~~~
 
+### POST /attributes/addTag
+
+Add a tag or a tag collection to an existing attribute.
+
+#### URL Arguments
+- attribute     (id)
+- tag         (id, name or collection_[collection_id])
+
+Examples:
+
+~~~
+curl \
+ -d '{"attribute":"256919","tag":"tlp:green"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/attributes/addTag
+~~~
+~~~
+curl \
+ -d '{"attribute":"256919","tag":"987"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/attributes/addTag
+~~~
+~~~
+curl \
+ -d '{"attribute":"256919","tag":"collection_1"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/attributes/addTag
+~~~
+
+### POST /attributes/removeTag
+
+Remove a tag from an existing event. Note that removing a tag collection in one go is not possible.
+
+#### URL Arguments
+- attribute     (id)
+- tag         (id, name).
+
+Examples:
+
+~~~
+curl \
+ -d '{"event":"1210","tag":"tlp:amber"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/events/removeTag
+~~~
+~~~
+curl \
+ -d '{"event":"1210","tag":"987"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/events/removeTag
+~~~
 
 ### GET /attributes/attributeStatistics
 
