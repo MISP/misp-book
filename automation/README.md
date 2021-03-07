@@ -529,10 +529,34 @@ The same search could be accomplished using the following POSTed XML object (not
 ## Tag management
 
 ### POST /tags/add
-
 #### Description
-
-
+Add a tag on the instance
+#### URL Arguments
+##### Mandatory
+- name
+##### Optional
+- colour : A valid hexadecimal colour, for example #51961a, if not set, a random colour is chosen
+- exportable : whether the tag is exported when synchronising with other instances, default true
+- hide_tag : if set, the tag will not be selectable, default false
+- org_id : if set, only users from this organisation will be able to add the tag to objects
+- user_id : if set, only this user will be able to add the tag to objects
+#### Example
+~~~
+curl \
+ -d '{"name":"tag_only_name"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/tags/add
+~~~
+~~~
+curl \
+ -d '{"name":"tag_doc","colour":"#51961a","exportable":1,"hide_tag":0,"org_id":1}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/tags/add
+~~~
 ### POST /tags/attachTagToObject
 
 #### Description
