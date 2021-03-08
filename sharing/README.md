@@ -32,6 +32,29 @@ An organisation B (OrgB) wants to synchronise its MISP server, called ServerB, w
 
 For additional information on the synchronisation process, refer to the [MISP GitHub issues](https://github.com/MISP/MISP/issues), for example, [issue 2595](https://github.com/MISP/MISP/issues/2595).
 
+## Pull vs Push synchronisation
+Synchronisation can be set up using the pull or push option. A combination of the two is possible as well. This section discusses the main practical differences between the two and the benefit of using both in conjunction.
+
+To automatically execute pull and push synchronisations on a schedule, please use a scheduling service such as cron to execute the relevant command line functions mentioned in the related [administration](../administration/#automating-certain-console-tasks) section.
+
+For a table overview of which community distributions lead to a sync on push or pull scenarios as well as how the distribution level automatically decreases on sync, please refer to the  [syncing scenarios with communities distribution](#syncing-scenarios-with-communities-distribution) section.
+
+### Push
+The push mechanism provides a seemingly real time experience. If a push connection is enabled, data created (and synchronized from other peers) will be synchronized as fast as possible. In practice, this means that an attempt to synchronise is made immediately after publication of an event.
+
+A disadvantage of the push mechanism is that connection issues or dead workers might prevent the push from being successful. 
+
+Data with distribution set to 'Your organisation only' or 'This community only' will not be synchronised using the push mechanism (unless the internal instance flag is set for the server to be synced to).
+
+### Pull
+In contrast to a push, pull synchronisation is only performed on command. This could be a manual trigger by an admin from the servers page or a cron job executing a pull command. See [administration](../administration/#automating-certain-console-tasks) for the available command line interface commands.
+
+A pull will also fetch objects with a distribution set to 'this community only' and even your 'organisation only', if the auth key belongs to the organisation owning the related event.
+
+### Benefits of using push and pull in conjunction
+- If an unexpected issue prevented the push from happening, the data can be pulled in later
+- Different rules can be set for the push and pull sync
+
 ## Adding a server
 
 Servers can be added by users via
