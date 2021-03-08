@@ -844,7 +844,22 @@ https://<misp url>/attributes/describeTypes
 
 Depending on the headers passed the returned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
 
-
+## Objects management
+### POST /objects/delete/[object_id]/[hard_delete]
+#### Description
+Delete an object.
+#### URL Arguments
+- object_id : mandatory
+- hard_delete : if set to 1 or true, the object will be hard deleted. Defaults to false.
+#### Example
+~~~
+curl \
+ -d '{}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.223/objects/delete/18732/1
+~~~
 
 ## Server management
 
