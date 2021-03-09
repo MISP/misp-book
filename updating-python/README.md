@@ -64,12 +64,12 @@ cd /var/www/MISP/PyMISP
 sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U .
 
 # Update the advanced attachment handler libraries (PICK THE ONE.S YOU NEED TO UPDATE)
-# pydeep
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U git+https://github.com/kbandla/pydeep.git
 # lief
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U https://github.com/lief-project/packages/raw/lief-master-latest/pylief-0.9.0.dev.zip
+sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U lief
 # python-magic
 sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U python-magic
+# pydeep - WARNING: It requires libfuzzy-dev 
+sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U pydeep
 
 # Update the STIX dependencies (PICK THE ONE.S YOU NEED TO UPDATE)
 # STIX
