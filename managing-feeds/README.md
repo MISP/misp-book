@@ -35,7 +35,7 @@ Use the buttons at the top of the Feeds screen to retrieve data from feeds and s
 
 ### Fetching feeds
 
-Use the bottom at the top right of the Feeds screen to fetch data from all feeds and ingest the data to the MISP database.
+Use the button at the top right of the Feeds screen to fetch data from all feeds and ingest the data to the MISP database.
 
 ### Search feed caches
 
