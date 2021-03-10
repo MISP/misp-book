@@ -69,74 +69,85 @@ https://<misp url>/servers/add
 
 ![Add Server](figures/add_server_ui.png)
 
-1. Base URL 
-
+1. **Base URL**
     The base-url to the external server you want to sync with. Example: https://foo.sig.mil.be
 
-2. Instance Name
-
+2. **Instance Name**
     A name that will make it clear to your users what this instance is. For example: Organisation A's instance
-
-3. Remote Sync Organisation Type
-
-    MISP has several organisation "pools", one for local and one for known external organisations. When adding a
-    synchronisation connection, you need to define the host organisation of the remote instance. Select which pool
-    you wish to pick the organisation from using this drop-down. You also have the option of adding a new organisation
-    directly from this interface.
-
-4. Local/Known remote Organisation
-
-    Choose the organisation from the selected pool that defines the host organisation on the remote side. Make sure that
-    the remote instance is actually run by the organisation you select as this is used in an integral part of the 
-    sharing mechanism. Do not select your own organisation for this setting.
-
-5. Authkey
-
-    You can find the authentication key on your profile on the external server.
-
-6. Push
-
-    Allow the upload of events and their attributes. That means only Events that match the given filter will
-    be pushed to the server.
     
-    E.g. it can limit push of events to events not being TLP:RED
+3. **Internal instance**
+This checkbox will only show up if the set 'local organisation', see 5, is the same as the owning organisation of the instance the remote server is being configured on. If this flag is set, the distribution of pushed data will not be automatically downgraded. Please refer to the [syncing scenarios with communities distribution](#syncing-scenarios-with-communities-distribution) section for a table overview of the differences.
+
+4. **Remote Sync Organisation Type**
+MISP has several organisation "pools", one for local and one for known external organisations. When adding a synchronisation connection, you need to define the host organisation of the remote instance. Select which pool you wish to pick the organisation from using this drop-down. You also have the option of adding a new external organisation directly from this interface.
+
+5. **Local/Known remote Organisation**
+Choose the organisation from the selected pool that defines the host organisation on the remote side. Make sure that the remote instance is actually run by the organisation you select as this is used in an integral part of the sharing mechanism. Do not select your own organisation for this setting.
+
+6. **Authkey**
+You can find the authentication key on your profile on the external server. If advanced auth keys is enabled you might have to create an auth key manually. This can be done on your profile view as well.
+
+7. **Push**
+Allow the upload of events and their attributes. Only Events that match the given push rules (see 19) will be pushed to the server. Sightings and relevant galaxy clusters will not be pushed unless 'Push Sightings' and 'Push Galaxy Clusters' are enabled as well.
     
+8. **Pull**
+Allow the download of events and their attributes from the server. Only data matching the given pull rules (see 20) will be pulled. Relevant galaxy clusters will not be pulled in unless the 'Pull Galaxy Clusters' checkbox is ticked as well.
 
-7. Pull
+9. **Push sightings**
+If checked, sightings will be pushed out as well on push.
 
-    Allow the download of events and their attributes from the server. That means only Events
-    matching the given criteria will be pulled.
-    
-    E.g. it can limit to NOT download Type:OSINT events.
+10. **Caching Enabled**
+Allow caching of the remote server. Once cached, caching related functionalities such as server overlap analysis can be done.
 
-8. Self Signed
+11. **Push Galaxy Clusters**
+If checked, relevant galaxy clusters will be pushed out as well on push.
 
-    Click this, if you would like to allow a connection despite the other instance using a self-signed certificate (not recommended). (server certificate file still needed)
+12. **Pull Galaxy Clusters**
+If checked, relevant galaxy clusters will be pulled in as well on push. This also enables you to do a pull for galaxy clusters only if pull, see 8, is checked as well.
 
-9. Server certificate file
+13. **Unpublish Event**
+Unpublish the synced event. This only works on push.
 
-    You can also upload a certificate file if the instance you are trying to connect to has its own signing authority.  (*.pem)
+14. **Publish Without Email**
+Publish the event without sending out an email.
 
-10. Client certificate file
+15. **Self Signed**
+Check this if you would like to allow a connection despite the other instance using a self-signed certificate (not recommended).
 
-    You can also upload a certificate file if the instance you are trying to connect to has its own signing authority.  (*.pem)
+16. **Skip proxy (if applicable)**
+Do not connect to this server using the configured proxy (if any proxy host is set in the MISP configuration).
+
+17. **Server certificate file**
+You can upload a certificate file if the instance you are trying to connect to has its own signing authority.  (*.pem)
+
+18. **Client certificate file**
+Set a client certificate to use when connecting to this server.
+
+19. **Push rules**
+Allows you to set filtering rules for data to be pushed out (tag based and organisation based). Please see [rules](#rules) for more info.
+
+20. **Pull rules**
+Allows you to set filtering rules for data to be pulled in (tag based and organisation based). Please see [rules](#rules) for more info.
 
 ## Test connection
+The connection test can be used to test the connection to the remote server and will give a feedback about local and remote version of MISP.
 
-Test connection can be used to test the connection to the remote server and will give a feedback about local and remote version of MISP.
+![Screenshot showing the servers overview and the run connection test button](./figures/connection_test.png)
+***
+![Screenshot showing the servers overview and the run connection test run result](./figures/connection_test_result.png)
+
 
 ## Rules
+Rules are used to limit sharing when synchronising events and attributes. In the example below, data tagged with tlp:red or owned by organisation Setec Astronomy will not be pushed out to this server. Please note any other filtering set up on the instance will still apply as well (blocklists for example).
 
-Rules are used to limit sharing when synchronising events and attributes, to e.g. events with a given tag, or disabling sharing for events containing a certain Tag.
+![Screenshot of configured push rules, tlp:red tag is added to blocked tags and organisation Setec Astronomy to Blocked Orgs](./figures/rules.png)
 
 ## Troubleshooting
-
 If you have issues connecting to a remote servers try to do the following things:
-
-- try to connect with your user account to the remote server, to ensure the password is still valid and that your API key is valid
+- manually try to do an API request, to ensure that your API key is valid
 - try to connect with your user account to the remote server and check your roles on the remote server
-- with connection issues do a package capture to find out more
-- if you have a SSL connection issue to a remote server with a signed by a CA that is not included in OS, make sure the whole certificate path is included in the path.
+- perform a package capture and analyse the traffic
+- if you have a SSL connection issue to a remote server with a certificate signed by a CA that is not included in OS, make sure the whole certificate path is included in the path.
 
 ## Sharing and distribution
 
