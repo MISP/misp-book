@@ -167,6 +167,17 @@ Events that are not published are only distributed/shared to the local organisat
 Only events that are **published** will be shared with remote organisations on other MISP servers via push/pull mechanisms.
 More details on publishing events [here](../using-the-system/#publish-an-event).
 
+#### Visibility of data - events objects and attributes
+Assuming that none of the ancestors of the object of attribute are too restrictive, you can view an event/object/attribute on an instance if:
+- You are a site admin
+- You have any of the other roles and one of the below statements are true:
+    - You belong to the owner organisation of the event and the distribution is 'Your organisation only'
+    - The distribution of the event/object/attribute is 'This community only', 'Connected communities' or 'All communities'
+    - Your organisation belongs to the sharing group of the event/object/attribute or the sharing group has the 'all orgs' flag set for the instance
+
+*Note*:
+- As of MISP version 2.4.140: When pulling in data you can only see due to the 'all orgs' flag being set in the sharing group, your organisation will be added to the sharing group when creating the data locally. 
+
 ### Community
 
 A community is composed of the local organisations on a MISP server and the remote organisations connected by the sync users. For more information on the concept of community, refer to an [article on MISP information sharing following ISO/IEC 27010](https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/misp-sharing-information-following-ISO-IEC-27010.md#suitable-data-model), explaining the concept of community.
