@@ -15,7 +15,7 @@ install:
     - sudo npm update -g
     - npm install honkit
     - npm install gitbook-plugin-github
-    - npm install gitbook-plugin-toc
+    - npm install gitbook-plugin-atoc
     - npm install gitbook-plugin-anchors
     - npm install gitbook-plugin-image-class
     - npm install gitbook-plugin-codesnippet
