@@ -3,7 +3,7 @@
     "description": "User guide of MISP intelligence sharing platform",
     "language": "en",
     "author": "MISP Contributors",
-    "plugins": ["toc", "github", "codesnippet", "last-modified", "anchors", "sitemap", "advanced-emoji", "image-class"],
+    "plugins": ["atoc", "github", "codesnippet", "last-modified", "anchors", "sitemap", "advanced-emoji", "image-class"],
     "links": { "sidebar": { "MISP @ GitHub": "https://github.com/MISP", "PDF": "https://www.circl.lu/doc/misp/book.pdf", "EPUB": "https://www.circl.lu/doc/misp/book.epub", "MOBI": "https://www.circl.lu/doc/misp/book.mobi"}},
     "pluginsConfig": {
         "github": {
