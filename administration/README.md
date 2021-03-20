@@ -39,7 +39,7 @@ To add a new user, click on the Add User button in the administration menu to th
 *   **Organisation:** A drop-down list enables you to choose an organisation for the user. To learn more about organisation, [click here](#organisation).
 *   **Roles:** A drop-down list allows you to select a role-group that the user should belong to. Roles define user privileges attributed to the user. To learn more about roles, [click here](#managing-the-roles).
 *   **Authkey:** This is assigned automatically and is the unique authentication key of said user (he/she will be able to reset this and receive a new key). It is used for exports and for connecting one server to another, but it requires the user to be assigned to a role that has auth permission enabled.
-*   **NIDS Sid:** ID of network intrusion detection systems.
+*   **NIDS SID:** Network Intrusion Detection System (NIDS) Signature ID (SID). Snort rules exported by the created user will have the offset defined in the user profile and each rule generated during the export will receive an incrementing SID starting with the user's offset. If no SID offset is specified a default, randomized value will be set.
 *   **Sync user for:** Use this option for granting the user the right to synchronize the event between MISP server. This option is available for admin, Org Admin and Sync user role.
 *   **Gpgkey:** The key used to encrypt e-mails sent through the system.
 *   **Fetch GnuPG key:** Fetch GnuPG public key.
