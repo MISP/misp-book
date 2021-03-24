@@ -813,6 +813,8 @@ The below info is also available in the MISP GUI. Go to event actions -> automat
     MISP/app/Console/cake Admin updateGalaxies
 #### Update Taxonomy Definitions
     MISP/app/Console/cake Admin updateTaxonomies
+#### Enable all tags of a taxonomy
+    MISP/app/Console/cake Admin enableTaxonomyTags [taxonomy_id]
 #### Update Object Templates
     MISP/app/Console/cake Admin updateObjectTemplates
 #### Update Warninglists
