@@ -363,6 +363,18 @@ When viewing the list of allowlisted addresses, the following data is shown: The
 
 ![You can edit or delete currently allowlisted addresses using the action buttons on this list.](figures/allowedlist.png)
 
+## Managing correlation exclusions
+Correlation exclusions allow you to exclude certain values from the correlation engine. Values can be 1:1 matches or substring searches denoted with a leading or ending '%', or both.
+
+Examples:
+  - https://www.google.com/%  will match anything starting with https://www.google.com/
+  - %google.com% will match anything that contains google.com
+
+After adding an exclusion, new values coming in will not correlate if they match any of the correlation exclusions. To remove existing correlations run the cleaner tool (see 'Clean up correlations' button in screenshot below).
+
+![index view of correlation exclusions, showing examples of exclusions with a leading, ending wildcard](./figures/correlationExclusions.png)
+*Note: the JSON source field is not used yet*
+
 ## Using MISP logs
 
 Users with audit permissions are able to browse or search logs that MISP automatically appends each time certain actions are taken (actions that modify data or if a user logs in and out).
