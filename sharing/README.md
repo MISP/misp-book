@@ -170,8 +170,8 @@ More details on publishing events [here](../using-the-system/#publish-an-event).
 #### Visibility of data - events objects and attributes
 Assuming that none of the ancestors of the object of attribute are too restrictive, you can view an event/object/attribute on an instance if:
 - You are a site admin
-- You have any of the other roles and one of the below statements are true:
-    - You belong to the owner organisation of the event and the distribution is 'Your organisation only'
+- Your organisation is owner of the event
+- Neither of the above apply and one of the below statements is true:
     - The distribution of the event/object/attribute is 'This community only', 'Connected communities' or 'All communities'
     - Your organisation belongs to the sharing group of the event/object/attribute or the sharing group has the 'all orgs' flag set for the instance
 
