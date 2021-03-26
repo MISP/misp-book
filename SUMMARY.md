@@ -33,6 +33,7 @@
 * [FAQ](faq/README.md)
 * [Dev FAQ](dev-faq/README.md)
 * [Best Practices](best-practices/README.md)
+* [User stories](user-stories/README.md)
 * [User personas](user-personas/README.md)
 * [Appendices](appendices/README.md)
 
