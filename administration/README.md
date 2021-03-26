@@ -39,7 +39,7 @@ To add a new user, click on the Add User button in the administration menu to th
 *   **Organisation:** A drop-down list enables you to choose an organisation for the user. To learn more about organisation, [click here](#organisation).
 *   **Roles:** A drop-down list allows you to select a role-group that the user should belong to. Roles define user privileges attributed to the user. To learn more about roles, [click here](#managing-the-roles).
 *   **Authkey:** This is assigned automatically and is the unique authentication key of said user (he/she will be able to reset this and receive a new key). It is used for exports and for connecting one server to another, but it requires the user to be assigned to a role that has auth permission enabled.
-*   **NIDS Sid:** ID of network intrusion detection systems.
+*   **NIDS SID:** Network Intrusion Detection System (NIDS) Signature ID (SID). Snort rules exported by the created user will have the offset defined in the user profile and each rule generated during the export will receive an incrementing SID starting with the user's offset. If no SID offset is specified a default, randomized value will be set.
 *   **Sync user for:** Use this option for granting the user the right to synchronize the event between MISP server. This option is available for admin, Org Admin and Sync user role.
 *   **Gpgkey:** The key used to encrypt e-mails sent through the system.
 *   **Fetch GnuPG key:** Fetch GnuPG public key.
@@ -362,6 +362,18 @@ While in the allowedlist view, click on New Allowedlist on the left to bring up 
 When viewing the list of allowlisted addresses, the following data is shown: The ID of the allowlist entry (assigned automatically when a new address is added), the address itself that is being allowlisted and a set of controls allowing you to delete the entry or edit the address.
 
 ![You can edit or delete currently allowlisted addresses using the action buttons on this list.](figures/allowedlist.png)
+
+## Managing correlation exclusions
+Correlation exclusions allow you to exclude certain values from the correlation engine. Values can be 1:1 matches or substring searches denoted with a leading or ending '%', or both.
+
+Examples:
+  - https://www.google.com/%  will match anything starting with https://www.google.com/
+  - %google.com% will match anything that contains google.com
+
+After adding an exclusion, new values coming in will not correlate if they match any of the correlation exclusions. To remove existing correlations run the cleaner tool (see 'Clean up correlations' button in screenshot below).
+
+![index view of correlation exclusions, showing examples of exclusions with a leading, ending wildcard](./figures/correlationExclusions.png)
+*Note: the JSON source field is not used yet*
 
 ## Using MISP logs
 
@@ -813,6 +825,8 @@ The below info is also available in the MISP GUI. Go to event actions -> automat
     MISP/app/Console/cake Admin updateGalaxies
 #### Update Taxonomy Definitions
     MISP/app/Console/cake Admin updateTaxonomies
+#### Enable all tags of a taxonomy
+    MISP/app/Console/cake Admin enableTaxonomyTags [taxonomy_id]
 #### Update Object Templates
     MISP/app/Console/cake Admin updateObjectTemplates
 #### Update Warninglists
