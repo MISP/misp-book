@@ -34,7 +34,7 @@ Lead Threat Intelligence Analyst
 - Prioritize indicators using sighting reports and purge false positives using warning lists.
 - Classify and contextualize data using taxonomies and galaxies, and keep track of the advancement of an analysis using tags.
 - View and visualize events and activities using MISP-dashboard or Maltego.
-- Automatically import, aggregate, compare, contextualize, query, and cross-reference data using PyMISP     
+- Automatically import, aggregate, compare, contextualize, query, and cross-reference data using PyMISP
 - Import, export and enrich data using MISP modules
 - Aggregate, curate, and validate indicators from various feeds, then feed the data into detection and analysis tools like NIDs, IDS, and SIEMs
 - Query vulnerability scan results in MISP, automatically create/classify events on matching results, then create blocklists by excluding attributes that exist on warning lists.
@@ -243,8 +243,8 @@ Risk analyst
 ### Sarah
 _**The Fact Checker**_
 
-Sarah is a disinformation researcher and journalist working for a large American newspaper. 
-She works with security researchers around the world to investigate cybercrimes and report disinformation. 
+Sarah is a disinformation researcher and journalist working for a large American newspaper.
+She works with security researchers around the world to investigate cybercrimes and report disinformation.
 In the past, she has written about national security and geopolitics. She is used to making decisions on what should or shouldn't be published or shared.
 
 Sarah uses MISP to collaborate with security researchers and investigate disinformation as it happens.
@@ -261,17 +261,17 @@ Disinformation researcher and journalist
 
 #### She uses MISP to:
 - Write/read event reports, create misinformation events using relevant techniques found in a report or sighting.
-- Join sharing groups and communities (e.g Cogsec Collab) that connect misinformation researchers and responders, share incident data with organizations focusing on response and counter-campaigns.
+- Join sharing groups and communities (e.g [Cogsec Collab](https://www.misp-project.org/2020/03/26/cogsec-collab-misp-community.html)) that connect misinformation researchers and responders, share incident data with organizations focusing on response and counter-campaigns.
 - Integrate with the AM!TT Framework (as a galaxy) in order to describe misinformation tactics/techniques, break an incident into techniques that can be analyzed/countered, and check for disinformation through mapping.
-- Monitor feeds, investigate disinformation using shared indicators in feeds, generate structured intelligence using the automated correlation     engine, and decide if there are any falsehoods in data.
-- Enrich threat data by adding object types, new relationship types (to make the graphs that users can traverse in MISP richer), and taxonomies     to cover things like types of threat actors.     
+- Monitor feeds, investigate disinformation using shared indicators in feeds, generate structured intelligence using the automated correlation engine, and decide if there are any falsehoods in data.
+- Enrich threat data by adding object types, new relationship types (to make the graphs that users can traverse in MISP richer), and taxonomies to cover things like types of threat actors.
 - Classify events, indicators, and threats using taxonomies (such as the Admiralty Scale taxonomy), which ranks the reliability of a source and the credibility of the information.
 
 #### Her objectives are to:
 - Distill essential information from a large piece of data, making it clear to the reader what really matters.
 - Integrate MISP with TheHive for enhanced disinformation investigation and reporting. 
 - Verify that an article (or image, video, etc) doesn’t contain disinformation and verify that a source (publisher, domain, etc) doesn’t distribute disinformation.
-- Extend MISP for disinformation, adding object types for incidents and narratives, and using AMITT for attack patterns.
+- Extend MISP for disinformation, adding object types for incidents and narratives, and using [AMITT](https://www.misp-project.org/galaxy.html#_misinformation_pattern) for attack patterns.
 
 ## Other personas
 Malcolm represents users that we care about but aren't so important to us.
@@ -292,19 +292,19 @@ Data Scientist
 
 #### His primary goals are to:
 - Develop tools to help businesses detect threats so they can develop solid plans of action and better protect themselves.
-- Make predictions, perform data analysis, and detect patterns in data.     
-- Support the threat analysis team with the development of new and innovative  ways of extracting insight from large sets of structured and unstructured data.     
+- Make predictions, perform data analysis, and detect patterns in data.
+- Support the threat analysis team with the development of new and innovative ways of extracting insight from large sets of structured and unstructured data.
 - Translate complex data into relevant insights and visualize information.
 
 #### He uses MISP to:
 - Collect IoCs and sift through data from feeds to derive useful insights and connect dots between actors from various sources.
 - Join sharing groups to collaborate with threat analysts and reduce analysts’ workload by taking on many tasks related to data collection and correlation.
-- Automatically aggregate, parse, de-duplicate, and manage indicators using the API.     
+- Automatically aggregate, parse, de-duplicate, and manage indicators using the API.
 - Visualize events in real-time by setting up MISP-dashboard.
 - Export large threat data sets that can be used to train ML models
 
 #### His objectives are to:
-- Combine data from MISP and other security sources to find patterns/relationships in data, develop models, assess, prioritize, and predict risk using data science and AI techniques.     
-- Produce informative visualizations and knowledge graphs based on large data sets.     
+- Combine data from MISP and other security sources to find patterns/relationships in data, develop models, assess, prioritize, and predict risk using data science and AI techniques.
+- Produce informative visualizations and knowledge graphs based on large data sets.
 - Eliminate manual tasks by writing scripts that automatically aggregate, parse, de-duplicate, and manage indicators in MISP.
 - Classify risks in order to save analysts time sorting through false positives and deciding what to prioritize.
