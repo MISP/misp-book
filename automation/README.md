@@ -139,15 +139,15 @@ Find below a non exhaustive list of parameters that can be used to filter data i
 - **withAttachments**: If set, encodes the attachments / zipped malware samples as base64 in the data field within each attribute
 - **metadata**: Only the metadata (event, tags, relations) is returned, attributes and proposals are omitted.
 - **uuid**: Restrict the results by uuid.
-- **publish_timestamp**: Restrict the results by the timestamp of the last publishing of the event. The input can be a timetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **last**: (Deprecated synonym for publish_timestamp) Restrict the results by the timestamp of the last publishing of the event. The input can be a timetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **timestamp**: Restrict the results by the timestamp (last edit). Any event with a timestamp newer than the given timestamp will be returned. In case you are dealing with /attributes as scope, the attribute's timestamp will be used for the lookup. The input can be a timetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **publish_timestamp**: Restrict the results by the timestamp of the last publishing of the event. The input can be a timsetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **last**: (Deprecated synonym for publish_timestamp) Restrict the results by the timestamp of the last publishing of the event. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **timestamp**: Restrict the results by the timestamp (last edit). Any event with a timestamp newer than the given timestamp will be returned. In case you are dealing with /attributes as scope, the attribute's timestamp will be used for the lookup. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
 - **published**: Set whether published or unpublished events should be returned. Do not set the parameter if you want both.
 - **enforceWarninglist**: Remove any attributes from the result that would cause a hit on a warninglist entry.
 - **to_ids**: By default (0) all attributes are returned that match the other filter parameters, irregardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
-- **deleted**: If this parameter is set to 1, it will return soft-deleted attributes along with active ones. By using "only" as a parameter it will limit the returned data set to soft-deleted data only.
+- **deleted**: Default value 0. If set to 1, only deleted attributes will be returned. If set to [0,1] , both deleted and non-deleted attributes wil be returned.
 - **includeEventUuid**: Instead of just including the event ID, also include the event UUID in each of the attributes.
-- **event_timestamp**: Only return attributes from events that have received a modification after the given timestamp. The input can be a timetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **event_timestamp**: Only return attributes from events that have received a modification after the given timestamp. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
 - **sgReferenceOnly**: If this flag is set, sharing group objects will not be included, instead only the sharing group ID is set.
 - **eventinfo**: Filter on the event's info field.
 - **searchall**: Search for a full or a substring (delimited by % for substrings) in the event info, event tags, attribute tags, attribute values or attribute comment fields.
@@ -843,6 +843,251 @@ https://<misp url>/attributes/describeTypes
 ~~~~
 
 Depending on the headers passed the returned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
+
+### POST /attributes/restSearch
+
+Do not use this function with GET!
+
+#### Parameters
+
+- **returnFormat**: The format to return data in. Allowed formats:
+  - **attack-sightings**: Returns ATTA&CK Sightings in json format for
+  attributes with mitre-attack-pattern galaxies attached. For further details on the ATT&CK Sightings, please visit the related [MITRE website page](https://attack.mitre.org/resources/sightings/).
+  - **cache**: Hashes the attributes and returns them as txt. A hashing algorithm can be chosen by also adding the hash_type parameter. Supported hashing algorithms can be found on the [PHP website](https://www.php.net/manual/en/function.hash-algos.php]).
+  - **count**: Returns the attribute count as txt.
+  - **csv**
+  - **hashes**: Returns hash attributes in txt format. For composite attributes, only the hash part is returned. 
+  - **json**
+  - **netfilter**: Returns netfilter rules for IPs. Action can be set with the  netfilter_action parameter. The default action is DROP.
+  - **opendata**: Please refer to the related MISP project [blog post](https://www.misp-project.org/2020/07/30/publishing-open-data-using-MISP.html).
+  - **openioc**
+  - **rpz**
+  - **snort**
+  - **suricata**
+  - **text**: Returns only the attribute values in text format.
+  - **xml**
+  - **yara**:
+  - **yara-json**
+- **value**: Search for the given value in the attributes' value field.
+- **type**: The attribute type, any valid MISP attribute type is accepted.
+- **category**: The attribute category, any valid MISP attribute category is accepted.
+- **org**: Search by the creator organisation by supplying the organisation identifier.
+- **tags**: Include or exclude attributes with certain tags. See example below. It is strongly recommended to specifically exclude the tags you want to avoid, even if the tags should be exclusive, for example tlp:red and tlp:green.
+~~~~json
+{
+    "returnFormat": "json",
+    "tags": {
+        "NOT": [
+            "tlp:red"
+        ],
+        "OR": [
+            "tlp:green"
+        ]
+    }
+}
+~~~~
+- **from**: Will return attributes from events with the date set to a date after the one specified in the from field (format: 2015-02-15).
+- **to**: Will return attributes with the date set to a date before the one specified in the to field (format: 2015-02-15).
+- **last**: ***Deprecated!!!*** (synonym for publish_timestamp) Restrict the results by the timestamp of the last publication of the event. Any attribute with a last publication timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **eventid**: The events that should be included / excluded from the search.
+- **withAttachments**: If set, encodes the attachments / zipped malware samples as base64 in the data field within each attribute
+- **uuid**: Restrict the results by uuid.
+- **publish_timestamp**: Restrict the results by the timestamp of the last publication of the event. Any attribute with a last publication timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **published**: Set whether published or unpublished events should be returned. Do not set the parameter if you want both.
+- **timestamp**: ***Deprecated!!!*** (synonym for attribute_timestamp) Restrict the results by the timestamp (last edit). Any attribute with a timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **enforceWarninglist**: Remove any attributes from the result that would cause a hit on a warninglist entry.
+- **to_ids**: By default (0) all attributes are returned that match the other filter parameters, irregardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
+- **deleted**: Default value 0. If set to 1, only deleted attributes will be returned. If set to [0,1] , both deleted and non-deleted attributes wil be returned.
+- **includeEventUuid**: Instead of just including the event ID, also include the event UUID in each of the attributes.
+- **event_timestamp**: Only return attributes from events that have received a modification after the given timestamp. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **threat_level_id**: Only return attributes of events with the given threat level id(s). 1 = High, 2 = Medium, 3=Low, 4 = Undefined. See example below.
+```
+{
+    "returnFormat": "json",
+    "threat_level_id": [1,2]
+}
+```
+- **includeEventTags**: If set to 1, the event tags of the event the attribute belongs to will be added to the attribute.
+- **limit**: Limit the number of results returned, for example 10 attributes.
+- **page**: If a limit is set, sets the page to be returned. page 3, limit 100 will return records 201->300).
+- **requested_attributes**: Only for CSV export. Choose the fields you want in the csv output. Available fields are (*non-exhaustive list, more fields can be available depending on the values of other parameters*):
+  - uuid
+  - event_id
+  - category
+  - type
+  - value
+  - comment
+  - to_ids
+  - date
+  - object_relation
+  - attribute_tag
+  - object_uuid
+  - object_name
+  - object_meta_category
+  - event_info. Only available if includeContext parameter is set to 1.
+  - event_member_org. Only available if includeContext parameter is set to 1.
+  - event_source_org. Only available if includeContext parameter is set to 1.
+  - event_distribution. Only available if includeContext parameter is set to 1.
+  - event_threat_level_id. Only available if includeContext parameter is set to 1.
+  - event_analysis. Only available if includeContext parameter is set to 1.
+  - event_date. Only available if includeContext parameter is set to 1.
+  - event_tag. Only available if includeContext parameter is set to 1.
+  - event_timestamp. Only available if includeContext parameter is set to 1.
+- **includeContext**: Adds  extra event level context to the output. For each attribute more details are added to the Event object in the output. Please note that this significantly bloats the output data. Example below.
+```
+"Event": {
+          "id": "31",
+          "orgc_id": "1",
+          "org_id": "1",
+          "date": "2021-03-11",
+          "threat_level_id": "1",
+          "info": "Correlation 2",
+          "published": true,
+          "uuid": "0bfe7bf3-f793-4761-8450-8b30ca9d9964",
+          "analysis": "0",
+          "timestamp": "1616972381",
+          "distribution": "1",
+          "publish_timestamp": "1616972392",
+          "sharing_group_id": "0",
+          "extends_uuid": "",
+          "Tag": [],
+          "Orgc": {
+            "id": "1",
+            "name": "SHARINGORG",
+            "uuid": "26867ddf-5a9b-4af0-b552-e4020a913b95",
+            "local": true
+          }
+        }
+```
+- **headerless**: Only for CSV export. The CSV created when this setting is set to true will not contain the header row.
+- **includeWarninglistHits**: Adds a warnings block to an attribute if it has warninglist hits. See example below.
+```
+"warnings": [
+          {
+            "match": "10.0.0.0/8",
+            "value": "10.0.0.1",
+            "warninglist_name": "List of RFC 5735 CIDR blocks",
+            "warninglist_id": "46"
+          },
+          {
+            "match": "10.0.0.0/8",
+            "value": "10.0.0.1",
+            "warninglist_name": "List of RFC 1918 CIDR blocks",
+            "warninglist_id": "44"
+          }
+        ]
+```
+- **object_relation**: Search on the object_relation field of attributes. You can search for 'malware-sample' attributes of file objects for example. Searching for multiple values at the same time is possible as well.
+```
+{
+    "returnFormat": "json",
+    "object_relation": ["malware-sample", "institution-name"]
+}
+```
+- **includeSightings**: Adds a list of sightings for attributes that have sightings. See example below.
+```
+"Sighting": [
+          {
+            "id": "1",
+            "attribute_id": "29",
+            "event_id": "31",
+            "org_id": "1",
+            "date_sighting": "1617017091",
+            "uuid": "48d21518-6b2a-4615-8c4e-91fbe4f08fe7",
+            "source": "",
+            "type": "0",
+            "attribute_uuid": "b3c25257-7f47-41af-a29b-89188e583b5c",
+            "Organisation": {
+              "id": "1",
+              "uuid": "26867ddf-5a9b-4af0-b552-e4020a913b95",
+              "name": "SHARINGORG"
+            }
+          }
+        ]
+```
+- **includeCorrelations**: Adds a list of correlated attributes for attributes that have correlations. See example below.
+```
+"RelatedAttribute": [
+          {
+            "id": "31",
+            "event_id": "30",
+            "object_id": "0",
+            "object_relation": null,
+            "category": "Network activity",
+            "type": "ip-dst",
+            "uuid": "f3b54c94-89ff-4fcf-9f47-52f70c6540b8",
+            "timestamp": "1616961683",
+            "distribution": "5",
+            "sharing_group_id": "0",
+            "to_ids": false,
+            "comment": "",
+            "value": "10.0.0.1",
+            "Event": {
+              "id": "30",
+              "uuid": "8cca9f2f-9281-49fd-9b30-e16a8dbf6855",
+              "threat_level_id": "1",
+              "analysis": "0",
+              "info": "Correlation 1",
+              "extends_uuid": "",
+              "distribution": "1",
+              "sharing_group_id": "0",
+              "published": false,
+              "date": "2021-03-11",
+              "orgc_id": "1",
+              "org_id": "1"
+            }
+          }
+        ]
+```
+- **includeDecayScore**: If set to 1, decay score information will be included for attributes that are affected by decaying. See example below.
+```
+"decay_score": [
+          {
+            "score": 77.40239901751683,
+            "base_score": 80,
+            "decayed": false,
+            "DecayingModel": {
+              "id": "2",
+              "name": "NIDS Simple Decaying Model"
+            }
+          }
+        ],
+```
+- **decayingModel**: Allows you to set the decaying model(s) to use to calculate the decay score. You can use a model that is not enabled. The value should be set to the id of the model. If this value is not set, a decay score entry will be added for all enabled decaying models that apply to the attribute type.
+- **excludeDecayed**: Filter out all expired IOCs.
+- **modelOverrides**: JSON that can be used to modify Model parameters on-the-fly. Example can be found beow.
+```
+{
+    "type": "ip-src",
+    "tags": ["tlp:%","phishing:%"],
+    "includeDecayScore": 1,
+    "excludeDecayed": 1,
+    "modelOverrides": {
+        "threshold": 30
+    }
+    "decayingModel": [84, 12],
+}
+```
+- **includeFullModel**: If set to 1, includes the full decaying model details instead of just the id and name.
+- **score**: Overrides the model threshold value with the one you set. This means attributes for which the decay score calculated for all relevant models is lower than this value, will be considered decayed.
+- **attribute_timestamp**: Restrict the results by the timestamp (last edit). Any attribute with a timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **first_seen**: Restrict the results by the first_seen timestamp of the attribute. Any attribute with a first_seen timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **last_seen**: Restrict the results by the last_seen timestamp of the attribute. Any attribute with a first_seen timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
+- **searchall**: Search for a full or a substring (delimited by % for substrings) in the attribute tags, attribute values or attribute comment fields.
+
+#### Example
+~~~~
+curl \
+ -d '{"returnFormat":"json","value":"foobar"}' \
+ -H "Authorization: YOUR API KEY" \
+ -H "Accept: application/json" \
+ -H "Content-type: application/json" \
+ -X POST https://192.168.0.220/attributes/restSearch
+~~~~
+
+~~~~json
+{"response": {"Attribute": [{"id":"44","event_id":"30","object_id":"0","object_relation":null,"category":"Other","type":"comment","to_ids":false,"uuid":"7a5d856c-048a-4dbd-8e6d-41d1790c5ad0","timestamp":"1617056037","distribution":"5","sharing_group_id":"0","comment":"","deleted":false,"disable_correlation":false,"first_seen":null,"last_seen":null,"value":"foobar","Event":{"org_id":"1","distribution":"1","id":"30","info":"Correlation 1","orgc_id":"1","uuid":"8cca9f2f-9281-49fd-9b30-e16a8dbf6855"}}]}}
+~~~~
 
 ## Objects management
 ### POST /objects/delete/[object_id]/[hard_delete]
@@ -1562,35 +1807,6 @@ For example, to retrieve all attributes for event #5, including non IDS marked a
 
 ~~~~
 https://<misp url>/attributes/text/download/all/null/5/true
-~~~~
-
-## RESTful searches with JSON result
-
-It is possible to search the database for attributes based on a list of criteria
-
-To return an event with all of its attributes, relations, shadowAttributes, use the following syntax:
-
-~~~~
-https://<misp url>/attributes/restSearch/json/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
-~~~~
-    
- If you include "includeEventUuid":1" in the json request, it will give you the event_uuid as a result as well.
-
-Be careful if you GET the /attributes/restSearch/json/ without an value, it will return all attributes.
-
-### POST /attributes/restSearch
-
-Do not use that function with GET!
-
-#### Example
-~~~~
-curl -X POST -k -H 'Accept: application/json' -H 'Authorization: API Key' -H 'Content-Type: application/json' -i 'https://URL/attributes/restSearch' --data '{"value":"foobar"}'
-~~~~
-
-~~~~json
-{
-    "response": []
-}
 ~~~~
 
 ## RESTful searches with XML result export
