@@ -47,7 +47,7 @@ All the documentation is written in Markdown for maximum accessibility. When mak
     - Files like README.md and CONTRIBUTING.md
 - Insert a newline at, and only at, the end of each sentence. This practice results in one sentence per line, which is most appropriate for source that consists primarily of natural language text. It results in the most useful diffs and facilitates translation into other languages while mostly preserving source readability.
 - If appropriate, make numerals in numbered lists match between Markdown source and HTML output. In the event that a user is required to read the Markdown source directly, this will make it easier to follow, e.g., numbered steps in a set of instructions.
-- Use Atx-style headings: # h1, ##h 2, ### h3, etc.
+- Use Atx-style headings: `# h1`, `## h2`, `### h3`, etc.
 - When writing code blocks, use syntax highlighting where possible and use [...] for anything omitted.
 ([This](https://daringfireball.net/projects/markdown/) is a great source for learning about Markdown.)
 
