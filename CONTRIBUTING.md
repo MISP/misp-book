@@ -1,8 +1,11 @@
 # Contributing to MISP Book
 
 Most of MISP documentation pages are stored as plain text files in this dedicated misp-book repository. 
+MISP Book is a generic documentation for MISP including usage, API documentation, best practices and specific configuration settings.
 The installation guides are held in the [INSTALL](https://github.com/MISP/MISP/tree/2.4/INSTALL) and [download](https://www.misp-project.org/download/) sections of the core and website repositories respectively.
 By cloning and regularly pulling from this repo, users can maintain their own up-to-date offline copy of MISP documentation rather than relying solely on the web.
+
+MISP book is generated in HTML, PDF, epub and mobi using [Honkit](https://github.com/honkit/honkit), which is a framework to write documentation in Markdown format. The documentation is regularly published on misp-project.org and circl.lu website.
 
 ## Documentation guidelines
 
@@ -24,6 +27,13 @@ A few notes before we get started:
 - If your contribution would take a lot of time, please [file an issue](https://github.com/MISP/misp-book/issues) for it first so that we can make sure we’re on the same page before significant works begins. This ensures you do not spend time and effort on a contribution that we can’t accept. 
 
 Thanks to GitHub’s interface, you can edit MISP's documentation even if you don’t know git at all. All you need to do to contribute is to [fork and clone](https://guides.github.com/activities/forking/) the [misp-book repo](https://github.com/MISP/misp-book/), make your changes, then [submit a pull request](https://help.github.com/articles/using-pull-requests/)).
+
+[TravisCI](https://travis-ci.org/MISP) (used for automatic integration) is included in misp-book and the book generation is tested at each commit. 
+When you make a pull request, verify if your changes affect the result of the tests. If the checks fails, review the output at Travis and make fixes where possible. 
+
+### For native English speakers
+
+Most of MISP developers are not native English speakers so you're more than welcome to correct or improve our English. For this, you can either submit a pull request or use another way that suits you better to share your improvements with us.
 
 
 ## Organizational guidelines
