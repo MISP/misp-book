@@ -5,19 +5,23 @@ MISP Book is generic documentation for MISP including usage, API documentation, 
 The installation guides are held in the [INSTALL](https://github.com/MISP/MISP/tree/2.4/INSTALL) and [download](https://www.misp-project.org/download/) sections of the core and website repositories respectively.
 By cloning and regularly pulling from this repo, users can maintain their own up-to-date offline copy of MISP documentation rather than relying solely on the web.
 
-MISP book is generated in HTML, PDF, epub, and mobi using [Honkit](https://github.com/honkit/honkit), which is a framework to write documentation in Markdown format. The documentation is regularly published on [misp-project.org](https://www.misp-project.org/) and [circl.lu website](https://www.circl.lu/doc/misp/).
+MISP book is generated in HTML, PDF, epub, and mobi using [Honkit](https://github.com/honkit/honkit), which is a framework to write documentation in Markdown format. 
+The documentation is regularly published on [misp-project.org](https://www.misp-project.org/) and [circl.lu website](https://www.circl.lu/doc/misp/).
 
 ## Documentation guidelines
 
 The documentation is a community effort. Volunteers work hard trying to keep everything accurate and comprehensive. 
 If you notice a problem or some way it can be improved, please edit the documentation.
 
-All pull requests against MISP must pass review before being merged. This process is designed to ensure that contributed text is accurate and non-malicious. 
-Once a pull request passes review, the documentation maintainer then verifies that the pull request is mechanically sound (no merge conflicts or broken links). If so, the documentation maintainer then merges the pull request. 
+All pull requests against MISP must pass review before being merged. 
+This process is designed to ensure that contributed text is accurate and non-malicious. 
+Once a pull request passes review, the documentation maintainer then verifies that the pull request is mechanically sound (no merge conflicts or broken links). 
+If so, the documentation maintainer then merges the pull request. 
 
-If you have a question about something you read in the documentation, you may ask into the [Gitter Support channel](https://gitter.im/MISP/Support) or open an issue for it. To report an issue with the documentation, please follow our [standard issue reporting guidelines](). If you see that something in the documentation should be fixed or improved, please [contribute the change](#how-to-contribute) yourself. 
+If you have a question about something you read in the documentation, you may ask into the [Gitter Support channel](https://gitter.im/MISP/Support) or open an issue for it. 
+If you see that something in the documentation should be fixed or improved, please [contribute the change](#how-to-make-a-contributution) yourself. 
 
-## How to contribute
+## How to make a contribution
 
 Editing the documentation is easy, so if you see that a change should be made, please contribute it!
 
@@ -26,14 +30,18 @@ A few notes before we get started:
 - Every documentation change will be reviewed before it’s accepted. This allows us to maintain quality control and protect our users.
 - If your contribution would take a lot of time, please [file an issue](https://github.com/MISP/misp-book/issues) for it first so that we can make sure we’re on the same page before significant work begins. This ensures you do not spend time and effort on a contribution that we can’t accept. 
 
-Thanks to GitHub’s interface, you can edit MISP's documentation even if you don’t know git at all. All you need to do to contribute is to [fork and clone](https://guides.github.com/activities/forking/) the [misp-book repo](https://github.com/MISP/misp-book/), make your changes, then [submit a pull request](https://help.github.com/articles/using-pull-requests/)).
+Thanks to GitHub’s interface, you can edit MISP's documentation even if you don’t know git at all. 
+All you need to do to contribute is to [fork and clone](https://guides.github.com/activities/forking/) the [misp-book repo](https://github.com/MISP/misp-book/), make your changes, then [submit a pull request](https://help.github.com/articles/using-pull-requests/)). 
+You can also [open issues](https://github.com/MISP/misp-book/issues) if you find any errors or propose changes.
 
 [TravisCI](https://travis-ci.org/MISP) (used for automatic integration) is included in misp-book and the book generation is tested at each commit. 
-When you make a pull request, verify if your changes affect the result of the tests. If the checks fail, review the output at Travis and make fixes where possible. 
+When you make a pull request, verify if your changes affect the result of the tests. 
+If the checks fail, review the output at Travis and make fixes where possible. 
 
 ### For native English speakers
 
-Most MISP developers are not native English speakers so you're more than welcome to correct or improve our English. For this, you can either submit a pull request or use another way that suits you better to share your improvements with us.
+Most MISP developers are not native English speakers so you're more than welcome to correct or improve our English. 
+For this, you can either submit a pull request or use another way that suits you better to share your improvements with us.
 
 
 ## Organizational guidelines
