@@ -152,6 +152,14 @@ Find below a non exhaustive list of parameters that can be used to filter data i
 - **eventinfo**: Filter on the event's info field.
 - **searchall**: Search for a full or a substring (delimited by % for substrings) in the event info, event tags, attribute tags, attribute values or attribute comment fields.
 - **attackGalaxy**: Select the ATT&CK matrix like galaxy to use when using returnFormat = attack. Defaults to the Mitre ATT&CK library via mitre-attack-pattern.
+- **order**: Only available for /events/restSearch. Sorts the results, can be useful in combination with limit. The accepted values to sort on are "Event.[any_field_in_the_events_table] [asc|desc]". You can also sort on multiple columns, see example below.
+~~~
+{
+    "returnFormat": "json",
+    "limit": "3",
+    "order": "Event.attribute_count desc, Event.date desc"
+}
+~~~
 
 ## Events management
 
