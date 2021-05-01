@@ -269,7 +269,7 @@ You can customize this for your own needs. There are also pre-made boostrap them
 
 Before making any changes, confirm the version of boostrap currenlty used by running `head -5 /var/www/MISP/app/webroot/css/bootstrap.css`. You can find themes on sites like [Bootswatch](https://bootswatch.com/2/). 
 
-To replace the current theme with a theme you found on bootsplash, run: `wget https://bootswatch.com/2/readable/bootstrap.css   -O /var/www/MISP/app/webroot/css/bootstrap.css` , replacing the URL as needed. 
+To replace the current theme with a theme you found on bootsplash, run: `sudo -u www-data wget https://bootswatch.com/2/readable/bootstrap.css -O /var/www/MISP/app/webroot/css/bootstrap.css` , replacing the URL as needed.
 
 Some bootswatch themes applied on MISP: 
 * https://i.imgur.com/usONTLk.png
