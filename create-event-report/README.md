@@ -18,7 +18,7 @@ Then we get the add event form.
 
 Let's fill it with the data we already have:
 * Date: Here we will put the date of the report, so 2016-11-14
-* Distribution: Depending on the event, we might want it to be more or less spread accross the MISP instances. For this one, since it is a public report, there is no reason to limit the diffusion so "All communities".
+* Distribution: Depending on the event, we might want it to be more or less spread across the MISP instances. For this one, since it is a public report, there is no reason to limit the diffusion so "All communities".
 * Threat Level: Self explainatory. Since the ransomware in the report is not using a huge exploit, we can use low, or undefined as we don't really know. we'll go for the latter since it can be edited. 
 * Analysis: Give the current stage of the analysis. Since the report is published, we can assume that the analysis is completed.
 * Event Info: The event's info is in fact the name or title of the event, so it seems legit to put the title of the report here as well. Since it is public information, we also prefix it with "OSINT".
@@ -113,7 +113,7 @@ We only have the network indicators left, and as said before, we will let MISP d
 
 ![type recognition fail](figures/surprise.png)
 
-Oh well, that was unexpected. In fact, it is not that surprising regarding the format of the tor address that look more like a filename than like a url but it is still a problem, since we can't change the type nor the category to a more consistant one. This is indeed one of the limitation of freetext import. To solve this issue, we will use a simple trick: we will add a slash at the end of the tor address so it won't be confused for a filename. 
+Oh well, that was unexpected. In fact, it is not that surprising regarding the format of the tor address that look more like a filename than like a url but it is still a problem, since we can't change the type nor the category to a more consistent one. This is indeed one of the limitation of freetext import. To solve this issue, we will use a simple trick: we will add a slash at the end of the tor address so it won't be confused for a filename. 
 
 ![freetext import network](figures/free_network2.png)
 

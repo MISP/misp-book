@@ -84,7 +84,7 @@ curl --header "Authorization: YOUR API KEY " --header "Accept: application/json"
 
 ## Search
 
-It is possible to search in the database for a list of attributes or events based on a list of criterias.
+It is possible to search in the database for a list of attributes or events based on a list of criteria.
 
 To return attributes or events in a desired format, use the following URL and header settings:
 
@@ -144,7 +144,7 @@ Find below a non exhaustive list of parameters that can be used to filter data i
 - **timestamp**: Restrict the results by the timestamp (last edit). Any event with a timestamp newer than the given timestamp will be returned. In case you are dealing with /attributes as scope, the attribute's timestamp will be used for the lookup. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
 - **published**: Set whether published or unpublished events should be returned. Do not set the parameter if you want both.
 - **enforceWarninglist**: Remove any attributes from the result that would cause a hit on a warninglist entry.
-- **to_ids**: By default (0) all attributes are returned that match the other filter parameters, irregardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
+- **to_ids**: By default (0) all attributes are returned that match the other filter parameters, regardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
 - **deleted**: Default value 0. If set to 1, only deleted attributes will be returned. If set to [0,1] , both deleted and non-deleted attributes wil be returned.
 - **includeEventUuid**: Instead of just including the event ID, also include the event UUID in each of the attributes.
 - **event_timestamp**: Only return attributes from events that have received a modification after the given timestamp. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
@@ -904,7 +904,7 @@ Do not use this function with GET!
 - **published**: Set whether published or unpublished events should be returned. Do not set the parameter if you want both.
 - **timestamp**: ***Deprecated!!!*** (synonym for attribute_timestamp) Restrict the results by the timestamp (last edit). Any attribute with a timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
 - **enforceWarninglist**: Remove any attributes from the result that would cause a hit on a warninglist entry.
-- **to_ids**: By default (0) all attributes are returned that match the other filter parameters, irregardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
+- **to_ids**: By default (0) all attributes are returned that match the other filter parameters, regardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
 - **deleted**: Default value 0. If set to 1, only deleted attributes will be returned. If set to [0,1] , both deleted and non-deleted attributes wil be returned.
 - **includeEventUuid**: Instead of just including the event ID, also include the event UUID in each of the attributes.
 - **event_timestamp**: Only return attributes from events that have received a modification after the given timestamp. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
@@ -1230,7 +1230,7 @@ Only the fields POSTed will be updated, the rest is left intact. To view all pos
 
 ### POST admin/users/delete/
 
-You can also delete users by POSTing to the below URL, but keep in mind that disabling users (by setting the disabled flag via an edit) is always prefered to keep user associations to events intact.
+You can also delete users by POSTing to the below URL, but keep in mind that disabling users (by setting the disabled flag via an edit) is always preferred to keep user associations to events intact.
 
 #### Parameters
 

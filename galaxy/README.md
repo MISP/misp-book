@@ -74,7 +74,7 @@ The __/galaxies__ file contains metatdatas and galaxy structure.
 The __/clusters__ file contains actual data.
 
 
-#### The galaxy managment GUI
+#### The galaxy management GUI
 
 ![GalaxyManagment](./figures/GalaxyManagmentGui.png)
 

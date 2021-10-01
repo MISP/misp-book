@@ -766,7 +766,7 @@ Warning: Scheduled tasks come with a lot of caveats and little in regards of cus
 """
 
 The task scheduler is a sub-par component to enable minimal functionality in terms of automating certain MISP tasks.
-If you have a dedicated and concious MISP Site Admin she can keep an eye on the Scheduler to make sure everything runs smoothly.
+If you have a dedicated and conscious MISP Site Admin she can keep an eye on the Scheduler to make sure everything runs smoothly.
 
 For better performance please use a real scheduler like your systems' crontab.
 As a rule of thumb: If you can click on it, MISP can automate it.
