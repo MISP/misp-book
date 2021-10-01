@@ -51,7 +51,7 @@ MISP can now extend an event (starting from version 2.4.90). This allows users t
 
 ## MISP feeds
 MISP includes a set of public OSINT feeds in its default configuration. The feeds can be used as a source of correlations for all of your events and attributes without the need to import them directly into your system. The MISP feed system allows for fast correlation but also a for quick comparisons of the feeds against one another.
-To get started with MISP we advise to enable the CIRCL OSINT feed withing your MISP instance. This feed is generated with the PyMISP [feed-generator](https://github.com/CIRCL/PyMISP/tree/master/examples/feed-generator).
+To get started with MISP we advise to enable the CIRCL OSINT feed within your MISP instance. This feed is generated with the PyMISP [feed-generator](https://github.com/CIRCL/PyMISP/tree/master/examples/feed-generator).
 [More](http://www.misp-project.org/feeds/)
 
 ## MISP format

@@ -159,7 +159,7 @@ Configure a sync user.
 ### Verify Cert
 This gives you the option to choose if python should validate the certificate of the misp instance. (This allows ease within testing environments) 
 
-`misp_verifycert = False` IT IS RECOMENDED TO USE A VALID SSL CERT IN PRODUCTION AND CHANGE THIS TO TRUE
+`misp_verifycert = False` IT IS RECOMMENDED TO USE A VALID SSL CERT IN PRODUCTION AND CHANGE THIS TO TRUE
 
 ## Instructions on Reading TiIndicators That Have Been Pushed
 In the command line, run `python3 script.py -r`
