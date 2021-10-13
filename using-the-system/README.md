@@ -467,7 +467,7 @@ If you ever need to change the data about the linked servers or remove any conne
 
 ![Apart from editing / deleting the link to the remote server, you can issue a push all or pull all command from here.](figures/list_servers.png)
 
-*   **Editing the connection to the:** By clicking edit a view, [that is identical to the new instance view](#setting-up-a-connection-to-another-server), is loaded, with all the current information of the instance pre-entered.
+*   **Editing the connection to the instance:** By clicking edit a view, [that is identical to the new instance view](#setting-up-a-connection-to-another-server), is loaded, with all the current information of the instance pre-entered.
 *   **Deleting the connection to the instance:** Clicking the delete button will delete the link to the instance.
 *   **Push all:** By clicking this button, all events that are eligible to be pushed on the instance you are on will start to be pushed to the remote instance. Events and attributes that exist on the far end will be updated.
 *   **Pull all:** By clicking this button, all events that are set to be pull-able or full access on the remote server will be copied to this instance. Existing events will not be updated.
