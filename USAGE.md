@@ -212,7 +212,7 @@ canvas needs to be compiled and needs the following dependencies:
 xcode-select --install
 # If you have homebrew not installed yet:
 ## /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-# For the more adventureous you can install a cask of calibre which gives you access to *ebook-convert*
+# For the more adventurous you can install a cask of calibre which gives you access to *ebook-convert*
 ## brew cask install calibre
 brew install pkg-config cairo pango libpng jpeg giflib
 ```

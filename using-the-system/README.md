@@ -68,7 +68,7 @@ Sharing groups in MISP are a more granular way to create re-usable distribution 
 
 The most general use-cases for sharing groups are creating re-usable topical subgroups in MISP that share events or for ad-hoc sharing scenarios (such as several organisations involved in a specific incident wanting to work together). Generally sharing groups add a level of complexity for the users involved as well as a performance overhead on the data marked with it.
 
-As a best-practice recommendation, using traditional distribution methods is prefered unless they cannot cover the given use-case. Also, whilst sharing groups can be assigned to both events and attributes, it is highly recommended to use the special "inherit" distribution setting on attributes whenever the attribute's sharing group would match the event's.
+As a best-practice recommendation, using traditional distribution methods is preferred unless they cannot cover the given use-case. Also, whilst sharing groups can be assigned to both events and attributes, it is highly recommended to use the special "inherit" distribution setting on attributes whenever the attribute's sharing group would match the event's.
 
 Sharing groups consist of the following elements, each of which has its own page in the sharing group creator/editor tool (accessed via the Global actions -> List Sharing Groups and Add Sharing Group functionalities):
 
@@ -105,7 +105,7 @@ For users trying to populate an event, after clicking on the populate from templ
 ![Choose the most appropriate template for your event.](figures/template_choice.png)
 
 Once you have chosen a template, you'll be presented with the actual form contained within. Make sure you fill out as many fields as possible with the mandatory fields - marked by a star in a bracket such as this: (*) - are filled out.
-Templates are devided into sections, with each section having a title and a description in addition to a series of fields. Each field can be an attribute or a file attachment field. An attribute field has the following components:
+Templates are divided into sections, with each section having a title and a description in addition to a series of fields. Each field can be an attribute or a file attachment field. An attribute field has the following components:
 
 ![MISP will generate attributes based on the field's settings and the data that you provide.](figures/template_field.png)
 
@@ -467,7 +467,7 @@ If you ever need to change the data about the linked servers or remove any conne
 
 ![Apart from editing / deleting the link to the remote server, you can issue a push all or pull all command from here.](figures/list_servers.png)
 
-*   **Editing the connection to the:** By clicking edit a view, [that is identical to the new instance view](#setting-up-a-connection-to-another-server), is loaded, with all the current information of the instance pre-entered.
+*   **Editing the connection to the instance:** By clicking edit a view, [that is identical to the new instance view](#setting-up-a-connection-to-another-server), is loaded, with all the current information of the instance pre-entered.
 *   **Deleting the connection to the instance:** Clicking the delete button will delete the link to the instance.
 *   **Push all:** By clicking this button, all events that are eligible to be pushed on the instance you are on will start to be pushed to the remote instance. Events and attributes that exist on the far end will be updated.
 *   **Pull all:** By clicking this button, all events that are set to be pull-able or full access on the remote server will be copied to this instance. Existing events will not be updated.
@@ -481,12 +481,12 @@ The platform is also [RESTfull](http://en.wikipedia.org/wiki/Representational_st
 Use any HTTP compliant library to perform requests.
 You can choose which format you would like to use as input/output for the REST calls by specifying the Accept and Content-Type headers.
 
-The following headers are required if you wish to recieve / push XML data:
+The following headers are required if you wish to receive / push XML data:
 **Authorization**: _your authorisation key_
 **Accept**: _application/xml_
 **Content-Type**: _application/xml_
 
-The following headers are required if you wish to recieve / push JSON data:
+The following headers are required if you wish to receive / push JSON data:
 **Authorization**: _your authorisation key_
 **Accept**: _application/json_
 **Content-Type**: _application/json_
@@ -658,7 +658,7 @@ Content-Type: application/xml
 </response>
 ```
 
-The respone from requesting an invalid page
+The response from requesting an invalid page
 
 ```xml
 <?xml version = "1.0" encoding = "UTF-8"?>

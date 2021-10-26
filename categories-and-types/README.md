@@ -119,6 +119,7 @@
 |passport-country| | | | | | |
 |passport-expiration| | | | | | |
 |passport-number| | | | | | |
+|pattern-filename| | | | | | |
 |pattern-in-file| | X | | X | | |
 |pattern-in-memory| | X | | X | | |
 |pattern-in-traffic| | | | X | | |
@@ -309,6 +310,7 @@
 |passport-country| | | | | | |
 |passport-expiration| | | | | | |
 |passport-number| | | | | | |
+|pattern-filename| | | | | | |
 |pattern-in-file| X | | X | X | | |
 |pattern-in-memory| | | | X | | |
 |pattern-in-traffic| X | | X | X | | |
@@ -499,6 +501,7 @@
 |passport-country| X | | | |
 |passport-expiration| X | | | |
 |passport-number| X | | | |
+|pattern-filename| | | | |
 |pattern-in-file| | | | |
 |pattern-in-memory| | | | |
 |pattern-in-traffic| | | | |
@@ -709,6 +712,7 @@
 *   **passport-country**: The country in which the passport was issued
 *   **passport-expiration**: The expiration date of a passport
 *   **passport-number**: The passport number of a natural person
+*   **pattern-filename**: A pattern in the name of a file
 *   **pattern-in-file**: Pattern in file that identifies the malware
 *   **pattern-in-memory**: Pattern in memory dump that identifies the malware
 *   **pattern-in-traffic**: Pattern in network traffic that identifies the malware
