@@ -1,3 +1,4 @@
+
 <!-- toc -->
 
 # Feeds
@@ -97,6 +98,7 @@ Here you will have access to a dynamic form. Let's check each field by order. Th
   * Connected communities
   * All communities
   * Sharing Group. In this case, a new field Sharing Group appears where you must select a group.
+  * Inherit from Feed (only for MISP feeds). In this case the original distribution and Sharing Group from the feed will be used. Note that the `feed_generator.py` needs to be configured with  `with_distribution = True`. Data will be imported as "Your organisation only" if the distribution is not present in the feed.
 
 * Default Tag: A default tag can be added to the created event(s)
 
