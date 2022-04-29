@@ -54,6 +54,7 @@ Here you will have access to a dynamic form. Let's check each field by order. Th
 * Enabled: Is the feed active or not
 * Caching enabled: Should the feed data be cached
 * Lookup visible: If this is not checked, correlations will only show up for you; if checked, correlations are visible for other users as well
+* Disable correlation: If this is checked, correlations will be disabled for all events coming from this Feed
 * Name: Name to identify the feed; not required to be unique
 * Provider: Name of the content provider
 * Input Source: Where does the input come from  
