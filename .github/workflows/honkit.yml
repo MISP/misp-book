@@ -10,10 +10,14 @@ jobs:
         steps:
         - name: Install honkit
           run: |
+              pwd
+              ls -la
               sudo apt -y install libgif-dev calibre npm nodejs
               sudo npm config set strict-ssl false
               sudo npm cache clean -f
               npm install honkit
+              pwd
+              ls -la
         - name: Install plugin-github
           run: |
               npm install gitbook-plugin-github
@@ -38,7 +42,13 @@ jobs:
         - name: Install plugin-advanced-emoji
           run: |
               npm install gitbook-plugin-advanced-emoji
+              pwd
+              ls -la
         - name: Run honkit build
           run: |
+              pwd
+              ls -la
               cd ..
+              pwd
+              ls -la
               npx honkit build --log debug
