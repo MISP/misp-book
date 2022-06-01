@@ -14,15 +14,32 @@ jobs:
               sudo npm config set strict-ssl false
               sudo npm cache clean -f
               npm install honkit
+        - name: Install plugin-github
+          run: |
               npm install gitbook-plugin-github
+        - name: Install plugin-atoc
+          run: |
               npm install gitbook-plugin-atoc
+        - name: Install plugin-anchors
+          run: |
               npm install gitbook-plugin-anchors
+        - name: Install plugin-image-class
+          run: |
               npm install gitbook-plugin-image-class
+        - name: Install plugin-codesnippet
+          run: |
               npm install gitbook-plugin-codesnippet
+        - name: Install plugin-last-modified
+          run: |
               npm install gitbook-plugin-last-modified
+        - name: Install plugin-sitemap
+          run: |
               npm install gitbook-plugin-sitemap
+        - name: Install plugin-advanced-emoji
+          run: |
               npm install gitbook-plugin-advanced-emoji
-              npm install gitbook-plugin-image-class
+        - name: Run honkit
+          run: |
               ./node_modules/.bin/honkit parse --log debug
               ./node_modules/.bin/honkit -V --log debug
               ./node_modules/.bin/honkit build --log debug
