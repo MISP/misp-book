@@ -34,7 +34,7 @@ for different monitoring tools:
 - Using [Cacti](https://www.cacti.net/), a blog post with the [instruction](https://www.misp-project.org/2020/08/22/MISP-Monitoring-with-Cacti.html) is available.
 - Using [Munin](http://munin-monitoring.org/), [misp-monitor](https://github.com/SteveClement/misp-monitor) for instructions.
 - Using [Nagios](https://www.nagios.org/), [Monitoring MISP with Nagios](https://blog.rootshell.be/2020/08/25/monitoring-misp-with-nagios/)
-- Using [OpenNMS](https://www.opennms.com/), a blog post with the [instructions](https://www.misp-project.org/2020/08/18/MISP-Monitoring-with-OpenNMS.html) is availabe.
+- Using [OpenNMS](https://www.opennms.com/), a blog post with the [instructions](https://www.misp-project.org/2020/08/18/MISP-Monitoring-with-OpenNMS.html) is available.
 - [Live monitoring of MISP usage](https://github.com/MISP/misp-monitoring) via the httpd logs. 
 
 ***
@@ -129,7 +129,7 @@ Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-sta
 MISP can be made more appealing to the eye by adding some graphics.
 
 As Org.- or Site-admin navigate to *Administration* -> *List organisations* and edit the corresponding organization.
-Withing this editor you will be able to update the logo.
+Within this editor you will be able to update the logo.
 
 Other ways to achieve this, would be:
     
@@ -627,7 +627,7 @@ OR if you were foolish enough to not install in a Python virtualenv:
 sudo -u www-data misp-modules -l 127.0.0.1 -s &
 ```
 
-> [warning] Running misp-modules like this will certainly kill it once you quit the session. Make sure it is in your **/etc/rc.local** or some ther init script that gets run on boot.
+> [warning] Running misp-modules like this will certainly kill it once you quit the session. Make sure it is in your **/etc/rc.local** or some other init script that gets run on boot.
 
 ## Uninstalling MISP
 
@@ -1025,7 +1025,7 @@ sudo sudo systemctl restart apache2
 
 ### What are the required steps after a MISP installation to have a properly running instance?
 
-- First login with the installation credentials and change the password immediatly (especially if your instance is publicly accessible)
+- First login with the installation credentials and change the password immediately (especially if your instance is publicly accessible)
 - Set the base_url to the hostname of your machine (apache virtualhost name)
 - Create a new organisation which will be the host organisation running the MISP instance
 - Set the new organisation in `MISP.host_org_id` to replace the default one

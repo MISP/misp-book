@@ -1,3 +1,4 @@
+
 <!-- toc -->
 
 # Feeds
@@ -53,6 +54,7 @@ Here you will have access to a dynamic form. Let's check each field by order. Th
 * Enabled: Is the feed active or not
 * Caching enabled: Should the feed data be cached
 * Lookup visible: If this is not checked, correlations will only show up for you; if checked, correlations are visible for other users as well
+* Disable correlation: If this is checked, correlations will be disabled for all events coming from this Feed
 * Name: Name to identify the feed; not required to be unique
 * Provider: Name of the content provider
 * Input Source: Where does the input come from  
@@ -97,6 +99,7 @@ Here you will have access to a dynamic form. Let's check each field by order. Th
   * Connected communities
   * All communities
   * Sharing Group. In this case, a new field Sharing Group appears where you must select a group.
+  * Inherit from Feed (only for MISP feeds). In this case the original distribution and Sharing Group from the feed will be used. Note that the `feed_generator.py` needs to be configured with  `with_distribution = True`. Data will be imported as "Your organisation only" if the distribution is not present in the feed.
 
 * Default Tag: A default tag can be added to the created event(s)
 

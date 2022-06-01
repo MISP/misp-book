@@ -52,6 +52,7 @@
 |eppn| | | | | | |
 |favicon-mmh3| | | | | | |
 |filename| | X | | X | | |
+|filename-pattern| | X | | X | | |
 |filename&#124;authentihash| | X | | | | |
 |filename&#124;impfuzzy| | X | | | | |
 |filename&#124;imphash| | X | | | | |
@@ -155,6 +156,7 @@
 |snort| | | | X | | |
 |special-service-request| | | | | | |
 |ssdeep| | X | | | | |
+|ssh-fingerprint| | | | | | |
 |stix2-pattern| | X | | | | |
 |target-email| | | | | | |
 |target-external| | | | | | |
@@ -241,6 +243,7 @@
 |eppn| X | | | | | |
 |favicon-mmh3| X | | | | | |
 |filename| | | X | X | | X |
+|filename-pattern| X | | X | X | | |
 |filename&#124;authentihash| | | X | X | | |
 |filename&#124;impfuzzy| | | X | X | | |
 |filename&#124;imphash| | | X | X | | |
@@ -344,6 +347,7 @@
 |snort| X | | | | | |
 |special-service-request| | | | | | |
 |ssdeep| | | X | X | | |
+|ssh-fingerprint| X | | | | | |
 |stix2-pattern| X | | X | X | | |
 |target-email| | | | | | |
 |target-external| | | | | | |
@@ -430,6 +434,7 @@
 |eppn| | X | | |
 |favicon-mmh3| | | | |
 |filename| | | | |
+|filename-pattern| | | | |
 |filename&#124;authentihash| | | | |
 |filename&#124;impfuzzy| | | | |
 |filename&#124;imphash| | | | |
@@ -533,6 +538,7 @@
 |snort| | | | |
 |special-service-request| X | | | |
 |ssdeep| | | | |
+|ssh-fingerprint| | | | |
 |stix2-pattern| | | | |
 |target-email| | | | X |
 |target-external| | | | X |
@@ -639,6 +645,7 @@
 *   **eppn**: eduPersonPrincipalName - eppn - the NetId of the person for the purposes of inter-institutional authentication. Should be stored in the form of user@univ.edu, where univ.edu is the name of the local security domain.
 *   **favicon-mmh3**: favicon-mmh3 is the murmur3 hash of a favicon as used in Shodan.
 *   **filename**: Filename
+*   **filename-pattern**: A pattern in the name of a file
 *   **filename&#124;authentihash**: A checksum in md5 format
 *   **filename&#124;impfuzzy**: Import fuzzy hash - a fuzzy hash created based on the imports in the sample.
 *   **filename&#124;imphash**: Import hash - a hash created based on the imports in the sample.
@@ -742,6 +749,7 @@
 *   **snort**: An IDS rule in Snort rule-format
 *   **special-service-request**: A Special Service Request is a function to an airline to provide a particular facility for A Passenger or passengers. 
 *   **ssdeep**: A checksum in ssdeep format
+*   **ssh-fingerprint**: A fingerprint of SSH key material
 *   **stix2-pattern**: STIX 2 pattern
 *   **target-email**: Attack Targets Email(s)
 *   **target-external**: External Target Organizations Affected by this Attack
