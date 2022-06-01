@@ -38,8 +38,14 @@ jobs:
         - name: Install plugin-advanced-emoji
           run: |
               npm install gitbook-plugin-advanced-emoji
-        - name: Run honkit
+        - name: Run honkit version
+          run: |
+              ./node_modules/.bin/honkit -V --log debug
+        - name: Run honkit parse test
           run: |
               ./node_modules/.bin/honkit parse --log debug
-              ./node_modules/.bin/honkit -V --log debug
+        - name: Run honkit build
+          run: |
+              pwd
+              ls -la
               ./node_modules/.bin/honkit build --log debug
