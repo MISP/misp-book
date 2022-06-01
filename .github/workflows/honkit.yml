@@ -8,22 +8,61 @@ jobs:
         strategy:
             max-parallel: 4
         steps:
-        - name: Install honkit
+        - uses: actions/checkout@v3
+          with:
+            ref: main
+
+        - name: Install honkit and dependencies
           run: |
-              sudo apt-get -y install libgif-dev calibre npm nodejs
+              sudo apt -y install libgif-dev calibre npm nodejs
               sudo npm config set strict-ssl false
               sudo npm cache clean -f
-              sudo npm install -g n
-              sudo n stable
-              sudo npm update -g
-              npm install honkit --save-dev
+              npm install honkit
+        - name: Install plugin-github
+          run: |
               npm install gitbook-plugin-github
+        - name: Install plugin-atoc
+          run: |
               npm install gitbook-plugin-atoc
+        - name: Install plugin-anchors
+          run: |
               npm install gitbook-plugin-anchors
+        - name: Install plugin-alerts
+          run: |
+              npm install gitbook-plugin-alerts
+        - name: Install plugin-search
+          run: |
+              npm install gitbook-plugin-search
+        - name: Install plugin-gist
+          run: |
+              npm install gitbook-plugin-gist
+        - name: Install plugin-image-class
+          run: |
               npm install gitbook-plugin-image-class
+        - name: Install plugin-codesnippet
+          run: |
               npm install gitbook-plugin-codesnippet
+        - name: Install plugin-last-modified
+          run: |
               npm install gitbook-plugin-last-modified
+        - name: Install plugin-fontsettings
+          run: |
+              npm install gitbook-plugin-fontsettings
+        - name: Install plugin-sitemap
+          run: |
               npm install gitbook-plugin-sitemap
+        - name: Install plugin-advanced-emoji
+          run: |
               npm install gitbook-plugin-advanced-emoji
-              npm install gitbook-plugin-image-class
+        - name: Run honkit build
+          run: |
               npx honkit build
+        - name: Run honkit build pdf
+          run: |
+              npx honkit pdf
+        - name: Run honkit epub pdf
+          run: |
+              npx honkit epub
+        - name: Run honkit epub mobi
+          run: |
+              npx honkit mobi

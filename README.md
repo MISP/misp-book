@@ -4,7 +4,7 @@ description: Introduction to MISP - Open Source Threat Intelligence Sharing Plat
 
 # Introduction
 
-[![Build Status](https://travis-ci.org/MISP/misp-book.svg?branch=master)](https://travis-ci.org/MISP/misp-book)
+![Build Status](https://github.com/MISP/misp-book/actions/workflows/honkit.yml/badge.svg)
 
 ![MISP logo](https://raw.githubusercontent.com/MISP/MISP/2.4/INSTALL/logos/misp-logo.png)
 
@@ -40,9 +40,9 @@ The MISP user guide is dual-licensed under [GNU Affero General Public License ve
 * Copyright \(C\) 2012 Christophe Vandeplas
 * Copyright \(C\) 2012 Belgian Defence
 * Copyright \(C\) 2012 NATO / NCIRC
-* Copyright \(C\) 2013-2020 Andras Iklody
-* Copyright \(C\) 2015-2021 Alexandre Dulaunoy
-* Copyright \(C\) 2014-2021 CIRCL - Computer Incident Response Center Luxembourg
+* Copyright \(C\) 2013-2021 Andras Iklody
+* Copyright \(C\) 2015-2022 Alexandre Dulaunoy
+* Copyright \(C\) 2014-2022 CIRCL - Computer Incident Response Center Luxembourg
 * Copyright \(C\) 2018 Camille Schneider
-* Copyright \(C\) 2018-2020 Steve Clement
+* Copyright \(C\) 2018-2022 Steve Clement
 * Copyright \(C\) 2021 Jeroen Pinoy
