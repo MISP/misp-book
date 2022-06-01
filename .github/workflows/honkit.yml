@@ -1,0 +1,16 @@
+name: Honkit test
+
+on: [push]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        strategy:
+            max-parallel: 4
+        steps:
+        - name: Install honkit
+          run: |
+              apt install nodejs
+              npm init --yes
+              npm install honkit --save-dev
+              npx honkit build
