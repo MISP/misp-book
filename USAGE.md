@@ -2,60 +2,46 @@ Install notes
 =============
 
 :warning: Make sure to be in the *misp-book* repository directory for the *npm magic*.<br />
-_Also_: The *npm* plugin *autocover* is broken. It pulls an incompatible *canvas* module version. Thus patched repository used (forked from original)<br />
-_Finally_: You will get a few errors on Ubuntu 18.04 which you can ignore for now. In the rather near future we need to think about an alternative as gitbook glides towards obsoletion and security risk.
 
 Reason for concern:
 ```
-npm WARN deprecated sprintf@0.1.5: The sprintf package is deprecated in favor of sprintf-js.
+npm WARN deprecated gulp-header@1.8.12: Removed event-stream from gulp-header
+npm WARN deprecated har-validator@5.1.5: this library is no longer supported
+npm WARN deprecated har-validator@2.0.6: this library is no longer supported
+npm WARN deprecated cryptiles@2.0.5: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated boom@2.10.1: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated sntp@1.0.9: This module moved to @hapi/sntp. Please make sure to switch over as this distribution is no longer supported and may contain bugs and critical security issues.
+npm WARN deprecated uuid@3.4.0: Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
 npm WARN deprecated tough-cookie@2.2.2: ReDoS vulnerability parsing Set-Cookie https://nodesecurity.io/advisories/130
-npm WARN deprecated cryptiles@2.0.5: This version is no longer maintained. Please upgrade to the latest version.
-npm WARN deprecated boom@2.10.1: This version is no longer maintained. Please upgrade to the latest version.
-npm WARN deprecated hoek@2.16.3: This version is no longer maintained. Please upgrade to the latest version.
-npm WARN saveError ENOENT: no such file or directory, open '/home/steve/Desktop/code/MISP_Main/misp-book/package.json'
-npm WARN enoent ENOENT: no such file or directory, open '/home/steve/Desktop/code/MISP_Main/misp-book/package.json'
-npm WARN misp-book No description
-npm WARN misp-book No repository field.
-npm WARN misp-book No README data
-npm WARN misp-book No license field.
-npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@0.3.8 (node_modules/fsevents):
-npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@0.3.8: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"x64"})
+npm WARN deprecated node-uuid@1.4.8: Use uuid module instead
+npm WARN deprecated hoek@2.16.3: This version has been deprecated in accordance with the hapi support policy (hapi.im/support). Please upgrade to the latest version to get the best features, bug fixes, and security patches. If you are unable to upgrade at this time, paid support is available for older versions (hapi.im/commercial).
+npm WARN deprecated request@2.88.2: request has been deprecated, see https://github.com/request/request/issues/3142
+npm WARN deprecated request@2.67.0: request has been deprecated, see https://github.com/request/request/issues/3142
+npm WARN deprecated coffee-script@1.12.7: CoffeeScript on NPM has moved to "coffeescript" (no hyphen)
+npm WARN deprecated hawk@3.1.3: This module moved to @hapi/hawk. Please make sure to switch over as this distribution is no longer supported and may contain bugs and critical security issues.
 
-+ gitbook-plugin-alerts@0.2.0
-+ gitbook-plugin-advanced-emoji@0.2.2
-+ gitbook-plugin-gist@1.0.0
-+ gitbook-plugin-sitemap@1.2.0
-+ gitbook-plugin-github@3.0.0
-+ gitbook-plugin-toc@0.0.2
-+ gitbook-plugin-anchors@0.7.1
-+ gitbook-plugin-search@2.2.1
-+ gitbook-plugin-codesnippet@1.2.0
-+ gitbook-plugin-last-modified@1.0.0
-+ gitbook-plugin-image-class@1.0.5
-+ gitbook@2.6.9
-+ gitbook-plugin-autocover@2.0.1
-updated 13 packages, moved 9 packages and audited 4906 packages in 5.316s
-found 368 vulnerabilities (48 low, 250 moderate, 62 high, 8 critical)
-  run `npm audit fix` to fix them, or `npm audit` for details
+added 492 packages, and audited 493 packages in 22s
+
+38 packages are looking for funding
+  run `npm fund` for details
+
+21 vulnerabilities (6 moderate, 12 high, 3 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
 #weHaveBeenWarned
 ```
 
 
-Tested on: *Ubuntu 18.04/20.04 LTS* *Debian 10.5/sid/testing*
-[Terminal Recording of npm install lines on Ubuntu 18.04](https://asciinema.org/a/84JZMuGu2QlFH59q6mK8jbdQS)
+Tested on: *Ubuntu 22.04 LTS* & *Debian 11.3*
 
 ```bash
 git clone git@github.com:MISP/misp-book.git
 cd misp-book
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-sudo apt install -y nodejs
-sudo apt install -y build-essential
+sudo apt install -y npm
 sudo apt install -y pkg-config libcairo2-dev libgif-dev libjpeg-dev
 sudo apt install -y calibre  # for generating PDFs
-npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-alerts gitbook-plugin-search gitbook-plugin-gist gitbook-plugin-advanced-emoji gitbook-plugin-sitemap gitbook-plugin-codesnippet gitbook-plugin-image-class gitbook-plugin-last-modified gitbook-plugin-fontsettings
-
-sudo npm install gitbook-cli -g
-gitbook install
+npm install honkit gitbook-plugin-github gitbook-plugin-atoc gitbook-plugin-anchors gitbook-plugin-alerts gitbook-plugin-search gitbook-plugin-gist gitbook-plugin-advanced-emoji gitbook-plugin-sitemap gitbook-plugin-codesnippet gitbook-plugin-image-class gitbook-plugin-last-modified gitbook-plugin-fontsettings
 ```
 
 Plugins
@@ -139,68 +125,77 @@ Usage
 If you want to generate the PDF output (you need to have Calibre installed):
 
 ```bash
-$ time gitbook pdf
-info: 13 plugins are installed
-info: 12 explicitly listed
-info: loading plugin "autocover"... OK
-info: loading plugin "github"... OK
-info: loading plugin "toc"... OK
-info: loading plugin "anchors"... OK
-info: loading plugin "alerts"... OK
-info: loading plugin "advanced-emoji"... OK
-info: loading plugin "highlight"... OK
-info: loading plugin "search"... OK
-info: loading plugin "lunr"... OK
-info: loading plugin "sharing"... OK
-info: loading plugin "fontsettings"... OK
-info: loading plugin "theme-default"... OK
-info: found 23 pages
-info: found 201 asset files
-warn: "options" property is deprecated, use config.get(key) instead
-info: >> generation finished with success in 58.8s !
-info: >> 1 file(s) generated
-gitbook pdf  47.51s user 2.51s system 81% cpu 1:01.21 total
+$ time honkit pdf
+info: 13 plugins are installed 
+info: 13 explicitly listed 
+info: plugin "atoc" is loaded
+info: plugin "github" is loaded
+info: plugin "codesnippet" is loaded
+info: plugin "last-modified" is loaded
+info: plugin "anchors" is loaded
+info: plugin "sitemap" is loaded
+info: plugin "advanced-emoji" is loaded
+info: plugin "image-class" is loaded
+info: plugin "highlight" is loaded
+info: plugin "search" is loaded
+info: plugin "lunr" is loaded
+info: plugin "fontsettings" is loaded
+info: plugin "theme-default" is loaded
+info: found 37 pages 
+info: found 278 asset files 
+warn: "options" property is deprecated, use config.get(key) instead 
+warn: "this.generator" property is deprecated, use "this.output.name" instead 
+warn: "navigation" property is deprecated 
+warn: "book" property is deprecated, use "this" directly instead 
+info: >> generation finished with success in 156.1s ! 
+info: >> 1 file(s) generated 
+npx honkit pdf  115.55s user 2.26s system 74% cpu 2:37.29 total
 ```
 
 on macOS (ebook-convert is not in path):
 
 ```bash
-$ PATH=$PATH:/Applications/calibre.app/Contents/MacOS/ ; gitbook pdf
+$ PATH=$PATH:/Applications/calibre.app/Contents/MacOS/ ; honkit pdf
 ```
 
 and if you want to want to serve the HTML pages on 127.0.0.1:4000:
 
 ```bash
-$ time gitbook serve
+$ time npx honkit serve
 Live reload server started on port: 35729
 Press CTRL+C to quit ...
 
-info: 13 plugins are installed
-info: loading plugin "autocover"... OK
-info: loading plugin "github"... OK
-info: loading plugin "toc"... OK
-info: loading plugin "anchors"... OK
-info: loading plugin "alerts"... OK
-info: loading plugin "advanced-emoji"... OK
-info: loading plugin "livereload"... OK
-info: loading plugin "highlight"... OK
-info: loading plugin "search"... OK
-info: loading plugin "lunr"... OK
-info: loading plugin "sharing"... OK
-info: loading plugin "fontsettings"... OK
-info: loading plugin "theme-default"... OK
-info: found 23 pages
-info: found 201 asset files
-warn: "options" property is deprecated, use config.get(key) instead
-info: >> generation finished with success in 42.1s !
-
 Starting server ...
+info: 14 plugins are installed 
+info: 14 explicitly listed 
+info: plugin "atoc" is loaded
+info: plugin "github" is loaded
+info: plugin "codesnippet" is loaded
+info: plugin "last-modified" is loaded
+info: plugin "anchors" is loaded
+info: plugin "sitemap" is loaded
+info: plugin "advanced-emoji" is loaded
+info: plugin "image-class" is loaded
+info: plugin "livereload" is loaded
+info: plugin "highlight" is loaded
+info: plugin "search" is loaded
+info: plugin "lunr" is loaded
+info: plugin "fontsettings" is loaded
+info: plugin "theme-default" is loaded
+info: found 37 pages 
+info: found 277 asset files 
+warn: "options" property is deprecated, use config.get(key) instead 
+warn: "this.generator" property is deprecated, use "this.output.name" instead 
+warn: "navigation" property is deprecated 
+warn: "book" property is deprecated, use "this" directly instead 
+
+info: >> generation finished with success in 103.7s ! 
 Serving book on http://localhost:4000
 ^C
-gitbook serve  37.61s user 3.75s system 52% cpu 1:19.15 total
+npx honkit serve  118.09s user 1.59s system 109% cpu 1:49.14 total
 ```
 
-:warning: It can take up to 60 seconds for the entire *misp-book* to be generated before the content is available on port 4000. Please be patient ;)
+:warning: It can take up to 120 seconds for the entire *misp-book* to be generated before the content is available on port 4000. Please be patient ;)
 
 
 macOS Notes
@@ -219,26 +214,24 @@ brew install pkg-config cairo pango libpng jpeg giflib
 
 :warning: Make sure to be in the *misp-book* repository directory for the npm magic to work correctly.
 
-Installing gitbook and all dependencies wants to look like this (Tested on *macOS 11.13.3*):
+Installing honkit and all dependencies wants to look like this (Tested on *macOS 11.13.3*):
 
 ```bash
-npm install gitbook git+https://github.com/SteveClement/plugin-autocover.git gitbook-plugin-github gitbook-plugin-toc gitbook-plugin-anchors gitbook-plugin-image-class
-npm install gitbook-cli -g
-gitbook install
+npm install honkit gitbook-plugin-github gitbook-plugin-atoc gitbook-plugin-anchors gitbook-plugin-alerts gitbook-plugin-search gitbook-plugin-gist gitbook-plugin-advanced-emoji gitbook-plugin-sitemap gitbook-plugin-codesnippet gitbook-plugin-image-class gitbook-plugin-last-modified gitbook-plugin-fontsettings
 ```
 
-gitbook rebuild on change
+honkit rebuild on change
 =========================
 
-By default gitbook has the '--watch' option enabled.
+By default honkit has the '--watch' option enabled.
 If this is broken, use the included 'serve.sh' and the 'inoticoming' package.
-Start 'gitbook serve &' and run the following command line:
+Start 'honkit serve &' and run the following command line:
 
 ```
 inoticoming --foreground . --suffix .md bash serve.sh \;
 ```
 
-If any md changes, the gitbook process is killed and restarted.
+If any md changes, the honkit process is killed and restarted.
 
 npm salvage
 ===========
@@ -249,6 +242,4 @@ We still assume we are in the *misp-book* repository working directory.
 ```bash
 rm -rf node_modules
 rm package-lock.json
-rm -rf ~/.gitbook
-sudo rm -rf /usr/local/lib/node_modules/gitbook-cli
 ```
