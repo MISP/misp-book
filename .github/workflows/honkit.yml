@@ -10,7 +10,7 @@ jobs:
         steps:
         - name: Install honkit
           run: |
-              apt install nodejs
+              sudo apt install nodejs npm
               npm init --yes
               npm install honkit --save-dev
               npx honkit build
