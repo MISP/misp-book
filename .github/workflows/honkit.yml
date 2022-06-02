@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-22.04
         strategy:
             max-parallel: 4
         steps:
@@ -63,4 +63,6 @@ jobs:
         - name: Run honkit mobi
           run: |
               npx honkit mobi
-        # npx honkit pdf SKIPPED as of 20220601 it fails but generic/epub/mobi passes
+        - name: Run honkit pdf
+          run: |
+              npx honkit pdf
