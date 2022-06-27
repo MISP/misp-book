@@ -43,7 +43,7 @@ The following taxonomies can be used in MISP (as local or distributed tags) or i
 
 14. [Europol Incident](https://github.com/MISP/misp-taxonomies/tree/master/europol-incident) EUROPOL class of incident taxonomy
 
-15. [Europol Events](https://github.com/MISP/misp-taxonomies/tree/master/europol-events) - EUROPOL type of events taxonomy
+15. [Europol Events](https://github.com/MISP/misp-taxonomies/tree/master/europol-event) - EUROPOL type of events taxonomy
 
 16. [FIRST CSIRT Case](https://github.com/MISP/misp-taxonomies/tree/master/csirt_case_classification) FIRST CSIRT Case Classification.
 
@@ -65,7 +65,7 @@ The following taxonomies can be used in MISP (as local or distributed tags) or i
 
 25. [NATO Classification Marking](https://github.com/MISP/misp-taxonomies/tree/master/nato) Marking of Classified and Unclassified materials as described by the North Atlantic Treaty Organization, NATO.
 
-26. [Open Threat Taxonomy v1.1 (SANS)](https://github.com/MISP/misp-taxonomies/tree/master/open-threat) based on James Tarala of SANS (http://www.auditscripts.com/resources/open_threat_taxonomy_v1.1a.pdf).
+26. [Open Threat Taxonomy v1.1 (SANS)](https://github.com/MISP/misp-taxonomies/tree/master/open_threat) based on James Tarala of SANS (http://www.auditscripts.com/resources/open_threat_taxonomy_v1.1a.pdf).
 
 27. [OSINT Open Source Intelligence - Classification](https://github.com/MISP/misp-taxonomies/tree/master/osint)
 
