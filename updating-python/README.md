@@ -85,7 +85,7 @@ sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U .
 cd /var/www/MISP/app/files/scripts/python-maec
 sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U .
 # STIX 2
-cd /var/www/MISP/cti-python-stix2
+cd /var/www/MISP/app/files/scripts/cti-python-stix2
 sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U .
 
 # Update Yara python library
