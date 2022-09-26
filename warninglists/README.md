@@ -42,7 +42,7 @@ MISP/app/Console/cake Admin updateWarningLists
 
 If you are updating an existing warninglist, make sure you incremented the version number before triggering the update on the MISP. You can also contribute to the existing warninglists by forking [MISP warninglists GitHub Repo](https://github.com/MISP/misp-warninglists), making changes and then creating a pull request.
 ### Creating a custom warninglist
-1. Create a new directory for your warninglist in /var/www/MISP/app/files/warninglists.
+1. Create a new directory for your warninglist in /var/www/MISP/app/files/warninglists/lists.
 2. Add a file called list.json to the newly created directory and add the content you want. You can use any of the existing warning lists in https://github.com/MISP/misp-warninglists as reference.
 3. Trigger an update of the warning lists on the instance to load in your new warning list.
 
