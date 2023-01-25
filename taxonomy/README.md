@@ -85,7 +85,7 @@ Tagging is a simple way to attach a classification to an event. In the early ver
 
 Taxonomy is a classification of informations. Taxonomies are implemented in a simple JSON format. Anyone can create their own taxonomy or reuse an existing one.
 
-Taxonomies are in an [independent git repository](https://github.com/MISP/misp-taxonomies). 
+Taxonomies are in an [independent git repository](https://github.com/MISP/misp-taxonomies).
 
 These can be **freely reused** and **integrated** in other threat intel tools.
 
@@ -193,7 +193,7 @@ Applying rules for distribution based on tags:
         admiralty-scale:source-reliability="b"
         admiralty-scale:source-reliability="c"
         admiralty-scale:source-reliability="d"
-        admiralty-scale:source-reliability="e"
+        admiralty-scale:source-reliability="e"  
         admiralty-scale:source-reliability="f"
         admiralty-scale:information-credibility="1"
         admiralty-scale:information-credibility="2"
@@ -215,6 +215,36 @@ Tags can be used to:
 * Ensure a classification manager classes the events before release (e.g. release of information from air-gapped/classified networks).
 
 * Enrich IDS export with tags to fit your NIDS deployment.
+
+## More options to configure taxonomies.
+
+For MISP users and organisations, it's important to show the important contextualised information and especially the taxonomies which are important to your use-case.
+Once a taxonomy is enabled and available for use in MISP, there are two more options a admin can be set to encourage the use of particular taxonomies. Both are found in Event Actions > List Taxonomies menu.
+
+![taxonomies-list](./figures/taxonomy-list.png)
+
+### Setting a taxonomy as "Highlighted"
+
+If a taxonomy is highlighted, its namespace will appear in a visible box, even if it is not set in the event.
+
+![highlight-event](./figures/highlight-event.png)
+
+Tags are also hilighted in the event list.
+
+![highlight-list-event](./figures/highlight-list-event.png)
+
+It is also easier to add an highlighted tag to an event.
+
+![tag-box](./figures/tag-box.png)
+
+### Setting a taxonomy as "Required"
+If taxonomies are set as required, a message will be visible on the tag list of the event, enumerating the missing required taxonomies still missing.
+
+![missing-taxo](./figures/missing-taxo.png)
+
+An event will not be published if it is not tagged with at least one of tag of each required taxonomy.
+
+![publishing-without-required](./figures/publishing-without-required.png)
 
 ## Future functionalities related to MISP taxonomies
 
