@@ -13,16 +13,16 @@ In the next screenshot you see a bad practice example. The tlp:white tag is adde
 ![Screenshot of event tagged with tlp:white and tlp:white tag set at attribute level - bad practice](./figures/bad-practice-tagging.png)
 ### Minimal subset of tags to use for each event
 #### Traffic Light Protocol
-[TLP-Tags](https://github.com/MISP/misp-taxonomies/blob/master/tlp/machinetag.json): TLP utilizes a simple four color schema for indicating how intelligence can be shared.
+[TLP-Tags](https://github.com/MISP/misp-taxonomies/blob/main/tlp/machinetag.json): TLP utilizes a simple four color schema for indicating how intelligence can be shared.
 
 #### Confidence
-[Confidence-Tags/Vetting State](https://github.com/MISP/misp-taxonomies/blob/master/cssa/machinetag.json): There are huge differences in the quality of data, whether it was vetted upon sharing. As this means that the author was confident that the shared data is or at least was a good indicator of compromise.
+[Confidence-Tags/Vetting State](https://github.com/MISP/misp-taxonomies/blob/main/cssa/machinetag.json): There are huge differences in the quality of data, whether it was vetted upon sharing. As this means that the author was confident that the shared data is or at least was a good indicator of compromise.
 
 #### Origin
-[Origin-Tags](https://github.com/MISP/misp-taxonomies/blob/master/cssa/machinetag.json): Describes where the information came from, whether it was in an automated fashion or in a manual investigation. This should give an impression how value this intelligence is, as manual investigation should supersede any automatic generation of data.
+[Origin-Tags](https://github.com/MISP/misp-taxonomies/blob/main/cssa/machinetag.json): Describes where the information came from, whether it was in an automated fashion or in a manual investigation. This should give an impression how value this intelligence is, as manual investigation should supersede any automatic generation of data.
 
 #### Permissible Actions Protocol
-[PAP-Tags](https://github.com/MISP/misp-taxonomies/blob/master/PAP/machinetag.json): An even more advanced approach of data classification is using the Permissible Actions Protocol. It indicates how the received data can be used to search for compromises within the individual company or constituency.
+[PAP-Tags](https://github.com/MISP/misp-taxonomies/blob/main/PAP/machinetag.json): An even more advanced approach of data classification is using the Permissible Actions Protocol. It indicates how the received data can be used to search for compromises within the individual company or constituency.
 ## Setting distribution
 Similar to tagging, inheritance should be used wherever possible. This is especially important when using sharing groups due to limit the impact of sharing group usage on performance. Note that for distribution, the event or object distribution of the attribute should be the same or less restrictive than the attribute distribution. Below are two good practice examples, the first using community distribution and the second using sharing groups. Note that a combination of the two can be used as well.
 

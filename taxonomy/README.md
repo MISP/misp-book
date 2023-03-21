@@ -184,7 +184,7 @@ Applying rules for distribution based on tags:
 
 ### MISP Taxonomies - tools
 
-- [machinetag.py](https://github.com/MISP/misp-taxonomies/blob/master/tools/machinetag.py) is a parsing tool to dump taxonomies expressed in Machine Tags (Triple Tags) and list all valid tags from a specific taxonomy.
+- [machinetag.py](https://github.com/MISP/misp-taxonomies/blob/main/tools/machinetag.py) is a parsing tool to dump taxonomies expressed in Machine Tags (Triple Tags) and list all valid tags from a specific taxonomy.
 
 ~~~~shell
 % cd tools
