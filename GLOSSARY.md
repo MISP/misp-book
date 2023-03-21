@@ -55,7 +55,7 @@ To get started with MISP we advise to enable the CIRCL OSINT feed within your MI
 [More](http://www.misp-project.org/feeds/)
 
 ## MISP format
-MISP formats are described in specification document based on the current implementation of MISP core and PyMISP. These specifications are available for other developers willing to develop their own tools or software supporting the [MISP format](https://github.com/MISP/misp-rfc/blob/master/misp-core-format/raw.md.txt).
+MISP formats are described in specification document based on the current implementation of MISP core and PyMISP. These specifications are available for other developers willing to develop their own tools or software supporting the [MISP format](https://github.com/MISP/misp-rfc/blob/main/misp-core-format/raw.md.txt).
 
 ## MISP Galaxy Cluster
 MISP galaxy is a simple method to express a large object called cluster that can be attached to MISP events or attributes. A cluster can be composed of one or more elements. Elements are expressed as key-values. There are default vocabularies available in MISP galaxy but those can be overwritten, replaced or updated as you wish. Existing clusters and vocabularies can be used as-is or as a template. MISP distribution can be applied to each cluster to permit a limited or broader distribution scheme. The following document is generated from the machine-readable JSON describing the MISP galaxy.

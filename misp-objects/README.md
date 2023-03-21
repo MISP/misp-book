@@ -27,7 +27,7 @@ After pressing "Submit, you are given the possibility to review your object befo
 
 ## Creating object
 
-An object is designed using a JSON file which should respect a format described in [this document](https://github.com/MISP/misp-objects/blob/master/schema_objects.json).
+An object is designed using a JSON file which should respect a format described in [this document](https://github.com/MISP/misp-objects/blob/main/schema_objects.json).
 
 An object is basically a combination of two or more attributes that can be used together to represent real cyber security use-cases. These attributes are listed in a JSON object.
 
