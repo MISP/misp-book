@@ -51,7 +51,7 @@ sudo -u www-data /var/www/MISP/app/Console/cake Password admin@admin.test Passwo
 If you need a password generator use:
 - Ubuntu / Debian: [pwgen](https://linux.die.net/man/1/pwgen)
 - Website: [LastPass PW Generator](https://lastpass.com/generatepassword.php)
-- Built-in generator in Keepass* and other passwort manager
+- Built-in generator in Keepass* and other password manager
 - Built-in generator in various web browsers
 
 **All Generator tools are only possibilities without any guarantee!**
