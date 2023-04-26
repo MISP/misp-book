@@ -1,13 +1,24 @@
 #  What misp can do
 Here are some interesting features you might want to find in a threat intelligence platform.
-Some of these features are fully supported by MISP (~ 80% of it). Each feature is introduced as a question `Is MISP capable of  ...` 
+Some of these features are fully supported by MISP (~ 80% of it). Each feature is introduced as a question `Is MISP capable of  ...`
 The answers will try to both say if it's currently supported and then describe how in practice this feature is available (how to proceed to get things up). 
 The list is not exhaustive of course but it's a good start and should be filled out as new features is added.
-Everyone can [contribute] (https://github.com/MISP/misp-book) by proposing new features, or add additional info on an existing feature. 
+Everyone can [contribute] (https://github.com/MISP/misp-book) by proposing new features, or add additional info on an existing feature.
 
 _Answers labbeled with_ [**NOT DONE**] _tag need to be completed as they do not give much detail about the way in practice to get this feature up. After the label, there are complementary informations/suggestions to precise what other infos should be added to make the process clearer._
 
-> Is MISP capable of applying custom taxonomies to threat data in a predefined or manual way? 
+## MISP Capabilities Question list
+
+> Is MISP capable of applying custom taxonomies to threat data in a predefined or manual way?
+
+> Can theses taxonomies remain local and not shared? 
+
+> Is MISP capable of providing automatic classification of information?
+
+> Does MISP have the capability to apply marking, tagging and confidence at event, attribute, feed and source levels in a predefined way?
+
+
+> Is MISP capable of applying custom taxonomies to threat data in a predefined or manual way?
 
 Yes, MISP has already [144](https://www.misp-project.org/taxonomies.html "144") different [taxonomies](https://www.circl.lu/doc/misp/GLOSSARY.html#misp-taxonomies "taxonomies") that gathered 951 [predicates](https://github.com/MISP/misp-taxonomies). But if none of them suit you, you can add your own: Just read [this guide](https://www.circl.lu/doc/misp/taxonomy/#adding-taxonomy-in-misp) or [this one](https://www.circl.lu/assets/files/misp-training/first2016/2-MISP-Taxonomies.pdf). It explains you step by step how to create your own. 
 
@@ -19,7 +30,7 @@ This feature enables you to add tags when specific events are triggered such as:
 - _After enrichement process has been done_
 - _Full list of trigger module is available [here](https://localhost/workflows/triggers)_
 
-You can as well attach tags to sepecific set of data such as  (specfic attribute type/category/value/etc...)
+You can as well attach tags to specific set of data such as specfic attribute type, category, value [...]
 
 All worflow modules and triggers are available at the MISP_URL/Workflow/triggers ou MISP_URL/Workflow/modules.
 
@@ -38,8 +49,7 @@ Finally, you can use the MISP workflow feature to block certain tags to be publi
 Depends on your definition of automatic. We script it using MISP APIs normally. 
 
 [**NOT DONE**]
-==> **Need to be developp with some high level examples in order to be more understandable. (What MISP API query or PyMISP fuction enable us to make classification of information in a automative way. How to use them in order to classify information in an automative way ? Give few examples)
-**
+==> **Need to be developp with some high level examples in order to be more understandable. (What MISP API query or PyMISP fuction enable us to make classification of information in a automative way. How to use them in order to classify information in an automative way ? Give few examples)**
 
 > Does MISP have the capability to manage marking and confidence information, e.g. TLP?
 
