@@ -849,6 +849,8 @@ If you would like to automate tasks such as caching feeds or pulling from server
     MISP/app/Console/cake Server pull [user_id] [server_id] [full|update]
 #### Push
     MISP/app/Console/cake Server push [user_id] [server_id]
+#### List Feeds
+    MISP/app/Console/cake Server listFeeds
 #### Cache Feeds For Quick Lookups
     MISP/app/Console/cake Server cacheFeed [user_id] [feed_id|all|csv|text|misp]
 #### Fetch Feeds As Local Data
