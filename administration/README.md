@@ -814,7 +814,9 @@ The below info is also available in the MISP GUI. Go to event actions -> automat
 #### Set Baseurl
     MISP/app/Console/cake Baseurl [baseurl]
 #### Change Password
-    MISP/app/Console/cake Password [email] [new_password] [--override_password_change]
+    MISP/app/Console/cake User change_pw [User ID or e-mail address] [new_password] [--no_password_change]
+    
+If --no_password_change is used, the user will not be required to change their password after their first login with the set password.
 #### Clear Bruteforce Entries
     MISP/app/Console/cake Admin clearBruteforce [user_email]
 #### Run Database Update
