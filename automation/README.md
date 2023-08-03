@@ -27,6 +27,39 @@ The authorization is performed by using the following header:
 ~~~~
 Authorization: YOUR API KEY
 ~~~~
+
+#### Creating an automation key (using advanced authkeys)
+Using the menu, go to Global Actions > My Profile and click "Auth keys" to show the auth keys view.
+
+![Screenshot of My Profile view with Auth keys expanded](./figures/create-authkey-1.png)
+
+The following form will be displayed:
+![Screenshot of add authkey form](./figures/create-authkey-2-fill-form.png)
+
+You can add an optional comment to indicate what the key will be used for.
+
+You can also limit the usage of the key to specific IPs or subnets (one per line), by adding them in the Allowed IPs field. On some instances it is mandatory to set an IP allowlist. When adding subnets, please note that you need to use the format network_ip/subnet_mask .
+
+You can optionally set an expiration time for the key.
+
+Finally, it is also possible to make this key read-only, meaning that it will not be possible to do any changes on this instance using this automation key.
+
+After clicking submit you will get a confirmation that the auth key was created, the key will be shown only one time.
+![Screenshot showing success message that is displayed when an ip was successfully pinned for an authkey](./figures/create-authkey-3-authkey-displayed.png)
+
+The same fields are available when editing an automation key.
+
+#### Pinning an allowed IP for an automation key (using advanced authkeys)
+MISP will keep track of the unique IPs that were seen for a specific automation key.
+You can easily limit future usage of an automation key to one of the IPs that was seen in the past. To do so, using the menu, go to Global Actions > My Profile and click "Auth keys" to show the auth keys view. If the automation key was used in the past, you will see the "Seen IPs" listed per key. Click on the pin button next to the IP you want to limit usage to.
+
+![Screenshot showing auth keys view with the pin button available for seen IPs](./figures/pin-step-1.png)
+You will get a pop up requesting confirmation that you want to pin this IP for the key:
+
+![Screenshot showing pop up which is displayed, requesting user confirmation after clicking the pin IP button](./figures/pin-step-2-confirm.png)
+After confirmation, if all goes well, you will get a confirmation that the allowed IP was set for the automation key:
+![Screenshot showing success message that is displayed when an ip was successfully pinned for an authkey](./figures/pin-step-3-success-message.png)
+
 ### Accept and Content-Type headers
 
 When performing your request, depending on the type of request, you might need to explicitly specify in what content type you want to get your results. This is done by setting one of the below Accept headers:

@@ -85,7 +85,7 @@ MISP has several organisation "pools", one for local and one for known external 
 Choose the organisation from the selected pool that defines the host organisation on the remote side. Make sure that the remote instance is actually run by the organisation you select. When selecting data to push, this organisation will be used to determine membership of sharing groups. As a result, this setting is very important, since selecting the wrong organisation can lead to leaking confidential data (oversharing) or sharing less than intended.
 
 6. **Authkey**
-You can find the authentication key on your profile on the external server. If advanced auth keys is enabled you might have to create an auth key manually. This can be done on your profile view as well.
+You can find the authentication key on your profile on the external server. If advanced auth keys is enabled you might have to create an auth key manually. This can be done on your profile view as well. Please refer to the [automation](../automation/README.md) section for more information about creating an automation key.
 
 7. **Push**
 Allow the upload of events and their attributes. Only Events that match the given push rules (see 19) will be pushed to the server. Sightings and relevant galaxy clusters will not be pushed unless 'Push Sightings' and 'Push Galaxy Clusters' are enabled as well.
