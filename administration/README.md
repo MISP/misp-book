@@ -875,4 +875,35 @@ The background workers can be managed via the CLI in addition to the UI / API ma
     MISP/app/Console/cake Admin restartWorkers
 #### Kill A Worker
     MISP/app/Console/cake Admin killWorker [worker_pid]
+    
+## Administration of TOTP/HOTP
+MISP 2.4.172 introduced multi-factor authentication (TOTP/HOTP) support.
+
+Before using or testing this feature, please note that it is extremely important to make sure your server has correct time syncing set up, since the TOTP tokens are time based. If you are alread using e-mail OTP, you can leave this on. The two multi-factor authentication methods can co-exist, users that have TOTP/HOTP set up, will no longer be able to use e-mail OTP. Those that do not have it set, will still be prompted for it in that case.
+
+After updating your MISP, make sure you have installed the required php dependencies by using the top menu to go to Administration > Server Settings & Maintenance > Diagnostics.
+
+![Screenshot of diagnostics page showing required php libraries for TOTP/HOTP](./figures/php-dependencies-totp.png)
+
+If you do not have them installed yet, you can run the equivalent of the below command for your setup / OS to install them:
+
+    sudo -u www-data sh -c "cd /var/www/MISP/app;php composer.phar update"
+    
+You can see which users have TOTP/HOTP configured in the users index:
+![Screenshot of users index page, with highlight showing the column which indicates a user has TOTP/HOTP configured](./figures/user-with-totp-active-in-users-index.png)
+
+As a site-admin (users can't do this themselves), you can delete TOTP/HOTP for a user from the view user page, by clicking the TOTP Delete button.
+![Screenshot of view user page with highlighted delete OTP button](./figures/delete-totp-button.png)
+
+### Mandating TOTP/HOTP usage
+You can mandate the usage of TOTP/HOTP by setting the Security.otp_required setting to true. Users will then be prompted to set up TOTP/HOTP when trying to access a page, if they haven't done so yet.
+
+From the command line you can run the equivalent of the below command for your setup, to configure this:
+
+    sudo -u www-data /var/www/MISP/app/Console/cake Admin setSetting Security.otp_required true
+    
+### Transitioning from e-mail OTP to TOTP/HOTP
+If you are currently using e-mail OTP on your instance, you have the option to enable TOTP/HOTP (by installing the required php dependencies) and giving your users a transition period to set up their TOTP (e-mail OTP will still work during this period), before mandating TOTP.
+### How to use TOTP/HOTP
+For information on how to use this feature from a normal user perspective, please refer to the [using the system](../using-the-system/README.md) section.
 

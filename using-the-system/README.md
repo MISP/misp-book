@@ -667,3 +667,31 @@ The response from requesting an invalid page
 	<url>/The_meaning_of_life</url>
 </response>
 ```
+
+### Using TOTP/HOTP multi-factor authentication
+MISP 2.4.172 introduced multi-factor authentication (TOTP/HOTP) support. For information on how to enable and configure this feature, please refer to the [administration](../administration/README.md) section.
+
+#### Generating TOTP/HOTP tokens
+Using the top menu bar, navigate to Global Actions > My Profile.
+Click the TOTP Generate button.
+![Screenshot of my profile view with TOTP generate button highlighted](.\./figures/totp-generate-button.png)
+
+You can then use your favorite TOTP application (for example: Winauth or Google authenticator) on the next screen. Validate the set up is done correctly by entering a verification code.
+
+![Screenshot of TOTP set up validation screen](./figures/generate-and-validate-totp-screen.png)
+
+Once your set up has been validated, you will get redirected to a page containing your 50 HOTP/paper based tokens.
+
+![Screenshot of paper based single use tokens page](./figures/hotp-tokens.png)
+
+You can view these tokens again later, by going to your profile and clicking the View paper tokens button.
+
+![Screenshot of My profile page with View paper tokens button highlighted](./figures/view-paper-tokens-button.png)
+#### Logging in with TOTP/HOTP
+After setting up TOTP/HOTP for your account, you will be prompted for an OTP on future logins.
+![Screenshot of page requesting you to enter OTP after login](./figures/login-otp-request.png)
+Enter either a generated TOTP from your authenticator software, or the specified (numbered) paper based token.
+#### Deleting and re-generating TOTP/HOTP tokens
+Deletion of the TOTP/HOTP setup for your user can only be done by a site admin, reach out to the site admins of your instance in case you want to set up new tokens.
+#### Combining multiple forms of multi-factor authentication
+It is currently not possible to combine multiple forms of multi-factor authentication. As an example: once your user has TOTP/HOTP assigned, you can't use e-mail OTP for it. If you are using a system which has e-mail OTP set up as well, e-mail OTP will be used again when your TOTP/HOTP setup is deleted.
