@@ -23,7 +23,7 @@ From a hardware perspective, MISP's requirements are quite humble, a web server 
 
 We recommend a standard LAMP stack on top of Ubuntu >18.04 LTS. For details on the exact dependencies please refer to the [installation guide](https://misp.github.io/MISP/INSTALL.ubuntu1804/) as well as the [requirements for the MISP modules](https://github.com/MISP/misp-modules/blob/main/REQUIREMENTS). 
 
-During a [Hackathon](https://hackathon.hack.lu) a small tool called [MISP-Sizer](https://misp-project.org/MISP-sizer/) was conceived. It will give you a **very rough** idea on what requirements are if you have a bigger installation. [source-code is here](https://github.com/MISP/MISP-sizer)
+During a [Hackathon](https://hackathon.hack.lu) a small tool called MISP-Sizer was conceived. It will give you a **very rough** idea on what requirements are if you have a bigger installation. [source-code is here](https://github.com/MISP/MISP-sizer). The reference for sizing a MISP instance is [Sizing your MISP instance](https://www.misp-project.org/sizing-your-misp-instance/).
 
 
 ### How to monitor MISP?
