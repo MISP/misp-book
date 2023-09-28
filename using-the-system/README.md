@@ -692,6 +692,6 @@ After setting up TOTP/HOTP for your account, you will be prompted for an OTP on 
 ![Screenshot of page requesting you to enter OTP after login](./figures/login-otp-request.png)
 Enter either a generated TOTP from your authenticator software, or the specified (numbered) paper based token.
 #### Deleting and re-generating TOTP/HOTP tokens
-Deletion of the TOTP/HOTP setup for your user can only be done by a site admin, reach out to the site admins of your instance in case you want to set up new tokens.
+Deletion of the TOTP/HOTP setup for your user can only be done by site admins and organisation admins. Reach out to your org admin (preferred), or alternatively to a site admin of your instance, in case you want to set up new tokens.
 #### Combining multiple forms of multi-factor authentication
 It is currently not possible to combine multiple forms of multi-factor authentication. As an example: once your user has TOTP/HOTP assigned, you can't use e-mail OTP for it. If you are using a system which has e-mail OTP set up as well, e-mail OTP will be used again when your TOTP/HOTP setup is deleted.
