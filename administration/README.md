@@ -892,7 +892,7 @@ If you do not have them installed yet, you can run the equivalent of the below c
 You can see which users have TOTP/HOTP configured in the users index:
 ![Screenshot of users index page, with highlight showing the column which indicates a user has TOTP/HOTP configured](./figures/user-with-totp-active-in-users-index.png)
 
-As a site-admin (users can't do this themselves), you can delete TOTP/HOTP for a user from the view user page, by clicking the TOTP Delete button.
+As a site admin or org admin (users can't do this themselves), you can delete TOTP/HOTP for a user from the view user page, by clicking the TOTP Delete button.
 ![Screenshot of view user page with highlighted delete OTP button](./figures/delete-totp-button.png)
 
 ### Mandating TOTP/HOTP usage
