@@ -922,6 +922,18 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/php73-php-fpm.s
 
 A galaxy can be assigned like a tag. You can use the add tag function and copy the full conntector-tag. Example `misp-galaxy:ransomware=“Locky”`, which can be found in `/galaxy_clusters/view/`
 
+## How to block attachment (and malware-sample) to be ingested
+For that, we'll use the Import Regex feature in MISP.
+
+1. Got to `/regexp/admin_index` (In the UI under Input Fulters -> Import Regexp)
+2. Create a new import Regex `/admin/regexp/add`
+    - Regexp: `/^.$/i`
+      - Note: If you want to only allow specific file extensions, you can use a regex a similar regex (in this case, we only allow .png attachment): `/^.*\.(?!png)[^.]+$/i`
+    - Replacement: `[Leave the field empty]` (Leaving the field empty will prevent that value to be saved)
+    - Select the checkboxes `attachment` and `malware-sample`
+3. From that point onward, users will still be able to add attachement but they won't be accepted by the system anymore.
+    - Note: If you allowed specific file extensions, only file ending with the provided extension will be accepted. Please, bear in mind that it only looks at the filename and skip MIME checks alltogether.
+
 ## Updating PHP from 7.2 to 7.4.5 on Ubuntu 18.04
 
 ### Installation
