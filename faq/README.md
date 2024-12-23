@@ -6,6 +6,7 @@ The following page hosts some frequently asked questions as noticed in our [issu
 
 ***
 ## General questions
+
 ### Where can I get support?
 
 If you have feature requests or you found a bug you can open a ticket on [MISP's GitHub repository issue](https://github.com/MISP/MISP/issues) tracker.
@@ -16,6 +17,8 @@ If you want to discuss something related to MISP or want help from the MISP comm
 - [MISP Support Room](https://gitter.im/MISP/Support) OMGoo! My MISP doesn't work discussions
 - [MISP Sharing Room](https://gitter.im/MISP/Sharing) Threat Intelligence Sharing discussions
 - [misp-cloud Room](https://gitter.im/MISP/misp-cloud) Using MISP in the clouds discussions
+
+If you want commercial support, feel free to look at the [MISP professional services](https://www.misp-project.org/professional-services/).
 
 ### What are the hardware requirements?
 
@@ -47,6 +50,10 @@ The setting 'MISP.extended_alert_subject' allows you to have an extended subject
     Event 8 - OSINT - Dissecting  XXX... - Low - TLP Amber
 
 (Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/))
+
+### Why are there malicious files in my MISP directory?
+
+It is entirely normal to find malicious files in the directory where MISP—a threat intelligence platform—stores evidence, including malware or other malicious files. Because MISP is designed to collect, analyze, and share threat data, these malicious files are intentionally present as part of the analytical process. If your security tools are triggering alerts on these files, we recommend excluding the `./app/files` directory from detection to prevent unnecessary disruptions to MISP’s normal operations.
 
 ### How can I restart the workers?
 
