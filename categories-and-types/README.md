@@ -34,6 +34,7 @@
 |dkim| | | | | | |
 |dkim-signature| | | | | | |
 |dns-soa-email| | | X | | | |
+|dom-hash| | | | X | | |
 |domain| | | | X | | |
 |domain&#124;ip| | | | X | | |
 |email| | | X | | | |
@@ -93,6 +94,7 @@
 |identity-card-number| | | | | | |
 |impfuzzy| | X | | | | |
 |imphash| | X | | | | |
+|integer| | | | | | |
 |ip-dst| | | | X | | |
 |ip-dst&#124;port| | | | X | | |
 |ip-src| | | | X | | |
@@ -115,6 +117,7 @@
 |mutex| | X | | | | |
 |named pipe| | X | | | | |
 |nationality| | | | | | |
+|onion-address| | | | X | | |
 |other| X | X | X | X | X | X |
 |passenger-name-record-locator-number| | | | | | |
 |passport-country| | | | | | |
@@ -225,6 +228,7 @@
 |dkim| X | | | | | |
 |dkim-signature| X | | | | | |
 |dns-soa-email| | | | | | |
+|dom-hash| X | | | | | |
 |domain| X | | X | | | |
 |domain&#124;ip| X | | | | | |
 |email| X | | X | | | |
@@ -284,6 +288,7 @@
 |identity-card-number| | | | | | |
 |impfuzzy| | | X | X | | |
 |imphash| | | X | X | | |
+|integer| | X | | | | |
 |ip-dst| X | | X | | | |
 |ip-dst&#124;port| X | | X | | | |
 |ip-src| X | | X | | | |
@@ -306,6 +311,7 @@
 |mutex| | | | | | |
 |named pipe| | | | | | |
 |nationality| | | | | | |
+|onion-address| X | | X | | | |
 |other| X | X | X | X | X | X |
 |passenger-name-record-locator-number| | | | | | |
 |passport-country| | | | | | |
@@ -416,6 +422,7 @@
 |dkim| | | | |
 |dkim-signature| | | | |
 |dns-soa-email| | | | |
+|dom-hash| | | | |
 |domain| | | | |
 |domain&#124;ip| | | | |
 |email| X | X | | |
@@ -475,6 +482,7 @@
 |identity-card-number| X | | | |
 |impfuzzy| | | | |
 |imphash| | | | |
+|integer| | | | |
 |ip-dst| | | | |
 |ip-dst&#124;port| | | | |
 |ip-src| | | | |
@@ -497,6 +505,7 @@
 |mutex| | | | |
 |named pipe| | | | |
 |nationality| X | | | |
+|onion-address| | | | |
 |other| X | X | X | |
 |passenger-name-record-locator-number| X | | | |
 |passport-country| X | | | |
@@ -627,6 +636,7 @@
 *   **dkim**: DKIM public key
 *   **dkim-signature**: DKIM signature
 *   **dns-soa-email**: RFC 1035 mandates that DNS zones should have a SOA (Statement Of Authority) record that contains an email address where a PoC for the domain could be contacted. This can sometimes be used for attribution/linkage between different domains even if protected by whois privacy
+*   **dom-hash**: A dom-hash algorithm is a structural fingerprint of an HTML Document Object Model where all tag names are contained in a single string separated by a pipe. The truncated SHA252 value by the first 32-character serves as fingerprint.
 *   **domain**: A domain name used in the malware
 *   **domain&#124;ip**: A domain name and its IP address (as found in DNS lookup) separated by a &#124;
 *   **email**: An email address
@@ -686,6 +696,7 @@
 *   **identity-card-number**: Identity card number
 *   **impfuzzy**: A fuzzy hash of import table of Portable Executable format
 *   **imphash**: Import hash - a hash created based on the imports in the sample.
+*   **integer**: A generic integer generally to be used in objects
 *   **ip-dst**: A destination IP address of the attacker or C&C server
 *   **ip-dst&#124;port**: IP destination and port number separated by a &#124;
 *   **ip-src**: A source IP address of the attacker
@@ -708,6 +719,7 @@
 *   **mutex**: Mutex, use the format \BaseNamedObjects\<Mutex>
 *   **named pipe**: Named pipe, use the format \.\pipe\<PipeName>
 *   **nationality**: The nationality of a natural person
+*   **onion-address**: Onion service (formerly known as "hidden service") address
 *   **other**: Other attribute
 *   **passenger-name-record-locator-number**: The Passenger Name Record Locator is a key under which the reservation for a trip is stored in the system. The PNR contains, among other data, the name, flight segments and address of the passenger. It is defined by a combination of five or six letters and numbers.
 *   **passport-country**: The country in which the passport was issued
