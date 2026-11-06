@@ -1,165 +1,225 @@
 ---
 title: "Workflows & Blueprints"
+format:
+  html:
+    lightbox: true
 ---
 
-**Workflows** let a MISP instance react automatically to things that happen inside it. When an
-event is saved, published, or about to be deleted — and at many other hook points — MISP can run
-a small graph of nodes that inspects the data and takes action: enrich it, tag it, publish it,
-push it to an external system, or even **block** the operation from completing. Workflows turn
-MISP from a passive store into an event-driven automation platform.
-
-::: {.callout-warning}
-Workflows are an **experimental** feature and are **site-admin only**. They are powerful — a
-blocking workflow can prevent events from being saved or published — so treat them with the same
-care as any automation that sits in a critical path, and test thoroughly before enabling one on
-a production instance.
-:::
-
-## Concepts
-
-A workflow is a directed graph made of three kinds of node:
-
-- **Trigger** — the single entry point. Each workflow is bound to exactly one trigger, which is
-  a hook point in MISP core (for example *event before-save*, *event publish*, *attribute
-  after-save*).
-- **Logic** — branching and filtering nodes. `IF` nodes fork the flow into a *then* and an
-  *else* path based on a condition; *filter* nodes narrow the set of data flowing downstream.
-- **Action** — nodes that *do* something: enrich, tag, publish, add analyst data, push to ZMQ,
-  call a webhook, send a Teams/Telegram message, stop execution, and many more.
-
-Data enters at the trigger, flows through the logic and action nodes along the graph, and each
-node operates on a shared "roaming" copy of the data. The graph must be acyclic and have exactly
-one trigger.
-
-### Blocking vs non-blocking
-
-This is the most important distinction to understand.
-
-- A **non-blocking** trigger fires *after* the core operation and runs asynchronously as a
-  background job. The workflow's outcome does not affect the operation that triggered it — it
-  has already happened.
-- A **blocking** trigger fires *before* (or as part of) the core operation and runs
-  **synchronously**. Its result is returned to the core code, which can then decide whether to
-  proceed. A blocking workflow that reaches a **Stop execution** node causes the core operation
-  to be **aborted**.
-
-Only a handful of triggers are blocking. In MISP 2.5 these are:
-
-- **event before-save** — can prevent an event from being saved,
-- **event before-delete** — can prevent an event from being deleted,
-- **event publish** — can prevent an event from being published,
-- **shadow-attribute before-save** — can prevent a proposal from being saved,
-- **user before-save** — can prevent a user from being saved,
-- **enrichment before-query** — can prevent an enrichment query.
-
-Every other trigger (attribute after-save, event after-save, sighting after-save, tag attached,
-object after-save, and so on) is non-blocking and runs in the background.
+Workflows connect a MISP trigger to a graph of logic and action nodes. Use them for a specific,
+testable policy or processing task: select the relevant data, decide what should happen and
+record how to recover if an action fails. A workflow can modify intelligence, contact a service
+or prevent a core operation; its execution context matters as much as its diagram.
 
 ::: {.callout-note}
-The editor warns you if you place a blocking node (such as *Stop execution*) on a path fed by a
-non-blocking trigger — in that context it cannot actually block anything, it will just stop that
-branch of the workflow.
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+Workflow and blueprint administration is **site-admin only**. The editor still uses its own
+canvas interface in this branch. Screenshots show a local training graph with its automatic
+trigger disabled; select a figure to enlarge it.
 :::
 
-## Enabling workflows
+<!-- Sources, disabled-trigger fixture and capture hashes: ../assets/administration-screenshots.json -->
 
-The feature has three prerequisites, all enforced when you open the Workflows UI:
+<a id="enabling-workflows"></a>
 
-1. **Background jobs** must be enabled (`MISP.background_jobs`) — non-blocking workflows run as
-   background jobs.
-2. **The workflow plugin** must be enabled (`Plugin.Workflow_enable`), under
-   *Administration → Server Settings & Maintenance → Plugin settings*.
-3. **Redis** must be reachable — it stores the trigger routing and the set of enabled modules.
+## Start from the workflow hub {#workflow-hub}
 
-In addition, **each trigger is disabled by default** and has its own setting
-(`Plugin.Workflow_triggers_<trigger-id>`). A trigger only actually runs a workflow when it is
-both **enabled** and **listened to** by a saved workflow. This double gate means simply creating
-a workflow does not put it live — you also enable its trigger.
+Open **Administration → Workflows**. The 3.0 hub separates four destinations:
 
-## The workflow editor
+::: {.table-responsive}
 
-Workflows are built in a drag-and-drop visual **editor**. You start from a trigger and connect
-logic and action nodes onto the canvas; each node has a small configuration form for its
-parameters (conditions, hash paths to the field being tested, tags to apply, webhook URLs, and
-so on). Some parameters support Jinja templating for dynamic values.
+| Destination | What to manage |
+|---|---|
+| **Triggers** | Core hooks, enabled state, scope, blocking behaviour and attached workflow. |
+| **Ad-hoc workflows** | Manually invoked workflows and their input configuration. |
+| **Modules** | The logic/action catalogue and individual module enablement. |
+| **Blueprints** | Reusable graph fragments, imported/exported as JSON. |
 
-The editor validates the graph as you build it — checking that it is acyclic, that outputs are
-connected sensibly, and surfacing warnings such as blocking-node-on-non-blocking-path. You can
-also **test a single module in isolation** against sample input from the editor, which is the
-quickest way to confirm a node behaves as you expect before wiring it into a live workflow.
+:::
 
-Supporting pages let you browse and manage the building blocks:
+![The MISP 3.0 workflow hub distinguishes triggers, ad-hoc execution, modules and blueprints.](figures/misp3-workflow-hub.png)
 
-- **Triggers** — the list of available triggers, filterable by scope, whether they are enabled,
-  and whether they are blocking.
-- **Modules** — the catalogue of logic and action modules, where you enable or disable each
-  module.
-- **Workflows** — your saved workflows.
+The prerequisites are `MISP.background_jobs`, `Plugin.Workflow_enable` and working Redis.
+Configure the feature under **Server Settings & Maintenance → Integrations → Workflows**;
+verify the [background workers](../administration/index.qmd#admin-background-jobs) too.
+An available UI is not proof that a non-blocking job will be processed.
 
-### Modules must be enabled
+Each core trigger has its own `Plugin.Workflow_triggers_<trigger-id>` switch and must have a
+saved graph listening to it. Creating/saving a graph does not by itself enable that trigger.
+Check the trigger list, not only the editor's **saved** indicator.
 
-Not every module is available out of the box. Only a small default set is enabled — the common
-`IF` conditions (generic, distribution, published, organisation, tag), the concurrent-task node,
-*Stop execution*, *Webhook* and *Push to ZMQ*. Any other logic or action module (for example
-*Enrich event*, *Attach warninglist*, *Tag operation*, *Attach decay score*, *Add analyst data*,
-the messaging integrations) must be **enabled in the module index** before it can be used in a
-workflow.
+![The trigger list shows scope, overhead, blocking status, enablement and the associated workflow.](figures/misp3-workflow-triggers.png)
 
-Some action modules — such as sending mail, Jinja rendering, and service-provided actions —
-depend on a working [misp-modules](../modules/index.qmd) service and degrade gracefully if it is
-unavailable.
+<a id="concepts"></a>
 
-## Ad-hoc workflows
+## Understand data and execution paths {#workflow-execution}
 
-Besides trigger-bound workflows, MISP supports **ad-hoc workflows** that you run manually rather
-than from a core hook. An ad-hoc workflow collects its input on demand — passed event IDs, a REST
-search, or roaming data supplied to it — and is useful for one-off curation runs or for testing a
-graph against real data. An action module also lets one workflow **run another** ad-hoc workflow.
+A graph contains exactly one trigger and must be acyclic. Its nodes include:
 
-## Workflow Blueprints
+- **Trigger**: an operation in MISP, or a synthetic entry point for an ad-hoc workflow.
+- **Logic**: IF/ELSE decisions, filters and concurrent branches. An IF selects an output; a
+  filter narrows the data passed downstream. These are different operations.
+- **Action**: tag, enrich, add research data, send a request, publish or stop execution,
+  according to the module and its configuration.
 
-A **Workflow Blueprint** is a reusable, saved fragment of a node graph. Blueprints are *building
-blocks for the editor*, not live automations: you drop a blueprint onto the canvas to reuse a
-proven pattern rather than rebuilding it node by node.
+Nodes receive **roaming data**, which the trigger normalizes for its scope. Inspect the data
+shape before writing a hash path. A path such as `Event.distribution` is not a universal path
+for every trigger; an empty lookup can be a schema mismatch rather than a negative verdict.
 
-MISP ships a set of **default blueprints** covering common curation recipes — for example
-normalising TLP/PAP tags, assigning a country galaxy from enrichment, or removing the IDS flag on
-a warninglist hit. You can:
+<a id="blocking-vs-non-blocking"></a>
 
-- **Import** a blueprint from pasted JSON or an uploaded file,
-- **Export** a blueprint to JSON to share it, and
-- **Update** the default blueprints from the upstream `misp-workflow-blueprints` collection
-  (matched by UUID, upgrading those with a newer upstream version).
+### Blocking and non-blocking {#workflow-blocking}
 
-Each blueprint shows a flowchart preview so you can see its shape before using it. Blueprints you
-create or edit are always saved as non-default.
+A **blocking** path executes synchronously as part of the triggering operation. A blocking
+failure or **Stop execution** can prevent that operation. In the pinned branch, blocking
+triggers include event before-save, event before-delete, event publish, proposal before-save,
+user before-save and enrichment before-query.
 
-## Debugging and logs
+A **non-blocking** trigger normally queues background execution. Its outcome cannot undo the
+core operation that already took place. The graph also supports concurrent paths; evaluate
+which work remains in the blocking path rather than treating every connected action as a
+transaction. Remote effects already performed are not rolled back automatically.
 
-Every workflow run is counted, and **errors are always logged** to the audit log and to
-`app/tmp/logs/workflow-execution.log`. For deeper inspection, each workflow has a **debug
-toggle**. With debugging on, MISP writes verbose, per-node execution messages and can POST
-execution snapshots (`init`, per-module `exec`, `end`) to an external debug receiver configured
-via `Plugin.Workflow_debug_url`. You can also **execute a whole workflow manually** with a
-supplied payload to observe its behaviour end-to-end.
+![Blocking checks can reject the core operation; queued non-blocking work reacts afterward and needs its own retries and monitoring.](figures/blocking-and-background.svg)
 
-## Permissions and execution context
+A Stop execution node on a non-blocking path cannot retroactively block the original save or
+publication. The editor warns about incompatible paths. Review node failures, disabled modules
+and timeouts too; a policy should define whether the desired result is to stop or continue.
 
-All workflow and blueprint actions are **restricted to site administrators** — there is no
-finer-grained role permission for workflows. Note also that a workflow **executes as a system
-(host-organisation / admin) user**, not as the user whose action triggered it; the initiating
-user is recorded separately for logging and for UI toast notifications. Keep this in mind when a
-workflow reads or modifies data — it is not limited by the triggering user's distribution
-visibility.
+Before-save hooks can run repeatedly during attribute imports and synchronization. Keep the
+blocking path small and predictable. Avoid an unbounded provider request in a frequently used
+save hook; it can delay or prevent many otherwise unrelated writes.
 
-## API and CLI
+<a id="the-workflow-editor"></a>
 
-Both workflows and blueprints are fully accessible over the REST API under the `/workflows/` and
-`/workflowBlueprints/` controllers (index, add, edit, delete, view, import/export, and the editor
-support actions). The `view` action can additionally emit the graph as Graphviz `dot` or
-**Mermaid** with `?format=dot` / `?format=mermaid`.
+## Build and inspect a graph {#workflow-editor}
 
-On the command line, the `cake Workflow` shell provides the entry points the background workers
-use — `executeWorkflowForTrigger` (run a trigger's workflow), `executeAdHocWorkflow` (run an
-ad-hoc workflow), and `walkGraph` (execute a concurrent sub-branch as its own job). In normal
-operation these are invoked by MISP's background job system rather than by hand.
+From **Triggers**, open the editor for the intended hook. From **Ad-hoc workflows**, add/open a
+manual workflow. Choose enabled logic/action nodes, drag them onto the canvas and connect the
+named outputs to inputs. Configure each node, save, then inspect validation warnings.
+
+![A real MISP 3.0 editor graph: Event Before Save → IF Generic → Stop execution. Its trigger remains disabled and it is not a production policy.](figures/misp3-workflow-editor.png)
+
+### An isolated first exercise {#workflow-exercise}
+
+Start with a condition that needs no external service:
+
+1. Keep **Event Before Save** disabled in the trigger list.
+2. Add **IF :: Generic**, with hash path `Event.distribution`, operator **Equals**, value `0`.
+3. Connect its **then** output to **Stop execution**. Leave the stop message empty to use its
+   built-in default. The example deliberately matches private data; it is an exercise, not a
+   recommended rule to deploy.
+4. Test the condition module with synthetic `{"Event":{"distribution":"0"}}` and then `"3"`.
+   Confirm both branches and inspect a missing-field input.
+5. Save and review the graph. Confirm the automatic trigger is still disabled.
+
+**Test module** executes that module; it is **not a sandbox or a universal dry-run**. Use
+side-effect-free logic for an initial test. A webhook, mail, publish or data-changing action can
+still have real effects when tested. **Run Workflow** similarly executes the selected workflow
+with its input and prerequisites; it is not just a diagram preview.
+
+A disabled trigger can return a successful response with **Module disabled**, without running
+the graph. Check the outcome, counters and logs rather than treating any `success: true` as
+proof that the policy was exercised. An end-to-end blocking test belongs on an isolated instance
+with synthetic data and a recovery path.
+
+<a id="modules-must-be-enabled"></a>
+
+### Enable only the required modules {#workflow-modules}
+
+Open **Modules** to inspect the catalogue, dependencies and enabled state. Disabled modules do
+not appear in the normal enabled-node palette. The core has a default module set, but an
+existing deployment's Redis/module state can differ; verify it instead of assuming all nodes
+are available after enabling the feature.
+
+![The MISP 3.0 workflow module catalogue separates logic/actions, enabled state and module capabilities.](figures/misp3-workflow-modules.png)
+
+Core nodes and [misp-modules](../modules/index.qmd) service-provided actions have different
+prerequisites. Some templated parameters also depend on the service's Jinja renderer, including
+parameters on otherwise core nodes. Verify the rendered value as well as the module response.
+A missing service or disabled module is not equivalent to a deliberate policy decision.
+
+Review outbound destinations, credentials, data scope, timeout and retry/idempotency before
+using external actions. Include deletion, access changes and repeated delivery in the design;
+see [External Connectors](../connectors/index.qmd#connectors-contract).
+
+<a id="ad-hoc-workflows"></a>
+
+## Run ad-hoc workflows deliberately {#workflow-adhoc}
+
+Ad-hoc workflows use a generated trigger and run on demand, from a supported event action,
+API request, scheduled task or another workflow. Their input modes include passed event IDs,
+a REST search or roaming data from a calling workflow. Check the selected mode and parameters
+before execution; a broad search can select far more data than an interactive example.
+
+![The ad-hoc workflow page keeps manual workflows separate from automatic core hooks.](figures/misp3-workflow-adhoc.png)
+
+Creating a workflow from the 3.0 add dialog without a graph creates an ad-hoc entry. Give it a
+clear name, choose its data-input scope and configure/test its graph before enabling or invoking
+it. A module can call another ad-hoc workflow; inspect the whole call chain for repeated work,
+external effects and privilege assumptions.
+
+## Reuse blueprints {#workflow-blueprints}
+
+A blueprint stores **nodes and their connections, without the live trigger binding**. Import
+JSON or save a selected graph fragment in the editor, then insert a copy into another graph.
+Editing the blueprint later does not update every graph into which it was copied.
+
+![The current blueprint catalogue, loaded from the checkout's pinned default definitions. Importing definitions does not enable a trigger.](figures/misp3-workflow-blueprints.png)
+
+**Default blueprints** loads/updates definitions from the local
+`app/files/misp-workflow-blueprints` submodule. Updating that checkout and importing its newer
+definitions into the database are separate steps. Definitions are matched by UUID/timestamp;
+custom edits are not a promise that a later forced default update preserves them.
+
+Inspect every imported node, parameter, URL and dependency. A shared blueprint is executable
+configuration, not an approved automation simply because it came from a familiar source.
+Review and save the receiving graph, then check its enablement and execution context separately.
+
+<a id="debugging-and-logs"></a>
+
+## Monitor, debug and recover {#workflow-debugging}
+
+Workflow run counts, execution/audit messages and `app/tmp/logs/workflow-execution.log` help
+trace outcomes. Enable a workflow's **Debug Mode** only for the intended investigation. It can
+record roaming data and per-node details; `Plugin.Workflow_debug_url` can also send execution
+snapshots to a receiver. That receiver becomes a data destination, not just a local log viewer.
+
+For an unexpected outcome:
+
+1. Confirm feature, trigger and module enablement and the graph actually attached to the hook.
+2. Inspect the trigger's input/normalization and condition output.
+3. Distinguish synchronous failure, a queued job, a disabled no-op and a completed action.
+4. Check worker and service logs, timeouts and downstream acknowledgement.
+5. Disable the affected trigger or pause callers if needed, correct the graph and retest both
+   intended and rejected cases before resuming it.
+
+A retry can repeat an external write. Do not assume a graph is transactional or that disabling
+its trigger cancels a previously queued/running job. Keep a known-good graph export and an
+administrator recovery procedure for policies that can block saves or logins.
+
+<a id="permissions-and-execution-context"></a>
+<a id="api-and-cli"></a>
+
+## Permissions, API and CLI {#workflow-api}
+
+Workflows run with a **privileged system user for the host organisation**, or a valid
+site-administrator fallback. They do not inherit only the initiating analyst's data visibility.
+The initiator can be retained for logging/notifications, but that is not an execution ACL.
+Review event selection and information sent externally with this context in mind.
+
+The REST controllers are `/workflows/` and `/workflowBlueprints/`. Use the documented
+index/view/add/edit/import/export operations with a site-admin account and explicit error
+handling. For example, POST `{"format":"mermaid"}` to `/workflows/view/{id}` exports the graph;
+the JSON response carries the diagram in `message`. Do not assume a generic query-string
+parameter is accepted by every controller action.
+
+`POST /workflows/checkGraph` accepts the serialized graph in `graph`; it checks cycles,
+connection constraints and path warnings. It does not prove that providers are reachable or
+that a policy has the intended effect. `/workflows/moduleStatelessExecution/{module-id}`
+executes a module with `input_data` and `module_indexed_param`; apply the same side-effect review
+as the UI's test action.
+
+The `cake Workflow` shell supplies background execution entry points such as
+`executeWorkflowForTrigger`, `executeAdHocWorkflow` and `walkGraph`. Normally the job system
+invokes them. Use the deployed checkout's help and input contract rather than copying internal
+worker arguments into a recurring task.

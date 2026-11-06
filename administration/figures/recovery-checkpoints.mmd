@@ -1,0 +1,8 @@
+flowchart TD
+  accTitle: Backup and recovery checkpoints
+  accDescr: A consistent database, attachments, configuration and secrets, and compatible code versions are restored into isolation. Verify data and migrations, then services and access, before deliberately reconnecting integrations.
+  A["Consistent backup set<br/>Database · attachments<br/>Configuration · secrets · versions"] --> B["Restore into isolation<br/>Control outbound actions"]
+  B --> C["Verify data and migrations<br/>Visibility · files · value references"]
+  C --> D["Check access and services<br/>Login · keys · workers"]
+  D --> E["Reconnect deliberately<br/>Mail · sync · workflows · schedules"]
+  C -. Failure: keep isolated .-> B

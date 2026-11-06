@@ -1,1108 +1,634 @@
 ---
 title: "Administration"
+format:
+  html:
+    lightbox: true
 ---
 
-This chapter covers the administration of a MISP instance: managing users,
-organisations and roles; the server settings and diagnostics tool; blocklists,
-correlation management and logging; background processing; and the command-line
-maintenance tools. Most of the actions described here require site-admin
-privileges, though organisation admins can perform a subset of them within their
-own organisation.
-
-- - -
-
-## Users
-As an admin (not to be confused with Org Admin), you can set up new accounts for users, edit user profiles, delete them, or just have a look at all the viewers' profiles. Organisation admins (Org Admin) are restricted to executing these actions exclusively within their own organisation’s users only.
-
-### Adding a new user
-
-To add a new user, click on the Add User button in the administration menu to the left and populate the fields available the loaded view:
-
-![Fill this form out to add a new user. Keep in mind that the drop-down menu titled "Role" controls privileges the user will have.](figures/add_user.png)
-
-*   **Email:** The user's e-mail address, this will be used as his/her login name and as an address to send all automated e-mails as well as e-mails sent by contacting the user as the reporter of an event.
-*   **Set password:** Tick the box if you want to define a temporary user-password for the user. If you don't, you should use the action button 'reset password' in the 'List Users' view to generate one and send it by email to the user.
-*   **Password:** *This textbox is displayed only when 'Set password' is ticked.* A Temporary password for the user that he/she should change after the first login. Ensure that password pass the [MISP password policy](https://misp.gitbooks.io/misp-book/content/quick-start/#password-policy).
-*   **Confirm Password:** *This textbox is displayed only when 'Set password' is ticked.* This should be an exact copy of the Password field.
-*   **Organisation:** A drop-down list enables you to choose an organisation for the user. To learn more about organisation, [click here](#organisations).
-*   **Roles:** A drop-down list allows you to select a role-group that the user should belong to. Roles define user privileges attributed to the user. To learn more about roles, [click here](#roles).
-*   **Authkey:** This is assigned automatically and is the unique authentication key of said user (he/she will be able to reset this and receive a new key). It is used for exports and for connecting one server to another, but it requires the user to be assigned to a role that has auth permission enabled.
-*   **NIDS SID:** Network Intrusion Detection System (NIDS) Signature ID (SID). Snort rules exported by the created user will have the offset defined in the user profile and each rule generated during the export will receive an incrementing SID starting with the user's offset. If no SID offset is specified a default, randomized value will be set.
-*   **Sync user for:** If this option is set, the selected server's push rules will also be applied when this local user is used to pull from a remote instance. This option is available for admin, Org Admin and Sync user role.
-*   **Gpgkey:** The key used to encrypt e-mails sent through the system.
-*   **Fetch GnuPG key:** Fetch GnuPG public key.
-*   **Receive alerts when events are published:** This option will subscribe the new user to automatically generated e-mails whenever an event is published.
-*   **Receive alerts from "contact reporter" requests:** This option will subscribe the new user to e-mails that are generated when another user tries to get in touch with an event's reporting organisation that matches that of the new user.
-*   **Disable this user account:** Tick it if you want to disable this user account. (preferred to removing an account)
-
-### Listing all users
-
-To list all current users of the system, just click on List Users under the administration menu to the left. A view will load containing a list of all users and the following columns of information:
-
-![View, Edit or Delete a user using the action buttons to the right.](figures/list_users.png)
-
-*   **Id:** The user's automatically assigned ID number.
-*   **Org:** The organisation that the user belongs to.
-*   **Email:** The e-mail address (and login name) of the user.
-*   **Authkey:** Unique authentication key of the user.
-*   **Autoalert:** Shows whether the user has subscribed to auto-alerts and is continuing to receive mass-emails regarding newly published events that he/she is eligible for.
-*   **Contactalert:** Shows whether the user has the subscription to contact reporter e-mails directed at his/her organisation is turned on or off.
-*   **Gpgkey:** Shows whether the user has entered a GnuPG key yet.
-*   **Nids Sid:** Displays the currently assigned NIDS ID.
-*   **Termsaccepted:** This flag indicates whether the user has accepted the terms of use or not.
-*   **Last login:** Date of last login.
-*   **Disabled:** Displays the user status. Enabled or disabled.
-*   **Action Buttons:** There are 4 options available: reset the password, edit the user, delete the user or display a user's information. These options are also available on the left menu.
-	*    **Reset Password:** Use this action to reset a password. If you've created a new user without A password, tick the 'First time registration' checkbox to send a welcome message. Otherwise a reset password message will be sent.
-![Reset password.](figures/reset_pwd.png)
-	*    **Edit the user:** Same options of create user's view. Only a few options are available here:
-		*   **Terms accepted:** Indicates whether the user has accepted the terms of use already or not.
-		*   **Change Password:** Setting this flag will require the user to change password after the next login.
-		*   **Reset Auth Key:** Use this link for generate a new AuthKey.
-![Edit user.](figures/edit_users.png)
-	*    **Delete the user:** If you want to delete a user. (Note: disabling is the preferred method)
-![delete user.](figures/delete_user.png)
-	*    **Display the user:** Display all user's information.<br />
-![display user.](figures/display_user.png)
-
-### Contacting a user
-
-Site admins can use the "Contact users" feature to send all or individual user an e-mail. Users that have a GnuPG key set will receive their e-mails encrypted. When clicking this button on the left, you'll be presented with a form that allows you to specify the type of the e-mail, who it should reach and what the content is using the following options:
-
-![Contact your users here.](figures/contact.png)
-
-*   **Action:** This defines the e-mail type, which can be a custom message or a password reset. Password resets automatically include a new temporary password at the bottom of the message and will automatically change the user's password accordingly.
-*   **Subject:** In the case of a custom e-mail, you can enter a subject line here.
-*   **Recipient:** The recipient toggle lets you contact all your users, a single user (which creates a second drop-down list with all the e-mail addresses of the users) and potential future users (which opens up a text field for the e-mail address and a text area field for a GnuPG public key).
-*   **Custom message checkbox:** This is available for password resets and for welcome messages. You can either write your own message (which will be appended with a temporary key and the signature), or let the system generate one automatically.
-
-Keep in mind that all e-mails sent through this system, in addition to your own message, will be signed in the name of the instance's host organisation's support team, the e-mail will also include the e-mail address of the instance's support (if the contact field is set in the bootstrap file), and will include the instance's GnuPG signature for users that have a GnuPG key set (and thus are eligible for an encrypted e-mail).
-
-:warning: GnuPG instance key is the GnuPG key used by the MISP instance and which is only used to sign notification. The GnuPG key used in the MISP instance must not be used anywhere else and should not be valuable.
-
-- - -
-
-## Organisations
-
-Each users belongs to an organisation. As admin, you can manage these organisations.
-
-### Adding a new organisation
-
-To add a new organisation, click on the "Add Organisation" button in the administration menu to the left and fill out the following fields in the view that is loaded:
-
-![Fill this form out to add a new organisation.](figures/add_org.png)
-
-*   **Local organisation:** If the organisation should have access to this instance, tick the checkbox. If you would only like to add a known external organisation for inclusion in sharing groups, uncheck it.
-*   **Organisation Identifier:** Name your organisation. If you want to add a picture, you should add a file on the webserver using the 'Server Settings menu'. Picture should have the same name. To learn more about server settings menu, [click here](#server-settings-and-maintenance).
-*   **Uuid:** Unique identifier. If you want to share organisation between MISP multi-instance, use the same Uuid.
-*   **A brief description of the organisation:** A word for describing the organisation.
-*   **Nationality:** A drop-down list for selecting the country of organisation.
-*   **Sector:** Define the sector of organisation (financial, transport, telecom…)
-*   **Type of organisation:** Define the type of the organisation.
-*   **Contacts:** You can add some contact details for the organisation.
-
-### Listing all organisations
-
-To list all current organisations of the system, just click on List Organisations under the administration menu to the left. There are 3 tabs in this view to filter local organisations, remote organisations or both. The default view displays local organisations. For all views the following columns of information are available:
-
-![List of organisations.](figures/list_org.png)
-
-*   **Id:** The organisation's automatically assigned ID number.
-*   **Logo:** Picture of the organisation.
-*   **Name:** Name of the organisation.
-*   **Uuid:** Unique identifier of organisation. Share this Uuid when using it between MISP's multi-instance.
-*   **Description:** Description of the organisation.
-*   **Nationality:** Country of the organisation.
-*   **Sector:** Sector defined for the organisation.
-*   **Type:** Type of organisation.
-*   **Contacts:** Contacts of organisation.
-*   **Added by:** Login of the user who added the organisation
-*   **Local:** Flag defined if the organisation is local or remote.
-*   **Users:** The amount of users on this instance belonging to the organisation.
-*   **Actions:**  There are 3 options available: edit, delete or display an organisation's information. These options are also available on the left menu when you are on the display view.
-	*    **Edit Organisation:** Same options of create organisation's view.
-![Edit organisation.](figures/edit_org.png)
-	*    **Delete Organisation:** Use this option for deleting organisation.<br />
-![Delete organisation.](figures/delete_org.png)
-	*    **View Organisation:** Use this option to display information about the selected organisation. In this view, you can display the user belongs to this organisation and events published by organisation.
-![View organisation.](figures/view_org.png)
-
-### Merge organisations
-Merge Organisation menu is available only in the organisation view, under the left menu. Merging one organisation into another will transfer all users and data from one organisation to a different one. The organisation of which the users and data will be transferred is displayed on the left, the target organisation is displayed on the right.
-
-![Merge organisations.](figures/merge_org.png)
-
-- - -
-
-## Roles
-
-Privileges are assigned to users through **roles**. A role combines a base
-**permission level** (what the user can do with events) with a set of individual
-permission flags (access to specific features).
-
-The base permission level is chosen from a single **Permissions** dropdown with
-four options:
-
-*   **Read Only:** Browse the events the user's organisation has access to,
-    without making any changes.
-*   **Manage Own Events:** Create, modify and delete the user's own events, but
-    not publish them.
-*   **Manage Organisation Events:** Create events, and modify or delete any event
-    belonging to the user's organisation.
-*   **Manage and Publish Organisation Events:** All of the above, plus publishing
-    the organisation's events.
-
-On top of the base level, the following individual permissions can be granted
-(each is a checkbox on the role form):
-
-| Permission | Grants |
-|---|---|
-| **Site Admin** | Unrestricted access to all data and functionality on the instance. |
-| **Org Admin** | Limited administration — create and manage the users of the own organisation. |
-| **Sync Actions** | Use the account as a synchronisation user; its authentication key can be given to a remote instance's administrator to enable sync. |
-| **Internal Sync Actions** | Internal sync strategy — distribution levels are not downgraded on pull (for connections within a trusted community). |
-| **Authoritative Sync Actions** | Treat the source as authoritative; local data is mirrored to match the source (including deletions). |
-| **Audit Actions** | Access the audit logs of the user's organisation. |
-| **Auth key access** | Use an authentication key for API access. |
-| **Regex Actions** | Edit the regular-expression replacement rules (dangerous — a bad expression can cause data loss or infinite loops). |
-| **Tagger** | Attach and detach existing tags to and from events and attributes. |
-| **Tag Editor** | Create new tags. |
-| **Template Editor** | Create and modify event templates. |
-| **Sharing Group Editor** | Create and modify sharing groups. |
-| **Delegations Access** | Create delegation requests for own-organisation events. |
-| **Sighting Creator** | Submit sightings (feedback on attributes). |
-| **Object Template Editor** | Create and modify MISP object templates. |
-| **Galaxy Editor** | Create and modify galaxies and galaxy clusters. |
-| **Decaying Model Editor** | Create and modify decaying models. |
-| **ZMQ publisher** | Publish data to the ZeroMQ pub/sub channel. |
-| **Kafka publisher** | Publish data to Kafka. |
-| **Warninglist Editor** | Manage warninglists. |
-| **View Feed Correlations** | View feed correlations (carries a performance cost). |
-| **Analyst Data Creator** | Create and modify analyst data (notes, opinions, relationships). |
-| **Skip OTP Reqs** | Exempt the account from one-time-password requirements (for service accounts); has no effect unless OTP is required instance-wide. |
-| **Server Signing** | Access the cryptographic server-signing endpoint. |
-
-MISP ships with a set of default roles — **admin** (full site admin), **Org
-Admin**, **User** (the default role for new users: manage organisation events
-without publishing), **Publisher**, **Sync user** and **Read Only** — which you
-can use as they are or as a starting point for your own.
-
-### Adding a new role
-
-When creating a new role, you will have to enter a name for the role to be created and set up permissions (as described above) using the drop-down menu and related check-boxes.
-
-![Add a new role.](figures/add_role.png)
-
-### Listing roles
-
-By clicking on the List Roles button, you can view a list of all currently registered roles and their enabled permissions. In addition, you can find buttons that allow you to edit and delete said roles. Keep in mind that you will need to first remove every member from a role before you can delete it.
-
-![You can Edit or Delete roles using the action buttons to the right in each row. Keep in mind that in order to Delete a role, all members of a Role must be removed from said role before it can be deleted.](figures/list_roles.png)
-
-*   **Id:** The role's automatically assigned ID number.
-*   **Name:** The name of role.
-*   **Permission:** One of the 4 permissions: Read Only, Manage My Own Events, Manage Organization Events, Manage & Publish Organisation Events.
-*   **Permission flags:** A column for each individual permission (see the table above), showing whether the role grants it.
-*   **Action Buttons:** There are 2 options available: Edit Role or Delete it.
-	*    **Edit Role:** Same options of create role's view.<br />
-![Edit Role.](figures/edit_roles.png)
-	*    **Delete Role:** Use this option to delete a role.<br />
-![Delete Role.](figures/delete_roles.png)
-
-- - -
-
-## Tools
-
-MISP has a couple of administrative tools that help administrators keep their instance up to date and healthy. The list of these small tools can change rapidly with each new version, but they should be self-explanatory. Be sure to check this section after each upgrade to a new version, just in case there's a new upgrade script in there - though if this is the case it will be mentioned in the upgrade instructions.
-
-![Administrative Tools.](figures/tools.png)
-
-- - -
-
-##  Server settings and maintenance
-Since version 2.3, MISP has a settings and diagnostics tool that allows site-admins to manage and diagnose their MISP installation. You can access this by navigating to Administration - Server settings & Maintenance.
-
-![Server settings overview with all of the tabs explained.](figures/settings_1.png)
-
-The settings and diagnostics tool is split up into several aspects, all accessible via the tabs on top of the tool. For any unset or incorrectly set setting, or failed diagnostic a number next to the tab name will indicate the number and severity of the issues. If the number is written with a red font, it means that the issue is critical. First, let's look at the various tabs:
-*   **Overview**: General overview of the current state of your MISP installation
-*   **MISP settings**: Basic MISP settings. This includes the way MISP handles the default settings for distribution settings, whether background jobs are enabled, etc
-*   **GnuPG settings**: GnuPG related settings.
-*   **Proxy settings**: HTTP proxy related settings.
-*   **Security settings**: Settings controlling brute-force protection and the application's salt key.
-*   **Misc settings**: Settings controlling debug options, please ensure that debug is always disabled on a production system.
-*   **Diagnostics**: The diagnostics tool checks if all directories that MISP uses to store data are writeable by the apache user. Also, the tool checks whether the STIX libraries and GnuPG are working as intended.
-*   **Workers**: Shows the background workers (if enabled) and shows a warning if they are not running. Admins can also restart the workers here.
-*   **Download report**: Download a report of all the settings visible in the tool, in JSON format.
-
-![The settings tabs explained.](figures/settings_2.png)
-
-Each of the setting pages is a table with each row representing a setting. Coloured rows indicate that the setting is incorrect / not set and the colour determines the severity (red = critical, yellow = recommended, green = optional). The columns are as follows:
-*   **Priority**: The severity of the setting.
-*   **Setting**: The setting name.
-*   **Value**: The current value of the setting.
-*   **Description**: A description of what the setting does.
-*   **Error Message**: If the setting is incorrect / not set, this field will let the user know what is wrong.
-
-![The workers tab.](figures/settings_3.png)
-
-The workers tab shows the workers that MISP can use. In MISP 2.5 the background worker system is **SimpleBackgroundJobs**, managed by [Supervisor](http://supervisord.org/) and backed by Redis; the legacy CakeResque worker system has been removed. You can restart the workers from this page with the "restart all workers" button, but starting and stopping them is normally handled by Supervisor (the `misp-workers` service installed by the setup scripts).
-
-The tab is grouped into one section per queue — MISP has 6 queues: `default`, `email`, `cache`, `prio`, `update` and `scheduler`. Each section reports **Jobs in the queue** and an overall **Queue status**, followed by a table of the worker processes currently monitoring that queue:
-
-*   **Worker PID**: The process ID of the running worker.
-*   **User**: The system user the worker runs as (typically `www-data`).
-*   **Worker process**: `OK` when the process is alive.
-*   **Information**: A health message (for example, "The worker appears to be healthy.").
-*   **Actions**: Stop an individual worker.
-
-### Worker types
-
-Each worker monitors one Redis-backed queue:
-
-*   **default**: General-purpose background jobs that are not handled by a more specific queue.
-*   **email**: Sending notification and alert e-mails.
-*   **cache**: Building caches — feed caches, warninglist caches and export caches.
-*   **prio**: High-priority, often user-triggered jobs (for example publishing an event) so they are not held up behind long-running tasks.
-*   **update**: Running MISP updates and database schema migrations.
-*   **scheduler**: Enqueues recurring/scheduled jobs onto the other queues at the configured times.
-
-
-### Restarting or starting the workers
-
-Even if the workers are stopped, any actions queued for them are simply on hold — nothing is lost. Starting the workers again resumes any pending operations.
-
-Under Supervisor the workers start automatically (including on boot); you can also restart them from the **Workers** tab in the UI. From the command line, control the worker processes with `supervisorctl` and inspect the queues with the `Worker` console shell (see [Managing the background workers](#managing-the-background-workers)):
-
-```bash
-sudo supervisorctl status misp-workers:*
-sudo supervisorctl restart misp-workers:*
-```
-
-## Blocklists and block rules
-
-It is possible to block certain events or organisations from ever being added to the system. Administrators can add, edit or delete blocklisted items. The appropriate pages are linked in the Administration menu.
-
-### Event blocklist
-Blocklisting an event prevents the event from being added on the instance. Blocklisting an existing event will not result in the event being removed. The event will still be editable as well. Blocklisting events functionality is enabled by default. If blocklisting events is enabled, deleted events will automatically be added to the event blocklist. Enabling/disabling event blocklisting can be done using the MISP settings view.
-![MISP settings page, showing the settings to enable event and org blocklisting](./figures/blocklist-setting.png)
-
-#### Blocklisting an event
-The blocklist event screen can be accessed through the main administration menu. You can enter the UUID of one event or a list of event UUIDs (one per line). If the optional fields creating organisation, event info or comment are filled in, their values will be added for all added UUIDs.
-
-![Add event blocklist entries view](./figures/add-event-blocklist-entry.png)
-
-#### Viewing event blocklist entries
-The list of blocklisted events can be accessed through the main administration menu. You can delete a blocklist entry or access the edit screens for specific blocklisted events from here.
-![Event blocklist index page](./figures/event-blocklists-index.png)
-
-
-### Event block rules
-Event block rules allow you to add a simple tag filter to block events from being added or synced.
-
-An example of a rule can be found below:
-
-    {
-    "tags": ["tag1", "tag2"]
-    }
-
-The rule will block:
-- Syncing of events with "tag1" or "tag2"
-- Direct adding of events with "tag1" or "tag2" in one go, for example using /events/add
-
-The rule will not block:
-- The adding of "tag1" or "tag2" to an existing event through non syncing actions, for example by adding it via the graphical user interface.
-
-It is not possible to add more complex rules with boolean logic (NOT, AND).
-
-Event block rules are managed under **Administration → Event Block Rules** and are stored as a single JSON rule.
-
-### Organisation blocklist
-Blocklisting an organisation prevents the creation of any event by the blocklisted organisation. It does not prevent a local user from the blocklisted organisation from logging in or viewing data.
-![A blocklist entry is blocking you from creating any events error message](./figures/add-event-blocklisted-message.png)
-
-When syncing, events created by blocklisted organisations will not be added to the instance. Updates will also not propagate. A user from a blocklisted organisation can still edit an event from the blocklisted organisation locally though. Blocklisting organisations functionality is enabled by default. Enabling/disabling organisation blocklisting can be done using the MISP settings view.
-![MISP settings page, showing the settings to enable event and org blocklisting](./figures/blocklist-setting.png)
-
-#### Blocklisting an organisation
-The blocklist organisation screen can be accessed through the main administration menu. You can enter the UUID of one organisation or a list of organisations UUIDs (one per line). If the optional fields organisation name or comment are filled in, their values will be added for all added UUIDs.
-
-![Blocklist organisation view](./figures/blocklist-organisation.png)
-
-#### Viewing organisation blocklist entries
-The list of blocklisted organisations can be accessed through the main administration menu. You can delete a blocklist entry or access the edit screens for specific blocklisted organisations from here.
-![Organisation blocklist index page](./figures/organisation-blocklists-index.png)
-
-### Sighting blocklist
-
-Blocklisting an organisation for sightings prevents any sightings created by that
-organisation from being stored on the instance (locally or via sync) — useful for
-filtering out a noisy or untrusted source of sighting feedback. Sighting
-blocklisting is enabled by default (`MISP.enableSightingBlocklisting`) and is
-managed from the administration menu; entries are the UUIDs of the organisations
-to block.
-
-### Galaxy cluster blocklist
-
-Blocklisting a galaxy cluster prevents that cluster (identified by its UUID) from
-being captured or synchronised onto the instance — for example to keep a
-deprecated or unwanted cluster out of your data. There is no on/off setting for
-this blocklist; it is always active. Entries are galaxy-cluster UUIDs, with
-optional cluster info, creator organisation and comment.
-
-### Analyst data blocklist
-
-Blocklisting analyst data prevents specific notes, opinions or relationships
-(identified by their UUIDs) from being captured or synchronised onto the
-instance. As with the galaxy-cluster blocklist there is no enable/disable
-setting. Entries are analyst-data UUIDs, with optional info, creator organisation
-and comment.
-
-## Import Regexp
-
-The system allows administrators to set up rules for regular expressions that will automatically alter newly entered or imported events.
-
-### The purpose of Import Regexp entries
-
-They can be used for several things, such as unifying the capitalisation of file paths for more accurate event correlation or to automatically censor the usernames and use system path variable names (changing C:\Users\UserName\Appdata\Roaming\file.exe to %APPDATA%\file.exe).
-The second use is blocking, if a regular expression is entered with a blank replacement, any event info or attribute value containing the expression will not be added. Please make sure the entered regexp expression follows the preg_replace pattern rules as described [here](http://php.net/manual/en/function.preg-replace.php)
-
-### Adding and modifying entries
-
-Administrators can add, edit or delete regular expression rules, these "expressions" are made up of a regex pattern that the system searches for and a replacement for the detected pattern.
-
-![Add, edit or remove Regexp entries that will affect all newly created attributes here.](figures/regexp.png)
-
-## Managing the Signature allowedlist
-
-The signature allowedlist view, accessible through the administration menu on the left, allows administrators to create and maintain a list of addresses that are allowlisted from ever being added to the NIDS signatures. Addresses listed here will be commented out when exporting the NIDS list.
-
-### Allowlisting an address
-
-While in the allowedlist view, click on New Allowedlist on the left to bring up the "add allowedlist" view to add a new address.
-
-### Managing the list
-
-When viewing the list of allowlisted addresses, the following data is shown: The ID of the allowlist entry (assigned automatically when a new address is added), the address itself that is being allowlisted and a set of controls allowing you to delete the entry or edit the address.
-
-![You can edit or delete currently allowlisted addresses using the action buttons on this list.](figures/allowedlist.png)
-
-## Managing correlations
-
-MISP automatically correlates attributes that share the same value across
-events. Administrators have several tools to tune what correlates.
+Administration keeps a MISP instance usable, recoverable and appropriate for its community.
+Start with account and organisation boundaries, then establish a routine for service health,
+background jobs, updates and backups. A successful page load is only one part of that routine.
+
+::: {.callout-note}
+This chapter follows MISP **3.0.0**, `3.0_wip` commit
+[`99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1),
+in the light Overmind interface. This is a development branch; choose an approved release and
+tested deployment procedure for a production upgrade. Select a figure to enlarge it.
+:::
+
+<!-- Sources, fixture checks and capture hashes: ../assets/administration-screenshots.json -->
 
 <a id="managing-correlation-exclusions"></a>
+<a id="the-schdlr-worker-is-not-starting"></a>
+<a id="get-list-of-workers"></a>
 
-### Correlation exclusions
+## Plan administrative access {#admin-access}
 
-Correlation exclusions let you exclude certain **values** from the correlation
-engine. Values can be exact 1:1 matches or substring searches denoted with a
-leading and/or trailing `%`:
+A **site administrator** manages the instance, its settings and all organisations. An
+**organisation administrator** manages users within their own organisation, subject to the
+role and account restrictions. Organisation administration does not grant server settings,
+workflow administration or access to another organisation's user accounts.
 
-  - `https://www.google.com/%` matches anything starting with `https://www.google.com/`
-  - `%google.com%` matches anything that contains `google.com`
+Use separate accounts for daily analysis, instance administration and integrations. Record who
+owns each service account, what it may access and how its key is rotated. Review effective role
+flags as well as the role's name: roles can be changed locally and names are not a permission contract.
 
-After adding an exclusion, new values that match it will no longer correlate. To
-remove correlations that already exist, run the cleaner via the **Clean up
-correlations** button.
+![An operating routine: inspect health, investigate the affected layer, make a controlled change and verify the result before recording it.](figures/administration-cycle.svg)
 
-![Index view of correlation exclusions, showing leading- and trailing-wildcard examples.](./figures/correlationExclusions.png)
+<a id="listing-all-users"></a>
 
-### Correlation rules
+## Manage users {#users}
 
-Where exclusions suppress a specific value everywhere, **correlation rules**
-prevent whole **events** from correlating with one another based on a selector.
-A rule matches by creator organisation, owner organisation, event ID, or a
-substring of the event info, and stops the selected events from correlating.
-Executing a rule can also retroactively remove correlations that already exist
-between the matching events. Correlation rules are managed under
-**Administration → Correlation rules**.
+Open **Administration → Users**. The 3.0 list exposes organisation, role, TOTP/PGP status and
+account status, with filtering and row actions. Use it to review inactive accounts, unexpected
+administrative roles and accounts that still need their authentication setup.
 
-### Over-correlating values
+![The MISP 3.0 user list, populated with synthetic local training accounts.](figures/misp3-users.png)
 
-Some values (for example a very common string) correlate so widely that the
-matches become meaningless and expensive to compute. MISP automatically stops
-correlating a value once its correlation count exceeds `MISP.correlation_limit`
-(default 20). You can review the affected values — and which ones are currently
-over-correlating — under **Administration → Over-correlating values**.
+<a id="adding-a-new-user"></a>
+<a id="contacting-a-user"></a>
+<a id="setting-a-publish-alert-filter"></a>
 
-### Top correlations
+### Add or change an account {#admin-add-user}
 
-**Administration → Top Correlations** shows a ranked list of the values that
-correlate the most. It is a good starting point for finding candidates for
-exclusions or over-correlation suppression.
+Choose **Add user**, then set:
 
-### Correlation engine
+- **Email**: the login identity and notification address.
+- **Organisation**: the user's local organisation. Check it before assigning permissions.
+- **Role**: the required data access and feature permissions, not an administrator role by default.
+- **Password and delivery**: decide whether to set a temporary password and whether MISP should
+  email credentials. Verify the mail configuration before relying on delivery.
+- **Options**: publication/contact notifications and disabled status, as appropriate.
+- **PGP key / NIDS SID**: the user's mail-encryption key and IDS export rule-ID offset where used.
 
-The correlation engine is selected with the `MISP.correlation_engine` setting
-(Default, NoAcl or OnDemand). On very large instances the *OnDemand* engine
-computes correlations only when an event is viewed, trading immediate
-correlation for a lower write-time cost.
+![The MISP 3.0 Add user form. Account creation and emailing credentials are separate choices in the form.](figures/misp3-add-user.png)
 
-<a id="browsing-logs"></a>
+Use the account's edit and password-reset actions for changes; check whether the next login
+will require a password change. A password reset can send mail or change credentials, so it is
+an operational action rather than a way to inspect an account. Follow the instance's password
+policy and deliver credentials through the agreed channel.
 
-<a id="using-misp-logs"></a>
+Prefer **disabling** a departing user's account to deleting its identity and history. Disabled
+accounts cannot authenticate with their keys. Review/revoke their integration keys and transfer
+ongoing responsibilities deliberately. A user's public reporting identity is not an invitation
+to reuse their personal key in a service.
 
-## Logs
+The **Contact users** feature can send notices, registration messages or password resets.
+Review recipients, encryption and the selected action before submitting it. Event publication
+alerts and contact-reporter subscriptions are separate notification choices.
 
-Users with audit permission can browse the actions that MISP records. In 2.5 the
-top-menu **Logs** entry groups four views:
+### Publication alert filters {#various-administration-tips-tricks}
 
-*   **Application Logs** — the legacy application log: logins and logouts, failed
-    authentication attempts, and a range of application events.
-*   **Audit Logs** — the detailed audit trail of data changes (see below); shown
-    once the audit log is enabled.
-*   **Access Logs** — a per-request HTTP access log (see below); site admins only.
-*   **Search Logs** — a filtered search over the application log.
+Use the per-user `publish_alert_filter` setting to narrow publication-alert mail by supported
+tag, creator-organisation or threat-level conditions. It accepts a JSON condition tree, including
+AND/OR/NOT; review the filter and notification subscription together. Filtering mail does not
+change the user's event visibility or the event's distribution. For example, this filter excludes
+alerts whose event or attribute tags match `tlp:clear`:
 
-### Audit logs
-
-The audit log records every change to the data model — additions, edits, soft
-and hard deletes, tagging, galaxy attachment, publishing, and more — across
-events, attributes, objects, users, organisations, roles, servers and dozens of
-other models. Crucially it stores the **field-level changes** (old and new
-values) for each entry, with secrets such as passwords and API keys redacted.
-
-Enable it with the **`MISP.log_new_audit`** setting (Administration → Server
-Settings → MISP tab); the audit index warns you if it is not yet enabled. Browse
-it under **Logs → Audit Logs**, filtering by user, organisation, model, action,
-event, IP, request type and date. Site admins see everything, organisation admins
-see their own organisation, and regular users see only their own actions. The
-per-event **View Event History** action is backed by the same audit log.
-
-![The application log index (Logs → Application Logs).](figures/list_logs.png)
-
-### Access logs
-
-The access log records one row per HTTP request — the user, organisation,
-controller/action, URL, response code, duration, memory and query counts, and
-(optionally) the client IP, request body and full SQL query log. It is written
-when request logging is enabled via **`MISP.log_paranoid`** (all requests),
-**`MISP.log_paranoid_api`** (authenticated API requests only), or per-user
-monitoring. Related settings control the verbosity —
-`MISP.log_client_ip`, `MISP.log_paranoid_include_post_body` and
-`MISP.log_paranoid_include_sql_queries`. Browse it under **Logs → Access Logs**
-(site admins only), with per-request drill-downs into the stored body and query
-log.
-
-![Searching the application log (Logs → Search Logs).](figures/search_log.png)
-
-
-## Background Processing
-
-If enabled, MISP can delegate a lot of the time intensive tasks to the background workers. These will then be executed in sequence, allowing the users of the instance to keep using the system without a hiccup and without having to wait for the process to finish. It also allows for certain tasks to be scheduled and automated.
-
-### Command line tools for the background workers
-
-In MISP 2.5 the background workers run under **SimpleBackgroundJobs** (Supervisor + Redis); the old CakeResque commands no longer apply. The worker processes are controlled by Supervisor:
-
-```bash
-sudo supervisorctl status misp-workers:*
-sudo supervisorctl restart misp-workers:*
-```
-
-To inspect the queues and jobs, use the `Worker` console shell from `/var/www/MISP/app/Console`:
-
-*   **showQueues**: Show the configured queues and how many jobs are waiting in each.
-*   **flushQueue [queue]**: Remove all queued jobs from the given queue.
-*   **showJobStatus [worker]**: Show the status of the jobs handled by the workers.
-
-```bash
-sudo -u www-data /var/www/MISP/app/Console/cake Worker showQueues
-```
-
-### Monitoring the Background Processes
-
-The "Jobs" menu item within the Administration menu allows site admins to get an overview of all of the current and past scheduled jobs. Admins can see the status of each job, and what the queued job is trying to do. If a job fails, it will try to set an error message here too. The following columns are shown in the jobs table:
-
-*   **Id**: The job's ID (this is the ID of the job's metadata stored in the default datastore, not to be confused with the process ID stored in the redis database and used by the workers)
-*   **Process**: The process's ID.
-*   **Worker**: The name of the worker queue. If background jobs are enabled there are 6 queues (default, email, cache, prio, update and scheduler); the scheduler queue should never show up in the jobs table.
-*   **Job Type**: The name of the queued job.
-*   **Input**: Shows a basic input handled by the job - such as "Event:50" for a publish email alert job for event 50.
-*   **Message**: This will show what the job is currently doing or alternatively an error message describing why a job failed.
-*   **Org**: The string identifier of the organisation that has scheduled the job.
-*   **Status**: The status reported by the worker.
-*   **Retries**: Currently unused, it is planned to introduced automatic delayed retries for the background processing and thus add resilience.
-*   **Progress**: A progress bar showing how the job is coming along.
-
-![Site administrators can monitor the process of all queued jobs here.](figures/jobs.png)
-
-<a id="scheduling-jobs-and-recurring-jobs"></a>
-
-### Scheduling recurring tasks
-
-Site administrators can schedule recurring maintenance tasks under
-**Administration → Scheduled Tasks**. In 2.5 this is a reworked, cron-style
-scheduler driven by the Supervisor-managed `scheduler` worker (it requires that
-worker to be running, or the page shows a warning). You add tasks explicitly
-rather than editing a fixed list, choosing a **type** and the matching action:
-
-*   **Server** — `pull`, `push` or `cache` against a synchronisation server.
-*   **Feed** — `fetch` or `cache` a feed (or all feeds).
-*   **Workflow** — run an ad-hoc workflow.
-*   **Periodic Summary** — send the periodic summary notification.
-*   **TAXII** — push to a TAXII server.
-*   **Admin** — the JSON/definition updates: `updateGalaxies`, `updateTaxonomies`,
-    `updateWarningLists`, `updateNoticeLists` and `updateObjectTemplates`.
-
-Each task row shows its type/action and parameters, the owning user, the
-frequency (every N seconds/minutes/hours/days), the last and next run times, the
-status of its last job, and an enable/disable toggle. Rows can be forced to run
-immediately, edited, deleted, or have their job logs inspected.
-
-![Site administrators can schedule recurring tasks on this page.](figures/schedule.png)
-
-For anything more elaborate, prefer real cron jobs built from the console
-commands (see [Automating certain console tasks](#automating-certain-console-tasks)).
-
-
-## Other 2.5 administration features
-
-MISP 2.5 ships a number of features that administrators configure or manage. Each
-is summarised here with where to find it.
-
-### Advanced authentication keys
-
-With the **`Security.advanced_authkeys`** setting enabled, each user can hold
-multiple API keys, each with its own comment, expiry and optional IP allowlist.
-Keys are stored hashed and are shown only once, at creation — they cannot be
-recovered afterwards. Manage them under **Administration → List Auth Keys**.
-
-### Decaying models
-
-Decaying models score how relevant an indicator remains over time. Administrators
-create and edit models, and map them to attribute types, under **Global Actions →
-List Decaying Models**, and can experiment with the **Decaying Models Tool**. The
-*Decaying Model Editor* role permission grants access.
-
-### Workflows
-
-Workflows attach trigger-based automation graphs to MISP events — for example
-blocking or enriching an event on publish. They are disabled by default; enable
-them with **`Plugin.Workflow_enable`** and manage them under **Administration →
-Workflows**.
-
-### Cerebrate
-
-[Cerebrate](https://github.com/cerebrate-project/cerebrate) is a companion
-platform for managing organisations and sharing communities. Connect a Cerebrate
-node under **Sync Actions → Cerebrates** to pull organisation and sharing-group
-definitions into your instance.
-
-### TAXII servers
-
-MISP can push data to TAXII 2.x collections. Configure the server endpoints under
-**Sync Actions → TAXII Servers**.
-
-### Dashboards
-
-The **Dashboard** (top menu) is a configurable set of widgets — recent events,
-statistics, trends and more — with importable and exportable templates.
-
-### Benchmarking
-
-When enabled with **`Plugin.Benchmarking_enable`**, MISP records per-user and
-per-endpoint execution times and query load, viewable under **Administration →
-Benchmarking**. It is a diagnostic aid; leave it off during normal operation.
-
-
-<a id="various-administration-tips--tricks"></a>
-
-## Various administration tips & tricks
-
-
-### Setting a Publish Alert Filter
-
-To regulate the reception of e-mail from MISP it is possible to create filters. Each individual user account can apply such filter.
-
-The filter can be configured by the user but also by the organization administrator.
-
-After login goto Administration -> Set User Setting:
-
-![Set User settings](figures/setUserSetting.png)
-
-A new screen appears. Make sure the “Setting” drop down box shows “publish_alert_filter”:
-
-![Set User settings](figures/setUserSetting2.png)
-
-The text field “Value” contains the filter, which needs to be provided in JSON format. Important JSON-objects which can be used here go by the name AND”, “OR” and “NOT”. These should be structured in a logical tree.
-
-The filtering can be applied to tags, the publishing organization and the threat level. Valid filters:
-
-- AttributeTag.name
-- EventTag.name
-- Tag.name (checks against both event and attribute tags)
-- Orgc.uuid (creator org uuid)
-- Orgc.name (creator org name)
-- ThreatLevel.name
-
-
-In the following example, all notifications will be filtered which carry ‘tlp.white’ and ‘tlp.green’ in the name of the tag:
-
-```
+```json
 {
-
-    "NOT": {
-
-        "Tag.name" : [ "tlp.white", "tlp.green" ]
-
-    }
-
+  "NOT": {
+    "Tag.name": ["tlp:clear"]
+  }
 }
 ```
 
-The publish_alert_filter setting allows one filter definition to be active.
+Check the active per-user filter in user settings, using the authorised self/organisation-admin
+scope, and test the intended matches before relying on notification delivery.
 
-After applying the configuration, the filter will show up in the “My Settings” menu:
+<a id="advanced-authentication-keys"></a>
+<a id="administration-of-totphotp"></a>
+<a id="mandating-totphotp-usage"></a>
+<a id="transitioning-from-e-mail-otp-to-totphotp"></a>
+<a id="how-to-use-totphotp"></a>
 
-![Set User settings](figures/setUserSetting3.png)
+### Authentication keys and MFA {#admin-authentication}
 
+Manage individual keys under **Account → My Profile → Auth keys**, or the authorised user's
+profile. Use comments, expiry, source-IP restrictions and read-only keys where suitable.
+The raw key is shown once when generated. See [Automation & API](../automation/index.qmd#api-authentication)
+for request authentication, rotation and read-only POST searches.
 
-### Default sharing level
+In **Server Settings & Maintenance → Users & access**, review password, session, brute-force
+and OTP settings together. The TOTP column in the user list reports enrollment; it does not
+prove every authentication path uses the same policy.
 
-Choose your default sharing level to match your usage scenario for MISP. The setting is named *default_event_distribution* and the values can be:
+![The Users & access settings filtered to OTP controls. The training fixture does not mandate OTP.](figures/misp3-otp-settings.png)
 
-*   Your organisation only (default)
-*   This community only
-*   Connected communities
-*   All communities
+For built-in TOTP/HOTP:
 
-You can also set a default distribution level for attributes contained in an event with *default_attribute_distribution*, and it has the same values as the default sharing level for events plus an additional one that allows attributes to inherit the sharing level of the event.
+1. Check PHP dependency health, authenticator compatibility and server time synchronization.
+2. Have users enroll from their own profile and verify a code. Do not collect or screenshot
+   their enrollment secret, QR code or recovery material.
+3. Establish identity verification and an administrator recovery procedure before enforcing OTP.
+4. Set `Security.otp_required` only after the rollout is ready. Users without a token are then
+   required to enroll, except accounts with an applicable **Skip OTP Reqs** role exemption.
 
-### Adding organisation logos
+A site/organisation administrator can remove a user's token within the permitted scope, using
+the user profile's TOTP action. This removes enrollment; it does not disable the instance-wide
+requirement. The user must enroll again if required. Keep service-account exemptions narrow.
+Built-in email OTP and TOTP can coexist during a transition; external identity-provider/LinOTP
+policies need their own configuration. See [Using MISP](../using-the-system/index.qmd).
 
-You can add a logo for your organisations in MISP by uploading them via the tab **Manage files** under the **Administration** menu & **Server Settings** sub-menu.
-The filename must be exactly the same as the organisation name that you will use in MISP.
-It is recommended to use PNG files of 48x48 pixels.
+<a id="adding-a-new-organisation"></a>
+<a id="listing-all-organisations"></a>
+<a id="merge-organisations"></a>
+<a id="cerebrate"></a>
+<a id="adding-organisation-logos"></a>
 
-<a id="the-schdlr-worker-is-not-starting"></a>
+## Maintain organisation identities {#organisations}
 
-### The scheduler worker is not starting
+Open **Administration → Organisations**. Local organisations can have accounts on this
+instance; remote organisations represent known peers/identities without granting local logins.
+Keep the **UUID** consistent for the same organisation across instances. Local numeric IDs
+are not portable, and a matching name alone does not establish identity.
 
-Under SimpleBackgroundJobs the scheduler runs as one of the Supervisor-managed workers. If it is not running, check `sudo supervisorctl status misp-workers:*` and the Supervisor logs, and confirm the `SimpleBackgroundJobs` settings (Redis host/port/database and the Supervisor host/port/credentials) under **Administration → Server Settings → Diagnostics**.
+![The current organisation list, including local status, user counts and email-domain restrictions.](figures/misp3-organisations.png)
 
-### How to redirect HTTP to HTTPS
+When adding an organisation, review its name, UUID, local flag, description, country/sector,
+contacts and any email-domain restrictions. Add logos through **Server Settings & Maintenance
+→ Files**, following the accepted filename/type rules; do not give the web application broad
+filesystem write access to upload a logo.
 
-Here is a sample configuration for Apache webserver.
-```
-<VirtualHost *:80>
-        ServerAdmin misp@misp.misp
-        ServerName misp.misp.misp
-        ServerAlias misp-int.misp.misp
+Editing a name is different from merging identities. **Merge organisations** transfers users
+and data toward the selected target and can remove the source organisation. Confirm the
+source/target UUIDs, data ownership and sharing-group consequences, and take a recoverable
+backup before proceeding. The current delete actions reject organisations still holding users
+or events; deleting one is not an alternative to an ownership review.
 
-        Redirect permanent / https://misp.misp.misp
+Use [Cerebrate](../sharing/index.qmd#cerebrate) or
+[sharing-group blueprints](../sharing/index.qmd#sharing-group-blueprints) where appropriate for
+community identity management. A directory entry does not itself authorize event access.
 
-        LogLevel warn
-        ErrorLog /var/log/apache2/misp.local_error.log
-        CustomLog /var/log/apache2/misp.local_access.log combined
-        ServerSignature Off
-</VirtualHost>
+<a id="adding-a-new-role"></a>
+<a id="listing-roles"></a>
+<a id="benchmarking"></a>
 
-<VirtualHost *:443>
-        ServerAdmin misp@misp.misp
-        ServerName misp.misp.misp
-        ServerAlias misp-int.misp.misp
+## Design roles and resource limits {#roles}
 
-        DocumentRoot /var/www/MISP/app/webroot
-        <Directory /var/www/MISP/app/webroot>
-                Options -Indexes
-                AllowOverride all
-                Order allow,deny
-                allow from all
-        </Directory>
+Open **Administration → Roles**. A role combines one base data-access level with individual
+feature flags and resource limits. The default role is marked in the list; review it whenever
+changing onboarding policy. Changes to a shared role affect every account assigned to it.
 
-        SSLEngine On
-        SSLCertificateFile /etc/ssl/misp.misp.misp/misp.crt
-        SSLCertificateKeyFile /etc/ssl/misp.misp.misp/misp.key
-        SSLCertificateChainFile /etc/ssl/misp.misp.misp/mispCA.crt
+![MISP 3.0 roles show base access, granted permissions, resource limits and the default role.](figures/misp3-roles.png)
 
-        LogLevel warn
-        ErrorLog /var/log/apache2/misp.local_error.log
-        CustomLog /var/log/apache2/misp.local_access.log combined
-        ServerSignature Off
-</VirtualHost>
- ```
-   Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+::: {.table-responsive}
 
+| Base level | Data operations |
+|---|---|
+| Read Only | Browse data visible to the account. |
+| Manage Own Events | Create and maintain the user's own events without publishing them. |
+| Manage Organisation Events | Maintain events owned by the user's organisation, without publishing. |
+| Manage and Publish Organisation Events | Also publish the organisation's events. |
+
+:::
+
+Additional flags include site/organisation administration, API access, tagging/tag editing,
+sharing-group editing, sightings, object/galaxy/warninglist/decay-model editing and Analyst Data
+creation. Sync flags, ZeroMQ/Kafka publishing and server signing grant specialised capabilities;
+review them against the [sharing](../sharing/index.qmd) and [integration](../connectors/index.qmd)
+design rather than adding them to every analyst role.
+
+The 3.0 **AI tools** permission is separate from ordinary event editing. It permits supported
+assisted-analysis actions on events the user may edit when the AI service is enabled. Granting
+it does not configure the service or approve sending data to a provider. See [Modules](../modules/index.qmd#modules-ai).
+
+![The role editor separates data access, resource limits and feature permissions, including AI tools.](figures/misp3-role-form.png)
+
+Set memory/time limits, search rate limits and maximum `restSearch` results for the workload.
+A result cap is not a substitute for client pagination; an integration should handle both limits
+and empty/error responses. Reassign users before deleting a role. Test a representative regular
+account after a permission change, including an operation that should be refused.
+
+<a id="tools"></a>
+
+## Use grouped settings and health checks {#server-settings-and-maintenance}
+
+Open **Administration → Server Settings & Maintenance**. Overmind replaces the old tab strip
+with grouped navigation, searchable settings and separate health pages. The underlying names
+such as `MISP.*`, `Security.*` and `Plugin.*` remain useful for API/CLI configuration.
+
+![The MISP 3.0 settings overview groups configuration, operations and system-health checks. Findings shown here belong to the local training deployment.](figures/misp3-settings-overview.png)
+
+::: {.table-responsive}
+
+| Area | Start here |
+|---|---|
+| Configuration | Instance; Users & access; Sharing & data; Mail & encryption; Network & HTTP; Logging & audit; Integrations; AI. |
+| Operations | Background jobs; Correlations; Files. |
+| System health | Version & updates; PHP & filesystem; Database; Redis; Services; Security audit; Maintenance tools. |
+| All settings | Search across settings when you know a setting name but not its new group. |
+
+:::
+
+Inspect the priority, current value, validation message and description before changing a
+setting. **Advanced**, **CLI only**, **File only** and redaction labels constrain where/how a
+value can be managed. A red finding can also describe a deliberately disabled optional service;
+read the condition rather than enabling every integration to clear a counter.
+
+Keep production debugging off. Treat a downloaded settings report as potentially sensitive;
+review it before attaching it to a support issue. Configuration managed by a deployment tool,
+container environment or mounted file must be changed at that source so it survives recreation.
+
+<a id="other-2.5-administration-features"></a>
+<a id="dashboards"></a>
+<a id="default-sharing-level"></a>
+<a id="how-to-redirect-http-to-https"></a>
+<a id="increase-max-size-of-samples-other-files"></a>
+<a id="more-information-in-the-notification-emails-about-new-events"></a>
+<a id="various-administration-tips--tricks"></a>
 <a id="increase-max-size-of-samples--other-files"></a>
 
-### Increase max size of Samples / other files
+### Defaults, mail and network configuration {#admin-configuration-baseline}
 
-Trying to upload a large samples (>50M) might cause the following error:
+- Review default distributions for events, attributes, objects, event reports and Analyst Data.
+  Defaults affect new data; they do not reclassify existing records. Unpublished does not mean
+  private: use distribution and sharing groups for the intended audience.
+- Configure the external/base URL, HTTPS termination and trusted proxy handling together.
+  Use the current deployment's web-server configuration and certificate trust; do not copy an
+  old Apache configuration or disable peer verification to make a connection work.
+- Configure notification sender/support addresses, signing and user encryption preferences.
+  Subjects and routing metadata may remain visible even when the message body is encrypted.
+  Review `MISP.extended_alert_subject` before including event details in mail subjects.
+- Coordinate reverse-proxy upload limits, PHP `upload_max_filesize`/`post_max_size`, execution
+  time, memory and any attachment backend limits. Use the web PHP runtime's configuration;
+  changing CLI PHP alone does not change uploads.
 
-```
-[!] 500 Server Error: Internal Server Error
-```
+<a id="errors-about-fields-or-tables"></a>
 
-Or will give you an error page in browser.
+### Check the database and MISP 3.0 migrations {#admin-database}
 
-The error logs on the system will display the following:
+The **Database** health page separates schema/migration state, table space usage and engine
+configuration recommendations. A cache clear does not repair a missing migration, an
+interrupted value conversion or lost data.
 
-```
-PHP Warning:  POST Content-Length of 57526024 bytes exceeds the limit of 8388608 bytes in Unknown on line 0, referer: https://XYZ/attributes/add_attachment/1948
-```
+![The MISP 3.0 Database health page reports the migration ledger and schema version separately.](figures/misp3-database-health.png)
 
-And / Or
+MISP 3.0 introduces a migration ledger and a shared attribute-value dictionary. Check both
+legacy numeric updates and migration status when upgrading. On a source installation:
 
-```
-PHP Fatal error:  Allowed memory size of 134217728 bytes exhausted (tried to allocate 76705009 bytes) in /var/www/MISP/app/Lib/cakephp/lib/Cake/Network/CakeRequest.php on line 996
-```
-
-To fix that you need to adjust the php settings:
-```
-vi /etc/php/8.3/apache2/php.ini
-```
-
-Increase to the following values (or more if you want to)
-```
-; Maximum size of POST data that PHP will accept.
-; Its value may be 0 to disable the limit. It is ignored if POST data reading
-; is disabled through enable_post_data_reading.
-; http://php.net/post-max-size
-post_max_size = 256M
-[…]
-; Maximum amount of memory a script may consume (128MB)
-; http://php.net/memory-limit
-memory_limit = 1024M
+```bash
+sudo -u www-data /var/www/MISP/app/Console/cake Admin migrationStatus
+sudo -u www-data /var/www/MISP/app/Console/cake Admin schemaDiagnostics
 ```
 
-And then restart apache2
+`Admin migrationStatus --json` produces a structured report. `Admin migrationApply --dry-run`
+prints planned migration SQL without applying it; on an up-to-date instance it reports that
+nothing is pending. These checks do not establish that a large upgrade will fit the available
+disk space or complete within the maintenance window.
 
-```
-service apache2 restart
+Use the selected release's upgrade procedure and the [dependency chapter](../updating-python/index.qmd).
+The current **`Admin runUpgrade`** coordinates an offline upgrade: numeric updates, migrations
+and the attribute-value conversion where due, plus worker stop/restart requests. A failed run
+can leave the instance offline and partially converted; inspect its output and rerun the
+supported procedure rather than marking migrations applied by hand.
+
+Before it runs, stop external writers and scheduled ingestion, take a consistent backup, check
+space and rehearse on a restored copy. Check that workers really stopped; the command can
+report a Supervisor failure. PostgreSQL upgrades also have engine-specific prerequisites,
+including `pg_trgm` for the relevant value migration. Use a persistent terminal/session for a
+long conversion. Restart the web PHP runtime after an upgrade, as directed by the command.
+
+<a id="managing-correlations"></a>
+<a id="correlation-exclusions"></a>
+<a id="correlation-rules"></a>
+<a id="over-correlating-values"></a>
+<a id="top-correlations"></a>
+<a id="correlation-engine"></a>
+<a id="decaying-models"></a>
+
+### Values, correlations and retention {#admin-correlations}
+
+A MISP 3.0 **value address** is not an attribute occurrence. Values can be referenced by Analyst
+Data and collections; correlation suppression, detection eligibility and source visibility
+remain separate decisions. Do not manually truncate value tables to reduce correlation noise.
+
+::: {.table-responsive}
+
+| Control | What it changes |
+|---|---|
+| Correlation exclusions | Suppress matching values from correlation. Leading/trailing `%`{.text-wrap .text-break} support substring patterns. Use the cleaner to remove existing matches where appropriate. |
+| Correlation rules | Exclude event sets from correlating, using creator/owner organisation, event ID or event-info selectors. Inspect the matching set before executing a cleanup. |
+| Over-correlating values / Top correlations | Find high-volume matches. `MISP.correlation_limit`{.text-wrap .text-break} limits correlations for a value; increasing it may increase cost and noise. |
+| Correlation engine | Select the supported engine for the database and audience. `NoAcl`{.text-wrap .text-break} is not a general replacement for the default ACL-aware engine; `OnDemand`{.text-wrap .text-break} is MySQL/MariaDB-only in this branch. |
+| Value dictionary statistics | Maintain counts used by the values index. `Admin valueDictionaryStats`{.text-wrap .text-break} refreshes statistics; it is not a read-only report or a value-deletion command. |
+
+:::
+
+![Correlation settings in the grouped MISP 3.0 operations pages.](figures/misp3-correlation-settings.png)
+
+Changing correlation does not mark a value benign, delete an observation or withdraw a
+previous downstream detection. Use the relevant data lifecycle and connector controls as well.
+Coordinate retention of logs, attachments, jobs and research data with backup and sharing needs;
+removing a reference does not necessarily remove its source occurrence.
+
+<a id="blocklists-and-block-rules"></a>
+<a id="event-blocklist"></a>
+<a id="blocklisting-an-event"></a>
+<a id="viewing-event-blocklist-entries"></a>
+<a id="event-block-rules"></a>
+<a id="organisation-blocklist"></a>
+<a id="blocklisting-an-organisation"></a>
+<a id="viewing-organisation-blocklist-entries"></a>
+<a id="analyst-data-blocklist"></a>
+<a id="import-regexp"></a>
+<a id="the-purpose-of-import-regexp-entries"></a>
+<a id="adding-and-modifying-entries"></a>
+<a id="managing-the-signature-allowedlist"></a>
+<a id="allowlisting-an-address"></a>
+<a id="managing-the-list"></a>
+
+## Control incoming data {#admin-ingestion-controls}
+
+Use the control that matches the problem; these lists are not interchangeable:
+
+::: {.table-responsive}
+
+| Control | Scope |
+|---|---|
+| Event blocklist | Event UUIDs rejected on creation/import/sync when enabled. Blocking an existing event does not delete it. Deletion can add an event to this list when event blocklisting is enabled. |
+| Organisation blocklist | Creator-organisation UUIDs rejected for event intake/sync. It is not an account-login ban. |
+| Sighting blocklist | Organisations whose sightings should not be stored, when sighting blocklisting is enabled. |
+| Galaxy-cluster / Analyst Data blocklists | Specific cluster or research-record UUIDs rejected on capture/sync. These lists have no separate enable switch. |
+| Event block rules | A tag-based rule for event intake/synchronization. It does not prevent every later local tagging action. |
+| Import Regexp | Type-scoped transformation/rejection of attribute values. A bad replacement can damage data or block imports. |
+
+:::
+
+![The current event blocklist and entry points for adding UUIDs or editing event block rules.](figures/misp3-event-blocklist.png)
+
+### Sighting blocklist {#sighting-blocklist}
+
+Use the reporting organisation's UUID to exclude unwanted sighting sources. This does not
+block that organisation's users from logging in or remove its event/attribute observations.
+Review local feedback and incoming synchronization separately when investigating a source.
+
+### Galaxy and research blocklists {#galaxy-cluster-blocklist}
+
+Cluster and Analyst Data entries identify the particular record UUID to reject. They do not
+replace event/organisation blocklists or distribution controls. Check existing local data and
+peer behaviour before assuming that blocking an identifier also deletes every copy.
+
+The event/org/sighting enable switches remain `MISP.enableEventBlocklisting`,
+`MISP.enableOrgBlocklisting` and `MISP.enableSightingBlocklisting`. For event block rules, the
+current tag-list form matches any listed tag; do not assume an arbitrary AND/NOT expression.
+Test the actual import and sync path with synthetic data before applying a broad rule.
+
+For import regular expressions, preserve the source context, restrict the applicable types and
+test both matching and non-matching inputs. Blank replacements can reject matches. Review how
+normalization affects stored values, value addresses and correlations before rewriting them.
+
+The historical **Signature allowedlist** page/controller is absent in this 3.0 checkout.
+Review detection flags, warninglist-aware export filters and the destination's selection policy
+when replacing an old export setup. A correlation exclusion does not provide the same behaviour.
+
+<a id="worker-types"></a>
+<a id="background-processing"></a>
+<a id="monitoring-the-background-processes"></a>
+<a id="jobs"></a>
+
+## Monitor jobs and recurring work {#admin-background-jobs}
+
+MISP uses **SimpleBackgroundJobs**, Redis and Supervisor. CakeResque instructions do not apply.
+`MISP.background_jobs` enables background processing; the `SimpleBackgroundJobs.*` Redis and
+Supervisor settings must point at the actual services. Generic MISP Redis and job-queue Redis
+can use different databases/namespaces; a successful `redis-cli ping` is not enough to prove
+that both application paths work.
+
+![The MISP 3.0 Background jobs page, with actual Supervisor-managed workers in the isolated training instance.](figures/misp3-worker-health.png)
+
+::: {.table-responsive}
+
+| Queue | Typical work |
+|---|---|
+| `default`{.text-wrap .text-break} | General background processing, including non-blocking workflows. |
+| `email`{.text-wrap .text-break} | Notification and alert delivery. |
+| `cache`{.text-wrap .text-break} | Feed/export and other cache work. |
+| `prio`{.text-wrap .text-break} | Higher-priority work such as user-requested publication. |
+| `update`{.text-wrap .text-break} | Database/data-model update jobs; do not start competing update workers. |
+| `scheduler`{.text-wrap .text-break} | Discovers due recurring tasks and queues their work. It is not an ordinary indicator-processing queue. |
+
+:::
+
+Use **Administration → Jobs** for job history, status, messages and progress. Distinguish the
+SQL job ID from its background process UUID. A successful enqueue is not a completed job, and
+a completed process does not prove a remote peer accepted every requested change.
+
+![The Jobs list after a local read-only diagnostic ran through a real background worker.](figures/misp3-jobs.png)
+
+Purging job-history rows does not cancel a running process or empty a Redis queue. Conversely,
+`Worker flushQueue` discards waiting work; it is not a routine recovery step. Redis persistence,
+job-history expiry and the operation's retry behaviour determine what can be recovered after a
+restart. Do not assume that every stopped/interrupted job will resume without loss or duplication.
+
+<a id="restarting-or-starting-the-workers"></a>
+<a id="command-line-tools-for-the-background-workers"></a>
+<a id="the-scheduler-worker-is-not-starting"></a>
+<a id="managing-the-background-workers"></a>
+<a id="control-the-worker-processes"></a>
+<a id="show-queues"></a>
+<a id="flush-a-queue"></a>
+<a id="show-job-status"></a>
+<a id="list-workers"></a>
+
+### Inspect and restart workers {#admin-worker-commands}
+
+On a source installation, substitute the actual OS account and path:
+
+```bash
+sudo -u www-data /var/www/MISP/app/Console/cake Worker status
+sudo -u www-data /var/www/MISP/app/Console/cake Worker showQueues
+sudo -u www-data /var/www/MISP/app/Console/cake Worker showJobStatus JOB_ID_OR_PROCESS_UUID
 ```
 
+In this 3.0 branch, **`Worker restart`** restarts all workers or a supplied Supervisor worker
+name/PID, and **`Worker restartDead`** starts workers that are not running. The older
+`Admin restartWorkers`/related commands now call the current worker tooling too; they are no
+longer the no-ops described by old documentation. Use `--help` from the deployed checkout.
+
+With a matching Supervisor installation, `supervisorctl status 'misp-workers:*'` shows its
+process group. Use the deployment's service controls in a container installation. Fix Redis,
+permissions or dependency errors before repeatedly restarting a worker. Inspect worker output
+and Supervisor logs as well as the MISP Jobs page.
+
+<a id="scheduling-recurring-tasks"></a>
+<a id="taxii-servers"></a>
+<a id="scheduled-tasks"></a>
+<a id="scheduling-jobs-and-recurring-jobs"></a>
+
+### Schedule recurring tasks {#admin-scheduled-tasks}
+
+Open **Administration → Scheduled Tasks**. The 3.0 form supports an interval in **seconds,
+minutes, hours or days**, a next execution date/time, an enabled flag and a user context.
+This is an interval scheduler, not a general cron-expression editor. A blank next execution
+can make a task due immediately; configure it deliberately before enabling it.
+
+![A scheduled-task draft using the current interval controls. It has not been saved or enabled.](figures/misp3-scheduled-task.png)
+
+Supported families include server pull/push/cache, feed fetch/cache, ad-hoc workflows, TAXII
+push, periodic summaries and supported Admin actions. Admin tasks also include external-user
+validity checks and a separate **block invalid users** operation; reporting and disabling
+accounts have different consequences.
+
+Verify the selected user's permissions, scheduler health, next execution, last job result and
+retry/overlap behaviour. A definition-update task is different from a database upgrade. For a
+custom operational task, use a suitable external scheduler and the documented CLI/API rather
+than modifying the scheduler's internal tables.
+
+<a id="audit-logs"></a>
+<a id="access-logs"></a>
+<a id="support-feature-requests"></a>
+<a id="get-top-api-users"></a>
+<a id="misp-logs"></a>
+<a id="logging-of-failed-authentication-attempts"></a>
+<a id="clearing-expired-sessions"></a>
+<a id="troubleshooting-misp-not-connecting-to-redis-but-redis-cli-working"></a>
+<a id="browsing-logs"></a>
+<a id="using-misp-logs"></a>
 <a id="support--feature-requests"></a>
 
-### Support & feature requests
+<a id="logs"></a>
 
-The preferred method for support & feature requests is to use the [GitHub ticketing system](https://github.com/MISP/MISP/issues).
+## Use logs for diagnosis {#admin-logs}
 
-If you want to discuss something related to MISP, want some help from the community, etc… You have
-the [MISP Users mailing list](https://groups.google.com/forum/#!forum/misp-users) and the [MISP developers mailing list](https://groups.google.com/forum/#!forum/misp-devel).
+The top **Logs** menu separates application, audit, access and search views. Read the layer
+that can answer the question:
 
-A number of companies offer custom development, consulting, and support around MISP, please check [the support page of the MISP Project website](http://www.misp-project.org/#support).
+::: {.table-responsive}
 
-### More information in the notification emails about new events
+| Layer | Useful evidence |
+|---|---|
+| Application log | Login/authentication events and operational messages; search by action, account and time. |
+| Audit log | Recorded model changes and their field differences, when `MISP.log_new_audit`{.text-wrap .text-break} is enabled. Scope depends on permissions and organisation. |
+| Access log | Request timing, route, response code and optional detail when paranoid/API/per-user monitoring is enabled; site-admin access. |
+| Runtime/service logs | PHP/web-server errors, worker output, Supervisor, database, Redis and container service failures. |
 
-The setting MISP.extended_alert_subject allows you to have an extended subject. One word of warning though. If you’re using encryption : the subject will not be encrypted. Be aware that you might leak some sensitive information this way. Below is an example how the two subject types look like. First with the option disabled, then with the option enabled.
-```
-Event 7 - Low - TLP Amber
-Event 8 - OSINT - Dissecting  XXX… - Low - TLP Amber
-```
+:::
 
-   Taken from [Koen Van Impe's blog](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
+![The MISP 3.0 audit log, filtered to account changes in the synthetic fixture.](figures/misp3-audit-log.png)
 
-### Get top API users
+Configure collection under **Server Settings & Maintenance → Logging & audit**. Request-body
+and SQL logging can include sensitive data and add substantial storage overhead. Review
+redaction, access and retention before enabling verbose logging; do not assume every free-text
+field or failed credential is safe to export. Failed web/API authentication commonly uses
+`login_fail` / `auth_fail` actions. `MISP.log_auth` and `MISP.log_client_ip` control additional
+collection; trusted proxy handling affects the recorded source address.
 
-Per-request data is captured in the **access log** (`access_logs` table) when
-request logging is enabled — see [Access logs](#access-logs). The easiest way to
-see the busiest API users is **Administration → Access Logs**, filtered by user
-and date. To query it directly, for example for the top users over the last day:
+For an incident, retain a time window, request/job identifier, route and sanitized error.
+MISP application logs are normally under `app/tmp/logs/`; worker/web-server/container log
+locations depend on deployment. Avoid posting settings reports, authenticated request bodies,
+API keys or raw SQL dumps to a public issue. Use the [MISP issue tracker](https://github.com/MISP/MISP/issues)
+and [support resources](https://www.misp-project.org/support/) with a reproducible, sanitized report.
 
-```sql
-SELECT u.email, COUNT(*) AS requests
-FROM access_logs a
-JOIN users u ON u.id = a.user_id
-WHERE a.created > (NOW() - INTERVAL 1 DAY)
-GROUP BY a.user_id
-ORDER BY requests DESC;
-```
+For Redis failures, compare the configured host, address family, port, authentication, database
+and namespace from the **web and worker contexts**. For missing database fields, compare code,
+submodule and migration state first. Clear caches only when the diagnosis calls for it. Purge
+expired sessions through the applicable maintenance tool for the configured session backend;
+do not remove active sessions or run unrelated SQL cleanup as a first response.
 
-The `ip` column is stored in binary form, so filter on it with
-`a.ip = INET6_ATON('203.0.113.5')`. If you only have `MISP.log_auth` enabled
-(without the paranoid access log), successful API authentications instead land in
-the legacy `logs` table under the `auth` action.
+<a id="misp-backup"></a>
+<a id="misp-restore"></a>
 
-### MISP Logs
+## Back up and rehearse recovery {#admin-backup-recovery}
 
-By default, MISP has several layers of logs that can be used to trouble-shoot and monitor the system. Let's walk through each of the available logs:
+A MISP backup must preserve the data and the secrets/configuration needed to interpret and
+access it. Document recovery time and acceptable data loss, then keep a coherent set of:
 
-*   **Apache access logs**: Rotating logs generated by apache, logging each request, by default (on Ubuntu) they are found in /var/log/apache2/misp.local\_access.log. The location can be changed via the apache conf file
-*   **Apache error logs**: Rotating logs generated by apache, logging error messages, by default (on Ubuntu) they are found in /var/log/apache2/misp.local\_error.log. This error log file will generally not be used by MISP, however, if there is a PHP level error that prevents MISP from functionining you might have relevant entries here.
-*   **MISP error log**: Generated by MISP, logging any exceptions that occur during usage. These can be found in /var/www/MISP/app/tmp/logs/error.log (assuming default installation path). If you see errors in here and are stuck with an issue [let us know via GitHub](https://github.com/MISP/MISP/issues/)!
-*   **MISP debug log**: Generated by MISP, any debug messages and Notice level messages will be sent to this file. Generally less interesting, but can be helpful during debugging sessions. It should not be necessary to monitor this under normal usage. The file can be found in /var/www/MISP/app/tmp/logs/debug.log (assuming default installation path).
-*   **Background worker logs**: Generated by the SimpleBackgroundJobs workers (managed by Supervisor). Job output and worker exceptions are written to /var/www/MISP/app/tmp/logs/misp-workers.log and /var/www/MISP/app/tmp/logs/misp-workers-errors.log. These replace the old CakeResque `resque-*` logs, which are no longer written in MISP 2.5.
+- The database, using the database engine's supported consistent-backup procedure.
+- Attachment storage, including an external/S3 backend where configured.
+- Configuration and secrets: database connection details, salt/encryption keys, instance mail
+  keys and any signing keys/certificates needed by the deployment.
+- Uploaded logos/files, custom modules/workflows and other local customizations.
+- Tested application/image, submodule and dependency versions, plus deployment/service configuration.
+- Required operational Redis state and its recovery procedure. Do not blindly replay restored
+  queues or treat regenerable caches as authoritative source data.
 
-### Logging of failed authentication attempts
+![Restore a consistent backup into an isolated environment, verify data and services, then deliberately reconnect integrations.](figures/recovery-checkpoints.svg)
 
-By default, MISP logs failed login and authentication attempts in the application log. To view them, log in as a site admin and navigate to **Logs → Application Logs** (or **Logs → Search Logs**).
+The repository includes historical [backup/restore helpers](https://github.com/MISP/MISP/tree/3.0_wip/tools/misp-backup).
+Inspect their assumptions before use: they target a conventional MySQL/MariaDB installation
+and do not establish complete coverage for containers, PostgreSQL, external attachments or a
+3.0 migration rollback. Follow the backup mechanism supported by your actual deployment.
 
-There are two types of entries that will be interesting if you are looking for failed authentication attempts, entries of action "auth\_fail" (for failed attempts to authenticate via the API key or the external authentication system) and login\_fail (for failed login attempts via the login page).
+Test restoration on an isolated host with outbound mail, synchronization, scheduled tasks,
+workflows and connectors controlled. Verify login/keys, organisations/distribution, events,
+attachments, value references, Analyst Data, collections and migration state. A completed tar
+archive is not a restoration test. Restore code/configuration and data from compatible points;
+reverting a Git checkout alone does not undo a schema or attribute-value conversion.
 
-You can also search for any such entries using **Logs → Search Logs**, simply choose the desired action from the two listed above and hit search. (The `Security.log_each_individual_auth_fail` setting controls whether every failure is logged or throttled.)
+<a id="workflows"></a>
+<a id="command-line-interface-cli-commands"></a>
+<a id="administering-misp-via-the-cli"></a>
+<a id="get-setting"></a>
+<a id="set-setting"></a>
+<a id="get-authkey"></a>
+<a id="reset-authkey"></a>
+<a id="set-baseurl"></a>
+<a id="change-password"></a>
+<a id="clear-bruteforce-entries"></a>
+<a id="run-database-update"></a>
+<a id="update-all-json-structures"></a>
+<a id="update-galaxy-definitions"></a>
+<a id="update-taxonomy-definitions"></a>
+<a id="enable-all-tags-of-a-taxonomy"></a>
+<a id="update-object-templates"></a>
+<a id="update-warninglists"></a>
+<a id="update-noticelists"></a>
+<a id="update-misp"></a>
+<a id="set-default-role"></a>
+<a id="get-ips-for-user-id"></a>
+<a id="get-user-id-for-user-ip"></a>
+<a id="get-set-the-live-state"></a>
+<a id="check-redis-connectivity"></a>
+<a id="lint-the-configuration"></a>
+<a id="run-schema-diagnostics"></a>
+<a id="optimise-database-tables"></a>
+<a id="run-a-security-audit"></a>
+<a id="clean-the-caches"></a>
+<a id="re-encrypt-stored-secrets"></a>
+<a id="migrate-to-advanced-auth-keys"></a>
+<a id="pullall"></a>
+<a id="pull"></a>
+<a id="push"></a>
+<a id="list-feeds"></a>
+<a id="cache-feeds-for-quick-lookups"></a>
+<a id="fetch-feeds-as-local-data"></a>
+<a id="run-enrichment"></a>
+<a id="test-server"></a>
+<a id="list-servers"></a>
 
-What is logged:
+## CLI reference and operating checks {#automating-certain-console-tasks}
 
-```
-+----------------+------------+---------------------------+----------+
-| Auth method    | Action     | Failed credentials logged | IP       |
-+----------------+------------+---------------------------+----------+
-| Webform        | login_fail | None                      | Optional |
-| API            | auth_fail  | API key                   | Optional |
-| Webform        | auth_fail  | External auth key         | Optional |
-+----------------+------------+---------------------------+----------+
-```
-
-In order to enable IP logging for any logged request in MISP, navigate to Administration - Server settings - MISP settings and enable the MISP.log\_client\_ip setting.
-
-It is also possible to enable full logging of API and external authentication requests using the MISP.log\_auth setting in the same location, but keep in mind that this is highly verbose and will log every request made. In addition to the information above, all accessed resource URLs are also logged.
-
-### Clearing expired sessions
-
-By default the garbage collection of sessions is disabled in PHP. It is possible to enable it, but it's not recommended and as such MISP provides a manual way of clearing the sessions.
-
-Navigate to the diagnostics screen of MISP (Administration - Server settings - Diagnostics) and near the bottom of the page there will be a counter showing the count of currently stored expired sessions. Simply purge them by clicking the applicable button when the number grows too large.
-
-### Troubleshooting MISP not connecting to redis but redis-cli working
-
-Make sure the Redis connection settings MISP uses (host, port, database and password under the **MISP** and **SimpleBackgroundJobs** settings) match your running Redis, and that Redis is reachable from the web and CLI users. On an IPv6-enabled host, if `localhost` resolves to the IPv6 loopback (`::1`) first and Redis only listens on IPv4, use an explicit `127.0.0.1` instead. You can confirm reachability with `redis-cli -h 127.0.0.1 -p 6379 ping`.
-
-
-### Errors about fields or tables
-
-If you have errors with fields or tables that you can see in the error.log or in the page (if you enabled _debug_ or _site_admin_debug_ settings), an easy fix to make most of them go away is to use the **clean cache** feature on the _server settings_ menu, _diagnostics_ tab.
-An example of error message:
-```
-Error: [PDOException] SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Task.job_id' in 'field list'
-```
-
-## Jobs
-
-The Jobs tab gives you an overview on any currently running jobs or jobs that were previously completed and their status.
-
-![Running Jobs](figures/jobs.png)
-
-Typically this is one of the places you would turn to even some background process might not complete as expected to get an indication on any issues related to user initiated Jobs.
-
-For ease of use, you can filter the Jobs by queue (All, Default, Prio, Email, Cache).
-
-You can also purge the entries, either only those with a completed status or all of them.
-This is not automated and needs to be done manually.
-
-### Scheduled Tasks
-
-The **Scheduled Tasks** page lets you run a small set of definition-update tasks
-on a recurring schedule; it is described under
-[Scheduling recurring tasks](#scheduling-recurring-tasks) above.
-
-The built-in scheduler is intentionally limited. For anything beyond the handful
-of supported update actions, prefer a real scheduler such as your system's
-crontab, built from the [console commands](#automating-certain-console-tasks).
-As a rule of thumb: if you can click on it, MISP can automate it.
-
-## MISP Backup
-
-Currently there exists this backup script simply called [misp-backup.sh](https://github.com/MISP/MISP/tree/2.5/tools/misp-backup)
-
-All you need is to copy the the sample config and make sure it is correct. Then launch the script.
+Run the CLI as the application's OS user, with the intended configuration and environment.
+Paths in this book assume `/var/www/MISP`; containers have their own execution/service wrapper.
+Start with the deployed command's help:
 
 ```bash
-cd /var/www/MISP/tools/misp-backup
-sudo -u www-data cp misp-backup.conf.sample misp-backup.conf
-sudo ./misp-backup.sh
+sudo -u www-data /var/www/MISP/app/Console/cake Admin --help
+sudo -u www-data /var/www/MISP/app/Console/cake Worker --help
+sudo -u www-data /var/www/MISP/app/Console/cake User --help
 ```
 
-Script output:
-```bash
-/var/www/MISP/tools/misp-backup   2.4 ● $ sudo ./misp-backup.sh
-File ./misp-backup.conf exists.
-copy of org images and other custom images
-MySQL Dump
-/var/www/MISP/tools/misp-backup
-MISP Backup Completed, OutputDir: /opt/backup
-FileName: MISP-Backup-20181128_163215.tar.gz
-FullName: /opt/backup/MISP-Backup-20181128_163214.tar.gz
-```
-
-## MISP Restore
-
-In a similar fashion you can restore your MISP instance with the **misp-restore.sh** script.
-Read the script for details.
-
-## Command line interface (CLI) commands
-
-The below info is also available in the MISP GUI. Go to event actions -> automation -> bottom of the page
-
-### Administering MISP via the CLI
-
-#### Get Setting
-    MISP/app/Console/cake Admin getSetting [setting]
-
-#### Set Setting
-    MISP/app/Console/cake Admin setSetting [setting] [value]
-
-#### Get Authkey
-    MISP/app/Console/cake Admin getAuthkey [email]
-
-#### Reset Authkey
-    MISP/app/Console/cake Authkey [email] [api_key | optional]
-
-#### Set Baseurl
-    MISP/app/Console/cake Baseurl [baseurl]
-
-#### Change Password
-    MISP/app/Console/cake User change_pw [User ID or e-mail address] [new_password] [--no_password_change]
-    
-If --no_password_change is used, the user will not be required to change their password after their first login with the set password.
-
-#### Clear Bruteforce Entries
-    MISP/app/Console/cake Admin clearBruteforce [user_email]
-
-#### Run Database Update
-    MISP/app/Console/cake Admin runUpdates
-
-#### Update All JSON Structures
-    MISP/app/Console/cake Admin updateJSON
-
-#### Update Galaxy Definitions
-    MISP/app/Console/cake Admin updateGalaxies
-
-#### Update Taxonomy Definitions
-    MISP/app/Console/cake Admin updateTaxonomies
-
-#### Enable all tags of a taxonomy
-    MISP/app/Console/cake Admin enableTaxonomyTags [taxonomy_id]
-
-#### Update Object Templates
-    MISP/app/Console/cake Admin updateObjectTemplates
-
-#### Update Warninglists
-    MISP/app/Console/cake Admin updateWarningLists
-
-#### Update Noticelists
-    MISP/app/Console/cake Admin updateNoticeLists
-
-#### Update MISP
-    MISP/app/Console/cake Admin updateMISP
-
-#### Set Default Role
-    MISP/app/Console/cake Admin setDefaultRole [role_id]
-
-#### Get IPs For User ID
-    MISP/app/Console/cake User user_ips [user_id]
-
-#### Get User ID For User IP
-    MISP/app/Console/cake User ip_user [ip]
-
-#### Get / Set The Live State
-    MISP/app/Console/cake Admin live [true|false]
-
-With no argument this prints the current live state; passing `false` puts the instance into maintenance mode (blocking logins for non-site-admins).
-
-#### Check Redis Connectivity
-    MISP/app/Console/cake Admin redisReady
-
-#### Lint The Configuration
-    MISP/app/Console/cake Admin configLint
-
-Reports settings whose current value fails validation.
-
-#### Run Schema Diagnostics
-    MISP/app/Console/cake Admin schemaDiagnostics
-
-Reports critical differences between the live database schema and the expected `db_schema.json`.
-
-#### Optimise Database Tables
-    MISP/app/Console/cake Admin optimiseTables
-
-#### Run A Security Audit
-    MISP/app/Console/cake Admin securityAudit
-
-#### Clean The Caches
-    MISP/app/Console/cake Admin cleanCaches
-
-#### Re-encrypt Stored Secrets
-    MISP/app/Console/cake Admin reencrypt [--old <key>] [--new <key>]
-
-Re-encrypts stored authentication keys and sensitive settings under a new `Security.encryption_key`.
-
-#### Migrate To Advanced Auth Keys
-    MISP/app/Console/cake Admin updateToAdvancedAuthKeys
-
-### Automating certain console tasks
-If you would like to automate tasks such as caching feeds or pulling from server instances, you can do it using the following command line tools. Simply execute the given commands via the command line / create cron jobs easily out of them.
-
-#### PullAll
-    MISP/app/Console/cake Server pullAll [user_id] [full|update]
-
-#### Pull
-    MISP/app/Console/cake Server pull [user_id] [server_id] [full|update]
-
-#### Push
-    MISP/app/Console/cake Server push [user_id] [server_id]
-
-#### List Feeds
-    MISP/app/Console/cake Server listFeeds
-
-#### Cache Feeds For Quick Lookups
-    MISP/app/Console/cake Server cacheFeed [user_id] [feed_id|all|csv|text|misp]
-
-#### Fetch Feeds As Local Data
-    MISP/app/Console/cake Server fetchFeed [user_id] [feed_id|all|csv|text|misp]
-
-#### Run Enrichment
-    MISP/app/Console/cake Event enrichment [user_id] [event_id] [json_encoded_module_list]
-
-#### Test Server
-    MISP/app/Console/cake Server test [server_id]
-
-#### List Servers
-    MISP/app/Console/cake Server listServers
-
-### Managing the background workers
-
-Under SimpleBackgroundJobs the worker processes are managed by Supervisor, so the old `Admin startWorker` / `restartWorker` / `restartWorkers` / `killWorker` commands are no-ops — they print *"This method does nothing when SimpleBackgroundJobs are enabled."* Use `supervisorctl` to control the processes and the `Worker` shell to inspect the queues.
-
-#### Control The Worker Processes
-    sudo supervisorctl status misp-workers:*
-    sudo supervisorctl restart misp-workers:*
-
-#### Show Queues
-    MISP/app/Console/cake Worker showQueues
-
-#### Flush A Queue
-    MISP/app/Console/cake Worker flushQueue [queue_name]
-
-#### Show Job Status
-    MISP/app/Console/cake Worker showJobStatus [worker]
-
-<a id="get-list-of-workers"></a>
-
-#### List Workers
-    MISP/app/Console/cake Admin getWorkers [all|dead]
-    
-## Administration of TOTP/HOTP
-MISP 2.4.172 introduced multi-factor authentication (TOTP/HOTP) support.
-
-Before using or testing this feature, please note that it is extremely important to make sure your server has correct time syncing set up, since the TOTP tokens are time based. If you are alread using e-mail OTP, you can leave this on. The two multi-factor authentication methods can co-exist, users that have TOTP/HOTP set up, will no longer be able to use e-mail OTP. Those that do not have it set, will still be prompted for it in that case.
-
-After updating your MISP, make sure you have installed the required php dependencies by using the top menu to go to Administration > Server Settings & Maintenance > Diagnostics.
-
-![Screenshot of diagnostics page showing required php libraries for TOTP/HOTP](./figures/php-dependencies-totp.png)
-
-If you do not have them installed yet, you can run the equivalent of the below command for your setup / OS to install them:
-
-    sudo -u www-data sh -c "cd /var/www/MISP/app;php composer.phar update"
-    
-You can see which users have TOTP/HOTP configured in the users index:
-![Screenshot of users index page, with highlight showing the column which indicates a user has TOTP/HOTP configured](./figures/user-with-totp-active-in-users-index.png)
-
-As a site admin or org admin (users can't do this themselves), you can delete TOTP/HOTP for a user from the view user page, by clicking the TOTP Delete button.
-![Screenshot of view user page with highlighted delete OTP button](./figures/delete-totp-button.png)
-
-### Mandating TOTP/HOTP usage
-You can mandate the usage of TOTP/HOTP by setting the Security.otp_required setting to true. Users will then be prompted to set up TOTP/HOTP when trying to access a page, if they haven't done so yet.
-
-From the command line you can run the equivalent of the below command for your setup, to configure this:
-
-    sudo -u www-data /var/www/MISP/app/Console/cake Admin setSetting Security.otp_required true
-    
-### Transitioning from e-mail OTP to TOTP/HOTP
-If you are currently using e-mail OTP on your instance, you have the option to enable TOTP/HOTP (by installing the required php dependencies) and giving your users a transition period to set up their TOTP (e-mail OTP will still work during this period), before mandating TOTP.
-
-### How to use TOTP/HOTP
-For information on how to use this feature from a normal user perspective, please refer to the [using the system](../using-the-system/index.qmd) section.
-
+::: {.table-responsive}
+
+| Task | Command family / constraint |
+|---|---|
+| Read/change a setting | `Admin getSetting SETTING`{.text-wrap .text-break}; `Admin setSetting SETTING VALUE`{.text-wrap .text-break}. A full settings dump may include sensitive information. |
+| Maintenance state | `Admin live`{.text-wrap .text-break} reads it; `Admin live 0`{.text-wrap .text-break} / `1`{.text-wrap .text-break} change it. Coordinate writers and service access separately. |
+| Database health / migration plan | `Admin schemaDiagnostics`{.text-wrap .text-break}, `Admin migrationStatus`{.text-wrap .text-break}, `Admin migrationApply --dry-run`{.text-wrap .text-break}. |
+| Apply a planned 3.0 upgrade | `Admin runUpgrade`{.text-wrap .text-break}, after backup/rehearsal and quiescing writers. Lower-level migration commands are not a generic substitute. |
+| Redis health | `Admin redisReady`{.text-wrap .text-break}; check the job backend separately with `Worker status`{.text-wrap .text-break}. |
+| Definitions | `Admin updateJSON`{.text-wrap .text-break} or the relevant `updateGalaxies`{.text-wrap .text-break}, `updateTaxonomies`{.text-wrap .text-break}, `updateWarningLists`{.text-wrap .text-break}, `updateNoticeLists`{.text-wrap .text-break}, `updateObjectTemplates`{.text-wrap .text-break}. These modify local definitions. |
+| Accounts | `User`{.text-wrap .text-break} help covers password/key changes and block/unblock operations. Prefer scoped advanced keys; protect console output/history. |
+| Sync/feed processing | `Server`{.text-wrap .text-break} help covers peer pull/push/cache and feed listing/fetch/cache. IDs, user context and direction must match the intended operation. |
+| Enrichment | `Event enrichment`{.text-wrap .text-break} uses the configured modules and account context; it may contact providers or change events. |
+| Security/configuration checks | `Admin securityAudit`{.text-wrap .text-break}, `Admin configLint`{.text-wrap .text-break}; TLS probes and reports have their own network/data scope. |
+| Cache/storage maintenance | `Admin cleanCaches`{.text-wrap .text-break}, `optimiseTables`{.text-wrap .text-break} and value-maintenance commands have different effects. Diagnose first, then schedule the required work. |
+| Secret-key rotation | `Admin reencrypt`{.text-wrap .text-break} is a controlled key migration, not a routine update. Retain a compatible backup and follow the command's current help. |
+
+:::
+
+For automation, use bounded API queries and checkpoints rather than assuming every console
+command can safely be retried. See [Automation & API](../automation/index.qmd),
+[Workflows & Blueprints](../workflows/index.qmd) and
+[Updating Python Dependencies](../updating-python/index.qmd).

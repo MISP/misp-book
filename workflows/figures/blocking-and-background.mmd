@@ -1,0 +1,11 @@
+flowchart TD
+  accTitle: Blocking checks and background reactions
+  accDescr: A core operation enters synchronous blocking checks. A rejected path stops the operation; an accepted operation completes and may enqueue non-blocking work. Background outcomes cannot undo the original operation.
+  A["Core operation requested"] --> B{"Blocking checks pass?"}
+  B -- No --> C["Stop the operation<br/>Report the reason"]
+  B -- Yes --> D["Complete core operation"]
+  D --> E["Queue non-blocking reaction"]
+  E --> F["Worker runs actions<br/>Independent outcome"]
+  F --> G["Monitor · retry · reconcile"]
+  classDef caution fill:#fff4dd,stroke:#b27924,color:#593b0b;
+  class C caution;

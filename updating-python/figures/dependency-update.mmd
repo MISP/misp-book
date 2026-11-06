@@ -1,0 +1,8 @@
+flowchart TD
+  accTitle: Controlled dependency and application update
+  accDescr: Inventory and rehearse, take a consistent backup and pause writers, deploy matching application and dependency versions, apply the planned database upgrade, then restart and verify before normal processing resumes.
+  A["Inventory and rehearse<br/>Application · images · dependencies"] --> B["Back up and pause writers<br/>Ingestion · schedules · workers"]
+  B --> C["Deploy tested versions<br/>Code · submodules · dependencies"]
+  C --> D["Apply planned schema upgrade<br/>Check migrations and conversion"]
+  D --> E["Restart and verify<br/>Web · workers · feature paths"]
+  E --> F["Resume processing<br/>Record the resolved versions"]

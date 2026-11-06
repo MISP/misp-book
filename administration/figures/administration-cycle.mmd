@@ -1,0 +1,8 @@
+flowchart TD
+  accTitle: Administration operating routine
+  accDescr: Inspect services and jobs, identify the affected layer, plan a recoverable change, verify data and service behaviour, then record the result before the next health check.
+  A["Inspect health and jobs<br/>Users · services · queues"] --> B["Diagnose the affected layer<br/>Configuration · runtime · data"]
+  B --> C["Plan a recoverable change<br/>Scope · backup · maintenance"]
+  C --> D["Apply and verify<br/>Intended result · access boundaries"]
+  D --> E["Record outcome and versions<br/>Monitor the next run"]
+  E -. Next check .-> A
