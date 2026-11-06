@@ -14,7 +14,7 @@ CHAPTERS = ("sharing", "managing-feeds", "collections", "cryptographic-keys",
             "automation", "pymisp", "misp-zmq", "modules", "connectors",
             "administration", "workflows", "updating-python",
             "categories-and-types", "taxonomy", "galaxy", "misp-objects", "warninglists", "noticelists",
-            "faq", "user-stories")
+            "faq", "user-stories", "appendices")
 
 
 def main():

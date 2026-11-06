@@ -1,0 +1,12 @@
+flowchart TB
+    accTitle: A recurring schedule is separate from its queued job and result
+    accDescr: A configured enabled interval task is discovered by scheduler_worker, which queues work in Redis. An ordinary queue worker executes it and records a job result. Saving a task alone does not prove execution succeeded.
+    subgraph Dispatch["Dispatch due work"]
+        direction LR
+        A["Configured recurring task<br/>Interval · action · user"] --> B["scheduler_worker<br/>Find due enabled tasks"] --> C["Redis job queue<br/>Waiting work"]
+    end
+    subgraph Execute["Execute and inspect"]
+        direction LR
+        D["Ordinary queue worker<br/>start_worker QUEUE"] --> E["Execute the selected action<br/>Check user and operation"] --> F["Inspect job result<br/>Success · failure · logs"]
+    end
+    Dispatch --> Execute

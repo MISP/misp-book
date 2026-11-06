@@ -156,6 +156,20 @@
       "source_sha256": "316c3652e4ff7d5562f1e6023cd6d13ca43244c992a11ab7ffe62796102a76a2",
       "sha256": "cec648b96219bfc3523f78b37ea4019f98b836d79209d64e63ec9eb688717d9c",
       "viewBox": "0 0 981.875 334.3999938964844"
+    },
+    {
+      "source": "appendices/figures/authentication-boundaries.mmd",
+      "file": "appendices/figures/authentication-boundaries.svg",
+      "source_sha256": "3384a15b615c8bf054fa72282fa0ed67a725fdc3f684f8fb01797b7772a21ff9",
+      "sha256": "8b17b01e7ce6b78df900e6edfafe91383f2179b24032fb44c85f471d34cd79b5",
+      "viewBox": "0 0 628.96875 369.6000061035156"
+    },
+    {
+      "source": "appendices/figures/recurring-task-execution.mmd",
+      "file": "appendices/figures/recurring-task-execution.svg",
+      "source_sha256": "7a94167bc6f9a0bd26af1a13ad826074f00077bfe4a3037a9d6b2526604ac2c3",
+      "sha256": "b83421183368c28a66d2db2c51c98566ce5f4fd14346c7b3274d99827f498ec3",
+      "viewBox": "0 0 963.921875 352"
     }
   ]
 }
