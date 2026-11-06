@@ -1,99 +1,117 @@
 ---
 title: "Warning Lists"
+format:
+  html:
+    lightbox: true
 ---
-<a id="misp-warninglists"></a>
 
-
-MISP warning lists contain well-known indicators that may correspond to false positives, errors, or mistakes.
-There is also a Python module for working with warning lists in a Pythonic way: [PyMISPWarningLists](https://github.com/MISP/PyMISPWarningLists).
-[MISP Warning Lists GitHub Repository](https://github.com/MISP/misp-warninglists)
-
-<a id="misp-warning-lists-introduction-the-dilemma-of-false-positive"></a>
-
-## Warning Lists and False Positives
-
-False positives are a common issue in threat intelligence sharing.
-They are often contextual:
-- What counts as a false positive may differ from one sharing community to another.
-- Organizations may also have their own view of what should be treated as a false positive.
-
-## Usage
-By default, MISP triggers warning list hits only when the attribute IDS flag is set.
-You can change this behavior by setting the `MISP.warning_for_all` configuration parameter to `true`.
-
-When an attribute matches a warninglist entry, an info/warning box is displayed at the event and attribute level, as can be seen in the screenshot below.
-![Screenshot of event with one attribute that has warning list hits](./figures/warninglist-warnings.png)
-
-Individual warning lists can be enabled or disabled at the instance level from the warning lists index page.
-Examples of default warning lists include known public DNS resolvers, multicast IP addresses, hashes for empty values, RFC1918 ranges, TLDs, and known Google domains.
-![Screenshot of the warninglists index page](./figures/MISPwarninglist.png)
-
-Warning lists can be extended locally in JSON or contributed through pull requests to https://github.com/MISP/misp-warninglists.
-They can also be used for critical infrastructure, core infrastructure, or personally identifiable information.
-
-### Warninglists and data export
-The enforceWarninglist parameter of MISP restSearch can be used to exclude attributes that have a warninglist hit from the export. For more information on the MISP API, please refer to the [Automation and MISP API chapter](../automation/index.qmd).
-
-### Check individual values for warning list hits
-It is also possible to do a lookup for a specific value in the warninglists. This functionality is accessible by using the top menu "Input Filters" > "List Warninglists" and then using the link in the left side menu bar (or by browsing directly to [misp_base_url]/warninglists/checkValue). Only enabled warninglists will be searched.
-
-![Screenshot of example search in warninglists using check value, for value 192.168.0.1. The result shows two hits, one for RFC 5735 CIDR blocka nd one for RFC 1918 CIDR blocks](./figures/warninglist-checkValue.png)
-
-### Updating warninglists
-An update of the warninglists can be triggered via the GUI using the "Update Warninglists" button in the side menu bar when viewing any of the relevant warninglists pages, for example the index page.
-
-Alternatively, it is also possible to trigger an update using a CLI command.
-~~~
-MISP/app/Console/cake Admin updateWarningLists
-~~~
-
-If you are updating an existing warning list, make sure you increment the version number before triggering the update in MISP.
-You can also contribute to the existing warning lists by forking the [MISP Warning Lists GitHub Repository](https://github.com/MISP/misp-warninglists), making your changes, and then opening a pull request.
-
-### How matching works: types and categories
-
-Each warninglist declares a **type** that controls how its entries are matched against attribute
-values:
-
-| Type | Matches when the value… |
-|---|---|
-| `string` | equals an entry exactly |
-| `substring` | contains an entry as a substring |
-| `hostname` | is (or is a subdomain of) an entry hostname |
-| `cidr` | is an IP address inside an entry CIDR range |
-| `regex` | matches an entry regular expression |
-
-Each list also has a **category** — either `false_positive` (values likely to be false
-positives, such as RFC1918 ranges or public DNS resolvers) or `known` (well-known values, such as
-your own infrastructure) — which is shown alongside the hit so you understand *why* a value was
-flagged.
-
-### Managing warninglists from the GUI
-
-As well as the file-based method below, MISP lets site administrators create and manage
-warninglists directly in the web interface from *Input Filters → List Warninglists*:
-
-- **New Warninglist** — create a list by giving it a name and description, choosing its **type**
-  and **category**, and pasting its entries (one per line). This is the quickest way to add, for
-  example, a list of your organisation's own domains or IP ranges.
-- **Edit** — update an existing GUI-created list's metadata or entries.
-- **Delete** — remove a list you no longer need (individually or via the bulk selection).
-- **Enable / disable in bulk** — the index supports mass enable/disable across selected lists.
+A warninglist adds context to a value that may need attention: reserved/private addresses,
+public infrastructure, common domains, empty-file hashes or another known set. A hit is a
+reason to review the observation and intended use, not proof that it is benign or malicious.
 
 ::: {.callout-note}
-Lists that ship with MISP (from the `misp-warninglists` repository) are maintained upstream and
-refreshed by the update mechanism; use the GUI editor mainly for your own local lists so your
-changes are not overwritten on the next update.
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+Lists come from [misp-warninglists](https://github.com/MISP/misp-warninglists) or local definitions.
+The examples use a synthetic `known` list for reserved documentation domains, with IDS off.
 :::
 
+<!-- Matching checks, local-list fixture and captures: ../assets/data-model-screenshots.json -->
+
+<a id="warning-lists-and-false-positives"></a>
+<a id="usage"></a>
+<a id="check-individual-values-for-warning-list-hits"></a>
+<a id="misp-warninglists"></a>
+<a id="misp-warning-lists-introduction-the-dilemma-of-false-positive"></a>
+
+## Find a list or test a value {#warninglists-use}
+
+Open **Data models → Filters & Lists → Warninglists** (`/warninglists/index`). Inspect category, matching type,
+enabled state, default/local origin and entry count. Name search looks for list metadata;
+**Search a value** looks for entries that actually match a value. They answer different questions.
+
+![The MISP 3.0 warninglist index with category, matching type, origin and enablement.](figures/misp3-warninglists.png)
+
+Use the index's value-match filter to test a reserved domain/address. The pinned branch also
+accepts a named `matchValue` filter, such as `/warninglists/index/matchValue:api.example.org`.
+Multiple values use the supported `a||b` form. Only enabled lists participate in this lookup.
+The old `/warninglists/checkValue` browser route redirects to the index in this branch; use its
+value-match controls rather than expecting the historical standalone lookup form.
+
+![A real value-match result: the synthetic domain matches the example.org entry by hostname rules.](figures/misp3-warninglist-match.png)
+
+For API clients, `POST /warninglists/checkValue` accepts a JSON list of values and returns hits
+by searched value. A successful result with no hit is not a validation that the value is safe;
+the relevant list may be disabled, absent, stale or unsuitable for that input.
+
+<a id="how-matching-works-types-and-categories"></a>
+
+## Interpret the matching rules {#warninglists-matching}
+
+::: {.table-responsive}
+
+| List type | Match behaviour |
+|---|---|
+| `string`{.text-wrap .text-break} | Exact entry match. |
+| `substring`{.text-wrap .text-break} | Entry occurs within the value. |
+| `hostname`{.text-wrap .text-break} | Hostname/domain rules, including subdomains and supported extraction paths. |
+| `cidr`{.text-wrap .text-break} | IP address belongs to an entry range. |
+| `regex`{.text-wrap .text-break} | Entry regular expression matches the value. |
+
+:::
+
+Lists also declare matching attribute types; raw-value lookup does not supply the same type
+context as an attribute check. Composite attributes and URL/hostname handling need the actual
+matching path, not a hand-written substitute. Test exact, boundary/subdomain and non-matching
+inputs when adding a local list.
+
+A list's category describes its purpose. **`false_positive`** and **`known`** are not the same
+assessment, and neither category establishes ground truth about an incident. Read the list's
+source, description, version and matched entry before acting on a hit.
+
+![Review a hit against its source and the observation, then choose detection and sharing actions deliberately while retaining useful context.](figures/warninglist-review.svg)
+
+<a id="warninglists-and-data-export"></a>
+
+## Warnings, IDS flags and exports {#warninglists-export}
+
+Attribute warning display normally checks IDS-enabled attributes, or all attributes when
+`MISP.warning_for_all` is enabled. Changing warning display does not turn IDS on/off, block
+publication or delete source data. It also does not mean every lookup/export uses identical
+filters.
+
+![The synthetic training observation with warning context displayed. Its IDS flag remains off.](figures/misp3-warninglist-event.png)
+
+`enforceWarninglist` on supported `restSearch` exports can exclude matching attributes. Select
+the format, enabled lists and source/detection scope explicitly and inspect the resulting
+selection. A read-only investigation may need the matched context even when a detection export
+should omit it. See [Automation & API](../automation/index.qmd#api-exports).
+
+Do not treat a warninglist as a distribution policy, event blocklist, removed signature
+allowedlist or replacement for reviewing detection content. A private address may be important
+inside an investigation even when it is inappropriate for a public detection feed.
+
+<a id="updating-warninglists"></a>
+<a id="managing-warninglists-from-the-gui"></a>
+<a id="creating-a-custom-warninglist-on-disk"></a>
 <a id="creating-a-custom-warninglist"></a>
 
-### Creating a custom warninglist on disk
+## Create and maintain local lists {#warninglists-management}
 
-You can also add a warninglist as a file on the server:
+Use **Add Warninglist** for local entries. Choose a name, description, type, category, matching
+attribute types and entries, then test it before enabling it for operational use. The form's
+choices affect both what is compared and how values match.
 
-1. Create a new directory for your warninglist in /var/www/MISP/app/files/warninglists/lists.
-2. Add a file called list.json to the newly created directory and add the content you want. You can use any of the existing warning lists in https://github.com/MISP/misp-warninglists as reference.
-3. Trigger an update of the warning lists on the instance to load in your new warning list.
+![The current warninglist form, staged with reserved example values and no external provider.](figures/misp3-warninglist-form.png)
 
-Example use cases include a list of domain names owned by your organization or a list of employee email addresses.
+Inspect the supported edit/delete and bulk enable/disable actions. Shipped defaults are
+maintained through their repository/update mechanism; manage custom changes separately so
+an upstream refresh does not overwrite a private policy.
+
+For file-based lists, follow the upstream schema and directory structure under
+`app/files/warninglists/lists/<name>/list.json`, increment versions for changes, deploy the
+intended files and run **Update Warninglists** or `cake Admin updateWarningLists`.
+The files, database entries and enabled/cache state are separate parts of the update.
+
+Use [PyMISPWarningLists](https://github.com/MISP/PyMISPWarningLists) when a Python integration
+needs these lists, checking its installed version and input/matching contract. An external
+consumer's local list set is not automatically the same as the server's enabled configuration.

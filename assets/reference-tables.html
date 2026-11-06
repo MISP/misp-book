@@ -1,0 +1,109 @@
+<script>
+(() => {
+  "use strict";
+  function enhanceReferences() {
+    document.querySelectorAll(".misp-reference-table").forEach((container, index) => {
+      const table = container.querySelector("table");
+      if (!table || !table.tBodies.length || container.dataset.enhanced) return;
+      const rows = Array.from(table.tBodies).flatMap(body => Array.from(body.rows));
+      const items = rows.map(row => {
+        const type = row.querySelector("[data-categories]");
+        return {
+          row,
+          categories: type ? type.dataset.categories.split(";") : [],
+          ids: type ? type.dataset.defaultIds : "",
+          text: (row.textContent + " " + (type ? type.dataset.categories : "")).normalize("NFKC").toLowerCase()
+        };
+      });
+      const title = container.dataset.tableLabel || "Reference table";
+      const prefix = "misp-reference-" + index;
+      const toolbar = document.createElement("div");
+      toolbar.className = "misp-table-controls";
+      const makeControl = (text, control, suffix) => {
+        const field = document.createElement("div");
+        field.className = "misp-table-control";
+        const label = document.createElement("label");
+        label.htmlFor = control.id = prefix + suffix;
+        label.textContent = text;
+        field.append(label, control);
+        toolbar.append(field);
+        return control;
+      };
+      const query = makeControl("Search type or description", document.createElement("input"), "-search");
+      query.type = "search";
+      query.placeholder = "e.g. domain, sha256, email";
+      const category = makeControl("Allowed category", document.createElement("select"), "-category");
+      category.add(new Option("All categories", ""));
+      [...new Set(items.flatMap(item => item.categories))].sort().forEach(name => category.add(new Option(name, name)));
+      const detection = makeControl("Detection default", document.createElement("select"), "-ids");
+      [["All defaults", ""], ["IDS on", "1"], ["IDS off", "0"]].forEach(([name, value]) => detection.add(new Option(name, value)));
+      const reset = document.createElement("button");
+      reset.type = "button";
+      reset.className = "misp-table-reset";
+      reset.textContent = "Clear filters";
+      toolbar.append(reset);
+      const status = document.createElement("p");
+      status.className = "misp-table-status";
+      status.id = prefix + "-status";
+      status.setAttribute("role", "status");
+      status.setAttribute("aria-live", "polite");
+      status.setAttribute("aria-atomic", "true");
+      const scroll = document.createElement("div");
+      scroll.className = "misp-table-scroll";
+      scroll.tabIndex = 0;
+      scroll.setAttribute("role", "region");
+      scroll.setAttribute("aria-label", title + ". Scroll to browse results.");
+      scroll.setAttribute("aria-describedby", status.id);
+      table.before(toolbar, status, scroll);
+      scroll.append(table);
+      const caption = table.caption || table.createCaption();
+      caption.textContent = title;
+      const headers = Array.from(table.tHead.rows[0].cells).map(cell => cell.textContent.trim());
+      // Preserve table semantics when narrow-screen rows are presented as cards.
+      table.setAttribute("role", "table");
+      table.tHead.setAttribute("role", "rowgroup");
+      Array.from(table.tHead.rows).forEach(row => {
+        row.setAttribute("role", "row");
+        Array.from(row.cells).forEach(cell => {
+          cell.scope = "col";
+          cell.setAttribute("role", "columnheader");
+        });
+      });
+      Array.from(table.tBodies).forEach(body => body.setAttribute("role", "rowgroup"));
+      rows.forEach(row => {
+        row.setAttribute("role", "row");
+        Array.from(row.cells).forEach((cell, column) => {
+          cell.dataset.label = headers[column];
+          cell.setAttribute("role", "cell");
+        });
+      });
+      const filter = () => {
+        const words = query.value.normalize("NFKC").toLowerCase().trim().split(/\s+/).filter(Boolean);
+        let count = 0;
+        items.forEach(item => {
+          const match = words.every(word => item.text.includes(word)) &&
+            (!category.value || item.categories.includes(category.value)) &&
+            (!detection.value || item.ids === detection.value);
+          item.row.hidden = !match;
+          if (match) count++;
+        });
+        status.textContent = count + " of " + items.length + " types" +
+          (count ? ". Category matches include every allowed category, not only the default." : ". No matches. Clear or change the filters.");
+        scroll.scrollTop = 0;
+      };
+      query.addEventListener("input", filter);
+      category.addEventListener("change", filter);
+      detection.addEventListener("change", filter);
+      reset.addEventListener("click", () => {
+        query.value = category.value = detection.value = "";
+        filter();
+        query.focus();
+      });
+      container.dataset.enhanced = "true";
+      filter();
+    });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", enhanceReferences);
+  else enhanceReferences();
+})();
+</script>

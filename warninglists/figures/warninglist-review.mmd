@@ -1,0 +1,7 @@
+flowchart TD
+  accTitle: Review a warninglist hit before choosing an action
+  accDescr: Match a value against enabled list rules, inspect the list source and matched entry, compare with the observation and audience, then choose detection and export handling while retaining useful investigation context.
+  M["Enabled list match<br/>Value · rule · matched entry"] --> S["Inspect list context<br/>Source · version · category"]
+  S --> O["Review the observation<br/>Role · evidence · audience"]
+  O --> D["Choose detection/export handling<br/>Keep or exclude for this use"]
+  O --> C["Retain useful context<br/>Record the assessment"]

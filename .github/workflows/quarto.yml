@@ -23,6 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check generated data model reference
+        run: python3 assets/data-model/generate_reference.py --check
+
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:

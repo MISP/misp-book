@@ -1,0 +1,7 @@
+flowchart TD
+  accTitle: Object templates, observed instances and references
+  accDescr: A template specifies an object's relations and requirements. The observed object instance owns a UUID and contains attributes with their own UUID, type, value and flags. A directional reference connects it to another observed object or attribute.
+  T["Object template<br/>UUID · version · requirements"] -- Defines shape --> O["Observed object<br/>Object UUID · context"]
+  O --> A["Contained attribute<br/>UUID · relation · type<br/>Value · IDS · distribution"]
+  O -- Directional reference --> R["Other observed object<br/>or attribute UUID"]
+  A --> V["Stored value address<br/>May be shared by other occurrences"]

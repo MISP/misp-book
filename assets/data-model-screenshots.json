@@ -1,0 +1,622 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17",
+    "app/files/misp-objects": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326",
+    "app/files/misp-galaxy": "306db6a359edbe1cf7cdc86ab1c8a9c1ff1f4a96",
+    "app/files/misp-workflow-blueprints": "2337bdeb8c0aa7125db3a410fdb6a54ec50d6865",
+    "app/files/noticelists": "028f569e26b5b47286167b7d39f81cd1791eb04e"
+  },
+  "generated_at": "2026-11-06T16:36:32.512626+00:00",
+  "scope_chapters": [
+    "categories-and-types/index.qmd",
+    "taxonomy/index.qmd",
+    "galaxy/index.qmd",
+    "misp-objects/index.qmd",
+    "warninglists/index.qmd",
+    "noticelists/index.qmd"
+  ],
+  "capture_method": "Chromium/Playwright against the pinned application. Twenty fresh viewport or real modal/card screenshots, without retouching, added arrows or invented interface elements. The galaxy matrix is the styled Matrix tab. Forms/review are actual unsaved drafts. Reserved domains/IPs and synthetic local data only; no credentials or personal values shown.",
+  "fixture": {
+    "event_id": 12,
+    "event_uuid": "efdd34d2-83a6-4483-8c1d-7b63cafb7241",
+    "objects": {
+      "domain-ip": {
+        "id": 3,
+        "uuid": "a4028a4f-a0a5-4f8b-8857-8ece344f8609"
+      },
+      "ip-port": {
+        "id": 4,
+        "uuid": "b3d8ebd8-04bc-4db0-a4fc-d126aed23b7c"
+      }
+    },
+    "warninglist_id": 228,
+    "warninglist_check": {
+      "api.example.org": [
+        {
+          "id": 228,
+          "name": "Documentation example domains",
+          "matched": "example.org"
+        }
+      ],
+      "sub.api.example.org": [
+        {
+          "id": 228,
+          "name": "Documentation example domains",
+          "matched": "example.org"
+        }
+      ]
+    },
+    "noticelist": {
+      "id": 1,
+      "original_enabled": false
+    },
+    "country_cluster": {
+      "id": 2585,
+      "uuid": "84668357-5a8c-4bdd-9f0f-6b50b24c5558",
+      "value": "luxembourg"
+    },
+    "verification": {
+      "private_unpublished_event": true,
+      "all_detection_flags_off": true,
+      "template_objects_created": true,
+      "single_attribute_object_allowed_by_template": true,
+      "object_reference_created": true,
+      "local_default_cluster_attached": true,
+      "hostname_warninglist_exact_subdomain_and_nonmatch": true,
+      "value_address_lookup": true,
+      "private_unpublished_custom_clusters_and_relation": true,
+      "required_taxonomy_missing_detected": true,
+      "event_tag_satisfies_required_taxonomy": true,
+      "no_publication_called": true,
+      "known_warninglist_export_filter_excludes_matches": true,
+      "local_only_galaxy_rejects_global_attachment": true,
+      "one_directional_object_reference": true,
+      "all_fixture_events_unpublished": true,
+      "object_ui_review_without_save": true,
+      "notice_ui_category_trigger_without_save": true,
+      "configuration_restored": true,
+      "notice_enabled_state_restored": true,
+      "synthetic_warninglist_disabled_after_capture": true,
+      "all_events_and_custom_clusters_remain_unpublished": true
+    },
+    "custom_galaxy": {
+      "id": 137,
+      "uuid": "34139988-0f7f-4a54-b8eb-2075a64ab739"
+    },
+    "custom_clusters": [
+      {
+        "id": 58434,
+        "uuid": "3690d77e-334b-4253-8195-4d464ccd8443",
+        "value": "Training infrastructure"
+      },
+      {
+        "id": 58435,
+        "uuid": "f136a780-fc9d-487e-8ad0-b3024ec4181c",
+        "value": "Training observation"
+      }
+    ]
+  },
+  "shots": [
+    {
+      "file": "taxonomy/figures/misp3-taxonomies.png",
+      "url": "/taxonomies/index",
+      "description": "Actual taxonomy index with installed versions and independent enabled/required/highlighted/tag state",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:33.106419+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "eebe3aa06402bb897f6d8a5480010302ca3f327004b2262c5b46d9dd33e4b83d"
+    },
+    {
+      "file": "taxonomy/figures/misp3-taxonomy-detail.png",
+      "url": "/taxonomies/view/171",
+      "description": "TLP taxonomy detail, including metadata and individual tags; no policy switches changed for capture",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:34.750050+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "dd139270e1195a717df506f949a9d1d46ed00160d821540acc6614ec4c50dd52"
+    },
+    {
+      "file": "galaxy/figures/misp3-galaxies.png",
+      "url": "/galaxies/index",
+      "description": "Installed galaxies loaded from the pinned local definitions, with enabled and local-only state",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:36.358062+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "8e0ef6d59b11b1c5d7c80df2eb97cdc38e433c57aece73b5a7e3af0563ab2285"
+    },
+    {
+      "file": "galaxy/figures/misp3-galaxy-detail.png",
+      "url": "/galaxies/view/18",
+      "description": "Country galaxy with cluster catalogue and usage context",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:37.965002+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "0d5193d7042e4964fe4915511b7f45483482fe0a101ee8bee646dd13600ee1ca"
+    },
+    {
+      "file": "galaxy/figures/misp3-cluster-detail.png",
+      "url": "/galaxy_clusters/view/2585",
+      "description": "Neutral Luxembourg country entry, elements, relations and private exercise usage",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:39.635412+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "fbb3f5381c5c82590260eb6054d0d10794e3d7755545a3d3b8aed73cc4da5272"
+    },
+    {
+      "file": "galaxy/figures/misp3-custom-cluster.png",
+      "url": "/galaxy_clusters/view/58434",
+      "description": "Private custom cluster and relationship context; unpublished and never synchronized",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:41.287721+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "3416cc89ab1d6b67669254d2e216b85bef680a0921432e7a4aa167f2a7cfdd93"
+    },
+    {
+      "file": "misp-objects/figures/misp3-object-template.png",
+      "url": "/objectTemplates/view/221",
+      "description": "Pinned ip-port template, version, required-one-of relations and usage",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:42.888439+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "5d445dff583c599e24ad009c94139aca1e61bfd2fa0c9d553ef371a3772390a2"
+    },
+    {
+      "file": "warninglists/figures/misp3-warninglists.png",
+      "url": "/warninglists/index",
+      "description": "Current warninglist catalogue and matching/category/origin flags",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:45.986218+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "0222803bebb72dae2900ca8a3a5999b487c8dcd3377dc730c5d24e9885115f62"
+    },
+    {
+      "file": "warninglists/figures/misp3-warninglist-match.png",
+      "url": "/warninglists/index/matchValue:api.example.org",
+      "description": "Actual enabled hostname match against the local reserved example.org list",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:47.575770+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "05e4975dce750b364e0558f00ee0b69df47dd11026ad4152aced1b02027f224c"
+    },
+    {
+      "file": "noticelists/figures/misp3-noticelist-detail.png",
+      "url": "/noticelists/view/1",
+      "description": "Pinned GDPR notice messages, source references and implemented trigger context",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:49.183620+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "9b35abd60392ab0c500b52f39e392ac0bdad0ab708b32b5c946e432099f62d66"
+    },
+    {
+      "file": "taxonomy/figures/misp3-taxonomy-picker.png",
+      "url": "/events/view/12",
+      "description": "Actual classification picker for the private exercise event; no picker changes saved",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:51.989470+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 846
+      },
+      "sha256": "facabfae9323c9568f1d920934cb7b70000b296c0dcc2925a3e43084d72392f7"
+    },
+    {
+      "file": "galaxy/figures/misp3-cluster-picker.png",
+      "url": "/events/view/12",
+      "description": "Actual galaxy attachment picker with target and local/global controls; no changes saved",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:23:54.834941+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 846
+      },
+      "sha256": "cf9e9de6899aef31a0558a8b8b5c9af84fbc313381471d737617493d9e542e23"
+    },
+    {
+      "file": "misp-objects/figures/misp3-object-picker.png",
+      "url": "/events/view/12",
+      "description": "Current object template picker, with searchable template and meta-category controls",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:24:00.338204+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 414
+      },
+      "sha256": "b6ca54c7d5ff09440caabb1d11067b82140edf68a7505ce2a1a33966b464184e"
+    },
+    {
+      "file": "misp-objects/figures/misp3-object-form.png",
+      "url": "/events/view/12",
+      "description": "Two actual ip-port relation cards; values reserved, IDS off and parent distribution inherited, before saving",
+      "role": "Site administrator",
+      "selector": ".modal.show .ov-obj-cards[data-group=\"oneof\"]",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:24:03.347264+00:00",
+      "image_size": {
+        "width": 1050,
+        "height": 393
+      },
+      "sha256": "7b547fe6f8a835e88bbd07c3e2ed3297786efb70c37664cc421296d30bc3fece"
+    },
+    {
+      "file": "misp-objects/figures/misp3-object-review.png",
+      "url": "/events/view/12",
+      "description": "Actual server-rendered object review with two reserved values and IDS off; no final save",
+      "role": "Site administrator",
+      "selector": "#objReviewBody",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:24:05.014218+00:00",
+      "image_size": {
+        "width": 1058,
+        "height": 173
+      },
+      "sha256": "842a8172e5b1d9d6603e5bc18b2a6545f562aa4dcdcae77103510486a9ecf540"
+    },
+    {
+      "file": "misp-objects/figures/misp3-event-objects.png",
+      "url": "/events/view/12#tab-objects",
+      "description": "Saved private domain-ip and single-attribute ip-port objects with directional related-to reference",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:24:08.364094+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1150
+      },
+      "sha256": "b7fa2f41d70b086bcb7af0dc9d03df4bb0b0d0d7d6935a4774b41e5fb3dda7f5"
+    },
+    {
+      "file": "warninglists/figures/misp3-warninglist-event.png",
+      "url": "/events/view/12",
+      "description": "Real warning context shown with warning_for_all on; saved IDS flags stay off",
+      "role": "Site administrator",
+      "selector": "#warninglist-card",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:24:10.341943+00:00",
+      "image_size": {
+        "width": 336,
+        "height": 153
+      },
+      "sha256": "c4eb7c9ce51b46eb67ac5088579b2a0941d97cf58c3828cecb19aefb54ca3a64"
+    },
+    {
+      "file": "warninglists/figures/misp3-warninglist-form.png",
+      "url": "/warninglists/index",
+      "description": "Synthetic local hostname list in the actual edit form; no changes saved",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:24:13.993752+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 914
+      },
+      "sha256": "2d67ec924ab49b861d9c66fca2d95b7039cb3d363e132e420f7e2ae83e41cbdd"
+    },
+    {
+      "file": "noticelists/figures/misp3-notice-form.png",
+      "url": "/events/view/12",
+      "description": "Actual category-triggered GDPR notice in an unsaved attribute form; no personal value entered or saved",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:24:17.267665+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 1132
+      },
+      "sha256": "a28adfed509827429583f905c453a1dcbbc6cb30709d6949c3b04ef5b18e8631"
+    },
+    {
+      "file": "galaxy/figures/misp3-galaxy-matrix.png",
+      "url": "/galaxies/view/50#tab-matrix",
+      "description": "Actual Matrix tab within the styled galaxy page, using pinned ATT&CK definitions; no techniques selected or attached",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1600,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T16:29:40.426946+00:00",
+      "image_size": {
+        "width": 1600,
+        "height": 1000
+      },
+      "sha256": "73de3cb82eea6afc579d2756108f8b4ecb4cdb4cd0f6a83687ab8d06fe602d7f"
+    }
+  ],
+  "diagrams": [
+    {
+      "source": "categories-and-types/figures/data-model-layers.mmd",
+      "file": "categories-and-types/figures/data-model-layers.svg",
+      "source_sha256": "7d3a7c91465b311d5cd3003275447663da423050723a43488b83c5664b1fddd6",
+      "sha256": "b530a84796c4c4a1a3d7f99d3baf5585535d71e4f5c01167a9295f876a3f6a2c",
+      "viewBox": "0 0 772.55078125 490.6000061035156"
+    },
+    {
+      "source": "taxonomy/figures/taxonomy-scope.mmd",
+      "file": "taxonomy/figures/taxonomy-scope.svg",
+      "source_sha256": "2b272978bd34031b8d0e67fb4e7443b97b2c3350cc69941732b4d6cccee91137",
+      "sha256": "c042a40dfbf0f8ed7d292222a0e95f004bf45aeaaf736dd2b1f998d7d658b96c",
+      "viewBox": "0 0 495.9765625 564.5999755859375"
+    },
+    {
+      "source": "galaxy/figures/galaxy-context.mmd",
+      "file": "galaxy/figures/galaxy-context.svg",
+      "source_sha256": "9d960fff107c015da9f2159d8a2ea4ce4b38ee2c5f2a1a098a0a607c0c9f257c",
+      "sha256": "4c9a01977ddbdbb8122f175093b1e37afcdfaa080368dada708947659f725a9e",
+      "viewBox": "0 0 572.59375 490.5999755859375"
+    },
+    {
+      "source": "misp-objects/figures/object-structure.mmd",
+      "file": "misp-objects/figures/object-structure.svg",
+      "source_sha256": "68d44b49ae2eea09044cd5b43a3d4538e7be23ccbeb7934f25beecad7b02772f",
+      "sha256": "6ce83f949153c963d13d38916ff473122829ca0c7769005d743685af39c73be4",
+      "viewBox": "0 0 559.921875 531.2000122070312"
+    },
+    {
+      "source": "warninglists/figures/warninglist-review.mmd",
+      "file": "warninglists/figures/warninglist-review.svg",
+      "source_sha256": "8ad9347e7f06ea1797f37d0a5365d0d6635f13f8639e06d1265ca338b42b4939",
+      "sha256": "d629162243c3c8a8b0626b766477b1959b3db6c67914f4e6c22e043ed0f4b110",
+      "viewBox": "0 0 571.5 520.4000244140625"
+    }
+  ],
+  "retired_legacy_assets": [
+    "galaxy/figures/Alias.png",
+    "galaxy/figures/EventWithoutCluster.png",
+    "galaxy/figures/GalaxyList.png",
+    "galaxy/figures/GalaxyMenu.png",
+    "galaxy/figures/GalaxyPopup.png",
+    "galaxy/figures/GalaxyUpdate.png",
+    "galaxy/figures/GalaxyView.png",
+    "galaxy/figures/Matrix.png",
+    "galaxy/figures/NewThreatActor.png",
+    "galaxy/figures/Search.png",
+    "misp-objects/figures/add_object.png",
+    "misp-objects/figures/object_ipport.png",
+    "misp-objects/figures/object_picker.png",
+    "misp-objects/figures/object_preview.png",
+    "noticelists/figures/noticelist-attribute.png",
+    "noticelists/figures/noticelist-index.png",
+    "taxonomy/figures/enableTaxonomy.png",
+    "taxonomy/figures/exclusive-conflict.png",
+    "taxonomy/figures/highlight-event.png",
+    "taxonomy/figures/highlight-list-event.png",
+    "taxonomy/figures/missing-taxo.png",
+    "taxonomy/figures/publishing-without-required.png",
+    "taxonomy/figures/tag-box.png",
+    "taxonomy/figures/taxonomies-index.png",
+    "taxonomy/figures/taxonomy-explanation.png",
+    "taxonomy/figures/taxonomy-list.png",
+    "taxonomy/figures/writeTaxonomy.png",
+    "taxonomy/figures/writeTaxonomy2.png",
+    "warninglists/figures/MISPwarninglist.png",
+    "warninglists/figures/warninglist-checkValue.png",
+    "warninglists/figures/warninglist-warnings.png"
+  ],
+  "reference": {
+    "source": {
+      "repository": "https://github.com/MISP/MISP",
+      "branch": "3.0_wip",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+      "model": "app/Model/MispAttribute.php",
+      "api": "/attributes/describeTypes",
+      "captured_at": "2026-11-06",
+      "verification": "All type/category names, allowed mappings and sane defaults match the live API; descriptions come from the same checked-out model."
+    },
+    "types": 194,
+    "categories": 16,
+    "api_comparison": "Names, allowed category/type mappings and sane_defaults compared with GET /attributes/describeTypes; descriptions from the same MispAttribute model.",
+    "files": {
+      "categories-and-types/reference/attribute-definitions.json": "bdde2a0e588730717556b2f819324711434737c541b613f4563b733eac47dfdf",
+      "categories-and-types/reference/attribute-types.csv": "53e4ea7f7f1000d26c1b5f7fc1bc8f57dbea0756314fb0cb7f9626863e548681",
+      "categories-and-types/_reference.qmd": "ac8d9f699559bfcfbc4ea896bad47de5cfae20efb8eafa875c6c9cd702483256",
+      "assets/data-model/generate_reference.py": "03f4fb56068856dc50bd840a67cd233bc43a3de3e767b473e5ccb55901f4345b"
+    },
+    "presentation": "Complete portable category definitions and a three-column type table; HTML adds local literal-text, allowed-category and IDS-default filters, live counts, keyboard scroll region, sticky headers and narrow-screen cards. All definitions remain available without JavaScript and in PDF/ePub. Browser printing reveals all rows even after filtering. CSV/JSON downloads require no live API."
+  },
+  "verification_limits": "The required-taxonomy publication check was called directly in a database transaction that was rolled back; publication itself was never called. Real private objects, directional reference, local default-cluster attachment, private custom knowledge and value/export warninglist matching were checked. No event/cluster publication, peer synchronization, external provider calls, recurring tasks or personal-data entry. Temporary display/list settings are restored after capture.",
+  "validation": {
+    "quarto": "1.9.38, complete HTML + Typst PDF + ePub render",
+    "generated_reference_check": true,
+    "live_api_snapshot_comparison": true,
+    "reference_types": 194,
+    "reference_categories": 16,
+    "legacy_rendered_anchors_preserved": 53,
+    "duplicate_main_ids": 0,
+    "fresh_ui_captures": 20,
+    "accessible_vector_diagrams": 5,
+    "retired_legacy_images": 31,
+    "desktop_width": 1440,
+    "mobile_width": 390,
+    "all_chapter_figures_decode_and_lightboxes": true,
+    "no_page_horizontal_overflow": true,
+    "table_literal_composite_search": "domain|ip returns one row; regex-like input is literal and gives an announced empty state",
+    "table_allowed_category_not_only_default": true,
+    "table_ids_default_filter": true,
+    "table_clear_restores_rows_and_focus": true,
+    "keyboard_scroll_and_sticky_headers": true,
+    "table_dark_mode": true,
+    "table_mobile_caption_and_semantics": true,
+    "table_no_javascript_complete_desktop_mobile": true,
+    "table_print_reveals_all_rows_after_filtering": true,
+    "download_csv_json_exact_source_bytes": true,
+    "epub_six_chapter_relative_links_and_fragments": 57,
+    "epub_all_new_images_embedded": true,
+    "pdf_all_type_names_present": true,
+    "html_offline_fragment_link_check": {
+      "total": 4209,
+      "unique": 931,
+      "ok": 3825,
+      "errors": 0,
+      "excluded": 384
+    },
+    "capture_secret_scan": true,
+    "temporary_runtime_settings_restored": true,
+    "capture_containers_stopped": true
+  }
+}

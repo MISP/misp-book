@@ -12,7 +12,8 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parents[2]
 CHAPTERS = ("sharing", "managing-feeds", "collections", "cryptographic-keys",
             "automation", "pymisp", "misp-zmq", "modules", "connectors",
-            "administration", "workflows", "updating-python")
+            "administration", "workflows", "updating-python",
+            "categories-and-types", "taxonomy", "galaxy", "misp-objects", "warninglists", "noticelists")
 
 
 def main():

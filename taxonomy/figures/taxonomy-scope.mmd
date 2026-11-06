@@ -1,0 +1,8 @@
+flowchart TD
+  accTitle: Classification vocabulary and attachment scope
+  accDescr: A taxonomy defines machine tags. Enabled tags are attached to an event or attribute in a local or global scope. Local attachments remain instance-local in normal sharing; global attachments still depend on target distribution and export and peer rules.
+  V["Taxonomy vocabulary<br/>Namespace · predicate · value"] --> T["Enabled machine tag"]
+  T --> A["Event or attribute attachment"]
+  A --> L["Local scope<br/>Instance context"]
+  A --> G["Global scope<br/>Eligible for sharing"]
+  G --> R["Check target distribution<br/>Exportability · peer filters"]

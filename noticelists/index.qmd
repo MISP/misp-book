@@ -1,41 +1,71 @@
 ---
 title: "Notice Lists"
+format:
+  html:
+    lightbox: true
 ---
+
+Notice lists show guidance when a user enters a kind of data that needs attention. A notice
+can remind an analyst to consider personal data, handling obligations or another policy issue.
+It informs a decision; it is not a proof of compliance, a value lookup or an automatic access rule.
+
+::: {.callout-note}
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+The bundled definitions come from [misp-noticelist](https://github.com/MISP/misp-noticelist).
+The training example previews the form without saving personal information.
+:::
+
+<!-- Definition pin, supported trigger checks and captures: ../assets/data-model-screenshots.json -->
+
+<a id="how-notices-are-triggered"></a>
 <a id="misp-noticelist"></a>
 
+## Understand what triggers a notice {#noticelists-triggers}
 
-Notice lists inform MISP users about the legal, privacy, policy or technical
-implications of using specific attributes, categories or objects. They are a way
-for a community to attach guidance to particular kinds of data — for example
-reminding users of a handling requirement when they add an attribute that matches
-a sensitive pattern.
+In the pinned implementation, active notices on the attribute form are selected by the
+attribute's **category** and **type**. Do not assume a notice searches arbitrary value patterns,
+examines all object contents or runs a general policy engine merely because a definition
+contains other metadata.
 
-## How notices are triggered
+::: {.table-responsive}
 
-Each notice list is a simple JSON description that pairs a set of triggers (by
-attribute type, category, object, or value pattern) with an informational
-message. When you enter or edit data that matches an active notice list — for
-example while adding an attribute — MISP shows the corresponding notice inline on
-the form, so you are made aware of the implication before you save. Notices are
-purely informational: they warn and inform, they do not block the action.
+| Mechanism | What it evaluates |
+|---|---|
+| Notice list | Supported category/type selections and informational messages on the form. |
+| Warninglist | Actual values matched using enabled lists and their matching rules. |
+| Taxonomy | Classification/handling vocabulary and its configured consistency requirements. |
+| Distribution / sharing groups | Audience and sharing eligibility. |
+| Blocking workflow / intake rule | An explicitly configured operational constraint. |
 
-![The GDPR notice list message displayed inline while adding a personal-data attribute.](./figures/noticelist-attribute.png)
+:::
 
-## Managing notice lists
+The form displays the relevant message as category/type choices change. Read the full text and
+source reference, then decide whether the observation is necessary and how it should be scoped.
+A notice does not block saving, change the IDS flag or automatically apply every suggested tag.
 
-Notice lists are managed from the administration menu:
+![A real notice in the MISP 3.0 attribute form. The synthetic draft has not been saved.](figures/misp3-notice-form.png)
 
-*   **List Noticelists** shows every notice list on the instance, whether it is
-    enabled, and its contents. Only enabled notice lists produce notices.
-*   **Enable / disable** a notice list to control whether it is active.
-*   **Update Noticelists** re-imports the bundled notice lists from the
-    [misp-noticelist](https://github.com/MISP/misp-noticelist) library. The same
-    update is available on the command line with
-    `cake Admin updateNoticeLists` (handy for a cron job — see the
-    [administration](../administration/index.qmd) chapter).
+<a id="managing-notice-lists"></a>
 
-![The notice lists index, showing the bundled GDPR notice list.](./figures/noticelist-index.png)
+## Browse, enable and update definitions {#noticelists-management}
 
-The set of notice lists is maintained by the community in the
-[MISP notice list repository](https://github.com/MISP/misp-noticelist); you can
-contribute new ones there, or add your own locally.
+Open **Data models → Filters & Lists → Noticelists** (`/noticelists/index`) to inspect installed lists and enabled
+state. Open a list for its messages, references, geographical area and trigger summary.
+Only enabled definitions contribute notice data to the supported form checks.
+
+![The current notice-list detail view exposes its messages, source references and trigger summary.](figures/misp3-noticelist-detail.png)
+
+An administrator can enable/disable a list and import updates using **Update Noticelists** or
+`cake Admin updateNoticeLists`. Deploy the intended `app/files/noticelists` revision first;
+newly imported lists start disabled, while a version update preserves an existing list's
+active state. A file update alone is not a database import.
+
+If a notice does not appear, check enablement, definition version, the supported trigger field
+and the form actually in use. A notice present on one entry form is not a guarantee that every
+API/import path presents or enforces it.
+
+For local definitions or contributions, follow the upstream schema and supported message/
+trigger structure. Keep custom policy under version control, test matching and non-matching
+category/type selections, and retain a link to the source guidance. Use the separate
+[warninglist](../warninglists/index.qmd#warninglists-use), [classification](../taxonomy/index.qmd#taxonomy-machine-tags) and
+[sharing controls](../sharing/index.qmd#sharing-overview) for the decisions those mechanisms actually implement.

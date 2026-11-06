@@ -1,0 +1,195 @@
+Attribute type,Default category,IDS default,Allowed categories,Description
+aba-rtn,Financial fraud,1,Financial fraud,ABA routing transit number
+anonymised,Other,0,Antivirus detection; Artifacts dropped; Attribution; External analysis; Financial fraud; Internal reference; Network activity; Other; Payload delivery; Payload installation; Payload type; Persistence mechanism; Person; Social network; Support Tool; Targeting data,Anonymised value - described with the anonymisation object via a relationship
+AS,Network activity,0,External analysis; Network activity; Payload delivery,Autonomous system
+attachment,External analysis,0,Antivirus detection; Artifacts dropped; External analysis; Network activity; Payload delivery; Payload installation; Support Tool,Attachment with external information
+authentihash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,Authenticode executable signature hash
+azure-application-id,Payload delivery,1,Payload delivery; Payload installation,Azure Application ID.
+bank-account-nr,Financial fraud,1,Financial fraud,Bank account number without any routing number
+bic,Financial fraud,1,Financial fraud,"Bank Identifier Code Number also known as SWIFT-BIC, SWIFT code or ISO 9362 code"
+bin,Financial fraud,1,Financial fraud,Bank Identification Number
+boolean,Other,0,Other,Boolean value - to be used in objects
+bro,Network activity,1,External analysis; Network activity,An NIDS rule in the Bro rule-format
+btc,Financial fraud,1,Financial fraud,Bitcoin Address
+campaign-id,Attribution,0,Attribution,Associated campaign ID
+campaign-name,Attribution,0,Attribution,Associated campaign name
+cc-number,Financial fraud,1,Financial fraud,Credit-Card Number
+cdhash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,"An Apple Code Directory Hash, identifying a code-signed Mach-O executable file"
+chrome-extension-id,Payload delivery,1,Payload delivery; Payload installation,Chrome extension id
+comment,Other,0,Antivirus detection; Artifacts dropped; Attribution; External analysis; Financial fraud; Internal reference; Network activity; Other; Payload delivery; Payload installation; Payload type; Persistence mechanism; Person; Social network; Support Tool; Targeting data,Comment or description in a human language
+community-id,Network activity,1,External analysis; Network activity,A community ID flow hashing algorithm to map multiple traffic monitors into common flow id
+cookie,Network activity,0,Artifacts dropped; Network activity,HTTP cookie as often stored on the user web client. This can include authentication cookie or session cookie.
+cortex,External analysis,0,External analysis,Cortex analysis result
+counter,Other,0,Other,"An integer counter, generally to be used in objects"
+country-of-residence,Person,0,Person,The country of residence of a natural person
+cpe,External analysis,0,External analysis; Other; Payload delivery; Payload installation,"Common Platform Enumeration - structured naming scheme for information technology systems, software, and packages."
+dash,Financial fraud,1,Financial fraud,Dash Address
+date-of-birth,Person,0,Person,Date of birth of a natural person (in YYYY-MM-DD format)
+datetime,Other,0,Other,Datetime in the ISO 8601 format
+dkim,Network activity,0,Network activity,DKIM public key
+dkim-signature,Network activity,0,Network activity,DKIM signature
+dns-soa-email,Attribution,0,Attribution,RFC 1035 mandates that DNS zones should have a SOA (Statement Of Authority) record that contains an email address where a PoC for the domain could be contacted. This can sometimes be used for attribution/linkage between different domains even if protected by whois privacy
+dom-hash,Network activity,1,External analysis; Network activity,A dom-hash algorithm is a structural fingerprint of an HTML Document Object Model where all tag names are contained in a single string separated by a pipe. The truncated SHA252 value by the first 32-character serves as fingerprint.
+domain,Network activity,1,External analysis; Network activity; Payload delivery,A domain name used in the malware
+domain|ip,Network activity,1,External analysis; Network activity,A domain name and its IP address (as found in DNS lookup) separated by a |
+edge-extension-id,Payload delivery,1,Payload delivery; Payload installation,Edge extension id
+email,Social network,1,Attribution; Network activity; Payload delivery; Person; Social network,An email address
+email-attachment,Payload delivery,1,Payload delivery,File name of the email attachment.
+email-body,Payload delivery,0,Payload delivery,Email body
+email-dst,Network activity,1,Network activity; Payload delivery; Social network,The destination email address. Used to describe the recipient when describing an e-mail.
+email-dst-display-name,Payload delivery,0,Payload delivery,Email destination display name
+email-header,Payload delivery,0,Payload delivery,Email header
+email-message-id,Payload delivery,0,Payload delivery,The email message ID
+email-mime-boundary,Payload delivery,0,Payload delivery,The email mime boundary separating parts in a multipart email
+email-reply-to,Payload delivery,0,Payload delivery,Email reply to header
+email-src,Payload delivery,1,Network activity; Payload delivery; Social network,The source email address. Used to describe the sender when describing an e-mail.
+email-src-display-name,Payload delivery,0,Payload delivery,Email source display name
+email-subject,Payload delivery,0,Network activity; Payload delivery,The subject of the email
+email-thread-index,Payload delivery,0,Payload delivery,The email thread index header
+email-x-mailer,Payload delivery,0,Payload delivery,Email x-mailer header
+eppn,Network activity,1,Network activity; Social network,"eduPersonPrincipalName - eppn - the NetId of the person for the purposes of inter-institutional authentication. Should be stored in the form of user@univ.edu, where univ.edu is the name of the local security domain."
+favicon-mmh3,Network activity,1,Network activity,favicon-mmh3 is the murmur3 hash of a favicon as used in Shodan.
+filename,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation; Persistence mechanism,Filename
+filename-pattern,Payload installation,1,Artifacts dropped; External analysis; Network activity; Payload delivery; Payload installation,A pattern in the name of a file
+filename|authentihash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and Authenticode executable signature hash
+filename|impfuzzy,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,Import fuzzy hash - a fuzzy hash created based on the imports in the sample.
+filename|imphash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,Import hash - a hash created based on the imports in the sample.
+filename|md5,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A filename and an MD5 hash separated by a |
+filename|pehash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and a peHash separated by a |
+filename|sha1,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A filename and an SHA1 hash separated by a |
+filename|sha224,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and a SHA-224 hash separated by a |
+filename|sha256,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A filename and an SHA256 hash separated by a |
+filename|sha3-224,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A filename and an SHA3-224 hash separated by a |
+filename|sha3-256,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A filename and an SHA3-256 hash separated by a |
+filename|sha3-384,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A filename and an SHA3-384 hash separated by a |
+filename|sha3-512,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A filename and an SHA3-512 hash separated by a |
+filename|sha384,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and a SHA-384 hash separated by a |
+filename|sha512,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and a SHA-512 hash separated by a |
+filename|sha512/224,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and a SHa-512/224 hash separated by a |
+filename|sha512/256,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and a SHA-512/256 hash separated by a |
+filename|ssdeep,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A checksum in ssdeep format
+filename|tlsh,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and a Trend Micro Locality Sensitive Hash separated by a |
+filename|vhash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A filename and a VirusTotal hash separated by a |
+first-name,Person,0,Person,First name of a natural person
+float,Other,0,Other,A floating point value.
+frequent-flyer-number,Person,0,Person,The frequent flyer number of a passenger
+full-name,Person,0,Person,Full name of a natural person
+gender,Person,0,Person,"The gender of a natural person (Male, Female, Other, Prefer not to say)"
+gene,Artifacts dropped,0,Artifacts dropped,GENE - Go Evtx sigNature Engine
+git-commit-id,Internal reference,0,Internal reference,A Git commit ID.
+github-organisation,Social network,0,Social network,A GitHub organisation
+github-repository,Social network,0,External analysis; Social network,A GitHub repository
+github-username,Social network,0,Social network,A GitHub user name
+hassh-md5,Network activity,1,External analysis; Network activity; Payload delivery,"hassh is a network fingerprinting standard which can be used to identify specific Client SSH implementations. The fingerprints can be easily stored, searched and shared in the form of an MD5 fingerprint."
+hasshserver-md5,Network activity,1,External analysis; Network activity; Payload delivery,"hasshServer is a network fingerprinting standard which can be used to identify specific Server SSH implementations. The fingerprints can be easily stored, searched and shared in the form of an MD5 fingerprint."
+hex,Other,0,Antivirus detection; Artifacts dropped; Financial fraud; Internal reference; Network activity; Other; Payload delivery; Payload installation; Persistence mechanism; Support Tool,A value in hexadecimal format
+hostname,Network activity,1,External analysis; Network activity; Payload delivery,A full host/dnsname of an attacker
+hostname|port,Network activity,1,Network activity; Payload delivery,Hostname and port number separated by a |
+http-method,Network activity,0,Network activity,"HTTP method used by the malware (e.g. POST, GET, ...)."
+iban,Financial fraud,1,Financial fraud,International Bank Account Number
+identity-card-number,Person,0,Person,Identity card number
+impfuzzy,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A fuzzy hash of import table of Portable Executable format
+imphash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,Import hash - a hash created based on the imports in the sample.
+integer,Other,0,Other,A generic integer generally to be used in objects
+ip-dst,Network activity,1,External analysis; Network activity; Payload delivery,A destination IP address of the attacker or C&C server
+ip-dst|port,Network activity,1,External analysis; Network activity; Payload delivery,IP destination and port number separated by a |
+ip-src,Network activity,1,External analysis; Network activity; Payload delivery,A source IP address of the attacker
+ip-src|port,Network activity,1,External analysis; Network activity; Payload delivery,IP source and port number separated by a |
+issue-date-of-the-visa,Person,0,Person,The date on which the visa was issued
+ja3-fingerprint-md5,Network activity,1,External analysis; Network activity; Payload delivery,JA3 is a method for creating SSL/TLS client fingerprints that should be easy to produce on any platform and can be easily shared for threat intelligence.
+jabber-id,Social network,0,Social network,Jabber ID
+jarm-fingerprint,Network activity,1,External analysis; Network activity; Payload delivery,JARM is a method for creating SSL/TLS server fingerprints.
+kusto-query,Artifacts dropped,0,Artifacts dropped,Kusto query - Kusto from Microsoft Azure is a service for storing and running interactive analytics over Big Data.
+last-name,Person,0,Person,Last name of a natural person
+link,External analysis,0,Antivirus detection; External analysis; Internal reference; Payload delivery; Support Tool,Link to an external information
+mac-address,Network activity,0,External analysis; Network activity; Payload delivery,MAC address
+mac-eui-64,Network activity,0,External analysis; Network activity; Payload delivery,MAC EUI-64 address
+malware-sample,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,Attachment containing encrypted malware sample
+malware-type,Payload delivery,0,Payload delivery; Payload installation,
+md5,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A checksum in MD5 format
+middle-name,Person,0,Person,Middle name of a natural person
+mime-type,Artifacts dropped,0,Artifacts dropped; Payload delivery; Payload installation,A media type (also MIME type and content type) is a two-part identifier for file formats and format contents transmitted on the Internet
+mobile-application-id,Payload delivery,1,Payload delivery; Payload installation,The application id of a mobile application
+mutex,Artifacts dropped,1,Artifacts dropped,"Mutex, use the format \BaseNamedObjects\<Mutex>"
+named pipe,Artifacts dropped,0,Artifacts dropped,"Named pipe, use the format \.\pipe\<PipeName>"
+nationality,Person,0,Person,The nationality of a natural person
+onion-address,Network activity,1,External analysis; Network activity; Payload delivery,"Onion service (formerly known as ""hidden service"") address"
+other,Other,0,Antivirus detection; Artifacts dropped; Attribution; External analysis; Financial fraud; Internal reference; Network activity; Other; Payload delivery; Payload installation; Payload type; Persistence mechanism; Person; Social network; Support Tool,Other attribute
+passenger-name-record-locator-number,Person,0,Person,"The Passenger Name Record Locator is a key under which the reservation for a trip is stored in the system. The PNR contains, among other data, the name, flight segments and address of the passenger. It is defined by a combination of five or six letters and numbers."
+passport-country,Person,0,Person,The country in which the passport was issued
+passport-expiration,Person,0,Person,The expiration date of a passport
+passport-number,Person,0,Person,The passport number of a natural person
+pattern-in-file,Payload installation,1,Artifacts dropped; External analysis; Network activity; Payload delivery; Payload installation,Pattern in file that identifies the malware
+pattern-in-memory,Payload installation,1,Artifacts dropped; External analysis; Payload installation,Pattern in memory dump that identifies the malware
+pattern-in-traffic,Network activity,1,External analysis; Network activity; Payload delivery; Payload installation,Pattern in network traffic that identifies the malware
+payment-details,Person,0,Person,Payment details
+pdb,Artifacts dropped,0,Artifacts dropped,Microsoft Program database (PDB) path information
+pehash,Payload delivery,1,Payload delivery; Payload installation,peHash - a hash calculated based of certain pieces of a PE executable file
+pgp-private-key,Person,0,Artifacts dropped; Other; Person; Social network,A PGP private key
+pgp-public-key,Person,0,Artifacts dropped; Other; Person; Social network,A PGP public key
+phone-number,Person,0,Financial fraud; Other; Person,Telephone Number
+place-of-birth,Person,0,Person,Place of birth of a natural person
+place-port-of-clearance,Person,0,Person,The port of clearance
+place-port-of-onward-foreign-destination,Person,0,Person,A Port where the passenger is transiting to
+place-port-of-original-embarkation,Person,0,Person,The original port of embarkation
+port,Network activity,0,Network activity; Other,Port number
+primary-residence,Person,0,Person,The primary residence of a natural person
+process-state,Artifacts dropped,0,Artifacts dropped,State of a process
+prtn,Financial fraud,1,Financial fraud,Premium-Rate Telephone Number
+redress-number,Person,0,Person,The Redress Control Number is the record identifier for people who apply for redress through the DHS Travel Redress Inquiry Program (DHS TRIP). DHS TRIP is for travelers who have been repeatedly identified for additional screening and who want to file an inquiry to have erroneous information corrected in DHS systems
+regkey,Persistence mechanism,1,Artifacts dropped; External analysis; Persistence mechanism,Registry key or value
+regkey|value,Persistence mechanism,1,Artifacts dropped; External analysis; Persistence mechanism,Registry value + data separated by |
+sha1,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A checksum in SHA1 format
+sha224,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A checksum in SHA-224 format
+sha256,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A checksum in SHA256 format
+sha3-224,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A checksum in SHA3-224 format
+sha3-256,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A checksum in SHA3-256 format
+sha3-384,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A checksum in SHA3-384 format
+sha3-512,Payload delivery,1,Artifacts dropped; External analysis; Payload delivery; Payload installation,A checksum in SHA3-512 format
+sha384,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A checksum in SHA-384 format
+sha512,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A checksum in SHA-512 format
+sha512/224,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A checksum in the SHA-512/224 format
+sha512/256,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A checksum in the SHA-512/256 format
+sigma,Payload installation,1,Artifacts dropped; Payload delivery; Payload installation,Sigma - Generic Signature Format for SIEM Systems
+size-in-bytes,Other,0,Other,Size expressed in bytes
+snort,Network activity,1,External analysis; Network activity,An IDS rule in Snort rule-format
+special-service-request,Person,0,Person,A Special Service Request is a function to an airline to provide a particular facility for A Passenger or passengers.
+ssdeep,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A checksum in ssdeep format
+ssh-fingerprint,Network activity,0,Network activity,A fingerprint of SSH key material
+stix2-pattern,Payload installation,1,Artifacts dropped; Network activity; Payload delivery; Payload installation,STIX 2 pattern
+suricata,Network activity,1,External analysis; Network activity,An IDS rule in Suricata rule-format
+target-email,Targeting data,0,Targeting data,Attack Targets Email(s)
+target-external,Targeting data,0,Targeting data,External Target Organizations Affected by this Attack
+target-location,Targeting data,0,Targeting data,Attack Targets Physical Location(s)
+target-machine,Targeting data,0,Targeting data,Attack Targets Machine Name(s)
+target-org,Targeting data,0,Targeting data,Attack Targets Department or Organization(s)
+target-user,Targeting data,0,Targeting data,Attack Targets Username(s)
+telfhash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,"telfhash is symbol hash for ELF files, just like imphash is imports hash for PE files."
+text,Other,0,Antivirus detection; Artifacts dropped; Attribution; External analysis; Financial fraud; Internal reference; Network activity; Other; Payload delivery; Payload installation; Payload type; Persistence mechanism; Person; Social network; Support Tool,"Name, ID or a reference"
+threat-actor,Attribution,0,Attribution,A string identifying the threat actor
+tlsh,Payload delivery,1,Payload delivery; Payload installation,A checksum in the Trend Micro Locality Sensitive Hash format
+travel-details,Person,0,Person,Travel details
+twitter-id,Social network,0,Social network,Twitter ID
+uri,Network activity,1,Network activity,Uniform Resource Identifier
+url,Network activity,1,External analysis; Network activity; Payload delivery,Uniform Resource Locator
+user-agent,Network activity,0,External analysis; Network activity; Payload delivery,The user-agent used by the malware in the HTTP request.
+uuid,Other,0,Other,UUID - to be used in objects
+vhash,Payload delivery,1,Artifacts dropped; Payload delivery; Payload installation,A VirusTotal checksum
+visa-number,Person,0,Person,Visa number
+vulnerability,External analysis,0,External analysis; Payload delivery; Payload installation,"A reference to the vulnerability (examples: GCVE id, CVE id, GHSA id, etc)"
+weakness,External analysis,0,External analysis; Payload delivery; Payload installation,A reference to the weakness (CWE) used in the exploit
+whois-creation-date,Attribution,0,Attribution,"The date of domain's creation, obtained from the WHOIS information."
+whois-registrant-email,Attribution,0,Attribution; Payload delivery; Social network,"The e-mail of a domain's registrant, obtained from the WHOIS information."
+whois-registrant-name,Attribution,0,Attribution,"The name of a domain's registrant, obtained from the WHOIS information."
+whois-registrant-org,Attribution,0,Attribution,"The org of a domain's registrant, obtained from the WHOIS information."
+whois-registrant-phone,Attribution,0,Attribution,"The phone number of a domain's registrant, obtained from the WHOIS information."
+whois-registrar,Attribution,0,Attribution,"The registrar of the domain, obtained from the WHOIS information."
+windows-scheduled-task,Artifacts dropped,0,Artifacts dropped,A scheduled task in windows
+windows-service-displayname,Artifacts dropped,0,Artifacts dropped,"A windows service's displayname, not to be confused with the windows-service-name. This is the name that applications will generally display as the service's name in applications."
+windows-service-name,Artifacts dropped,0,Artifacts dropped,A windows service name. This is the name used internally by windows. Not to be confused with the windows-service-displayname.
+x509-fingerprint-md5,Network activity,1,Artifacts dropped; Attribution; External analysis; Network activity; Payload delivery; Payload installation,X509 fingerprint in MD5 format
+x509-fingerprint-sha1,Network activity,1,Artifacts dropped; Attribution; External analysis; Network activity; Payload delivery; Payload installation,X509 fingerprint in SHA-1 format
+x509-fingerprint-sha256,Network activity,1,Artifacts dropped; Attribution; External analysis; Network activity; Payload delivery; Payload installation,X509 fingerprint in SHA-256 format
+xmr,Financial fraud,1,Financial fraud,Monero Address
+yara,Payload installation,1,Artifacts dropped; Payload delivery; Payload installation,YARA signature
+zeek,Network activity,1,External analysis; Network activity,An NIDS rule in the Zeek rule-format

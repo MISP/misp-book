@@ -1,0 +1,8 @@
+flowchart TD
+  accTitle: Galaxy knowledge and observation attachments
+  accDescr: A galaxy organizes cluster entries. A directional cluster relationship connects two knowledge entries. A separate attachment connects a cluster to an observed event or attribute, with a local or global scope.
+  G["Galaxy definition<br/>Type · namespace · layout"] --> A["Cluster A<br/>UUID · elements · source"]
+  G --> B["Cluster B<br/>UUID · elements · source"]
+  A -- Knowledge relationship --> B
+  A --> T["Cluster tag attachment<br/>Local or global"]
+  T --> E["Event or attribute<br/>Observation and audience"]
