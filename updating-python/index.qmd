@@ -1,121 +1,185 @@
 ---
 title: "Updating Python Dependencies"
+format:
+  html:
+    lightbox: true
 ---
 
-MISP requires several Python libraries for its full feature set to work correctly.
-
-These features include the import and export tools, binary extraction from attachments, and PyMISP.
-
-------
-
-## Installation
-
-MISP uses virtual environments to make Python installation and maintenance easier.
-
-If you use the [installation scripts](https://github.com/MISP/MISP/tree/2.5/INSTALL) to set up MISP on your machine, you already have the latest required Python libraries installed in a virtual environment.
-
-If you are using an older MISP version, you may want to create the virtual environment manually.
-
-<a id="set-the-virtual-environment-up"></a>
-
-#### Set Up the Virtual Environment
-~~~~bash
-# Create a python3 virtualenv
-sudo -H -u www-data virtualenv -p python3 /var/www/MISP/venv
-
-# Make pip happy
-sudo mkdir /var/www/.cache
-sudo chown www-data:www-data /var/www/.cache
-~~~~
-If you already have a `venv` directory, you can skip this step.
-
-------
-
-## Updating MISP and its dependencies
-
-Keeping MISP as up to date as possible is the safest way to avoid most potential issues.
-
-You can do this either from the Update button in the diagnostic tool in the MISP UI or from the command line.
-
-### Updating MISP core
-
-To update MISP dependencies, first pull the latest MISP version so you also get the latest submodule references.
-
-![Update MISP from the diagnostic tool in the UI](figures/update_diagnostic.png)
-
-OR
-~~~~bash
-sudo -H -u www-data git pull origin 2.5
-~~~~
-
-Once you have the latest MISP update, you can start updating the Python libraries.
-
-### Updating the python dependencies
-
-MISP includes several submodules that support additional functionality, so it is important to keep those dependencies up to date.
-~~~~bash
-sudo -H -u www-data git submodule update --init --recursive
-~~~~
-
-#### Updating python dependencies
-
-You can check the status of all Python libraries required by MISP by using the diagnostic tool again.
-
-![Python libraries status](figures/python_diagnostic.png)
-
-If something is wrong, updating the corresponding library should resolve the diagnostic warning.
-
-The simplest and recommended way is to install the pinned set from MISP's top-level `requirements.txt`, which covers PyMISP, misp-stix, the attachment handlers and the other libraries in one go:
-
-~~~~bash
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U -r /var/www/MISP/requirements.txt
-~~~~
-
-If you prefer to update libraries individually:
-
-~~~~bash
-# Update PyMISP
-cd /var/www/MISP/PyMISP
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U .
-
-# Advanced attachment handling
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U lief python-magic
-# pydeep2 - WARNING: requires libfuzzy-dev
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U pydeep2
-
-# STIX 1 and 2 conversion is provided by a single library, misp-stix
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U misp-stix
-
-# Yara
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U plyara
-~~~~
+MISP's Python environment supports STIX conversion, attachment inspection, PyMISP and other
+optional services. Keep it aligned with the **application version being deployed**, then verify
+those features from the web and worker contexts. Updating every package to the newest version
+is not a substitute for an application upgrade.
 
 ::: {.callout-note}
-The old per-package STIX 1 stack (`python-stix`, `python-cybox`, `python-maec`, `mixbox`) is legacy. MISP 2.5 uses **misp-stix** (`misp_stix_converter`) for both STIX 1 and STIX 2 conversion, and it is included in `requirements.txt`.
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
+The root `requirements.txt` mixes exact pins and minimum versions; it is not a fully locked
+set. At this commit it pins PyMISP **2.5.34.4** and requires `misp-stix>=2026.10.12`.
+Record the resolved package set used by your deployment and rehearse an upgrade before rollout.
 :::
 
-If you want to use or update the ZeroMQ functionality, the `pyzmq` library is also part of `requirements.txt`; to update it on its own:
+<!-- Dependency/source checks and screenshot hashes: ../assets/administration-screenshots.json -->
 
-~~~~bash
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U pyzmq
-~~~~
+<a id="installation"></a>
 
-#### Updating MISP modules
+## Choose the deployment path {#python-deployment}
 
-Another set of dependencies you may want to update are MISP modules.
+::: {.table-responsive}
 
-MISP modules have their own dependencies that need to be up-to-date as well as the modules scripts themselves.
+| Installation | Update approach |
+|---|---|
+| Official Docker deployment | Use the maintained [MISP Docker instructions](https://github.com/MISP/misp-docker), tested image references and matching configuration/volumes. Recreate services with the approved images; an ad-hoc `pip install`{.text-wrap .text-break} inside a running container is not a persistent image update. |
+| Source installation | Use the selected MISP ref, its pinned submodules and its application Python environment. Adapt the commands below to its OS user, paths and Python version. |
+| Separate module service / connector | Update that service's own environment and dependencies. It is not automatically updated by changing MISP core's virtual environment. |
 
-The following instructions assume that MISP modules are installed in `/usr/local/src/misp-modules`.
-Change the path if your installation uses a different location.
+:::
 
-~~~~bash
-# Change here the path if needed
-cd /usr/local/src/misp-modules
-# Update misp-modules requirements
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U -r REQUIREMENTS
-# Update misp-modules scripts
-sudo -H -u www-data /var/www/MISP/venv/bin/pip install -U .
-~~~~
+The book uses a development checkout to describe 3.0 features. Do not switch a production
+instance to `3.0_wip` just to match a screenshot. Select and test the intended application/ref,
+read its upgrade requirements and retain a compatible rollback/restore set.
 
-You will then need to restart the modules, please refer to the [documentation](https://github.com/MISP/misp-modules#how-to-install-and-start-misp-modules-in-a-python-virtualenv-recommended).
+## Inventory before changing packages {#python-inventory}
+
+In **Administration → Server Settings & Maintenance**, use **Version & updates** for the
+application/submodule state and **PHP & filesystem** / **Services** for runtime and feature
+checks. A failed remote version check is different from an incompatible local dependency.
+
+![Version & updates reports the installed MISP commit and submodules. Remote-version checks depend on the deployment's connectivity.](figures/misp3-version-health.png)
+
+Check `MISP.python_bin`, which selects the Python executable used by MISP's process tools.
+Do not assume that an activated interactive shell environment is used by PHP or Supervisor.
+On a conventional source installation, the environment is often `/var/www/MISP/venv`:
+
+```bash
+sudo -u www-data /var/www/MISP/venv/bin/python --version
+sudo -u www-data /var/www/MISP/venv/bin/python -m pip --version
+sudo -u www-data /var/www/MISP/venv/bin/python -m pip check
+sudo -u www-data /var/www/MISP/venv/bin/python -m pip freeze
+```
+
+Retain the application/image ref, submodule SHAs, package inventory, service configuration and
+health results with the maintenance record. Use the Python version supported by that release
+and its dependencies. A virtual environment normally needs rebuilding when the interpreter
+changes; copying its directory to a different host/interpreter is not a reliable migration.
+
+<a id="set-up-the-virtual-environment"></a>
+<a id="updating-misp-and-its-dependencies"></a>
+<a id="updating-misp-core"></a>
+<a id="updating-the-python-dependencies"></a>
+<a id="set-the-virtual-environment-up"></a>
+
+## Update a source installation {#python-source-update}
+
+![A controlled update aligns application, submodules and dependencies, applies the planned schema upgrade, then verifies services before reopening normal processing.](figures/dependency-update.svg)
+
+1. Rehearse on a restored copy; take a consistent backup of the real deployment. Include
+   configuration/secrets and attachment storage, not just a package list.
+2. Plan downtime and pause external writers, scheduled ingestion and workers as required by the
+   selected upgrade. Deploy the **tested** application ref and its matching submodule revisions.
+3. Install the required system/Composer/Python dependencies using that release's procedure.
+   Updating Python alone does not install PHP extensions or apply database migrations.
+4. Run the planned MISP 3.0 offline upgrade, verify migration/schema state and restart the web
+   PHP runtime and workers with the updated environment.
+5. Check representative import/export, attachment and background paths before restoring normal
+   ingestion. Retain the new inventory and a tested recovery option.
+
+For a source checkout's submodules, use its recorded revisions:
+
+```bash
+sudo -u www-data git -C /var/www/MISP submodule update --init --recursive
+```
+
+This initializes/updates to the selected parent checkout's pins; `--remote` would choose a
+different state. Review local changes before any checkout/update. The UI **Update MISP** action
+and `Admin updateMISP` are deployment-specific mechanisms, not universal Docker upgrades.
+
+With a suitable existing virtual environment, a dependency-install step is:
+
+```bash
+sudo -u www-data /var/www/MISP/venv/bin/python -m pip install \
+  -r /var/www/MISP/requirements.txt
+sudo -u www-data /var/www/MISP/venv/bin/python -m pip check
+```
+
+Because some requirements specify minimums, this can resolve different transitive versions at
+different times. Pin/lock the set tested for your deployment when reproducibility is required.
+Do not add `-U` to every package or run unrelated `composer update` as a diagnostic fix.
+Install Composer dependencies from the release's lock file and supported install procedure.
+
+If no virtual environment exists, use the deployment's provisioning instructions. A conventional
+creation step is `python3 -m venv /var/www/MISP/venv` run as the appropriate application OS user,
+with the required system `venv` package available. Configure `MISP.python_bin` to its Python
+executable and ensure the web/worker users can execute/read it. Do not create a second unused
+environment and expect diagnostics to discover it.
+
+### Apply MISP 3.0 database upgrades separately {#python-database-upgrade}
+
+Check pending work and follow the release's supported procedure. For the pinned 3.0 source:
+
+```bash
+sudo -u www-data /var/www/MISP/app/Console/cake Admin migrationStatus
+sudo -u www-data /var/www/MISP/app/Console/cake Admin migrationApply --dry-run
+# During the planned offline upgrade, after backup and preparation:
+sudo -u www-data /var/www/MISP/app/Console/cake Admin runUpgrade
+sudo -u www-data /var/www/MISP/app/Console/cake Admin schemaDiagnostics
+```
+
+`runUpgrade` coordinates numeric updates, migrations and the value conversion where needed.
+It asks Supervisor to stop/restart workers; inspect warnings and confirm the actual state.
+An interrupted run can leave the instance offline and requires investigation/retry of that
+procedure, not a forced live flag or manual ledger edit. Check engine-specific prerequisites
+and allow space/time for conversion. See [Administration](../administration/index.qmd#admin-database).
+
+<a id="updating-python-dependencies"></a>
+
+## Verify the runtime actually in use {#python-verification}
+
+The **PHP & filesystem** page compares web/CLI PHP and dependency health; **Services** reports
+feature-specific checks. Compare these with the executable configured in `MISP.python_bin`
+and the worker environment. A package import in your personal shell proves only that shell's
+Python environment can import it.
+
+![PHP and runtime dependency checks in MISP 3.0. Diagnostic findings belong to the captured training deployment.](figures/misp3-runtime-health.png)
+
+Check the paths you use operationally:
+
+- STIX import/export, with the expected format version and representative synthetic data.
+- Attachment handling/Yara and any optional native-library bindings required by your use case.
+- A local read-only API request using the server-recommended PyMISP client version.
+- A benign background job, its result and worker logs after service restart.
+- Module discovery and a local parser before testing a provider-dependent enrichment.
+
+MISP uses **misp-stix** (`misp_stix_converter`) for STIX conversion; do not rebuild the old
+per-package `python-stix`/CybOX/MAEC recipe from historical documentation. Optional packages may
+also need OS libraries. Use the actual diagnostic error and deployment documentation to identify
+the failing layer instead of upgrading unrelated packages.
+
+For a private CA or outbound proxy, configure trust/network access for the process that makes
+the request. Keep certificate verification enabled; the web service, worker and separate module
+container may need their own CA/proxy configuration.
+
+<a id="updating-misp-modules"></a>
+
+## Update misp-modules separately {#python-module-service}
+
+**misp-modules** has its own release cycle and dependency extras. Use its maintained
+[installation guide](https://misp.github.io/misp-modules/install/) or the matching Docker service
+update. Install the dependencies for the modules you actually use, in that service's environment,
+then restart the service and check discovery from MISP.
+
+Do not install the old `REQUIREMENTS` recipe into MISP core's virtual environment by default.
+A core update does not guarantee the module service or external provider is compatible.
+Test a local parser first, then the configured enrichment/action/AI paths that are in scope.
+See [Modules](../modules/index.qmd) for grouped settings, organisation restrictions and the
+separate 3.0 AI endpoint configuration.
+
+## Recover from a failed update {#python-recovery}
+
+Keep the failure output, versions and affected process/service. If dependency resolution fails,
+repair/rebuild the intended environment before restarting workers against it. If a schema/value
+conversion fails, use the supported upgrade recovery procedure and compatible backups.
+Reverting Python packages or Git alone does not revert the database.
+
+Before reconnecting automation, verify migration state, data visibility, attachment access and
+service health on the restored/updated instance. Follow the
+[backup and recovery procedure](../administration/index.qmd#admin-backup-recovery), including
+controls on outbound mail, synchronization, workflows and scheduled tasks.

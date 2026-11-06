@@ -79,6 +79,34 @@
       "source_sha256": "4ce0cc3a9bdcdb09df4385ca03adc132621bbeea4b70c9597bedf62c19a49e64",
       "sha256": "ec641e394f6c4dad6c45c9e4b67a293339bb39171a2ea1e19ac0501370553e02",
       "viewBox": "0 0 573.203125 640.4000244140625"
+    },
+    {
+      "source": "administration/figures/administration-cycle.mmd",
+      "file": "administration/figures/administration-cycle.svg",
+      "source_sha256": "f0a40c7dca5d55d0880a1895c95418f405e1e02790988fe8dc4f8ddd1c9e356c",
+      "sha256": "cf4d9701ec6e4ba365478cb833e8d5080459b9d71f864633252399dba0b612aa",
+      "viewBox": "0 0 376.888671875 652.6000366210938"
+    },
+    {
+      "source": "administration/figures/recovery-checkpoints.mmd",
+      "file": "administration/figures/recovery-checkpoints.svg",
+      "source_sha256": "6d2a66a9af6d0edfcf043ae3ebe483fcc8449cfaf0fc07d8893181fd0bf62b8c",
+      "sha256": "aa665257d6e6e5aebd5ccba063ce9e1a774767b88bddcfb605a900884b570a49",
+      "viewBox": "0 0 286.8203125 693.2000122070312"
+    },
+    {
+      "source": "workflows/figures/blocking-and-background.mmd",
+      "file": "workflows/figures/blocking-and-background.svg",
+      "source_sha256": "52d7af21fa9f5451fa7554a55aca62909996be4bc9176cd0ace64a0203ba6246",
+      "sha256": "4e3e13f9395d3a4bec71148c17ab5566782cb19cbe7c8798dfe1f78c90960232",
+      "viewBox": "0 0 536.390625 845.5"
+    },
+    {
+      "source": "updating-python/figures/dependency-update.mmd",
+      "file": "updating-python/figures/dependency-update.svg",
+      "source_sha256": "60913883c9a60b623cbf783a3afdd48c46dfbdea4dab8b0e3cad6c74752c1da0",
+      "sha256": "9514db571821bff0cfa3f9173526ea8cd09ba1fbdcdc2e6fbb85e2c3f274c96b",
+      "viewBox": "0 0 275.3125 802.4000244140625"
     }
   ]
 }

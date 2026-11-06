@@ -1,0 +1,714 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "generated_at": "2026-11-06T15:37:53.837166+00:00",
+  "scope_chapters": [
+    "administration/index.qmd",
+    "workflows/index.qmd",
+    "updating-python/index.qmd"
+  ],
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17",
+    "app/files/misp-objects": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326",
+    "app/files/misp-galaxy": "306db6a359edbe1cf7cdc86ab1c8a9c1ff1f4a96",
+    "app/files/misp-workflow-blueprints": "2337bdeb8c0aa7125db3a410fdb6a54ec50d6865"
+  },
+  "capture_method": "Chromium via Playwright against the pinned running application, with synthetic local accounts/data. Twenty-two fresh PNGs without retouching or arrow annotations: twenty viewport captures and two real modal DOM screenshots. The workflow canvas uses its native fitCanvas view. Unsaved user/role/task forms expose no passwords, API keys, OTP secrets or QR codes. The audit screenshot is filtered to User records, with change details closed.",
+  "fixture": {
+    "workflow_id": "1",
+    "job_id": 1,
+    "process_id": "3cc4ac67-e6ba-4d0f-9f1a-b39ba6d51325",
+    "verification": {
+      "acyclic_graph_accepted": true,
+      "cycle_detected": true,
+      "generic_condition_true_and_false": true,
+      "stop_execution_module_result": true,
+      "disabled_workflow_returns_noop": true,
+      "mermaid_graph_export": true,
+      "automatic_core_triggers_all_disabled": true,
+      "all_events_unpublished": true,
+      "legacy_signature_allowedlist_route_absent": true,
+      "background_redis_check_completed": true,
+      "default_blueprint_count": 13,
+      "generic_condition_missing_field_false": true,
+      "no_recurring_tasks_saved": true,
+      "temporary_user_and_keys_deleted": true,
+      "disabled_demonstration_workflows_deleted": true,
+      "fixture_configuration_restored": true,
+      "local_supervisor_shutdown": true
+    },
+    "adhoc_workflow_id": "2",
+    "account_verification": {
+      "temporary_organisation_admin_user": 5,
+      "checks": {
+        "organisation_user_listing_scoped": true,
+        "other_organisation_user_rejected": true,
+        "site_settings_rejected": true,
+        "workflows_rejected": true,
+        "disabled_account_key_rejected": true,
+        "reenabled_account_access_restored": true
+      }
+    },
+    "cli_verification": {
+      "migration-status": {
+        "exit_code": 0
+      },
+      "migration-plan": {
+        "exit_code": 0
+      },
+      "schema": {
+        "exit_code": 0
+      },
+      "redis": {
+        "exit_code": 0
+      },
+      "value-stats": {
+        "exit_code": 0
+      },
+      "worker-status": {
+        "exit_code": 0
+      },
+      "queues": {
+        "exit_code": 0
+      },
+      "worker-help": {
+        "exit_code": 0
+      },
+      "upgrade-help": {
+        "exit_code": 0
+      }
+    },
+    "job_redis": {
+      "host": "misp3-redis",
+      "database": 13,
+      "namespace": "administration_capture"
+    },
+    "worker_queues": [
+      "default",
+      "email",
+      "cache",
+      "prio",
+      "update",
+      "scheduler"
+    ],
+    "workflow_blueprints": 13,
+    "migration_ledger_counts": {
+      "applied": 131,
+      "failed": 0,
+      "deferred": 0,
+      "pending": 0,
+      "orphaned": 0
+    }
+  },
+  "configuration_notes": [
+    "Application and framework source remain unmodified. Local fixture helpers under app/tmp bootstrap the checked-out models; they are not part of the book or upstream application changes.",
+    "The capture fixture temporarily enables MISP.background_jobs, Plugin.Workflow_enable and new audit logging, using separate job Redis DB 13 and loopback-only Supervisor XML-RPC. All automatic core triggers remain disabled, no recurring task is saved, and no event is published or synchronized.",
+    "Six real Supervisor-managed workers run as the fixture OS user. One job executes Admin redisReady, completes through the default worker and is displayed in Jobs. Worker status, showQueues and showJobStatus are checked. No publication, ingestion or email job is queued.",
+    "A temporary local organisation-admin account verifies own-organisation user listing, rejection of another organisation user and site/workflow settings, disabled-account API rejection and re-enabled access. Credentials are never captured; the account and its keys are removed after the checks.",
+    "The core demonstration graph is Event Before Save -> IF Generic -> Stop execution. Only graph validation and side-effect-free condition/stop module tests execute against synthetic inputs. Disabled full-workflow invocation is verified as success with Module disabled, not claimed as end-to-end blocking enforcement.",
+    "A separate manual workflow is created but remains disabled and is never invoked. Thirteen default blueprint definitions are loaded from the pinned local submodule; importing definitions does not activate workflows.",
+    "Admin migrationStatus --json and schemaDiagnostics show an up-to-date local ledger: 131 applied migrations, no failed/deferred/pending entries. migrationApply --dry-run is verified only on that up-to-date state, where there is no SQL to render. No upgrade, conversion or restore is performed by these checks.",
+    "Admin valueDictionaryStats refreshes local statistics for the values index. It is a cache/statistics write, not a read-only report; the guide makes that distinction.",
+    "The local database connection encoding is aligned with the current diagnostic recommendation. This is ignored fixture configuration, not a schema migration or a production change.",
+    "Mail, OTP mandate, AI, Kafka and ZeroMQ publishing remain disabled. No credentials are emailed, OTP enrollment/reset performed, external module/provider called, connector upload attempted, backup restored or 2.5-to-3.0 migration rehearsed.",
+    "The PHP capture process retains the session proxy and CA trust; only loopback/local Docker names bypass the proxy. The application is reached over Docker-local/loopback HTTP for capture. Documentation requires the actual deployment HTTPS and trust configuration.",
+    "Remote version-check failures and optional-service findings are shown as observed, not retouched into a healthy production deployment. The workflow editor retains its own canvas layout in this application branch.",
+    "After capture/checks, both disabled example workflows and the temporary org-admin account/keys were deleted. Supervisor was shut down and the original local config.php/database.php restored. Blueprint files/definitions remain in the local training fixture."
+  ],
+  "feature_sources": [
+    "app/Model/Role.php",
+    "app/Model/UserSetting.php",
+    "app/Model/Organisation.php",
+    "app/Model/Server.php",
+    "app/Model/AttributeValue.php",
+    "app/Model/CorrelationRule.php",
+    "app/Model/CorrelationExclusion.php",
+    "app/Model/Regexp.php",
+    "app/Model/Event.php",
+    "app/Model/Workflow.php",
+    "app/Model/WorkflowBlueprint.php",
+    "app/Model/WorkflowModules/WorkflowBaseModule.php",
+    "app/Model/WorkflowModules/logic/Module_generic_if.php",
+    "app/Model/WorkflowModules/action/Module_stop_execution.php",
+    "app/Model/Job.php",
+    "app/Controller/UsersController.php",
+    "app/Controller/WorkflowsController.php",
+    "app/Controller/WorkflowBlueprintsController.php",
+    "app/Controller/TasksController.php",
+    "app/Controller/AuditLogsController.php",
+    "app/Controller/Component/IndexFilterComponent.php",
+    "app/Console/Command/AdminShell.php",
+    "app/Console/Command/WorkerShell.php",
+    "app/Console/Command/SchedulerWorkerShell.php",
+    "app/Lib/Tools/ServerSettingGroups.php",
+    "app/Lib/Tools/BackgroundJobsTool.php",
+    "app/Lib/Tools/ProcessTool.php",
+    "requirements.txt",
+    "app/composer.json",
+    "tools/misp-backup/misp-backup.sh",
+    "tools/misp-backup/misp-restore.sh"
+  ],
+  "shots": [
+    {
+      "file": "administration/figures/misp3-users.png",
+      "url": "/admin/users/index",
+      "description": "Current user list with synthetic accounts, roles and status; no authentication-key values",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:34:53.964949+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "f82e503688ca379cdcb9ff50e0586977b270a083a6c7a97024ddd72ecadb434d",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-organisations.png",
+      "url": "/organisations/index",
+      "description": "Current local organisations, user counts and domain restrictions",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:34:55.560134+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "6a3d68390b24432befa2168f7c110c11fcea4491a13ffb68815e1299835dc91f",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-roles.png",
+      "url": "/roles/index",
+      "description": "Role access, feature flags, default status and resource limits",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:34:57.128064+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "06c32361ffe1c6d1a501e1ddd7120314a47863b5cf698299ad461cb301b80f4f",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-event-blocklist.png",
+      "url": "/eventBlocklists/index",
+      "description": "Actual UUID blocklist and block-rule/add-entry actions",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:34:58.696077+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "3d62b956772a9de592611f4bf81cfaf45131dc3c0120889cc3abd302aebacae9",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-jobs.png",
+      "url": "/jobs/index",
+      "description": "Real completed local read-only Redis diagnostic job, with SQL job ID and process UUID",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:00.275690+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "d9c3e70dd5b6acfbe8d98766a56e82ed5a70111c7cae533a2c518991bfb60165",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-add-user.png",
+      "url": "/admin/users/add",
+      "description": "Actual unsaved Add user form with email-delivery and notification controls; no credentials entered",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:01.864689+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "6c89e9e9241322690f05bb1701a1a247026842e96bfd15a0386cef14b2a52485",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-role-form.png",
+      "url": "/roles/index",
+      "description": "Existing User role opened in its real edit modal; unsaved, with resource limits and AI-tools permission",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:04.109034+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 816
+      },
+      "sha256": "835c50cee1a276b64c8880e8d03beab23b9fc894a80c747ebb964457d9196fca",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-settings-overview.png",
+      "url": "/servers/serverSettings/overview",
+      "description": "Grouped settings overview; displayed findings belong to the isolated training deployment",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:07.382601+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "00890159f3e112ad062ca7ec41f4d1c4eeba1ae6bbc50f5cd462adb11858192f",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-database-health.png",
+      "url": "/servers/serverSettings/database",
+      "description": "Actual schema and migration ledger, storage and engine diagnostics; no migrations applied during capture",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:09.811165+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "b9519de92361e1ad0dbc5a86a3b60c75e2509a6ee7e8abbb40336a19a217907f",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-correlation-settings.png",
+      "url": "/servers/serverSettings/correlations",
+      "description": "Current correlation controls and engine options",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:12.177979+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "a7e47ea66ce9e853f1a345182f6715967741ca76a3287f76cd60890b08d3ab63",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-worker-health.png",
+      "url": "/servers/serverSettings/jobs",
+      "description": "Six actual Supervisor workers using isolated job Redis DB 13",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:14.600593+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "7c44b0daeead6aa51a742de5cb02d485004f3b135b4a600ebc167422232ef922",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-audit-log.png",
+      "url": "/admin/audit_logs/index/model:User",
+      "description": "Audit log filtered to synthetic account changes; no key rows or change details opened",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:16.881268+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "dafbdf1c037f26275bfec9859e22c98e59257835b3af27fdf46d30d9e6228a44",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-otp-settings.png",
+      "url": "/servers/serverSettings/users",
+      "description": "Current OTP controls, filtered in Users and access; no enrollment secret or QR code",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:19.023870+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "82a95bdaa1ed59c101e1b5d856a6d07a21fa2c61a80e650d7772c3fa3730a4a6",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "administration/figures/misp3-scheduled-task.png",
+      "url": "/tasks/index",
+      "description": "Actual unsaved recurring-task draft with enabled off; interval, next execution and user controls",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:21.244655+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 1122
+      },
+      "sha256": "518c2a7b31d589fd97e259abf83446cbc0c2cb05d937dfb6fe73770df61339b5",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "workflows/figures/misp3-workflow-hub.png",
+      "url": "/workflows/index",
+      "description": "3.0 hub with disabled automatic trigger, manual example and pinned blueprint definitions",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:22.869572+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1150
+      },
+      "sha256": "80497dd7e53fd475e1596142e5b45b8f9f93543808d98d5e854f6e27f138353e",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "workflows/figures/misp3-workflow-triggers.png",
+      "url": "/workflows/triggers",
+      "description": "Current core triggers, blocking flags, overhead and associations; none enabled",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:24.511344+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1150
+      },
+      "sha256": "a5a26dc565326c2f801b92e9766dc8d681902537cc78eb2459cbf38e72e66602",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "workflows/figures/misp3-workflow-modules.png",
+      "url": "/workflows/moduleIndex",
+      "description": "Actual workflow module catalogue; core default nodes enabled, no external actions executed",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:26.190324+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1150
+      },
+      "sha256": "006add0b7074cb17245d47a977cf1a6f3065ee5fad96216036b901da9705391f",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "workflows/figures/misp3-workflow-adhoc.png",
+      "url": "/workflows/adhoc",
+      "description": "Disabled manual workflow, created without invoking it",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:27.793984+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1150
+      },
+      "sha256": "47d6a11dd9317722c47c19efc8e2ef6de9e5758a309e1b2891b92e1e651dba39",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "workflows/figures/misp3-workflow-blueprints.png",
+      "url": "/workflowBlueprints/index",
+      "description": "Thirteen definitions loaded from the pinned local blueprint submodule; no automation enabled",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1150
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:29.396041+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1150
+      },
+      "sha256": "3ebfbe4e8e4008b91b12b8cb2853a8d8d3b64f4bf359e2abf2cbed025bec3a5d",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "workflows/figures/misp3-workflow-editor.png",
+      "url": "/workflows/editor/event-before-save",
+      "description": "Actual workflow canvas with generic IF and Stop execution, default stop message and disabled core trigger; native fit-to-canvas view",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1600,
+        "height": 780
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:33.135255+00:00",
+      "image_size": {
+        "width": 1600,
+        "height": 780
+      },
+      "sha256": "50e5ea01a9778ed79a9b62198ef18118d24b7069bc4e92a12002a9870b2a864c",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "updating-python/figures/misp3-version-health.png",
+      "url": "/servers/serverSettings/version",
+      "description": "Installed 3.0 commit and submodule update controls; remote latest-version check may be unavailable",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:35.782509+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "62edd50c7e54efdf18721538187af8674db8e1bd03d06d18e8e7113736a555ac",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "updating-python/figures/misp3-runtime-health.png",
+      "url": "/servers/serverSettings/php",
+      "description": "Actual web/CLI PHP and dependency/filesystem checks in the training runtime",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T15:35:38.398987+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "96fce2ffe0452e91ec0f36ba19106c01206fecc5c5cefaf7d98e2546e7d9e0ea",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    }
+  ],
+  "diagrams": [
+    {
+      "source": "administration/figures/administration-cycle.mmd",
+      "file": "administration/figures/administration-cycle.svg",
+      "source_sha256": "f0a40c7dca5d55d0880a1895c95418f405e1e02790988fe8dc4f8ddd1c9e356c",
+      "sha256": "cf4d9701ec6e4ba365478cb833e8d5080459b9d71f864633252399dba0b612aa",
+      "viewBox": "0 0 376.888671875 652.6000366210938"
+    },
+    {
+      "source": "administration/figures/recovery-checkpoints.mmd",
+      "file": "administration/figures/recovery-checkpoints.svg",
+      "source_sha256": "6d2a66a9af6d0edfcf043ae3ebe483fcc8449cfaf0fc07d8893181fd0bf62b8c",
+      "sha256": "aa665257d6e6e5aebd5ccba063ce9e1a774767b88bddcfb605a900884b570a49",
+      "viewBox": "0 0 286.8203125 693.2000122070312"
+    },
+    {
+      "source": "workflows/figures/blocking-and-background.mmd",
+      "file": "workflows/figures/blocking-and-background.svg",
+      "source_sha256": "52d7af21fa9f5451fa7554a55aca62909996be4bc9176cd0ace64a0203ba6246",
+      "sha256": "4e3e13f9395d3a4bec71148c17ab5566782cb19cbe7c8798dfe1f78c90960232",
+      "viewBox": "0 0 536.390625 845.5"
+    },
+    {
+      "source": "updating-python/figures/dependency-update.mmd",
+      "file": "updating-python/figures/dependency-update.svg",
+      "source_sha256": "60913883c9a60b623cbf783a3afdd48c46dfbdea4dab8b0e3cad6c74752c1da0",
+      "sha256": "9514db571821bff0cfa3f9173526ea8cd09ba1fbdcdc2e6fbb85e2c3f274c96b",
+      "viewBox": "0 0 275.3125 802.4000244140625"
+    }
+  ],
+  "retired_legacy_assets": [
+    "administration/figures/add-event-blocklist-entry.png",
+    "administration/figures/add-event-blocklisted-message.png",
+    "administration/figures/add_org.png",
+    "administration/figures/add_role.png",
+    "administration/figures/add_user.png",
+    "administration/figures/allowedlist.png",
+    "administration/figures/blocklist-organisation.png",
+    "administration/figures/blocklist-setting.png",
+    "administration/figures/contact.png",
+    "administration/figures/correlationExclusions.png",
+    "administration/figures/delete-totp-button.png",
+    "administration/figures/delete_org.png",
+    "administration/figures/delete_roles.png",
+    "administration/figures/delete_user.png",
+    "administration/figures/display_user.png",
+    "administration/figures/edit_org.png",
+    "administration/figures/edit_roles.png",
+    "administration/figures/edit_users.png",
+    "administration/figures/event-blocklists-index.png",
+    "administration/figures/jobs.png",
+    "administration/figures/list_logs.png",
+    "administration/figures/list_org.png",
+    "administration/figures/list_roles.png",
+    "administration/figures/list_users.png",
+    "administration/figures/merge_org.png",
+    "administration/figures/organisation-blocklists-index.png",
+    "administration/figures/php-dependencies-totp.png",
+    "administration/figures/regexp.png",
+    "administration/figures/reset_pwd.png",
+    "administration/figures/schedule.png",
+    "administration/figures/search_log.png",
+    "administration/figures/setUserSetting.png",
+    "administration/figures/setUserSetting2.png",
+    "administration/figures/setUserSetting3.png",
+    "administration/figures/settings_1.png",
+    "administration/figures/settings_2.png",
+    "administration/figures/settings_3.png",
+    "administration/figures/tools.png",
+    "administration/figures/user-with-totp-active-in-users-index.png",
+    "administration/figures/view_org.png",
+    "updating-python/figures/python_diagnostic.png",
+    "updating-python/figures/update_diagnostic.png"
+  ],
+  "legacy_anchors": "All existing header and explicit HTML anchors are retained beside the corresponding rewritten sections; verified from original and current Pandoc ASTs.",
+  "book_verification": {
+    "formats": [
+      "html",
+      "pdf",
+      "epub"
+    ],
+    "browser_viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "figure_count": 26,
+    "all_figures_decode": true,
+    "png_svg_lightboxes": true,
+    "javascript_errors": 0,
+    "document_horizontal_overflow": false,
+    "legacy_anchors_preserved": 149,
+    "offline_link_check": {
+      "total": 4201,
+      "unique": 962,
+      "errors": 0,
+      "external_or_excluded": 401
+    },
+    "pdf_figure_pages": {
+      "An operating routine: inspect health": 254,
+      "Restore a consistent backup into an isolated": 271,
+      "Blocking checks can reject the core operation": 276,
+      "A controlled update aligns application": 285,
+      "A scheduled-task draft using the current": 268,
+      "A real MISP 3.0 editor graph": 277
+    },
+    "source_changes_outside_section": "One General Layout link targets the unique admin-logs heading to avoid a duplicate PDF label; the old HTML #logs alias remains."
+  }
+}

@@ -135,7 +135,7 @@ The example instance below exposes application and access logs to its site admin
 
 ![The Logs menu in the example instance; Audit logs is conditional on configuration.](figures/misp3-logs-menu.png)
 
-See [Logs](../administration/index.qmd#logs) for the available log types and access requirements.
+See [Logs](../administration/index.qmd#admin-logs) for the available log types and access requirements.
 
 ### API
 
