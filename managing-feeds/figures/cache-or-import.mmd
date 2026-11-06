@@ -1,0 +1,11 @@
+flowchart TB
+  accTitle: Caching and importing a feed are separate operations
+  accDescr: A feed can be cached in Redis for value lookups, feed hits and overlap analysis, without creating a local event. Fetching and importing instead creates or updates events and attributes in the database. Imported data needs review before detection use or publication. Either or both operations can be used for a feed.
+  F["Feed source<br/>MISP · free text · CSV"] -->|"Cache"| C["Redis membership cache<br/>No local event created"]
+  F -->|"Fetch / import"| I["Local events and attributes<br/>New or updated database records"]
+  C --> L["Value lookup · Feed hits<br/>Overlap analysis"]
+  I --> R["Review context and handling<br/>Then select detection / sharing"]
+  classDef source fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef result fill:#f0f3f7,stroke:#516479,color:#153448;
+  class F,C,I source;
+  class L,R result;

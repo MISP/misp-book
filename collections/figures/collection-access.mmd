@@ -1,0 +1,11 @@
+flowchart TB
+  accTitle: A collection references intelligence without widening access to it
+  accDescr: A reader first needs access to the collection and its list of references. Each target is checked independently. A visible event can be opened; a private event remains restricted. An attribute value reference uses a SHA-256 address; the value text resolves only through an attribute visible to that reader. Sharing the collection does not grant access to its targets.
+  R["Reader"] -->|"Collection access check"| C["Visible collection<br/>Metadata + references"]
+  C -->|"Target access check"| E["Visible event<br/>Can be opened"]
+  C -->|"Target access check"| P["Private event<br/>Remains restricted"]
+  C -->|"Value reference"| V["SHA-256 address<br/>Text requires a visible attribute"]
+  classDef shared fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef restricted fill:#fff4df,stroke:#91651c,color:#573d13;
+  class R,C,E shared;
+  class P,V restricted;

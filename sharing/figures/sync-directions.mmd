@@ -1,0 +1,15 @@
+flowchart TB
+  accTitle: Push and pull move the same data with different request initiators
+  accDescr: For push, A initiates a request containing event data to B using a key issued by B. For pull, B initiates a request to A using a key issued by A, then A returns eligible event data to B. Each direction has independent configuration and filters.
+  subgraph push["PUSH · A initiates"]
+    direction LR
+    PA["Instance A<br/>Push enabled toward B"] -->|"Request + event data<br/>Key issued by B"| PB["Instance B<br/>Receives the event"]
+  end
+  subgraph pull["PULL · B initiates"]
+    direction LR
+    RB["Instance B<br/>Pull enabled from A"] -->|"Request<br/>Key issued by A"| RA["Instance A<br/>Checks the account's access"]
+    RA -->|"Event data in response"| RB
+  end
+  push ~~~ pull
+  classDef instance fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  class PA,PB,RA,RB instance;

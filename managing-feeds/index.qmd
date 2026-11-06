@@ -1,145 +1,159 @@
 ---
 title: "Managing Feeds"
+format:
+  html:
+    lightbox: true
 ---
 
-# Feeds
+Feeds let you look up or import intelligence from a published source without configuring a
+two-way MISP connection. A feed can contain **MISP events**, **free text** or **CSV**. Its
+definition records where to get the data, how to parse it and what to do with the result.
 
-Feeds are remote or local resources containing indicators that can be automatically imported into MISP at regular intervals.
-Feeds can be structured in MISP format, CSV format or even free-text format. You can easily import any remote or local URL
-to store the data in your MISP instance. It's a simple way to gather many external sources of information into MISP without any programming skills.
+::: {.callout-note}
+Instructions and screenshots use MISP **3.0.0**, the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
+development branch, in the light Overmind interface. Feed administration requires a **site
+administrator**. Select a screenshot or diagram to enlarge it.
+:::
 
-Feed descriptions can be also easily shared among different MISP instances as you can export a feed description as JSON 
-and import it back in another MISP instance.
+<!-- Capture source and hashes: ../assets/sharing-screenshots.json -->
+
+## Choose cache or import {#feeds}
+
+**Caching** makes source values available for lookups and overlap analysis without creating local
+events. **Fetching/importing** creates or updates events and attributes. You can use either or
+both; enabling caching does not automatically enable ingestion.
+
+![Cache for lookups without a local event, or import into the database for analyst review. Neither action by itself establishes detection value.](figures/cache-or-import.svg)
 
 ## Managing feeds
 
-::: {.callout-warning}
-A site admin role is required to perform these actions.
-:::
+Open **Sync → Servers & Feeds → Feeds**. The list shows each source's format, enabled state,
+caching, lookup visibility and import options. Use **Filters** to narrow the list. **Feed
+operations** groups default-metadata loading, caching and bulk fetching. Row actions
+apply to one source; bulk actions apply to the selected sources.
 
-To manage feeds you first need to access the Feeds page using the **Feeds** item on the **Sync Actions** top menu:
-
-![List feeds menu](./figures/listfeeds.png)
-
-Then you will see the Feeds page with a table of configured feeds.
-
-![List feeds side menu](./figures/feedspage.png)
-
-The index can be filtered by **scope** using the tabs at the top: **All**, **Default** (the feeds
-shipped with MISP) and **Custom** (feeds you added yourself). Selecting feeds with the checkboxes
-reveals **bulk actions**, so you can enable or disable many feeds at once instead of toggling each
-individually.
+![The MISP 3.0 feed list with a synthetic CSV source. Caching, import and publication are separate options.](figures/misp3-feeds.png)
 
 ### Default feeds
 
-The MISP project supplies a list of open-source feeds.  You can load these feed definitions by using the 'Load default feed metadata' button on the Feeds page.  This feature creates new feeds by importing the entries in file app/files/feed-metadata/defaults.json to the database. Existing feeds are not changed. The feature checks for duplicates using the feed URL. If a feed with the same URL already exists in the database, that entry is not imported. This ensures that
-local modifications such as name, distribution or enabled status are never overwritten.
+Use **Load default feed metadata** to add the feed definitions shipped in
+`app/files/feed-metadata/defaults.json`{.text-wrap .text-break}. This loads definitions, not the feed contents.
+Existing entries are matched by URL and skipped, preserving local settings. Review each source's
+relevance, licensing, freshness and volume before enabling it; the default list is not a
+recommendation to ingest everything.
 
 ### Caching feeds
 
- Caching downloads the feed content to the Redis server in your instance, and allows you to correlate attributes and see matching "Feed hits" (similar to correlated "Related Events") in the event view on each attribute row.  Caching does not create any events in the database server in your instance.
+Enable **Caching enabled**, then run the cache operation for that feed or an appropriate scope.
+MISP stores a hashed value-membership cache in Redis for feed hits and comparisons. It does not
+create events in the database. Inspect the last successful cache time and job outcome: a stale
+or failed cache cannot establish that a value is absent from the current source.
 
-Use the buttons at the top of the Feeds screen to retrieve data from feeds and store the data in the Redis cache. The buttons let you cache data from all feeds, cache data from freetext/CSV-format feeds only, or cache data from MISP-format feeds only.
+**Lookup visible** makes hits available to other users. With it off, lookup results are limited
+to site administrators. Feed lookup visibility is separate from the distribution of imported events.
 
 ### Fetching feeds
 
-Use the button at the top right of the Feeds screen to fetch data from all feeds and ingest the data to the MISP database.
+Enable the source and use its fetch action to import the data. For an initial test, prefer one
+feed over a bulk fetch. With background jobs enabled, follow the job to completion and inspect
+the created or updated event. A successful download is not the same as a completed import.
+
+Leave **Auto publish** off while evaluating a source. Review the resulting distribution, tags,
+parsed types, duplicate handling and detection flags before making the data operational.
 
 ### Search feed caches
 
-To search the feed caches, select the Search Feed Caches option on the side menu. This displays a table where you can search for values potentially contained in the cached feeds and servers.
+Open `/feeds/searchCaches`. At this development commit it uses a legacy-layout page rather than
+the Overmind feed list. Search for an
+exact value to check the caches of feeds and eligible remote servers. A hit means the cached
+source contains that value; it is not a verdict that the value is malicious.
 
-![Feed cache search](./figures/cachesearch.png)
+![A cache lookup in the actual MISP 3.0 build, which currently retains the legacy layout for this page. The reserved example.org value matches the synthetic feed without an event import.](figures/misp3-feed-cache.png)
 
 ### Adding feeds
 
-To add a new feed, select the Add Feed option on the side menu.
-Here you will have access to a dynamic form. Let's check each field by order. The form shows or hides fields based on the selections in the drop-down fields.
+Choose **Add Feed**. The form changes with **Input source** and **Source format**. Start with a
+recognisable name, provider and source location, then set the import behaviour explicitly.
 
-![Add feed form](./figures/addfeedform.png)
+![The MISP 3.0 feed form, staged for the synthetic CSV example with automatic publication disabled.](figures/misp3-feed-form.png)
 
-* Enabled: Is the feed active or not
-* Caching enabled: Should the feed data be cached
-* Lookup visible: If this is not checked, correlations will only show up for you; if checked, correlations are visible for other users as well
-* Disable correlation: If this is checked, correlations will be disabled for all events coming from this Feed
-* Unpublish event: If checked, the target event is unpublished whenever the feed updates it (useful when you want to review changes before they are re-published)
-* Name: Name to identify the feed; not required to be unique
-* Provider: Name of the content provider
-* Input Source: Where does the input come from  
-![Input Source](./figures/inputsource.png)  
-  * Network: hosted somewhere outside the platform
-  * Local: Hosted on the local server. In this case, a new checkbox "Remove input after ingestion" will appear. If checked, the source is deleted after usage.  
-![Remove Input](./figures/removeinput.png)
+| Setting | Effect and suggested first check |
+|---|---|
+| **Enabled** | Makes the feed eligible for ingestion. This is independent of caching. |
+| **Caching enabled / Lookup visible** | Choose whether to maintain the lookup cache and who may see its hits. |
+| **Input source / URL** | **Network** fetches over HTTP(S). **Local** reads an approved server-side path, where permitted by instance policy. A native MISP feed normally uses the feed directory's base URL; see the format notes below. |
+| **Request headers** | Extra headers, one `headername: value` per line, for authenticated sources. Treat the definition and its exports as sensitive when they contain credentials. |
+| **Creator organisation** | The creator of events produced from free-text/CSV data. Confirm it before importing. |
+| **Target event** | A **Fixed event** is updated on later fetches; **New event each pull** creates a fresh event each time. Verify the target ID belongs to the intended event. |
+| **Distribution / Sharing group** | The audience of imported data. Start restricted when evaluating a new source. Native MISP feeds also offer **Inherit from feed**. |
+| **Default tag / Default tag collection** | Apply consistent source or handling labels. A tag collection is a preset bundle of tags, distinct from a content Collection. |
+| **Auto publish** | Publishes imported events automatically. Enable only after reviewing the source and its outgoing routes. |
+| **Override IDS flag** | Sets imported attributes' `to_ids` to **false**. Useful while assessing detection suitability. |
+| **Delta merge** | For a fixed parsed-feed event, soft-deletes attributes absent from the newest fetch. Source disappearance is not proof of expiry. |
+| **Unpublish events / Disable correlation / Lock events** | Control how imported events are handled. Check these against the intended review and ownership workflow. |
 
-* URL: URL of the feed, where it is located (for Local hosted files, point to the manifest.json; e.g., /home/user/feed-generator/output/manifest.json)
+Local feeds may be disabled by policy. An administrator must use the supported CLI setting to
+change `Security.disable_local_feed_access`{.text-wrap .text-break}; do not enable local file access just to consume
+an ordinary network feed. **Remove input after ingestion** can delete a local input, so use it
+only for a deliberate one-shot workflow.
 
-* Headers: Any HTTP headers to pass with the feed request, as a line-break-separated list in `headername: value` format. This is how you consume a feed that requires authentication — for example an `Authorization` header carrying an API token or bearer key.
+#### Source formats
 
-* The Source Format can be:
-![Source Format](./figures/sourceformat.png)
-  * MISP Feed: The source points to a list of JSON formatted files like MISP events.  
-  Example: https://www.circl.lu/doc/misp/feed-osint
+- **MISP Feed**: a feed directory with `manifest.json` and event JSON files named by UUID.
+  Enter its base URL, such as `https://www.circl.lu/doc/misp/feed-osint`{.text-wrap .text-break}. It is a published
+  snapshot, not a native two-way sync connection. With **Inherit from feed**, usable source
+  distribution must be present; missing distribution falls back to organisation-only.
+- **Freetext Parsed Feed**: MISP extracts candidate indicators from the text. Preview the
+  recognised values and types, and use **Exclusion regex** to remove known noise.
+- **Simple CSV Parsed Feed**: specify the delimiter and the indicator column numbers.
+  **Columns start at 1**; `1,3` selects the first and third columns. With no column selection,
+  every field is considered for parsing. Lines beginning with `#` are comments.
 
-  * Freetext Parsed Feed: The options for a freetext-parsed feed are shown below.
-![Freetext Parsed Feed](./figures/freetextparsedfeed.png)
-    * Creator organisation: The creator organisation (orgc_id) for the event created from this feed. Appears in the Org column on the List Feeds screen.
-    * Target Event: The event to hold data from the feed. Can be either "New Event Each Pull" (a new event will be created each time the feed is pulled) or "Fixed Event" (a unique event will be updated with the new data, as determined by the next field).
-![Target Event](./figures/targetevent.png)  
-    * Target Event ID: The ID of the event where the data will be added; if not set, the field will be set the first time the feed is fetched.
-    * Exclusion Regex: Add a regex pattern for detecting IoCs that should be skipped. This can be useful to exclude any references to the actual report / feed for example.
-    * Auto Publish: If checked, the event created from the feed will be automatically published
-    * Override IDS Flag: If checked, the IDS flag will be set to false
-    * Delta Merge: If checked, only attributes from the most recent fetch are kept, the old ones are (soft-) deleted.
+For example, save the following as a CSV feed and select value column **1** with delimiter `,`:
 
-  * Simple CSV Parsed Feed: The options for a chacter-separated feed are shown below.
-![Simple CSV Parsed Feed](./figures/simplecsvparsedfeed.png)  
-    * Creator organisation: The creator organisation (orgc_id) for the event created from this feed. Appears in the Org column on the List Feeds screen.
-    * Target Event: The event to hold data from the feed. Can be either "New Event Each Pull" (a new event will be created each time the feed is pulled) or "Fixed Event" (a unique event will be updated with the new data, as determined by the next field).
-    * Target Event ID: The ID of the event where the data will be added; if not set, the field will be set the first time the feed is fetched.
-    * Value field(s) in the CSV: Select one or several fields that should be parsed by the CSV parser and converted into MISP attributes; specify column position separated by commas
-    * Delimiter: Set the field separator; default is comma ","
-    * Exclusion Regex: Add a regex pattern for detecting IoCs that should be skipped. This can be useful to exclude any references to the actual report / feed for example.
-    * Auto Publish: If checked, the event created from the feed will be automatically published
-    * Override IDS Flag: If checked, the IDS flag will be set to false
-    * Delta Merge: If checked, only attributes from the most recent fetch are kept, the old ones are (soft-) deleted.
+```csv
+# value,context
+example.org,Reserved documentation domain
+192.0.2.80,Reserved documentation address
+```
 
-* Distribution: The distribution option that will be set on the event created from the feed. The choices are:
-  * Your organisation only
-  * This community only
-  * Connected communities
-  * All communities
-  * Sharing Group. In this case, a new field Sharing Group appears where you must select a group.
-  * Inherit from Feed (only for MISP feeds). In this case the original distribution and Sharing Group from the feed will be used. Note that the `feed_generator.py` needs to be configured with  `with_distribution = True`. Data will be imported as "Your organisation only" if the distribution is not present in the feed.
+Preview it before importing. The expected candidates are `example.org` and `192.0.2.80`, not
+the explanatory text. In this training example, keep **Override IDS flag** on, **Auto publish**
+off and distribution **Your organisation only**.
 
-* Default Tag: A default tag can be added to the created event(s). You can select either a single tag or a [tag collection](../sharing/index.qmd) (a preset bundle of tags), so that every event created from the feed is consistently labelled.
+![The MISP 3.0 preview of the two synthetic CSV values. Review the parsed types and source context before selecting values to import.](figures/misp3-feed-preview.png)
 
-* Filter rules: Here you can define which tags or organisations are allowed or blocked.  
-![Filter rules](./figures/filterrules.png)
+#### Filter rules
 
-To add a tag (or organisation respectively), first type it into the top middle (bottom middle for organisation) text field. Then use the arrows that point to the outside to add it to the allowed or blocked tags (or organisations respectively) list.  
-![Add Filter rules](./figures/addfilterrules.png)  
-![Add Filter rules](./figures/addfilterrules2.png)
+For native MISP feeds, use the **Pull filter rules** editor to allow or block tags and
+organisations, and to add supported manifest-query filters. Rules operate on feed metadata;
+parsed free-text/CSV sources instead need appropriate column selection and exclusion patterns.
+Review a sample result after any rule change.
 
-To remove a tag (or organisation respectively), select it in the list and click on the arrow pointing to the inside.  
-![Remove Filter rules](./figures/removefilterrules.png)  
-![Remove Filter rules](./figures/removefilterrules2.png)
+### Importing feed definitions {#importing-feeds}
 
-### Importing feeds
+Use **Import feeds from JSON** (`/feeds/importFeeds`) to add metadata from another instance. This does not import its
+cached contents or events. Review URLs and headers, and remap local IDs such as `event_id`,
+`orgc_id`, `sharing_group_id`, `tag_id` and any tag-collection reference. Numeric IDs are not
+portable identities across instances.
 
-To import a new feed, select the Import Feeds from JSON option on the side menu. Paste MISP feed metadata JSON into the text box and click the Add button. Double check values in ID fields that are specific to an instance including the feed ID (field id), event ID (field event_id), organisation ID (field orgc_id), sharing group ID (field sharing_group_id) and tag ID (field tag_id).
+### Analyse feed overlap {#analyze-feed-overlap}
 
-### Analyze feed overlap
+The overlap matrix at `/feeds/compareFeeds` compares **cached values**, helping identify sources that duplicate much of
+another feed. Cache the selected sources successfully first. Overlap does not measure accuracy,
+trust, timeliness or the quality of context; consider those separately when choosing sources.
 
-To analyze feed data overlap, select the Feed overlap analysis matrix option on the side menu. This presents overlap matrix obtained by analyzing cached feed data.
+### Exporting feed definitions {#exporting-feeds}
 
-![Overlap analysis matrix](./figures/overlapanalysismatrix.png)
-
-### Exporting feeds
-
-To export all feed metadata, select the Export Feeds settings option on the side menu. The server will push a JSON file for download.
+Retrieve feed metadata in JSON with an authenticated `GET /feeds/index` request and an
+`Accept: application/json` header, or the legacy **Export Feed settings** link. Inspect the JSON before
+sharing it: authenticated URLs, request headers and instance-specific IDs can require removal
+or replacement. Imported definitions should begin disabled until their settings have been reviewed.
 
 ## Feed correlation
 
-If an indicator from a feed matches an indicator within a MISP event, it will show up as "Feed hits" in the event overview.
-The correlation will not show up in the correlation graph of the event.
-
+An event attribute matching a cached source can show **Feed hits**, subject to lookup visibility
+and correlation settings. Open the source context and check its cache age before acting on the
+match. These are feed-cache lookups, not locally imported related events, and they do not add a
+new node to the event's correlation graph. See [best practices](../best-practices/index.qmd)
+for reviewing sources and selecting detection attributes.

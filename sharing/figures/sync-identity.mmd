@@ -1,0 +1,20 @@
+flowchart LR
+  accTitle: Credentials for B to pull events from A
+  accDescr: A hosts the account that B uses to authenticate. The account belongs to Org B, identified by the same organisation UUID on both instances. B stores A's base URL, A's host organisation identity and the key issued by A. B sends a request to A and receives the events that this account is allowed to read.
+  subgraph A["Instance A · Org A"]
+    direction TB
+    account["Local account for Org B<br/>Role: Sync user<br/>Org B's existing UUID"]
+    key["A issues an authentication key<br/>for that account"]
+    account --> key
+  end
+  subgraph B["Instance B · Org B"]
+    direction TB
+    connection["Remote server connection to A<br/>Base URL: A<br/>Remote host organisation: Org A"]
+    stored["Stores A-issued key<br/>Used by B to pull from A"]
+    connection --> stored
+  end
+  A -. "Exchange A-issued key securely" .-> B
+  classDef identity fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef credential fill:#f0f3f7,stroke:#516479,color:#153448;
+  class account,connection identity;
+  class key,stored credential;

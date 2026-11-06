@@ -1,0 +1,11 @@
+flowchart TB
+  accTitle: Review intelligence before detection or outward sharing
+  accDescr: Selected partner events and feeds enter an intake stage. Analysts validate sources, remove noise and set the intended audience. Reviewed data can then be selected for detection exports or published to approved partners. Intake and review can be performed within one instance, or on separate staging and operations instances when isolation is needed.
+  S["Selected partner events and feeds"] --> I["Intake<br/>Cache or import deliberately"]
+  I --> R["Analyst review<br/>Source · evidence · audience"]
+  R --> D["Detection exports<br/>Select useful attributes for IDS"]
+  R --> P["Outward sharing<br/>Publish to approved partners"]
+  classDef stage fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef outcome fill:#edf6ef,stroke:#377448,color:#20482c;
+  class S,I,R stage;
+  class D,P outcome;
