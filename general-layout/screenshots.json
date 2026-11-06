@@ -29,7 +29,7 @@
         "organization_id": 1
       }
     ],
-    "events": "The two private fictional events used in quick-start/screenshots.json, with reserved documentation indicators and IDS disabled.",
+    "events": "The two organization-only fictional events used in quick-start/screenshots.json, with reserved documentation indicators and IDS disabled.",
     "bookmark": {
       "name": "Events",
       "path": "/events/index",

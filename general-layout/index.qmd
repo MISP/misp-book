@@ -212,9 +212,10 @@ A workspace provides a graph for bringing related items together while you brows
 Make sure the intended workspace is active before using **Add to workspace** controls on other pages.
 Additions are saved as they arrive; use **Save layout** to keep changes to node positions.
 
-![A private example workspace opened alongside the investigation.](figures/misp3-workspace-panel.png)
+![An organization-only example workspace opened alongside the investigation.](figures/misp3-workspace-panel.png)
 
 Workspaces have their own name and distribution settings.
+The example uses **Your organisation only**, so it can be accessible to other authorized members of your organization.
 Creating or selecting one is optional; you can continue using the event lists and event views without an active workspace.
 
 ## Smaller screens and keyboard access
