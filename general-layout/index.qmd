@@ -1,179 +1,228 @@
 ---
 title: "General Layout"
+format:
+  html:
+    lightbox: true
 ---
 
-<!-- Nothing else matters -->
+MISP separates navigation between the main menus, the controls for the page you are viewing, and side panels you can keep open while working.
+This chapter shows where to find common tasks and how those parts of the interface fit together.
+For a first hands-on exercise, follow the [Quick Start](../quick-start/index.qmd).
 
-<!-- ToDo: Think about other default user roles that need to be considered and documented or at least hinted too. like: the role Read-only and user have these differences, if any -->
+::: {.callout-note}
+The screenshots show MISP **3.0.0** from the development branch [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), in the light Overmind interface with fictional data.
+Your menus can differ with your role, enabled features, and theme; MISP 2.5 uses some different menu names and layouts.
+Select a screenshot to enlarge it in the website.
+:::
 
-# General Layout
+<!-- Screenshot source commits, account roles and capture details: screenshots.json -->
 
 ## The top bar
-This menu contains all of the main functions of the site as a series of dropdown menus. These menus contain all (from the current user's perspective) accessible functions sorted into several groups.
 
-### Simple User
-![This is the main menu that will be accessible from all of the views. In some instances, some additional buttons that will appear on top of these when a view provides it.](figures/MenuBarUser.png)
+The MISP logo opens your personal homepage, or the instance's default landing page if you have not chosen one.
+The named menus on the left group related tools; the controls on the right open workspaces, news, bookmarks, and your account menu.
+The current menu is highlighted so you can see which part of MISP you are using.
 
-*   **Home button:** This button will return you to the start screen of the application, which is the event index page or the page the user set as custom home page using the star in the top bar.
-*   **Event Actions:** All the malware data entered into MISP is made up of an event object that is described by its connected attributes. The Event actions menu gives access to all the functionality that relates to the creation, modification, deletion, publishing, searching and listing of events and attributes.
-*   **Dashboard:** Allows you to create a custom dashboard using widgets.
-*   **Galaxies:** Shortcut to the list of [MISP Galaxies](../galaxy/) on the MISP instance.
-*   **Input Filters:** Input filters alter what and how data can be entered into this instance. Apart from the basic validation of attribute entry by type, it is possible for the site administrators to define regular expression replacements and blocklists for certain values in addition to blocking certain values from being exportable. Users can view these replacement and blocklist rules here while an administrator can alter them.
-*   **Global Actions:** This menu gives you access to information about MISP and this instance. You can view and edit your own profile, view the manual, read the news or the terms of use again, see a list of the active organisations on this instance and a histogram of their contributions by attribute type.
-*   **API:** Links to the OpenAPI/Swagger reference for this instance's API and to the built-in REST client.
-*   **MISP:** Simple link to your BASEURL
-*   **Name:** Name (Auto generated from Mail address) of current logged in user
-*   **Envelope:** Link to User Dashboard where you can consult some of your notifications and changes since last visit. Like some of the proposals received for your organisation.
-*   **Log out:** The Log out button to end your session immediately.
+![Main navigation for a regular User account in the instance's host organization.](figures/misp3-navigation-user.png)
 
-### Admin User
-![Some additional buttons that will appear on top of these when a view provides it.](figures/MenuBarAdmin.png)
-*   **Home button:** See description given earlier for user.
-*   **Event Actions:** See description given earlier for user.
-*   **Dashboard:** See description given earlier for user.
-*   **Galaxies:** You can additionally update the Galaxies.
-*   **Input Filters:** See description given earlier for user.
-*   **Global Actions:** See description given earlier for user.
-*   **Sync Actions:** With administrator access rights, shows a list of the connected instances and allows the initiation of a push and a pull. See [sharing and synchronisation](../sharing/).
-*   **Administration:** Administrators can add, edit or remove user accounts and user roles. Roles define the access rights to certain features such as publishing of events, usage of the REST interface or synchronization of any user belonging to the given role. Site administrators can also access a contact form, through which it is possible to reset the passwords of users, or to just get in touch with them via encrypted e-mails.
-*   **Logs:** If you have audit permissions, you can browse the instance's logs here (this menu was formerly called *Audit*). See the Logs section below.
-*   **API:** See description given earlier for user.
-*   **MISP:** See description given earlier for user.
-*   **Admin:** User role.
-*   **Envelope:** See description given earlier for user.
-*   **Log out:** See description given earlier for user.
+<a id="simple-user"></a>
+<a id="admin-user"></a>
 
+### Why menus differ between accounts
 
-### Content of each of the top menu bar drop-down menus
+MISP filters menu entries according to your permissions and the instance's configuration.
+For example, **Administration** is absent for the regular user above and present for the site administrator below.
+**Logs** depends on audit permissions, while **Sync** can also be available to a user in the host organization; both can be available to non-administrators.
 
-#### Event actions
+![Main navigation for a site administrator, including the Administration menu.](figures/misp3-navigation-admin.png)
 
-![List Event Actions](figures/EventActions.png)
-*   **List Events:** Lists all the events in the system that are not private or belong to your organisation. You can add, modify, delete, publish or view individual events from this view.
-*   **Add Event:** Allows you to fill out an event creation form and create the event object, which you can start adding attributes.
-*   **List Attributes:** Lists all the attributes in the system that are not private or belong to your organisation. You can modify, delete or view each individual attribute from this view.
-*   **Search Attributes:** You can set search terms for a filtered attribute index view here.
-*   **List Collections:** List collections — named bundles of events and other elements that can be managed and synchronised together.
-*   **List Event Reports:** List the rich-text event reports on this instance.
-*   **List Analyst Data:** List analyst data (notes, opinions and relationships) on this instance.
-*   **View Proposals:** Shows a list of all proposals that you are eligible to see.
-*   **Events with proposals:** Shows all of the events created by your organisation that has pending proposals.
-*   **List Tags:** List all the tags that have been created by users with tag creation rights on this instance.
-*   **List Tag Collections:** List all the tag collections that have been created by users with tag creation rights on this instance. Tag collections allow you to assign a collection of tags to an event or attribute in one action.
-*   **Add Tag:** Create a new tag.
-*   **List Taxonomies:** List all of the taxonomies installed on the MISP instance. This is also the place to activate the taxonomies as a Org Admin/Site Admin.
-*   **List Event Templates:** List all of the event templates created by users with template creation rights on this instance.
-*   **Add Event Template:** Create a new event template.
-*   **Export:** Export the data accessible to you in various formats.
-*   **Automation:** If you have authentication key access, you can view how to use your key to use the REST interface for automation here.
+Use these roles as a starting point, rather than assuming every instance uses identical permissions:
 
-#### Galaxies
-![Screenshot of top bar galaxies drop down menu](./figures/Galaxies.png)
-*   **List Galaxies:** Index of [MISP Galaxies](../galaxy/) on the MISP instance.
-*   **List Relationships:** Shows a list of galaxy cluster relationships.
+| Role | Typical scope |
+|---|---|
+| User | Work with events, attributes, and other intelligence within the granted permissions. Publication can require a separate permission. |
+| Read Only | Browse permitted data without the editing controls available to contributors. |
+| Organization administrator | Manage users in the administrator's own organization. |
+| Site administrator | Manage instance-wide settings, organizations, roles, and administrative tools. |
 
-#### Input filters
-![Input filters](figures/InputFilter.png)
+Menu access and data visibility are separate: your organization, event distribution, and sharing-group membership also affect which records you can see.
+Ask your administrator if a tool is missing, and see [Roles](../administration/index.qmd#roles) for the permission model.
 
-*   **Import Regexp:** You can view the Regular Expression rules, which modify the data that can be entered into the system. This can and should be used to help filter out personal information from automatic imports (such as removing the username from windows file paths), having unified representation for certain common values for easier correlation or simply standardizing certain input. It is also possible to block certain values from being inserted. As a site administrator or a user with regex permission, you can also edit these rules.
-*   **Signature Allowlist:** You can view the allowlist rules, which contains the values that are blocked from being used for exports and automation on this instance. Site administrators have access to editing this list.
-*  **List Warninglists:** MISP warninglists are lists of well-known indicators that can be associated to potential false positives, errors or mistakes. The warning lists are integrated in MISP to display an info/warning box at the event and attribute level.
-*  **List Noticelists:** MISP noticelists inform MISP users of the legal, privacy, policy or even technical implications of using specific attributes, categories or objects.
-*  **List Correlation Exclusions:** Allows for the exclusion of certain values from the correlation engine.
+<a id="content-of-each-of-the-top-menu-bar-drop-down-menus"></a>
 
-#### Global Actions
+## Main navigation
 
-![Global Actions](figures/GlobalActions.png)
+Start with the group that matches your task:
 
-*   **News:** Read about the latest news regarding the MISP system
-*   **My Profile:** Manage your user account.
-*   **My Settings:** View your user specific settings.
-*   **Set Setting:** Set user specific settings.
-*   **Organisations:** View the organisations having a presence on this instance.
-*   **Role Permissions:** You can view the role permissions here.
-*   **List Sharing Groups:** You can view the list of existing Sharing Groups to which you or your organisation have access.
-*  **Add Sharing Group:** Create a sharing group.
-*  **Decaying Models Tool:** Allows you to create decaying models.
-*  **List Decaying Models:** Manage existing decaying models.
-*   **User Guide:** A link to this user guide.
-*   **Categories & Types:** Quick overview of Attribute Categories and Types. e.g: md5 -> Payload delivery, Artifacts dropped, Payload installation, External analysis
-*   **Terms & Conditions:** General terms and conditions which can be configured in Administration -> Server Settings -> MISP Settings: MISP.terms_file . From the UI: "The filename of the terms and conditions file. Make sure that the file is located in your MISP/app/files/terms directory"
-*   **Statistics:** View a series of statistics about the users and the data on this instance.
-*   **List Discussions:** List threads of discussions created on the MISP instance by the organisations connected to this local community.
-*   **Start Discussion:** Create a new discussion thread.
-<!-- #ToDo: Make a reference to best practices on how to use this form of messaging. Sense/non-sense etc... -->
+| Menu | Use it to… |
+|---|---|
+| **Data points** | Find and work with events, attributes, objects, reports, collections, and analyst data. |
+| **Data models** | Find tags, taxonomies, galaxies, templates, and the lists that help interpret data. |
+| **Sync** | Reach feeds, remote servers, sharing groups, and permitted integrations. |
+| **Administration** | Manage users and the instance, subject to administrator permissions. |
+| **Logs** | Inspect the log views your account is allowed to access. |
+| **API** | Open API documentation, the REST client, and automation guidance. |
+| **Resources** | Open the user guide, reference information, and available interface themes. |
 
-#### Sync Actions
+Some entries open another submenu before you reach a page.
+For example, **Data models → Tags & Taxonomies → List Taxonomies** opens the taxonomy list.
 
-![Sync Actions](figures/SyncActions.png)
-*   **Import Server Settings:** Import sync server configuration.
-*   **List Servers:** Connect your MISP instance to other instances, or view and modify the currently established connections.
-<!-- Include example of error message/stack trace differences. -->
-*  **List Feeds:** Follow the RSS feeds of other organisation or CERTs worldwide. 
-*  **Search Feed Caches:** Search for values potentially contained in the cached feeds and servers. 
-*  **List SightingDB Connections:** Allows you to manage existing SightingDB connections. SightingDB is an alternate sighting database that MISP interconnects with. 
-*  **Add SightingDB Connection:** Create a SightingDB connection.
-*  **List Communities:** A list of communities that chose to advertise their existence to the general MISP user-base.
-*  **Cerebrates:** Connect your MISP to one or several Cerebrate instances to act as lookup directories for organisation and sharing group information.
-*  **TAXII Servers:** Configure TAXII 2.x server endpoints to push MISP data to.
-*  **Event ID translator:** Allows to translate a local ID into the corresponding event ID on sync servers configured.
+<a id="event-actions"></a>
 
-#### Administration
+### Data points
 
-![Administration](figures/Administration.png)
+This is the main starting point for analysis.
+Open **Events** to browse reports and create a new event, or use **Objects** and **Attributes** to work across the data you can access.
+**Value Intelligence** provides an entry point for investigating a value.
 
-*   **List Users:** View, modify or delete the currently registered users.
-*   **List Auth Keys:** Shows a list of the auth keys on this instance (auth keys from the advanced auth key system) with their comments.
-*   **List User Setting:** Lists user setting for the users on this instance.
-*   **Set User Setting:** Set user specific settings for the users on this instance.
-*   **Add User:** Create an account for a new user for your organisation. Site administrators can create users for any organisation.
-*  **Contact Users:** You can use this view to send messages to your current or future users or send them a temporary password.
+![The Data points menu for the regular documentation user.](figures/misp3-datapoints-menu.png)
 
-When adding a new user to the system, or when you want to manually reset the password for a user, just use the "Send credentials automatically" setting.
+**Collections**, **Event Reports**, and **Analyst Data** organize related intelligence and its narrative or assessment.
+**Proposals** groups suggested changes and related requests.
+**Dashboard** and **Statistics** provide overview pages.
+See [Using MISP](../using-the-system/index.qmd), [Collections](../collections/index.qmd), and [Analyst data](../analyst-data/index.qmd) for the detailed workflows.
 
-After selecting the action, choose who the target of the e-mails should be (all users, a single user or a user not yet in the system).
+<a id="galaxies"></a>
+<a id="input-filters"></a>
 
-You can then specify (if eligible) what the e-mail address of the target is (for existing users you can choose from a dropdown menu).
+### Data models
 
-In the case of a new user, you can specify the future user's GnuPG key, to send his/her new key in an encrypted e-mail.
+Use this menu to find the vocabularies, structures, and reference lists that give intelligence context.
 
-The system will automatically generate a message for you, but it is also possible to write a custom message if you tick the check-box, don't worry about assigning a temporary password manually. The system will do that for you, it will be in the mail after your custom message.
+![The Data models menu groups vocabularies, templates, and reference lists.](figures/misp3-datamodels-menu.png)
 
-*  **User Registrations:** You can find messages sent to this instance in this view.
-*  **List Organisations:** View the organisations having a presence on this instance, with some useful information.
-*  **Add Organisations:**
-*   **List Roles:** List, modify or delete currently existing roles.
-*   **Add Role:** Create a new role group for the users of this instance, controlling their privileges to create, modify, delete and to publish events and to access certain features such as the logs or automation.
-*   **Server Settings & Maintenance:** Various tools, upgrade scripts that can help a site-admin run the instance & Set up and diagnose your MISP installation.
-*   **Jobs:** View the background jobs and their progress
-*   **Scheduled Tasks:** Schedule the pre-defined tasks for your instance (this currently includes export caching, server pull and server push).
-*   **Event Block Rules:** Set event block rules. Event block rules allow you to add a simple tag filter to block events from being added or synced. See [administration](../administration/).
-*   **Blocklist Event:** Link to form where you can quickly add an event to a blocklist with it's UUID. For more information, see [administration](../administration/).
-*   **Manage Event Blocklists:** List of blocklisted events on MISP instance.
-*   **blocklist Organisation:** Link to for where you can quickly add an organisation to a blocklist with it's UUID. For more information, see [administration](../administration/).
-*   **Manage Org blocklists:** List of blocklisted Organisations on this instance.
-*   **Workflows:** Manage event-driven automation workflows (site admins, when enabled).
-*   **Top Correlations / Correlation rules / Over-correlating values:** Tools to inspect and tune the correlation engine.
-*   **Benchmarking:** Per-user and per-endpoint performance metrics (site admins, when enabled).
+- **Tags & Taxonomies** contains **List Taxonomies**, **List Tags**, and **List Tag Collections**.
+- **Galaxies** leads to galaxy knowledge bases and cluster relationships.
+- **Templates** contains event templates, object templates, and object relationships.
+- **Filters & Lists** groups warninglists, noticelists, import regular expressions, and correlation exclusions.
+- **Decaying Models** and **Analyst Profiles** provide additional modeling tools where available.
 
-The **Sharing Group Blueprints**, **List Object Templates** and **Decaying Models** tools are reached from the *Global Actions* menu.
+Warninglists help flag well-known values that may be false positives; noticelists explain relevant policy or technical considerations.
+Import regular expressions apply input rules, while correlation exclusions prevent chosen values from creating correlations.
+See [Taxonomies](../taxonomy/index.qmd), [Galaxies](../galaxy/index.qmd), [Objects](../misp-objects/index.qmd), [Warninglists](../warninglists/index.qmd), and [Noticelists](../noticelists/index.qmd) for more.
 
-#### Logs
+<a id="sync-actions"></a>
 
-The *Audit* menu has been renamed **Logs** and now groups four views (see the
-[administration](../administration/index.qmd#logs) chapter):
+### Sync
 
-*   **Application Logs:** The legacy application log — logins/logouts, failed authentication and other application events.
-*   **Audit Logs:** The detailed audit trail of data changes (shown when the audit log is enabled).
-*   **Access Logs:** The per-request HTTP access log (site admins only).
-*   **Search Logs:** Search the application log.
+**Servers & Feeds** leads to the remote-server and feed pages your account can access.
+Remote servers synchronize data between MISP instances; feeds provide intelligence to cache for correlation or fetch into the instance.
 
-#### API
+![The Sync menu as exposed to the regular user in the host organization.](figures/misp3-sync-menu.png)
 
-*   **OpenAPI:** The browsable OpenAPI/Swagger reference for this instance's API.
-*   **REST client:** The built-in interactive REST client for building, sending and inspecting API calls.
+**Sharing Groups** manages defined sharing audiences, while **Event ID Translator** helps map event IDs between connected instances.
+Accounts with the appropriate permissions can also see **Integrations**, including community, Cerebrate, TAXII, or SightingDB connections.
+See [Sharing and synchronization](../sharing/index.qmd) and [Managing feeds](../managing-feeds/index.qmd) before configuring exchanges.
 
-## The left bar
-The menu items in this menu bar are different depending on the current page you are on. The blue highlight shows you what page you are on.
+### Administration
 
-![Screenshot of left menu bar](./figures/LeftMenuBar.png)
+Organization administrators and site administrators see the tools appropriate to their scope.
+Use **Users & Orgs** for account and organization management, and **Roles & Permissions** for the available role and authentication-key administration views.
+Site administrators can open **Server Settings & Maintenance** to configure and diagnose the instance.
+
+![The Administration menu for the site administrator in the example instance.](figures/misp3-administration-menu.png)
+
+Other groups cover system jobs, blocklisting, and correlation management.
+Jobs, scheduled tasks, workflows, and benchmarking entries depend on permissions and enabled features.
+See [Administration](../administration/index.qmd) for those workflows; the presence of a menu entry does not grant access to every action within it.
+
+### Logs
+
+**Application logs** records application activity such as authentication and other logged actions.
+**Audit logs** records data changes when the audit feature is enabled and your role permits access.
+**Access logs** provides request-level information to site administrators.
+The example instance below exposes application and access logs to its site administrator.
+
+![The Logs menu in the example instance; Audit logs is conditional on configuration.](figures/misp3-logs-menu.png)
+
+See [Logs](../administration/index.qmd#logs) for the available log types and access requirements.
+
+### API
+
+**Open API** opens the instance's API reference.
+**REST Client** lets you construct requests and inspect responses, and **Automation** provides guidance for programmatic access.
+API operations use the permissions of the authenticated account; a write request can change data just as an action in the web interface can.
+
+![The API menu with Open API, REST Client, and Automation.](figures/misp3-api-menu.png)
+
+See [Automation](../automation/index.qmd) and [PyMISP](../pymisp/index.qmd) for authentication and examples.
+
+### Resources
+
+Use **User Guide** to return to this book and **Categories & Types** to look up the attribute data model.
+The menu can also expose the instance's public encryption material and interface themes when configured.
+
+![The Resources menu in the example instance.](figures/misp3-resources-menu.png)
+
+<a id="global-actions"></a>
+
+## Your account
+
+Open the menu labeled with your name on the right of the top bar.
+The label identifies the signed-in account; permissions come from its assigned role.
+
+![The account menu for the regular documentation user.](figures/misp3-account-menu.png)
+
+- **My Profile** opens your account details and the available profile and authentication-key controls.
+- **Theme** selects a visual theme; **Dark mode** switches palettes when the selected theme supports it.
+- **Replay the tutorial** restarts the interface orientation tour.
+- **Log out** ends your authenticated session.
+
+The available appearance options depend on the instance and theme.
+See [User management](../user-management/index.qmd) for profile settings, notifications, and multi-factor authentication.
+
+<a id="the-left-bar"></a>
+
+## Page-level controls
+
+The main menu chooses a feature; the page itself provides the controls for working with its records.
+On an index page such as **Events**, look for the page heading, primary action, search and filters, result count, table headings, and pagination.
+
+![The Events index with its search field, filter controls, result table, count, and page actions.](figures/misp3-page-controls.png)
+
+Use the search field and **Filters** to narrow the results, then check the active filters and result count before acting on the list.
+Where a table offers sorting or pagination, use those controls to change the order or move between pages.
+Creation, editing, and publication controls appear according to your permissions.
+
+On an event page, tabs such as **General**, **Attributes**, **Objects**, **Reports**, and **Correlation** separate the different views of the same event.
+Use the event's action panel for import, editing, and downloads.
+See the [Quick Start event walkthrough](../quick-start/index.qmd#create-an-event) for examples.
+
+## Side panels
+
+The controls at the right of the top bar can open a workspace, news, or bookmarks alongside the current page.
+Panels can offer controls to widen, undock, or close them, so you can consult them without leaving the record you are working on.
+**News** shows the instance's news content and any unread-news indication; it is not a list of every data change in MISP.
+
+### Bookmarks and your homepage
+
+Open **Bookmarks** using the star control.
+Select **Bookmark this page**, review the name and URL, and save it for later use.
+Bookmarks can be private or, where permitted, exposed to your organization; review that choice when saving.
+
+![The Bookmarks panel with a private Events bookmark and personal-homepage controls.](figures/misp3-bookmarks-panel.png)
+
+**Set as homepage** makes the current page your own landing page.
+It changes where the MISP logo takes you and applies to your account.
+
+### Workspaces
+
+The **Workspace** control opens the current analysis workspace or lets you choose one.
+A workspace provides a graph for bringing related items together while you browse; it is separate from the event's own attributes and reports.
+Make sure the intended workspace is active before using **Add to workspace** controls on other pages.
+Additions are saved as they arrive; use **Save layout** to keep changes to node positions.
+
+![A private example workspace opened alongside the investigation.](figures/misp3-workspace-panel.png)
+
+Workspaces have their own name and distribution settings.
+Creating or selecting one is optional; you can continue using the event lists and event views without an active workspace.
+
+## Smaller screens and keyboard access
+
+On a smaller screen, use **Menu** to expand the main navigation.
+The same permission rules apply even when the controls are rearranged or shown as icons.
+
+![The expanded MISP 3.0 main navigation on a narrow screen.](figures/misp3-mobile-navigation.png)
+
+Use the on-page keyboard-shortcut helper to check the shortcuts supported by your current view.
+See [Keyboard shortcuts](../keyboard-shortcuts/index.qmd) for an introduction, and use **Replay the tutorial** from the account menu if you want another guided tour of the interface.
