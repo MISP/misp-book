@@ -124,12 +124,18 @@ Collections synchronise between MISP instances much like events do, but only whe
 instances support the feature and the relevant per-server setting is enabled. There are two
 dedicated settings (see [Sharing](../sharing/index.qmd#synchronising-analyst-data-and-collections-2.5)):
 
-- **Push collections** — send your eligible collections to the remote instance.
-- **Pull collections** — retrieve collections from the remote instance.
+- **Push** in the **Collections** row — send your eligible collections to the remote instance.
+- **Pull** in the **Collections** row — retrieve collections from the remote instance.
 
-At the captured 3.0 commit, the Overmind server form omits these controls. Site administrators
-can set `push_collections` and `pull_collections` through `POST /servers/edit/{id}`; the linked
-setup example shows the payload. Do not assume enabling event push/pull also enables collections.
+As a site administrator, open **Sync → Servers & Feeds → Servers**, add or edit the connection,
+and expand **What to synchronise**. Set the two switches in the **Collections** row, then save.
+The server card displays **Push Collections** and **Pull Collections** independently, so you can
+check the saved directions. Enabling event push/pull does not also enable collections.
+
+For automation, set `push_collections` and `pull_collections` through
+`POST /servers/edit/{id}`; the linked setup example shows the payload. The updated form and
+overview were checked at MISP commit
+[`4dcd953d1`](https://github.com/MISP/MISP/commit/4dcd953d1b987c4ce7089c6b9d55237fa81835a8).
 
 During synchronisation MISP negotiates collection support with the peer, exchanges a compact
 `{uuid: modified}` index to find what is new or newer, and transfers only the differences.

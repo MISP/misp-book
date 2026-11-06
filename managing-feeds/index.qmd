@@ -13,6 +13,8 @@ definition records where to get the data, how to parse it and what to do with th
 Instructions and screenshots use MISP **3.0.0**, the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
 development branch, in the light Overmind interface. Feed administration requires a **site
 administrator**. Select a screenshot or diagram to enlarge it.
+The per-feed cache action shown here was checked at commit
+[`4dcd953d1`](https://github.com/MISP/MISP/commit/4dcd953d1b987c4ce7089c6b9d55237fa81835a8).
 :::
 
 <!-- Capture source and hashes: ../assets/sharing-screenshots.json -->
@@ -44,7 +46,19 @@ recommendation to ingest everything.
 
 ### Caching feeds
 
-Enable **Caching enabled**, then run the cache operation for that feed or an appropriate scope.
+As a site administrator:
+
+1. Edit the feed, turn on **Caching enabled**, and save it.
+2. Open that feed's **Actions** menu (the three-dot menu on its card or table row) and choose
+   **Cache feed**. This action appears only for a feed with caching enabled.
+3. Follow the result or background job and check the successful cache time before relying on lookups.
+
+**Cache feed** applies to that one source. The **Enabled** flag controls ingestion independently;
+a feed can be cached while ingestion is disabled. Use **Feed operations** to cache a wider scope
+such as all feeds, freetext/CSV feeds or MISP feeds.
+
+![The MISP 3.0 feed Actions menu, including Cache feed for the caching-enabled synthetic source.](figures/misp3-feed-cache-action.png)
+
 MISP stores a hashed value-membership cache in Redis for feed hits and comparisons. It does not
 create events in the database. Inspect the last successful cache time and job outcome: a stale
 or failed cache cannot establish that a value is absent from the current source.
@@ -132,7 +146,8 @@ Review a sample result after any rule change.
 
 ### Importing feed definitions {#importing-feeds}
 
-Use **Import feeds from JSON** (`/feeds/importFeeds`) to add metadata from another instance. This does not import its
+Open the menu beside **Add Feed** and choose **Import JSON** (`/feeds/importFeeds`) to add
+metadata from another instance. This does not import its
 cached contents or events. Review URLs and headers, and remap local IDs such as `event_id`,
 `orgc_id`, `sharing_group_id`, `tag_id` and any tag-collection reference. Numeric IDs are not
 portable identities across instances.
