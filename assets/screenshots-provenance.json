@@ -2,16 +2,5 @@
   "generated_at": "2026-07-09T06:55:16.724Z",
   "misp_version": "2.5.42",
   "theme": "light",
-  "shots": [
-    {
-      "file": "faq/figures/misp-module-system-diag.png",
-      "url": "/servers/serverSettings/diagnostics",
-      "section": "Module System",
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-08T11:58:56.937Z"
-    }
-  ]
+  "shots": []
 }

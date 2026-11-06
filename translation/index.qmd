@@ -1,155 +1,120 @@
 ---
 title: "Translations - i18n & l10n"
+format:
+  html:
+    lightbox: true
 ---
 
-# MISP and internationalization (i18n)
-
-MISP is internationalized (i18n) and localized (l10n) using the standard gettext
-workflow provided by CakePHP. Every user-facing string in the interface is wrapped in a
-translation function, extracted into a translation template (`default.pot`), and translated
-per language under `app/Locale/<lang>/LC_MESSAGES/default.po`. MISP can be translated into
-more than 140 languages this way.
-
-Translations are **crowd-sourced through Crowdin** — you no longer edit `.po`/`.pot`
-files by hand or open pull requests with translated files. The two audiences below cover
-almost everything:
-
-- **Translators** contribute and review translations online on Crowdin (no MISP checkout or
-  local tooling required).
-- **Developers** make new strings translatable in the codebase so that Crowdin can pick
-  them up.
+MISP uses CakePHP/gettext message catalogues to translate interface text. Translation coverage
+varies by language and by feature; a selected locale does not mean every label in the developing
+3.0 interface has already been translated.
 
 ::: {.callout-note}
-Crowdin replaced the older Transifex-based workflow. The project lives at
-[crowdin.com/project/misp](https://crowdin.com/project/misp). Crowdin is an independent
-service with its own [privacy policy](https://support.crowdin.com/privacy-policy/).
+Checked against MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
+The branch's [contribution guide](https://github.com/MISP/MISP/blob/3.0_wip/CONTRIBUTING.md#translating-misp)
+uses **Crowdin** and states that only reviewed translations are included in MISP.
 :::
 
-## Translating MISP (for translators)
+<!-- Locale validation, placeholder checks and captures: ../assets/reference-faq-screenshots.json -->
 
-You can help correct, improve, or complete the translation of MISP into your native
-language directly from a web browser:
+<a id="misp-and-internationalization-i18n"></a>
+<a id="style"></a>
+<a id="translating-misp-for-translators"></a>
 
-1. Open the MISP project on Crowdin: [crowdin.com/project/misp](https://crowdin.com/project/misp).
-2. Log in (or create a free Crowdin account) and pick your target language.
-3. Translate strings in the online editor. Crowdin shows you the surrounding context,
-   existing suggestions, and a translation memory so recurring phrases stay consistent.
+## Contribute a translation {#translation-contribute}
 
-If you are new to Crowdin, read their
-[introduction for volunteer translators](https://support.crowdin.com/for-volunteer-translators/).
+1. Open [MISP on Crowdin](https://crowdin.com/project/misp), sign in and choose a target language.
+2. Read the string's context and existing translations. Preserve placeholders, identifiers and
+   the meaning of permissions or sharing labels.
+3. Submit the translation for review. A suggestion is not immediately installed on every instance;
+   reviewed catalogue updates must reach the branch/release and deployment you use.
 
-::: {.callout-important}
-Only **reviewed** translations are shipped with MISP. Once a string is translated it still
-needs to be proofread/approved by a reviewer before it is exported into the codebase and
-distributed in the next release. If you would like to become a reviewer for your language,
-reach out to the MISP team.
-:::
+Crowdin is a separate service with its own
+[privacy policy](https://support.crowdin.com/privacy-policy/). Its
+[volunteer introduction](https://support.crowdin.com/for-volunteer-translators/) explains the editor
+and review process. For a local source-string defect, report the relevant branch, page and exact
+message to [MISP core](https://github.com/MISP/MISP/issues).
 
-### Style
+Prefer clear, consistent language used by practitioners. Keep machine tags, API fields, object
+relation names and other protocol identifiers intact; translating a display label does not rename
+the data model. Describe an action accurately, especially when it saves, deletes, shares or publishes.
 
-Please follow whatever is the purest and most intelligible form of the written language
-being translated. Where a technical term has an established local form, prefer it; where the
-English term is what practitioners actually use, keeping it is fine — consistency within a
-language matters more than a strict rule.
+<a id="enabling-a-language-on-your-instance"></a>
 
-## Enabling a language on your instance
+## Select an installed language {#translation-instance-language}
 
-Translations reach an instance through the release cycle: reviewed strings on Crowdin are
-periodically exported to `app/Locale/<lang>/LC_MESSAGES/default.po`, compiled, and shipped
-with MISP. To select the interface language on a running instance, a site administrator sets
-the **`MISP.language`** server setting (default `eng`) under
-*Administration → Server Settings & Maintenance → MISP settings*. The dropdown is populated
-from the locales present in `app/Locale/`, so only languages that ship with your version are
-selectable. Changing it clears the relevant caches automatically.
+A site administrator selects **`MISP.language`** in
+**Administration → Server Settings & Maintenance**. Search for the setting in the **Instance** group.
+The default code is `eng`. The available choices come from this deployment's real directories
+under `app/Locale/`; the 3.0 loader excludes runtime symlink aliases from the choices.
 
-## Making MISP translatable (for developers)
+![The current server-language setting, with the deployment's supported locale choices.](figures/misp3-language-setting.png)
 
-New user-facing strings only become translatable if they are wrapped in CakePHP's `__()`
-translation function. When you add or change a view, wrap the strings so that they are
-extracted into [`default.pot`](https://github.com/MISP/MISP/blob/2.5/app/Locale/default.pot)
-and appear on Crowdin. See the CakePHP documentation on
-[i18n & l10n](https://book.cakephp.org/2.0/en/core-libraries/internationalization-and-localization.html)
-for the underlying mechanism.
+Save the intended locale through the settings interface and reload a page. The setting's
+save hook clears relevant cache files. `AppController` then sets CakePHP's request language;
+it is an instance setting, not a separate language selector on each analyst's profile.
+The Overmind layout also maps catalogue codes to HTML language/direction metadata.
 
-A few conventions make the extracted strings far easier to translate.
+![A page rendered using the installed French catalogue. Some developing interface strings can remain in English.](figures/misp3-french-interface.png)
 
-### Use named placeholders, not `%s`
+If a label remains in English, check the saved locale, the catalogue shipped by that exact
+checkout, the source message and its translation/review status. New Overmind strings may not
+have corresponding entries yet. Do not promise an installed language count from the number
+of languages a translation service can support.
 
-This is hard to translate because the translator gets no context for the substituted value:
+<a id="keep-html-out-of-translatable-strings"></a>
+<a id="making-misp-translatable-for-developers"></a>
+<a id="use-named-placeholders-not-s"></a>
+<a id="wrap-button-labels-and-form-labels"></a>
 
-```php
-<p><?php echo __('Are you sure you want to delete Proposal #') . $id . '?' ?></p>
-```
+## Write translatable interface text {#translation-developers}
 
-Prefer the format-string notation with a **named** placeholder — the generated `msgid`
-carries the variable name, which is far more meaningful to a translator than a bare `%s`,
-and it lets the translator reorder the sentence freely:
+Wrap user-facing PHP strings with the framework's translation functions. Keep a complete
+sentence as the message and pass changing values as format arguments:
 
 ```php
-<p><?php echo __('Are you sure you want to delete Proposal #{$id}?'); ?></p>
+<p><?= h(__('Remove Proposal #%s?', $proposalId)) ?></p>
 ```
 
-### Keep HTML out of translatable strings
-
-Move HTML tags out of the sentence — and out of the PHP call where possible — so translators
-translate language, not markup. Instead of:
+Use numbered `sprintf` placeholders when a translator must be able to reorder multiple values:
 
 ```php
-<p><?php echo __('<h1>Are you sure you want to:<br />Delete Proposal #%s?', $id); ?></h1></p>
+<p><?= h(__('Move %1$s to %2$s?', $itemName, $destinationName)) ?></p>
 ```
 
-write:
+A literal `{$id}` inside a single-quoted PHP message is not a named interpolation mechanism.
+Match every placeholder's type and count, and escape the completed text for its output context.
+For HTML text in a view, `h()` is appropriate; attributes, JavaScript and URLs need their own
+context handling. Do not concatenate translated sentence fragments around identifiers.
+
+Wrap form labels too:
 
 ```php
-<p><h1><?php echo __('Are you sure you want to:%sDelete Proposal #{$id}?', '<br />'); ?></h1></p>
+echo $this->Form->button(__('Submit'), ['class' => 'btn btn-primary']);
+echo $this->Form->input('sharing_group_id', [
+    'options' => $sharingGroups,
+    'label' => __('Sharing group'),
+]);
 ```
 
-### Wrap button labels and form labels
+Keep structural markup outside plain-text messages. If a message intentionally contains a link
+or other markup, follow the component's established safe formatting pattern, keep the sentence
+translatable as a whole, and never insert unescaped user text as trusted HTML.
 
-Untranslated labels are a common oversight. This label is not translatable:
+The checked-out template is `app/Locale/default.pot`; language messages live under
+`app/Locale/<locale>/LC_MESSAGES/default.po`. JavaScript text also needs the relevant component's
+translation bridge; wrapping PHP labels does not translate hard-coded JavaScript strings.
+Use the branch's extraction/contribution process and review changes to placeholders and plural
+forms. See [CakePHP 2 internationalization](https://book.cakephp.org/2.0/en/core-libraries/internationalization-and-localization.html)
+for the underlying API.
 
-```php
-echo $this->Form->button('Submit', array('class' => 'btn btn-primary'));
-```
+<a id="issues"></a>
+<a id="reach-out-to-the-community"></a>
+<a id="translating-the-website-or-this-book"></a>
 
-Wrap it:
+## Website, book and community {#translation-other-projects}
 
-```php
-echo $this->Form->button(__('Submit'), array('class' => 'btn btn-primary'));
-```
-
-The same applies to form inputs — this:
-
-```php
-echo $this->Form->input('sharing_group_id', array(
-    'options' => array($sharingGroups),
-    'label' => 'Sharing Group',
-));
-```
-
-becomes:
-
-```php
-echo $this->Form->input('sharing_group_id', array(
-    'options' => array($sharingGroups),
-    'label' => __('Sharing Group'),
-));
-```
-
-## Issues
-
-Sometimes a phrase is impossible to translate cleanly, or you notice bad formatting or
-awkward sentence segmentation in the source string. In that case, open an
-[issue on GitHub](https://github.com/MISP/MISP/issues) so the source string can be fixed —
-that fixes it for every language at once.
-
-## Translating the website or this book
-
-Interested in translating the MISP website or the MISP Book as well? Those are separate from
-the software translation on Crowdin — reach out to the MISP team and we will help you get
-set up.
-
-## Reach out to the community
-
-Want to chat with other MISP contributors and translators? Join the
-[MISP Gitter channel](https://gitter.im/MISP/MISP).
+The website and this book are separate from MISP's software catalogues. Coordinate translation
+work with the maintainers of the relevant project, keep links/code identifiers usable, and
+record which source version the translation follows. For project support and reporting guidance,
+see the [FAQ](../faq/index.qmd#faq-support).

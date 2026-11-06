@@ -1,0 +1,12 @@
+flowchart TB
+    accTitle: Diagnose a MISP problem before changing configuration
+    accDescr: First record the symptom and version, inspect health and logs, and identify the affected layer. Then choose a scoped change, test on an isolated copy and verify the result.
+    subgraph Understand["Understand the failure"]
+        direction LR
+        A["Record symptom and version<br/>Branch · runtime · request"] --> B["Inspect health and logs<br/>Match the request or job"] --> C["Identify the layer<br/>Access · service · schema · data"]
+    end
+    subgraph Validate["Validate a change"]
+        direction LR
+        D["Choose a scoped change<br/>Expected effect · recovery"] --> E["Test on an isolated copy<br/>Permissions · state · failures"] --> F["Verify the result<br/>Record the change and reason"]
+    end
+    Understand --> Validate

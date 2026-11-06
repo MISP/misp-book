@@ -142,6 +142,20 @@
       "source_sha256": "8ad9347e7f06ea1797f37d0a5365d0d6635f13f8639e06d1265ca338b42b4939",
       "sha256": "d629162243c3c8a8b0626b766477b1959b3db6c67914f4e6c22e043ed0f4b110",
       "viewBox": "0 0 571.5 520.4000244140625"
+    },
+    {
+      "source": "faq/figures/diagnose-before-changing.mmd",
+      "file": "faq/figures/diagnose-before-changing.svg",
+      "source_sha256": "4526d3bfeb4d4b764b0c855a426e255293c49127bf80d40d1555e29f725a065e",
+      "sha256": "cd1b341a470b4c646535e2353d5b7c5a142929b0f9889c2bc8e04dcd3c4ac502",
+      "viewBox": "0 0 948.96875 369.6000061035156"
+    },
+    {
+      "source": "user-stories/figures/research-to-sharing.mmd",
+      "file": "user-stories/figures/research-to-sharing.svg",
+      "source_sha256": "316c3652e4ff7d5562f1e6023cd6d13ca43244c992a11ab7ffe62796102a76a2",
+      "sha256": "cec648b96219bfc3523f78b37ea4019f98b836d79209d64e63ec9eb688717d9c",
+      "viewBox": "0 0 981.875 334.3999938964844"
     }
   ]
 }

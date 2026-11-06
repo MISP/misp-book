@@ -1,0 +1,12 @@
+flowchart TB
+    accTitle: From an observation to a reviewed sharing decision
+    accDescr: Research starts with sourced observations, accessible context and an assessment. Delivery then curates the relevant records, checks each resource's audience and makes an explicit export or publication decision.
+    subgraph Research["Research"]
+        direction LR
+        A["Preserve observations<br/>Events · attributes · objects"] --> B["Investigate context<br/>Values · workspace · graph"] --> C["Record an assessment<br/>Notes · opinions · relationships"]
+    end
+    subgraph Delivery["Delivery review"]
+        direction LR
+        D["Curate a useful result<br/>Report · collection · selection"] --> E["Review each audience<br/>Ownership · scope · attachments"] --> F["Choose delivery<br/>Export or publish · verify receipt"]
+    end
+    Research --> Delivery

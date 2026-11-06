@@ -1,0 +1,624 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17",
+    "app/files/misp-objects": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326",
+    "app/files/misp-galaxy": "306db6a359edbe1cf7cdc86ab1c8a9c1ff1f4a96",
+    "app/files/misp-workflow-blueprints": "2337bdeb8c0aa7125db3a410fdb6a54ec50d6865",
+    "app/files/noticelists": "028f569e26b5b47286167b7d39f81cd1791eb04e"
+  },
+  "generated_at": "2026-11-06T20:00:22.275000+00:00",
+  "scope_chapters": [
+    "keyboard-shortcuts/index.qmd",
+    "translation/index.qmd",
+    "faq/index.qmd",
+    "dev-faq/index.qmd",
+    "user-stories/index.qmd",
+    "user-personas/index.qmd"
+  ],
+  "capture_method": "Chromium/Playwright against the pinned checkout: nine fresh viewport or real modal screenshots, without retouching or arrow annotations. Existing synthetic private data and reserved domain/address fixtures only. Report help and settings/appearance controls opened without saving. French/Arabic instance language selected temporarily through the supported console setting and original config restored byte for byte.",
+  "ui_checks": {
+    "classic_shortcut_manager_absent_in_overmind": true,
+    "list_search_focus_and_filter_toggle": true,
+    "bookmark_shortcut_and_escape": true,
+    "report_help_without_edit_or_save": true,
+    "settings_global_search_shortcut": true,
+    "language_select_installed_choices": [
+      {
+        "code": "eng",
+        "label": "English"
+      },
+      {
+        "code": "ara",
+        "label": "\u0627\u0644\u0639\u0631\u0628\u064a\u0629"
+      },
+      {
+        "code": "bul",
+        "label": "\u0411\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438"
+      },
+      {
+        "code": "cze",
+        "label": "\u010ce\u0161tina"
+      },
+      {
+        "code": "dan",
+        "label": "Dansk"
+      },
+      {
+        "code": "deu",
+        "label": "Deutsch"
+      },
+      {
+        "code": "ell",
+        "label": "\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac"
+      },
+      {
+        "code": "est",
+        "label": "Eesti"
+      },
+      {
+        "code": "fas",
+        "label": "\u0641\u0627\u0631\u0633\u06cc"
+      },
+      {
+        "code": "fin",
+        "label": "Suomi"
+      },
+      {
+        "code": "fra",
+        "label": "Fran\u00e7ais"
+      },
+      {
+        "code": "heb",
+        "label": "\u05e2\u05d1\u05e8\u05d9\u05ea"
+      },
+      {
+        "code": "hrv",
+        "label": "Hrvatski"
+      },
+      {
+        "code": "hun",
+        "label": "Magyar"
+      },
+      {
+        "code": "ita",
+        "label": "Italiano"
+      },
+      {
+        "code": "jpn",
+        "label": "\u65e5\u672c\u8a9e"
+      },
+      {
+        "code": "kor",
+        "label": "\ud55c\uad6d\uc5b4"
+      },
+      {
+        "code": "lav",
+        "label": "Latvie\u0161u"
+      },
+      {
+        "code": "lit",
+        "label": "Lietuvi\u0173"
+      },
+      {
+        "code": "nld",
+        "label": "Nederlands"
+      },
+      {
+        "code": "no",
+        "label": "Norsk"
+      },
+      {
+        "code": "pol",
+        "label": "Polski"
+      },
+      {
+        "code": "pt",
+        "label": "Portugu\u00eas (Portugal)"
+      },
+      {
+        "code": "pt_BR",
+        "label": "Portugu\u00eas (Brasil)"
+      },
+      {
+        "code": "ro",
+        "label": "Rom\u00e2n\u0103"
+      },
+      {
+        "code": "rus",
+        "label": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439"
+      },
+      {
+        "code": "si-LK",
+        "label": "\u0dc3\u0dd2\u0d82\u0dc4\u0dbd"
+      },
+      {
+        "code": "sjn",
+        "label": "Sindarin"
+      },
+      {
+        "code": "slk",
+        "label": "Sloven\u010dina"
+      },
+      {
+        "code": "spa",
+        "label": "Espa\u00f1ol"
+      },
+      {
+        "code": "swe",
+        "label": "Svenska"
+      },
+      {
+        "code": "th_TH",
+        "label": "\u0e44\u0e17\u0e22"
+      },
+      {
+        "code": "ukr",
+        "label": "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430"
+      },
+      {
+        "code": "zh-s",
+        "label": "\u7b80\u4f53\u4e2d\u6587"
+      }
+    ],
+    "bundled_specification_still_labelled_2_5": true,
+    "shared_value_view": true,
+    "all_events_unpublished": true
+  },
+  "language_checks": {
+    "french_catalogue_rendered_with_fr_ltr": true,
+    "arabic_rendered_with_ar_rtl": true,
+    "original_configuration_restored_exactly": true
+  },
+  "model_checks": {
+    "locale_count": 34,
+    "languages": {
+      "eng": "English",
+      "ara": "\u0627\u0644\u0639\u0631\u0628\u064a\u0629",
+      "bul": "\u0411\u044a\u043b\u0433\u0430\u0440\u0441\u043a\u0438",
+      "cze": "\u010ce\u0161tina",
+      "dan": "Dansk",
+      "deu": "Deutsch",
+      "ell": "\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac",
+      "est": "Eesti",
+      "fas": "\u0641\u0627\u0631\u0633\u06cc",
+      "fin": "Suomi",
+      "fra": "Fran\u00e7ais",
+      "heb": "\u05e2\u05d1\u05e8\u05d9\u05ea",
+      "hrv": "Hrvatski",
+      "hun": "Magyar",
+      "ita": "Italiano",
+      "jpn": "\u65e5\u672c\u8a9e",
+      "kor": "\ud55c\uad6d\uc5b4",
+      "lav": "Latvie\u0161u",
+      "lit": "Lietuvi\u0173",
+      "nld": "Nederlands",
+      "no": "Norsk",
+      "pol": "Polski",
+      "pt": "Portugu\u00eas (Portugal)",
+      "pt_BR": "Portugu\u00eas (Brasil)",
+      "ro": "Rom\u00e2n\u0103",
+      "rus": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+      "si-LK": "\u0dc3\u0dd2\u0d82\u0dc4\u0dbd",
+      "sjn": "Sindarin",
+      "slk": "Sloven\u010dina",
+      "spa": "Espa\u00f1ol",
+      "swe": "Svenska",
+      "th_TH": "\u0e44\u0e17\u0e22",
+      "ukr": "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430",
+      "zh-s": "\u7b80\u4f53\u4e2d\u6587"
+    },
+    "invalid_locale_rejected": true,
+    "sprintf_arguments_verified": true,
+    "html_language_direction_verified": true,
+    "runtime_aliases_excluded": true,
+    "built_bootstrap_themes": [
+      "cosmo",
+      "factory",
+      "fathom",
+      "flatly",
+      "hex",
+      "neon",
+      "overmind",
+      "scifi",
+      "slate"
+    ]
+  },
+  "cli_checks": {
+    "user-password-help": {
+      "exit_code": 0
+    },
+    "user-role-help": {
+      "exit_code": 0
+    },
+    "setting-help": {
+      "exit_code": 0
+    },
+    "migration-status": {
+      "exit_code": 0
+    },
+    "schema-diagnostics": {
+      "exit_code": 0
+    },
+    "redis-ready": {
+      "exit_code": 0
+    }
+  },
+  "shots": [
+    {
+      "file": "keyboard-shortcuts/figures/misp3-bookmarks-shortcut.png",
+      "url": "/events/index",
+      "description": "Actual bookmarks drawer opened by B; no bookmark saved",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:55:06.371663+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "31e3f0ffc0cdc4c8cf10a8e323c43e315e70f2efad0fdd91d884c147ddbd304d"
+    },
+    {
+      "file": "keyboard-shortcuts/figures/misp3-report-shortcuts.png",
+      "url": "/eventReports/view/1#tab-content",
+      "description": "Actual Markdown help, Editor shortcuts tab; report not edited or saved",
+      "role": "Site administrator",
+      "selector": "#er-help-modal .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:55:09.060439+00:00",
+      "image_size": {
+        "width": 800,
+        "height": 560
+      },
+      "sha256": "863bcdcc4d5d2c7ef841d3916cff24093df2fe30cebd2519399e596eae85cf64"
+    },
+    {
+      "file": "translation/figures/misp3-language-setting.png",
+      "url": "/servers/serverSettings/instance",
+      "description": "Actual language-setting editor and installed locale selector; no setting saved in the browser",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:55:12.256916+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "fc04754f8b12fe1267c7c40dfa8c96250a4e30a332f9e2e94af342c69b323e9d"
+    },
+    {
+      "file": "faq/figures/misp3-health-overview.png",
+      "url": "/servers/serverSettings/overview",
+      "description": "Actual health overview; optional/background services deliberately disabled in this documentation fixture",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:55:13.913288+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "bc7f31f2527ad82a8552f258e41a6a4a747d8eb8738b2c70c329b30a55108e39"
+    },
+    {
+      "file": "faq/figures/misp3-background-jobs.png",
+      "url": "/servers/serverSettings/jobs",
+      "description": "Actual background-jobs page with background processing disabled; no worker/task changes",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:55:15.605929+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "469eb7a67bf3b16e83f97c4ea1b7d8907ea3ed98ec09f634da64fcfa9581b0b6"
+    },
+    {
+      "file": "faq/figures/misp3-appearance.png",
+      "url": "/events/index",
+      "description": "Actual account theme menu showing choices available in this build; no preference saved",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:55:18.012617+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "29b35b50c12129d952dc5eb675f3cd8302436f369323ac36b28254bff7b65dc6"
+    },
+    {
+      "file": "dev-faq/figures/misp3-openapi.png",
+      "url": "/api/openapi",
+      "description": "Actual installed API specification, which retains the 2.5 title on this 3.0 checkout",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:55:20.178854+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "6c280956a2f64319b7e4a327f2ce7cee1cd72abca30b34c012e093c2d163fb6a"
+    },
+    {
+      "file": "user-stories/figures/misp3-value-research.png",
+      "url": "/values/view/sha256:839f41f78dad4351873791c3cdf5e8bd49d34a48bebc7afb7918e5f0d1b7d7da",
+      "description": "Actual 3.0 value view for reserved api.example.org and accessible private synthetic occurrences",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:55:22.045965+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e65f624878d40f5d459ba5a227ea3877768bc9628e0caeff700403a752118dd2"
+    },
+    {
+      "file": "translation/figures/misp3-french-interface.png",
+      "url": "/events/index",
+      "description": "Actual installed French catalogue and HTML language metadata; developing strings may remain in English",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T19:56:05.207985+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "caf89cc44e345723ca260f97c8dfeb9ab397bcf1ea65a9bb311540cb58b47b40"
+    }
+  ],
+  "diagrams": [
+    {
+      "source": "faq/figures/diagnose-before-changing.mmd",
+      "file": "faq/figures/diagnose-before-changing.svg",
+      "source_sha256": "4526d3bfeb4d4b764b0c855a426e255293c49127bf80d40d1555e29f725a065e",
+      "sha256": "cd1b341a470b4c646535e2353d5b7c5a142929b0f9889c2bc8e04dcd3c4ac502",
+      "viewBox": "0 0 948.96875 369.6000061035156"
+    },
+    {
+      "source": "user-stories/figures/research-to-sharing.mmd",
+      "file": "user-stories/figures/research-to-sharing.svg",
+      "source_sha256": "316c3652e4ff7d5562f1e6023cd6d13ca43244c992a11ab7ffe62796102a76a2",
+      "sha256": "cec648b96219bfc3523f78b37ea4019f98b836d79209d64e63ec9eb688717d9c",
+      "viewBox": "0 0 981.875 334.3999938964844"
+    }
+  ],
+  "retired_legacy_assets": [
+    "faq/figures/misp-diag-not-writeable-files-git.png",
+    "faq/figures/misp-diag-update.png",
+    "faq/figures/misp-diag-writeable-files-not_found-git.png",
+    "faq/figures/misp-module-system-diag.png",
+    "faq/figures/misp-not-on-branch.png",
+    "faq/figures/misp-outdated.png",
+    "faq/figures/misp-pathspec.png",
+    "faq/figures/update-misp-YN.png",
+    "keyboard-shortcuts/figures/add-shortcuts-to-view-page.png",
+    "keyboard-shortcuts/figures/demo.gif",
+    "keyboard-shortcuts/figures/json-config-example.png"
+  ],
+  "legacy_anchors": {
+    "keyboard-shortcuts": 3,
+    "translation": 11,
+    "faq": 79,
+    "dev-faq": 3,
+    "user-stories": 1,
+    "user-personas": 54
+  },
+  "source_checks": {
+    "shortcuts": [
+      {
+        "file": "app/View/Themed/Overmind/Layouts/default.ctp",
+        "sha256": "d56b83177c7b0de6317ee8be826533fd5f3b14ce10b26e6d6bf513ab4404225a"
+      },
+      {
+        "file": "app/webroot/js/index-filters.js",
+        "sha256": "75b7381fa6ca80b842a4298b5425d5aed91051c010e0d604fd0adec7ce502de7"
+      },
+      {
+        "file": "app/webroot/js/side-panel.js",
+        "sha256": "4217917d9c2c48195b3594d84f33225326ba005eb0edca15322040875322c736"
+      },
+      {
+        "file": "app/webroot/js/bookmarks-panel.js",
+        "sha256": "eaadfcdbf3931462b8165ac94a2c4847ae429654d9595eb12f35beed290a375f"
+      },
+      {
+        "file": "app/webroot/js/news-panel.js",
+        "sha256": "3d03763fa2bdb7795f02f7f16e19b3d2ffda632203c720ae648dd2dccbdeffe0"
+      },
+      {
+        "file": "app/webroot/js/server-settings.js",
+        "sha256": "c5351bcebfa03cf78832369190f5f170a38e380a06c16b895b2d87b2c60f2479"
+      },
+      {
+        "file": "app/View/Themed/Overmind/Elements/EventReports/View/eventReport_help_modal.ctp",
+        "sha256": "774d1e12340d58765046560da70886ff025983c03600a4a553b8a507ac06eb94"
+      }
+    ],
+    "localization": [
+      {
+        "file": "CONTRIBUTING.md",
+        "sha256": "ef3be11c34de42e2fd73129a7db5c75faae708f3d6e402a22c48688efac65b50"
+      },
+      {
+        "file": "app/Controller/AppController.php",
+        "sha256": "6c431009e908b5b8443c2a040665d7ae3f0973caf49047e080bb6be95d9edc5f"
+      },
+      {
+        "file": "app/Model/Server.php",
+        "sha256": "663de1aed513358027c2751fb75569f75d9711469d678882e23c8f090f35e2f6"
+      },
+      {
+        "file": "app/Lib/Tools/MispLanguage.php",
+        "sha256": "a812871ede6ac03cee8f158a129da1581dde820c445f2ad24e229000e26a8bea"
+      },
+      {
+        "file": "app/Lib/cakephp/lib/Cake/basics.php",
+        "sha256": "5c4e4d7952a9af4778a9b13822b2c4083ba180c46b2469d39ed0065f02efe60d"
+      }
+    ],
+    "api_and_development": [
+      {
+        "file": "app/composer.json",
+        "sha256": "4ee5b264a2b72901a869f83379212b5216751c354b318890274094990ef85fb7"
+      },
+      {
+        "file": "app/Controller/ApiController.php",
+        "sha256": "c0332dbe18caf441a4725331a66026de54c8dfc68ffad10634ee06b2b70e0bf1"
+      },
+      {
+        "file": "app/webroot/doc/openapi.yaml",
+        "sha256": "99e4787f933efa44b146adf314d3998a0d8f3161a303d1e33d757e9f4d550a89"
+      },
+      {
+        "file": "docs/dev/docker-dev-environment.md",
+        "sha256": "acb8f02ab9c171d8c3c9f59de0b370e5e876a7a42b9fd56af3be4095b54a6b9c"
+      },
+      {
+        "file": "app/Lib/Migration/MigrationRunner.php",
+        "sha256": "e1dbd5513c2fdc262225453c21df943dd1b7b931b44425525243c7989e3f5897"
+      }
+    ],
+    "recovery_and_appearance": [
+      {
+        "file": "app/Console/Command/UserShell.php",
+        "sha256": "4570557ab2923d64f1001fb566596724adb8514962a6c34bdf754b1609330208"
+      },
+      {
+        "file": "app/Console/Command/AdminShell.php",
+        "sha256": "c2425cba85926634e1aed97872f8a63ed8a0bac8fed6c321736fe988b2a5cc8c"
+      },
+      {
+        "file": "app/Controller/UserSettingsController.php",
+        "sha256": "89e8726088fd100b09653c122aec38b1933701f3ef40842a3a9a6fb708327cb2"
+      },
+      {
+        "file": "app/View/Helper/NavbarHelper.php",
+        "sha256": "ac897e7325fc9472e4eeff1b7fdc09bfc7784751c5418be168d2f80a7339bce6"
+      },
+      {
+        "file": "app/Lib/MispTheme/MispTheme.php",
+        "sha256": "77f02eb8b71c8bd8af953886b09c6bead8465857deb464f9ea0b12b60d280d85"
+      }
+    ],
+    "data_and_permissions": [
+      {
+        "file": "app/Controller/Component/ACLComponent.php",
+        "sha256": "f03006744715af299db0d6ad169da340f6a45e3ee56f8168ed1632cd4362ec00"
+      },
+      {
+        "file": "app/Controller/ShadowAttributesController.php",
+        "sha256": "9c7e08b870bfa31afb49a8c564a81d5090074c265dd685eff33a735409465581"
+      },
+      {
+        "file": "app/Model/MispAttribute.php",
+        "sha256": "904a4d13c6ec3058a7d861b0492786a5fe46f5b68abc4589f5ef15e2c4df0009"
+      },
+      {
+        "file": "app/Model/Value.php",
+        "sha256": "e895b981e033cc2207143c2cb48711adc5a7605762e33526bbdd31e27fa5424a"
+      },
+      {
+        "file": "app/Model/Warninglist.php",
+        "sha256": "c00d89dfddb2ddcdacff106333cf3fe320d449ae324e8225f63f500b32e67064"
+      },
+      {
+        "file": "app/Model/Collection.php",
+        "sha256": "ee7b563bbab142d750771a04fe4730eedb650d2b41b4d5d69f150c21ff9dbf84"
+      }
+    ]
+  },
+  "verification_limits": "No account recovery/password/role change, application upgrade/migration apply, destructive cleanup, recurring task, provider request, peer synchronization or event/cluster publication was performed. Only read-only diagnostics, console help and reversible local language changes were exercised. Model-specific assertions in FAQ/stories/personas are supported by the pinned source and the linked chapters; a story is not an end-to-end integration test. Optional services remain disabled in this synthetic documentation runtime.",
+  "runtime_final_checks": {
+    "original_configuration_restored_exactly": true,
+    "all_events_unpublished": true,
+    "event_count": 11,
+    "no_new_event_or_account_fixture_required": true
+  },
+  "validation": {
+    "quarto": "1.9.38; full HTML, Typst PDF and ePub render",
+    "desktop_width": 1440,
+    "mobile_width": 390,
+    "figures_decode": 11,
+    "png_svg_lightboxes": true,
+    "horizontal_page_overflow": false,
+    "javascript_errors": 0,
+    "legacy_rendered_anchors_preserved": 151,
+    "duplicate_main_ids": 0,
+    "epub_six_chapter_relative_links_and_fragments": 121,
+    "epub_all_new_images_embedded": true,
+    "svg_native_text_titles_descriptions_no_foreign_object": true,
+    "capture_source_hashes_verified": true,
+    "offline_html_link_check": {
+      "total": 4239,
+      "unique": 865,
+      "ok": 3906,
+      "errors": 0,
+      "excluded": 333
+    },
+    "capture_secret_scan": true,
+    "configuration_restored_byte_for_byte": true,
+    "capture_services_stopped": true,
+    "pdf_pages": 336,
+    "compact_diagrams_checked_in_pdf": true
+  }
+}

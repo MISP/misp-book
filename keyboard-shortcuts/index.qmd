@@ -1,81 +1,86 @@
 ---
 title: "Keyboard Shortcuts"
+format:
+  html:
+    lightbox: true
 ---
-<a id="keyboard-shortcuts-in-misp"></a>
 
-
-MISP ships with keyboard shortcuts on the busiest pages. To see which shortcuts are available
-on the page you are currently on, press the small triangle at the bottom-right of the window
-(or press `?`), which opens the *Keyboard shortcuts for this page* helper.
-
-**Demo:**
-![Demo video of showing the keyboard shortcuts in the MISP GUI](./figures/demo.gif)
-
-## Default shortcuts
-
-The following shortcuts are available everywhere:
-
-| Key | Action |
-|-----|--------|
-| `l` | Go to the event list (`/events/index`) |
-| `e` | Go to the add-event page (`/events/add`) |
-| `?` | Show the keyboard-shortcuts helper for this page |
-
-On the **event view** page (`/events/view`) these additional shortcuts apply:
-
-| Key | Action |
-|-----|--------|
-| `t` | Open the tag-selection modal |
-| `i` | Open the *Populate from…* import choice modal |
-| `f` | Open the freetext import modal |
-| `a` | Add an attribute |
-| `o` | Add an object |
-| `s` | Focus the attribute filter bar |
-
-On the **event index** page (`/events/index`), `s` focuses the event filter bar.
+Use the keyboard to move through navigation, search a list and work in the report editor.
+Shortcuts belong to the interface and control that implements them; they are not a single
+instance-wide command language.
 
 ::: {.callout-note}
-The default set is defined in the shipped source and may grow between releases — always check
-the on-page helper (`?`) for the authoritative list on your version.
+Checked against MISP **3.0.0**, `3.0_wip` commit
+[`99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1),
+with the Overmind interface. The classic interface's `l`, `e`, `t`, `a`, `o`, `s` and `?`
+shortcut manager is **not loaded by Overmind**. Its old help triangle is not the guide for this UI.
 :::
 
-## Customising the shortcuts
+<!-- Source checks and actual UI captures: ../assets/reference-faq-screenshots.json -->
 
-Since MISP 2.5 the shortcuts are defined in a single JavaScript definition file rather than in
-per-page JSON files. To add or change a shortcut, edit
-`app/webroot/js/keyboard-shortcuts-definition.js` and extend the `getShortcutsDefinition()`
-function, which receives the current `controller` and `action` and returns the list of
-shortcuts for that page:
+<a id="default-shortcuts"></a>
+<a id="keyboard-shortcuts-in-misp"></a>
 
-```javascript
-function getShortcutsDefinition(controller, action) {
-    var shortcuts = [
-        {
-            "key": "l",
-            "description": "Go to event list",
-            "action": function () {
-                document.location.href = baseurl + '/events/index';
-            }
-        }
-        // ... other global shortcuts ...
-    ];
+## Navigate and search in Overmind {#shortcuts-overmind}
 
-    if (controller === 'events' && action === 'view') {
-        shortcuts.push({
-            "key": "t",
-            "description": "Open the tag selection modal",
-            "action": function () {
-                $('.addTagButton').first().click();
-            }
-        });
-    }
-    return shortcuts;
-}
-```
+::: {.table-responsive}
 
-Each shortcut is an object with a `key`, a human-readable `description` (shown in the on-page
-helper), and an `action` — a JavaScript function that runs when the key is pressed. To scope a
-shortcut to a specific page, add it inside a matching `controller`/`action` branch; to make it
-global, add it to the top-level `shortcuts` array. There is currently no in-GUI editor for the
-shortcuts — the definition file is the single source of truth, so keep local changes under
-version control so an upgrade does not silently overwrite them.
+| Context | Key | Action |
+|---|---|---|
+| Navigation and forms | `Tab` / `Shift+Tab` | Move between focusable controls. Use `Enter` or `Space` as appropriate to activate a button. |
+| Supported list filter bar | `/` | Focus and select the text in the visible list search field. |
+| Supported list filter bar | `f` / `F` | Show or hide the Filters panel. An open picker/browser keeps its own keys. |
+| Server settings | `Ctrl+K` / `Command+K` | Open the search across settings. |
+| News panel, when available | `n` / `N` | Show or hide News. |
+| Bookmarks panel, when available | `b` / `B` | Show or hide Bookmarks. |
+| Focus inside a side panel | `Escape` | Close it and return focus to its toggle. |
+
+:::
+
+The list and side-panel letter shortcuts do not activate while typing in supported editable
+fields or behind an open modal. They also leave Ctrl/Command/Alt combinations to the browser
+or editor. A page without the relevant search bar or panel has no corresponding action.
+
+![The real Bookmarks panel opened with its Overmind keyboard shortcut.](figures/misp3-bookmarks-shortcut.png)
+
+The navbar and optional rail have their own arrow-key navigation. Start with `Tab` to focus a
+menu control, use the keys supported by that menu, and use `Escape` to dismiss it. Keep the
+visible focus indicator in view; browser Find (`Ctrl+F` / `Command+F`) is separate from MISP's
+list filtering.
+
+## Event-report editor {#shortcuts-report-editor}
+
+Open an editable event report and choose **Markdown help → Editor shortcuts** for the editor's
+own reference. The pinned help lists these Ctrl combinations:
+
+::: {.table-responsive}
+
+| Key | Editor action |
+|---|---|
+| `Ctrl+Space` | Suggest the event's attributes, objects, tags and galaxies. |
+| `Ctrl+M` | Insert a MISP element reference. |
+| `Ctrl+B` / `Ctrl+I` | Apply bold / italic formatting. |
+| `Ctrl+H` | Make the line a heading, advancing one level per press. |
+| `Ctrl+S` | Save the report. This changes the saved report; it is not a preview shortcut. |
+
+:::
+
+![The current editor's own shortcut help, opened without changing or saving the report.](figures/misp3-report-shortcuts.png)
+
+Browser, operating-system and input-method bindings can intercept a combination. Use the
+visible toolbar/help action when a key is unavailable. See
+[Event Reports](../event-reports/index.qmd#writing-a-report) for editing and element references.
+
+<a id="customising-the-shortcuts"></a>
+
+## Troubleshoot or extend shortcuts {#shortcuts-maintenance}
+
+Check the page, focused element, open dialogs and user permissions before diagnosing a missing
+action. The relevant Overmind sources are `app/webroot/js/index-filters.js`, `side-panel.js`,
+`overmind-navbar.js` / `overmind-rail.js`, `server-settings.js` and the event-report view/editor code.
+
+`keyboard-shortcuts-definition.js` and `keyboard-shortcuts.js` still describe the deprecated
+classic interface. Editing them does not add an Overmind shortcut. There is no general GUI
+shortcut editor. For a contribution, use the appropriate component, respect editable fields
+and modal focus, provide a visible equivalent, and test with the supported browser and layout.
+Keep deployment customizations under version control rather than replacing shipped assets.

@@ -1,378 +1,210 @@
 ---
 title: "User Personas"
 ---
+
+These fictional profiles describe recurring goals and constraints for people working with MISP.
+Use them to discuss workflows, permissions and acceptance criteria. They are not role definitions,
+claims about particular people, or a ranking of whose work matters most.
+
+::: {.callout-note}
+Updated for MISP **3.0.0**, `3.0_wip` commit `99ebee729`. The profiles retain their established
+names for continuity while focusing on tasks rather than demographic detail. A persona's goal
+does not automatically grant the permissions or integrations needed to achieve it.
+:::
+
 <a id="misp-user-personas"></a>
 
-
-These personas are fictional, but they are based on concrete representations of the people who use MISP.
-They help us keep in mind who we are building for, what their needs are, and what MISP should help them accomplish.
-These personas are based on OSINT about current MISP users, including Gitter chats, GitHub issues, LinkedIn, and other cybersecurity sources.
-
 ## Primary personas
-Farrah and Adam represent the users that are the most important to us.
+
+<a id="he-uses-misp-to"></a>
+<a id="his-objectives-are-to"></a>
+<a id="his-primary-goals-are-to"></a>
+<a id="role"></a>
 
 ### Farrah
-_**The Threat Hunter**_
 
-Farrah works in threat intelligence for a security service provider in Malaysia that offers a range of cybersecurity solutions.
-He leads a threat intelligence team made up of experienced intelligence analysts who are former military/government employees and contractors.
+**Threat intelligence analyst.** Farrah turns observations from several sources into a
+reviewable assessment and a useful set of investigation leads.
 
-Farrah uses MISP to analyze malware, gather information about specific adversary groups, and discover emerging threats.
-He also uses MISP for data normalization (consolidating data across different source formats), de-duplication (removal of duplicate information), and enrichment (removal of false positives, scoring of indicators, and the addition of context).
+**Workflow:** Search values and accessible occurrences, investigate them in a workspace/graph,
+structure related observations as objects, and attach sourced taxonomy/galaxy context. Record
+notes, opinions and relationships separately from the underlying facts. Curate findings in a
+report or collection, then prepare an explicitly filtered detection export where justified.
 
-_"To address threats effectively, you must maintain a team focused on monitoring, generating, and triaging alerts."_
+**Success:** Another analyst can follow the evidence and identify uncertainty. A warninglist
+hit, correlation or model-generated suggestion is reviewed rather than treated as a verdict.
+See [investigating a value](../user-stories/index.qmd#stories-investigate).
 
-#### Role
-Lead Threat Intelligence Analyst
-
-#### His primary goals are to:
-- Hunt down threats, analyze malware, manage vulnerabilities and prevent attacks against ICT infrastructures, organizations, or people.
-- Improve  security posture through the aggregation,  correlation, and analysis of threat data from multiple sources
-- Investigate and understand adversarial capabilities, infrastructure & TTPs.
-- Turn threat data from various sources into actionable threat intelligence.
-
-#### He uses MISP to:
-- Dispatch notifications containing IoCs to various parties via mail_to_misp.
-- Monitor feeds for indicators and correlate attributes and analyze malware (check ransom notes, look for any indicators, check the origin, etc).
-- Store attack info in a structured format and allow for automated use of the database for various purposes using the API.
-- Prioritize indicators using sighting reports and purge false positives using warning lists.
-- Classify and contextualize data using taxonomies and galaxies, and keep track of the advancement of an analysis using tags.
-- View and visualize events and activities using MISP-dashboard or Maltego.
-- Automatically import, aggregate, compare, contextualize, query, and cross-reference data using PyMISP
-- Import, export and enrich data using MISP modules
-- Aggregate, curate, and validate indicators from various feeds, then feed the data into detection and analysis tools like NIDs, IDS, and SIEMs
-- Query vulnerability scan results in MISP, automatically create/classify events on matching results, then create blocklists by excluding attributes that exist on warning lists.
-- Collaborate with others in a sharing community using Proposals (send and receive feedback), Extended Events (add additional information to other’s analytics), and Event Reports (supply resolution steps and recommendations).
-- Share and receive reports of a specific threat, false positives, or post-mortem     analysis of an incident from sharing groups.
-- Automate repetitive enrichment, tagging and notification with Workflows, and reuse that automation across instances via Blueprints.
-
-#### His objectives are to:
-- Join relevant sharing communities, produce and publish indicators and share information across sectors to avoid hybrid threats.
-- Use IoCs from feeds to identify vulnerabilities, compromised assets, data leaks and to verify the results of a malware scan.
-- Triage threat intel, prioritize vulnerabilities, and customize risk feeds to ignore or downgrade irrelevant alerts in order to avoid alert fatigue.
-- Generate and share alerts to provide critical information to internal teams and external peers.
-- Share information about relevant vulnerabilities, coordinate with security vendors to get notifications, and community sharing of pentest results with other analysts.
-- Research the evolution of high-risk malware families, validate malware signatures and domain reputations.
-- Use indicators to query security logs/systems and databases, identify compromised systems, and add/modify signatures (used by firewalls, intrusion detection systems, etc), and block or alert on activity matching the indicators.
-- Correlate shared indicators from feeds with those captured by other security and network tools to produce intelligence placed in the context of wider threat landscapes.
-- Integrate with existing security solutions so as to centralize security in one place. Leverage integrations to alert on information leaks (AIL 2), hunt down threats (OpenDXL), share attacker’s techniques (ATT&CK), query and prioritize indicators (Trellix EDR), speed up investigations (Cytomic Orion), and enhance the power of threat data (Carbon Black).
-
+<a id="he-uses-misp-to-1"></a>
+<a id="his-objectives-are-to-1"></a>
+<a id="his-primary-goals-are-to-1"></a>
+<a id="role-1"></a>
 
 ### Adam
-_**The Remediator**_
 
-Adam is part of the Computer Security Incident Response Team (CSIRT) at a Belgian cybersecurity consulting firm.
-His responsibilities involve incident response, incident coordination, threat intelligence, and vulnerability management.
-He monitors potential threats, investigates attacks, and works with other security personnel to reduce the impact and severity of an attack.
+**Incident responder.** Adam needs to understand an incident's scope, coordinate findings and
+hand over the evidence behind response decisions.
 
-Adam uses MISP to monitor incidents, provide early warnings/alerts about incidents, respond to incidents and provide incident analysis and situational awareness.
+**Workflow:** Maintain an event with observation times, objects and an event report. Use
+proposals or an extended event for separately owned changes, and analyst research for assessment.
+Link the appropriate response/case-management system through a tested integration; MISP is not
+by itself an endpoint-remediation system or a complete evidence chain-of-custody process.
 
-_“A breach alone is not a disaster, but mishandling it is. The goal is to handle the situation in a way that limits damage and reduces recovery and time costs”_
-
-#### Role
-Incident Response
-
-#### His primary goals are to:
-
-- Uncover the effects of attacks, determine how to clean up its impact, and inform a response to an existing incident to mitigate its extent or impacts.
-- Develop and maintain strong processes for the most common incidents and threats, and create actionable results and remediation plans for internal stakeholders to proactively improve the security posture and maturity.
-- Accelerate incident investigations, management, and prioritization by looking for information on the who/what/why/when/how of an incident.
-- Determine the scope of incidents and limit the potential damage.
-
-#### He uses MISP to:
-- Store incidents as a database of events, describe incidents through event classification (using taxonomies and galaxies) and use the API to deduce from all incidents the current operational status, risk posture, and threats to the cyber environment.
-- Join sharing groups and communities to share incident information with others and discuss information related to risks associated with incidents via Forums, comments to events, and contact a reporter.
-- Analyze observables/malware collected during an incident, determining whether they are IoCs or false positives using the correlation graph and expansion modules.
-- Alert and send emails when events are created in the system or major changes occur in the events, serving as part of an early warning system.
-- Pull events via the API or export IOCs in formats for easy ingestion into other tools (such as SIEMs and IDS) and carrying out investigations by launching lookups against databases.
-- Collaborate and get feedback from team members and affected parties during incident response using Proposals.
-- Dismiss false positives (using warning lists) and enable alert prioritization.
-- Aggregate and compare information from internal and external feeds to identify genuine threats.
-- Perform large-scale data/traffic analysis and correlation through lookups against SightingDB.
-- Share, receive, store and forward incidents and information identified during an incident investigation, enabling the MISP system to act as a forensic tool over time.
-- Correlate and reference network forensic flows from different tools or network equipment
-- Speed up incident response via integration with TheHive.
-- Capture the team's assessment alongside shared data using Analyst Data — Notes, Opinions (confidence) and typed Relationships — and bundle an incident's events and clusters into a Collection for handover.
-
-#### His objectives are to:
-- Share information and get critical alerts and relevant actionable information in the event of a crisis situation.
-- Support forensic analysts and collaborate with law enforcement.
-- Improve incident response functionality and increase coverage and detection  through integrations with tools like SIEMs.
-- Use threat data to validate alarms/events and decide which to escalate to the rest of the incident response team for remediation.
-- Aggregate information from various sources and correlating in order to understand how this data fits together in the broad threat landscape.
-- Get insights (e.g using data feeds) into attacks, thereby helping incident response teams understand the nature, intent, and timing of specific attacks.
-- Prioritize incidents based on risk and impact to the organization and filter out false alerts.
-
+**Success:** Responders can distinguish confirmed activity from hypotheses and share only the
+intended scope. See [incident assessment](../user-stories/index.qmd#stories-incident).
 
 ## Secondary personas
 
-Tina, Henry, Jacob, Jay, Sarah, Priya, and Marco represent other users that are also important to us.
+<a id="her-objectives-are-to"></a>
+<a id="her-primary-goals-are-to"></a>
+<a id="role-2"></a>
+<a id="she-uses-misp-to"></a>
 
 ### Tina
-_**The Fraud Catcher**_
 
-Tina works as a fraud analyst at a National bank in Canada. She is responsible for investigating any forgery or theft within customers' accounts and transactions on behalf of the bank.
+**Fraud analyst.** Tina looks for relationships among infrastructure, transactions and reports
+while limiting unnecessary exposure of sensitive records.
 
-Tina uses MISP to find and share financial indicators in order to detect financial frauds.
+**Workflow:** Use suitable object templates and source references, compare accessible values,
+and record how each relationship was established. Choose distribution and analyst-data scope
+for the audience; a notice message or taxonomy label does not establish a legal basis or enforce
+all handling obligations.
 
-_"Fighting fraud with threat intelligence is all about alerting"_
+**Success:** A colleague can reproduce the reasoning without receiving unrelated sensitive data.
+See [structured evidence](../user-stories/index.qmd#stories-structure).
 
-#### Role
-Fraud analyst
-
-#### Her primary goals are to:
-- Identify and trace fraudulent activity.
-- Create models for analyzing and determining financial fraud in order to protect consumers and stakeholders.
-- Assess and analyze the attack surface, conduct threat modeling, and deliver actionable intelligence with a focus on current and emerging cyber-attacks against financial sector assets.
-
-#### She uses MISP to:
-- Map legacy and internal systems/models using MISP objects.
-- Find IoCs, malware, vulnerabilities, financial threat, fraud information and share data between other banks and financial institutions using sharing groups.
-- Create, modify and visualize the timeline of events, use MISP Dashboard to provide real-time information showing current threats and activity.
-- Minimize false positives during the fraud vetting process using warning lists and sightings.
-- Detect fraud using threat intel such as real-time notifications for stolen credit cards and phishing URLs from MISP feeds.
-- Prevent fraud by integrating MISP with a network of crawlers, honeypots, and  other techniques that can cross-reference indicators against feeds, enabling the bank to intercept cards before they are sold on the black market and therefore reduce this risk of fraud.
-- Monitor feeds for specific indicators (e.g. email header content, attachments, embedded URLs) related to phishing and fraud attacks.
-- Block wire transfers to money mule accounts by integrating MISP warning lists and sightings with blocking systems.
-- Aggregate sightings of attributes/objects so as to detect particular security events or threats.
-
-#### Her objectives are to:
-- Investigate financial indicators and handle false positives in order to detect and alert for certain potentially invalid data points.
-- Aggregate, correlate, and analyze financial indicators from multiple feeds to discover any fraudulent activity.
-- Blend threat intel from MISP with anti-fraud tools to identify and prevent fraud in real-time.
-- Use threat intel to produce awareness reports informing the institution of threats in the financial sector, and then develop proactive defense strategies against fraud activity.
-- Engage with sharing communities that allow individual enterprises to receive and share data so they can protect themselves before they are compromised.
+<a id="he-uses-misp-to-2"></a>
+<a id="his-objectives-are-to-2"></a>
+<a id="his-primary-goals-are-to-2"></a>
+<a id="role-3"></a>
 
 ### Henry
-_**The Enforcer**_
 
-Henry is a law enforcement officer living in Florida, USA. He works with the Digital Forensics and Incident Response (DFIR) team.
-He is responsible for investigating digital security incidents, identifying digital assets targeted during attacks, and documenting all findings.
+**Law-enforcement investigator.** Henry needs to exchange relevant technical findings and
+preserve the provenance and handling limits of case-related observations.
 
-He uses MISP to support or bootstrap his DFIR cases.
+**Workflow:** Model observed entities and directional links with objects, retain source/time
+context, and coordinate with the appropriate sharing community. Keep case access, evidence
+handling and legal authority in the responsible process; an object template or correlation
+does not establish admissibility, attribution or authorization to collect personal data.
 
-_"I worry about what I don’t know, not what I know"_
+**Success:** Partners can trace a shared finding without treating MISP as a complete forensic
+chain-of-custody system. See [structured evidence](../user-stories/index.qmd#stories-structure).
 
-#### Role
-Law Enforcement Officer
-
-#### His primary goals are to:
-- Find, gather and analyze digital evidence for criminal investigations.
-- Carry out data breach and malware investigations.
-
-#### He uses MISP to:
-- Propose changes to existing analyses or reports.
-- Correlate (1-to-1 value matches, fuzzy hashing, CIDR block matching) evidence against external/local attributes.
-- Correlate and reference network forensic flows from different tools or network equipment using the community-id feature.
-- Export data in various formats to feed into and lookup in other security tools.
-- Join sharing groups and collaborate with other investigators.
-- Receive, gather, analyze and share intelligence on digital crimes.
-- Report digital evidence (in STIX) in a structured way for forensic use.
-- Collect evidence for forensic analysis from feeds, using shared indicators to carry out cybercriminal behavior investigations, attribution, and identifying the link to organized crime activities.
-- Exchange, store and forward incidents/information identified during an incident investigation, enabling the MISP system to act as a forensic tool over time.
-
-#### His objectives are to:
-- Share indicators, analyses, and reports of forensic evidence among other law enforcement officers within and out of his team.
-- Collaborate with CSIRT/CERTs and security researchers in the investigation of cyberattacks.
-- Correlate data identified in a recent incident with data from previous investigations or external feeds.
-- Bridge their use-cases with MISP’s information-sharing mechanism.
-
+<a id="he-uses-misp-to-3"></a>
+<a id="his-objectives-are-to-3"></a>
+<a id="his-primary-goals-are-to-3"></a>
+<a id="role-4"></a>
 
 ### Jacob
-_**The Veteran**_
 
-Jacob is a cybersecurity consultant for organizations looking to secure their infrastructure.
-He has founded a cybersecurity agency that provides threat intel and security consulting services to small and medium-sized businesses.
+**Security service provider / community operator.** Jacob supports several customers or partner
+communities with different trust and delivery requirements.
 
-Jacob uses MISP to investigate threats and find IOCs.
-He works with many clients and typically wants to integrate MISP into existing client solutions.
+**Workflow:** Establish organisation identities and scoped users/keys, design sharing groups and
+peer rules, and verify each delivery path. Use delegation only with an understood ownership and
+publication process. Check protected-event signatures where applicable; a valid signature is
+not proof that every factual claim is true.
 
-_"There’s a difference between threat data and threat intelligence"_
+**Success:** Intended recipients receive usable context and excluded audiences remain excluded.
+See [sharing workflows](../user-stories/index.qmd#stories-sharing).
 
-#### Role
-Cyber Security consultant
-
-#### His primary goals are to:
-- Produce intelligence that will be embedded into organizational workflows and would serve decision-makers.
-- Scope and implement custom security solutions across a variety of client software, architectures, and tools.
-- Detect, contain, and remediate cybersecurity incidents, manually or programmatically.
-
-#### He uses MISP to:
-- Create, collaborate, automate and share threat intel using flexible sharing groups, automatic correlation, free-text import helper, event distribution, and proposals.
-- Allow users to notify a MISP instance about activities (gotten from SIEMs, NIDS, honeypot devices, etc) related to an indicator using sightings.
-- Monitor feeds delivered through a REST API and correlate IOCs with firewall and other logs to identify potential threats in the organization.
-- Push/pull events between local and client MISP instances in order to exchange intel internally and externally.
-- Import, export, and enrich data using modules, automate such tasks using PyMISP.
-- Create sub-communities and MISP object templates to allow rapid sharing of information using specific data models with existing communities.
-- Validate data and flag false positives using warning lists and sightings.
-- View live data/statistics and process information in real-time through integration with ZMQ to access MISP-dashboard.
-- Pseudo-anonymously publish data using the MISP delegation system.
-- Contextualize shared information within MISP instances and communities (using taxonomies and tags), and attach more complex structures to data (using MITRE ATT&CK and other galaxies)
-- Broker trust with client and partner instances using Cerebrate and reusable Sharing Group Blueprints, and sign the events he publishes with cryptographic keys so clients can verify their authenticity (Protected Events).
-
-#### His objectives are to:
-- Run a Cyber Threat Intel platform using MISP integrated with existing client solutions (such as Active Directory, Splunk ES, ThreatConnect, Recorded Future, and Crowdstrike).
-- Gather unstructured data from various sources and connect the dots to provide context on IoCs and TTPs of threat actors.
-- Identify incoming threats, triage and prioritize alerts as they emerge.
-- Feed SIEMs from MISP and feed MISP from other sources (SIEMs included).
-- Share incidents and IOCs for detection (checking if IoCs are present in client infrastructure), blocking (using attributes to block, sinkhole, or divert the traffic), and intelligence (gathering information about campaigns and attacks) purposes.
+<a id="he-uses-misp-to-4"></a>
+<a id="his-objectives-are-to-4"></a>
+<a id="his-primary-goals-are-to-4"></a>
+<a id="role-5"></a>
 
 ### Jay
-_**The Inquisitor**_
 
-Jay is a risk analyst for a large technology company in the USA.
-He is responsible for identifying and predicting risks, as well as forecasting the cost of certain attacks to the organization.
+**Risk analyst.** Jay needs to explain the relevance and uncertainty of threat information to
+people making security and resource decisions.
 
-Jay uses MISP data to learn about the broad threat landscape and analyze the likelihood of certain risks, so as to gain situational awareness.
+**Workflow:** Compare source coverage, observed activity and techniques, keep assumptions in
+reports/research records, and curate the relevant events/clusters for a briefing. Explain what
+a chart counts and what the available dataset cannot show. Use linked detection/export results
+as one source of evidence rather than equating indicator volume with organisational risk.
 
-_"The more certain you can be about the probability of a specific exploit impacting your environment, the easier it is to manage risk"_
+**Success:** A stakeholder can understand the assessment, its evidence and limits. See
+[reporting a finding](../user-stories/index.qmd#stories-reporting).
 
-#### Role
-Risk analyst
-
-#### His primary goals are to:
-- Improve the organization’s security posture, situational awareness, and resilience.
-- Forecast evolving threats before they materialize, provide detailed insights into which vulnerabilities pose the greatest risk, and plan accordingly to avoid them.
-- Assess business and technical risks, identify the right strategies and technologies to mitigate the risks, communicate the nature of the risks to top management and justify investments in defensive measures.
-
-#### He uses MISP to:
-- Monitor trends and adversary TTPs within the company’s sector/geographical region, share and track information emerging on a particular topic from the MISP dashboard in order to gain situational awareness.
-- Monitor IoCs from various technical feeds and add additional context to internal sources of data using the automatic correlation engine.
-- Access risk scores using correlation and sightings.
-- Present data using different export formats, event reports, and the MISP dashboard timeline.
-
-#### His objectives are to:
-- Use shared indicators to perform a risk assessment, identify key information/assets and illustrate the intent/capability of actors to target these assets through impact assessments.
-- Score threats according to the organization’s specific needs and prepare processes in advance based on threat data gathered from feeds
-- Present data to stakeholders in various formats – articles, timelines, graphs, raw data – depending on their technical knowledge.
-- Gain shared situational awareness through information sharing and collaboration with other experts in the same sector.
+<a id="her-objectives-are-to-1"></a>
+<a id="her-primary-goals-are-to-1"></a>
+<a id="role-6"></a>
+<a id="she-uses-misp-to-1"></a>
 
 ### Sarah
-_**The Fact Checker**_
 
-Sarah is a disinformation researcher and journalist working for a large American newspaper.
-She works with security researchers around the world to investigate cybercrimes and report disinformation.
-In the past, she has written about national security and geopolitics. She is used to making decisions on what should or shouldn't be published or shared.
+**Information-operations researcher.** Sarah compares sources and campaign hypotheses without
+turning a correlation into a claim about intent or truthfulness.
 
-Sarah uses MISP to collaborate with security researchers and investigate disinformation as it happens.
+**Workflow:** Preserve source material and observation times, model relevant entities/links,
+and use DISARM or another appropriate knowledge collection for technique context. Write reports
+that distinguish evidence, assessment and open questions, and scope collaboration deliberately.
 
-_"Decisions as to what is or isn't published or shared go far beyond what is technically interesting"_
+**Success:** Other researchers can challenge the reasoning and trace the supporting material.
+See [reporting a finding](../user-stories/index.qmd#stories-reporting).
 
-#### Role
-Disinformation researcher and journalist
-
-#### Her primary goals are to:
-- Conduct research and write intelligence reports about up-and-coming emerging threats and recent breaches.
-- Investigate and report disinformation as it happens.
-- Convert technical data into articles and reports that non-technical people can understand.
-
-#### She uses MISP to:
-- Write/read event reports, create misinformation events using relevant techniques found in a report or sighting.
-- Join sharing groups and communities (e.g [Cogsec Collab](https://www.misp-project.org/2020/03/26/cogsec-collab-misp-community.html)) that connect misinformation researchers and responders, share incident data with organizations focusing on response and counter-campaigns.
-- Integrate with the DISARM Framework (as a galaxy, formerly AM!TT) in order to describe misinformation tactics/techniques, break an incident into techniques that can be analyzed/countered, and check for disinformation through mapping.
-- Monitor feeds, investigate disinformation using shared indicators in feeds, generate structured intelligence using the automated correlation engine, and decide if there are any falsehoods in data.
-- Enrich threat data by adding object types, new relationship types (to make the graphs that users can traverse in MISP richer), and taxonomies to cover things like types of threat actors.
-- Classify events, indicators, and threats using taxonomies (such as the Admiralty Scale taxonomy), which ranks the reliability of a source and the credibility of the information.
-
-#### Her objectives are to:
-- Distill essential information from a large piece of data, making it clear to the reader what really matters.
-- Integrate MISP with TheHive for enhanced disinformation investigation and reporting.
-- Verify that an article (or image, video, etc) doesn’t contain disinformation and verify that a source (publisher, domain, etc) doesn’t distribute disinformation.
-- Extend MISP for disinformation, adding object types for incidents and narratives, and using [DISARM](https://www.misp-project.org/galaxy.html) (formerly AMITT) for attack patterns.
+<a id="her-objectives-are-to-2"></a>
+<a id="her-primary-goals-are-to-2"></a>
+<a id="role-7"></a>
+<a id="she-uses-misp-to-2"></a>
 
 ### Priya
-_**The Platform Administrator**_
 
-Priya is a MISP site administrator at a national CERT.
-She keeps the instance that her analysts and partner organisations depend on healthy, current, and trustworthy — provisioning access, wiring up sharing, and automating the tedious parts so the team can focus on the intelligence itself.
-She rarely creates events herself; her product is a reliable platform.
+**MISP site administrator.** Priya operates the instance and controls infrastructure-level
+configuration and privileged access.
 
-_"My users should never have to think about the plumbing — it should just work, and it should be trustworthy by default."_
+**Workflow:** Manage roles and authentication, review grouped settings/health checks, inspect
+migration and worker state, and maintain backups. Enable recurring tasks, workflow triggers and
+external integrations deliberately, with monitored failure paths and a recovery process.
 
-#### Role
-MISP Site Administrator
+**Success:** Changes are auditable and the instance can be restored. Healthy-looking UI controls
+are backed by operational checks. See [administration](../administration/index.qmd#admin-access).
 
-#### Her primary goals are to:
-- Run a secure, available, and up-to-date instance that analysts and partners can rely on.
-- Make the right data reach the right people automatically, while keeping sensitive data contained.
-- Reduce manual, error-prone housekeeping so the analysts' time goes into analysis.
-
-#### She uses MISP to:
-- Manage users, organisations, roles and API keys, and audit activity through the logs and user login profiles.
-- Automate housekeeping and policy enforcement with Workflows (blocking checks such as "refuse to publish without a TLP tag", plus non-blocking enrichment, tagging and notifications), and share that automation as Workflow Blueprints.
-- Connect the instance to the wider community: synchronisation servers, feeds, TAXII 2.x servers, and organisation/sharing-group trust brokered through Cerebrate.
-- Guarantee the integrity and origin of what the instance publishes by signing events with cryptographic keys (Protected Events).
-- Tune data quality centrally with Decaying Models, warninglists and noticelists.
-- Keep the platform healthy by monitoring background workers and jobs, scheduled tasks, diagnostics, and the update process.
-
-#### Her objectives are to:
-- Onboard new users and partner organisations quickly and safely.
-- Keep the instance patched and its reference data (galaxies, taxonomies, warninglists, noticelists) current.
-- Encode sharing and quality policy once, as reusable automation, rather than relying on every analyst to remember it.
-- Give partners cryptographic assurance that intelligence published by the instance is authentic and unmodified.
+<a id="he-uses-misp-to-5"></a>
+<a id="his-objectives-are-to-5"></a>
+<a id="his-primary-goals-are-to-5"></a>
+<a id="role-8"></a>
 
 ### Marco
-_**The Operator**_
 
-Marco is an organisation administrator at a sectoral ISAC.
-He does not run the MISP server itself, but he runs his organisation's day-to-day presence on it: which feeds come in, which partners they exchange with, and what the organisation publishes to the community.
-He is the person who keeps the intelligence flowing and correctly scoped every day.
+**Organisation administrator.** Marco maintains the organisation's authorized accounts and
+supports its day-to-day use of the sharing community.
 
-_"Good sharing is boring sharing — the right data, to the right people, on time, every day."_
+**Workflow:** Manage users and keys within the granted organisation scope, coordinate intended
+sharing/classification practices and request site-level changes through the instance operator.
+Role editing, global configuration and cross-organisation user management are not automatically
+available to an organisation administrator.
 
-#### Role
-Organisation Administrator / Operations
-
-#### His primary goals are to:
-- Keep a steady, current flow of relevant intelligence into and out of the organisation.
-- Make sure everything the organisation shares is scoped to exactly the right audience.
-- Keep his team's users productive and their data clean.
-
-#### He uses MISP to:
-- Manage the organisation's users, roles and API keys, and curate the feeds the organisation ingests and evaluates before import.
-- Control distribution precisely using distribution levels, sharing groups and reusable Sharing Group Blueprints, and pseudo-anonymise sensitive publications through delegation.
-- Bundle related intelligence into Collections so a whole investigation or campaign can be shared and synchronised as one unit.
-- Keep detection value high by managing sightings, decaying models and warninglists, and by publishing and alerting on a controlled schedule.
-- Watch the organisation's dashboards and background jobs to confirm feeds, correlations and sync are running as expected.
-
-#### His objectives are to:
-- Onboard his organisation's analysts and keep their access and API keys in order.
-- Maintain trusted exchange relationships with partner organisations and communities.
-- Ensure nothing over- or under-shares by encoding the organisation's distribution policy into sharing groups and blueprints.
-- Provide clean, well-contextualised, and timely data to the community the organisation belongs to.
+**Success:** Colleagues have the access they need without expanding privileges to unrelated
+organisations. See [account management](../administration/index.qmd#users).
 
 ## Other personas
-Malcolm represents users that we care about but aren't so important to us.
+
+<a id="he-uses-misp-to-6"></a>
+<a id="his-objectives-are-to-6"></a>
+<a id="his-primary-goals-are-to-6"></a>
+<a id="role-9"></a>
 
 ### Malcolm
-_**The Data Expert**_
 
-Malcolm is a data scientist for a telecom operator in the USA.
-He assists the Security Operations Center with tasks related to anomaly detection, exploratory data analysis, data visualization, modeling, and optimization of security solutions.
+**Integration developer / data scientist.** Malcolm builds repeatable processing and research
+pipelines and needs to understand both the data contract and its limits.
 
-Malcolm uses data from MISP alongside natural language processing, predictive modeling, and other data science techniques to assess, prioritize, and even predict risk.
-He can process threat data to help with alert prioritization and data-driven decision making.
+**Workflow:** Use the installed API and a compatible client with a scoped key, test pagination
+and retries, and distinguish occurrences from shared component values. Keep training/research
+exports within the intended scope and retain source/review metadata for automated or assisted
+analysis. Test workflows/providers in an isolated environment before enabling operational work.
 
-_"It is a mistake to theorize before one has data. Insensibly, one begins to twist facts to suit theories, instead of theories to suit facts"_
+**Success:** A pipeline produces reproducible, explainable outputs and handles partial failures
+without uncontrolled duplicates or disclosure. See
+[integration workflows](../user-stories/index.qmd#stories-automation) and
+[Developer FAQ](../dev-faq/index.qmd#developer-start).
 
-#### Role
-Data Scientist
+## Use the personas in a review {#personas-review}
 
-#### His primary goals are to:
-- Develop tools to help businesses detect threats so they can develop solid plans of action and better protect themselves.
-- Make predictions, perform data analysis, and detect patterns in data.
-- Support the threat analysis team with the development of new and innovative ways of extracting insight from large sets of structured and unstructured data.
-- Translate complex data into relevant insights and visualize information.
-
-#### He uses MISP to:
-- Collect IoCs and sift through data from feeds to derive useful insights and connect dots between actors from various sources.
-- Join sharing groups to collaborate with threat analysts and reduce analysts’ workload by taking on many tasks related to data collection and correlation.
-- Automatically aggregate, parse, de-duplicate, and manage indicators using the API.
-- Visualize events in real-time by setting up MISP-dashboard.
-- Export large threat data sets that can be used to train ML models
-
-#### His objectives are to:
-- Combine data from MISP and other security sources to find patterns/relationships in data, develop models, assess, prioritize, and predict risk using data science and AI techniques.
-- Produce informative visualizations and knowledge graphs based on large data sets.
-- Eliminate manual tasks by writing scripts that automatically aggregate, parse, de-duplicate, and manage indicators in MISP.
-- Classify risks in order to save analysts time sorting through false positives and deciding what to prioritize.
+For a proposed change, choose the relevant task, permitted actor, input, expected saved result
+and failure/visibility cases. Use the [user stories](../user-stories/index.qmd#stories-index)
+as concrete scenarios. Include keyboard/narrow-screen use and explain what requires an external
+system or a deliberate publication decision. Evaluate the resulting behaviour rather than the
+number of features a profile mentions.

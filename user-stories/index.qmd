@@ -1,62 +1,194 @@
 ---
 title: "User Stories"
+format:
+  html:
+    lightbox: true
 ---
+
+These workflows connect a user's goal to a concrete MISP result. They are starting points for
+planning and evaluation, not a promise that enabling one feature completes an investigation or
+automatically authorizes sharing.
+
+::: {.callout-note}
+Aligned with MISP **3.0.0**, `3.0_wip` commit `99ebee729`. Workspaces, shared-value research,
+collections and the current Overmind views complement events and objects. Each resource keeps
+its own ownership, permissions and distribution. External tools/providers require a separate
+working integration.
+:::
+
+<!-- Implementation references and synthetic examples: ../assets/reference-faq-screenshots.json -->
+
 <a id="misp-user-stories"></a>
 
+## Find a workflow {#stories-index}
 
-| User story | Example workflow |
-|-|-|
-| As a lead threat intelligence analyst, I want to lead a team focused on hunting down threats so that I can prevent attacks against ICT infrastructures and organizations | • Monitor what teams are up to in real-time using the Live Dashboard |
-| As a threat analyst, I want to research, analyze and reverse engineer malware so that I can know how to counter it | • Attach and download files and malware samples from events<br>• Search for hashes/IPs/domains/URLs from malware events, or add malware samples hashes to an event<br>• Analyse observables and malware collected during an incident (e.g. domain name, IP addresses etc.) by checking whether observables are IoCs or false positives using ‘correlation graph’ and ‘expansion modules’.<br>• Enrich malware events by querying data sources external to MISP using modules<br>• Perform dynamic malware analysis correlations<br>• Submit events with malware samples to analysis tools (e.g VirusTotal, VMRay) for further analysis, and then extend MISP with malware analysis results |
-| As a lead threat intelligence analyst, I want to convert threat data into actionable threat intelligence so that I can improve security posture. | • Import data from external sources<br>• Add feeds<br>• Contextualise events and attributes using tags, taxonomies and galaxies |
-| As a threat analyst, I want to exchange threat information with third parties so that we can gain shared situational awareness | • Setup different models of distribution on MISP instance<br>• Sync events and attributes between instances<br>• Use filtering functionalities to meet an organisation's sharing policy<br>• Share information, pentest information, malware samples, vulnerabilities internally and externally |
-| As a threat analyst, I want to monitor threats and access live data so that I can manage threats before they cause major damage | • Import lists of indicators and check if the IOCs are present in feeds.<br>• Monitor statistics and sightings using widgets<br>• Show live data and stats from one or more MISP instances via the Dashboard<br>• Process information in real-time when it's updated, created, or published by instances by integrating with ZMQ<br>• Use sightings to notify an instance about activities related to an indicator |
-| As a threat analyst, I want to aggregate and compare indicators from various sources so that I can connect the dots between various threats | • Join communities and subscribe to the feeds<br>• Add events and assign events to specific feeds<br>• Correlate indicators using MISP's automated correlation engine<br>• Use the overlap feed analysis available in MISP<br>• Link events and attributes using the correlation graph<br>• Analyse and gain more information on attributes using modules<br>• Link events with malware, threat actors etc using galaxies (e.g ATT&CK) |
-| As a threat analyst, I want to have a structured database of threat data that I can use to perform lookups/queries when investigating new threats | • Store information in a structured format using STIX<br>• Import unstructured reports using the free-text import tool<br>• Use MISP as a centralized hub for security and fraud threat intel. Centralize threat intel by aggregating indicators from OSINT and commercial feeds<br>• Remove false positives and duplicates<br>• Score indicators based on Sightings and other metrics<br>• Import/integrate feeds or threat intelligence from third parties<br>• Generate, select, exchange, and collect intelligence using feeds<br>• Select and import events<br>• Look for correlations between events using the correlation graph<br>• Build filtered subsets of the data repository for feed creation.<br>• Preview and correlate feed data directly for evaluation |
-| As a threat analyst, I want to contextualize and enrich raw threat data so that I can produce actionable intelligence | • Understand attacker TTPs by using taxonomies to link events<br>• Categorize risks and incidents using galaxies and taxonomies<br>• Quickly classify information using tags collections<br>• Contextualise sightings with information on the source<br>• Enrich IDSes export with tags to fit your NIDS deployment<br>• Decay attributes and score indicators using sightings (reported by IDSes)<br>• Describe and visualise complex scenarios using MISP's richer data structure<br>• Allow advanced combination of attributes using MISP objects |
-| As a threat analyst, I want to investigate threats  so that I can protect computer systems from attacks | • Find relevant data for investigations from MISP communities. Preview new MISP events and alerts from multiple sources such as email reports, CTI providers, and SIEMs<br>• Query a MISP instance for events that include a given IOC. Browse through other MISP events, attributes, objects, tags, and galaxies<br>• Create events, add IoCs (attributes), and contextualise (using tags)<br>• Pivot an event into its attributes, objects, tags, galaxies, and/or related Events<br>• Explore further details from Galaxies and related Events<br>• Categorize available related information within the ATT&CK framework.<br>• Query tools (e.g Cytomic Orion API) to check if certain MISP indicators have been observed, and the import sighting details to add them to MISP events<br>• Prioritize threats using Sightings collected from users, scripts and IDSes.<br>• Decay/expire indicators using sightings reported by users, scripts and IDSes<br>• Launch lookups from MISP against SIEMs as part of an investigation<br>• Correlate network forensic flows from several tools |
-| As a SOC team, we want to ingest, analyse, store and make connections between threat data so as to discover potential threats | • See connections between events using the correlations graph<br>• Import CVEs and vulnerabilities (e.g from MetaSploit) and contextualise them<br>• Contextualise CVEs using events gotten from articles/reports<br>• Convert CVE information into a feed<br>• Pull shared CVE feeds<br>• Combine collected data with your MISP data set for correlation<br>• Share correlated info to the team using the export function or API search<br>• View current threats and activity, historical, geolocalized information using MISP Dashboard |
-| As a junior SOC analyst, I want to enrich alerts so that I can "punch above my weight" and make connections that would have otherwise required more experience | • Create events, add/import observables<br>• Use Cortex and its analyzers to gain insight<br>• Leverage tags, sightings, and previously-seen observables to feed your threat intelligence<br>• Export IOCs to MISP instances after investigations are complete<br>• Integrate MISP with Maltego to generate visualisations of data<br>• Integrate MISP with Elastic to access threat data without the complexities of the MISP interface.<br>• Push attributes from MISP to Elastic and have a representation with graphs, an alternative to using MISP Dashboard.<br>• Create taxonomies using the taxonomy editor.<br>• Contextualise data using taxonomies, clusters and galaxies |
-| As a SOC analyst, I want to customize risk feeds to ignore or downgrade alerts that do not match organization/ industry-specific criteria, so that I can focus on relevant alerts | • Filter incidents based on taxonomies (e.g the veris country taxonomy to indicate countries affected by an incident)<br>• Normalise external input and feeds in MISP (e.g. feed importer).<br>• Compare feeds before import to find similarities and false positives.<br>• Evaluate the quality of the information before importing it (warning-list lookups at feed evaluation) |
-| As a SOC analyst, I want to share real-time information pertaining to new or existing cases/observables to team members so that we can collaborate on investigations simultaneously | • Control threat sharing using ‘distribution settings’: sharing group, community-only, connected communities, all communities.<br>• Share sensitive and confidential events using the ‘sharing group’ functionality<br>• Measure the impact of an incident using taxonomies based on NISD/OESs impact criteria<br>• Export and share sightings in ATT&CK sightings format to give insights on TTPs and frequency of usage |
-| As a SOC analyst, I want to rule out false positives so that I can focus on significant threats | • Weed out false positives using warning lists<br>• Crowd source data validation from community<br>• Filter indicators based on specific criteria<br>• Receive information on false positives using collaborative tools (proposals, sightings) |
-| As a threat analyst, I want to remove false positives, filter and prioritize alerts so that I can focus on what really matters to my organization | • Evaluate the quality and freshness of indicators using decaying models<br>• Enforce warninglists to exclude events with certain attributes<br>• Enable warninglists to alert for certain issues<br>• Classify information (add/remove tags) based on their score or visibility via sightings<br>• Use tags to set events or attributes for further processing by external tools (e.g. VirusTotal auto-expansion using enrichment modules)<br>• Notify an instance about activities related to an indicator via Sighting<br>• Limit NIDS exports and improve rules using Sightings<br>• Filter indicators based on specific criteria<br>• Filter out relevant data when feeding protective tools |
-| As a security analyst, I want to unravel the inner workings of a malicious file, phishing email or domain so that I can prevent attacks | • Integrate MISP with a Security Incident Response Platform (e.g TheHive)<br>• Import indicators from MISP into the SIRP for further analysis |
-| As a security analyst, I want to create blacklists/whitelists (e.g of domains) so that I can protect customers from malicious activity | • Import threat data into MISP from synced servers and label using taxonomies<br>• Enable warning lists, and exclude attributes that exist on the warning lists<br>• Create lists with preferred attributes and export the list in an easy accessible format as CSV |
-| As a security analyst, I need a real-time overview of threat information so that I can quickly glance at important metrics | • Integrate ZMQ to access a dashboard showing live data and stats<br>• Monitor ongoing trends based on interests using the EventStream widget<br>• Monitor activity in real-time on MISP dashboard by subscribing to ZMQ feeds<br>• View immediate contributions made by organisations from MISP's live dashboard<br>• Find threats within your constituency using MISP Geolocalisation Dashboard<br>• Get geospatial threat information from specific regions using the Geolocalisation Dashboard |
-| As a security analyst, I want to automate repetitive tasks related to data normalization, importation, aggregation and enrichment so that I can have more time to put into threat analysis efforts | • Automate tasks using PyMISP<br>• Use PyMISP for Scripted processing of events and attributes |
-| As a security analyst, I want to collaborate with other analysts within and out of my organization’s sector so that we can support one another | • Build or join communities to exchange specific data structures<br>• Share real-time analysis of an incident<br>• Propose modifications to someone else's analysis using Proposals |
-| As a security analyst, I want to triage and prioritize alerts so as to avoid alert fatigue | • Evaluate the quality and freshness of indicators using decaying models<br>• Weed out false positives using warning lists<br>• Enable warning lists to alert for critical issues<br>• Filter indicators based on specific criteria<br>• Score indicators based on user sightings, including negative sightings and expiration sightings.<br>• Classify information (add/remove tags) based on their score or visibility via sightings |
-| As an incident responder, I want to get an up-to-date picture of the threat landscape so that I can prepare for threats in advance | • Describe the impact of threat using taxonomies (e.g using the veris timeline taxonomy to indicate the duration of the incident)<br>• Classify data to gain insight into the threat landscape.<br>• Classify data so IDSes can alert on a rule<br>• Integrate ZMQ to have a dashboard showing live data and statistics.<br>• Integrate ZMQ to process information in real-time when it's updated, created, or gathered in MISP. |
-| As an incident responder, I want to identify and respond to incidents so that I can reduce the impact and severity of an attack | • Report false or true positives using the sighting mechanism, based on an incident investigation<br>• Decay indicators to guarantee the quality of the indicators |
-| As an incident responder, I want to receive early warnings and alerts about threats/incidents so that I can retaliate before they cause any harm | • Receive correlated threat intel from sharing groups and communities<br>• Monitor MISP feeds for alerts<br>• Preview new events and alerts from multiple sources<br>• Automate import/export of IoCs to/from protective or detection tools like IDSes and IPSes<br>• Dispatch notifications when certain events are created or modified using the alert feature<br>• Create filter rules based on personalised uses. Restrict alert messaged by tags, publishing organisation or other metrics |
-| As an incident responder, I want to store information identified during an incident investigation so that I can perform lookups/queries against the historical database during future incidents | • Use a MISP instance as a database of events representing incidents. Store incident response data internally in a structured manner on MISP<br>• Represent indicators using attributes. Attributes such as network indicators (e.g. IP address) or system indicators (e.g. a string in memory)<br>• Combine OSINT and your own intelligence<br>• Create events made up of indicators (attributes) and then leverage these as a threat data feed<br>• Modify events representing incidents to enable monitoring over time<br>• Add object types to describe incidents<br>• Monitor indicators for relevancy using Sightings<br>• Ensure information quality and freshness by expiring indicators depending on their personalised objectives<br>• Pull events from indicator lists to perform lookups against SIEMs<br>• Use indicators to check logs and verify if you’re affected by a threat<br>• Correlate indicators with actual incidents to get more information<br>• Integrate MISP with IR tools (e.g TheHive) to (1) analyse observables during an incident, (2) import and (3) export events from MISP to TheHive and vice-versa<br>• Perform large-scale bulk data/traffic analysis and correlation against your MISP database using SightingsDB |
-| As an incident responder, I want to export and feed data between security tools so that I can enhance their functionalities | • Export data from MISP to feed protective/detective tools and early warning systems. Export formats support IDSes / IPSes (e.g. Suricata, Bro, Snort), SIEMs (eg CEF), Host scanners (e.g. OpenIOC, STIX, CSV, yara), analysis tools (e.g. Maltego), DNS policies (e.g. RPZ)<br>• Feed MISP using automatic tools (e.g. Sandbox Analysis, low-value information needing correlation, Analyst workbench)<br>• Pull events from feeds or indicator lists to perform lookups against SIEMs<br>• Subscribe to ZMQ pub-sub to get published events for use in lookup processes<br>• Match attributes against SIEMs using the lookup expansion module<br>• Import activities from a SIEM (e.g. Splunk lookup validation or false-positive feedback), NIDS or honeypot devices<br>• Post Sightings from IDSes, IPSes, SIEMs back to MISP<br>• Use sightings to improve NIDS’ rule-sets<br>• Generate IDS and NIDS rules automatically or manually using IoCs<br>• Feed data to honeypots to generate blocklists and DNS RPZ zones<br>• Consume correlated results in SIEMs using the API<br>• Search indicators in real-time into a SIEM using MISP ZMQ<br>• Submit large sets of IoCs from MISP into SIEMs using PyMISP<br>• Import indicators into MISP from other tools (SIEMs, IDSes) and be notified when those indicators appear again |
-| As a CSIRT, we want to exchange and discuss information related to incidents and associated risks so that we can collaboratively respond to incidents | • Build communities to exchange specific data structures<br>• Discuss non-event related topics in Forums<br>• Add comments to events (which may represent an incident)<br>• Contact a reporter (e.g. another CSIRT) via email (encrypted, anonymously or not) to discuss commercially-sensitive information related to an incident |
-| As a CSIRT, we want to interact with threat data in various ways during the threat investigation and incident response process | • View events, indicators and feeds<br>• Search and filter the data set<br>• Classify, contextualize and correlate data<br>• Download the viewed data in various formats<br>• Interact with MISP data using other tools in the MISP ecosystem (e.g. PyMISP, the built-in REST client, and MISP modules) |
-| As a CSIRT, we want to coordinate with team members and other organisations so that we can avoid duplication of work | • Create and manage sharing groups between sectors<br>• Join existing communities or sharing groups<br>• Create and exchange events and indicators<br>• Propose changes to existing analysis or reports<br>• Enhance an analysis with additional information using Extended Events<br>• Report sightings as false-positive or true-positive (e.g. a partner/analyst has seen a similar indicator)<br>• Contribute to threat intel feeds and analyse overlapping data |
-| As a CSIRT, we want to share incident information and discuss risks with other team members so that we can collaboratively perform incident analysis | • Create, modify, delete and exchange events and indicators<br>• Modify distribution settings to exchange individual incidents and ensure confidentiality<br>• Use taxonomies and galaxies to classify data before exchange (e.g Indicate the confidentiality of incidents using the NATO classification, indicate the risk of an incident using the threat-level taxonomy)<br>• Edit, visualize, and share reports using Event Report<br>• Incorporate reports from information sources using the Event Report module<br>• Share indicators derived during incident response<br>• Correlate and enrich data derived during incidents<br>• Coordinate with affected parties during incident response using MISP’s collaborative tools (proposals, sightings, emails) |
-| As a fraud analyst, I want to investigate financial threats so that I can help financial institutions and consumers prevent financial fraud | • Join communities and receive shared IOCs<br>• Subscribe to feeds and get IOCs in an easily accessible format<br>• Access lists and public feeds of malicious domains (e.g phishing sites) and threats<br>• Use indicators to check logs and verify if you’re affected by a threat<br>• Gather information related to a phishing site and create events<br>• Integrate MISP with Maltego to visualise the full ATT&CK framework |
-| As a fraud analyst, I want to blend updated threat intel with anti-fraud tools so that I can prevent fraud in real-time | • Feed data from MISP to fraud prevention tools<br>• Report sightings to MISP from fraud prevention tools |
-| As a fraud analyst, I want to collaborate with analysts from other institutions so that we can gain shared situational awareness | • Implement a MISP instance, and join relevant communities<br>• Publish fraud perpetrators for others to see<br>• Exchange events containing fraud information (e.g a bank account number)<br>• Use shared fraud data to feed firewalls and blocklists<br>• Warn of false positives by alerting for invalid financial indicators<br>• Give more credibility to indicators by reacting to event attributes (Sightings)<br>• Get feedback from the community on the quality of indicators (Sightings) |
-| As a customs and border control agent, I want to facilitate the flow of legal immigration and goods while preventing the illegal trafficking of people and contraband so that I can ensure homeland security | • Create or join sharing groups and communities<br>• Share information (e.g travel documents / biometric information) between border control agencies using MISP<br>• Categorize data using predefined types such PNR (passenger name records)<br>• Share information / involve experts for the identification of smuggled goods<br>• Perform anonymised lookups against exported data sets information (e.g. offline border control check) |
-| As a law enforcement officer, I want to investigate digital crimes and threats so that I can apprehend criminals | • Access information sharing communities<br>• Get indicators and actionable information from CSIRTs/CERTs networks or researchers<br>• Exchange information with other officers via sharing communities<br>• Exchange and store incident information on MISP, enabling the system to act as a forensic tool over time |
-| As a law enforcement officer, I want to collect and verify evidence of digital crimes so that I can bootstrap my DFIR cases | • Collect indicators from shared events<br>• Propose changes to existing analysis or reports<br>• Enhance existing events with additional pieces of evidence using Extended Events<br>• Exchange analysis and reports of digital forensic evidence<br>• Correlate indicators corresponding to forensic pieces of evidence<br>• Import Mactime timelines to describe forensic activities on an analysed file system<br>• Describe forensic analysis cases using objects templates<br>• Create, modify and visualise the timeline of events<br>• Share analysis and reports of digital forensic evidence<br>• Report sightings such as false-positive or true-positive (e.g. a partner/analyst has seen a similar indicator) |
-| As a cybersecurity consultant, I want to provide structured threat intelligence to cross-sector partners with diverse requirements so that I can secure their infrastructure | • Implement an instance and join relevant communities<br>• Integrate MISP with an organisation’s existing solutions using the API<br>• Exchange events containing indicators<br>• Setup distribution levels to ensure confidentiality during threat sharing<br>• Sync between untrusted and trusted networks using Feed support<br>• Notify the community about activities related to an indicator using Sightings<br>• Score indicators based on user sightings, including negative sightings and expiration sightings<br>• Propose updates to an event owner or indicate a sighting<br>• Share attacker techniques via integration with ATT&CK<br>• Set an attribute for detection tools using the IDS flag |
-| As a cybersecurity specialist, I want to anonymously publish threat intel so that I can protect the identity of people who don’t want to be associated with the information | • Pseudo-anonymously publish data using Event Delegation |
-| As a cybersecurity specialist, I want to investigate threats so that I can remediate and prevent cyber attacks | • Query an instance for events that include a given IOC<br>• Explore more details from Galaxies and related events<br>• Categorize related information within the MITRE ATT&CK framework |
-| As a security analyst, I want to access threat data so that I can use it to support my research | • Contextualise indicators (attributes) using categories, taxonomies and galaxies<br>• Reinforce an analysis using correlation features (e.g. do other analysts have the same hypothesis?)<br>• Confirm a specific aspect using correlation features (e.g. are the sinkhole IP addresses used for one campaign?)<br>• Verify if a threat is new or unknown in your community using correlation features |
-| As a security analyst, I want to access updated threat data so that I can build protection in real time | • Monitor feeds for recent indicators<br>• Monitor activity in real-time on MISP dashboard by subscribing to ZMQ feeds<br>• Process information in real-time when it's updated, created or gathered using ZMQ |
-| As a risk analyst, I want to identify and predict risks to my organization so that I can improve the organization’s security posture and situational awareness | • Use a MISP instance as a database of events representing threats<br>• Classify risks using taxonomies and galaxies<br>• Generate statistics from your MISP instance to deduce from incidents the current operational status, risk posture, and threats to the cyber environment<br>• Monitor trends and adversary TTPs using MISP-dashboard and built-in statistics |
-| As a risk analyst, I want to present risk data to stakeholders in various formats (depending on their technical ability), so that I can justify the need for risk-mitigating strategies | • Show trends within the sector/geographical region using MISP dashboard and built-in statistics<br>• Turn MISP data into explorable graphs or timelines representing their activity or events<br>• Export data from MISP in various formats<br>• Share reports along with actionable data using Events Report |
-| As a disinformation researcher, I want to identify indicators associated with a specific operation or campaign so that I can help track and mitigate threats | • Monitor MISP feeds for indicators<br>• Find relationships between indicators using correlation |
-| As a disinformation researcher and journalist, I want to investigate information campaigns so that I can report whether there is or isn’t disinformation or misinformation | • Compare external feeds information with already-available information<br>• Analyze the connections between incident objects<br>• Map data with DISARM (embedded in MISP) to understand threat actor capabilities<br>• Generate events that can be shared directly, via email or MISP<br>• Add object types (e.g for common social media platforms), relationship types (to make the graphs that users can traverse in MISP richer) and taxonomies (e.g DFRLab’s Dichotomies of Disinformation, and a NATO-led tactical variant) to describe indicators and events<br>• Generate and share information operations data in MISP JSON or STIX format for easy sharing<br>• Classify events with DISARM techniques using the DISARM matrix<br>• Describe attack patterns using DISARM<br>• Track disinformation techniques using the DISARM galaxy<br>• Integrate MISP with TheHive for case tracking<br>• Describe additional disinformation cases using object templates |
-| As a disinformation researcher, I want to connect with other researchers and responders so that we can collaboratively verify if an article/video/image contains disinformation and verify that a source (publisher, domain, etc) doesn’t distribute disinformation | • Join a disinformation community<br>• Notify the community about activities related to an indicator<br>• Score indicators based on users sighting<br>• Corroborate a finding using correlation features (e.g. is this the same campaign?) |
-| As a disinformation researcher, I want to collaborate with other researchers and responders so that we can collectively stop disinformation campaigns | • Browse and Join disinformation communities (e.g CogSec Collab MISP)<br>• Contextualise data using tags, taxonomies and galaxies<br>• Describe information campaigns indicators and events using taxonomies (e.g DFRLab Dichotomies of Disinformation)<br>• Find relationships between indicators using correlation<br>• Describe misinformation tactics/techniques using the DISARM framework (galaxy, formerly AMITT)<br>• Include relevant techniques found in a report or sighting in misinformation event data using the DISARM matrix |
-| As a data scientist, I want to automate tasks related to data collection, curation, analysis, and visualization so that I can reduce security analysts' workloads | • Collect, add, update, search events/attributes/tags using PyMISP<br>• Study malware samples using PyMISP<br>• Write scripts to import (from other tools such as VirusTotal) additional attributes or IOC data (such as hashes) to build up knowledge on an event<br>• Automatically handle indicators in third-party tools using PyMISP<br>• Integrate MISP with existing infrastructure using PyMISP<br>• Automate the dissemination of threat intelligence and threat data using the API<br>• Generate exports to be ingested into other platforms<br>• Create a range of filtered subsets of the dataset for various protective measures<br>• Write scripts to disable the IDS flag based on the number of false-positive reported sightings, in order to prevent using false-positive indicators for detection or correlation actions<br>• Generate data statistics and send reports via email, attached as CSV files using the API<br>• Feed processed data into IDSes and 3rd party visualization using PyMISP<br>• Build custom widgets to visualise/track data via the Dashboard<br>• Extend MISP with Python scripts using MISP modules<br>• Auto-discover new modules with their features using the API |
-| As a data scientist, I want to collect and analyze data from various sources so that I can prioritize and predict risk | • Aggregate indicators and sightings of all attributes/objects, useful for detecting particular security events or threats<br>• Use PyMISP for Scripted processing of events and attributes<br>• Collect data from open data portals using the API<br>• Publish open data and create data sets<br>• Investigate file hashes, malicious website URLs, IP Addresses and domain names using shared indicators<br>• Aggregate data sets for security research and threat analysis<br>• Analyse and select threat feeds for incorporation into other tools to hunt known indicators<br>• Indicate if an attribute should be used for detection or correlation actions using the IDS flag<br>• Download data in various formats for ingestion in other tools, and for training ML models |
-| As a MISP site administrator, I want to automate repetitive instance housekeeping and enforce policy so that data quality stays high without manual effort | • Build Workflows that react to instance events (publish, attribute add, before save) by running a chain of logic and action blocks<br>• Use blocking Workflows to stop a publish that is missing a required TLP/PAP tag, and non-blocking Workflows to notify, enrich or tag automatically<br>• Share and reuse automation across instances using Workflow Blueprints<br>• Tune indicator lifetime centrally with Decaying Models and keep noise down with warninglists and noticelists |
-| As a MISP site administrator, I want to run a trustworthy, well-connected instance so that partners can rely on the data we publish | • Sign published events with cryptographic keys so downstream instances can verify their integrity and origin (Protected Events)<br>• Manage synchronisation with other MISP servers and expose or consume feeds and TAXII 2.x servers<br>• Broker organisation, sharing-group and sync trust at scale with Cerebrate<br>• Keep the platform healthy by watching background workers and jobs, scheduled tasks, diagnostics and the audit log |
-| As an organisation administrator, I want to run our day-to-day sharing operations so that our community always has current, well-scoped intelligence | • Manage the organisation's users, roles and API keys, and curate the feeds we ingest<br>• Define reusable distribution scopes with Sharing Group Blueprints instead of rebuilding sharing groups by hand<br>• Control what leaves the organisation with distribution levels, publish/alert filters and delegation<br>• Monitor sighting and correlation pipelines and keep dashboards current for the team |
-| As a threat analyst, I want to record my assessment of shared data without altering it so that my judgement travels with the intelligence | • Attach Analyst Notes (free-text, markdown) to any event, attribute, object or galaxy cluster<br>• Express confidence with Opinions (0–100) and connect related elements — even across events and organisations — using typed Relationships<br>• Keep this analyst layer distinct from the underlying data (it has its own ownership and distribution, and syncs across the federation) |
-| As a threat analyst, I want to package related intelligence together so that a whole investigation or campaign can be shared and synced as one unit | • Group related Events and Galaxy Clusters into a Collection<br>• Share and synchronise the collection as a single object so recipients get the full picture, not scattered fragments<br>• Curate and version the collection as the investigation evolves |
+::: {.table-responsive}
+
+| Goal | Start here |
+|---|---|
+| Triage an observable or alert | [Investigate a value](#stories-investigate) |
+| Coordinate an incident | [Build a shared assessment](#stories-incident) |
+| Describe malware or infrastructure | [Structure the evidence](#stories-structure) |
+| Curate intelligence for detection | [Prepare a useful export](#stories-detection) |
+| Evaluate external intelligence | [Compare before importing](#stories-feeds) |
+| Work with a partner community | [Share within an agreed scope](#stories-sharing) |
+| Hand over a campaign or research topic | [Curate a collection](#stories-collections) |
+| Explain a finding to stakeholders | [Write a report](#stories-reporting) |
+| Automate collection or analysis | [Build a verifiable integration](#stories-automation) |
+| Operate a reliable service | [Maintain users and infrastructure](#stories-operations) |
+
+:::
+
+![A research workflow separates observations, assessment, curated packaging and an explicit review of what may be shared.](figures/research-to-sharing.svg)
+
+## Investigate a value {#stories-investigate}
+
+**Goal:** An analyst needs to understand an alert without copying every matching record into
+a new incident.
+
+Search for the domain, address or hash and inspect the accessible occurrences, source context,
+first/last seen, warninglist hits and sightings. In 3.0, a component value's SHA-256 address can
+anchor research across occurrences while attribute UUIDs retain their individual identities.
+Use a workspace/graph to explore relevant links and record a note, opinion or relationship in
+the appropriate scope. A shared value or graph edge is a lead, not confirmation of causality.
+
+![The actual 3.0 value view for a reserved training domain, with accessible observation and research context.](figures/misp3-value-research.png)
+
+**Useful result:** A sourced assessment that identifies what was observed, what is inferred
+and what still needs checking. See [value identities](../categories-and-types/index.qmd#types-values)
+and [value-level research](../analyst-data/index.qmd#value-level-analyst-data).
+
+## Build a shared incident assessment {#stories-incident}
+
+**Goal:** Responders need to add findings to an investigation while retaining responsibility
+for their own contributions.
+
+Create a private event, add structured observations and an event report, and record the team's
+analysis separately from the raw observables. Use attribute proposals when suggesting changes
+to another owner's data, or an extended event for separately owned additions. Record sightings
+with their source and time; a negative sighting is not a universal clearance of an indicator.
+Keep case-management/remediation tasks in the connected response process.
+
+**Useful result:** A reviewable incident account with evidence, assessment, ownership and
+observation times. See [event lifecycle](../using-the-system/index.qmd#creating-an-event),
+[extended events](../extended-events/index.qmd#when-to-use-an-extended-event) and [Analyst Data](../analyst-data/index.qmd#the-three-types).
+
+## Structure malware, fraud or infrastructure evidence {#stories-structure}
+
+**Goal:** A researcher needs to preserve relationships among observations rather than produce
+an unqualified list of strings.
+
+Choose object templates that represent the observed entities and declare directional object
+references where supported by the evidence. Keep machine classification in taxonomies and
+knowledge entities/techniques in galaxies. Record provenance and confidence, including limits
+of automated enrichment. Submit samples or private observables to an external service only
+through an integration whose disclosure and access policy fits the source data.
+
+**Useful result:** An object model that distinguishes facts, relationships and assessment.
+This applies to cyber incidents, fraud and other domain-specific research; selecting an object
+type does not establish permission to collect personal data or make the record forensic proof.
+See [objects](../misp-objects/index.qmd#objects-use),
+[taxonomies](../taxonomy/index.qmd#taxonomy-machine-tags) and
+[galaxies](../galaxy/index.qmd#galaxy-concepts).
+
+## Prepare a useful detection export {#stories-detection}
+
+**Goal:** A SOC engineer needs a relevant, current set of observations for a SIEM/IDS or another
+protective tool.
+
+Review intended detection use, type, source quality, observation age and target compatibility.
+Combine explicit REST search criteria with the appropriate IDS/publication scope, warninglist
+handling and supported output format. Decaying scores and sightings can inform a decision;
+they do not automatically implement the downstream tool's response policy. Inspect a sample,
+count results, test ingestion and keep a checkpoint/retry plan for later updates.
+
+**Useful result:** A bounded export with a documented selection policy and observable delivery.
+See [API exports](../automation/index.qmd#api-exports),
+[warninglist filtering](../warninglists/index.qmd#warninglists-export) and
+[decaying models](../decaying-models/index.qmd#how-scoring-works).
+
+## Compare intelligence before importing {#stories-feeds}
+
+**Goal:** A curator wants useful external context without uncontrolled local event growth.
+
+Review the source's terms, format, quality and update strategy. Compare cache/lookup results
+with the local observations before importing full events. Cache entries, imported events and
+remote-server data are distinct resources. Inspect repeated imports, UUID/update handling and
+correlation volume; label source context rather than treating a feed's inclusion as validation.
+
+**Useful result:** A measured source choice with explicit retention and import behaviour.
+See [feed management](../managing-feeds/index.qmd#feeds) and
+[feed-growth diagnosis](../faq/index.qmd#faq-feed-growth).
+
+## Share within an agreed scope {#stories-sharing}
+
+**Goal:** A community coordinator needs to exchange useful intelligence with intended partners.
+
+Establish organisation identities, peer credentials and the agreed audience. Apply distribution
+and sharing groups, then review publication, attachment scope and peer filters. Local tags or
+research attachments do not become global just because the parent event is published.
+A relay's hosting organisation is part of the trust design. Delegation transfers publication
+responsibility; it is not a guarantee of anonymity against every participant or retained record.
+
+**Useful result:** A tested path to the intended recipient with documented visibility and
+ownership. See [sharing](../sharing/index.qmd#sharing-overview),
+[delegation](../delegation/index.qmd#send-a-delegation-request) and
+[protected-event verification](../cryptographic-keys/index.qmd#how-it-works).
+
+## Curate a collection for handover {#stories-collections}
+
+**Goal:** A team wants a maintained set of related events and knowledge entries for a topic,
+campaign or partner briefing.
+
+Create a collection, describe its purpose and add the supported element references. Review
+collection and element visibility separately. A collection references its members; it does not
+flatten their distribution or guarantee that a recipient receives every referenced object.
+Keep analyst conclusions in the appropriate reports/research records and review supported
+export/synchronization behaviour for the installed branch.
+
+**Useful result:** A curated entry point with an owner, meaningful membership and understood
+visibility limits. See [Collections](../collections/index.qmd#what-a-collection-contains).
+
+## Write and communicate a finding {#stories-reporting}
+
+**Goal:** A risk analyst, incident responder or information-operations researcher needs an
+explanation that links conclusions to evidence.
+
+Write an event report with references to the relevant elements and sources. Distinguish a
+hypothesis, a confidence assessment and an observed fact. ATT&CK or DISARM technique attachments
+organize context; they do not validate attribution or a claim about an information source.
+Choose views/statistics for the question and explain selection bias and gaps in the dataset.
+
+**Useful result:** A report the intended audience can interpret and access. See
+[Event Reports](../event-reports/index.qmd#writing-a-report),
+[galaxy matrices](../galaxy/index.qmd#galaxy-matrices) and
+[Analyst Data](../analyst-data/index.qmd#the-three-types).
+
+## Build a verifiable integration {#stories-automation}
+
+**Goal:** A developer or data scientist needs repeatable collection, enrichment or analysis.
+
+Use a suitably scoped account/key and the supported API/client version. Test pagination,
+normalization, idempotent updates, permissions and recovery from partial failure. Workflows
+can connect triggers, conditions and actions where those modules are enabled; do not assume
+an arbitrary tag starts automation. Distinguish a provider request from a cached/local result,
+and retain provenance and human review for assisted analysis.
+
+**Useful result:** An integration with bounded inputs, meaningful logs and checked outputs.
+See [Automation & Integration](../automation/index.qmd#api-reference),
+[workflows](../workflows/index.qmd#workflow-hub) and
+[developer testing](../dev-faq/index.qmd#developer-testing).
+
+## Maintain users and infrastructure {#stories-operations}
+
+**Goal:** Administrators need a reliable service with appropriate access and recoverable data.
+
+Separate site administration from organisation/user management. Check the permitted scope of
+role/account/key operations rather than granting every administrator instance-wide control.
+Monitor jobs, recurring work, migrations, storage, logs and backups; rehearse recovery. A
+successful connection test or dashboard chart is one signal, not a complete health assessment.
+
+**Useful result:** A service with clear ownership, tested recovery and auditable changes.
+See [administrative access](../administration/index.qmd#admin-access),
+[health checks](../administration/index.qmd#server-settings-and-maintenance) and
+[backup/recovery](../administration/index.qmd#admin-backup-recovery).
