@@ -1,0 +1,17 @@
+flowchart TB
+  accTitle: Community distribution changes at an external synchronization boundary
+  accDescr: In the first example, A pushes an event with Connected communities distribution to B, where it becomes This community only. B cannot push that copy to C through a normal external connection. In a separate example, an eligible account at B pulls an event with This community only distribution from A; the copy becomes Your organisation only at B. This diagram excludes internal connections and sharing groups.
+  subgraph p["External push"]
+    direction LR
+    A["A · Connected communities<br/>Distribution 2"] -->|"Push"| B["B · This community only<br/>Distribution 1"]
+    B --x|"Blocked"| C["C · no copy"]
+  end
+  subgraph r["Authorised pull"]
+    direction LR
+    X["A · This community only<br/>Distribution 1"] -->|"Data returned to B's pull"| Y["B · Your organisation only<br/>Distribution 0"]
+  end
+  p ~~~ r
+  classDef shared fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef limited fill:#fff4df,stroke:#91651c,color:#573d13;
+  class A,B,X shared;
+  class C,Y limited;

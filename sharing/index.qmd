@@ -1,443 +1,379 @@
 ---
 title: "Synchronization and Sharing"
+format:
+  html:
+    lightbox: true
 ---
+
+MISP connects organisations that produce, analyse and use threat intelligence. Start with a
+defined audience and a useful set of sources; add synchronization when you are ready to maintain
+that exchange. Receiving intelligence does not oblige you to publish your own investigations.
+
+::: {.callout-note}
+This chapter follows MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
+development branch, using the light Overmind interface. Controls depend on your role and enabled
+services. MISP 2.5 uses different menus. Select a screenshot or diagram to enlarge it.
+:::
+
+<!-- Screenshots and verification: ../assets/sharing-screenshots.json. Diagram sources: figures/*.mmd. -->
+
 <a id="sharing--synchronisation"></a>
 
+<a id="sharing-synchronisation"></a>
 
-# Sharing / Synchronisation
+## Choose how to share {#sharing-overview}
 
-* MISP's core functionality is sharing where everyone can be a consumer and/or a contributor/producer.
-* Quick benefit without the obligation to contribute
-* Low barrier access to get acquainted to the system
+| Requirement | Use |
+|---|---|
+| Exchange events with another MISP instance | Native [synchronization](#sharing-synchronization), with separate push and pull settings. |
+| Look up or import a published indicator source | [Feeds](../managing-feeds/index.qmd), in MISP, free-text or CSV format. |
+| Define a specific audience | [Sharing groups](#sharing-groups), alongside event, object and attribute distribution. |
+| Share a curated set of references | [Collections](../collections/index.qmd). Targets retain their own access rules. |
+| Discuss or assess intelligence | [Analyst Data](../analyst-data/index.qmd), proposals and sightings. |
+| Restrict which instances may sign protected event updates | [Cryptographic keys and event signing](../cryptographic-keys/index.qmd). |
 
-# Synchronisation
+<a id="synchronisation"></a>
 
-## Concept
+## Synchronization {#sharing-synchronization}
 
-The following figure shows the concept how different MISP instances could tie together.
+### Identities and credentials {#concept}
 
-![Scenario example](figures/MISP_scenario_example.png)
+Each connection authenticates to the **remote** instance. The key is issued there, to an account
+representing the connecting organisation. Organisation UUIDs identify the same organisation
+across instances; a matching name is not enough.
 
-In MISP, two ways exist to get events from remote sources:
+For **B to pull from A**:
 
-* **Use case 1**: From another MISP server (also called MISP instance), by synchronising two MISP servers.
-* **Use case 2**: From a link, by using [Feeds](../managing-feeds/index.qmd).
+1. On B, obtain Org B's organisation UUID from its organisation record.
+2. On A, create or identify a **local organisation** for Org B using that UUID. Create a dedicated
+   account in Org B with the **Sync user** role and issue its authentication key.
+3. On B, add a server connection to A. Select **Org A**, the organisation hosting A, as the remote
+   organisation. Enter the key **issued by A** and enable **Pull**.
+4. Test the connection and start with a small, agreed set of data and filters.
 
-The example below illustrate the synchronisation between two MISP servers (use case 1).
-An organisation B (OrgB) wants to synchronise its MISP server, called ServerB, with the MISP server of an organisation A (Org A), called ServerA. The following steps can be taken to syncronise ServerB with ServerA:
+<a id="misp-server-sync"></a>
 
-<p align="center">
-<a name="misp-server-sync"></a>
+![Credentials for B to pull from A. The remote host organisation and the organisation of the key's account serve different purposes.](figures/sync-identity.svg)
 
-![Synchronisation between two MISP servers](./figures/misp-sync-servers.png){width=100%}
-  <span><i>FIGURE: Illustration of the synchronisation between two MISP servers</i></span>
-</p>
+For **A to push to B**, create the reciprocal account and key on **B**, then configure A's
+connection to B. Do not reuse a personal administrator account as a synchronization account.
+Keep keys out of screenshots, tickets and shared configuration exports. See
+[authentication keys](../user-management/index.qmd) for expiry and access restrictions.
 
-* **Step 1**: Add OrgB as a local organisation on ServerA (OrgB.ServerA) using OrgB's existing UUID from their local organisation on ServerB.
-* **Step 2**: Add a Sync User (syncuser@OrgB.ServerA) in the organisation OrgB.ServerA on the MISP ServerA.
-* **Step 3**: [Set up a sync server](#adding-a-server) on MISP ServerB using the key (called Authkey) from the sync user (syncuser@OrgB.ServerA) created on MISP ServerA.
+### Push and pull {#pull-vs-push-synchronisation}
 
-For additional information on the synchronisation process, refer to the [MISP GitHub issues](https://github.com/MISP/MISP/issues), for example, [issue 2595](https://github.com/MISP/MISP/issues/2595).
+![Push carries data in a request initiated by A. Pull returns data in response to B's request. Each uses a key issued by the instance receiving the request.](figures/sync-directions.svg)
 
-## Pull vs Push synchronisation
-Synchronisation can be set up using the pull or push option. A combination of the two is possible as well. This section discusses the main practical differences between the two and the benefit of using both in conjunction.
+<a id="push"></a>
 
-To automatically execute pull and push synchronisations on a schedule, please use a scheduling service such as cron to execute the relevant command line functions mentioned in the related [administration](../administration/index.qmd#automating-certain-console-tasks) section.
+#### Push {#sync-push}
 
-For a table overview of which community distributions lead to a sync on push or pull scenarios as well as how the distribution level automatically decreases on sync, please refer to the  [syncing scenarios with communities distribution](#syncing-scenarios-with-communities-distribution) section.
+With **Push** enabled, publishing an eligible event initiates an attempt to send it to that
+peer. Jobs, connectivity, filters and remote permissions determine whether it succeeds.
+A failed worker or unavailable peer can delay delivery; publication alone is not confirmation
+that the other instance received the event.
 
-### Push
-The push mechanism provides a seemingly real time experience. If a push connection is enabled, data created (and synchronized from other peers) will be synchronized as fast as possible. In practice, this means that an attempt to synchronise is made immediately after publication of an event.
+Ordinary external push excludes **Your organisation only** and **This community only** data.
+Object and attribute restrictions are checked as well as the event's distribution.
 
-A disadvantage of the push mechanism is that connection issues or dead workers might prevent the push from being successful. 
+<a id="pull"></a>
 
-Data with distribution set to 'Your organisation only' or 'This community only' will not be synchronised using the push mechanism (unless the internal instance flag is set for the server to be synced to).
+#### Pull {#sync-pull}
 
-### Pull
-In contrast to a push, pull synchronisation is only performed on command. This could be a manual trigger by an admin from the servers page or a cron job executing a pull command. See [administration](../administration/index.qmd#automating-certain-console-tasks) for the available command line interface commands.
+A pull is initiated from the receiving instance, manually or on a schedule. The account used on
+the source instance determines what it can read. This can include community data and, for an
+account in the event's owning organisation, organisation-only data. Pull rules and synchronization
+eligibility still apply; it is not an unrestricted copy of everything visible in the UI.
 
-A pull will also fetch objects with a distribution set to 'this community only' and even your 'organisation only', if the auth key belongs to the organisation owning the related event.
+The normal full synchronization workflow selects published events. An event's unpublished state
+is **not an access-control setting**: local community access depends on distribution and the
+instance's unpublished-event policy. Keep private drafts **Your organisation only**.
 
-### Benefits of using push and pull in conjunction
-- If an unexpected issue prevented the push from happening, the data can be pulled in later
-- Different rules can be set for the push and pull sync
+#### Using both directions {#benefits-of-using-push-and-pull-in-conjunction}
 
-## Adding a server
+Push provides prompt delivery attempts; scheduled pull can recover eligible updates missed during
+an outage. Configure and test each direction independently, including the credentials and filters.
+Use the [administration commands](../administration/index.qmd#automating-certain-console-tasks)
+to schedule synchronization, and monitor the resulting jobs and logs.
 
-Servers can be added by users via
+## Add a remote server {#adding-a-server}
 
-~~~~
-https://<misp url>/servers/add
-~~~~
+As a **site administrator**, open **Sync → Servers & Feeds → Servers** and select **Add Server**.
+The MISP 3.0 form groups the settings into expandable sections. The underlying endpoint is
+`/servers/add`.
 
-The Add Server form is grouped into sections — *Instance identification*, *Instance
-ownership and credentials*, *Enabled synchronisation methods* and *Misc settings* —
-and has several input fields:
+![The MISP 3.0 server form's synchronization options. Enable only the directions and data types agreed with the peer.](figures/misp3-server-methods.png)
 
-![Add Server](figures/add_server_ui.png)
+| Section | What to check |
+|---|---|
+| **General** | The peer's HTTPS **Base URL** and a recognisable **Instance name**. Leave **Internal instance** off for ordinary partner connections. |
+| **Instance ownership and credentials** | The organisation that **hosts the remote instance**, identified by UUID, and the authentication key issued on that instance. Choose an existing local/known remote organisation or create the remote organisation as appropriate. |
+| **Enabled synchronisation methods** | Enable Push, Pull and any additional data types deliberately. Enabling event synchronization alone does not enable every related feature. |
+| **Misc settings** | Review event publication/email handling, caching, proxy behaviour and any certificate files. Use a trusted server certificate; do not routinely bypass certificate verification with **Self Signed**. |
+| **Sync rules** | Define push and pull filters separately, then test them against representative data. |
 
-1. **Base URL**
-    The base-url to the external server you want to sync with. Example: https://foo.sig.mil.be
+The remote host organisation is used when evaluating sharing-group eligibility. Selecting the
+wrong organisation changes that evaluation. Confirm its UUID with the partner before saving.
 
-2. **Instance Name**
-    A name that will make it clear to your users what this instance is. For example: Organisation A's instance
-    
-3. **Internal instance**
-This checkbox will only show up if the set 'local organisation', see 5, is the same as the owning organisation of the instance the remote server is being configured on. If this flag is set, the distribution of pushed data will not be automatically downgraded. Please refer to the [syncing scenarios with communities distribution](#syncing-scenarios-with-communities-distribution) section for a table overview of the differences.
+### Analyst Data, collections and MISP 3.0 {#synchronising-analyst-data-and-collections-2.5}
 
-4. **Remote Sync Organisation Type**
-MISP has several organisation "pools", one for local and one for known external organisations. When adding a synchronisation connection, you need to define the host organisation of the remote instance. Select which pool you wish to pick the organisation from using this drop-down. You also have the option of adding a new external organisation directly from this interface.
+The server form exposes independent **Push analyst data / Pull analyst data** options,
+alongside event, sightings and galaxy options. Collection synchronization has separate
+`push_collections` / `pull_collections` settings. At the captured commit, these are available
+through the server REST API and legacy form but are **missing from the Overmind form**.
+An administrator can set them with `POST /servers/edit/{id}`, for example:
 
-5. **Local/Known remote Organisation**
-Choose the organisation from the selected pool that defines the host organisation on the remote side. Make sure that the remote instance is actually run by the organisation you select. When selecting data to push, this organisation will be used to determine membership of sharing groups. As a result, this setting is very important, since selecting the wrong organisation can lead to leaking confidential data (oversharing) or sharing less than intended.
+```json
+{"Server": {"push_collections": true, "pull_collections": false}}
+```
 
-6. **Authkey**
-You can find the authentication key on your profile on the external server. If advanced auth keys is enabled you might have to create an auth key manually. This can be done on your profile view as well. Please refer to the [automation](../automation/index.qmd) section for more information about creating an automation key.
+Both ends must support the relevant feature and the remote account needs the corresponding
+permissions. Each record's distribution still applies.
 
-7. **Push**
-Allow the upload of events and their attributes. Only Events that match the given push rules (see 19) will be pushed to the server. Sightings and relevant galaxy clusters will not be pushed unless 'Push Sightings' and 'Push Galaxy Clusters' are enabled as well.
-    
-8. **Pull**
-Allow the download of events and their attributes from the server. Only data matching the given pull rules (see 20) will be pulled. Relevant galaxy clusters will not be pulled in unless the 'Pull Galaxy Clusters' checkbox is ticked as well.
+MISP 3.0 extends the research model with value-level Analyst Data and collection references to
+attributes, objects and values. A value reference uses the SHA-256 address of the stored value;
+it does not identify one particular attribute occurrence. See [Analyst Data](../analyst-data/index.qmd)
+and [Collections](../collections/index.qmd) for the supported targets and payloads.
 
-9. **Push sightings**
-If checked, sightings will be pushed out as well on push.
+The branch supports native synchronization between **3.0 and 2.5**, with feature negotiation.
+That does not make all 3.0 data transferable: value-targeted Analyst Data and value-addressed
+collection elements are withheld from peers older than 3.0. Check the actual received records
+before treating a mixed-version handover as complete.
 
-10. **Caching Enabled**
-Allow caching of the remote server. Once cached, caching related functionalities such as server overlap analysis can be done.
+## Test the connection {#test-connection}
 
-11. **Push Galaxy Clusters**
-If checked, relevant galaxy clusters will be pushed out as well on push.
+From the server list, run the connection test for the saved peer. Check the reported version,
+authentication/role result and POST capability. A successful test confirms the connection and
+reported capabilities; it does not prove that a particular event passes distribution or filters.
 
-12. **Pull Galaxy Clusters**
-If checked, relevant galaxy clusters will be pulled in as well on push. This also enables you to do a pull for galaxy clusters only if pull, see 8, is checked as well.
+![The MISP 3.0 server list, showing a dedicated local documentation peer and the connection actions.](figures/misp3-servers.png)
 
-13. **Unpublish Event**
-Unpublish the synced event. This only works on push.
+Next, agree a harmless test event with the partner, publish it when authorised, and verify its
+UUID, received distribution, expected attributes and job outcome on both sides. Check push and
+pull separately. Never use live sensitive data as the first connectivity test.
 
-14. **Publish Without Email**
-Publish the event without sending out an email.
+## Set synchronization rules {#rules}
 
-15. **Self Signed**
-Check this if you would like to allow a connection despite the other instance using a self-signed certificate (not recommended).
+Push and pull rules narrow the eligible data set; they do not widen distribution or sharing-group
+access. Tag and organisation selectors support **OR** (allow) and **NOT** (block) lists.
+For example, blocking `tlp:red` on a connection can provide an additional filter, but a TLP tag
+itself does not change the event's distribution.
 
-16. **Skip proxy (if applicable)**
-Do not connect to this server using the configured proxy (if any proxy host is set in the MISP configuration).
+![The MISP 3.0 synchronization rule editor, before a draft rule is saved.](figures/misp3-sync-rules.png)
 
-17. **Server certificate file**
-You can upload a certificate file if the instance you are trying to connect to has its own signing authority.  (*.pem)
+Pull rules can also limit attribute/object types and index-query parameters. Test the resulting
+subset, especially when combining tag, organisation and time filters. A restrictive filter can
+make a healthy connection appear idle. Changing a rule does not recall copies already delivered.
 
-18. **Client certificate file**
-Set a client certificate to use when connecting to this server.
+## Troubleshooting {#troubleshooting}
 
-19. **Push rules**
-Allows you to set filtering rules for data to be pushed out (tag based and organisation based). Please see [rules](#rules) for more info.
+| Symptom | Check first |
+|---|---|
+| Connection cannot be established | Base URL, name resolution, HTTPS certificate chain, proxy/firewall and any required client certificate. |
+| Authentication or permission error | Key expiry/revocation, IP restrictions, the account's organisation and role on the **remote** instance. |
+| Connection works but no events arrive | Push/Pull enabled, publication state, distribution, sharing groups, filters, timestamps and job status. |
+| Event arrives with fewer attributes | Object/attribute distribution, type filters, blocklists and peer support. Compare by UUID. |
+| Notes or collection entries are missing | Dedicated synchronization toggles, role permissions, each record's distribution and version-specific target support. |
+| Protected event fails | [Instance signing key, authorised fingerprints and signature verification](../cryptographic-keys/index.qmd). |
 
-20. **Pull rules**
-Allows you to set filtering rules for data to be pulled in (tag based and organisation based). Please see [rules](#rules) for more info.
-
-### Synchronising analyst data and collections (2.5)
-
-MISP 2.5 adds four more synchronisation toggles to the server form, alongside the galaxy-cluster
-options, so that the newer collaborative data types can travel between instances:
-
-- **Push analyst data** / **Pull analyst data** — synchronise [Analyst Data](../analyst-data/index.qmd) (notes, opinions and relationships) with the remote instance.
-- **Push collections** / **Pull collections** — synchronise [Collections](../collections/index.qmd) (bundles of events and galaxy clusters) with the remote instance.
-
-Like the other sync options, each direction is independent, both instances must support the
-feature, and the usual distribution-degradation rules apply.
-
-Adding, editing and removing sync servers is restricted to site administrators.
-
-## Test connection
-The connection test can be used to test the connection to the remote server and will give a feedback about local and remote version of MISP.
-
-![Screenshot showing the servers overview and the run connection test button](./figures/connection_test.png)
-***
-![Screenshot showing the servers overview and the run connection test run result](./figures/connection_test_result.png)
-
-
-## Rules
-Rules are used to limit sharing when synchronising events and attributes. In the example below, data tagged with tlp:red or owned by organisation Setec Astronomy will not be pushed out to this server. Please note any other filtering set up on the instance will still apply as well (blocklists for example).
-
-![Screenshot of configured push rules, tlp:red tag is added to blocked tags and organisation Setec Astronomy to Blocked Orgs](./figures/rules.png)
-
-## Troubleshooting
-If you have issues connecting to a remote servers try to do the following things:
-- manually try to do an API request, to ensure that your API key is valid
-- try to connect with your user account to the remote server and check your roles on the remote server
-- perform a package capture and analyse the traffic
-- if you have a SSL connection issue to a remote server with a certificate signed by a CA that is not included in OS, make sure the whole certificate path is included in the path.
+Use the job and audit logs for the failed operation. If you reproduce a request with an API
+client, keep its key and response data out of shared logs. Report development-branch issues with
+the commit, both versions and a synthetic reproducer.
 
 ## Sharing and distribution
 
-The following section describes how distribution mechanisms of events and attributes work.
-
 ### Distribution settings
 
-The below five distribution settings are available for events and attributes. Descriptions of those settings can be found [here](../using-the-system/index.qmd#creating-an-event).
+Events use **Your organisation only (0)**, **This community only (1)**,
+**Connected communities (2)**, **All communities (3)** or **Sharing group (4)**.
+Objects and attributes can also **inherit** their parent distribution. A child cannot make a
+restricted parent visible to a wider audience. See [event creation](../using-the-system/index.qmd#creating-an-event).
 
-* Your organisation only
-* This community only
-* Connected communities
-* All communities
-* Sharing group
+#### Visibility of events, objects and attributes {#visibility-of-data---events-objects-and-attributes}
 
-Events that are not published are only distributed/shared to the local organisations on the same MISP server/instance (within the limit of the distribution model).
-Only events that are **published** will be shared with remote organisations on other MISP servers via push/pull mechanisms.
-More details on publishing events [here](../using-the-system/index.qmd#publish-an-event).
-
-#### Visibility of data - events objects and attributes
-Assuming that none of the ancestors of the object of attribute are too restrictive, you can view an event/object/attribute on an instance if:
-- You are a site admin
-- Your organisation is owner of the event
-- Neither of the above apply and one of the below statements is true:
-    - The distribution of the event/object/attribute is 'This community only', 'Connected communities' or 'All communities'
-    - Your organisation belongs to the sharing group of the event/object/attribute or the sharing group has the 'all orgs' flag set for the instance
-
-*Note*:
-- As of MISP version 2.4.140: When pulling in data you can only see due to the 'all orgs' flag being set in the sharing group, your organisation will be added to the sharing group when creating the data locally. 
+The owning organisation and site administrators have privileged access. Other organisations need
+an eligible community distribution or membership in the relevant sharing group, subject to the
+parent's restrictions. A sharing group's server membership and **all organisations** settings
+also affect synchronization; review both its organisation list and server list.
 
 ### Community
 
-A community is composed of the local organisations on a MISP server and the remote organisations connected by the sync users. For more information on the concept of community, refer to an [article on MISP information sharing following ISO/IEC 27010](https://github.com/MISP/misp-compliance/blob/master/ISO_IEC_27010/misp-sharing-information-following-ISO-IEC-27010.md#suitable-data-model), explaining the concept of community.
+A community is the set of organisations participating around an instance, including organisations
+represented by its synchronization accounts. It is not a fixed, global list of every connected
+server. Creating an account for Org B on A does not create the reciprocal trust relationship on B.
 
-Specifically, communities are not reversible. Taking the example of <a href="#misp-server-sync">the above figure</a>, illustrating the synchronisation between two MISP servers, OrgB.ServerB is part of the MISP ServerA community but OrgB.ServerA is not part of MISP ServerB community.
+### Sharing groups {#sharing-groups}
 
-### Sharing-groups
+Use a sharing group when the audience should be an explicit set of organisations and, where
+applicable, instances. Open **Sync → Sharing Groups** and review the organisation and server
+membership. See [create and manage sharing groups](../using-the-system/index.qmd#create-and-manage-sharing-groups)
+for the current form. A **Collection** groups content references; a **Sharing Group** controls access.
 
-There is an article about sharing groups in [here](../using-the-system/index.qmd#create-and-manage-sharing-groups)
+### Distribution at a synchronization boundary {#distribution-mechanisms}
 
-### Distribution mechanisms
+For ordinary external synchronization, community-limited distributions can be reduced on the
+receiving instance. **All communities** remains level 3. Sharing-group data follows its explicit
+membership rules rather than a numeric hop count.
 
-The distribution level of an event is automatically decreased as it is synchronised with other MISP instances, when it was originally set to:
+![Two separate external-sync examples: a push of level 2 becomes level 1, which cannot be pushed onward; an eligible pull of level 1 becomes level 0.](figures/distribution-boundaries.svg)
 
-* Community only (to organisation only)
-* Connected community (to community only)
- 
-It is not decreased when it was originally set to:
+#### Ownership and eligibility {#general-syncing-rules}
 
-* Organisation only
-* All communities
-* Sharing group
+Synchronization preserves the creator organisation (`Orgc`). The receiving copy has a local
+owner (`Org`) associated with the receiving account/connection. On push, the API account is the
+local creator user; on pull, the account running the pull is used. Creator identity, local
+ownership and the remote host organisation are distinct concepts.
 
-[!] This rule does not apply if “Internal instance” has been checked when creating the server.
+#### Community distribution scenarios {#syncing-scenarios-with-communities-distribution}
 
-As an example, the figure below illustrates two events **e** and **e'** created by OrgA and respectively shared as "This community only" and "Connected communities" and how they propagate in an illustrative MISP set of intances synchronised with each others.
+##### Ordinary external connection {#internal-instance-flag-not-set}
 
-![Illustration of MISP organisations and community interactions](figures/misp-compliance-iso-concepts.png)
+The tables describe standard event distribution, assuming publication, filters, permissions and
+peer compatibility otherwise allow the transfer. Objects and attributes are checked separately,
+within the event's visibility. Sharing groups need their own membership check.
 
-#### General syncing rules
-- The owner organisation of the event on instance B is set to the organisation of the sync user.
-- The creator user is the authkey user when pushing
-- The creator user is the user triggering the pull when pulling. This user can be different than the authkey user.
-- Rule of thumb: if the user configured to pull from instance A to B can see the event on instance A, the event will be synced.
+###### Push from A to B {#push-from-instance-a-to-instance-b---usual-scenario}
 
-#### Syncing scenarios with communities distribution
+| On A | Result on B |
+|---|---|
+| 0 — Your organisation only | Not pushed. |
+| 1 — This community only | Not pushed. |
+| 2 — Connected communities | Imported as 1 — This community only. |
+| 3 — All communities | Remains 3 — All communities. |
 
-##### Internal instance flag not set
-The below scenarios are if “Internal instance” has not been checked when creating the server. This is the usual scenario.
+###### Pull from A to B {#pulling-from-instance-a-to-instance-b---usual-scenario}
 
-###### Push from instance A to instance B - usual scenario
-Which organisation the remote sync user belongs to has no impact on which events are pushed.
-
-| Instance A  | Instance B                                                                        |
-| ----------- | --------------------------------------------------------------------------------- |
-| Your organisation only      | Event/object/attribute not pushed                                                 |
-| This community only   | Event/object/attribute not pushed                                                 |
-| Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B       |
-| All communities   | Event/object/attribute distribution stays 'all communities'                       |
-
-###### Pulling from instance A to instance B - usual scenario
-Rule of thumb: if the user configured to pull from instance A can see the event on instance A, the event will be synced.
-
-| Instance A  | Instance B                                                                                                                                                                     |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Your organisation only      | Event/object/attribute pulled in only if the sync user is member of the event's owner organisation on A. Event distribution stays 'Your organisation only' on instance B       |
-| This community only   | Event/object/attribute distribution decreased to 'Your organisation only' on B                                                                                                 |
-| Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B                                                                                                    |
-| All communities   | Event/object/attribute distribution stays all communities on B                                                                                                                 |
+| On A | Result on B |
+|---|---|
+| 0 — Your organisation only | Eligible only if the account used on A belongs to the owning organisation; remains 0 on B. |
+| 1 — This community only | Imported as 0 — Your organisation only. |
+| 2 — Connected communities | Imported as 1 — This community only. |
+| 3 — All communities | Remains 3 — All communities. |
 
 <a id="internal-instance-flag--set"></a>
 
-##### Internal instance flag  set
-The below scenarios are if “Internal instance” has been checked when creating the server. This is the *not* the usual scenario and *potentially dangerous*. The internal instance flag can be used when both instances have the same hosting organisation. 
+##### Internal connections {#internal-instance-flag-set}
 
-###### Push from instance A to instance B - internal flag set scenario
-| Instance A  | Instance B                                                                                                                                                                                                                                          |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Your organisation only      | Event/object/attribute not pushed if triggering push of already locally (on instance A) published event. Event/object/attribute synced on publication of an event, even if the organisation publishing is not the host organisation of the instance |
-| This community only   | Event/object/attribute distribution stays 'This community only' on B                                                                                                                                                                                |
-| Connected communities      | Event/object/attribute distribution stays 'Connected communities' on B                                                                                                                                                                              |
-| All communities   | Event/object/attribute distribution stays 'All communities on B'                                                                                                                                                                                    |
+**Internal instance** is an advanced trust setting for instances under the same hosting
+organisation. The configured remote organisation must match the local host organisation for
+internal push handling. It changes distribution handling and protected-event trust checks;
+it should not be used to fix a partner connection that cannot see an event.
 
-###### Pulling from instance A to instance B - internal flag set scenario
-Rule of thumb: if the user configured to pull from instance A can see the event on instance A, the event will be synced.
+###### Internal push {#push-from-instance-a-to-instance-b---internal-flag-set-scenario}
 
-| Instance A  | Instance B                                                                                                                                                      |
-| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Your organisation only      | Event/object/attribute pulled in only if the sync user is member of the event's owner organisation. Event distribution stays 'Your organisation only' on B      |
-| This community only   | Event/object/attribute distribution decreased to 'Your organisation only' on B                                                                                  |
-| Connected communities      | Event/object/attribute distribution decreased to 'This community only' on B                                                                                     |
-| All communities   | Event/object/attribute distribution stays 'All communities' on B                                                                                                |
+Internal push can retain community distributions instead of reducing them and can make
+organisation-only data eligible in paths that an external push would reject. Publication-time
+and bulk push selection are not identical. Test the intended workflow and restricted attributes
+before enabling this setting on an operational connection.
+
+###### Internal pull {#pulling-from-instance-a-to-instance-b---internal-flag-set-scenario}
+
+The remote account must still be able to read the data. Do not assume internal pull preserves
+all community distributions: the standard pull import path still reduces community-limited
+levels. Internal pull also changes protected-event validation. Verify received ownership,
+distribution and signing behaviour for the deployed version.
 
 ## Collaboration
 
 ### Proposals
 
-Proposals can be used to propose new attribute values that can be reviewed by the event owner.
+Use [proposals](../using-the-system/index.qmd) to request attribute additions or changes without
+taking over the event. The owner reviews them. Use [sightings](../sightings/index.qmd) to record
+observations, false positives or expiry, and Analyst Data for an assessment or relationship.
 
 <a id="forums--threats"></a>
 
-### Forums / Threats
+### Discussions in MISP 3.0 {#forums-threats}
 
-Forums can be used to discuss non event related topics.
+The old **Forums / Threads** and event-comment pages are removed in this branch. The migration
+converts discussion posts to [Analyst Data notes](../analyst-data/index.qmd), attached to their
+event or organisation, with distribution capped at the community or owning organisation.
+Old `/threads/` and `/posts/` instructions no longer apply.
 
-Discussions can be accessed on the top "Global Actions - List Discussions"
+#### Start a discussion {#create-a-new-topic}
 
-**Discussions will and can not be shared with other servers**
+Add a note to the relevant event, organisation or other supported target. State the question,
+evidence and intended audience. Check the note's distribution before saving.
 
-and via URL:
+#### Reply to a discussion {#comment-a-topic}
 
-~~~~
-https://<misp url>/threads/index
-~~~~
+Open the assessment and add a reply where available. Reply visibility is also bounded by the
+parent. Do not assume a note is local-only: eligible Analyst Data can synchronize when enabled.
 
-![Discussions](figures/discussions.png)
+### Comments on events {#comments-to-events}
 
-#### Create a new Topic
-
-To create a new topic
-
-~~~~
-https://<misp url>/posts/add
-~~~~
-
-![Start a topic](figures/discussions_start_topic.png)
-
-#### Comment a topic
-
-A topic can be commented by any user
-
-~~~~
-https://<misp url>/threads/view/<topic id>
-~~~~
-
-### Comments to events
-
-In MISP ongoing events can be commented by every user to ask free text question to events.
-**Comments to events will not be shared with other servers**
-
-![Contact reporter](figures/comment_an_event.png)
+Use the event's **Assessment** area to add a note, opinion or relationship. Keep the event report
+for the investigation narrative. See the [Analyst Data workflow](../analyst-data/index.qmd) for
+current screenshots, target types and distribution checks.
 
 ### Contact a reporter
 
-This feature can be used to contact the person or the organisation that the person belongs to that has created the event.
-
-All E-Mails can be enforced to be encrypted
-
-![Contact reporter](figures/contact_reporter.png)
+On an event with a local creator organisation, open **All actions → Contact Reporter**.
+Choose the intended recipient and write a specific question. Delivery depends on mail and
+encryption configuration. Contacting the reporter sends a message; it is not a synchronized
+record of the discussion.
 
 ### Receive alerts
 
-It is possible to get alerts via encrypted mail in the following cases:
-
-* published events by other user of the MISP instance
-* events pushed to the MISP instance
-* events pulled by the MISP instance
-
-These E-Mail alerts are an opt-in feature
-
-![Change user settings](figures/profile_receive_alerts.png)
-
+Review notification preferences under **Account → My Profile → Settings**. Event alerts depend
+on your subscription, access, publisher choices and instance configuration. Configure a valid
+email encryption key where required. See [account settings](../user-management/index.qmd).
 
 ## Cerebrate
 
-[Cerebrate](https://github.com/cerebrate-project/cerebrate) is a companion open-source platform
-that acts as a **directory and distributed trust source** for a community: it holds authoritative
-records of **organisations** and **sharing groups** that many MISP instances can then draw from,
-instead of each instance maintaining that information by hand. Connecting your MISP to a Cerebrate
-lets you pull those organisations and sharing groups in, keeping identities and sharing-group
-memberships consistent across the community.
+[Cerebrate](https://github.com/cerebrate-project/cerebrate) supplies directory records for
+organisations and sharing groups. It helps a community keep organisation UUIDs and membership
+consistent; it does not transfer MISP events.
 
-Cerebrate connections are managed under *Sync Actions → Cerebrates* and are **site-admin only**.
-To add one, provide:
-
-- **Name** and **URL** of the Cerebrate node,
-- an **Authkey** for its API (stored encrypted),
-- the local **owner organisation** that represents this connection, an optional **description**,
-  and a **Skip proxy** option, plus
-- **Pull organisations** and **Pull sharing groups** toggles for what you want to retrieve.
-
-From a configured Cerebrate you can **preview** the remote organisations and sharing groups —
-each is annotated with whether it already exists locally and what differs — before pulling. You
-can then **pull all** organisations or sharing groups (creating the missing ones and updating the
-rest), or **download** an individual organisation or sharing group. Pulled organisations are
-matched by UUID; a name clash is resolved by suffixing the imported name.
+Site administrators can manage connections at `/cerebrates/index`. Supply the node's name, URL,
+API key and owner organisation, then choose whether to pull organisations and/or sharing groups.
+Preview the remote records before pulling. UUIDs are used to match organisations; review name
+conflicts and membership changes before applying an update.
 
 ## Sharing group blueprints
 
-Maintaining sharing groups by hand becomes tedious when membership follows a rule ("every
-national CSIRT", "all organisations in the finance sector", "everyone except this org"). A
-**Sharing Group Blueprint** captures that rule as JSON and lets MISP **generate and keep a sharing
-group in sync automatically**.
+A **Sharing Group Blueprint** describes membership rules, such as organisations in a sector or
+country. Open `/sharingGroupBlueprints/index`; creating or editing requires sharing-group
+permission, and non-administrators are limited to their organisation's blueprints.
 
-Blueprints are managed under *Global Actions → List Sharing Group Blueprints*. Creating or editing
-one requires the sharing-group permission, and non-site-admins only see their own organisation's
-blueprints. A blueprint has a **name** and a **rules** definition (edited as JSON). The rules
-select organisations by properties — organisation id/uuid/name/sector/nationality/type, or
-sharing-group id/uuid — combined with the boolean operators **OR**, **AND** and **NOT**.
+In 3.0, the form offers a JSON rule editor with operator and filter helpers for organisation
+properties and sharing groups, using **OR**, **AND** and **NOT** conditions.
+Preview the resolved organisations, then **Execute** to
+create or update the managed sharing group. Execution can overwrite manual membership changes;
+**Detach** it first if you want to maintain it by hand.
 
-Once defined, you can:
-
-- **Execute** the blueprint — MISP resolves the rules to a set of organisations and either creates
-  a new sharing group or updates the membership of the one it already manages.
-- **Preview the organisations** the rules currently resolve to before executing.
-- **Detach** the generated sharing group from the blueprint (making it a normal, manually managed
-  sharing group).
-- **Encode as a sync rule** (site admins) — transpose the resolved organisations directly into a
-  sync server's push or pull rules.
+A blueprint does not continuously update membership merely because it exists. Execute it again,
+schedule it or use a configured workflow when directory data changes. Site administrators can
+also **Encode as a sync rule** to apply the resolved organisation selection to a server's rules.
 
 ## TAXII 2.x servers
 
-MISP can act as a **TAXII 2.1 client**, pushing your intelligence — converted to STIX 2.x — to a
-remote TAXII 2.1 collection, and browsing the collections and objects a TAXII server exposes. This
-is the standards-based path for sharing with platforms that speak TAXII rather than MISP's native
-synchronisation. The STIX conversion relies on the [misp-stix](https://github.com/MISP/misp-stix)
-library.
+MISP can act as a **TAXII 2.1 client** to browse remote collections and push filtered events
+converted to STIX 2.x. Site administrators manage these connections at `/taxiiServers/index`.
+This requires the relevant TAXII/STIX dependencies and a compatible remote service.
 
-TAXII servers are configured under *Sync Actions → TAXII Servers* and are **site-admin only**. The
-form asks for:
+Configure the discovery URL, authentication, API root, writable collection and event-selection
+filters. Preview the intended scope before pushing. Basic and bearer credentials belong in the
+connection configuration. TAXII transfers use STIX and should not be assumed to preserve every
+native MISP feature, such as value-level Analyst Data or MISP collection references. See
+[Automation & API](../automation/index.qmd) for STIX export options.
 
-- a **name** and **owner** label,
-- the **discovery URL** of the TAXII server and a **Skip proxy** option,
-- an **Enabled** toggle,
-- the **authentication type** — *basic* (username and password) or *bearer* (an API token),
-- the **API root** and **collection**, which are populated dynamically by querying the server
-  (only collections you can write to are offered for pushing), and
-- a **filters** definition (a MISP REST search filter, as JSON) that decides which events are
-  pushed.
+## An intake and sharing workflow {#recommendation}
 
-Once a server is configured you can **push** events to it (filtered by the rules you set — run as
-a background job when jobs are enabled), and **browse** the server's collections and the STIX
-objects within a collection. TAXII push complements the [automation](../automation/index.qmd)
-chapter's STIX export formats.
+Choose sources for their relevance and handling terms. Begin with cache lookups where useful,
+import selected material, and review it before detection use or outward sharing.
 
-## Recommendation
+![A review stage separates intake from detection exports and publication. This can be implemented on one instance or split across instances when isolation is needed.](figures/review-pipeline.svg)
 
-The following section will describe what is the best practice how many MISP instances that showed to be good for orgs.
-Of course depending on your specific requirements an architecture could be more spread or simplified.
+### Optional staging instance {#misp-staging-system}
 
-The architecture is divided into several systems / stages beginning with:
+A separate staging instance can isolate high-volume imports, parser experiments and enrichment.
+Limit incoming sources and the routes out of staging. It is an architectural choice, not a
+requirement to download every available feed or partner event.
 
-### MISP Staging System
+### Operations instance {#misp-secops-system}
 
-This systems purpose is to be linked to all available external MISP systems that you have access to.
-It will download all events and do enrichment between these events.
-
-### MISP SECOps System
-
-This system is the main system used by human analysts.
-It will it is not linked to any external MISP instance other then the Staging System.
-
-To publish events to the community assign the right tags to match your push [Rules](#rules) and **publish the event**
+Analysts validate evidence, record confidence and handling requirements, and select detection
+attributes. Share reviewed events with explicit distribution, suitable tags and tested push
+rules. Check job outcomes and confirm important handovers with the receiving team. On a single
+instance, use the same review discipline with restricted drafts and deliberate publication.

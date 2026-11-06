@@ -1,0 +1,11 @@
+flowchart TB
+  accTitle: Protected events are signed and checked at each ordinary synchronization hop
+  accDescr: A signs with an instance key listed on the event. B checks the signature and authorised signer before accepting the protected event. To relay it, B must sign with its own instance key, which must also be on the authorised list. C checks B's signature. If B cannot sign with an authorised key, onward relay stops. This describes ordinary external synchronization, not privileged administrator or internal-sync trust paths.
+  A["Instance A<br/>Signs with authorised key A"] -->|"Protected event + signature A"| B["Instance B<br/>Verifies signature and signer"]
+  B --> Q{"Can B sign with<br/>an authorised key?"}
+  Q -->|"Yes · sign with key B"| C["Instance C<br/>Verifies signature B and signer"]
+  Q -->|"No"| S["Onward relay stops"]
+  classDef instance fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef limited fill:#fff4df,stroke:#91651c,color:#573d13;
+  class A,B,C instance;
+  class Q,S limited;

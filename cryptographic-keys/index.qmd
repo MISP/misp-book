@@ -1,117 +1,138 @@
 ---
 title: "Cryptographic Keys & Event Signing"
+format:
+  html:
+    lightbox: true
 ---
 
-When an event is shared across a chain of MISP instances, each hop can, in principle, relay or
-modify it before passing it on. **Event signing** lets the originator of an event constrain who is
-allowed to do that. By attaching one or more **cryptographic keys** to an event and putting it
-into **protected mode**, the creator declares: *only instances that can sign updates with one of
-these keys may propagate or change this event*. Every hop then verifies the signature before
-accepting the event, giving tamper-evidence and origin authentication along the whole sharing
-path.
+**Protected events** use PGP signatures to restrict which instances may sign event transfers
+and updates. Attach the authorised **public keys** to an event, then enable protection. An
+instance needs a matching private key to sign an eligible onward transfer.
 
-This is a security feature for high-assurance sharing. It does not replace distribution levels or
-sharing groups (which control *who can see* an event) — it controls *who can author and relay*
-updates to a protected event as it travels.
+Signing addresses authenticity within the configured trust path. **Distribution and sharing
+groups still control access**. A valid signature does not encrypt the event or establish that
+its content is correct or malicious.
 
 ::: {.callout-note}
-Event signing uses **PGP** keys. Both ends of every synchronisation hop must run a MISP version
-that understands protected events (MISP 2.4.156 or newer — so any 2.5.x instance qualifies). An
-older instance simply will not be offered protected events.
+This chapter follows MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
+development branch in the light Overmind interface. Protected events also exist in MISP 2.5;
+peers must support the feature. Site-administrator and internal-sync trust paths have exceptions
+to ordinary signature checks, so this is not an end-to-end guarantee against every privileged
+recipient. Select a figure to enlarge it.
 :::
+
+<!-- Capture source and hashes: ../assets/sharing-screenshots.json -->
 
 ## How it works
 
-- Each **cryptographic key** attached to an event is a **PGP public key** (identified by its
-  fingerprint). The set of keys on an event is the list of authorised signers.
-- An event's own key list travels **with the event** during synchronisation, so every receiving
-  instance knows which keys are authorised. Key revocations propagate too: a key marked revoked
-  upstream is marked revoked locally, and keys removed upstream are removed locally.
-- When a **protected** event is transferred, the sending instance signs the payload with its
-  instance key and includes a detached PGP signature in the transfer. The receiving instance
-  verifies that signature against the event's authorised key list *before* accepting the add or
-  edit. If verification fails, the event is **rejected** — it is never silently accepted in a
-  weakened, unprotected form.
-- An instance will only relay a protected event onward if it can itself sign for it (i.e. it holds
-  a private key matching one of the event's public keys). If it cannot, the event simply stops at
-  that hop rather than being passed on unsigned. This is what "cannot reliably be propagated
-  beyond the reach of those that can sign" means in practice.
+For an ordinary external synchronization path:
+
+1. The sender checks that the peer supports protected events and that its own instance key is
+   on the event's authorised list.
+2. It signs the transfer payload and sends a detached PGP signature with the event.
+3. The receiver validates the signature and checks the signer's fingerprint against the event's
+   authorised keys before accepting the protected add or update.
+4. To relay the event, the receiving instance must sign with **its own authorised instance key**.
+   Simply possessing the public keys or being able to read the event is not enough.
+
+![Ordinary external synchronization of a protected event. Each sender needs an authorised signing key; a receiver without one cannot relay the event onward through this path.](figures/protected-sync.svg)
+
+The authorised key list travels with the event. Key removals and revocations also need to reach
+receiving copies. Verify partner fingerprints through a trusted channel before authorising them;
+the initial trust decision cannot be supplied by a signature alone.
 
 ### The instance signing key
 
-An instance signs with its configured **GnuPG key** — the same key used for encrypted/signed
-email notifications (the `GnuPG.email` / `GnuPG.password` settings, or the key in the instance's
-GPG homedir when `GnuPG.download_gpg_from_homedir` is enabled). The instance's **public** key is
-published at `…/gpg.asc`. An instance can only participate in protected sharing if it has a GnuPG
-key configured; without one, signing fails and protected events cannot be pushed or served.
+An administrator configures the instance's GnuPG key, including `GnuPG.email`,
+`GnuPG.password` and the GnuPG homedir. MISP can load the public key from `app/webroot/gpg.asc`,
+or select it from the homedir when **`MISP.download_gpg_from_homedir`**{.text-wrap .text-break} is enabled.
+The public-key download is normally available at the instance's `/gpg.asc` endpoint.
+
+Keep the **private key** and its passphrase on the instance. Exchange only the public key and
+verified fingerprint with partners. Check that the application user can read the configured
+keyring and sign successfully before enabling protected synchronization.
 
 ## Protecting an event
 
-The typical workflow, performed by a user in the event's creator organisation:
+Use a role allowed to modify the event. Adding a signing key in this branch requires
+`perm_add` and membership in the **creator organisation**; the add form explicitly checks that
+organisation. Deletion also allows a site-administrator path. Do not assume administrator status
+alone makes every key-management action available for another creator organisation.
 
-1. **Create the event** as usual.
-2. **Attach the authorised signing keys.** On the event, add each hop's PGP *public* key. Your own
-   instance's key can be added with a single click ("use the instance's signing key"); partner
-   instances are added by pasting their published `gpg.asc` public key. Only a member of the
-   event's creator organisation (or a site admin) may add or remove an event's keys.
-3. **Switch the event to protected mode** using the *Protect* action. This flags the event as
-   protected and, because it is a significant change, **un-publishes it** — so you must
-   **re-publish** it for the change to take effect and propagate.
+1. On a locally created event, choose **All actions → Protect event** and confirm. This
+   **unpublishes** the event. In this Overmind build, the protection action is offered to the
+   creator organisation in the host organisation, for an unlocked event.
+2. Open **All actions → Add signing key**, which becomes available once the event is protected.
+3. Paste a PGP **public key**, or use the instance-key shortcut when the public-key file is
+   available. Add the public keys of the instances that should legitimately sign onward updates.
+4. Check the stored fingerprints and intended relays. Open **Details** to review protection and
+   publication state.
+5. Review the result, then **republish when authorised** to propagate the protected version.
 
-You can later **Unprotect** the event to remove the restriction (this also un-publishes it,
-requiring a re-publish).
+![The MISP 3.0 Add signing key dialog. Paste a public key; never paste a private key.](figures/misp3-add-signing-key.png)
 
-::: {.callout-warning}
-Once an event is protected, it — and its subsequent modifications — will be **rejected by MISP
-instances you synchronise with unless the hop through which the event is propagated can sign with
-one of the listed keys**. Make sure every instance that legitimately needs to relay or update the
-event has a key on the list, or the event will not reach where you expect.
-:::
+![The protection confirmation in MISP 3.0. Changing protection unpublishes the event and requires a deliberate later publication.](figures/misp3-protect-event.png)
 
-## Verification on synchronisation
+**Unprotect** also unpublishes the event. Review and republish the change when it is ready.
+Before changing or revoking an authorised relay key, coordinate with the affected partners and
+check the complete route; an intermediate instance without an authorised key can stop delivery.
 
-Signature verification happens at every stage of sync, and failure always means the update is
-blocked:
+## Verification on synchronization {#verification-on-synchronisation}
 
-- **Pushing** a protected event to a remote: MISP signs the payload with the instance key and
-  sends the signature. If the remote is too old to understand protected events, or the instance
-  has no valid signing key, the push is aborted.
-- **Receiving** a pushed protected event (over the REST API): the receiver requires a valid
-  signature matching the event's key list, and rejects the add/edit otherwise. (Site-admin and
-  internal-sync trust paths are exempt from this check.)
-- **Pulling** a protected event from a non-internal remote: the puller validates the remote's
-  signature before importing; a bad or missing signature means the event is **not imported** and
-  the failure is logged.
-- **Serving** a pull: MISP signs the served event with the instance key. A protected event whose
-  key list does **not** include this instance's key is omitted from what the instance serves —
-  propagation halts here rather than continuing unsigned.
+| Operation | Ordinary external-sync behaviour |
+|---|---|
+| **Push** | The sender signs the payload. Missing signing capability or an unsupported peer prevents the protected transfer. |
+| **Receive a push** | The ordinary sync account must supply a valid signature from an authorised key for a protected add/update. |
+| **Pull** | The receiving instance validates the remote signature before importing a protected event through a non-internal connection. |
+| **Serve a pull** | A protected event is omitted when the serving instance cannot sign it with an authorised instance key. |
 
-All signature validation failures are written to the audit log, so you can see when and why a
-protected event was rejected.
+Site-administrator and `perm_sync_internal` accounts are exempt from the controller's ordinary
+sync-signature gate. An internal server connection also bypasses checks in the pull path.
+Use ordinary sync accounts and external connections when relying on these checks; review
+privileged access as part of the deployment's trust model.
+
+If an event fails to arrive, inspect the synchronization result and audit/error logs for that
+operation. Check peer support, instance-key configuration, approved fingerprints and the
+signature, alongside the normal distribution and filter checks. Avoid assuming that a successful
+connection test validates event signing.
 
 ## Permissions and the server-signing endpoint
 
-- Attaching or removing an event's keys, and toggling protection, require the `perm_add`
-  permission (plus creator-organisation ownership of the event).
-- MISP also exposes a **server-signing** endpoint, `POST /cryptographicKeys/serverSign`, which
-  signs an arbitrary payload with the instance key and returns the signature. It is gated by a
-  dedicated **Server Signing** role permission (`perm_server_sign`) and is intended for internal
-  services that need to produce instance-signed data.
+`POST /cryptographicKeys/serverSign`{.text-wrap .text-break} signs a request body with the instance key. It requires
+the dedicated **Server Signing** role permission, `perm_server_sign`, and returns a base64-encoded
+detached signature. Grant that permission only to services that are meant to request instance
+signatures; ordinary read or synchronization access does not imply it.
+
+MISP's signing code normalizes whitespace before signing and verification. Custom clients must
+follow the deployed implementation's serialization and normalization rules; signing arbitrary
+raw JSON bytes independently is not a sufficient interoperability recipe.
 
 ## API
 
+::: {.table-responsive}
+
 | Endpoint | Purpose |
 |---|---|
-| `POST /cryptographicKeys/add/Event/{event_id}` | Attach a PGP public key to an event. |
-| `POST /cryptographicKeys/delete/{id}` | Remove a key from an event. |
-| `GET /cryptographicKeys/view/{id}` | View a stored key. |
-| `GET /cryptographicKeys/index` | List cryptographic keys. |
-| `POST /cryptographicKeys/serverSign` | Sign a payload with the instance key (`perm_server_sign`). |
-| `POST /events/protect/{id}` | Put an event into protected mode. |
-| `POST /events/unprotect/{id}` | Remove protected mode from an event. |
+| `POST /cryptographicKeys/add/Event/{event_id}`{.text-wrap .text-break} | Attach a PGP public key to an event. |
+| `POST /cryptographicKeys/delete/{id}`{.text-wrap .text-break} | Remove a key, subject to ownership/administrator checks. |
+| `GET /cryptographicKeys/view/{id}`{.text-wrap .text-break} | View a key when the parent is visible. |
+| `POST /cryptographicKeys/serverSign`{.text-wrap .text-break} | Sign a payload (`perm_server_sign`). |
+| `POST /events/protect/{id}` | Enable protection and unpublish. |
+| `POST /events/unprotect/{id}` | Remove protection and unpublish. |
 
-During synchronisation the detached signature is carried in the `x-pgp-signature` HTTP header;
-REST clients pushing a protected event must include it. See the
-[Automation & API](../automation/index.qmd) chapter for authentication and the request/response
-envelope, and [Sharing](../sharing/index.qmd) for how synchronisation between instances is
-configured.
+:::
+
+For example, attach a verified **public** key with this envelope:
+
+```json
+{
+  "CryptographicKey": {
+    "type": "pgp",
+    "key_data": "-----BEGIN PGP PUBLIC KEY BLOCK-----\n...\n-----END PGP PUBLIC KEY BLOCK-----"
+  }
+}
+```
+
+During synchronization the signature is carried in the **`x-pgp-signature`** HTTP header.
+Use MISP's native synchronization machinery where possible. See [Automation & API](../automation/index.qmd)
+for authentication and [Synchronization and Sharing](../sharing/index.qmd) for connection setup.

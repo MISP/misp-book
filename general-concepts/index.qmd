@@ -12,7 +12,16 @@ A lot of the heavier tasks are a burden to users, in that their actions can caus
 Correlation is the automatic linking of events that share the same piece of information. Whenever an attribute value that a user is allowed to see also appears on another event, MISP creates a correlation between the two, surfacing the relationship in the event view (and as a graph). This is what turns a collection of individual events into a navigable web of related intelligence and is the basis for [pivoting](#pivoting). Correlation can be disabled per attribute (the "disable correlation" flag), suppressed for noisy values through correlation exclusions and correlation rules, and tuned by the correlation engine — see the [Administration](../administration/index.qmd) chapter.
 
 ### Distribution levels
-Every event, attribute, and object carries a distribution setting that controls how far it may spread when instances synchronise. The levels are: **Your organisation only** (never leaves your instance/organisation), **This community only** (stays on this instance and its direct connections but is not re-shared onwards), **Connected communities** (may be shared one hop further, to the communities your community connects to), **All communities** (freely shareable) and **Sharing group** (visible only to an explicitly enumerated set of organisations/instances). Attributes and objects can additionally **inherit** the distribution of their parent event. Distribution degrades by one step on each synchronisation hop, so information cannot travel further than its originator intended. Distribution is covered in depth in the [Sharing](../sharing/index.qmd) chapter.
+Every event, attribute and object carries a distribution setting that controls its audience.
+The levels are **Your organisation only**, **This community only**, **Connected communities**,
+**All communities** and **Sharing group**. Attributes and objects can additionally **inherit**
+their parent's distribution; a child cannot widen access to a restricted parent.
+At an ordinary external synchronization boundary, community-limited levels can be reduced:
+level 2 becomes 1, and an eligible pull of level 1 becomes 0. Levels are not all decremented on
+every hop. Organisation-only data can be pulled by an account in its owning organisation, while
+All communities and sharing groups follow their own rules. See the
+[Sharing](../sharing/index.qmd#syncing-scenarios-with-communities-distribution) chapter for the
+push/pull tables and internal-connection exceptions.
 
 ### MISP Instance
 A MISP instance is an installation of the MISP software and the connected database. All the data visible to the users is stored locally in the database and data that is shareable (based on the distribution settings) can be synchronised with other instances via the Sync actions. The instance that you are reading this manual on will be referred to as "this instance" or "your instance". The instances that your instance synchronises with will be referred to as "remote instances".

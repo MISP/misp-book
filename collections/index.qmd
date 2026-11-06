@@ -1,10 +1,13 @@
 ---
 title: "Collections"
+format:
+  html:
+    lightbox: true
 ---
 
 A **Collection** is a named, distributable container that groups references to intelligence
-into one shareable unit. Events and galaxy clusters are supported by the MISP 2.5 workflow;
-the MISP 3.0 development branch also supports attributes, objects, and attribute values.
+into one shareable unit. In MISP 3.0, elements can refer to events, galaxy clusters, attributes,
+objects or attribute values.
 Collections let you organise data — whether it is
 shared by the community or produced during your own research — into buckets based on a common
 theme: a campaign, an intrusion set, a piece of research, and so on. Collections are
@@ -12,12 +15,14 @@ first-class citizens in MISP: each has its own UUID and obeys the **same distrib
 sharing rules as events**, so a collection can be shared and synchronised across instances just
 like the intelligence it groups.
 
-In MISP 2.5, open *Global Actions → List Collections*. In the MISP 3.0 Overmind interface,
-open **Data points → Collections**. Creating or editing a collection requires a role with modify permission.
+Open **Data points → Collections** in the Overmind interface. Creating or editing a collection
+requires a role with modify permission and the relevant ownership checks.
 
 ::: {.callout-note}
-The additional target types described here are available in the
-[`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch.
+Instructions and screenshots use MISP **3.0.0** from the
+[`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, in the light Overmind
+interface. MISP 2.5 collections support events and galaxy clusters; its menus differ. Select a
+figure to enlarge it.
 A collection is distinct from two similarly named features:
 
 - A **Sharing Group** is an access-control list (which organisations may see data), not a
@@ -28,6 +33,8 @@ A collection is distinct from two similarly named features:
 :::
 
 ## What a collection contains
+
+<!-- Capture source and hashes: ../assets/sharing-screenshots.json -->
 
 A collection has a small set of metadata plus a list of element references:
 
@@ -52,10 +59,14 @@ access rules, and removing an element does not delete its target. The same eleme
 added to the same collection twice. A value target refers to the value across events, while an
 attribute target identifies one particular occurrence.
 
+A collection records research scope, not a verdict that every referenced value is malicious.
+Keep the evidence and assessment in the source material or appropriately scoped Analyst Data.
+
 ## Creating and populating a collection
 
-From the collections list, create a collection and fill in its name, type, description, and
-distribution. Add elements through these entry points:
+From the collections list, choose **Add Collection** and fill in its name, type, description and
+distribution. Begin with **Your organisation only** while assembling a dossier. Add elements
+through these entry points:
 
 - **From the collection** — open the collection and add an element by its supported type and
   address: a UUID for an event, cluster, attribute, or object; a value address for `AttributeValue` in 3.0.
@@ -70,6 +81,10 @@ The collection view lists all of its elements and shows the collection's metadat
 lists your collections with an element count, type, distribution and timestamps, and lets you
 edit or delete each. Deleting a collection removes its element references but leaves the
 referenced material untouched.
+
+![The MISP 3.0 collection view, grouping an event, an object, an attribute and a value from the synthetic documentation exercise.](figures/misp3-collection.png)
+
+![The MISP 3.0 Add element dialog. UUID references identify individual entities; a value reference identifies the stored value across occurrences.](figures/misp3-collection-element.png)
 
 ## Distribution and sharing
 
@@ -95,14 +110,26 @@ For an `AttributeValue` reference in 3.0, the text resolves only when the reader
 attribute holding the value. Otherwise the element shows its SHA-256 address. The value text
 is not transmitted with the collection reference.
 
+![A collection has its own audience. Each referenced target retains its independent access check; value text needs a visible attribute containing that value.](figures/collection-access.svg)
+
+Before sharing a dossier, review the **name, description and per-element descriptions** as well
+as the referenced data. Those descriptions are part of the collection and can disclose context
+even when a target is restricted. Do not put a private event's contents in a widely shared
+element description. Check the result with a recipient account; the author's view alone does
+not establish what a recipient can open.
+
 ## Synchronising collections between instances
 
 Collections synchronise between MISP instances much like events do, but only when **both**
-instances support the feature and the relevant per-server toggle is enabled. On the sync server
-configuration (see [Sharing](../sharing/index.qmd)) there are two dedicated options:
+instances support the feature and the relevant per-server setting is enabled. There are two
+dedicated settings (see [Sharing](../sharing/index.qmd#synchronising-analyst-data-and-collections-2.5)):
 
 - **Push collections** — send your eligible collections to the remote instance.
 - **Pull collections** — retrieve collections from the remote instance.
+
+At the captured 3.0 commit, the Overmind server form omits these controls. Site administrators
+can set `push_collections` and `pull_collections` through `POST /servers/edit/{id}`; the linked
+setup example shows the payload. Do not assume enabling event push/pull also enables collections.
 
 During synchronisation MISP negotiates collection support with the peer, exchanges a compact
 `{uuid: modified}` index to find what is new or newer, and transfers only the differences.
@@ -117,6 +144,8 @@ timestamp and the locked flag are what keep copies consistent.
 Value-addressed collection entries are withheld from MISP peers older than 3.0 during
 synchronization; the collection itself can still be shared. Check the receiving instance's
 version and visible source data before relying on a dossier as a complete handover.
+Synchronizing a collection does not ensure that every referenced event, object or value
+occurrence has also arrived or is visible there.
 
 ## API
 

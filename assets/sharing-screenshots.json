@@ -1,0 +1,373 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "d039260aee3a3b97c95129479e73013afefccb1b",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17",
+    "app/files/misp-objects": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326"
+  },
+  "generated_at": "2026-11-06T13:24:45.372126+00:00",
+  "scope_chapters": [
+    "sharing/index.qmd",
+    "managing-feeds/index.qmd",
+    "collections/index.qmd",
+    "cryptographic-keys/index.qmd"
+  ],
+  "capture_method": "Chromium via Playwright against the actual MISP 3.0 application. No retouching or arrow annotations. Forms and legacy cache-search content use DOM screenshots; other captures use the viewport. Server methods/rules and the example feed form are unsaved drafts. Existing credentials are never opened or captured.",
+  "fixture": {
+    "server_a": 1,
+    "server_b": 1,
+    "local_only_peer": true,
+    "source_commit": "d039260aee3a3b97c95129479e73013afefccb1b",
+    "connection_a": {
+      "status": 1,
+      "version": "3.0.0",
+      "local_version": "3.0.0",
+      "mismatch": false,
+      "newer": false,
+      "post": 1
+    },
+    "connection_b": {
+      "status": 1,
+      "version": "3.0.0",
+      "local_version": "3.0.0",
+      "mismatch": false,
+      "newer": false,
+      "post": 1
+    },
+    "feed_id": 3,
+    "feed_verification": {
+      "cache_created_no_event": true,
+      "imported_event_id": 8,
+      "imported_values": [
+        "192.0.2.80",
+        "example.org"
+      ],
+      "published": false,
+      "distribution": 0,
+      "all_to_ids_false": true,
+      "column_selection": "1",
+      "delimiter": ","
+    },
+    "signing_event": 9,
+    "signing_uuid": "340f9422-aa44-45ab-a2e9-41c87a7464cc",
+    "protection_verification": {
+      "protect_keeps_draft_unpublished": true,
+      "unprotect_keeps_draft_unpublished": true,
+      "key_dialog_after_protection": true,
+      "no_key_generated_or_attached": true,
+      "signed_transfer_not_tested": true
+    },
+    "collection": {
+      "id": 1,
+      "uuid": "7e7c5dce-e360-4ddb-b951-303cabd3fa95",
+      "distribution": 0,
+      "element_types": [
+        "Attribute",
+        "AttributeValue",
+        "Event",
+        "Object"
+      ]
+    },
+    "accounts": [
+      {
+        "email": "analyst@example.org",
+        "role": "Site administrator",
+        "organization": "MISP Documentation"
+      },
+      {
+        "email": "sync-peer@example.org",
+        "role": "Sync user",
+        "on_instance": "A",
+        "organization": "Documentation Recipient"
+      },
+      {
+        "email": "sync-source@example.org",
+        "role": "Sync user",
+        "on_instance": "B",
+        "organization": "MISP Documentation"
+      }
+    ]
+  },
+  "configuration_notes": [
+    "Two local containers run the same pinned application source, with separate databases, Redis and sessions. Peer base URLs use Docker-local HTTP; operational examples use HTTPS.",
+    "Only Docker-local names were added to the PHP capture processes\u2019 NO_PROXY; the outbound session proxy remained configured.",
+    "Connection/version/POST tests succeeded in both directions. No event was published or pushed/pulled; no signing key or external message was generated.",
+    "Live publication/transfer tests were omitted after automatic approval review rejected them under the earlier no-publication instruction. Distribution tables, signature handling and mixed-version feature gates were checked in the pinned source; these are not claimed as end-to-end runtime tests.",
+    "Only a synthetic two-row CSV was cached and imported, with auto-publish disabled, distribution 0 and all to_ids false. No external feed was fetched.",
+    "Protection and unprotection were exercised only on a new private unpublished draft. No signing or signed transfer was exercised.",
+    "The Overmind server form omits collection sync controls at this commit; the text documents REST settings. Cache search still renders the legacy layout; the screenshot is the actual fallback page.",
+    "The collection adds one Attribute reference to the private existing dossier, alongside Event, Object and AttributeValue references. Target ACL/value resolution behaviour was checked in source."
+  ],
+  "feature_sources": [
+    "app/Controller/ServersController.php",
+    "app/Model/Server.php",
+    "app/Model/Event.php",
+    "app/Lib/Tools/ServerSyncTool.php",
+    "app/View/Themed/Overmind/Servers/edit.ctp",
+    "app/Lib/Migration/Migrations/Migration_20261007_120823_threads_to_analyst_data.php",
+    "app/Model/Feed.php",
+    "app/Controller/FeedsController.php",
+    "app/Lib/Tools/ComplexTypeTool.php",
+    "app/Model/Collection.php",
+    "app/Model/CollectionElement.php",
+    "app/Controller/CollectionElementsController.php",
+    "app/Controller/CryptographicKeysController.php",
+    "app/Model/CryptographicKey.php",
+    "app/Controller/EventsController.php",
+    "app/View/Themed/Overmind/Elements/Events/View/event_actions.ctp"
+  ],
+  "shots": [
+    {
+      "file": "sharing/figures/misp3-server-methods.png",
+      "url": "/servers/index",
+      "description": "Unsaved server form, actual exposed synchronization methods",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:12:15.330485+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 684
+      },
+      "sha256": "82b3844209dcf1371c9fc315f996f536e3a1e60a28059f5a7d9d57f348fb8fd3"
+    },
+    {
+      "file": "sharing/figures/misp3-sync-rules.png",
+      "url": "/servers/index",
+      "description": "Draft push rule blocks tlp:red; no server saved",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:12:17.734465+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 998
+      },
+      "sha256": "1079e74d25bf4668ad66d5362743e4fcac49d63ce2a8882d03abeca5e5dc6fc9"
+    },
+    {
+      "file": "managing-feeds/figures/misp3-feeds.png",
+      "url": "/feeds/index",
+      "description": "Feed cards show source, caching and independent ingestion settings",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:12:20.156344+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "02f84318fa9161bfdd791336feb018ac4cafeb95b76e330d7d53ee1428a8d10d"
+    },
+    {
+      "file": "managing-feeds/figures/misp3-feed-preview.png",
+      "url": "/feeds/previewIndex/3",
+      "description": "Synthetic CSV preview; both values are reserved for documentation",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:12:21.786588+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "17af14db64eb47fdbf565c1cf3083e75e55024d2c7057b71e81b5a46816d02a0"
+    },
+    {
+      "file": "collections/figures/misp3-collection.png",
+      "url": "/collections/view/1",
+      "description": "Private dossier containing four target types",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:12:28.444869+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "ec9b876911f8957a7320313363f5f6813d48c0169aa658fdeaab1212da55c405"
+    },
+    {
+      "file": "collections/figures/misp3-collection-element.png",
+      "url": "/collections/view/1",
+      "description": "Unsaved UUID element reference, target type detected locally",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:12:29.911241+00:00",
+      "image_size": {
+        "width": 800,
+        "height": 564
+      },
+      "sha256": "f1c5b48346e5f5ca3399baf65e3e7f13d1a72bdd8fc59750363958d70e7ac151"
+    },
+    {
+      "file": "cryptographic-keys/figures/misp3-protect-event.png",
+      "url": "/events/view/9",
+      "description": "Protection confirmation before enabling protection on the private draft",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:12:32.404805+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 314
+      },
+      "sha256": "b953b067ae00170b186e0d6dfa55e186473767658802ab8180768475e51e2482"
+    },
+    {
+      "file": "cryptographic-keys/figures/misp3-add-signing-key.png",
+      "url": "/events/view/9",
+      "description": "Empty public-key dialog for protected private draft; no key generated or attached",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:15:24.396406+00:00",
+      "image_size": {
+        "width": 800,
+        "height": 580
+      },
+      "sha256": "efb3d192c41247f079fe8efdc86c5e3ff3fcc1e1887ba384cd8b2816191bdbd5"
+    },
+    {
+      "file": "managing-feeds/figures/misp3-feed-cache.png",
+      "url": "/feeds/searchCaches/quickFilter:example.org",
+      "description": "Cache search on MISP 3.0 legacy fallback page, main content only",
+      "role": "Site administrator",
+      "selector": "div.index",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:15:25.901589+00:00",
+      "image_size": {
+        "width": 1245,
+        "height": 395
+      },
+      "sha256": "2ce1d6ec73f4f40dc78feff6f4b7c926a16b45ab5ca7a85b481488a0d1b814ed"
+    },
+    {
+      "file": "sharing/figures/misp3-servers.png",
+      "url": "/servers/index",
+      "description": "Local peer card with successful version/POST and ordinary Sync user checks",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1100,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:22:05.773007+00:00",
+      "image_size": {
+        "width": 1100,
+        "height": 1000
+      },
+      "sha256": "baf53eaa71ee32e91d9075ad92aafaa9eb94e3d63b88a71f815d05da89532b81"
+    },
+    {
+      "file": "managing-feeds/figures/misp3-feed-form.png",
+      "url": "/feeds/index",
+      "description": "Unsaved CSV feed form: column 1, fixed event, distribution 0, no auto-publish",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T13:23:54.056753+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 1820
+      },
+      "sha256": "2bb8cd9295ff7849cd28c40e710625b4b929e34463fb4a42cee3a30d19e82458"
+    }
+  ],
+  "diagram_manifest": "assets/diagrams/manifest.json",
+  "retired_legacy_assets": [
+    "managing-feeds/figures/addfeedform.png",
+    "managing-feeds/figures/addfilterrules.png",
+    "managing-feeds/figures/addfilterrules2.png",
+    "managing-feeds/figures/cachesearch.png",
+    "managing-feeds/figures/feedspage.png",
+    "managing-feeds/figures/filterrules.png",
+    "managing-feeds/figures/freetextparsedfeed.png",
+    "managing-feeds/figures/inputsource.png",
+    "managing-feeds/figures/listfeeds.png",
+    "managing-feeds/figures/overlapanalysismatrix.png",
+    "managing-feeds/figures/removefilterrules.png",
+    "managing-feeds/figures/removefilterrules2.png",
+    "managing-feeds/figures/removeinput.png",
+    "managing-feeds/figures/simplecsvparsedfeed.png",
+    "managing-feeds/figures/sourceformat.png",
+    "managing-feeds/figures/targetevent.png",
+    "sharing/figures/MISP_scenario_example.png",
+    "sharing/figures/add_server_ui.png",
+    "sharing/figures/comment_an_event.png",
+    "sharing/figures/connection_test.png",
+    "sharing/figures/connection_test_result.png",
+    "sharing/figures/contact_reporter.png",
+    "sharing/figures/discussions.png",
+    "sharing/figures/discussions_start_topic.png",
+    "sharing/figures/misp-compliance-iso-concepts.png",
+    "sharing/figures/misp-sync-servers.png",
+    "sharing/figures/misp-sync-servers.svg",
+    "sharing/figures/profile_receive_alerts.png",
+    "sharing/figures/rules.png",
+    "sharing/figures/discussions_add_post.png",
+    "sharing/figures/list_servers.png"
+  ],
+  "preserved_old_section_anchors": true
+}

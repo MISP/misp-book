@@ -231,38 +231,6 @@
       "captured_at": "2026-07-08T13:35:44.884Z"
     },
     {
-      "file": "managing-feeds/figures/addfeedform.png",
-      "url": "/feeds/add",
-      "selector": "#FeedAddForm",
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-08T11:50:48.974Z"
-    },
-    {
-      "file": "managing-feeds/figures/feedspage.png",
-      "url": "/feeds/index",
-      "selector": "table.table",
-      "rows": 8,
-      "filtered": true,
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-08T11:50:50.475Z"
-    },
-    {
-      "file": "managing-feeds/figures/listfeeds.png",
-      "menu": "Sync Actions",
-      "selector": ".dropdown-menu",
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-08T11:50:51.767Z"
-    },
-    {
       "file": "misp-objects/figures/object_ipport.png",
       "url": "/objects/add/7183/465",
       "selector": "div.form",
@@ -323,28 +291,6 @@
       "viewport": "1440x900",
       "scale": 2,
       "captured_at": "2026-07-09T06:43:59.341Z"
-    },
-    {
-      "file": "sharing/figures/add_server_ui.png",
-      "url": "/servers/add",
-      "selector": "#ServerAddForm",
-      "orgScrubbed": true,
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-08T11:51:02.611Z"
-    },
-    {
-      "file": "sharing/figures/rules.png",
-      "url": "/servers/add",
-      "selector": "#genericModal (Set PUSH rules)",
-      "note": "push rules picker scrubbed of polluted tag/org options",
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-09T06:49:32.994Z"
     },
     {
       "file": "taxonomy/figures/enableTaxonomy.png",

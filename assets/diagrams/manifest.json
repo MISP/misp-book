@@ -1,0 +1,56 @@
+{
+  "renderer": "Mermaid bundled with Quarto 1.9.38; Chromium via Playwright",
+  "mermaid_js_sha256": "07e37dfa97b337ccc85365d57eddf99b9706f09db3b59b260d0333b23b343c4b",
+  "accessibility": "Each diagram has accTitle/accDescr, SVG text labels and explicit arrow labels; HTML labels are disabled for Typst compatibility.",
+  "diagrams": [
+    {
+      "source": "sharing/figures/distribution-boundaries.mmd",
+      "file": "sharing/figures/distribution-boundaries.svg",
+      "source_sha256": "11cb76ed72af71293b97f943b363b5cb1a550fdbe00ff7ec28801325cf9efeca",
+      "sha256": "330617a8026e8ee9e291dc1f9579fe70b85d529a1eade098af5ccca93ccab64e",
+      "viewBox": "0 0 936.90625 334.3999938964844"
+    },
+    {
+      "source": "sharing/figures/review-pipeline.mmd",
+      "file": "sharing/figures/review-pipeline.svg",
+      "source_sha256": "6cdcfb6e78e128677983f2ecf696fd6cd0fe2fc6bec57c2fd6fdcb8ebefcee1e",
+      "sha256": "a24cb31641a474034cdebe092a3e5963a577f2aa85283d077b45dbe13f23bef1",
+      "viewBox": "0 0 533.078125 485.20001220703125"
+    },
+    {
+      "source": "sharing/figures/sync-directions.mmd",
+      "file": "sharing/figures/sync-directions.svg",
+      "source_sha256": "24c03da98acafbcfaf3dfed550cc6a4859d266de94bb4acd6287222a92c8d2f4",
+      "sha256": "c87c0481cfb7eff72872a9f7b71a7b2e84fbf2c99c707044291002cadfc6ccae",
+      "viewBox": "0 0 810.296875 335.4000244140625"
+    },
+    {
+      "source": "sharing/figures/sync-identity.mmd",
+      "file": "sharing/figures/sync-identity.svg",
+      "source_sha256": "e25e8d8a61b0aa1f61262fb31ee88e2e8ba614c9c7428c20254900d2bea99c91",
+      "sha256": "4eac9626d749ce55ac0e7a72cfa249a01d36f50013a5a834025e7bc3ac8c4317",
+      "viewBox": "0 0 868.2734375 348"
+    },
+    {
+      "source": "managing-feeds/figures/cache-or-import.mmd",
+      "file": "managing-feeds/figures/cache-or-import.svg",
+      "source_sha256": "60dd4276e7ec89bd0aa38c2d0433dc5c8d082ab8bde4956782403ae0f09fdde4",
+      "sha256": "2e7fd1be653084a1dca4dd95df5eb249902bd50ccdf69f54dabd3691d0557c7a",
+      "viewBox": "0 0 563.1171875 411.20001220703125"
+    },
+    {
+      "source": "collections/figures/collection-access.mmd",
+      "file": "collections/figures/collection-access.svg",
+      "source_sha256": "d16b2d011be9dbe55d145ef58f837e59d824b513b1686a08e2ba9269d4e8a524",
+      "sha256": "9777f1b26044eb5243e4cd79d325d41f6353d94109e1ff54362d23d78090c739",
+      "viewBox": "0 0 734.453125 363.79998779296875"
+    },
+    {
+      "source": "cryptographic-keys/figures/protected-sync.mmd",
+      "file": "cryptographic-keys/figures/protected-sync.svg",
+      "source_sha256": "5bc9cff3d4c0e25486667eb00c91a8b14c9d5e0236e5efdc2a301d9a4ee69e8a",
+      "sha256": "5470f72f8b7d6df49df919d1310bdedcb5f1eb286055aed5ee10ae51a2b242dd",
+      "viewBox": "0 0 533.46875 700.940673828125"
+    }
+  ]
+}
