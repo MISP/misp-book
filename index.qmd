@@ -5,11 +5,11 @@ format:
     body-classes: misp-home
 ---
 
-::: {.content-visible unless-format="html"}
+::: {.content-visible unless-format="html:js"}
 ![MISP logo](assets/misp-2-verti.png){width=220 fig-align="left"}
 :::
 
-::: {.content-visible when-format="html"}
+::: {.content-visible when-format="html:js"}
 ::: {.guide-version}
 MISP 2.5 · User documentation
 :::
@@ -23,7 +23,7 @@ It is intended for ICT professionals such as security analysts, incident respond
 The guide covers day-to-day use of the MISP graphical user interface together with its automated interfaces (API) so that teams can integrate MISP into their security environment and operate one or more MISP instances.
 It is maintained against the current **MISP 2.5.x** release series; where behaviour differs from earlier versions this is called out in the relevant chapter.
 
-::: {.content-visible when-format="html"}
+::: {.content-visible when-format="html:js"}
 ::: {.guide-links}
 [**Set up MISP** Install and configure your own instance.](get-your-instance/index.qmd){.guide-link}
 
