@@ -13,7 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 CHAPTERS = ("sharing", "managing-feeds", "collections", "cryptographic-keys",
             "automation", "pymisp", "misp-zmq", "modules", "connectors",
             "administration", "workflows", "updating-python",
-            "categories-and-types", "taxonomy", "galaxy", "misp-objects", "warninglists", "noticelists")
+            "categories-and-types", "taxonomy", "galaxy", "misp-objects", "warninglists", "noticelists",
+            "faq", "user-stories")
 
 
 def main():

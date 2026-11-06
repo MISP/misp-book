@@ -1,873 +1,465 @@
 ---
 title: "FAQ"
+format:
+  html:
+    lightbox: true
 ---
 
-# Frequently Asked Questions
-
-The following page hosts some frequently asked questions as noticed in our [issues](https://github.com/MISP/issues) and [gitter](https://gitter.im/MISP/Support) channels.
-
-***
-
-## General questions
-
-### Where can I get support?
-
-If you have feature requests or you found a bug you can open a ticket on [MISP's GitHub repository issue](https://github.com/MISP/MISP/issues) tracker.
-
-If you want to discuss something related to MISP or want help from the MISP community, join the appropriate MISP Gitter channel:
-
-- [MISP Developer Room](https://gitter.im/MISP/MISP) Dev discussions
-- [MISP Support Room](https://gitter.im/MISP/Support) OMGoo! My MISP doesn't work discussions
-- [MISP Sharing Room](https://gitter.im/MISP/Sharing) Threat Intelligence Sharing discussions
-- [misp-cloud Room](https://gitter.im/MISP/misp-cloud) Using MISP in the clouds discussions
-
-If you want commercial support, feel free to look at the [MISP professional services](https://www.misp-project.org/professional-services/).
-
-### What are the hardware requirements?
-
-From a hardware perspective, MISP's requirements are quite humble, a web server with 2+ cores and 8-16 GB of memory should be plenty, though more is always better of course. A lot of it depends on the data set and the number of users you are dealing with. 
-
-We recommend a standard LAMP stack (PHP 8.x) on a current Ubuntu 24.04 LTS or Debian 12/13. For details on the exact dependencies please refer to the [installation guides](https://misp.github.io/MISP/) as well as the [requirements for the MISP modules](https://github.com/MISP/misp-modules/blob/main/REQUIREMENTS).
-
-During a [Hackathon](https://hackathon.hack.lu) a small tool called MISP-Sizer was conceived. It will give you a **very rough** idea on what requirements are if you have a bigger installation. [source-code is here](https://github.com/MISP/MISP-sizer). The reference for sizing a MISP instance is [Sizing your MISP instance](https://www.misp-project.org/sizing-your-misp-instance/).
-
-
-### How to monitor MISP?
-
-There are many ways to monitor MISP via the MISP API or relying on external tools. The following documentation is available
-for different monitoring tools:
-
-- Using [Cacti](https://www.cacti.net/), a blog post with the [instruction](https://www.misp-project.org/2020/08/22/MISP-Monitoring-with-Cacti.html) is available.
-- Using [Munin](http://munin-monitoring.org/), [misp-monitor](https://github.com/SteveClement/misp-monitor) for instructions.
-- Using [Nagios](https://www.nagios.org/), [Monitoring MISP with Nagios](https://blog.rootshell.be/2020/08/25/monitoring-misp-with-nagios/)
-- Using [OpenNMS](https://www.opennms.com/), a blog post with the [instructions](https://www.misp-project.org/2020/08/18/MISP-Monitoring-with-OpenNMS.html) is available.
-- [Live monitoring of MISP usage](https://github.com/MISP/misp-monitoring) via the httpd logs. 
-
-***
-
-## Specific questions
-
-### Can I configure MISP encrypted notification emails to contain more information in the subject?
-
-The setting 'MISP.extended_alert_subject' allows you to have an extended subject. /!\ Beware if you’re using encryption: the subject will not be encrypted. Be aware that you might leak some sensitive information this way. Below is an example how the two subject types look like. First with the option disabled, then with the option enabled.
-
-    Event 7 - Low - TLP Amber
-    Event 8 - OSINT - Dissecting  XXX... - Low - TLP Amber
-
-(Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/))
-
-### Why are there malicious files in my MISP directory?
-
-It is entirely normal to find malicious files in the directory where MISP—a threat intelligence platform—stores evidence, including malware or other malicious files. Because MISP is designed to collect, analyze, and share threat data, these malicious files are intentionally present as part of the analytical process. If your security tools are triggering alerts on these files, we recommend excluding the `./app/files` directory from detection to prevent unnecessary disruptions to MISP’s normal operations.
-
-### How can I restart the workers?
-
-The workers can be restarted from the web interface: 
-    
-    administration -> server settings -> workers -> restart all
-
-In MISP 2.5 the workers run under SimpleBackgroundJobs and are managed by Supervisor, so from the command line you restart them with:
-
-    sudo supervisorctl restart misp-workers:*
-
-### How can I redirect HTTP to HTTPs?
-
-```
-<VirtualHost *:80>
-        ServerAdmin misp@misp.misp
-        ServerName misp.misp.misp
-        ServerAlias misp-int.misp.misp
-
-        Redirect permanent / https://misp.misp.misp
-
-        LogLevel warn
-        ErrorLog /var/log/apache2/misp.local_error.log
-        CustomLog /var/log/apache2/misp.local_access.log combined
-        ServerSignature Off
-</VirtualHost>
-
-<VirtualHost *:443>
-        ServerAdmin misp@misp.misp
-        ServerName misp.misp.misp
-        ServerAlias misp-int.misp.misp
-
-        DocumentRoot /var/www/MISP/app/webroot
-        <Directory /var/www/MISP/app/webroot>
-                Options -Indexes
-                AllowOverride all
-                Order allow,deny
-                allow from all
-        </Directory>
-
-        SSLEngine On
-        SSLCertificateFile /etc/ssl/misp.misp.misp/misp.crt
-        SSLCertificateKeyFile /etc/ssl/misp.misp.misp/misp.key
-        SSLCertificateChainFile /etc/ssl/misp.misp.misp/mispCA.crt
-
-        LogLevel warn
-        ErrorLog /var/log/apache2/misp.local_error.log
-        CustomLog /var/log/apache2/misp.local_access.log combined
-        ServerSignature Off
-</VirtualHost>
-```
-
-Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
-
-<a id="when-i-try-to-access-my-new-installation-i-am-redirected-to-localhost8443-and-get-an-error"></a>
-
-### When I try to access my new installation, I am redirected to localhost:8443 and get an error.
-
-By default, MISP runs on a local instance and is setup for local access upon installation. This allows you to setup security and customizations before making it available elsewhere. If you would like to access the MISP instance from a remote host, assign an IP to the MISP host and point your browser accordingly. Please refer to [how to set the baseurl from command line](#how-do-i-set-the-baseurl-from-the-command-line). Once the update is done, you should then be able to access the instance using the set IP/DNS name.
-
-### How can I define the default sharing level?
-
-MISP allows you to define the group of people with whom you want to share your threat data. If you do not set it to your preferred default then it’s likely that at one given moment you’ll make an error and share your intel with the wrong group. Defining the sharing level is done with the setting default_event_distribution in the configuration file. There are three levels:
-
-    0 : Your organisation only (default)
-    1 : This community only
-    2 : Connected communities
-    3 : All communities
-
-You can set a similar configuration setting for the attributes. The setting default_attribute_distribution has the same values as default_event_distribution. Additionally it has the value event which allows the attribute to get the setting from the event to which it belongs.
-
-Source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
-
-### How can I add an organisation logo and/or foter logo?
-
-MISP can be made more appealing to the eye by adding some graphics.
-
-As Org.- or Site-admin navigate to *Administration* -> *List organisations* and edit the corresponding organization.
-Within this editor you will be able to update the logo.
-
-Other ways to achieve this, would be:
-    
-Set your organisation logo by adding an image (.png) that has the same name as your organisation in the directory */var/www/MISP/app/webroot/img/orgs/*.
-
-Yet another way of doing this is by logging into your MISP instance with Admin rights, navigate to *Administration* -> *Server Settings*, tab -> *Manage files*. 
-
-You can add a footer logo. Add an image to the directory */var/www/MISP/app/webroot/img/custom/* and define the footer logo in the config file (config.php) or in *Adminitration* -> *Server Settings...* -> *MISP settings* (search for: "footer_logo") point to the location on-disk of the image.
-
-Partial source: [Getting started with MISP](http://www.vanimpe.eu/2015/05/31/getting-started-misp-malware-information-sharing-platform-threat-sharing-part-3/)
-
-### How can I import data directly from PDF reports?
-
-/!\ This section needs review, verification and eventual amendments to make sure it works.
-
-The simplest option is to select the text in the report and paste it into the free-text import form. For automated extraction, use the MISP import modules — for example the OCR, PDF or CSV import modules — enabled under **Administration → Server Settings → Plugin settings**.
-
-Another option is the new [OCR import module](https://github.com/MISP/misp-modules) that can be used via the import modules. You will need to install the OCR software tesseract.
-
-<a id="i-have-many-failed-jobs-when-doing-email-notification-what-should-i-do"></a>
-
-### I have many failed jobs when doing email notification. What should I do?
-
-This is most probably due to some encryption failing for some users. We strongly advise to review the current
-PGP keys and to ensure that they keys are not expired or perhaps not supported anymore (weak keys). The keys can be reviewed at the following
-location in MISP:
-
-  ```
-  https://<YOUR MISP URL>/users/verifyGPG
-  ```
-
-### I have issues with pushing events
-
-- What does the 'Connection test' for the specific server report? (*Sync Actions* -> *List Servers*)
-
-- Is the event you assume to push/pull ready to be published?
-
-- Is the distribution level set not too restrictive?
-
-- Have you enabled push in the servers config you want to push to?
-
-- Do you have any limitations to the push rules e.g. limited to a certain TLP Level tag or other?
-
-- What is written in your job log?
-
-  https://<YOUR MISP URL>/jobs/index
-
-Have a look at: /var/www/MISP/app/tmp/logs and /var/log/apache2/misp (or the relevant apache log folder of the instance in cause)
-
-### I have many users or API accesses, what's the best PHP session handler?
-
-We strongly recommend production-level MISP installations to rely on PHP session in Redis. As Redis is already part
-of a standard MISP setup, we recommend to enable the redis session handling.
-
-To configure the redis session handling in PHP, edit : 
-
-~~~
-  session.save_handler = redis
-  session.save_path = "tcp://127.0.0.1:6379
-~~~
-
-### Is there TAXII support? 
-
-Yes. MISP 2.5 can push events to TAXII 2.x collections directly: configure a TAXII server under **Sync Actions → TAXII Servers** (see the [Synchronisation and Sharing](../sharing/index.qmd) chapter).
-
-For TAXII 1.x, a separate server implementation is available at https://github.com/MISP/MISP-Taxii-Server, which receives STIX files into its inbox and uploads them to MISP.
-
-### Wipe MISP data - Remove all data
-
-If you need to start from scratch with your MISP database and remove all data you can use the [`misp-wipe`](https://github.com/MISP/MISP/tree/2.5/tools/misp-wipe) script provided in the `tools/` folder.
-
-### Constantly acknowledging my self-signed certificate drives me nuts
-
-You want to add it in 2 places: Your browser(s) and your OS.
-
-The following steps can be performed on the CLI to install the Certificate:
-
-```bash
-sudo mkdir -m 0755 /usr/local/share/ca-certificates/MISP
-sudo cp /etc/ssl/private/misp.local.crt /usr/local/share/ca-certificates/MISP
-sudo chmod 0644 /usr/local/share/ca-certificates/MISP/misp.local.crt
-sudo update-ca-certificates
-```
-
-For the Chrome Browser:
-
-1. Visit: "Advanced Settings" -> chrome://settings/?search=Manage+certificates
-2. Scroll down to: Manage Certificates (click)
-3. Select: "Authorities"
-4. Click: "Import"
-5. Browse to your .crt file and import it.
-6. On the next screen tick: "Trust this certificate for identifying websites"
-7. Done, enjoy the new gained quality of life
-
-Note: Chrome might expect a [Subject Alternative Name](https://en.wikipedia.org/wiki/Subject_Alternative_Name) make sure you created your certificate with '-extension san'.
-
-To allow insecure localhost connections enable this option: chrome://flags/#allow-insecure-localhost
-
-Sources: [CLI](https://askubuntu.com/questions/645818/how-to-install-certificates-for-command-line) and [Chrome](https://origin-symwisedownload.symantec.com/resources/webguides/sslv/sslva_first_steps/Content/Topics/Configure/ssl_chrome_cert.htm)/[Chrome insecure localhost](https://stackoverflow.com/questions/7580508/getting-chrome-to-accept-self-signed-localhost-certificate)
-
-[For the Firefox Browser](https://superuser.com/questions/1054724/how-to-make-firefox-ignore-all-ssl-certification-errors)
-
-### How can I change the theme?
-
-MISP uses [bootstrap.css](https://getbootstrap.com) the specific CSS file can be found on a typical MISP install at `/var/www/MISP/app/webroot/css/bootstrap.css`. 
-
-You can customize this for your own needs. There are also pre-made boostrap themes which you can use as-is or build upon. 
-
-Before making any changes, confirm the version of boostrap currenlty used by running `head -5 /var/www/MISP/app/webroot/css/bootstrap.css`. You can find themes on sites like [Bootswatch](https://bootswatch.com/2/). 
-
-To replace the current theme with a theme you found on bootsplash, run: `sudo -u www-data wget https://bootswatch.com/2/readable/bootstrap.css -O /var/www/MISP/app/webroot/css/bootstrap.css` , replacing the URL as needed.
-
-Some bootswatch themes applied on MISP: 
-* https://i.imgur.com/usONTLk.png
-* https://i.imgur.com/5XMjB7o.png
-* https://i.imgur.com/5gc57VU.png
-* https://i.imgur.com/4AJCPgf.png
-* https://i.imgur.com/JuMGm8U.png
-* https://i.imgur.com/v1Wu6xW.png
-
-### How can I deal with a MISP instance that has pulled in feeds over and over into new events, generating hundreds of GBs of junk correlations, rendering the instance unusable?
-
-*Step 1:* ensure that all your CSV/freetext source_format feeds are using the fixed event setting. If you want to make sure this is the case, you can run this SQL query instead of doing it manually:
-
-```
-UPDATE feeds SET fixed_event = 1 WHERE source_format="csv" OR source_format="freetext";
-```
-
-*Step 2:* purge all of your correlations (this will make the next steps much faster), for which you have two methods at your disposal:
-  - either go to your administration -> server settings -> MISP tab and set `MISP.completely_disable_correlation` to true
-  - via MYSQL run `TRUNCATE correlations;`
-
-*Step 3:* purge all of your feed data that have been pulled into multiple events. The easiest way of doing this: check which feeds are enabled (ignore misp source format feeds, they are not causing issues) and note down the IDs. Afterwards, use the CLI cleanup tool to remove all the feed events:
-
-`/var/www/MISP/app/Console/cake Admin purgeFeedEvents [user_id] [feed_id]`
-
-Execute this for each feed that you had enabled, replacing user_id with your admin user's ID and feed_id with the individual feed IDs on your list.
-
-*Step 4:* recorrelate your data, depending on which method you've used in *Step 2* you have two options:
-  - either go to your *Administration* -> *Server Settings...* -> *MISP...* tab and set `MISP.completely_disable_correlation` to *false*
-  - recorrelate your current data-set via the recorrelate attributes tool on `/pages/display/administration`
-  
-### I have a long list of events that I want to delete via the API, do I really have to loop through each and issue a delete to /events/delete?
-
-No, the delete action also accepts a list of IDs when it comes to bulk event deletions. 
-
-Simply POST your ID list to `/events/delete` in the following format:
-
-```
-{
-  "id": [1,3,5,7,9]
-}
-```
-
-<a id="i-can-no-longer-log-in-how-do-i-reset-the-admin-password"></a>
-
-### I can no longer log in. How do I reset the admin password?
-
-You can reset the password via the console. 
-See [Issue #1160](https://github.com/MISP/MISP/issues/1160)
-
-`/var/www/MISP/app/Console/cake Password [email] [password]`
-
-### How do I set the baseurl from the command line?
-
-You can change the baseurl via the console. 
-
-    sudo -u www-data /var/www/MISP/app/Console/cake Baseurl [baseurl]
-    
-You can confirm the baseurl is updated correctly by checking the config.php file
-
-    grep baseurl /var/www/MISP/app/Config/config.php
-***
-
-## Usage questions
-
-### How can I see all the deleted events in a MISP instance?
-
-You can use the logging system for this, to see all deleted events, simply go to *Audit* -> *Search Logs* and use the following parameters:
-
-~~~~
-  model: Event
-  action: delete
-~~~~
-
-This will list all event deletions. To find out more about what a particular deleted event
-was, simply grab the ID from the above search results and search for:
-
-~~~~
-  model: Event
-  action: add
-  model_id: <Event ID retrieved from the listing of all event deletions>
-~~~~
-
-To do the same via the API, first search for the deletions:
-
-~~~~
-  POST request:
-    url: https://url.of.your.misp/logs/index
-    headers:
-      Authorization: <your_api_key>
-      Accept: application/json
-      Content-type: application/json
-    Body:
-      {
-        "model": "Event",
-        "action": "delete"
-      }
-~~~~
-
-Then find the individual event's metadata that was deleted
-
-~~~~
-  POST request:
-    url: https://url.of.your.misp/logs/index
-    headers:
-      Authorization: <your_api_key>
-      Accept: application/json
-      Content-type: application/json
-    Body:
-      {
-        "model": "Event",
-        "action": "add",
-        "model_id": "<Event ID retrieved from the query before>"
-      }
-~~~~
-
-## Permission issues
-
-If you have any permission issues, please [set the permissions](https://misp.github.io/MISP/) to something sane first.
-
-### RHEL/CentOS
-
-There are a plethora of issues that might arise when using SELinux when it comes to permissions.
-First, please familiarize yourself with [the basics](https://opensource.com/article/18/7/sysadmin-guide-selinux) of SELinux.
-RedHat has a comprehensive [SELINUX USER'S AND ADMINISTRATOR'S GUIDE](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html-single/selinux_users_and_administrators_guide/index).
-
-For file system permissions, refer to the [install guide](https://misp.github.io/MISP/INSTALL.rhel8/#5-set-file-permissions) first.
-
-Another way to see what SELinux might not be happy about is to use **ausearch**. This assumes Audit is enabled.
-
-```bash
-# Just php-fpm
-sudo ausearch -c 'php-fpm' --message AVC
-# All messages
-sudo ausearch --message AVC
-```
-
-### Redis Connection problems
-
-If you have the following in **error.log**
-
-```
-2019-05-08 10:16:05 Error: [RedisException] Permission denied
-Request URL: /events/view/1
-Stack Trace:
-#0 /var/www/MISP/app/Model/AppModel.php(1776): Redis->connect('127.0.0.1', 6379)
-#1 /var/www/MISP/app/Model/Feed.php(329): AppModel->setupRedis()
-#2 /var/www/MISP/app/Model/Event.php(2073): Feed->attachFeedCorrelations(Array, Array, Array, false)
-#3 /var/www/MISP/app/Controller/EventsController.php(1547): Event->fetchEvent(Array, Array)
-#4 [internal function]: EventsController->view('1')
-#5 /var/www/MISP/app/Lib/cakephp/lib/Cake/Controller/Controller.php(499): ReflectionMethod->invokeArgs(Object(EventsController), Array)
-#6 /var/www/MISP/app/Lib/cakephp/lib/Cake/Routing/Dispatcher.php(193): Controller->invokeAction(Object(CakeRequest))
-#7 /var/www/MISP/app/Lib/cakephp/lib/Cake/Routing/Dispatcher.php(167): Dispatcher->_invoke(Object(EventsController), Object(CakeRequest))
-#8 /var/www/MISP/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
-#9 {main}
-```
-
-This means that apache/php-fpm cannot connect over the network (localhost included).
-
-Fix:
-
-```bash
-sudo setsebool -P httpd_can_network_connect on
-# Perhaps a reload is not needed, but good practice wants us to test it anyways.
-sudo systemctl restart php-fpm.service
-sudo systemctl restart httpd.service
-```
-
-## RHEL/CentOS SELinux debug
-
-More often than not there might be issues with SELinux when not configured correctly. The below will give you pointers where to look and how to figure out what is wrong.
-
-You can investigate SELinux issues without any tools by opening the audit log it generates. This log is found at /var/log/audit/audit.log. However, unless you know exactly what to look for and have a lot of free time, you’re going to find it difficult making sense of the log.
-
-Install some handy tools:
-
-```bash
-# Note: This will pull in some X tools, you have been warned
-sudo yum install setroubleshoot setools
-```
-
-We now have a tool called sealert that analyzes the audit log used by SELinux. Sealert will scan the log file and will then generate a report containing all discovered SELinux issues.
-In this overview of what went wrong you will see suggestions on how to fix them after the issue detected.
-
-To run sealert from the command-line, we need to point it to the SELinux audit log.
-
-```bash
-sudo sealert -a /var/log/audit/audit.log
-```
-
-### Clearing the audit logs
-
-It is not recommended to clear the audit logs as they might contain information needed in the future for troubleshooting or security investigations. However, if that is not the case, just empty the audit log:
-
-```bash
-# > /var/log/audit/audit.log
-```
-
-[Partial source](https://www.serverlab.ca/tutorials/linux/administration-linux/troubleshooting-selinux-centos-red-hat/)
-
-[StackExchange](https://unix.stackexchange.com/questions/337704/selinux-is-preventing-nginx-from-writing-via-php-fpm)
-
-[Gentoo Wiki](https://wiki.gentoo.org/wiki/SELinux/Logging#Clearing_the_audit_logs)
-
-## When to update MISP?
-
-One question might be how often to update MISP.
-You can update MISP as ofte as you like. If you see the follwing:
-
-![MISP Update](./figures/misp-diag-update.png)
-
-This means that the main repository has an update available.
-
-If you want to play it safer or want to integrate it in your Weekly/Bi-Monthly update routine you can track our [Changelog](https://www.misp-project.org/Changelog.txt) a more up to date version is available [here](https://misp.github.io/MISP/Changelog/)
-
-Further on we do regular tagged releases. (Approximately once per month.)
-The releases happen either if a milestone has been hit for a certain feature/improvement/fix or for any security related matters.
-
-Thus you have the choice of either tracking 2.4 which is on a rolling release schedule, or track the tagged releases.
-
-### How to switch from tagged releases and back?
-
-This can be achieved with the following git commands:
-
-```bash
-$ cd /var/www/MISP # aka. $PATH_TO_MISP
-$ sudo -H -u www-data git checkout tags/$(git describe --tags `git rev-list --tags --max-count=1`)
-```
-
-## OS Upgrades
-
-In theory all should "just work"(tm), but in practice the following dependencies might make your install unstable and need a little though before just doing the updates.
-
-* php/pear
-* python
-* apache
-* init scheme/scripts
-* mariadb/mysql
-* redis
-* git
-
-### PHP
-
-This is probably the most likely one that might get you into trouble.
-The following happened on a Debian Testing lately. During the upgrade php got upgraded to php-7.3 and seemingly some php-7.2 dependencies were deinstalled and the system now had 2 concurrent versions of php installed.
-The fix was to remove any *libapache2-mod-php7.2* packages and make sure that *apt remove libapache2-mod-php7.3* was installed. Most certainly you need to add symbolic links to */etc/apache2/mods-enabled* to make php7.3 work.
-Then double check if all the php dependencies are install, refer to the install documents.
-
-The same for pear, where we mostly use 2 (bundled) packages: Console Command Line, Crypt GPG.
-If you upgrade from a very old and out of date version of MISP this might raise issues.
-
-php.ini might also become problematic if you just erase the recommended defaults.
-
-### Python3
-
-If you use python2 for MISP, please read the install docs about MISP being Python 3 only.
-Currently Python3.6 is minimum. It is known working on 3.7 with some minor difficulties (see PyMISP issues).
-The biggest issue is certainly with PyMISP doig unexpected things when python might be updated.
-Using a virtualenv, whilst not always ideal for all setups, will at least make sure that problems are contained a little more.
-
-### Apache
-
-Mostly config issues might be a show stopper. And major version updates where some underlying config might need to be changed.
-
-### init/systemd
-
-MISP launches a couple of things on boot. Changing what handles boot behavious might have an impact.
-
-### MariaDB/MySQL/redis
-
-Similar to apache, most importantly always take good care that the DB engine is not all of a sudden changed without you noticing it.
-From minor to major updates, rarely things might need to be adapted.
-
-### git
-
-Currently (as of v2.4.108) the git-cli command is used in MISP core. In very rare cases where the expected output changes, this might be an issue.
-Included here more as an FYI then anything else.
-
-## Hardening
-
-### How do I harden my MISP instance?
-
-You can check the [hardening section](https://misp.github.io/MISP/generic/hardening/) in the install guide.
-
-## Maintenance mode
-
-### Is there a MISP maintenance mode?
-
-Yes, you want to flip your instances "Live-mode".
-This wants to be done on the CLI if you experience issues:
-
-```bash
-$PATH_TO_MISP/app/Console/cake Admin live 0
-```
-
-Other related MISP Settings
-
-Optional	MISP.maintenance_message	Great things are happening! MISP is undergoing maintenance, but will return shortly. You can contact the administration at $email or call CIRCL.	The message that users will see if the instance is not live.
-
-Critical	MISP.live	true	Unless set to true, the instance will only be accessible by site-admins.
-
-## Update MISP fails
-
-If your MISP instance is outdated, meaning ONLY the core, not the modules or dashboard or python modules, you well see the following.
-
-![MISP outdated](./figures/misp-outdated.png)
-
-Once you click on update MISP you will be asked confirmation.
-
-![MISP Update Yes/No](./figures/update-misp-YN.png)
-
-If you are not on a branch, the UI will tell you this, the update will fail.
-
-![not on branch](./figures/misp-not-on-branch.png)
-
-If you cannot write the **.git** files and directory as the user running the web server (and thus PHP), the update will fail.
-The following diagnostic check will let you know if you can update or not.
-
-![.git not writeable](./figures/misp-diag-not-writeable-files-git.png)
-
-In case you get a file not found on **.git/ORIG_HEAD**, this means that you have never updated your MISP OR you have installed git from an archive file (like .zip/.tar.gz or similar)
-Try to click update MISP and see what happens.
-
-![ORIG_HEAD file not found](./figures/misp-diag-writeable-files-not_found-git.png)
-
-### What can go wrong if I update MISP?
-
-In theory nothing. We put great effort into protecting the integrity of the data stored in your MISP instance.
-DB upgrades happen upon login or on reload once you have update the repository.
-You cannot "break" anything by clicking **Update MISP** worse case it will complain about something and you will certainly find the answer on this page.
-
-IF not, please open an [issue](https://github.com/MISP/MISP/issues) on GitHub or come to our [gitter](https://gitter.im/MISP/MISP) chat to see if the community can help.
-
-<a id="error-pathspec-appcomposerjson-did-not-match-any-files-known-to-git"></a>
-
-### error: pathspec 'app/composer.json' did not match any file(s) known to git
-
-This is **not** an error and can be ignore. Nothing will be impacted by this.
-
-![pathspec](./figures/misp-pathspec.png)
-
-### MISP modules "Connection refused"
-
-![MISP Modules ](./figures/misp-module-system-diag.png)
-
-If you get have a **Connection refused state** on your modules one of the following might be true.
-
-- You have no [misp-modules](https://github.com/MISP/misp-modules) not installed
-- They are instaled but not running
-- Something completly different
-
-If they are not installed, check out this section of the [INSTALL guide](https://github.com/MISP/misp-modules/#how-to-install-and-start-misp-modules-in-a-python-virtualenv) of [misp-modules](https://github.com/MISP/misp-modules).
-
-In case they are not running, try this on the console:
-
-```
-sudo -u www-data /var/www/MISP/venv/bin/misp-modules -l 127.0.0.1 -s &
-```
-
-OR if you were foolish enough to not install in a Python virtualenv:
-
-```
-sudo -u www-data misp-modules -l 127.0.0.1 -s &
-```
-
-::: {.callout-warning}
-Running misp-modules like this will certainly kill it once you quit the session. Make sure it is in your **/etc/rc.local** or some other init script that gets run on boot.
+Start with the question closest to the symptom, then use the linked chapter for the full
+procedure. Record the installed version, component and exact error before changing configuration.
+A failed request is not by itself evidence that the database needs repair.
+
+::: {.callout-note}
+Checked against MISP **3.0.0**, `3.0_wip` commit `99ebee729`, using Overmind.
+Deployment paths, service names and optional integrations vary. The answers below replace
+older 2.4/2.5 recipes; a historical error message is not a current repair instruction.
 :::
 
-## Uninstalling MISP
+<!-- Source checks, synthetic fixture and capture provenance: ../assets/reference-faq-screenshots.json -->
 
-There is no official procedure to uninstalling a MISP instance.
+<a id="frequently-asked-questions"></a>
+<a id="general-questions"></a>
+<a id="how-do-i-harden-my-misp-instance"></a>
 
-If you want to re-use a machine where MISP was installed, wipe the machine and do a fresh install.
-Consider the data in your MISP instance as potentially confidential and if you synchronized with other instances, be respectful and wipe it clean.
+## Support and first checks {#faq-support}
 
+<a id="is-there-taxii-support"></a>
+<a id="where-can-i-get-support"></a>
 
-## Updating PyMISP to incorporate newer versions of the MISP object templates
+### Where can I get help or report a defect? {#faq-reporting}
 
-In some cases, for instance if a newer version of a MISP object is present on the server but not yet on PyMISP, you want to reflect the current state in your PyMISP installation.
+Use [MISP core issues](https://github.com/MISP/MISP/issues) for application defects and the
+relevant companion repository for modules, clients or content definitions. Follow the issue
+template, check existing reports, and include the branch/commit, runtime, reproduction steps
+and sanitized error. Report security vulnerabilities through the
+[security policy](https://github.com/MISP/MISP/security/policy).
 
-In order to do so, perform the following steps. It fetches the latest object templates and installs PyMISP again:
+The [MISP project website](https://www.misp-project.org/) links current community and support
+resources; [professional services](https://www.misp-project.org/professional-services/) are also
+available. Never post a full configuration, API key or diagnostic export without reviewing it.
 
+<a id="what-are-the-hardware-requirements"></a>
+
+### What hardware and software should I use? {#faq-requirements}
+
+Size for retained observations, correlations, simultaneous users, imports and background work.
+A small demonstration and a large sharing hub have different storage/memory requirements.
+Follow the [Requirements](../requirements/index.qmd#misp-instance-requirements) and
+[installation](../get-your-instance/index.qmd#choosing-a-deployment-method) chapters and the deployment's supported dependency
+versions. The [MISP sizing guide](https://www.misp-project.org/sizing-your-misp-instance/) helps
+plan larger instances. Avoid treating an old fixed RAM recommendation as a capacity guarantee.
+
+<a id="how-to-monitor-misp"></a>
+
+### Where do I check instance health? {#faq-health}
+
+Open **Administration → Server Settings & Maintenance**. The 3.0 overview separates configuration
+issues from health pages for versions, PHP/filesystem, database, Redis and services. Background
+jobs have their own page. Inspect the failing check and its detailed message; an isolated
+example with mail/providers disabled is not expected to be a healthy production baseline.
+
+![The actual 3.0 health overview groups configuration and service checks. This documentation instance deliberately leaves optional services disabled.](figures/misp3-health-overview.png)
+
+Use [logs](../administration/index.qmd#admin-logs), worker/queue health and deployment metrics
+alongside application checks. Track disk usage, database growth, job failures, response times,
+backup/restore checks and certificate expiry. A responsive login page does not prove jobs are
+running or the instance can synchronize.
+
+![Diagnose the failing layer, test a scoped change and verify its effect before applying it operationally.](figures/diagnose-before-changing.svg)
+
+## Login, URLs and requests {#faq-access}
+
+<a id="how-can-i-redirect-http-to-https"></a>
+<a id="how-do-i-set-the-baseurl-from-the-command-line"></a>
+<a id="when-i-try-to-access-my-new-installation-i-am-redirected-to-localhost8443-and-get-an-error"></a>
+<a id="when-i-try-to-access-my-new-installation-i-am-redirected-to-localhost8443-and-get-an-error."></a>
+
+### Why does MISP redirect to localhost or the wrong URL? {#faq-baseurl}
+
+Align the externally reachable HTTPS URL with **`MISP.baseurl`**, the reverse proxy and the
+deployment configuration (`BASE_URL` in the Docker setup). Include a required port/subpath.
+In a container deployment, persist the value in the managed configuration rather than changing
+a generated file that will be replaced on restart.
+
+For a filesystem-managed installation, the setting command is:
+
+```bash
+sudo -u www-data /var/www/MISP/app/Console/cake Admin setSetting MISP.baseurl https://misp.example.org
 ```
-git clone https://github.com/MISP/PyMISP.git
-cd PyMISP/pymisp/data
-git submodule update --init
-cd misp-objects
-git pull origin master
-cd ../../../
-sudo pip3 install -I .
+
+Adapt the service account/path to the installation and verify the effective setting and redirects.
+See [Docker quick start](../quick-start/index.qmd#start-misp-with-docker) and
+[network settings](../administration/index.qmd#admin-configuration-baseline).
+
+<a id="constantly-acknowledging-my-self-signed-certificate-drives-me-nuts"></a>
+<a id="what-to-do-if-my-rest-client-cannot-reach-the-host-despite-me-being-able-to-issue-requests-using-curl--postman--etc"></a>
+<a id="what-to-do-if-my-rest-client-cannot-reach-the-host-despite-me-being-able-to-issue-requests-using-curl-postman-etc."></a>
+<a id="what-to-do-if-my-rest-client-is-throwing-ssl-errors-when-trying-to-query-my-misp-instance"></a>
+
+### How should HTTPS and internal certificate trust work? {#faq-tls}
+
+Terminate HTTPS at the deployment's supported web server/proxy, configure the correct hostname
+and certificate chain, and redirect HTTP there. A browser, PHP REST client, Python client and
+remote synchronization peer can use different trust stores. Install the appropriate CA/chain
+where the failing client validates TLS and confirm DNS, hostname and expiry.
+
+A server-side REST client request originates from the MISP server, not from the browser. The
+server must resolve and reach the configured base URL. If a full remote URL is used, check the
+destination before sending an authentication key. Disabling certificate verification does not
+repair trust or a hostname mismatch. See
+[API TLS configuration](../pymisp/index.qmd#pymisp-installation) and
+[sync connection tests](../sharing/index.qmd#test-connection).
+
+<a id="i-can-no-longer-log-in-how-do-i-reset-the-admin-password"></a>
+<a id="i-can-no-longer-log-in.-how-do-i-reset-the-admin-password"></a>
+<a id="i-deleted-the-admin-user-by-mistake"></a>
+
+### How do I recover access or a missing site administrator? {#faq-account-recovery}
+
+First distinguish a wrong password, disabled account, MFA problem and external authentication
+failure. For an authorized local recovery, the current console supports `User change_pw` and
+`User change_role`; inspect their help and choose the intended account and existing role:
+
+```bash
+sudo -u www-data /var/www/MISP/app/Console/cake User change_pw --help
+sudo -u www-data /var/www/MISP/app/Console/cake User change_role --help
 ```
 
+The password command takes the new password as an argument, so use the installation's secure
+administrative process and account for shell history/process visibility. A role change is a
+privileged recovery action, not a workaround for normal authorization. Preserve the user database;
+do not truncate users or delete the remaining account to trigger initialization. See
+[users and authentication](../administration/index.qmd#admin-authentication).
 
-## How to disable freetext/custom/user-created tags and only allow certain tags
+<a id="why-do-i-see-the-request-has-been-black-holed-when-i-submit-forms"></a>
 
-Remove the "tag editor" from the permissions that you grant to users. 
-Set all tags that you do not want to "hidden".
-There is a server setting to treat all incoming tags as hidden by default: `MISP.incoming_tags_disabled_by_default`
+### Why was a form request “black-holed”? {#faq-csrf}
 
-**Important** Make sure that you don't remove "tag editor" from sync users, or you'll be stripping tags from synchronized data.
+The framework rejected a security/CSRF or form-validation condition. Reload the current form
+and retry once with valid input; stale tabs, session expiry, a back-button resubmission, proxy
+URL/cookie mismatches or a custom form missing its token can cause failures. Check the matching
+server log entry. Do not assume a universal 15-minute timeout, disable form protection or turn
+an authenticated browser request into an unlocked endpoint to suppress the symptom.
 
+<a id="i-have-many-users-or-api-accesses-whats-the-best-php-session-handler"></a>
 
-## How to enable the csv import module? 
+### Should I change the session handler for API traffic? {#faq-sessions}
 
-First you have to enable the import services: double-click on "false" in the very first line and change it to "true".
+Inspect the deployment's PHP/CakePHP session configuration, locking, storage availability and
+expiry. Redis-backed sessions can be appropriate, but this is distinct from the job/cache Redis
+connections. Apply the supported deployment configuration to the correct PHP runtime, including
+authentication/TLS where needed, and test browser logins and concurrent requests. Do not copy
+an incomplete `session.save_path` example into production or flush Redis as a general login fix.
 
-In Server Settings & Maintenance -> Plugin Settings -> Import -> set "Plugin.Import_csvimport_enabled" to true. 
-Afterwards you'll find the csvimport from within the newly created event: "Populate from..." 
+<a id="specific-questions"></a>
+<a id="usage-questions"></a>
 
-Don't use from the main site ("Import from...").
+## Jobs, services and filesystem {#faq-services}
 
+<a id="how-can-i-restart-the-workers"></a>
 
-## Why do I see 'The request has been black-holed' when I submit forms?
+### Why are workers missing or jobs stuck? {#faq-workers}
 
-That's a security measure for form tampering protection.
+Inspect **Background jobs**, the job list and the Supervisor/Redis state. A queued job is not
+proof a worker is consuming its queue. The 3.0 worker subsystem uses SimpleBackgroundJobs with
+Supervisor; queue names, groups and service names depend on the deployment.
 
-All forms have a timeout (~15min) and all of them can only be submitted once. If you use your browser's "back" button and resubmit the form MISP will consider it as a potential attempt at form tampering.
+![The 3.0 background-jobs page exposes the configured queue/worker state. Background processing is disabled in this isolated example.](figures/misp3-background-jobs.png)
 
+Use [worker diagnostics and commands](../administration/index.qmd#admin-worker-commands).
+Check Supervisor's actual process group before restarting it; do not launch a second worker
+pool beside the managed one. Restarting a worker can interrupt a job, so inspect job state and
+retry behaviour. Recurring work and workflow executions have separate configuration/status.
 
-## Importing large feeds creates PHP Fatal error
+<a id="can-i-configure-misp-encrypted-notification-emails-to-contain-more-information-in-the-subject"></a>
+<a id="i-have-many-failed-jobs-when-doing-email-notification-what-should-i-do"></a>
+<a id="i-have-many-failed-jobs-when-doing-email-notification.-what-should-i-do"></a>
 
-When importing a large feed like the CIRCL feed, the job reaches 99% and then fails.
-The log file records:
-```
-PHP Fatal error: Allowed memory size of 536870912 bytes exhausted (tried to allocate 1941504 bytes) in /var/www/MISP/app/Model/Feed.php on line 691
-```
+### How do I diagnose mail failures? {#faq-mail}
 
-In this case you will need to increase the memory_limit option in `php.ini` file
+Check the failing job, mail transport, recipient, sender and encryption settings. Verify relevant
+PGP keys and expiry through the supported user/key checks; not every mail failure is a PGP
+problem. `MISP.extended_alert_subject` can add event context to notification subjects. A subject
+is outside an encrypted message body, so choose its contents for the audience and transport.
+See [mail configuration](../administration/index.qmd#admin-configuration-baseline).
 
+<a id="mariadbmysqlredis"></a>
+<a id="misp-modules-connection-refused"></a>
+<a id="redis-connection-problems"></a>
+<a id="rhelcentos"></a>
+<a id="rhelcentos-selinux-debug"></a>
 
-## I deleted the admin user by mistake
+### Why can MISP not contact Redis or misp-modules? {#faq-service-connections}
 
+Check the configured host/port, container/service DNS, credentials, service state and the
+network path from the application runtime. Container `127.0.0.1` means that container, not a
+separate Redis/modules service. The grouped **Redis** and **Services** checks help distinguish
+these failures. Use the deployment's service manager for misp-modules rather than an ad-hoc
+background shell process. See [Modules](../modules/index.qmd#modules-families).
 
-Now, I only have Org Admin.
-
-You have several options:
-
-1. Delete the org admin. MISP automatically creates a new default site-admin user if no users are found in the db (mysql: truncate users;)
-
-2. Upgrade a user to a site-admin, such as an org admin user:
-```
-SELECT id, email from users;
-```
-Note down the ID you want to upgrade.  Let's say this is 2 for the example's sake.
-```
-SELECT id, name from roles;
-```
-Note down the role ID you want to upgrade. Let's say this is 1 for the example's sake.
-```
-UPDATE users set role_id = 1 where id = 2;
-```
+On an SELinux-enforcing host, inspect AVC denials and the appropriate service policy before
+changing it. For example, `ausearch -m AVC -ts recent` is diagnostic. Keep audit evidence and
+apply a narrowly appropriate policy/label; deleting audit logs or disabling enforcement is not
+a connectivity diagnosis.
 
 <a id="configphp-is-not-writeable"></a>
+<a id="permission-issues"></a>
 
-## config.php is not writeable
+### What should I do about unwritable files or config.php? {#faq-permissions}
 
-```
-Warning: app/Config/config.php is not writeable. This means that any setting changes made here will NOT be saved.
-```
+Use the PHP/filesystem checks to identify the exact path and runtime identity. Distinguish
+managed read-only configuration from directories the application must write. Correct ownership,
+permissions, mount mode or security labels for that path using the deployment's documented
+layout. Avoid recursive ownership/permission changes over the entire checkout or web root.
+For container-managed settings, fix the durable configuration source.
 
-According to the install guide, make sure to:
-```
-chown -R apache:apache /var/www/MISP
-find /var/www/MISP -type d -exec chmod g=rx {} \;
-chmod -R g+r,o= /var/www/MISP
-```
-If it still doesn't work, make sure SELinxu is not enabled or modify the rule set:
-```
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/terms
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/files/scripts/tmp
-chcon -t httpd_sys_rw_content_t /var/www/MISP/app/Plugin/CakeResque/tmp
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/tmp
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/orgs
-chcon -R -t httpd_sys_rw_content_t /var/www/MISP/app/webroot/img/custom
-```
+<a id="importing-large-feeds-creates-php-fatal-error"></a>
 
-## How to debug misp-dashboard
+### Why does a large import run out of memory? {#faq-memory}
 
-This is the full chain from MISP to the live dashboard and some tips to find out which link is faulty.
+Inspect the failing job and the PHP runtime/limit it used; the web and worker/CLI runtimes can
+have different limits. Consider input size, enrichment, tags, batching and available RAM as well
+as `memory_limit`. Reduce or batch the import, then size the deployment for measured needs.
+A higher limit alone will not cure repeated feed imports, runaway work or an exhausted host.
 
-1. MISP
-Ensure that ZMQ is installed and enabled with the correct settings
+## Data, imports and sharing {#faq-data}
 
-2. MISP ZMQ
-You can use MISP/tools/misp-zmq/sub.py which will subscribe to the ZMQ and print the data
+<a id="how-can-i-define-the-default-sharing-level"></a>
+<a id="how-to-disable-freetextcustomuser-created-tags-and-only-allow-certain-tags"></a>
 
-3. ZMQ_subscriber
-You can change the logging level from logging.INFO to logging.DEBUG and look in the logs for the string Pushed: *
-Or add a print statement in the put_in_redis_list function
+### Which distribution and tag defaults should I choose? {#faq-distribution}
 
-4. ZMQ_dispatcher
-Look in the logs for the string Handling *
+Choose the audience for your community and review saved records. Event distribution supports
+organisation, community, connected communities, all communities and an explicit sharing group.
+Attribute/object inheritance is distinct from a wider audience; the stored child inheritance
+value is **5**. Inspect `MISP.default_event_distribution` and
+`MISP.default_attribute_distribution` rather than assuming every value means the same thing
+on each entity. A handling tag is not an access grant. See
+[distribution boundaries](../sharing/index.qmd#distribution-mechanisms).
 
-5. Server (Flask) and Browser (live Dashboard)
-Open the Web developer Network tab in your browser and look for the url /_logs with Content-Type: text/event-stream;
+Use roles to control tag creation and enable the taxonomies/tags your community needs.
+`MISP.incoming_tags_disabled_by_default` affects incoming tag availability; review sync-account
+permissions and exportability before changing a tagging policy. See
+[Taxonomies](../taxonomy/index.qmd#taxonomy-management).
 
-## How to update object templates?
-
-`git submodule update` in your MISP directory (or via the diagnostic page) and just click “Update Objects” in List Object Templates.
-
-## What to do if my REST client is throwing SSL errors when trying to query my MISP instance?
-
-The REST client will use the framework's certificate store to validate the contacted host. If your root CA / self-signed certificate is not known by the certificate store, the request will fail. You can skip the SSL validation altogether using the "Skip SSL validation" checkbox.
-
-<a id="what-to-do-if-my-rest-client-cannot-reach-the-host-despite-me-being-able-to-issue-requests-using-curl--postman--etc"></a>
-
-## What to do if my REST client cannot reach the host, despite me being able to issue requests using Curl / Postman / etc.?
-
-The REST client issues instructions to your MISP server to contact a remote host (most commonly itself). Always consider how your MISP server can address itself when using the REST client, by default it will prepend the requested relative path in the URL field with the instance's baseurl.
-
-If your MISP cannot reach itself via the baseurl the request will fail. You can use the "Use full path - disclose my API key" checkbox along with the full URL in the URL field to instruct MISP to use another path than what it would construct using the baseurl. 
-
+<a id="how-would-one-set-up-a-sharing-group-with-a-remote-org-where-we-only-share-a-mutual-community-instance-i.e.-we-both-have-sync-users-on-that-instance.-on-our-local-instance-they-exist-as-a-remote-org-from-events-that-have-synced-from-their-instance-via-our-shared-community-instance."></a>
 <a id="how-would-one-set-up-a-sharing-group-with-a-remote-org-where-we-only-share-a-mutual-community-instance-ie-we-both-have-sync-users-on-that-instance-on-our-local-instance-they-exist-as-a-remote-org-from-events-that-have-synced-from-their-instance-via-our-shared-community-instance"></a>
+<a id="i-have-issues-with-pushing-events"></a>
 
-## How would one set up a sharing group with a remote org, where we only share a mutual community instance (i.e. we both have sync users on that instance). On our local instance, they exist as a remote org (from events that have synced from their instance via our shared community instance). 
+### Why will an event not synchronize? {#faq-sync}
 
-It is not possible to do that. Keep in mind that if you are both on a mutual community instance, someone is in charge of that instance that will have database and admin level access. They would be able to inspect the data you exchange on their community instance with one another, so MISP will block any attempt to share with them.
+Check connection/version tests, peer identities and key restrictions, publication state,
+distribution/sharing-group eligibility, push/pull enablement, filters and the actual job result.
+A successful connection test alone does not establish event eligibility. A local attachment,
+private analyst record or collection reference has its own sharing rules. See
+[synchronization troubleshooting](../sharing/index.qmd#troubleshooting).
 
-If you really want to go through the community instance to exchange with them, you explicitly have to include the host organisation of the community instance (they would get access if they wanted to anyway, this way we can ensure that you are clear about that):
+A community relay also has administrators with access to its hosted data. Include the intended
+hosting/recipient organisations and servers in a sharing-group design; it is not a hidden
+end-to-end channel through an excluded relay organisation. Review each hop using the
+[sharing-group guidance](../sharing/index.qmd#sharing-groups).
 
-- You are org a on instance A.
-- Your partner that you want to share with is org b on instance B.
-- You have no way of directly reaching org b, but you both have access to instance C, which is run by org c (the sharing instance)
-- In order to reach org b, you have two options for sharing groups, depending on whether you want to be able to push to them or want to rely on them pulling data from the community instance:
-```
-SG Option 1 (push all the way to B)
-  orgs: a, b, c
-  instances, A, B, C
-```
-```
-SG Option 2 (b has to pull from C):
-  orgs: a, b, c
-  instances: A, C
-```
+<a id="how-to-debug-misp-dashboard"></a>
 
-## Is it possible to propose objects to an event?
+### Can I use TAXII or a live dashboard? {#faq-integrations}
 
-This is not possible yet.
-What you can do at the moment: Create a new event and extend it with the other (foreign) event.
+MISP has TAXII integration, but TAXII collections and native MISP synchronization have different
+data/format contracts. Configure the intended supported server/collection and direction; check
+[external connectors](../connectors/index.qmd#connectors-mechanisms).
+MISP's built-in dashboards are separate from the external **misp-dashboard** application.
+For an external dashboard, inspect its subscription/transport, processing and web service in
+turn; enabling ZMQ does not install or configure the consumer. See
+[ZMQ and streaming](../misp-zmq/index.qmd#zmq-overview).
 
+<a id="how-can-i-deal-with-a-misp-instance-that-has-pulled-in-feeds-over-and-over-into-new-events-generating-hundreds-of-gbs-of-junk-correlations-rendering-the-instance-unusable"></a>
 
-## How to use the enforceWarninglist parameter in REST search?
+### Why do feeds create duplicates or too many correlations? {#faq-feed-growth}
 
-If you would like to export IoCs, for example into a suricata rule and exclude all values matching your warning lists, you can use the following:
+Pause the relevant recurring import and inspect its source format, fixed-event/update strategy,
+UUID handling and previous job results. Evaluate caching versus importing full local events;
+feed cache hits are not the same as locally owned event data. Back up and measure the affected
+records before planning a scoped cleanup. Do not start with SQL truncation or global correlation
+disablement. See [feed operations](../managing-feeds/index.qmd#feeds) and
+[value/correlation maintenance](../administration/index.qmd#admin-correlations).
 
-```
-{
-    "returnFormat": "suricata",
-    "published": 0,
-    "enforceWarninglist": 1
-}
-```
+<a id="how-to-use-the-enforcewarninglist-parameter-in-rest-search"></a>
 
-Keep in mind that unpublished events need the `"published": 0` parameter in order to be exported.
+### How do warninglists, sightings and IDS flags interact? {#faq-warninglists}
 
-## Column not found issue
+A warninglist hit is context, not a verdict. The list's matching rules, category, enabled state
+and the input's type matter. IDS flags describe intended detection use; they do not switch off
+storage or all correlation. A false-positive/expiration sighting records a claim, not an
+unconditional instruction to delete a value or clear every IDS flag.
 
-When a user attempts to add an object to an event and the following error is received (Level 1 debug enabled):
+Supported `restSearch` exports accept `enforceWarninglist` to exclude matching attributes.
+Choose source scope, publication/detection filters and output format explicitly and inspect the
+response. Do not infer the default publication scope for every format from a historical Suricata
+example. See [warninglist exports](../warninglists/index.qmd#warninglists-export) and
+[API exports](../automation/index.qmd#api-exports).
 
-```
-SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Event.org_id' in 'where clause’
-```
+<a id="how-can-i-import-data-directly-from-pdf-reports"></a>
+<a id="how-to-add-a-galaxy-to-an-event-via-pymisp"></a>
+<a id="how-to-enable-the-csv-import-module"></a>
 
-One potential resolution is to upgrade MISP to 2.4.107.
+### How do I import PDF/text/CSV data or add galaxy context? {#faq-imports}
 
-#### Symptoms
-Users with the site-admin role are able to add objects to events without any error. This error was encountered when a user belonged to every role **except** site-admin.
+Use the event's current import controls. For a document, review extracted text and proposed
+observables before saving. Import/OCR/CSV modules require the relevant service, module,
+dependencies and configuration; a module name in a list does not make extraction automatic.
+See [import modules](../modules/index.qmd#modules-families).
 
-## WatchList Customization
+Attach a galaxy cluster through the supported picker/API using the actual cluster identity
+and the intended local/global scope. Do not invent a `misp-galaxy:*` tag string from a name;
+default and custom cluster tag representations can differ. See
+[galaxy attachments](../galaxy/index.qmd#galaxy-attachments).
+
+<a id="is-it-possible-to-propose-objects-to-an-event"></a>
+
+### Can another organisation propose a whole object? {#faq-object-proposals}
+
+Check the installed branch's supported proposal paths. The pinned event UI/API uses attribute
+proposals; do not assume that an attribute proposal is a full object-template proposal.
+For separately owned structured additions, an
+[extended event](../extended-events/index.qmd#when-to-use-an-extended-event) can retain your organisation's event and objects
+while linking to the original. Choose the approach for ownership, visibility and review needs.
 
 <a id="how-to-create-a-customized-watchlist"></a>
+<a id="how-to-create-a-customized-watchlist."></a>
+<a id="how-to-update-object-templates"></a>
+<a id="updating-pymisp-to-incorporate-newer-versions-of-the-misp-object-templates"></a>
+<a id="watchlist-customization"></a>
 
-### How to create a customized WatchList.
+### How do object templates and local lists get updated? {#faq-definitions}
 
-WatchLists are stored within folder under /var/www/MISP/app/files/warninglists/lists
-Every folder contains a list.json file.
-Create a new folder and copy and modify an existing list (or create a new one from scratch).
-Ensure the "name" value within the file is unique.
-Increment the version number when the file is changed.
+Deploy the intended companion-repository revision, then import the definitions through the
+corresponding update action. Template versions and existing observed objects are separate;
+a catalogue refresh does not automatically migrate every object instance. PyMISP also ships
+its own definitions/dependencies, so update the client environment through its supported package
+process rather than running a forced system-wide reinstall.
 
-Within the MISP GUI, go to WarningLists and "Update WarningLists".
+Use the actual [object catalogue](../misp-objects/index.qmd#objects-maintenance),
+[warninglist forms/files](../warninglists/index.qmd#warninglists-management) and
+[notice-list import](../noticelists/index.qmd#noticelists-management) procedures. “Watchlist” in
+an older answer usually meant a warninglist; it is not a separate current matching engine.
 
-The new WarningList will now show up. In case of errors, check the permissions on the list.json and it's folder.
+<a id="how-to-block-attachment-and-malware-sample-to-be-ingested"></a>
+<a id="why-are-there-malicious-files-in-my-misp-directory"></a>
 
-To modify the list or to add entries to it, go back to the file via the CLI, modify the file and reload it via the GUI ("Update WarningLists".
+### Why are malware files present, and how do I control attachment intake? {#faq-attachments}
 
+MISP can deliberately store submitted attachments and malware samples. Inspect the record,
+storage location and deployment policy before classifying a detection on those files. Keep the
+storage non-executable and access-controlled, and coordinate narrowly scoped handling with the
+security team. Do not exclude the entire `app/files` tree from security controls as a general fix.
 
-## How to add a galaxy to an event via PyMISP
+For intake restrictions, review supported validation/import rules and test all relevant paths.
+A filename regex is not a file-content/MIME scanner and does not prove every upload/import
+path is blocked. See [ingestion controls](../administration/index.qmd#admin-ingestion-controls).
 
-A galaxy can be assigned like a tag. You can use the add tag function and copy the full conntector-tag. Example `misp-galaxy:ransomware=“Locky”`, which can be found in `/galaxy_clusters/view/`
+<a id="hardening"></a>
 
-## How to block attachment (and malware-sample) to be ingested
-For that, we'll use the Import Regex feature in MISP.
+## Updates, history and maintenance {#faq-maintenance}
 
-1. Got to `/regexp/admin_index` (In the UI under Input Fulters -> Import Regexp)
-2. Create a new import Regex `/admin/regexp/add`
-    - Regexp: `/^.$/i`
-      - Note: If you want to only allow specific file extensions, you can use a regex a similar regex (in this case, we only allow .png attachment): `/^.*\.(?!png)[^.]+$/i`
-    - Replacement: `[Leave the field empty]` (Leaving the field empty will prevent that value to be saved)
-    - Select the checkboxes `attachment` and `malware-sample`
-3. From that point onward, users will still be able to add attachement but they won't be accepted by the system anymore.
-    - Note: If you allowed specific file extensions, only file ending with the provided extension will be accepted. Please, bear in mind that it only looks at the filename and skip MIME checks alltogether.
+<a id="apache"></a>
+<a id="column-not-found-issue"></a>
+<a id="config.php-is-not-writeable"></a>
+<a id="error-pathspec-appcomposer.json-did-not-match-any-files-known-to-git"></a>
+<a id="error-pathspec-appcomposerjson-did-not-match-any-files-known-to-git"></a>
+<a id="git"></a>
+<a id="how-to-switch-from-tagged-releases-and-back"></a>
+<a id="initsystemd"></a>
+<a id="os-upgrades"></a>
+<a id="php"></a>
+<a id="python3"></a>
+<a id="symptoms"></a>
+<a id="update-misp-fails"></a>
+<a id="what-can-go-wrong-if-i-update-misp"></a>
+<a id="when-to-update-misp"></a>
 
-## What are the required steps after a MISP installation to have a properly running instance?
+### How do I harden an instance? {#faq-hardening}
 
-- First login with the installation credentials and change the password immediately (especially if your instance is publicly accessible)
-- Set the base_url to the hostname of your machine (apache virtualhost name)
-- Create a new organisation which will be the host organisation running the MISP instance
-- Set the new organisation in `MISP.host_org_id` to replace the default one
-- Set messages like `MISP.footermidleft` and alike to a proper message to help your users
-- Create a new user as `admin` role with the new organisation
-- Log with the new user, if successful, remove the default user used during the installation such as `admin@admin.test`
-- Select and enable required taxonomies for your sharing community
-- Select and enable the external feeds (as caching only if you don't want full events but you can get the full feeds too)
-- Select and enable the warning-list (if you don't know what to enable, select all)
-- Add the remote MISP instances where you have access to (either caching only or full pull if you want the complete events)
+Use the deployment's current hardening guidance and the installed security-audit checks. Review
+authentication/MFA, roles and keys, TLS, network exposure, sample storage, patching and recovery
+together. Verify actual denied access and backup restoration; a handling tag or a green health
+card does not enforce every part of the policy. See
+[administrative access](../administration/index.qmd#admin-access) and
+[backup/recovery](../administration/index.qmd#admin-backup-recovery).
 
-<!-- 
-  Comment Place Holder
-  -->
+### How do I update or troubleshoot a failed upgrade? {#faq-upgrades}
+
+Record the branch/commit, deployment/dependency versions and migration status. Back up and
+rehearse on a copy, then follow the deployment's upgrade process. MISP 3.0 has ordered schema
+migrations and shared-value storage; do not assume loading a page makes every partial upgrade
+safe. Inspect [migration status, plan and schema diagnostics](../administration/index.qmd#admin-database)
+before retrying or applying a repair.
+
+A detached checkout, archive installation, local modifications or unwritable Git metadata can
+prevent an in-place update. Use the intended deployment workflow rather than granting the web
+server broad write access. An old `app/composer.json` pathspec or missing `Event.org_id` error is
+not a reason to ignore a current failure or downgrade to a 2.4 release. Capture the current
+command/error and check repository/dependency/schema consistency.
+
+OS/PHP/Python/database/Redis upgrades have their own compatibility and restart requirements.
+Preserve configuration and data, use supported dependencies, and verify workers, integrations
+and backups afterwards. A successful repository update alone does not establish a healthy instance.
+
+<a id="how-can-i-add-an-organisation-logo-andor-foter-logo"></a>
+<a id="how-can-i-change-the-theme"></a>
+
+### How do I change the theme or branding? {#faq-appearance}
+
+Overmind is the 3.0 default. Use the supported appearance settings and your account menu's available
+Bootstrap theme preferences. `MISP.default_bootstrap_theme` sets the Overmind default for users
+without their own choice. `MISP.enable_themes` and `MISP.default_theme` are separate CLI-only
+settings governing alternative application themes; the classic **Default** interface is deprecated.
+
+![The current appearance preferences, rather than a replacement of the old Bootstrap CSS file.](figures/misp3-appearance.png)
+
+Use the organisation's supported logo controls and configured instance branding. Do not download
+a Bootstrap 2 stylesheet over the application's shipped CSS. See
+[general layout](../general-layout/index.qmd#the-top-bar) and
+[instance settings](../administration/index.qmd#server-settings-and-maintenance).
+
+<a id="clearing-the-audit-logs"></a>
+<a id="how-can-i-see-all-the-deleted-events-in-a-misp-instance"></a>
+<a id="i-have-a-long-list-of-events-that-i-want-to-delete-via-the-api-do-i-really-have-to-loop-through-each-and-issue-a-delete-to-eventsdelete"></a>
+
+### Can I inspect deletions or delete many events at once? {#faq-deletions}
+
+Use the current audit-log view/API with the relevant model/action/object filters and your role's
+scope. MISP 3.0's audit records and retained detail depend on configuration; the classic
+`/logs/index` query is not a universal deletion history or backup. See
+[audit logs](../administration/index.qmd#admin-logs).
+
+Bulk deletion is destructive. Use the installed API/UI contract, confirm the exact authorized
+records, inspect retention/relationships, and preserve a tested recovery copy first. A list of
+IDs copied from an example is not a cleanup plan. For routine growth, examine the feed/import
+strategy before deleting observations.
+
+<a id="is-there-a-misp-maintenance-mode"></a>
+<a id="maintenance-mode"></a>
+<a id="uninstalling-misp"></a>
+<a id="wipe-misp-data---remove-all-data"></a>
+
+### Is there a maintenance mode, and how do I retire an instance? {#faq-maintenance-mode}
+
+`MISP.live` controls general access; when it is off, site administrators can still access the
+instance. `MISP.maintenance_message` supplies the notice. This is not a complete worker,
+scheduler, API or synchronization shutdown plan. Follow
+[backup/recovery and maintenance guidance](../administration/index.qmd#admin-backup-recovery)
+for a coordinated change window.
+
+To retire an instance, account for database, uploaded files/object storage, configuration,
+keys, logs, backups and replicas. Revoke its integration/peer credentials and communicate the
+sharing impact through your operational process. Removing an application directory or a Docker
+container does not remove every retained copy of the data.
+
+<a id="what-are-the-required-steps-after-a-misp-installation-to-have-a-properly-running-instance"></a>
+
+### What should I verify after installation? {#faq-first-checks}
+
+Complete the [quick start's first steps](../quick-start/index.qmd#first-steps-after-login): replace installation credentials,
+configure the instance/host organisation and reachable URL, create appropriate roles/accounts,
+choose sharing/classification defaults and verify backups, jobs and logs. Enable feeds,
+warninglists, modules and remote servers deliberately after reviewing their meaning and scope.
+Do not enable every external source or list simply to make a setup checklist longer.
