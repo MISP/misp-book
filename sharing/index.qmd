@@ -13,6 +13,8 @@ that exchange. Receiving intelligence does not oblige you to publish your own in
 This chapter follows MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
 development branch, using the light Overmind interface. Controls depend on your role and enabled
 services. MISP 2.5 uses different menus. Select a screenshot or diagram to enlarge it.
+The server controls shown here were checked at commit
+[`4dcd953d1`](https://github.com/MISP/MISP/commit/4dcd953d1b987c4ce7089c6b9d55237fa81835a8).
 :::
 
 <!-- Screenshots and verification: ../assets/sharing-screenshots.json. Diagram sources: figures/*.mmd. -->
@@ -102,13 +104,13 @@ As a **site administrator**, open **Sync → Servers & Feeds → Servers** and s
 The MISP 3.0 form groups the settings into expandable sections. The underlying endpoint is
 `/servers/add`.
 
-![The MISP 3.0 server form's synchronization options. Enable only the directions and data types agreed with the peer.](figures/misp3-server-methods.png)
+![The MISP 3.0 What to synchronise section, with separate Push/Pull switches for each supported data type and an independent remote-value cache setting.](figures/misp3-server-methods.png)
 
 | Section | What to check |
 |---|---|
 | **General** | The peer's HTTPS **Base URL** and a recognisable **Instance name**. Leave **Internal instance** off for ordinary partner connections. |
 | **Instance ownership and credentials** | The organisation that **hosts the remote instance**, identified by UUID, and the authentication key issued on that instance. Choose an existing local/known remote organisation or create the remote organisation as appropriate. |
-| **Enabled synchronisation methods** | Enable Push, Pull and any additional data types deliberately. Enabling event synchronization alone does not enable every related feature. |
+| **What to synchronise** | Choose the data types and Push/Pull directions agreed with the peer. Configure **Cache remote values** separately. |
 | **Misc settings** | Review event publication/email handling, caching, proxy behaviour and any certificate files. Use a trusted server certificate; do not routinely bypass certificate verification with **Self Signed**. |
 | **Sync rules** | Define push and pull filters separately, then test them against representative data. |
 
@@ -117,11 +119,29 @@ wrong organisation changes that evaluation. Confirm its UUID with the partner be
 
 ### Analyst Data, collections and MISP 3.0 {#synchronising-analyst-data-and-collections-2.5}
 
-The server form exposes independent **Push analyst data / Pull analyst data** options,
-alongside event, sightings and galaxy options. Collection synchronization has separate
-`push_collections` / `pull_collections` settings. At the captured commit, these are available
-through the server REST API and legacy form but are **missing from the Overmind form**.
-An administrator can set them with `POST /servers/edit/{id}`, for example:
+Expand **What to synchronise** when adding or editing a server. Each row describes what is
+exchanged and offers the available directions:
+
+| Row | Controls and scope |
+|---|---|
+| **Events** | **Push / Pull** events with their eligible attributes, objects and tags, subject to synchronization rules. |
+| **Sightings** | **Push** sightings recorded on synchronized events. The pull column says **With events**; there is no separate Pull sightings switch. |
+| **Galaxy clusters** | **Push / Pull** custom galaxy clusters, including those attached to synchronized events. |
+| **Analyst data** | **Push / Pull** notes, opinions and relationships. |
+| **Collections** | **Push / Pull** eligible collections and their element references. A peer without collection-sync support is skipped. |
+| **Cache remote values** | **Enable** remote-server value caching for correlation lookups without importing the remote events. This is separate from event Pull. |
+
+For collections, set the **Push** and **Pull** switches directly in the **Collections** row and
+save the server. The server overview shows collection synchronization alongside the other data
+types; its card view lists **Push Collections** and **Pull Collections** separately.
+
+Enabling a cache makes the server eligible for caching; it does not itself populate or refresh
+the cache. Use the server's **Cache instance** action or a scheduled cache job, then check its
+outcome. Remote-server caching and [feed caching](../managing-feeds/index.qmd#caching-feeds)
+are separate operations.
+
+For automation, the same collection settings remain available through
+`POST /servers/edit/{id}`, for example:
 
 ```json
 {"Server": {"push_collections": true, "pull_collections": false}}
