@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render this part's committed Mermaid sources to portable SVGs (no Quarto filter)."""
+"""Render the book's committed Mermaid sources to portable SVGs (no Quarto filter)."""
 import argparse
 import hashlib
 import json
@@ -10,7 +10,8 @@ import xml.etree.ElementTree as ET
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[2]
-CHAPTERS = ("sharing", "managing-feeds", "collections", "cryptographic-keys")
+CHAPTERS = ("sharing", "managing-feeds", "collections", "cryptographic-keys",
+            "automation", "pymisp", "misp-zmq", "modules", "connectors")
 
 
 def main():

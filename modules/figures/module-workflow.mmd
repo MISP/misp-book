@@ -1,0 +1,13 @@
+flowchart TB
+  accTitle: Module configuration and analyst review surround a module request
+  accDescr: MISP checks role, organisation restrictions, enabled service/module and applicable workflows before sending a module request. The module service may process locally or call an external provider. Proposed intelligence is reviewed by an analyst before approved data is saved. Provider access and AI use require deliberate configuration; this is not automatic validation of the result.
+  M["MISP checks access and settings<br/>Role · organisation · module · workflow"] --> S["Module service<br/>Parse or enrich the selected input"]
+  S -. "Only if the module uses one" .-> X["External provider"]
+  X -. "Provider result" .-> S
+  S --> P["Proposed results"]
+  P --> R["Analyst review<br/>Evidence · audience · detection flags"]
+  R --> A["Save approved intelligence"]
+  classDef stage fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef provider fill:#fff4df,stroke:#91651c,color:#573d13;
+  class M,S,P,R,A stage;
+  class X provider;

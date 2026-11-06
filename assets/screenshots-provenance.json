@@ -252,26 +252,6 @@
       "captured_at": "2026-07-09T10:25:37.848548Z"
     },
     {
-      "file": "misp-zmq/figures/zmq-config.png",
-      "url": "/servers/serverSettings/Plugin",
-      "selector": "#collapse_ZeroMQ",
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-08T11:51:04.742Z"
-    },
-    {
-      "file": "misp-zmq/figures/zmq-diagnostics.png",
-      "url": "/servers/serverSettings/diagnostics",
-      "section": "ZeroMQ",
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-08T11:58:51.181Z"
-    },
-    {
       "file": "noticelists/figures/noticelist-attribute.png",
       "url": "/attributes/add/7183",
       "selector": "notice box",
