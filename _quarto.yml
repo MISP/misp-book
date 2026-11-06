@@ -101,6 +101,10 @@ execute:
 
 format:
   html:
+    grid:
+      sidebar-width: 260px
+      body-width: 850px
+      margin-width: 220px
     theme:
       light: [cosmo, assets/misp.scss]
       dark: [darkly, assets/misp.scss]

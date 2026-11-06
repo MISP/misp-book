@@ -1,10 +1,163 @@
 /*-- scss:defaults --*/
-// Light MISP-ish branding for the spike (light mode only for now).
-$primary: #0a3d62;      // deep MISP blue
-$link-color: #1e6091;
-$body-font-family: "Source Sans Pro", -apple-system, "Segoe UI", Roboto, sans-serif;
+$primary: #007f99;
+$link-color: #00758d;
+$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$font-family-monospace: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+$headings-font-family: $font-family-sans-serif;
+$headings-font-weight: 650;
+$line-height-base: 1.65;
 
 /*-- scss:rules --*/
-.sidebar-title { font-weight: 700; }
-.navbar { border-bottom: 3px solid $primary; }
-div.callout-note { border-left-color: $link-color; }
+body {
+  --misp-ink: #203344;
+  --misp-muted: #576978;
+  --misp-accent: #00758d;
+  --misp-surface: #f4f8fa;
+  --misp-border: #dce5eb;
+  --misp-active: #e3f2f5;
+  color: var(--misp-ink);
+}
+
+body.quarto-dark {
+  --misp-ink: #e4edf3;
+  --misp-muted: #a9bbc8;
+  --misp-accent: #71d3e5;
+  --misp-surface: #25343f;
+  --misp-border: #43535e;
+  --misp-active: #264852;
+  --bs-link-color: var(--misp-accent);
+  --bs-link-hover-color: #a7e8f3;
+  --bs-link-color-rgb: 113, 211, 229;
+  --bs-link-hover-color-rgb: 167, 232, 243;
+}
+
+a { text-underline-offset: 0.18em; }
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--misp-accent);
+  outline-offset: 3px;
+}
+
+#quarto-sidebar {
+  background: var(--misp-surface);
+  border-right: 1px solid var(--misp-border);
+  padding-inline: 1.25rem;
+
+  .sidebar-logo {
+    max-width: 100px;
+    // The existing logo has dark lettering; retain contrast in either theme.
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+  .sidebar-title {
+    font-size: 1.05rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: var(--misp-ink);
+  }
+  .sidebar-tools { margin-top: 0.5rem; }
+  .sidebar-item-container { margin-block: 0.15rem; }
+  .sidebar-item-text {
+    padding: 0.35rem 0.55rem;
+    border-radius: 0.3rem;
+    line-height: 1.4;
+    color: var(--misp-muted);
+  }
+  .sidebar-item-text:hover { color: var(--misp-accent); }
+  .sidebar-item-text.active {
+    background: var(--misp-active);
+    color: var(--misp-accent);
+    font-weight: 650;
+  }
+}
+
+#quarto-search .aa-Autocomplete {
+  border-radius: 0.35rem;
+  border-color: var(--misp-border);
+}
+
+#title-block-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--misp-border);
+
+  h1 { letter-spacing: -0.035em; line-height: 1.15; }
+  .subtitle { color: var(--misp-muted); font-size: 1.15rem; }
+  .quarto-title-meta { color: var(--misp-muted); font-size: 0.85rem; }
+}
+
+main.content {
+  h2 {
+    margin-top: 2.5rem;
+    padding-bottom: 0.5rem;
+    border-color: var(--misp-border);
+    letter-spacing: -0.025em;
+  }
+  h3 { letter-spacing: -0.015em; }
+  :not(pre) > code { color: var(--misp-accent); }
+  div.sourceCode {
+    border: 1px solid var(--misp-border);
+    border-radius: 0.4rem;
+  }
+}
+
+#TOC {
+  color: var(--misp-muted);
+  #toc-title { font-weight: 650; }
+  .nav-link.active {
+    // Quarto marks its active TOC color important in the base theme.
+    color: var(--misp-accent) !important;
+    border-left-color: var(--misp-accent);
+  }
+}
+
+#quarto-header .quarto-secondary-nav {
+  background: var(--misp-surface);
+  color: var(--misp-ink);
+  border-bottom: 1px solid var(--misp-border);
+  .quarto-btn-toggle, .quarto-search-button { color: inherit; }
+}
+
+div.callout-note { border-left-color: var(--misp-accent); }
+.nav-footer { border-top: 1px solid var(--misp-border); color: var(--misp-muted); }
+
+// Keep the print cover in PDF/EPUB, rather than floating it beside the web introduction.
+.misp-home {
+  .quarto-cover-image { display: none; }
+  .guide-version {
+    color: var(--misp-accent);
+    font-size: 0.8rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .guide-lead { font-size: 1.2rem; line-height: 1.6; }
+  .guide-links {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.8rem;
+    margin-block: 1.75rem 2rem;
+
+    > p { display: flex; margin: 0; }
+  }
+  .guide-link {
+    display: block;
+    width: 100%;
+    padding: 1.1rem;
+    border: 1px solid var(--misp-border);
+    border-radius: 0.45rem;
+    background: var(--misp-surface);
+    color: var(--misp-ink);
+    text-decoration: none;
+    font-size: 0.85rem;
+    line-height: 1.5;
+
+    strong { display: block; margin-bottom: 0.4rem; color: var(--misp-accent); font-size: 1rem; }
+    &:hover { border-color: var(--misp-accent); }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .misp-home .guide-links { grid-template-columns: 1fr; }
+  #title-block-header h1 { font-size: 2rem; }
+}
