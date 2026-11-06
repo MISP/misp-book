@@ -5,8 +5,10 @@ format:
     body-classes: misp-home
 ---
 
+::: {.content-hidden when-format="typst"}
 ::: {.content-visible unless-format="html:js"}
 ![MISP logo](assets/misp-2-verti.png){width=220 fig-align="left"}
+:::
 :::
 
 ::: {.content-visible when-format="html:js"}

@@ -3,6 +3,7 @@
 
 # Rendered book (Quarto output-dir) and legacy download copies
 _book
+_book-pdf-smoke
 book.pdf
 book.epub
 book.mobi

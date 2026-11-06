@@ -35,6 +35,9 @@ jobs:
       - name: Render HTML + PDF + EPUB
         run: quarto render
 
+      - name: Check PDF cross-reference layout
+        run: quarto render --profile pdf-smoke --to typst
+
       - name: Provide legacy download filenames
         run: |
           # Keep the historical /doc/misp/book.pdf and book.epub URLs working.

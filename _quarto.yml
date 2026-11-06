@@ -123,5 +123,13 @@ format:
   typst:
     papersize: a4
     toc: true
+    toc-depth: 1
     number-sections: false
-    fontsize: 10pt
+    fontsize: 10.5pt
+    mainfont: Source Sans 3
+    codefont: Source Code Pro
+    font-paths: [assets/pdf/fonts]
+    template-partials: [assets/pdf/typst-show.typ]
+    filters:
+      - path: assets/pdf/pdf-layout.lua
+        at: post-quarto
