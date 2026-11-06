@@ -1,100 +1,107 @@
 ---
 title: "Sightings"
+format:
+  html:
+    lightbox: true
 ---
 
-Basically, sighting is a system allowing people to react on attributes on an event. It was originally designed to provide an easy method for user to tell when they see a given attribute, giving it more credibility.
+A **sighting** records feedback about an attribute: when it was observed, assessed as a false positive, or assigned an expiration.
+It helps producers and consumers assess an indicator over time.
+Seeing a value is not, by itself, proof of malicious activity or a confirmed compromise.
 
-Now sightings have been improved to also provide a method to signal false positives, but also to give an expiration date for some attributes.
+::: {.callout-note}
+The screenshots use the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch and synthetic observations.
+MISP 3.0's details window uses **Journal**, **Timeline**, and **Add sighting**, replacing the older Graph/All/My org tab arrangement.
+Adding sightings requires sighting permission; visibility also depends on the instance's sighting policy. Select a screenshot to enlarge it.
+:::
 
-### Explanation
+<!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
 
-As said before, Sighting is a way for a user to say that they have seen or notice an attribute and confirm its validity. An attribute can been spotted several times by the same user, that is why a single user can use sighting several times on a single attribute.
+## What a sighting means {#explanation}
 
-Sometimes, some attributes can be considered as false positives, even if the false positive list do not detect them (for instance, if the IDS flag is set to false) so they can also be notified. As well as concerning sighting, the same user can signal a single attribute as a false positive several times.
+| Type | API value | Use it for… |
+|---|---:|---|
+| **Sighting** | `0` | An observation of the value, with its observation time and source. |
+| **False positive** | `1` | Feedback that the value or detection was benign or inappropriate in the reported context. |
+| **Expiration** | `2` | A date after which the indicator should no longer be treated as valid for the reported use. |
 
-It also happens that some attributes are only valid a certain time (for instance, in case of a phishing campaign that is assumed to be up for only one week). In this case, people can also assign an expiration date to an attribute, but this time, there can be only one valid expiration date per *organisation*.
+Several sightings from one organization can describe repeated observations, rather than independent confirmations.
+False-positive feedback is separate from the IDS flag: `to_ids=false` means context-only eligibility, not a recorded false positive.
+Expiration records do not automatically clear IDS flags or remove an indicator from every export.
 
-### Using sightings on an event (GUI)
+## Record sightings in MISP 3.0 {#using-sightings-on-an-event-gui}
 
-Sighting is applied to every attribute, under the column "Sightings", easily identifiable with its colored number. This column shows three icons and three values.
+Open the event's **Attributes** tab, or expand an object in **Objects**, and find the attribute's sighting controls.
+The thumbs-up and thumbs-down controls provide quick observation and false-positive actions.
+Use **Sighting details** when you need to inspect existing feedback or record a specific time and source.
 
-![attribute](./figures/attributesighting.png)
+### Inspect the journal {#advanced-sightings}
 
-These three values show respectively:
-- The number of true positives detected with the attribute, in green. Malicious activity as described in the event.
-- The number of times the attribute has been marked as false positive, in red. Non-malicious activity or incorrect detection.
-- The number of different expiration dates that have been affected on this attribute, in orange
+The details window summarizes observation, false-positive, and expiration counts, the latest observation, and the organizations visible to you.
+The **Journal** lists individual records; use its **All** and **My organisation** choices to change the scope and **Timeline** to examine their timing.
+The available records and counts reflect the sighting visibility policy, not necessarily every observation stored on the instance.
 
-Concerning the three icons:
-- The first one (Thumb up) allows to add a sighting (true positive) on an attribute.
-- The second one (Thumb down) allows to mark the attribute as a false positive.
-- The third one (Tool) opens a popup for advanced sightings, showing sightings details and allowing different actions.
+![The 3.0 sighting journal for the fictional hostname, showing two observations and one false-positive report from the documentation organization.](figures/misp3-sighting-journal.png)
 
-#### Advanced sightings
+### Add a dated observation
 
-- The first tab, "Graph", represents a line graph showing the evolution of sightings and false positives over time.
+1. Open **Add sighting** in the details window.
+2. Choose **Sighting**, **False positive**, or **Expiration** according to the feedback you intend to record.
+3. Enter a useful source description and the relevant time, observing the form's UTC indication.
+4. Review any filters and the target attribute before saving.
 
-![sighting graph](./figures/sightinggraph.png)
+![The Add sighting tab separates the feedback type, source, date, and optional filters.](figures/misp3-sighting-add.png)
 
-- The second tab gives a quick view of all the sightings applied to the attribute.
+Use the time the observation occurred, rather than silently substituting the time you entered it.
+Avoid personal or restricted details in the source field unless their sharing has been agreed.
+Repeated clicks can create multiple records; inspect the journal before correcting or adding feedback.
 
-![sighting all](./figures/sightingall.png)
+### Review an event's sightings {#at-event-level}
 
-- The third tab gives a quick view of the sightings applied to the attribute by your own organisation only.
+An event-level sighting view summarizes feedback on its attributes; it does not turn the event itself into a sighted indicator.
+Add new feedback to the specific attribute or an explicitly selected set of attributes.
+In the pinned 3.0 **Value Intelligence** page, the header's **Add sighting** shortcut remains disabled; use the attribute controls above.
 
-![sighting my org](./figures/sightingmyorg.png)
+## Sighting policies and privacy
 
-- The last tab can be used to add either a sighting, mark the attribute as a false positive, or define an expiration date. You can precise both the date and time of day, as well as note a particular source where the sighting comes from.
+Sightings can reveal which organizations are investigating particular infrastructure.
+Administrators control visibility and sharing through settings such as:
 
-![sighting add](./figures/sightingadd.png)
+- **`Plugin.Sightings_policy`**: restrict other organizations' visibility to the event owner, contributing organizations, or everyone with event access, according to the configured policy. Users retain access to their own organization's contribution.
+- **`Plugin.Sightings_anonymise`**: hide individual reporting-organization identities where applied.
+- **`Plugin.Sightings_anonymise_as`**: use a configured organization identity when pushing sightings to another server.
+- **`Plugin.Sightings_range`**: set the lookback period used for sighting graphs.
 
-#### At Event level
+Check the effective configuration and the receiving organization's view before assuming that a count or identity will be shared.
+A missing record can reflect policy, time range, filtering, or synchronization rather than absence of observations.
 
-The total number of sightings across the whole event is shown in the event metadata, next to the **Sightings** label: the overall count, your own organisation's count in green, and — depending on the [sightings policy](#sighting-policies-and-privacy) — a note about whose sightings you are allowed to see.
+## SightingDB
 
-![sighting event](./figures/sightingevent.png)
+An optional **SightingDB** integration provides additional sighting information from external services.
+Its availability and the associated controls depend on the instance's configuration; it is distinct from ordinary MISP sighting records.
+Confirm where data is stored, queried, and shared before using an external service for sensitive observations.
 
-Clicking the wrench opens the same **Sighting details** popup for the whole event, with the Graph, All and My org tabs (there is no *Add sighting* tab here — sightings are always added against a specific attribute).
+## Real-time sharing and blocklists
 
-![sighting event popup](./figures/sightingeventpopup.png)
+With `Plugin.Sightings_enable_realtime_publish` enabled, new sightings can be sent to synchronization partners as they are created.
+Otherwise, publication and synchronization settings determine delivery; **Publish Sightings** can send updates separately from the event's content.
+This remains subject to visibility, filters, and partner configuration.
 
-### Sighting policies and privacy
+Administrators can exclude unwanted reporting organizations with the [sighting blocklist](../administration/index.qmd#sighting-blocklist).
+Correct erroneous feedback through the permitted deletion controls and tell consumers when an already-shared assessment changes.
 
-Because sightings reveal who is looking at which indicators, MISP gives
-administrators several controls over how much of that is shared (all under
-Administration → Server Settings):
+## Using sightings on an event (API)
 
-*   **Sightings_policy** — who can see the reported sightings on an event: the
-    event-owner organisation only (the default; everyone always sees their own
-    contribution), the *sighting reporters* (the owner plus any organisation that
-    contributed a sighting), or *everyone* who can see the event.
-*   **Sightings_anonymise** — strip the reporting organisation from sightings so
-    consumers see the counts but not who reported them.
-*   **Sightings_anonymise_as** — when pushing sightings to other servers, report
-    them all as a single organisation, hiding the individual reporters on this
-    instance behind one identity.
-*   **Sightings_range** — how many days back a sighting is considered relevant
-    (default 365).
+Use `POST /sightings/add/{attribute_id_or_uuid}` with the type, source, and an observation **`timestamp`** in Unix seconds.
+For example, this payload records a synthetic observation at 09:10 UTC on 6 November 2026:
 
-### SightingDB
+```json
+{
+  "type": 0,
+  "timestamp": 1793956200,
+  "source": "Synthetic training gateway; not an operational observation."
+}
+```
 
-For high-volume sighting data, MISP can offload sightings to one or more external
-**SightingDB** servers instead of storing every sighting in the main database.
-Enable it with `Sightings_sighting_db_enable` and configure the SightingDB
-servers from the administration menu; matching attributes then gain an additional
-SightingDB column in the event view.
-
-### Real-time sharing and blocklists
-
-*   With `Sightings_enable_realtime_publish` set, new sightings are pushed to your
-    sync partners as they are created, rather than only when the event is
-    (re)published. You can also push sighting updates on demand with **Publish
-    Sightings** in the event menu.
-*   To ignore sightings from a specific organisation (for example a noisy source),
-    add it to the **sighting blocklist** — see
-    [Blocklists](../administration/index.qmd#sighting-blocklist) in the
-    administration chapter.
-
-### Using sightings on an event (API)
-
-Please have a look at the [automation API](../automation/index.qmd#sightings-api)
+Use `GET /sightings/listSightings/{attribute_id_or_uuid}` to inspect the records visible to your account.
+The complete workflows, filtering, bulk operations, and authentication are covered in the [sightings API reference](../automation/index.qmd#sightings-api).

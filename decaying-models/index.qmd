@@ -1,149 +1,144 @@
 ---
 title: "Decaying Models"
+format:
+  html:
+    lightbox: true
 ---
 
-Indicators of compromise do not stay relevant forever. An IP address used in a campaign today
-may be reassigned next week; a phishing domain is taken down; a malware hash stops being seen.
-**Decaying models** let MISP express this decay of relevance automatically, turning a static
-attribute into a **score** that falls over time, and a **decayed** flag once that score drops
-below a chosen cut-off. Instead of manually toggling the IDS flag on ageing indicators, you
-define how each type of indicator should age and let MISP compute an up-to-date score whenever
-you query.
+A **decaying model** estimates how an indicator's relevance changes with time and configured evidence.
+Use it to inform detection selection and review, rather than treating every indicator as equally useful forever.
+A model returns a score and a **decayed** flag; it does not automatically remove the attribute or clear its IDS flag.
 
-Decaying models are based on the MISP indicator-scoring research
-([arxiv.org/abs/1902.03914](https://arxiv.org/abs/1902.03914)). They are managed under
-*Global Actions → Decaying Models* (the "Decaying Tool") and require a role with the **Decaying
-Model Editor** permission (`perm_decaying`) to create or edit.
+::: {.callout-note}
+This chapter follows the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch.
+The model detail page has a new Overmind layout, while some advanced Decaying Tool and simulation pages still use the classic interface.
+Decaying-model scores are distinct from MISP 3.0's **Value Intelligence** assessments and **analyst profiles**.
+Select the screenshot to enlarge it.
+:::
+
+<!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
+
+Open **Data models → Decaying Models** to browse the models available to your account.
+Creating or editing models requires **Decaying Model Editor** permission (`perm_decaying`), with ownership restrictions; site administrators have additional management rights.
+The method is described in the [MISP indicator-scoring research](https://arxiv.org/abs/1902.03914).
 
 ## How scoring works
 
-For a given attribute and model, MISP computes:
+For an applicable attribute and model, MISP computes:
 
-- a **base score** — the indicator's intrinsic importance, derived from its tags, and
-- a **current score** — the base score multiplied by a time-decay factor based on how long it
-  has been since the indicator was last seen (its most recent sighting, or its `last_seen` /
-  last-modified time).
+- A **base score** from configured numerical taxonomy values, or the model's default base score.
+- A **current score** using the selected formula and relevant observation or update time.
+- A **decayed** flag when the formula's threshold test is met.
 
-An attribute is considered **decayed** by a model once its current score falls below that
-model's **threshold**. Crucially, a single attribute can carry **several scores at once** — one
-for every enabled model that applies to its type — so the same indicator can be "still hot" for
-one detection use-case and "decayed" for another.
+The time-based calculation uses sighting information and can fall back to `last_seen` or the attribute's modification time.
+Updates can change that reference point, so record observation windows deliberately and inspect the actual result rather than inferring age from the event date.
+Several applicable models can return different scores for the same attribute.
 
-Scores are computed **on demand** at query time; there is no background job precomputing and
-storing them. This keeps scores always current but means score-heavy queries cost CPU (see the
-performance note at the end).
+Scores are computed on demand. They are not a synchronized, permanent verdict about whether the value is malicious.
+The data visible to a reader and the model they select affect the result.
 
 ### The base score
 
-The base score is derived from taxonomy tags on the attribute (and its event) that carry a
-**numerical value** — for example a confidence or false-positive-risk taxonomy. A model's
-`base_score_config` maps such taxonomies to weights; MISP combines the numerical values of the
-matching tags into the base score. If the attribute carries none of the configured taxonomies,
-the model's **`default_base_score`** is used instead. Attribute-level tags take precedence over
-event-level tags of the same taxonomy.
+A model's `base_score_config` assigns weights to supported taxonomy values with numerical scores.
+The calculation uses matching tags on the event and attribute; attribute-level tags override matching event-tag bases for this calculation.
+When no configured taxonomy matches, `default_base_score` is used.
+This scoring rule does not mean an attribute tag universally overrides event handling markings in other parts of MISP.
 
 ## Model parameters
 
-A decaying model is defined by a formula plus a small set of parameters:
-
 | Parameter | Meaning |
 |---|---|
-| **Lifetime** | Number of days after which the score reaches 0. |
-| **Decay speed** | Controls the shape of the decay curve — a higher value decays more slowly. |
-| **Threshold** | The cut-off score; below it, the indicator is marked *decayed*. |
-| **Default base score** | Base score used when no configured taxonomy tag is present (0–100). |
-| **Base score config** | Mapping of numerical-value taxonomies to weights, used to compute the base score from tags. |
-| **Formula** | The decay formula class to use (see below). |
-| **Settings** | Optional per-formula settings (only some formulas use this). |
+| **Lifetime** | The time span in days used by the time-based formula. The raw polynomial score reaches zero by its end. |
+| **Decay speed** | Shapes the curve. In the shipped Polynomial formula, a larger positive value makes the score fall sooner within the same lifetime. |
+| **Threshold** | Scores below this cutoff are marked decayed by the shipped formulas; an indicator can be decayed before the lifetime ends. |
+| **Default base score** | Starting score when configured numerical taxonomies do not match. |
+| **Base score config** | Weights used to combine matching taxonomy scores. |
+| **Formula** | The implementation used to compute the score and decayed state. |
+| **Settings** | Additional parameters used by a particular formula. |
+
+![The shipped Phishing model in the 3.0 interface, including its formula, nominal decay preview, and assigned attribute types.](figures/misp3-model-overview.png)
 
 ## Decay formulas
 
-The decay curve is provided by a pluggable **formula**. MISP ships three:
+The branch ships these formulas:
 
-- **Polynomial** *(default)* — the classic scoring formula: the score decays from the base
-  score to zero over the model's lifetime, with the curve shaped by the decay speed.
-- **Polynomial (Extended)** — the same, but additionally honours the `retention` taxonomy: an
-  indicator tagged with a retention period is forced to a score of 0 once that period has
-  elapsed, giving a hard end-of-life on top of the smooth decay.
-- **Sightings** — scores the indicator from its true-positive versus false-positive
-  **sightings** rather than purely from elapsed time. It returns the base score until a minimum
-  number of sightings has accumulated, then weights the score by the true-positive ratio. This
-  formula requires [sightings](../sightings/index.qmd) to be recorded.
+- **Polynomial:** decreases the base score with elapsed time. Within the lifetime, the raw score is `base_score × (1 − (elapsed / lifetime)^(1 / decay_speed))`{.text-wrap .text-break}, clamped at zero.
+- **Polynomial Extended:** adds the configured retention-taxonomy rule to the polynomial calculation.
+- **Sightings:** derives a score from recorded sighting types and its configured minimum count and offsets, rather than elapsed time alone.
 
-::: {.callout-note}
-Formulas are ordinary PHP classes under `app/Model/DecayingModelsFormulas/`. To add a custom
-decay behaviour, drop in a new class that extends the decaying-model base class and implements
-the score/decayed logic; it appears in the formula dropdown automatically. This is an advanced,
-code-level extension.
-:::
+A type-0 sighting is an observation; the formula's terminology does not make it an independently verified true positive.
+Inspect the formula and settings when interpreting the score, especially where repeated reports or expiration feedback are present.
+Custom formulas can be installed by administrators; their behavior can differ from these defaults.
 
 ## Mapping models to attribute types
 
-A model only applies to the attribute types you associate with it. The **Decaying Tool** shows a
-matrix of attribute types against models, letting you link each model to the types it should
-score (for example, a phishing model applies to `domain`, `hostname`, `url`, `ip-dst`, and so
-on). Default models carry their applicable types built in; models you create store their type
-associations separately, which you edit from the tool.
+A model must be applicable to the attribute's type and available to the requesting account.
+The model detail page lists **Assigned attribute types**; defaults ship with their associations, while custom models have configurable mappings.
+For example, a phishing model can cover hostnames, domains, URLs, and IP addresses.
+
+Check mappings before enabling a filter such as `excludeDecayed`.
+A missing score does not mean the indicator is fresh or benign, and an inappropriate mapping can produce misleading selection results.
 
 ## Simulating and previewing a model
 
-Before enabling a model you can **simulate** it. The model editor includes a simulation view
-that plots the score over time as an interactive chart, so you can see the effect of your
-lifetime, decay speed and threshold choices. You can drive the simulation two ways:
+The 3.0 detail page's **Decay curve** illustrates a nominal polynomial curve and cutoff from the parameters.
+It is a preview, not the current score of a particular attribute or a substitute for a non-polynomial formula's actual result.
+**Copy parameters** and **Download JSON** help record a configuration for review.
 
-- **By REST search** — score a set of real attributes matching a filter (tags, `to_ids`, and so
-  on), and
-- **By specific attribute** — score a single attribute by ID or UUID.
-
-The simulation also shows the base-score computation steps and lets you override model
-parameters on the fly, so you can tune a model against your own data before committing it.
+Advanced Decaying Tool pages support type mappings, base-score inspection, and simulation using a REST-search selection or a specific attribute.
+Some remain in the classic layout, and the pinned Overmind detail page does not offer a **Simulate model** action.
+Use the tools exposed by your instance, or verify a representative attribute through the search API below.
+Query overrides allow comparison without changing the stored model.
 
 ## Using decay scores in queries and the event view
 
-Decay scores are exposed through the REST API's attribute and event search
-([restSearch](../automation/index.qmd)) with these filters:
+Use `/attributes/restSearch` with explicit scoring options:
 
-| Filter | Effect |
+::: {.table-responsive}
+
+| Filter | Purpose |
 |---|---|
-| `includeDecayScore` | Attach the decay score(s) to each returned attribute. |
-| `includeFullModel` | Include the full model definition alongside each score, not just its id/name. |
-| `decayingModel` | Restrict scoring to a specific model. |
-| `excludeDecayed` | Drop attributes that are decayed under *all* their applicable models (implies `includeDecayScore`). |
-| `modelOverrides` | Override `threshold`, `lifetime` or `decay_speed` for this query only. |
-| `score` | Shortcut to override the threshold for this query. |
+| `includeDecayScore` | Attach applicable scores to returned attributes. |
+| `includeFullModel` | Include the model definition with the score. |
+| `decayingModel` | Select the model or models to use. |
+| `excludeDecayed` | Exclude an attribute when all returned applicable scores mark it decayed. This implies scoring. |
+| `modelOverrides` | Override supported parameters such as `threshold`, `lifetime`, or `decay_speed` for this query. |
+| `score` | Supply the supported threshold override for the query. |
 
-Each returned score contains the numeric `score`, the `base_score`, the `decayed` boolean, and
-the model it came from. This makes it straightforward to, for example, export only the
-indicators that are still relevant for detection (`excludeDecayed`), rather than everything ever
-recorded.
+:::
 
-In the web interface, the event view has an **Include Decay Score** toggle in the attribute
-filter/query-builder. Enabling it adds a decay-score column to the attribute list so you can see,
-per indicator, how relevant it currently is.
+For example, replace the UUID and model ID with ones on your instance:
+
+```json
+{
+  "returnFormat": "json",
+  "uuid": "ATTRIBUTE-UUID",
+  "includeDecayScore": true,
+  "includeFullModel": true,
+  "decayingModel": 1
+}
+```
+
+Inspect the returned `decay_score`, including its `score`, `base_score`, `decayed`, and model identity.
+Test the unfiltered result before adding `excludeDecayed` or combining it with IDS/publication filters.
+Confirm how unmapped attributes and multiple models are handled by the query and consuming tool.
+
+The older event interface can expose decay scores through its attribute filters and columns.
+Do not assume that every 3.0 tab or export automatically displays or applies them.
+Value Intelligence's assessment label, signal strength, and shelf life use the effective **analyst profile** and are a separate assessment path; see [Best Practices](../best-practices/index.qmd#assess-values-across-events-in-misp-3.0).
 
 ## Ownership, sharing and default models
 
-Models fall into a few categories, reflected by the filters in the model index:
-
-- **My models** — models your organisation created.
-- **Shared models** — models flagged to be usable by every organisation on the instance.
-- **Default models** — models shipped with MISP. These can be enabled/disabled and shared, but
-  their formula and parameters are locked (they are maintained upstream).
-
-A model is editable by a site admin, or by a user with the Decaying Model Editor permission when
-the model belongs to their organisation and is not a default model.
+Models can be owned by your organization, shared across organizations, or supplied as upstream defaults.
+Enabled state, sharing, ownership, and type mappings are separate settings.
+Default formulas and parameters are maintained upstream and have restricted editing; use a non-default copy for local tuning.
+Authorized administrators can manage enabled/shared state.
 
 ### Import, export and updating defaults
 
-You can **export** a model as JSON and **import** one from JSON (the import is always brought in
-as a non-default model owned by your organisation). Default models can be **updated** from the
-upstream `misp-decaying-models` collection: MISP upserts models by UUID and upgrades those whose
-shipped version is newer than the local copy.
+Export a model as JSON to preserve its settings for review or reuse.
+Importing creates a non-default model owned by your organization; review its associations and enabled/shared state before relying on it.
+Updating defaults loads the shipped `misp-decaying-models` definitions, reconciling them by UUID and version.
 
-::: {.callout-tip}
-Decay scoring is computed at read time and can be CPU-intensive on large result sets. Enable
-`includeDecayScore` (and related options) deliberately on big exports, and lean on
-`excludeDecayed` / model thresholds to keep result sets focused. A workflow action module,
-**Attach decay score**, is also available to attach scores as part of a
-[workflow](../workflows/index.qmd).
-:::
+On large exports, scoring adds computation. Test the selected models and filters on a representative sample first.
+A [workflow](../workflows/index.qmd) can also attach decay information where configured, but neither a workflow nor a displayed score guarantees that a downstream detector applies the intended filtering.

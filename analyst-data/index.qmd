@@ -1,5 +1,8 @@
 ---
 title: "Analyst Data"
+format:
+  html:
+    lightbox: true
 ---
 
 **Analyst Data** is a collaborative annotation layer that lets analysts enrich anything in
@@ -8,6 +11,14 @@ modifying the annotated element itself*. Instead of editing another organisation
 you cannot do) or spawning a proposal, you attach your own record alongside it. Each record has
 its own identity, its own distribution, and its own author, so it can be shared and synchronised
 independently of the thing it describes.
+
+::: {.callout-note}
+The examples describe MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch.
+The 3.0 interface surfaces event analysis in **Assessment** and value-level analysis in **Value Intelligence → Collaboration**.
+MISP 2.5 supports the core annotation layer with a different interface and target set. Select a screenshot to enlarge it.
+:::
+
+<!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
 
 There are three types of analyst data:
 
@@ -101,10 +112,18 @@ analysis in **Value Intelligence**; see the workflow below.
 
 ## Working with analyst data in the UI
 
-Analyst data appears in the event view attached to the element it annotates. From there you can
-add a note, opinion or relationship in place; the form asks for the target, the distribution,
-and the type-specific fields (note text and language, opinion score and comment, or relationship
-type and related element).
+Open an event's **General** tab and inspect its **Assessment** card.
+Its add control offers the annotation types permitted for your account; attribute and object
+rows have their own analysis controls. Use **Data points → Analyst Data** for the standalone list.
+The form identifies the target and asks for distribution plus the type-specific content.
+
+![The training event's Assessment card keeps a caveat, a neutral Opinion, and a directed Relationship together without changing the underlying observations.](figures/misp3-event-assessment.png)
+
+Open an annotation to inspect its own identity, author, target, audience, and available editing
+or thread controls. An Opinion score is an assessment in context, not a probability that an
+indicator is malicious.
+
+![A Note has its own UUID, organization, target, and distribution. This example is restricted to the documentation organization.](figures/misp3-event-note.png)
 
 Opening a record shows it together with its **thread** — nested notes and opinions — and its
 relationships, split into:
@@ -166,8 +185,10 @@ Analyst data is built for federated collaboration:
 - **Synchronisation** — analyst data is pushed and pulled between instances alongside events,
   provided both sides support the feature and the per-server **Push analyst data** / **Pull
   analyst data** toggles are enabled (see [Sharing](../sharing/index.qmd)). Distribution
-  degrades by one step on each outbound hop, exactly like event data, and records received from
-  a remote instance are marked as *locked* so they are not accidentally overwritten locally.
+  and server filters determine what is exchanged. Community-limited distribution can be reduced
+  at a synchronization boundary; do not assume that All communities or a sharing group is
+  decremented like a numeric hop count. Records received from a remote instance are marked
+  as *locked* to protect the source copy from unintended local edits.
 
 ## Analyst Data Blocklist
 

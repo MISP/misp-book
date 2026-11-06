@@ -106,8 +106,9 @@ configuration (see [Sharing](../sharing/index.qmd)) there are two dedicated opti
 
 During synchronisation MISP negotiates collection support with the peer, exchanges a compact
 `{uuid: modified}` index to find what is new or newer, and transfers only the differences.
-Distribution degrades by one step on each outbound hop, exactly as for events. Collections
-received from a remote instance are marked as *locked* so that a locally created collection is
+Distribution and synchronization filters determine what is sent; community-limited levels
+can be reduced at a synchronization boundary, while All communities and sharing-group access
+follow their own rules. Collections received from a remote instance are marked as *locked* so that a locally created collection is
 never silently overwritten by an inbound copy; between two synced copies, the one with the more
 recent modification time wins. Editing a collection's elements updates its modification time so
 the change propagates on the next sync. There is no separate revision history — the modification
