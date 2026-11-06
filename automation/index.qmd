@@ -1,2729 +1,597 @@
 ---
 title: "Automation and MISP API"
+format:
+  html:
+    lightbox: true
 ---
-<a id="automation-api"></a>
 
-
-Almost everything you can do in the MISP web interface you can also do
-programmatically through its **REST API**: creating and updating events and
-attributes, searching, importing and exporting in many formats, and
-administering the instance. Automation is authenticated with an API key rather
-than an interactive login, so scripts and tools can talk to MISP directly. Your
-personal API keys are managed under **Global Actions → My Profile → Auth Keys**.
-
-## The MISP REST API
-
-MISP ships a complete, self-documenting API description. Rather than relying on a
-hand-maintained endpoint list, use these built-in references on your own
-instance:
-
-*   **OpenAPI / Swagger reference** — a browsable OpenAPI 3.0 specification of the
-    API is served at **`/api/openapi`** (rendered with Redoc). It is the
-    authoritative, versioned reference for the endpoints and their request/response
-    schemas for your exact MISP version.
-*   **Built-in REST client** — the interactive REST client at **`/api/rest`** lets
-    you build, send and inspect API calls from within MISP itself, using your
-    session for authentication. It shows the exact headers, URL and body for a
-    call (handy for turning a UI action into a script) and keeps a history of your
-    requests.
-*   **PyMISP** — for Python, the [PyMISP](../pymisp/index.qmd) library wraps the
-    API; see that chapter.
-
-The rest of this chapter is a set of practical recipes for the most common calls.
-Where an endpoint's full parameter set matters, cross-check it against
-`/api/openapi` for your version, as the API evolves between releases.
-
-## General
-
-### Automation URL
-
-The documentation will include a default MISP URL in the examples. Don't forget to replace it with your MISP URL.
-
-Default MISP URL in the documentation:
-
-~~~~
-https://<misp url>/
-~~~~
-
-### Automation key
-
-The authentication of the automation is performed via a secure key. Make sure you keep that key secret, as it gives access to your MISP data! Manage your keys under **Global Actions > My Profile > Auth Keys**.
-
-Pass the key in an `Authorization` header on every request. URL-based authentication (putting the key in the URL) is no longer supported.
-
-The authorization is performed by using the following header:
-
-~~~~
-Authorization: YOUR API KEY
-~~~~
-
-#### Creating an automation key (using advanced authkeys)
-Using the menu, go to Global Actions > My Profile and click "Auth keys" to show the auth keys view.
-
-![Screenshot of My Profile view with Auth keys expanded](./figures/create-authkey-1.png)
-
-The following form will be displayed:
-![Screenshot of add authkey form](./figures/create-authkey-2-fill-form.png)
-
-You can add an optional comment to indicate what the key will be used for.
-
-You can also limit the usage of the key to specific IPs or subnets (one per line), by adding them in the Allowed IPs field. On some instances it is mandatory to set an IP allowlist. When adding subnets, please note that you need to use the format network_ip/subnet_mask .
-
-You can optionally set an expiration time for the key.
-
-Finally, it is also possible to make this key read-only, meaning that it will not be possible to do any changes on this instance using this automation key.
-
-After clicking submit you will get a confirmation that the auth key was created, the key will be shown only one time.
-![Screenshot showing the newly created auth key, which is displayed only once](./figures/create-authkey-3-authkey-displayed.png)
-
-The same fields are available when editing an automation key.
-
-#### Pinning an allowed IP for an automation key (using advanced authkeys)
-MISP will keep track of the unique IPs that were seen for a specific automation key.
-You can easily limit future usage of an automation key to one of the IPs that was seen in the past. To do so, using the menu, go to Global Actions > My Profile and click "Auth keys" to show the auth keys view. If the automation key was used in the past, you will see the "Seen IPs" listed per key. Click on the pin button next to the IP you want to limit usage to.
-
-![Screenshot showing auth keys view with the pin button available for seen IPs](./figures/pin-step-1.png)
-You will get a pop up requesting confirmation that you want to pin this IP for the key:
-
-![Screenshot showing pop up which is displayed, requesting user confirmation after clicking the pin IP button](./figures/pin-step-2-confirm.png)
-After confirmation, if all goes well, you will get a confirmation that the allowed IP was set for the automation key:
-![Screenshot showing success message that is displayed when an ip was successfully pinned for an authkey](./figures/pin-step-3-success-message.png)
-
-### Accept and Content-Type headers
-
-When performing your request, depending on the type of request, you might need to explicitly specify in what content type you want to get your results. This is done by setting one of the below Accept headers:
-
-~~~~
-Accept: application/json
-Accept: application/xml
-~~~~
-
-When submitting data in a POST, PUT or DELETE operation you also need to specify in what content-type you encoded the payload. This is done by setting one of the below Content-Type headers:
-
-~~~~
-Content-Type: application/json
-Content-Type: application/xml
-~~~~
-
-Example:
-
-~~~~
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/
-~~~~
-
-By appending .json or .xml the content type can also be set without the need for a header.
-
-## Automation using PyMISP
-
-PyMISP is a Python library to access MISP platforms via their REST API.
-
-PyMISP allows you to fetch events, add or update events/attributes, add or update samples or search for attributes.
-
-[PyMISP is available](https://github.com/MISP/PyMISP) including a documentation with various examples.
-
-
-## Status Codes
-
-The API uses standard HTTP status codes:
-
-*   **200 OK** — the request succeeded.
-*   **403 Forbidden** — authentication failed (missing/invalid API key) or the
-    key's role lacks permission for the action; also returned for a read-only key
-    attempting a write.
-*   **404 Not Found** — the endpoint or object does not exist (or is not visible
-    to you).
-*   **405 Method Not Allowed** — the HTTP method is not accepted for that
-    endpoint.
-*   **500 Internal Server Error** — an error occurred server-side; check the
-    application logs.
-
-Error responses carry a JSON body with `name`, `message` and the requested `url`
-(see the example below).
-
-## Error Handling
-
-### Wrong endpoint chosen
-
-#### Example
-
-~~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/servers/gaaa
-~~~~
-
-~~~~json
-{"name":"Not Found","message":"Not Found","url":"\/servers\/gaaa"}
-~~~~
-
-## Search
-
-It is possible to search in the database for a list of attributes or events based on a list of criteria.
-
-To return attributes or events in a desired format, use the following URL and header settings:
-
-URL:
-~~~~
-YOUR_MISP_URL/attributes/restSearch
-YOUR_MISP_URL/events/restSearch
-~~~~
-
-Headers:
-~~~~
-Accept: application/json
-Content-type: application/json
-Authorization: YOUR_API_KEY
-~~~~
-
-The next feature to take care of then is the body of the query. This is where you are going to put your filters.  
-As an example, if we want to export all the IP addresses that have a TLP marking and not marked as TLP:red, you can find below the corresponding filters to use:
-~~~~json
-{
-    "returnFormat": "json",
-    "type": {
-        "OR": [
-            "ip-src",
-            "ip-dst"
-        ]
-    },
-    "tags": {
-        "NOT": [
-            "tlp:red"
-        ],
-        "OR": [
-            "tlp:%"
-        ]
-    }
-}
-~~~~
-
-Find below a non exhaustive list of parameters that can be used to filter data in your search (some parameters specific to given export formats are not mentioned):
-- **returnFormat**: Set the return format of the search. Can be passed as the first parameter after `restSearch` or via the JSON payload. The formats supported by `/events/restSearch` are: `attack`, `attack-sightings`, `cache`, `context`, `context-markdown`, `count`, `csv`, `hashes`, `hosts`, `json`, `kunai`, `netfilter`, `opendata`, `openioc`, `rpz`, `snort`, `stix`, `stix-json`, `stix2`, `suricata`, `text`, `xml`, `yara` and `yara-json`. The exact set can vary by version — see `/api/openapi` for the authoritative list.
-- **limit**: Limit the number of results returned, depending on the scope (for example 10 attributes or 10 full events).
-- **page**: If a limit is set, sets the page to be returned. page 3, limit 100 will return records 201->300).
-- **value**: Search for the given value in the attributes' value field.
-- **type**: The attribute type, any valid MISP attribute type is accepted.
-- **category**: The attribute category, any valid MISP attribute category is accepted.
-- **org**: Search by the creator organisation by supplying the organisation identifier.
-- **tags**: To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'.
-- **quickfilter**: Enabling this (by passing "1" as the argument) will make the search ignore all of the other arguments, except for the auth key and value. MISP will return an xml / json (depending on the header sent) of all events that have a sub-string match on value in the event info, event orgc, or any of the attribute value1 / value2 fields, or in the attribute comment.
-- **from**: Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.
-- **to**: Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.
-- **eventid**: The events that should be included / excluded from the search
-- **withAttachments**: If set, encodes the attachments / zipped malware samples as base64 in the data field within each attribute
-- **metadata**: Only the metadata (event, tags, relations) is returned, attributes and proposals are omitted.
-- **uuid**: Restrict the results by uuid.
-- **publish_timestamp**: Restrict the results by the timestamp of the last publishing of the event. The input can be a timsetamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **last**: (Deprecated synonym for publish_timestamp) Restrict the results by the timestamp of the last publishing of the event. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **timestamp**: Restrict the results by the timestamp (last edit). Any event with a timestamp newer than the given timestamp will be returned. In case you are dealing with /attributes as scope, the attribute's timestamp will be used for the lookup. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **published**: Set whether published or unpublished events should be returned. Do not set the parameter if you want both.
-- **enforceWarninglist**: Remove any attributes from the result that would cause a hit on a warninglist entry.
-- **to_ids**: By default (0) all attributes are returned that match the other filter parameters, regardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
-- **deleted**: Default value 0. If set to 1, only deleted attributes will be returned. If set to [0,1] , both deleted and non-deleted attributes wil be returned.
-- **includeEventUuid**: Instead of just including the event ID, also include the event UUID in each of the attributes.
-- **event_timestamp**: Only return attributes from events that have received a modification after the given timestamp. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **sgReferenceOnly**: If this flag is set, sharing group objects will not be included, instead only the sharing group ID is set.
-- **eventinfo**: Filter on the event's info field.
-- **searchall**: Search for a full or a substring (delimited by % for substrings) in the event info, event tags, attribute tags, attribute values or attribute comment fields.
-- **attackGalaxy**: Select the ATT&CK matrix like galaxy to use when using returnFormat = attack. Defaults to the Mitre ATT&CK library via mitre-attack-pattern.
-- **order**: Only available for /events/restSearch. Sorts the results, can be useful in combination with limit. The accepted values to sort on are "Event.[any_field_in_the_events_table] [asc|desc]". You can also sort on multiple columns, see example below.
-~~~
-{
-    "returnFormat": "json",
-    "limit": "3",
-    "order": "Event.attribute_count desc, Event.date desc"
-}
-~~~
-
-## Events management
-
-### /events
-
-#### Accepted Methods
-
-- GET
-- POST
-- PUT
-- DELETE
-
-#### Description
-
-Receive, update or delete Events. There is also a good amount of special output formats that can be triggered.
-
-### GET /events
-
-#### Description
-
-Receive events based on criteria
-
-#### URL Arguments
-
-- event_id: Event id to receive
-- event_uuid : Event uuid to receive
-
-#### Output
-~~~~json
-[{"id":"1","org_id":"1","date":"2014-12-10","info":"OSINT - F-Secure W32\/Regin, Stage #1","uuid":"54884656-2da8-4625-bf07-43ef950d210b","published":true,"analysis":"2","attribute_count":"39","orgc_id":"2","timestamp":"1418217625","distribution":"3","sharing_group_id":"0","proposal_email_lock":false,"locked":false,"threat_level_id":"1","publish_timestamp":"1515749192","disable_correlation":false,"Org":{"id":"1","name":"ORGNAME"},"Orgc":{"id":"2","name":"CIRCL"},"EventTag":[{"id":"1","event_id":"1","tag_id":"1","Tag":{"id":"1","name":"Type:OSINT","colour":"#1eed40","exportable":true}}],"SharingGroup":{"id":null,"name":null}}]
-~~~~
-
-#### Example
-
-~~~~
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/
-~~~~
-
-### POST /events
-
-#### Example
-
-~~~~
-curl -i -H "Accept: application/json" -H "content-type: application/json" -H "Authorization: YOUR API KEY" --data "@event.json" -X POST http://10.50.13.60/events
-~~~~
-
-That is how an event JSON object should look like
-~~~~json
-{"Event":{"date":"2015-01-01","threat_level_id":"1","info":"testevent","published":false,"analysis":"0","distribution":"0","Attribute":[{"type":"domain","category":"Network activity","to_ids":false,"distribution":"0","comment":"","value":"test.com"}]}}
-~~~~
-
-### DELETE /events
-
-#### Description
-
-Delete events based on criteria
-
-#### URL Arguments
-
-- event_id: Event id to receive
-- event_uuid : Event uuid to receive
-
-
-#### Output
-~~~~json
-{
-    "name": "Event deleted.",
-    "message": "Event deleted.",
-    "url": "\/events\/delete\/1"
-}
-~~~~
-
-#### Example
-
-
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/
-~~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X "DELETE" http://10.50.13.60/events/1
-~~~~
-
-### GET /events/index
-
-#### Description
-
-Return the event index. - Warning, there's a limit on the number of results
-
-#### Output
-~~~~json
-[{"id":"1","org_id":"1","date":"2014-12-10","info":"OSINT - F-Secure W32\/Regin, Stage #1","uuid":"54884656-2da8-4625-bf07-43ef950d210b","published":true,"analysis":"2","attribute_count":"39","orgc_id":"2","timestamp":"1418217625","distribution":"3","sharing_group_id":"0","proposal_email_lock":false,"locked":false,"threat_level_id":"1","publish_timestamp":"1515749192","disable_correlation":false,"Org":{"id":"1","name":"ORGNAME"},"Orgc":{"id":"2","name":"CIRCL"},"EventTag":[{"id":"1","event_id":"1","tag_id":"1","Tag":{"id":"1","name":"Type:OSINT","colour":"#1eed40","exportable":true}}],"SharingGroup":{"id":null,"name":null}}]
-~~~~
-
-#### Example
-
-~~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/events/index
-~~~~
-
-
-### POST /events/AddTag
-
-Add a tag or a tag collection to an existing event.
-
-#### URL Arguments
-- event     (id)
-- tag         (id, name or collection_[collection_id])
-
-Examples:
-
-~~~
-curl \
- -d '{"event":"1210","tag":"tlp:green"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/events/addTag
-~~~
-~~~
-curl \
- -d '{"event":"1210","tag":"383"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/events/addTag
-~~~
-~~~
-curl \
- -d '{"event":"1210","tag":"collection_1"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/events/addTag
-~~~
-
-### POST /events/removeTag
-
-Remove a tag from an existing event. Note that removing a tag collection in one go is not possible.
-
-#### URL Arguments
-- event     (id)
-- tag         (id, name).
-
-Examples:
-
-~~~
-curl \
- -d '{"event":"1210","tag":"tlp:amber"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/events/removeTag
-~~~
-~~~
-curl \
- -d '{"event":"1210","tag":"987"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/events/removeTag
-~~~
-
-### GET /events/pushEventToZMQ/
-
-#### Description
-
-Will push an Event to ZMQ
-
-#### URL Arguments
-
-- event_id
-
-#### Example
-
-~~~~
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>events/pushEventToZMQ/223
-~~~~
-
-### GET /events/nids NIDS rules export
-
-Automatic export of all network related attributes is available under the Snort or Suricata rule format. Only published events and attributes marked as IDS Signature are exported.
-
-You can configure your tools to automatically download the following file:
-
-~~~~
-https://<misp url>/events/nids/suricata/download
-https://<misp url>/events/nids/snort/download
-~~~~
-
-The full API syntax is as follows:
-
-~~~~
-https://<misp url>/events/nids/[format]/download/[eventid]/[frame]/[tags]/[from]/[to]/[last]
-~~~~
-
-<dl>
-<dt>format</dt>
-<dd>The export format, can be "suricata" or "snort"</dd>
-<dt>eventid</dt>
-<dd>Restrict the download to a single event</dd>
-<dt>frame</dt>
-<dd>Some commented out explanation framing the data. The reason to disable this would be if you would like to concatenate a list of exports from
-   various select events in order to avoid unnecessary duplication of the comments.</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
-   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:</dd>
-</dl>
-
-~~~~
-https://<misp url>/events/nids/snort/download/false/false/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 6d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-The keywords false or null should be used for optional empty parameters in the URL.
-
-An example for a Suricata export for all events excluding those tagged tag1, without all of the commented information at the start of the file would look like this:
-
-~~~~
-https://<misp url>/events/nids/suricata/download/null/true/!tag1
-~~~~
-
-Administration is able to maintain an allowedlist containing host, domain name and IP numbers to exclude from the NIDS export.
-
-### GET /events/hids Hash - HIDS database export
-
-Automatic export of MD5/SHA1 checksums contained in file-related attributes. This list can be used to feed forensic software when searching for
-   suspicious files. Only published events and attributes marked as IDS Signature are exported.
-
-You can configure your tools to automatically download all the MD5 hashes from MISP:
-
-~~~~
-https://<misp url>/events/hids/md5/download
-~~~~
-
-Or the SHA1 hashes:
-
-~~~~
-https://<misp url>/events/hids/sha1/download
-~~~~
-
-The API's full format is as follow:
-
-~~~~
-https://<misp url>/events/hids/[format]/download/[tags]/[from]/[to]/[last]
-~~~~
-
-<dl>
-<dt>format</dt>
-<dd>The export format, can be "md5" or "sha1"</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
-   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:</dd>
-</dl>
-
-~~~~
-https://<misp url>/events/hids/md5/download/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-The keywords false or null should be used for optional empty parameters in the URL.
-
-For example, to only show sha1 values from events tagged tag1, use:
-
-~~~~
-https://<misp url>/events/hids/sha1/download/tag1
-~~~~
-
-### GET /events/stix STIX export
-
-You can export MISP events in MITRE's STIX format (to read more about [STIX](https://stix.mitre.org/)). The STIX XML export is currently very slow and can lead to timeouts with larger events or collections of events. The STIX JSON return format does not suffer from this issue.
-
-Usage of the API:
-
-~~~~
-https://<misp url>/events/stix/download
-~~~~
-
-Search parameters can be passed to the function via URL parameters or by POSTing an xml or json object (depending on the return type). The following parameters can be passed to the STIX export tool: id, withAttachments, tags. Both id and tags can use the && (and) and ! (not) operators to build queries. Using the URL parameters, the syntax is as follows:
-
-~~~~
-https://<misp url>/events/stix/download/[id]/[withAttachments]/[tags]/[from]/[to]/[last]
-~~~~
-
-<dl>
-<dt>id</dt>
-<dd>The event's ID</dd>
-<dt>withAttachments</dt>
-<dd>Encode attachments where applicable</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
-</dl>
-
-For example, to include tag1 and tag2 but exclude tag3 you would use:
-
-~~~~
-https://<misp url>/events/stix/download/false/true/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-You can post an XML or JSON object containing additional parameters in the following formats.
-
-If you use JSON query objects:
-
-~~~~
-https://<misp url>/events/stix/download.json
-~~~~
-
-~~~~json
-{"request": {"id":["!51","!62"],"withAttachment":false,"tags":["APT1","!OSINT"],"from":false,"to":"2015-02-15"}}
-~~~~
-
-If you use XML query objects:
-
-~~~~
-https://<misp url>/events/stix/download
-~~~~
-
-~~~~xml
-<request><id>!51</id><id>!62</id><withAttachment>false</withAttachment><tags>APT1</tags><tags>!OSINT</tags><from>false</from><to>2015-02-15</to></request>
-~~~~
-
-#### Various ways to narrow down the search results of the STIX export
-
-For example, to retrieve all events tagged "APT1" but excluding events tagged "OSINT" and excluding events #51 and #62 without any attachments:
-~~~~
-https://<misp url>/events/stix/download/!51&&!62/false/APT1&&!OSINT/2015-02-15
-~~~~
-
-To export the same events using a POST request use:
-~~~~
-https://<misp url>/events/stix/download.json
-~~~~
-
-Together with this JSON object in the POST message:
-
-~~~~json
-{"request": {"id":["!51","!62"],"tags":["APT1","!OSINT"],"from":"2015-02-15"}}
-~~~~
-XML is automatically assumed when using the STIX export:
-
-~~~~
-https://<misp url>/events/stix/download
-~~~~
-
-The same search could be accomplished using the following POSTed XML object (note that ampersands need to be escaped, or alternatively separate id and tag elements can be used):
-
-~~~~xml
-<request><id>!51</id><id>!62</id><tags>APT1</tags><tags>!OSINT</tags><from>2015-02-15</from></request>
-~~~~
-
-## Tag management
-
-### POST /tags/add
-
-#### Description
-Add a tag on the instance
-
-#### URL Arguments
-
-##### Mandatory
-- name
-
-##### Optional
-- colour : A valid hexadecimal colour, for example #51961a, if not set, a random colour is chosen
-- exportable : whether the tag is exported when synchronising with other instances, default true
-- hide_tag : if set, the tag will not be selectable, default false
-- org_id : if set, only users from this organisation will be able to add the tag to objects
-- user_id : if set, only this user will be able to add the tag to objects
-
-#### Example
-~~~
-curl \
- -d '{"name":"tag_only_name"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/tags/add
-~~~
-~~~
-curl \
- -d '{"name":"tag_doc","colour":"#51961a","exportable":1,"hide_tag":0,"org_id":1}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/tags/add
-~~~
-
-### POST /tags/attachTagToObject
-
-#### Description
-
-Attaches a tag to an object by a given UUID. Note that adding a tag collection via this endpoint is not possible. Please refer to /events/addTag and /attributes/addTag for that functionality.
-
-This endpoint exists for convenience reasons and might be slightly less performant than /events/addTag and /attributes/addTag.
-
-#### URL Arguments
-
-- UUID
-- tag           (as id or name)
-
-#### Response
-~~~json
-{
-    "name": "Tag tlp3Awhite(7) successfully attached to Attribute(153).",
-    "message": "Tag tlp3Awhite(7) successfully attached to Attribute(153).",
-    "url": "\/tags\/attachTagToObject"
-}
-~~~
-
-#### Example
-~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/attachTagToObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
-~~~
-~~~
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" -X POST -d '{"uuid":"5a0d68b3-6da0-4ced-8233-77bb950d210f","tag":"tlp:white"}' https://<misp url>/tags/attachTagToObject
-~~~
-~~~
-curl \
- -d '{"uuid":"e76949e6-5ccb-4483-bef2-0e4cac73d236","tag":"6"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/tags/attachTagToObject
-~~~
-
-### POST /tags/removeTagFromObject
-
-#### Description
-
-Removes a tag from an object (attribute or event) with given UUID.
-
-This endpoint exists for convenience reasons and might be slightly less performant than /events/removeTag and /attributes/removeTag.
-
-#### URL Arguments
-
-- UUID
-- tag           (as id or name)
-
-#### Response
-~~~~json
-{
-    "name": "Tag tlp3Awhite(7) successfully removed from Attribute(153).",
-    "message": "Tag tlp3Awhite(7) successfully removed from Attribute(153).",
-    "url": "\/tags\/removeTagFromObject"
-}
-~~~~
-
-
-#### Example
-~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X POST http://10.50.13.60/tags/removeTagFromObject/5a0d68b3-6da0-4ced-8233-77bb950d210f/tlp3Awhite
-~~~
-~~~
-curl \
- -d '{"uuid":"85752e06-7644-40c8-8190-f8bbe9e7b2c7","tag":"tlp:white"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/tags/removeTagFromObject
-~~~
-~~~
-curl \
- -d '{"uuid":"85752e06-7644-40c8-8190-f8bbe9e7b2c7","tag":7}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/tags/removeTagFromObject
-~~~
-
-
-### GET /tags/tagStatistics/
-
-#### Description
-
-Will give an overview of the used attribute tags
-
-#### Output
-
-~~~~json
-{
-    "tags": {
-        "Type:OSINT": "1",
-        "tlp:white": "1",
-        "osint:source-type=\"technical-report\"": "1",
-        "misp-galaxy:threat-actor=\"Lazarus Group\"": "1",
-        "misp-galaxy:rat=\"FALLCHILL\"": "1"
-    },
-    "taxonomies": []
-}
-~~~~
-
-#### Example
-
-~~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/tags/tagStatistics/
-~~~~
-
-## Attribute management
-
-### POST /attributes/add/
-
-Adds an Attribute to an event
-
-#### URL Arguments
-
-- event id
-
-#### Output
-
-#### Example
-~~~~
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" -X POST -d '{"event_id":"3542","value":"1.2.3.4","category":"Network activity","type":"ip-dst"}' https://<misp url>/attributes/add/3542
-~~~~
-
-### GET /attributes
-
-Get an attribute
-
-#### URL Arguments
-
-- attribute uuid
-
-#### URL Attributes
-
-#### Output
-~~~~json
-{"Attribute":{"id":"39","event_id":"1","object_id":"0","object_relation":null,"category":"Payload installation","type":"md5","to_ids":true,"uuid":"548847db-060c-4275-a0c7-15bb950d210b","timestamp":"1418217435","distribution":"3","sharing_group_id":"0","comment":"Regin samples collected.","deleted":false,"disable_correlation":false,"value":"049436bb90f71cf38549817d9b90e2da","event_uuid":"54884656-2da8-4625-bf07-43ef950d210b"}}
-~~~~
-
-#### Example
-~~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/548847db-060c-4275-a0c7-15bb950d210b
-~~~~
-
-
-### POST /attributes/delete/
-
-#### Description
-
-Delete attributes.
-
-#### URL Arguments
-
-- attribute uuid
-
-- attribute id
-
-- attribute id/1 <-- hard delete
-
-#### Output
-~~~~json
-{"message":"Attribute deleted."}
-~~~~
-
-#### Example
-
-~~~~
-curl -X POST --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345
-~~~~
-
-~~~~
-curl -X POST --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" http://10.50.13.60/attributes/delete/548847db-060c-4275-a0c7-15bb950d210b
-~~~~
-
-
-Hard delete:
-
-~~~~
-curl -X POST --header "Authorization: YOUR API KEY" --header "Accept: application/json" --header "Content-Type: application/json" https://<misp url>/attributes/delete/12345/1
-~~~~
-
-### POST /attributes/addTag
-
-Add a tag or a tag collection to an existing attribute.
-
-#### URL Arguments
-- attribute     (id)
-- tag         (id, name or collection_[collection_id])
-
-Examples:
-
-~~~
-curl \
- -d '{"attribute":"256919","tag":"tlp:green"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/attributes/addTag
-~~~
-~~~
-curl \
- -d '{"attribute":"256919","tag":"987"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/attributes/addTag
-~~~
-~~~
-curl \
- -d '{"attribute":"256919","tag":"collection_1"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/attributes/addTag
-~~~
-
-### POST /attributes/removeTag
-
-Remove a tag from an existing event. Note that removing a tag collection in one go is not possible.
-
-#### URL Arguments
-- attribute     (id)
-- tag         (id, name).
-
-Examples:
-
-~~~
-curl \
- -d '{"event":"1210","tag":"tlp:amber"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/events/removeTag
-~~~
-~~~
-curl \
- -d '{"event":"1210","tag":"987"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/events/removeTag
-~~~
-
-### GET /attributes/attributeStatistics
-
-#### Description
-
-Will give an overview of the used attribute types
-
-#### Output
-
-~~~~json
-{
-    "attachment": "1",
-    "comment": "1",
-    "filename": "2",
-    "float": "2",
-    "ip-dst": "90",
-    "ip-dst|port": "3",
-    "link": "3",
-    "md5": "16",
-    "port": "3",
-    "sha1": "2",
-    "sha256": "2",
-    "size-in-bytes": "1",
-    "ssdeep": "2"
-}
-~~~~
-
-#### Example
-
-~~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/attributes/attributeStatistics/
-~~~~
-
-### GET /attributes/describeTypes Describe types API
-
-MISP can procedurally describe all attribute types and attribute categories it currently supports including the category - type mappings. To access this information simply send a GET request to:
-
-#### Example
-~~~~
-https://<misp url>/attributes/describeTypes
-~~~~
-
-Depending on the headers passed the returned data will be a JSON object or an XML, with 3 main sections: types, categories, category\_type\_mappings.
-
-### POST /attributes/restSearch
-
-Do not use this function with GET!
-
-#### Parameters
-
-- **returnFormat**: The format to return data in. Allowed formats:
-  - **attack-sightings**: Returns ATTA&CK Sightings in json format for
-  attributes with mitre-attack-pattern galaxies attached. For further details on the ATT&CK Sightings, please visit the related [MITRE website page](https://attack.mitre.org/resources/sightings/).
-  - **cache**: Hashes the attributes and returns them as txt. A hashing algorithm can be chosen by also adding the hash_type parameter. Supported hashing algorithms can be found on the [PHP website](https://www.php.net/manual/en/function.hash-algos.php]).
-  - **count**: Returns the attribute count as txt.
-  - **csv**
-  - **hashes**: Returns hash attributes in txt format. For composite attributes, only the hash part is returned. 
-  - **json**
-  - **netfilter**: Returns netfilter rules for IPs. Action can be set with the  netfilter_action parameter. The default action is DROP.
-  - **opendata**: Please refer to the related MISP project [blog post](https://www.misp-project.org/2020/07/30/publishing-open-data-using-MISP.html).
-  - **openioc**
-  - **rpz**
-  - **snort**
-  - **suricata**
-  - **text**: Returns only the attribute values in text format.
-  - **xml**
-  - **yara**:
-  - **yara-json**
-- **value**: Search for the given value in the attributes' value field.
-- **type**: The attribute type, any valid MISP attribute type is accepted.
-- **category**: The attribute category, any valid MISP attribute category is accepted.
-- **org**: Search by the creator organisation by supplying the organisation identifier.
-- **tags**: Include or exclude attributes with certain tags. See example below. It is strongly recommended to specifically exclude the tags you want to avoid, even if the tags should be exclusive, for example tlp:red and tlp:green.
-~~~~json
-{
-    "returnFormat": "json",
-    "tags": {
-        "NOT": [
-            "tlp:red"
-        ],
-        "OR": [
-            "tlp:green"
-        ]
-    }
-}
-~~~~
-- **from**: Will return attributes from events with the date set to a date after the one specified in the from field (format: 2015-02-15).
-- **to**: Will return attributes with the date set to a date before the one specified in the to field (format: 2015-02-15).
-- **last**: ***Deprecated!!!*** (synonym for publish_timestamp) Restrict the results by the timestamp of the last publication of the event. Any attribute with a last publication timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **eventid**: The events that should be included / excluded from the search.
-- **withAttachments**: If set, encodes the attachments / zipped malware samples as base64 in the data field within each attribute
-- **uuid**: Restrict the results by uuid.
-- **publish_timestamp**: Restrict the results by the timestamp of the last publication of the event. Any attribute with a last publication timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **published**: Set whether published or unpublished events should be returned. Do not set the parameter if you want both.
-- **timestamp**: ***Deprecated!!!*** (synonym for attribute_timestamp) Restrict the results by the timestamp (last edit). Any attribute with a timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **enforceWarninglist**: Remove any attributes from the result that would cause a hit on a warninglist entry.
-- **to_ids**: By default (0) all attributes are returned that match the other filter parameters, regardless of their to_ids setting. To restrict the returned data set to to_ids only attributes set this parameter to 1. You can only use the special "exclude" setting to only return attributes that have the to_ids flag disabled.
-- **deleted**: Default value 0. If set to 1, only deleted attributes will be returned. If set to [0,1] , both deleted and non-deleted attributes wil be returned.
-- **includeEventUuid**: Instead of just including the event ID, also include the event UUID in each of the attributes.
-- **event_timestamp**: Only return attributes from events that have received a modification after the given timestamp. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **threat_level_id**: Only return attributes of events with the given threat level id(s). 1 = High, 2 = Medium, 3=Low, 4 = Undefined. See example below.
-```
-{
-    "returnFormat": "json",
-    "threat_level_id": [1,2]
-}
-```
-- **includeEventTags**: If set to 1, the event tags of the event the attribute belongs to will be added to the attribute.
-- **limit**: Limit the number of results returned, for example 10 attributes.
-- **page**: If a limit is set, sets the page to be returned. page 3, limit 100 will return records 201->300).
-- **requested_attributes**: Only for CSV export. Choose the fields you want in the csv output. Available fields are (*non-exhaustive list, more fields can be available depending on the values of other parameters*):
-  - uuid
-  - event_id
-  - category
-  - type
-  - value
-  - comment
-  - to_ids
-  - date
-  - object_relation
-  - attribute_tag
-  - object_uuid
-  - object_name
-  - object_meta_category
-  - event_info. Only available if includeContext parameter is set to 1.
-  - event_member_org. Only available if includeContext parameter is set to 1.
-  - event_source_org. Only available if includeContext parameter is set to 1.
-  - event_distribution. Only available if includeContext parameter is set to 1.
-  - event_threat_level_id. Only available if includeContext parameter is set to 1.
-  - event_analysis. Only available if includeContext parameter is set to 1.
-  - event_date. Only available if includeContext parameter is set to 1.
-  - event_tag. Only available if includeContext parameter is set to 1.
-  - event_timestamp. Only available if includeContext parameter is set to 1.
-- **includeContext**: Adds  extra event level context to the output. For each attribute more details are added to the Event object in the output. Please note that this significantly bloats the output data. Example below.
-```
-"Event": {
-          "id": "31",
-          "orgc_id": "1",
-          "org_id": "1",
-          "date": "2021-03-11",
-          "threat_level_id": "1",
-          "info": "Correlation 2",
-          "published": true,
-          "uuid": "0bfe7bf3-f793-4761-8450-8b30ca9d9964",
-          "analysis": "0",
-          "timestamp": "1616972381",
-          "distribution": "1",
-          "publish_timestamp": "1616972392",
-          "sharing_group_id": "0",
-          "extends_uuid": "",
-          "Tag": [],
-          "Orgc": {
-            "id": "1",
-            "name": "SHARINGORG",
-            "uuid": "26867ddf-5a9b-4af0-b552-e4020a913b95",
-            "local": true
-          }
-        }
-```
-- **headerless**: Only for CSV export. The CSV created when this setting is set to true will not contain the header row.
-- **includeWarninglistHits**: Adds a warnings block to an attribute if it has warninglist hits. See example below.
-```
-"warnings": [
-          {
-            "match": "10.0.0.0/8",
-            "value": "10.0.0.1",
-            "warninglist_name": "List of RFC 5735 CIDR blocks",
-            "warninglist_id": "46"
-          },
-          {
-            "match": "10.0.0.0/8",
-            "value": "10.0.0.1",
-            "warninglist_name": "List of RFC 1918 CIDR blocks",
-            "warninglist_id": "44"
-          }
-        ]
-```
-- **object_relation**: Search on the object_relation field of attributes. You can search for 'malware-sample' attributes of file objects for example. Searching for multiple values at the same time is possible as well.
-```
-{
-    "returnFormat": "json",
-    "object_relation": ["malware-sample", "institution-name"]
-}
-```
-- **includeSightings**: Adds a list of sightings for attributes that have sightings. See example below.
-```
-"Sighting": [
-          {
-            "id": "1",
-            "attribute_id": "29",
-            "event_id": "31",
-            "org_id": "1",
-            "date_sighting": "1617017091",
-            "uuid": "48d21518-6b2a-4615-8c4e-91fbe4f08fe7",
-            "source": "",
-            "type": "0",
-            "attribute_uuid": "b3c25257-7f47-41af-a29b-89188e583b5c",
-            "Organisation": {
-              "id": "1",
-              "uuid": "26867ddf-5a9b-4af0-b552-e4020a913b95",
-              "name": "SHARINGORG"
-            }
-          }
-        ]
-```
-- **includeCorrelations**: Adds a list of correlated attributes for attributes that have correlations. See example below.
-```
-"RelatedAttribute": [
-          {
-            "id": "31",
-            "event_id": "30",
-            "object_id": "0",
-            "object_relation": null,
-            "category": "Network activity",
-            "type": "ip-dst",
-            "uuid": "f3b54c94-89ff-4fcf-9f47-52f70c6540b8",
-            "timestamp": "1616961683",
-            "distribution": "5",
-            "sharing_group_id": "0",
-            "to_ids": false,
-            "comment": "",
-            "value": "10.0.0.1",
-            "Event": {
-              "id": "30",
-              "uuid": "8cca9f2f-9281-49fd-9b30-e16a8dbf6855",
-              "threat_level_id": "1",
-              "analysis": "0",
-              "info": "Correlation 1",
-              "extends_uuid": "",
-              "distribution": "1",
-              "sharing_group_id": "0",
-              "published": false,
-              "date": "2021-03-11",
-              "orgc_id": "1",
-              "org_id": "1"
-            }
-          }
-        ]
-```
-- **includeDecayScore**: If set to 1, decay score information will be included for attributes that are affected by decaying. See example below. Note that includeEventTags will be set to 1 automatically if includeDecayScore is true.
-```
-"decay_score": [
-          {
-            "score": 77.40239901751683,
-            "base_score": 80,
-            "decayed": false,
-            "DecayingModel": {
-              "id": "2",
-              "name": "NIDS Simple Decaying Model"
-            }
-          }
-        ],
-```
-- **decayingModel**: Allows you to set the decaying model(s) to use to calculate the decay score. You can use a model that is not enabled. The value should be set to the id of the model. If this value is not set, a decay score entry will be added for all enabled decaying models that apply to the attribute type.
-- **excludeDecayed**: Filter out all expired IOCs. Note that includeDecayScore will be set to 1 automatically if excludeDecayed is true.
-- **modelOverrides**: JSON that can be used to modify Model parameters on-the-fly. Example can be found beow.
-```
-{
-    "type": "ip-src",
-    "tags": ["tlp:%","phishing:%"],
-    "includeDecayScore": 1,
-    "excludeDecayed": 1,
-    "modelOverrides": {
-        "threshold": 30
-    }
-    "decayingModel": [84, 12],
-}
-```
-- **includeFullModel**: If set to 1, includes the full decaying model details instead of just the id and name.
-- **score**: Overrides the model threshold value with the one you set. This means attributes for which the decay score calculated for all relevant models is lower than this value, will be considered decayed.
-- **attribute_timestamp**: Restrict the results by the timestamp (last edit). Any attribute with a timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **first_seen**: Restrict the results by the first_seen timestamp of the attribute. Any attribute with a first_seen timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **last_seen**: Restrict the results by the last_seen timestamp of the attribute. Any attribute with a first_seen timestamp newer than the given timestamp will be returned. The input can be a timestamp or a short-hand time description (7d or 24h for example). You can also pass a list with two values to set a time range (for example ["14d", "7d"]).
-- **searchall**: Search for a full or a substring (delimited by % for substrings) in the attribute tags, attribute values or attribute comment fields.
-
-#### Example
-~~~~
-curl \
- -d '{"returnFormat":"json","value":"foobar"}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.220/attributes/restSearch
-~~~~
-
-~~~~json
-{"response": {"Attribute": [{"id":"44","event_id":"30","object_id":"0","object_relation":null,"category":"Other","type":"comment","to_ids":false,"uuid":"7a5d856c-048a-4dbd-8e6d-41d1790c5ad0","timestamp":"1617056037","distribution":"5","sharing_group_id":"0","comment":"","deleted":false,"disable_correlation":false,"first_seen":null,"last_seen":null,"value":"foobar","Event":{"org_id":"1","distribution":"1","id":"30","info":"Correlation 1","orgc_id":"1","uuid":"8cca9f2f-9281-49fd-9b30-e16a8dbf6855"}}]}}
-~~~~
-
-## Objects management
-
-<a id="post-objectsdeleteobjectidharddelete"></a>
-
-### POST /objects/delete/[object_id]/[hard_delete]
-
-#### Description
-Delete an object.
-
-#### URL Arguments
-- object_id : mandatory
-- hard_delete : if set to 1 or true, the object will be hard deleted. Defaults to false.
-
-#### Example
-~~~
-curl \
- -d '{}' \
- -H "Authorization: YOUR API KEY" \
- -H "Accept: application/json" \
- -H "Content-type: application/json" \
- -X POST https://192.168.0.223/objects/delete/18732/1
-~~~
-
-## Server management
-
-### GET /servers/getVersion
-
-Returns the MISP version and the calling key's capabilities. The response also
-carries the **recommended PyMISP version** for this instance
-(`pymisp_recommended_version`), which supersedes the deprecated
-`/servers/getPyMISPVersion` endpoint.
-
-#### Result
-
-~~~~json
-{
-  "version": "2.5.42",
-  "pymisp_recommended_version": "2.5.34.1",
-  "perm_sync": true,
-  "perm_sighting": true,
-  "perm_galaxy_editor": true,
-  "perm_analyst_data": true,
-  "uuid": "5bfba94a-d0a4-4ad0-8d23-73d4011fb691",
-  "request_encoding": ["gzip"],
-  "filter_sightings": true,
-  "collection_sync": true
-}
-~~~~
-
-#### Example
-
-~~~~
-curl --header "Authorization: YOUR API KEY" --header "Accept: application/json" https://<misp url>/servers/getVersion
-~~~~
-
-
-## Sightings
-
-### POST /sightings/add/
-
-- attribute_id
-- attribute_uuid
-
-The different sightings types are:
-
-~~~~php
-0 => 'sighting',
-1 => 'false-positive',
-2 => 'expiration'
-~~~~
-
-
-## User management
-
-MISP allows administrators to create and manage users via its REST API
-
-
-~~~~
-https://<misp url>/admin/users/view/[user id]
-~~~~
-
-
-### POST /admin/users/add
-
-To create a new user, send a POST request to:
-
-####Sample input
-
-~~~~
-{
-    "email":"andras.iklody@circl.lu",
-    "org\_id":1,
-    "role\_id":1
-}
-~~~~
-
-To view the mandatory and optional fields, use a GET request on the above URL.
-
-####Sample output
-
-~~~~json
-{
-    "name": "\/admin\/users\/add API description",
-    "description": "POST a User object in JSON format to this API to create a new user.",
-    "mandatory_fields": [
-        "email",
-        "org_id",
-        "role_id"
-    ],
-    "optional_fields": [
-        "password",
-        "external_auth_required",
-        "external_auth_key",
-        "enable_password",
-        "nids_sid",
-        "server_id",
-        "gpgkey",
-        "certif_public",
-        "autoalert",
-        "contactalert",
-        "disabled",
-        "change_pw",
-        "termsaccepted",
-        "newsread"
-    ],
-    "url": "\/admin\/users\/add"
-}
-~~~~
-
-### POST admin/users/edit/
-
-To edit an existing user send a POST request to:
-
-~~~~
-https://<misp url>/admin/users/edit/[user id]
-~~~~
-
-Only the fields POSTed will be updated, the rest is left intact. To view all possible parameters, simply send a GET request to the above URL.
-
-
-### POST admin/users/delete/
-
-You can also delete users by POSTing to the below URL, but keep in mind that disabling users (by setting the disabled flag via an edit) is always preferred to keep user associations to events intact.
-
-#### Parameters
-
-- [user id]
-
-#### Example
-
-~~~~
-https://<misp url>/admin/users/delete/[user id]
-~~~~
-
-### GET admin/users
-
-#### Description
-
-Will output all users
-
-#### Output
-
-~~~~json
-[
-    {
-        "User": {
-            "id": "1",
-            "password": "*****",
-            "org_id": "1",
-            "server_id": "0",
-            "email": "admin@admin.test",
-            "autoalert": false,
-            "authkey": "*****",
-            "invited_by": "0",
-            "gpgkey": null,
-            "certif_public": "",
-            "nids_sid": "4000000",
-            "termsaccepted": true,
-            "newsread": "0",
-            "role_id": "1",
-            "change_pw": "0",
-            "contactalert": false,
-            "disabled": false,
-            "expiration": null,
-            "current_login": "1515752313",
-            "last_login": "1515748671",
-            "force_logout": false,
-            "date_created": null,
-            "date_modified": null,
-            "org_ci": "ORGNAME"
-        },
-        "Role": {
-            "id": "1",
-            "name": "admin",
-            "perm_auth": true
-        },
-        "Organisation": {
-            "id": "1",
-            "name": "ORGNAME"
-        }
-    }
-]
-~~~~
-
-#### Example
-~~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/admin/users
-~~~~
-
-
-### GET admin/users/view/
-
-#### Description
-
-Will return a single user. To view a user simply send a GET request.
-
-#### Parameters
-
-- id
-
-#### Output
-
-
-~~~~json
-{
-    "User": {
-        "id": "1",
-        "password": "*****",
-        "org_id": "1",
-        "server_id": "0",
-        "email": "admin@admin.test",
-        "autoalert": false,
-        "authkey": "YOUR API KEY",
-        "invited_by": "0",
-        "gpgkey": null,
-        "certif_public": "",
-        "nids_sid": "4000000",
-        "termsaccepted": true,
-        "newsread": "0",
-        "role_id": "1",
-        "change_pw": "0",
-        "contactalert": false,
-        "disabled": false,
-        "expiration": null,
-        "current_login": "1515752313",
-        "last_login": "1515748671",
-        "force_logout": false,
-        "orgAdmins": []
-    }
-}
-~~~~
-
-#### Example
-~~~~
-curl --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://10.50.13.60/admin/users/view/1
-~~~~
-
-
-### POST admin/users/add/
-
-
-## Discussion API
-
-If you would like to fetch a discussion thread including all of its posts, simply send a GET request to:
-
-~~~~
-https://<misp url>/threads/view/<thread id>
-~~~~
-
-Using the following headers:
-
-~~~~
-Authorization: [Your auth key]
-Content-type: application/json
-Accept: application/json
-~~~~
-
-To get all posts related to an event simply send a GET request to:
-
-~~~~
-https://<misp url>/threads/viewEvent/<event id>
-~~~~
-
-## Organisation management
-
-MISP allows administrators to create and manage organisations via its REST API
-
-The API is available in JSON format so make sure you use the following headers:
-
-~~~~
-Authorization: [Your auth key]
-Content-type: application/json
-Accept: application/json
-~~~~
-
-To fetch all organisations send a GET request to:
-
-~~~~
-https://<misp url>/organisations
-~~~~
-
-To view an individual organisation, send a get request to:
-
-~~~~
-https://<misp url>/organisations/view/id
-~~~~
-
-The management of users happens via three apis:
-
-~~~
-https://<misp url>/admin/organisations/add
-https://<misp url>/admin/organisations/edit/[org id]
-https://<misp url>/admin/organisations/delete/[org id]
-~~~
-
-To delete an organisation simply send a POST or DELETE request to the above URL.
-
-For creating or modifying an organisation, simply POST a JSON containing the relevant fields to the appropriate API. The only mandatory field is the organisation name, with a host of optional parameters
-
-An example for a simple organisation object:
-
-~~~
-{
-    "name": "Blizzard",
-    "nationality": "US"
-}
-~~~
-
-Not setting a field will assume the default settings for the given field in the case of a new organisation whilst it would retain the existing setting for existing organisations. The above example would create the following object in MISP:
-
-~~~
-{
-    "Organisation": {
-        "id": "1108",
-        "name": "Blizzard",
-        "alias": "",
-        "anonymise": false,
-        "date_created": "2017-01-22 17:32:29",
-        "date_modified": "2017-01-22 17:32:29",
-        "description": "",
-        "type": "",
-        "nationality": "US",
-        "sector": "",
-        "created_by": "1",
-        "uuid": "5884de9d-04f0-4d7d-bf15-0b88c0a83865",
-        "contacts": "",
-        "local": true,
-        "landingpage": ""
-    }
-}
-~~~
-
-To query the add or edit APIs for the valid parameters, simply send a GET requests to either API. The result currently looks like this (which might change when new fields are added):
-
-~~~
-{
-    "name": "\/admin\/organisations\/add API description",
-    "description": "POST an Organisation object in JSON format to this API to create a new organisation.",
-    "mandatory_fields": [
-        "name"
-    ],
-    "optional_fields": [
-        "anonymise",
-        "description",
-        "type",
-        "nationality",
-        "sector",
-        "uuid",
-        "contacts",
-        "local"
-    ],
-    "url": "\/admin\/organisations\/add"
-}
-~~~
-
-
-
-## Special Cases
-
-::: {.callout-warning}
-The positional-URL export endpoints described in this section (for example
-`/events/xml/download/...`, `/events/csv/...`, `/events/text/...`,
-`/events/rpz/...` and `restSearch` with parameters baked into the URL path) are
-**legacy**. They still resolve for backward compatibility, but the canonical way
-to export data is a POST to `/events/restSearch` or `/attributes/restSearch` with
-a JSON body and a `returnFormat` (see [Search](#search)). Prefer restSearch for
-new integrations.
+Use the MISP REST API to search intelligence, maintain events, exchange observations and
+connect detection or response tools. Start with a small read-only query, check the returned
+scope and schema, then add writes or scheduled processing deliberately.
+
+::: {.callout-note}
+This chapter follows MISP **3.0.0**, [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
+commit [`99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1),
+in the light Overmind interface. Examples use reserved training values. Screenshots can be enlarged.
 :::
 
-### XML Export
+<!-- Source checks, runtime examples and capture hashes: ../assets/automation-screenshots.json -->
 
-An automatic export of all events and attributes (except file attachments) is available under a custom XML format.
-
-You can configure your tools to automatically download the following file:
-
-~~~~
-https://<misp url>/events/xml/download
-~~~~
-
-If you only want to fetch a specific event append the eventid number:
-
-~~~~
-https://<misp url>/events/xml/download/1
-~~~~
-
-You can post an XML or JSON object containing additional parameters in the JSON query format or XML query format. Query
-parameters provide a way to filter the output to specific parameters.
-
-
-#### JSON query format
-
-The URL is appended with json:
-
-~~~~
-https://<misp url>/events/xml/download.json
-~~~~
-
-The query parameters can be the following:
-
-~~~~json
-{"request": {"eventid":["!51","!62"],"withAttachment":false,"tags":["APT1","!OSINT"],"from":false,"to":"2015-02-15"}}
-~~~~
-
-#### XML query format
-
-The URL is path is:
-
-~~~~
-https://<misp url>/events/xml/download
-~~~~
-
-The query parameters can be the following:
-
-~~~~xml
-<request><eventid>!51</eventid><eventid>!62</eventid><withAttachment>false</withAttachment><tags>APT1</tags><tags>!OSINT</tags><from>false</from><to>2015-02-15</to></request>
-~~~~
-
-#### XML download and URL parameters
-
-The XML download also accepts two additional the following optional parameters in the url:
-
-~~~~
-https://<misp url>/events/xml/download/[eventid]/[withattachments]/[tags]/[from]/[to]/[last]
-~~~~
-
-<dl>
-<dt>eventid</dt>
-<dd>Restrict the download to a single event</dd>
-<dt>withattachments</dt>
-<dd>A boolean field that determines whether attachments should be encoded and a second parameter that controls the eligible tags.</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will
-   automatically search for colons instead). For example, to include tag1 and tag2 but exclude tag3 you would use:<dd>
-</dl>
-
-~~~~
-https://<misp url>/events/xml/download/false/true/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-The keywords false or null should be used for optional empty parameters in the URL. Also check out the User Guide to read about the [REST API](../using-the-system/index.qmd#rest-api).
-
-### CSV export
-
-An automatic export of attributes is available as CSV. Only attributes that are flagged "to_ids" will get exported.
-
-You can configure your tools to automatically download the following file:
-
-~~~~
-https://<misp url>/events/csv/download
-~~~~
-
-This will download all the valid attributes in your MISP instance (might take some time).
-
-You can also configure your tools to download the attributes from a specific event. Here is the old legacy CSV export that will work like exporting all attributes:
-
-~~~~
-https://<misp url>/events/csv/download/<event-id>
-~~~~
-
-You can specify additional flags for CSV exports as follows:
-
-POST to:
-~~~~
-https://<misp url>/events/csv/download
-~~~~
-
-Headers:
-~~~~
-Authorization: <your auth key>
-Content-type: application/json
-~~~~
-
-Body:
-~~~~json
-{"parameter1":"value1", "parameter2":1, "parameter3":["value3", "value4", "!value5"]}
-~~~~
-
-<dl>
-<dt>eventid</dt>
-<dd>Restrict the download to a single event</dd>
-<dt>ignore</dt>
-<dd>Setting this flag to true will include attributes that are not marked "to_ids".</dd>
-<dt>tags</dt>
-<dd>Simply add a list of tags that should be included or negated (by prepending the tag name with a "!"). Any event with a negated tag will be ignored, even if an included tag is matching. An example is included further down.</dd>
-<dt>category</dt>
-<dd>The attribute category, any valid MISP attribute category is accepted.</dd>
-<dt>type</dt>
-<dd>The attribute type, any valid MISP attribute type is accepted.</dd>
-<dt>includeContext</dt>
-<dd>Include the event data with each attribute.</dd>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-For example, to only download a csv generated of the "domain" type and the "Network activity" category attributes all events except for the one and further restricting it to events that are tagged "tag1" or "tag2" but not "tag3", only allowing attributes that are IDS flagged use the following syntax:
-
-POST to:
-~~~~
-https://<misp url>/events/csv/download
-~~~~
-
-Headers:
-~~~~
-Authorization: <your auth key>
-Content-type: application/json
-~~~~
-
-Body:
-~~~~json
-{"tags":["tag1", "tag2", "!tag3"], "category":"Network activity", "type": "domain"}
-~~~~
-
-Alternatively you can fall back to the deprecated syntax of passing parameters in a GET request via the URL, however this is discouraged:
-~~~~
-https://<misp url>/events/csv/download/[eventid]/[ignore]/[tags]/[category]/[type]/[includeContext]/[from]/[to]/[last]
-~~~~
-If you use the deprecated URL parameter method, keep in mind that the keywords false or null should be used for optional empty parameters.
-To export the attributes of all events that are of the type "domain", use the following syntax:
-~~~~
-https://<misp url>/events/csv/download/false/false/false/false/domain
-~~~~
-
+<a id="the-misp-rest-api"></a>
+<a id="automation-api"></a>
+<a id="post-objectsdeleteobjectidharddelete"></a>
 <a id="update-2482"></a>
 
-#### Update 2.4.82
-Since version 2.4.82, the new export format allows to select more columns using the following query format:
-
-~~~~
-https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value
-~~~~
-
-The order of columns will be honoured including those related to object level information.
-
-To select object level columns, simply prepend the given object column's name by object_, such as:
-
-~~~~
-https://<misp-instance>/events/csv/download/<event-id>?attributes=timestamp,type,uuid,value&object_attributes=uuid,name
-~~~~
-
-The following columns will be returned (all columns related to objects will be prefixed with object_):
-
-~~~~
-timestamp,type,uuid,value,object_uuid,object_name
-~~~~
-
-includeContext option includes the tags for the event for each line.
-
-
-## RPZ export
-
-You can export RPZ zone files for DNS level firewall by using the RPZ export functionality of MISP. The file generated will include all of the IDS
-flagged domain, hostname and IP-src/IP-dst attribute values that you have access to.
-
-It is possible to further restrict the exported values using the following filters:
-
-<dl>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search when passed through the URL. Use semicolons
-   instead (the search will automatically search for colons instead).</dd>
-<dt>id</dt>
-<dd>The event's ID</dd>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-03)</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-03)</dd>
-</dl>
-
-MISP will inject header values into the zone file as well as define the action taken for each of the values that can all be overwritten. By default these values are either the default values shipped with the application, or ones that are overwritten by your site administrator. The values are as follows:
-
-| Value name | Default value |
-| --- | :---: |
-|RPZ_policy| DROP|
-|RPZ_walled_garden| 127.0.0.1|
-|RPZ_serial| $date00|
-|RPZ_refresh| 2h|
-|RPZ_retry| 30m|
-|RPZ_expiry| 30d|
-|RPZ_minimum_ttl| 1h|
-|RPZ_ttl| 1w|
-|RPZ_ns| localhost.|
-|RPZ_ns_alt||
-|RPZ_email| root.localhost|
-
-To override the above values, either use the URL parameters as described below:
-
-~~~~
-https://<misp url>/attributes/rpz/download/[tags]/[eventId]/[from]/[to]/[policy]/[walled_garden]/[ns]/[ns_alt]/[email]/[serial]/[refresh]/[retry]/[expiry]/[minim
-um_ttl]/[ttl]
-~~~~
-
-Or POST an XML or JSON object with the above listed options:
-
-~~~~xml
-<request><tags>OSINT&&!OUTDATED</tags><policy>walled-garden</policy><walled_garden>teamliquid.net</walled_garden><refresh>5h</refresh></request>
-~~~~
-
-~~~~json
-{"request": {"tags": ["OSINT", "!OUTDATED"], "policy": "walled-garden", "walled_garden": "teamliquid.net", "refresh": "5h"}
-~~~~
-
-## Text export
-
-An export of all attributes of a specific type to a plain text file. By default only published and IDS flagged attributes are exported.
-
-You can configure your tools to automatically download the following files:
-
-~~~~
-https://<misp url>/attributes/text/download/md5
-https://<misp url>/attributes/text/download/sha1
-https://<misp url>/attributes/text/download/sha256
-https://<misp url>/attributes/text/download/filename
-https://<misp url>/attributes/text/download/filename|md5
-https://<misp url>/attributes/text/download/filename|sha1
-https://<misp url>/attributes/text/download/filename|sha256
-https://<misp url>/attributes/text/download/ip-src
-https://<misp url>/attributes/text/download/ip-dst
-https://<misp url>/attributes/text/download/hostname
-https://<misp url>/attributes/text/download/domain
-https://<misp url>/attributes/text/download/email-src
-https://<misp url>/attributes/text/download/email-dst
-https://<misp url>/attributes/text/download/email-subject
-https://<misp url>/attributes/text/download/email-attachment
-https://<misp url>/attributes/text/download/url
-https://<misp url>/attributes/text/download/http-method
-https://<misp url>/attributes/text/download/user-agent
-https://<misp url>/attributes/text/download/regkey
-https://<misp url>/attributes/text/download/regkey|value
-https://<misp url>/attributes/text/download/AS
-https://<misp url>/attributes/text/download/snort
-https://<misp url>/attributes/text/download/pattern-in-file
-https://<misp url>/attributes/text/download/pattern-in-traffic
-https://<misp url>/attributes/text/download/pattern-in-memory
-https://<misp url>/attributes/text/download/yara
-https://<misp url>/attributes/text/download/vulnerability
-https://<misp url>/attributes/text/download/attachment
-https://<misp url>/attributes/text/download/malware-sample
-https://<misp url>/attributes/text/download/link
-https://<misp url>/attributes/text/download/comment
-https://<misp url>/attributes/text/download/text
-https://<misp url>/attributes/text/download/other
-https://<misp url>/attributes/text/download/named pipe
-https://<misp url>/attributes/text/download/mutex
-https://<misp url>/attributes/text/download/target-user
-https://<misp url>/attributes/text/download/target-email
-https://<misp url>/attributes/text/download/target-machine
-https://<misp url>/attributes/text/download/target-org
-https://<misp url>/attributes/text/download/target-location
-https://<misp url>/attributes/text/download/target-external
-~~~~
-
-To restrict the results by tags, use the usual syntax. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead). To get ip-src values from events tagged tag1 but not tag2 use:
-
-~~~~
-https://<misp url>/attributes/text/download/ip-src/tag1&&
-~~~~
-
-It is possible to restrict the text exports on additional flags. The first allows the user to restrict based on event ID,
-whilst the second is a boolean switch allowing non IDS flagged attributes to be exported. Additionally, choosing "all" in the type field will return
-all eligible attributes.
-
-~~~~
-https://<misp url>/attributes/text/download/[type]/[tags]/[event_id]/[allowNonIDS]/[from]/[to]/[last]
-~~~~
-
-<dl>
-<dt>type</dt>
-<dd>The attribute type, any valid MISP attribute type is accepted.</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
-<dt>allowNonIDS</dt>
-<dd>Include attributes that would normally be excluded due to the IDS flag not being set or due to being allowlisted</dd>
-<dt>from</dt>
-<dd>Set the lowest "date" field value that should be included in the export (format YYYY-MM-DD)</dd>
-<dt>to</dt>
-<dd>Set the highest "date" field value that should be included in the export (format YYYY-MM-DD)</dd>
-<dt>last</dt>
-<dd>Set the timeframe of the export based on the "timestamp" value. The parameter uses a time + metric notation (valid examples: "2w", "60m", "24h")</dd>
-</dl>
-
-For example, to include tag1 and tag2 but exclude tag3 you would use:
-
-~~~~
-https://<misp url>/attributes/text/download/all/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>event_id</dt>
-<dd>Restrict the results to the given event IDs.</dd>
-<dt> allowNonIDS</dt>
-<dd>Allow attributes to be exported that are not marked as "to_ids".</dd>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-</dl>
-
-The keywords false or null should be used for optional empty parameters in the URL.
-
-For example, to retrieve all attributes for event #5, including non IDS marked attributes too, use the following line:
-
-~~~~
-https://<misp url>/attributes/text/download/all/null/5/true
-~~~~
-
-## RESTful searches with XML result export
-
-It is possible to search the database for attributes based on a list of criteria.
-
-To return an event with all of its attributes, relations, shadowAttributes, use the following syntax:
-
-~~~~
-https://<misp url>/events/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[quickfilter]/[from]/[to]/[last]/[eventid]/[withAttachments]/[metadata]/[uuid]
-~~~~
-
-<dl>
-<dt>value</dt>
-<dd>Search for the given value in the attributes' value field.</dd>
-<dt>type</dt>
-<dd>The attribute type, any valid MISP attribute type is accepted.</dd>
-<dt>category</dt>
-<dd>The attribute category, any valid MISP attribute category is accepted.</dd>
-<dt>org</dt>
-<dd>Search by the creator organisation by supplying the organisation idenfitier.</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag
-   commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
-</dl>
-
-For example, to include tag1 and tag2 but exclude tag3 you would use:
-
-~~~~
-https://<misp url>/events/restSearch/download/null/null/null/null/tag1&&tag2&&!tag3
-~~~~
-
-<dl>
-<dt>quickfilter</dt>
-<dd>Enabling this (by passing "1" as the argument) will make the search ignore all of the other arguments, except for the auth key and value. MISP will return an xml / json (depending on the header sent) of all events that have a sub-string match on value in the event info, event orgc, or any of the attribute value1 / value2 fields, or in the attribute comment.</dd>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-<dt>eventid</dt>
-<dd>The events that should be included / excluded from the search</dd>
-<dt>withAttachments</dt>
-<dd>Include the attachments/encrypted samples in the export</dd>
-<dt>metadata</dt>
-<dd>Only fetch the event metadata (event data, tags, relations) and skip the attributes</dd>
-<dt>limit</dt>
-<dd>Limit the number of results returned; use together with page.</dd>
-<dt>page</dt>
-<dd>If a limit is set, sets the page to be returned, starting at 1; page 3, limit 100 will return records 201->300). When requesting a page beyond the number of available pages, the returned results list will be empty.</dd>
-</dl>
-
-The keywords false or null should be used for optional empty parameters in the URL.
-
-For example, to find any event with the term "red october" mentioned, use the following syntax (the example is shown as a POST request instead of a GET, which is highly recommended):
-
-POST to:
-
-~~~~
-https://<misp url>/events/restSearch/download
-~~~~
-
-POST message payload (XML):
-
-~~~~xml
-   <request><value>red october</value><searchall>1</searchall><eventid>!15</eventid></request>
-~~~~
-
-POST message payload (JSON):
-
-~~~~json
-{"request": {"value":"red october","searchall":1,"eventid":"!15"}}
-~~~~
-
-To just return a list of attributes, use the following syntax:
-
-<dl>
-<dt>value</dt>
-<dd>Search for the given value in the attributes' value field.</dd>
-<dt>type</dt>
-<dd>The attribute type, any valid MISP attribute type is accepted.</dd>
-<dt>category</dt>
-<dd>The attribute category, any valid MISP attribute category is accepted.</dd>
-<dt>org</dt>
-<dd>Search by the creator organisation by supplying the organisation identifier.</dd>
-<dt>tags</dt>
-<dd>To include a tag in the results just write its names into this parameter. To exclude a tag prepend it with a '!'. You can also chain several tag commands together with the '&&' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead).</dd>
-<dt>from</dt>
-<dd>Events with the date set to a date after the one specified in the from field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>to</dt>
-<dd>Events with the date set to a date before the one specified in the to field (format: 2015-02-15). This filter will use the date of the event.</dd>
-<dt>last</dt>
-<dd>Events published within the last x amount of time, where x can be defined in days, hours, minutes (for example 5d or 12h or 30m). This filter will use the published timestamp of the event.</dd>
-<dt>eventid</dt>
-<dd>The events that should be included / excluded from the search.</dd>
-<dt>uuid</dt>
-<dd>The returned events must include an attribute with the given UUID, or alternatively the event's UUID must match the value(s) passed.</dd>
-</dl>
-
-The keywords false or null should be used for optional empty parameters in the URL.
-
-~~~~
-https://<misp url>/attributes/restSearch/download/[value]/[type]/[category]/[org]/[tag]/[from]/[to]/[last]/[eventid]/[withattachments]/[uuid]
-~~~~
-
-Value, type, category and org are optional. It is possible to search for several terms in each category by joining them with the '&&' operator. It is
-also possible to negate a term with the '!' operator. Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the
-search will automatically search for colons instead). For example, in order to search for all attributes created by your organisation that contain
-192.168 or 127.0 but not 0.1 and are of the type ip-src, excluding the events that were tagged tag1 use the following syntax:
-
-~~~~
-https://<misp url>/attributes/restSearch/download/192.168&&127.0&&!0.1/ip-src/false/CIRCL/!tag1
-~~~~
-
-You can also use search for IP addresses using CIDR. Make sure that you use '|' (pipe) instead of '/' (slashes). Please be aware the colons (:) cannot be used in the tag search. Use semicolons instead (the search will automatically search for colons instead). See below for an example:
-
-~~~~
-https://<misp url>/attributes/restSearch/download/192.168.1.1|16/ip-src/null/CIRCL
-~~~~
-
-## Export attributes of event with specified type as XML
-
-If you want to export all attributes of a pre-defined type that belong to an event, use the following syntax:
-
-~~~~
-https://<misp url>/attributes/returnAttributes/download/[id]/[type]/[sigOnly]
-~~~~
-
-sigOnly is an optional flag that will block all attributes from being exported that don't have the IDS flag turned on. It is possible to search for several types with the '&&' operator and to exclude values with the '!' operator. For example, to get all IDS signature attributes of type md5 and sha256, but not filename|md5 and filename|sha256 from event 25, use the following:
-
-~~~~
-https://<misp url>/attributes/returnAttributes/download/25/md5&&sha256&&!filename/true
-~~~~
-
-## Filtering event metadata
-
-As described in the REST section, it is possible to retrieve a list of events along with their metadata by sending a GET request to the /events API. However, this API in particular is a bit more versatile. You can pass search parameters along to search among the events on various fields and retrieve a list of matching events (along with their metadata). Use the following URL:
-
-~~~~
-https://<misp url>/events/index
-~~~~
-
-POST a JSON object with the desired lookup fields and values to receive a JSON back.
-An example for a valid lookup:
-
-~~~~
-Authorization: <your API key>
+## Find the API reference {#api-reference}
+
+Open **API → OpenAPI** (`/api/openapi`) for the bundled reference, or download its specification
+from `/doc/openapi.yaml`. Use **API → REST client** (`/api/rest`) to load request templates,
+edit a request and inspect its response. The templates depend on the logged-in user's role.
+
+![The MISP 3.0 REST client, staged with a bounded attribute search and a placeholder authentication header.](figures/misp3-rest-client.png)
+
+The REST client sends an HTTP request with the headers you supply. **An interactive login does
+not replace the request's authentication key**: replace `YOUR_API_KEY` in its **Headers** tab.
+Keep **Skip SSL validation** off. Check the method, target URL and body before choosing **Send**;
+the client can perform writes as well as searches. Its response panel shows status, headers and body.
+
+![The OpenAPI reference bundled with the running MISP 3.0 installation.](figures/misp3-openapi.png)
+
+Use `GET /servers/getVersion` for the running server version and recommended PyMISP version.
+The OpenAPI document's own `info.version` is not a substitute for that server-version check.
+For new development-branch features, check the relevant controller and its constraints as well
+as the reference. Use [PyMISP](../pymisp/index.qmd) for Python integrations where it provides a helper.
+
+<a id="general"></a>
+<a id="automation-url"></a>
+<a id="automation-key"></a>
+<a id="creating-an-automation-key-using-advanced-authkeys"></a>
+<a id="pinning-an-allowed-ip-for-an-automation-key-using-advanced-authkeys"></a>
+<a id="accept-and-content-type-headers"></a>
+<a id="user-management"></a>
+<a id="post-adminusersadd"></a>
+<a id="post-adminusersedit"></a>
+<a id="post-adminusersdelete"></a>
+<a id="parameters-1"></a>
+<a id="example-18"></a>
+<a id="get-adminusers"></a>
+<a id="description-12"></a>
+<a id="output-8"></a>
+<a id="example-19"></a>
+<a id="get-adminusersview"></a>
+<a id="description-13"></a>
+<a id="parameters-2"></a>
+<a id="output-9"></a>
+<a id="example-20"></a>
+<a id="post-adminusersadd-1"></a>
+
+## Configure an automation account {#api-authentication}
+
+Use a dedicated account whose organisation and role match the integration's purpose. An
+authentication key inherits that account's permissions and data visibility; it does not grant
+site-administrator access by itself. A detection exporter normally needs read access, while an
+ingestion service needs the relevant add/modify permissions. Native MISP synchronization uses
+its own [sync-account setup](../sharing/index.qmd#concept).
+
+Open **Account → My Profile → Auth keys**. Choose **Add auth key**, enter a useful comment and
+set an expiry, allowed source IPs and **Read only** as appropriate. IP restrictions are evaluated
+against the source address seen by MISP, including the effects of an authorised reverse proxy.
+
+![The MISP 3.0 Add auth key dialog before key generation, showing expiry, IP restrictions and the read-only option.](figures/misp3-auth-key.png)
+
+The new key is displayed once. Store it in the integration's secret store; do not commit it to
+source control or paste it into shared request logs. Editing an existing key changes its
+restrictions, not the account's role. Rotate by deploying a new key, verifying the integration,
+then revoking the old key. See [account management](../user-management/index.qmd).
+
+When IP usage logging is enabled and your role allows it, a key's details can show **Seen IPs**
+and a **Pin** action. Pinning restricts the key to that address; confirm it is the stable egress
+address of the intended service before applying it.
+
+### Headers and TLS {#api-headers}
+
+Send the **raw key**, without a `Bearer` prefix, in the `Authorization` header:
+
+```http
+Authorization: YOUR_API_KEY
 Accept: application/json
-Content-type: application/json
-~~~~
-
-Body:
-
-~~~~json
-{"searchinfo":"Locky", "searchpublished":1, "searchdistribution":0}
-~~~~
-
-
-The list of valid parameters:
-<dl>
-<dt>searchpublished:</dt>
-<dd>Filters on published or unpulished events [0,1] - negatable</dd>
-<dt>searchinfo:</dt>
-<dd>Filters on strings found in the event info - negatable</dd>
-<dt>searchtag:</dt>
-<dd>Filters on attached tag names - negatable</dd>
-<dt>searcheventid:</dt>
-<dd>Filters on specific event IDs - negatable</dd>
-<dt>searchthreatlevel:</dt>
-<dd>Filters on a given event threat level [1,2,3,4] - negatable</dd>
-<dt>searchdistribution:</dt>
-<dd>Filters on the distribution level [0,1,2,3] - negatable</dd>
-<dt>searchanalysis:</dt>
-<dd>Filters on the given analysis phase of the event [0,1,2,3] - negatable</dd>
-<dt>searchattribute:</dt>
-<dd>Filters on a contained attribute value - negatable</dd>
-<dt>searchorg:</dt>
-<dd>Filters on the creator organisation - negatable</dd>
-<dt>searchemail:</dt>
-<dd>Filters on the creator user's email address (admin only) - negatable</dd>
-<dt>searchDatefrom:</dt>
-<dd>Filters on the date, anything newer than the given date in YYYY-MM-DD format is taken - non-negatable</dd>
-<dt>searchDateuntil:</dt>
-<dd>Filters on the date, anything older than the given date in YYYY-MM-DD format is taken - non-negatable</dd>
-</dl>
-
-## Download attachment or malware sample
-
-If you know the attribute ID of a malware-sample or an attachment, you can download it with the following syntax:
-
-~~~~
-https://<misp url>/attributes/downloadAttachment/download/[Attribute_id]
-~~~~
-
-## Download malware sample by hash
-
-You can also download samples by knowing its MD5 hash. Simply pass the hash along as a JSON/XML object or in the URL (with the URL having overruling the passed objects) to receive a JSON/XML object back with the zipped sample base64 encoded along with some contextual information.
-
-You can also use this API to get all samples from events that contain the passed hash. For this functionality, just pass the "allSamples" flag along.
-Note that if you are getting all samples from matching events, you can use all supported hash types (md5, sha1, sha256) for the lookup.
-
-You can also get all the samples from an event with a given event ID, by passing along the eventID parameter. Make sure that either an event ID or a hash is passed along, otherwise an error message will be returned. Also, if no hash is set, the allSamples flag will get set automatically.
-
-https://<misp url>/attributes/downloadSample/[hash]/[allSamples]/[eventID]
-
-POST message payload (XML):
-
-~~~~
-<request><hash>7c12772809c1c0c3deda6103b10fdfa0</hash><allSamples>1</allSamples><eventID>13</eventID</request>
-~~~~
-
-POST message payload (json):
-
-~~~~
-{"request": {"hash": "7c12772809c1c0c3deda6103b10fdfa0", "allSamples": 1, "eventID": 13}}
-~~~~
-
-A description of all the parameters in the passed object:
-
-<dl>
-<dt>hash</dt>
-<dd>A hash in MD5 format. If allSamples is set, this can be any one of the following: md5, sha1, sha256.</dd>
-<dt>allSamples</dt>
-<dd>If set, it will return all samples from events that have a match for the hash provided above.</dd>
-<dt>eventID</dt>
-<dd>If set, it will only fetch data from the given event ID.</dd>
-</dl>
-
-## Upload malware samples using the "Upload Sample" API
-
-~~~~
-https://<misp url>/events/upload_sample/[Event_id]
-~~~~
-
-This API will allow you to populate an event that you have modify rights to with malware samples (and all related hashes). Alternatively, if you do not supply an event ID, it will create a new event for you.
-
-The files have to be base64 encoded and POSTed as explained below. All samples will be zipped and password protected (with the password being "infected"). The hashes of the original file will be captured as additional attributes.
-
-For sample upload (for objects in general) there is no check for duplicates.
-
-The event ID is optional. MISP will accept either a JSON or an XML object posted to the above URL.
-
-The general structure of the expected objects is as follows:
-
-~~~~json
-{"request": {"files": [{"filename": filename1, "data": base64encodedfile1}, {"filename": filename2, "data": base64encodedfile2}],
-   "optional_parameter1", "optional_parameter2", "optional_parameter3"}}
-~~~~
-
-JSON:
-
-~~~~json
-{"request":{"files": [{"filename": "test1.txt", "data": "dGVzdA=="}, {"filename": "test2.txt", "data": "dGVzdDI="}], "distribution": 1, "info" : "test", "event_id": 15}}
-~~~~
-
-XML:
-
-~~~~xml
-<request><files><filename>test3.txt</filename><data>dGVzdA==</data></files><files><filename>test4.txt</filename><data>dGVzdDI=</data></files><info>test</info><distribution>1</distribution><event_id>15</event_id></request>
-~~~~
-
-The following optional parameters are expected:
-
-<dl>
-<dt>event_id</dt>
-<dd>The Event's ID is optional. It can be either supplied via the URL or the POSTed object, but the URL has priority if both are provided. Not supplying an event ID will cause MISP to create a single new event for all of the POSTed malware samples. You can define the default settings for the event, otherwise a set of default settings will be used.</dd>
-<dt>distribution</dt>
-<dd>The distribution setting used for the attributes and for the newly created event, if relevant. [0-3]</dd>
-<dt>to_ids</dt>
-<dd>You can flag all attributes created during the transaction to be marked as "to_ids" or not.</dd>
-<dt>category</dt>
-<dd>The category that will be assigned to the uploaded samples. Valid options are: Payload delivery, Artifacts dropped, Payload Installation, External Analysis.</dd>
-<dt>info</dt>
-<dd>Used to populate the event info field if no event ID supplied. Alternatively, if not set, MISP will simply generate a message showing that it's a malware sample collection generated on the given day.</dd>
-<dt>analysis</dt>
-<dd>The analysis level of the newly created event, if applicable. [0-2] threat_level_id: The threat level ID of the newly created event, if applicatble. [0-3]</dd>
-<dt>comment</dt>
-<dd>This will populate the comment field of any attribute created using this API.</dd>
-</dl>
-
-The **threat_level_id** is mapped as such:
-
-```
-0 = high
-1 = medium
-2 = low
-3 = undefined
+Content-Type: application/json
 ```
 
-## Proposals API
-
-You can interact with the proposals via the API directly since version 2.3.148.
-
-|HTTP|URL|Explanation|Expected Payload|Response|
-|----|---|-----------|----------------|--------|
-|GET|/shadow_attributes/view/[proposal_id]|View a proposal|N/A|ShadowAttribute object|
-|POST|/shadow_attributes/add/[event_id]|Propose a new attribute to an event|ShadowAttribute object|ShadowAttribute object|
-|POST|/shadow_attributes/edit/[attribute_id]|Propose an edit to an attribute|ShadowAttribute object|ShadowAttribute object|
-|POST|/shadow_attributes/accept/[proposal_id]|Accept a proposal|N/A|Message|
-|POST|/shadow_attributes/discard/[proposal_id]|Discard a proposal|N/A|Message|
-
-When posting a shadow attribute object, use the following format
-
-JSON:
-
-~~~~json
-{"request": {"ShadowAttribute": {"value": "5.5.5.5", "to_ids": false, "type": "ip-dst", "category": "Network activity"}}}
-~~~~
-
-XML:
-
-~~~~xml
-<request><ShadowAttribute><value>5.5.5.5</value><to_ids>0</to_ids><type>ip-src</type><category>Network activity</category></ShadowAttribute></request>
-~~~~
-
-None of the above fields are mandatory, but at least one of them has to be provided.
-
-## Sharing groups
-
-MISP allows sharing groups to be retrieved via the API.
-
-~~~~
-https://<misp url>/sharing_groups/index.json
-~~~~
-
-Based on the API key used, the list of visible sharing groups will be returned in a JSON file. The JSON includes the organization parts of a given sharing group along with the associated server.
-
-## Enable, disable and fetching feeds via the API
-
-The MISP feeds can be enabled via the API.
-
-A feed can be enabled by POSTing on the following URL (feed_id is the id of the feed):
-
-~~~~
-/feeds/enable/feed_id
-~~~~
-
-A feed can be disabled by POSTing on the following URL (feed_id is the id of the feed):
-
-~~~~
-/feeds/disable/feed_id
-~~~~
-
-All feeds can cached via the API:
-
-~~~~
-/feeds/cacheFeeds/all
-~~~~
-
-or you can replace `all` by the feed format to fetch like `misp` or `freetext`. `all` can be replaced
-with the `id` value of the feed to fetch a specific feed.
-
-To fetch a feed or all feeds:
-
-~~~~
-/feeds/fetchFromFeed/feed_id
-/feeds/fetchFromAllFeeds
-~~~~
-
-This API can be also used to download feeds at regular interval via cronjobs or alike.
-
-
-## Sightings API
-
-MISP allows Sightings data to be conveyed in several ways.
-
-The most basic way is to POST a blank message to the Sightings API with the attribute ID or attribute UUID. This will create a sightings entry with the creation of the entry as the timestamp for the organisation of the authenticated user.
-
-~~~~
-https://<misp url>/sightings/add/[attribute_id]
-https://<misp url>/sightings/add/[attribute_uuid]
-~~~~
-
-Alternatively, it is possible to POST a JSON object and gain additional granularity. The following fields are recognised by the API:
-
-<dl>
-<dt>id</dt>
-<dd>The attribute's ID</dd>
-<dt>uuid</dt>
-<dd>The attribute's UUID</dd>
-<dt>value</dt>
-<dd>Will create a sighting for any attribute with the given value or for composite attributes, for the value matching any element of the attribute value</dd>
-<dt>values</dt>
-<dd>Expects a list, MISP will create sightings for any attribute matching any of the given values or for composite attributes, for any of the values matching any element of the attribute value</dd>
-<dt>timestamp</dt>
-<dd>Unix timestamp of the sighting, overrides the current time</dd>
-</dl>
-
-Some examples:
-
-To create a sighting for attribute #9001:
-
-~~~~json
-{"id":"9001"}
-~~~~
-
-To create a sighting for any attribute with the value being teamliquid.net or 173.231.136.216 with the time of sighting being :
-
-~~~~json
-{"values":["teamliquid.net", "173.231.136.216"], "timestamp":1460558710}
-~~~~
-
-It is also possible to POST a STIX indicator with sighting data to the following URL (keep in mind that the content type has to be XML):
-
-~~~~
-https://<misp url>/sightings/add/stix
-~~~~
-
-MISP will use the sightings related observables to gather all values and create sightings for each attribute that matches any of the values. If no related observables are provided in the Sighting object, then MISP will fall back to the Indicator itself and use its observables' values to create the sightings. The time of the sighting is the current time, unless the timestamp attribute is set on the Sightings object, in which case that is taken.
-
-An example STIX sightings document:
-
-~~~~xml
-<stix:STIX_Package
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:stix="http://stix.mitre.org/stix-1"
-    xmlns:indicator="http://stix.mitre.org/Indicator-2"
-    xmlns:stixCommon="http://stix.mitre.org/common-1"
-    xmlns:cybox="http://cybox.mitre.org/cybox-2"
-    xmlns:AddressObject="http://cybox.mitre.org/objects#AddressObject-2"
-    xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
-    xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
-    xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
-    xmlns:example="http://example.com/"
-    xsi:schemaLocation="
-    http://stix.mitre.org/stix-1 ../stix_core.xsd
-    http://stix.mitre.org/Indicator-2 ../indicator.xsd
-    http://cybox.mitre.org/objects#DomainNameObject-1 http://cybox.mitre.org/XMLSchema/objects/Domain_Name/1.0/Domain_Name_Object.xsd
-    http://stix.mitre.org/common-1 http://stix.mitre.org/XMLSchema/common/1.1.1/stix_common.xsd
-    http://cybox.mitre.org/default_vocabularies-2 ../cybox/cybox_default_vocabularies.xsd
-    http://stix.mitre.org/default_vocabularies-1 ../stix_default_vocabularies.xsd
-    http://cybox.mitre.org/objects#AddressObject-2 ../cybox/objects/Address_Object.xsd"
-    id="example:STIXPackage-33fe3b22-0201-47cf-85d0-97c02164528d"
-    timestamp="2014-05-08T09:00:00.000000Z"
-    version="1.1.1"
-    >
-    <stix:STIX_Header>
-        <stix:Title>Example watchlist that contains IP information.</stix:Title>
-        <stix:Package_Intent xsi:type="stixVocabs:PackageIntentVocab-1.0">Indicators - Watchlist</stix:Package_Intent>
-    </stix:STIX_Header>
-    <stix:Indicators>
-        <stix:Indicator xsi:type="indicator:IndicatorType" id="example:Indicator-2e20c5b2-56fa-46cd-9662-8f199c69d2c9" timestamp="2014-05-08T09:00:00.000000Z">
-          <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Domain Watchlist</indicator:Type>
-          <indicator:Observable id="example:Observable-87c9a5bb-d005-4b3e-8081-99f720fad62b">
-              <cybox:Object id="example:Object-12c760ba-cd2c-4f5d-a37d-18212eac7928">
-                  <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
-                      <DomainNameObj:Value condition="Equals" apply_condition="ANY">malicious1.example.com##comma##malicious2.example.com##comma##malicious3.example.com</DomainNameObj:Value>
-                  </cybox:Properties>
-              </cybox:Object>
-          </indicator:Observable>
-          <indicator:Sightings>
-            <indicator:Sighting timestamp="2014-05-08T09:00:00.000000Z">
-              <indicator:Source>
-                <stixCommon:Identity>
-                  <stixCommon:Name>FooBar Inc.</stixCommon:Name>
-                </stixCommon:Identity>
-              </indicator:Source>
-              <indicator:Related_Observables>
-                <indicator:Related_Observable>
-                  <stixCommon:Observable id="example:Observable-45b3acdf-1888-4bcc-89a9-6d9f8116fede">
-                    <cybox:Object id="example:Object-a3d36250-42fa-4653-9172-87b87598390c">
-                      <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
-                        <DomainNameObj:Value>malicious2.example.com</DomainNameObj:Value>
-                      </cybox:Properties>
-                    </cybox:Object>
-                  </stixCommon:Observable>
-                </indicator:Related_Observable>
-              </indicator:Related_Observables>
-            </indicator:Sighting>
-          </indicator:Sightings>
-        </stix:Indicator>
-    </stix:Indicators>
-</stix:STIX_Package>
-~~~~
-
-POSTing this as the message's body to MISP will sight any attributes visible to the user with he value "malicious2.example.com". For composite types, a match on a component will also trigger a sighting (so for example for attributes of type domain|ip a domain match would be sufficient).
-
-If no Related observables are set in the Sighting itself, MISP will fall back to the observable directly contained in the indicator. So in the following example:
-
-~~~~xml
-<stix:STIX_Package
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:stix="http://stix.mitre.org/stix-1"
-    xmlns:indicator="http://stix.mitre.org/Indicator-2"
-    xmlns:stixCommon="http://stix.mitre.org/common-1"
-    xmlns:cybox="http://cybox.mitre.org/cybox-2"
-    xmlns:AddressObject="http://cybox.mitre.org/objects#AddressObject-2"
-    xmlns:DomainNameObj="http://cybox.mitre.org/objects#DomainNameObject-1"
-    xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2"
-    xmlns:stixVocabs="http://stix.mitre.org/default_vocabularies-1"
-    xmlns:example="http://example.com/"
-    xsi:schemaLocation="
-    http://stix.mitre.org/stix-1 ../stix_core.xsd
-    http://stix.mitre.org/Indicator-2 ../indicator.xsd
-    http://cybox.mitre.org/objects#DomainNameObject-1 http://cybox.mitre.org/XMLSchema/objects/Domain_Name/1.0/Domain_Name_Object.xsd
-    http://stix.mitre.org/common-1 http://stix.mitre.org/XMLSchema/common/1.1.1/stix_common.xsd
-    http://cybox.mitre.org/default_vocabularies-2 ../cybox/cybox_default_vocabularies.xsd
-    http://stix.mitre.org/default_vocabularies-1 ../stix_default_vocabularies.xsd
-    http://cybox.mitre.org/objects#AddressObject-2 ../cybox/objects/Address_Object.xsd"
-    id="example:STIXPackage-33fe3b22-0201-47cf-85d0-97c02164528d"
-    timestamp="2014-05-08T09:00:00.000000Z"
-    version="1.1.1"
-    >
-    <stix:STIX_Header>
-        <stix:Title>Example watchlist that contains IP information.</stix:Title>
-        <stix:Package_Intent xsi:type="stixVocabs:PackageIntentVocab-1.0">Indicators - Watchlist</stix:Package_Intent>
-    </stix:STIX_Header>
-    <stix:Indicators>
-        <stix:Indicator xsi:type="indicator:IndicatorType" id="example:Indicator-2e20c5b2-56fa-46cd-9662-8f199c69d2c9" timestamp="2014-05-08T09:00:00.000000Z">
-          <indicator:Type xsi:type="stixVocabs:IndicatorTypeVocab-1.1">Domain Watchlist</indicator:Type>
-          <indicator:Observable id="example:Observable-87c9a5bb-d005-4b3e-8081-99f720fad62b">
-              <cybox:Object id="example:Object-12c760ba-cd2c-4f5d-a37d-18212eac7928">
-                  <cybox:Properties xsi:type="DomainNameObj:DomainNameObjectType" type="FQDN">
-                      <DomainNameObj:Value condition="Equals" apply_condition="ANY">malicious1.example.com##comma##malicious2.example.com##comma##malicious3.example.com</DomainNameObj:Value>
-                  </cybox:Properties>
-              </cybox:Object>
-          </indicator:Observable>
-          <indicator:Sightings>
-            <indicator:Sighting timestamp="2014-05-08T09:00:00.000000Z">
-              <indicator:Source>
-                <stixCommon:Identity>
-                  <stixCommon:Name>FooBar Inc.</stixCommon:Name>
-                </stixCommon:Identity>
-              </indicator:Source>
-            </indicator:Sighting>
-          </indicator:Sightings>
-        </stix:Indicator>
-    </stix:Indicators>
-</stix:STIX_Package>
-~~~~
-
-MISP would create sightings for attributes matching any of the following: malicious1.example.com, malicious2.example.com, malicious3.example.com
-
-## Warninglists API
-
-
-### GET warninglists/index
-
-#### Description
-
-Return the index of warninglists enabled on the MISP instance
-
-#### Parameters
-
-- id
-
-#### Output
-
-
-~~~~json
-...
-{"Warninglists":[{"Warninglist":{"id":"17","name":"List of known Office 365 URLs and IP address ranges","type":"string","description":"Office 365 URLs and IP address ranges","version":"20170212","enabled":true,"warninglist_entry_count":"1516","valid_attributes":"ip-src, ip-dst, domain|ip, hostname"}},{"Warninglist":{"id":"16","name":"List of known google domains","type":"string","description":"Event contains one or more entries of known google domains","version":"3","enabled":true,"warninglist_entry_count":"665","valid_attributes":"domain, hostname, domain|ip"}},{"Warninglist":{"id":"15","name":"List of hashes for EICAR test virus","type":"string","description":"Event contains one or more entries based on hashes for EICAR test virus","version":"1","enabled":true,"warninglist_entry_count":"15","valid_attributes":"md5, sha1, sha256, sha512, filename|md5, filename|sha1, filename|sha256, filename|sha512"}},{"Warninglist":{"id":"14","name":"Top 1000 website from Alexa","type":"string","description":"Event contains one or more entries from the top 1000 of the most used website (Alexa).","version":"20170212","enabled":true,"warninglist_entry_count":"1000","valid_attributes":"hostname, domain"}},{"Warninglist":{"id":"13","name":"TLDs as known by IANA","type":"string","description":"Event contains one or more TLDs as attribute with an IDS flag set","version":"2","enabled":true,"warninglist_entry_count":"1290","valid_attributes":"hostname, domain, domain|ip"}},{"Warninglist":{"id":"12","name":"Second level TLDs as known by Mozilla Foundation","type":"string","description":"Event contains one or more second level TLDs as attribute with an IDS flag set","version":"2","enabled":true,"warninglist_entry_count":"6462","valid_attributes":"hostname, domain, domain|ip"}},{"Warninglist":{"id":"11","name":"List of RFC 5735 CIDR blocks","type":"cidr","description":"Event contains one or more entries part of the RFC 5735 CIDR blocks - Special Use IPv4 Addresses","version":"2","enabled":true,"warninglist_entry_count":"15","valid_attributes":"ip-src, ip-dst, domain|ip"}},{"Warninglist":{"id":"10","name":"List of RFC 3849 CIDR blocks","type":"cidr","description":"Event contains one or more entries part of the IPv6 documentation prefix (RFC 3849)","version":"2","enabled":true,"warninglist_entry_count":"1","valid_attributes":"ip-src, ip-dst, domain|ip"}},{"Warninglist":{"id":"9","name":"List of RFC 1918 CIDR blocks","type":"cidr","description":"Event contains one or more entries part of the RFC 1918 CIDR blocks","version":"2","enabled":true,"warninglist_entry_count":"3","valid_attributes":"ip-src, ip-dst, domain|ip"}},{"Warninglist":{"id":"8","name":"List of known IPv6 public DNS resolvers","type":"string","description":"Event contains one or more public IPv6 DNS resolvers as attribute with an IDS flag set","version":"20160803","enabled":true,"warninglist_entry_count":"172","valid_attributes":"ALL"}},{"Warninglist":{"id":"7","name":"List of known IPv4 public DNS resolvers","type":"string","description":"Event contains one or more public IPv4 DNS resolvers as attribute with an IDS flag set","version":"20160803","enabled":true,"warninglist_entry_count":"77857","valid_attributes":"ALL"}},{"Warninglist":{"id":"6","name":"List of RFC 5771 multicast CIDR blocks","type":"cidr","description":"Event contains one or more entries part of the RFC 5771 multicast CIDR blocks","version":"2","enabled":true,"warninglist_entry_count":"16","valid_attributes":"ip-src, ip-dst, domain|ip"}},{"Warninglist":{"id":"5","name":"List of known microsoft domains","type":"string","description":"Event contains one or more entries of known microsoft domains","version":"1","enabled":true,"warninglist_entry_count":"152","valid_attributes":"domain, hostname, domain|ip"}},{"Warninglist":{"id":"4","name":"List of IPv6 link local blocks","type":"cidr","description":"Event contains one or more entries part of the IPv6 link local prefix (RFC 4291)","version":"1","enabled":true,"warninglist_entry_count":"1","valid_attributes":"ip-src, ip-dst, domain|ip"}}
-....
-
-
-~~~~
-
-#### Example
-~~~~
-curl  --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X "GET" https://10.50.13.60/warninglists/index
-~~~~
-
-### GET warninglists/view/1
-
-#### Description
-
-Return the a warninglist by id
-
-#### Parameters
-
-- id
-
-#### Output
-
-
-~~~~json
-to long
-~~~~
-
-#### Example
-~~~~
-curl  --header "Authorization: YOUR API KEY " --header "Accept: application/json" --header "Content-Type: application/json" -X "GET" https://10.50.13.60/warninglists/view/17
-~~~~
-
-
-
-# Attribute statistics API
-
-If you are interested in the attribute type or attribute category data distribution on your instance, MISP offers an API that will create an aggregates list. To access the API, simple sent a GET request to:
-
-~~~~
-https://<misp url>/attributes/attributeStatistics/[context]/[percentage]
-~~~~
-
-Where the following parameters can be set:
-
-<dl>
-<dt>Context</dt>
-<dd>Set whether you are interested in the type or category statistics of your instance. This parameter can be either set to "type" or "category", with type being the default setting if the parameter is not set.</dd>
-<dt>Percentage</dt>
-<dd>An optional field, if set, it will return the results in percentages instead of the count.</dd>
-</dl>
-
-The results are always returned as JSON.
-
-Sample output of the types in percentages from CIRCL's MISP instance:
-
-~~~~json
-{
-    "AS": "0.015%",
-    "attachment": "0.177%",
-    "btc": "0.005%",
-    "campaign-name": "0.005%",
-    "comment": "1.47%",
-    "domain": "15.992%",
-    "domain|ip": "0.005%",
-    "email-attachment": "0.207%",
-    "email-dst": "0.121%",
-    "email-src": "0.192%",
-    "email-subject": "0.146%",
-    "filename": "3.698%",
-    "filename|md5": "0.349%",
-    "filename|sha1": "0.894%",
-    "filename|sha256": "0.652%",
-    "hostname": "17.558%",
-    "http-method": "0.045%",
-    "ip-dst": "7.087%",
-    "ip-src": "2.707%",
-    "link": "5.748%",
-    "malware-sample": "0.702%",
-    "malware-type": "0.005%",
-    "md5": "21.064%",
-    "mutex": "0.278%",
-    "named pipe": "0.03%",
-    "other": "1.495%",
-    "pattern-in-file": "0.192%",
-    "pattern-in-memory": "0.303%",
-    "pattern-in-traffic": "0.051%",
-    "regkey": "0.126%",
-    "regkey|value": "0.187%",
-    "sha1": "8.921%",
-    "sha256": "5.597%",
-    "snort": "0.045%",
-    "target-machine": "0.248%",
-    "target-org": "0.01%",
-    "target-user": "0.106%",
-    "text": "0.934%",
-    "threat-actor": "0.005%",
-    "url": "2.258%",
-    "user-agent": "0.081%",
-    "vulnerability": "0.182%",
-    "whois-registrant-email": "0.01%",
-    "x509-fingerprint-sha1": "0.01%",
-    "yara": "0.086%"
+Use HTTPS and keep certificate verification enabled. For a private certificate authority,
+configure the client's CA bundle (`curl --cacert` or Requests' `verify` path) rather than
+disabling verification. Keep the key out of URLs. A read-only key may perform supported
+read-only POST searches; the HTTP verb alone does not determine whether an operation writes data.
+
+<a id="automation-using-pymisp"></a>
+<a id="server-management"></a>
+<a id="get-serversgetversion"></a>
+<a id="result"></a>
+<a id="example-17"></a>
+
+## Make a first request {#api-first-request}
+
+Set `MISP_URL` to your instance's base URL without a trailing slash. Supply `MISP_KEY` through
+your secret-management mechanism. In an interactive Bash session, a hidden prompt is another option:
+
+```bash
+export MISP_URL='https://misp.example.org'
+read -r -s -p 'MISP API key: ' MISP_KEY
+export MISP_KEY
+```
+
+The following helper keeps the headers consistent. It leaves TLS verification enabled and
+reports HTTP errors while retaining their response bodies for diagnosis:
+
+```bash
+misp_api() {
+  local method="$1" path="$2"
+  shift 2
+  curl --silent --show-error --fail-with-body \
+    --request "$method" \
+    --header "Authorization: ${MISP_KEY}" \
+    --header 'Accept: application/json' \
+    --header 'Content-Type: application/json' \
+    "${MISP_URL%/}${path}" "$@"
 }
-~~~~
 
-# Additional statistics
+misp_api GET /servers/getVersion
+```
 
-Additional statistics are available as JSON which are the statistics also usable via the user interface. A ".json" can be appended
-to the following URLs:
+Check `version`, `pymisp_recommended_version` and any capabilities relevant to your integration,
+such as `collection_sync`. Capability flags and the account's role matter alongside the version.
+Do not infer support for every MISP 3.0 target type from the PyMISP package's major version.
 
-~~~~
-- https://<misp url>/users/statistics/tags.json
-- https://<misp url>/users/statistics.json
-- https://<misp url>/users/statistics/attributehistogram.json
-- https://<misp url>/users/statistics/orgs.json
-~~~~
+<a id="search"></a>
 
-An example output of https://<misp url>/users/statistics.json:
+## Search events and attributes {#api-search}
 
-~~~~
+Use **POST `/events/restSearch`** for event containers and **POST `/attributes/restSearch`**
+for individual observations. Put filters in a JSON body, not positional URL segments. For example,
+save this as `search.json` to find occurrences of a reserved training domain:
+
+```json
 {
-    "stats": {
-        "event_count": 5233,
-        "event_count_month": 21,
-        "attribute_count": 645498,
-        "attribute_count_month": 723,
-        "correlation_count": 207152,
-        "proposal_count": 48944,
-        "user_count": 1073,
-        "org_count": 587,
-        "thread_count": 191,
-        "thread_count_month": 0,
-        "post_count": 337,
-        "post_count_month": 0
-    }
+  "returnFormat": "json",
+  "value": "example.org",
+  "type": "domain",
+  "limit": 100,
+  "page": 1,
+  "includeEventUuid": true
 }
-~~~~
+```
 
-# MISP modules
+```bash
+misp_api POST /attributes/restSearch --data @search.json
+```
 
-## Description
-It is possible call misp-modules directly from API.
-If the module needs credentials, API will get the information directly from MISP configuration.
+The JSON attribute result is normally under `response.Attribute`. An event search normally
+returns a `response` list of `Event` envelopes. Other endpoints and export formats use different
+shapes: check them before writing a generic parser. IDs are local to an instance; retain **UUIDs**
+for event and attribute identity across systems.
 
-### GET /modules/
-Retrieve a list of all modules enabled.
+<a id="filtering-event-metadata"></a>
 
-#### Example 
-~~~bash
-curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --header "Content-Type: application/json" -X GET http://<MISP>/modules/
-~~~
+### Choose the filters for the job {#api-search-filters}
 
-#### Output
-~~~json
-[
-  {
-    "name": "passivetotal",
-    "type": "expansion",
-    "mispattributes": {
-      "input": [
-        "hostname",
-        "domain",
-        "ip-src",
-        "ip-dst"
-      ],
-      "output": [
-        "ip-src",
-        "ip-dst",
-        "hostname",
-        "domain"
-      ]
-    },
-    "meta": {
-      "description": "PassiveTotal expansion service to expand values with multiple Passive DNS sources",
-      "config": [
-        "username",
-        "password"
-      ],
-      "author": "Alexandre Dulaunoy",
-      "version": "0.1"
-    }
-  },
-  {
-    "name": "sourcecache",
-    "type": "expansion",
-    "mispattributes": {
-      "input": [
-        "link"
-      ],
-      "output": [
-        "link"
-      ]
-    },
-    "meta": {
-      "description": "Module to cache web pages of analysis reports, OSINT sources. The module returns a link of the cached page.",
-      "author": "Alexandre Dulaunoy",
-      "version": "0.1"
-    }
-  },
-  {
-    "name": "dns",
-    "type": "expansion",
-    "mispattributes": {
-      "input": [
-        "hostname",
-        "domain"
-      ],
-      "output": [
-        "ip-src",
-        "ip-dst"
-      ]
-    },
-    "meta": {
-      "description": "Simple DNS expansion service to resolve IP address from MISP attributes",
-      "author": "Alexandre Dulaunoy",
-      "version": "0.1"
-    }
+::: {.table-responsive}
+
+| Filter | Meaning |
+|---|---|
+| `value`{.text-wrap .text-break}, `type`{.text-wrap .text-break}, `category`{.text-wrap .text-break} | Select the observation values and types you need. Wildcard and boolean forms are endpoint-specific. |
+| `eventid`{.text-wrap .text-break}, `uuid`{.text-wrap .text-break} | Restrict the search to known events or entities. Prefer UUIDs for portable references. |
+| `tags`{.text-wrap .text-break} | Select handling, source or workflow tags. Tags do not grant access or replace distribution. |
+| `published`{.text-wrap .text-break} | Select published/unpublished events; omit it when both are intended and visible. Unpublished is not a privacy setting. |
+| `to_ids`{.text-wrap .text-break} | Use `true`{.text-wrap .text-break} to select detection attributes. Omitting the filter is useful for investigation and context searches. |
+| `enforceWarninglist`{.text-wrap .text-break} | Exclude warninglist matches from an export where supported. A missing match is not a guarantee of safety. |
+| `timestamp`{.text-wrap .text-break} | Filter modifications in the controller's scope: event changes for event searches, attribute changes for attribute searches. |
+| `publish_timestamp`{.text-wrap .text-break} | Filter event publication times. The legacy `last`{.text-wrap .text-break} parameter is an alias; use the explicit name in new clients. |
+| `from`{.text-wrap .text-break}, `to`{.text-wrap .text-break} | Filter the event's date, not necessarily the last modification or observation time. |
+| `deleted`{.text-wrap .text-break} | On attribute searches, request soft-deleted records where the account may see them; `[0,1]`{.text-wrap .text-break} includes active and deleted records. |
+| `limit`{.text-wrap .text-break}, `page`{.text-wrap .text-break} | Bound the result and request subsequent pages, starting at page 1. |
+| `withAttachments`{.text-wrap .text-break} | Include binary attachment data where supported; leave it off for ordinary indicator polling. |
+
+:::
+
+For a detection export, combine a deliberate source/audience selection with `published: true`,
+`to_ids: true` and suitable warninglist handling. The training data in this book has `to_ids`
+disabled and is not intended for detection. Check [best practices](../best-practices/index.qmd)
+before enabling an operational export.
+
+### Poll incrementally and recover {#api-incremental-polling}
+
+A reliable connector needs more than a recurring search:
+
+1. Keep a checkpoint of the last **fully processed** time window. Query with an overlap so that
+   equal timestamps, retries and delayed changes can be handled again.
+2. Use a bounded window and paginate through every result. Apply records by UUID and compare
+   their modification time, so a retry does not create duplicate target records.
+3. Process relevant deletions, expiry and changes to detection flags. A value that stops matching
+   a filter or becomes invisible may disappear without a tombstone in that query.
+4. Commit the checkpoint only after the whole batch is safely applied. On failure, retry from
+   the previous checkpoint with bounded backoff.
+5. Reconcile periodically against the authorised source set. Pagination over a changing data set
+   is not an immutable snapshot, and a modification filter alone cannot report every access revocation.
+
+![Advance a polling checkpoint only after processing the full window; retries reuse the previous checkpoint and apply updates by UUID.](figures/incremental-polling.svg)
+
+<a id="events-management"></a>
+<a id="events"></a>
+<a id="accepted-methods"></a>
+<a id="description"></a>
+<a id="get-events"></a>
+<a id="description-1"></a>
+<a id="url-arguments"></a>
+<a id="output"></a>
+<a id="example-1"></a>
+<a id="post-events"></a>
+<a id="example-2"></a>
+<a id="delete-events"></a>
+<a id="description-2"></a>
+<a id="url-arguments-1"></a>
+<a id="output-1"></a>
+<a id="example-3"></a>
+<a id="get-eventsindex"></a>
+<a id="description-3"></a>
+<a id="output-2"></a>
+<a id="example-4"></a>
+<a id="post-eventsaddtag"></a>
+<a id="url-arguments-2"></a>
+<a id="post-eventsremovetag"></a>
+<a id="url-arguments-3"></a>
+<a id="get-eventspusheventtozmq"></a>
+<a id="description-4"></a>
+<a id="url-arguments-4"></a>
+<a id="example-5"></a>
+<a id="get-eventsnids-nids-rules-export"></a>
+<a id="get-eventshids-hash---hids-database-export"></a>
+<a id="get-eventsstix-stix-export"></a>
+<a id="various-ways-to-narrow-down-the-search-results-of-the-stix-export"></a>
+
+## Create and maintain event data {#api-event-management}
+
+The following bodies illustrate writes to a **private, unpublished** exercise event. Check the
+response for the created UUID and use that identifier in later requests. The account needs the
+corresponding permissions and ownership; administrator credentials should not be a script default.
+
+### Create an event {#api-create-event}
+
+POST to `/events/add`:
+
+```json
+{
+  "Event": {
+    "info": "Integration exercise: private observations",
+    "date": "2026-11-06",
+    "distribution": 0,
+    "threat_level_id": 4,
+    "analysis": 0,
+    "published": false
   }
-]
-~~~
-
-### POST /modules/queryEnrichment
-Call any enabled module.
-
-#### Example
-
-Content of dns.json
-~~~json
-{
-  "hostname": "www.foo.be",
-  "module": "dns"
 }
-~~~
+```
 
-Query using MISP API
+`threat_level_id` is **1 High, 2 Medium, 3 Low, 4 Undefined**. Do not use a zero-based mapping.
+Distribution 0 restricts the event to its owning organisation; an unpublished community event
+can still be visible locally under the instance's policy.
 
-~~~bash
-curl --header "Authorization: <APIKEY> " --header "Accept: application/json" --header "Content-Type: application/json" --data @dns.json -X POST http://<MISP>/modules/queryEnrichment
-~~~
+<a id="attribute-management"></a>
+<a id="post-attributesadd"></a>
+<a id="url-arguments-8"></a>
+<a id="output-4"></a>
+<a id="example-10"></a>
+<a id="get-attributes"></a>
+<a id="url-arguments-9"></a>
+<a id="url-attributes"></a>
+<a id="output-5"></a>
+<a id="example-11"></a>
+<a id="post-attributesdelete"></a>
+<a id="description-9"></a>
+<a id="url-arguments-10"></a>
+<a id="output-6"></a>
+<a id="example-12"></a>
+<a id="post-attributesaddtag"></a>
+<a id="url-arguments-11"></a>
+<a id="post-attributesremovetag"></a>
+<a id="url-arguments-12"></a>
+<a id="get-attributesattributestatistics"></a>
+<a id="description-10"></a>
+<a id="output-7"></a>
+<a id="example-13"></a>
+<a id="get-attributesdescribetypes-describe-types-api"></a>
+<a id="example-14"></a>
+<a id="post-attributesrestsearch"></a>
+<a id="parameters"></a>
+<a id="example-15"></a>
+<a id="objects-management"></a>
+<a id="post-objectsdeleteobject_idhard_delete"></a>
+<a id="description-11"></a>
+<a id="url-arguments-13"></a>
+<a id="example-16"></a>
 
-The output will be following JSON:
+### Add an attribute or object {#api-attribute-management}
 
-~~~json
+POST to `/attributes/add/{event_uuid}` with an `Attribute` envelope:
+
+```json
 {
-  "results": [
-    {
-      "types": [
-        "ip-src",
-        "ip-dst"
-      ],
-      "values": [
-        "188.65.217.78"
-      ]
-    }
-  ]
+  "Attribute": {
+    "type": "ip-dst",
+    "category": "Network activity",
+    "value": "192.0.2.80",
+    "to_ids": false,
+    "distribution": 5,
+    "comment": "Reserved documentation address; keep out of detection exports."
+  }
 }
-~~~
+```
 
+Distribution **5** on a child means inherit from its parent. Use
+`GET /attributes/describeTypes` to inspect accepted types/categories and
+`POST /objects/add/{event_uuid}` for a structured MISP object. Follow the active
+[object template](../misp-objects/index.qmd); a collection of similarly named standalone
+attributes does not create an object automatically.
+
+<a id="tag-management"></a>
+<a id="post-tagsadd"></a>
+<a id="description-5"></a>
+<a id="url-arguments-5"></a>
+<a id="mandatory"></a>
+<a id="optional"></a>
+<a id="example-6"></a>
+<a id="post-tagsattachtagtoobject"></a>
+<a id="description-6"></a>
+<a id="url-arguments-6"></a>
+<a id="response"></a>
+<a id="example-7"></a>
+<a id="post-tagsremovetagfromobject"></a>
+<a id="description-7"></a>
+<a id="url-arguments-7"></a>
+<a id="response-1"></a>
+<a id="example-8"></a>
+<a id="get-tagstagstatistics"></a>
+<a id="description-8"></a>
+<a id="output-3"></a>
+<a id="example-9"></a>
+
+### Update, tag and publish deliberately {#api-updates-and-tags}
+
+::: {.table-responsive}
+
+| Operation | Endpoint and body |
+|---|---|
+| Fetch an event | `GET /events/view/{uuid}`{.text-wrap .text-break} |
+| Update event metadata | `POST /events/edit/{uuid}`{.text-wrap .text-break} with an `Event`{.text-wrap .text-break} envelope. |
+| Update an attribute | `POST /attributes/edit/{uuid}`{.text-wrap .text-break} with an `Attribute`{.text-wrap .text-break} envelope. |
+| Attach an event tag | `POST /events/addTag`{.text-wrap .text-break} with `{"event":"EVENT_UUID","tag":"tlp:clear"}`{.text-wrap .text-break}. |
+| Remove an event tag | `POST /events/removeTag`{.text-wrap .text-break} with the event and tag identifiers. |
+| Tag an attribute | `POST /attributes/addTag`{.text-wrap .text-break} with `{"attribute":"ATTRIBUTE_UUID","tag":"TAG_NAME"}`{.text-wrap .text-break}. |
+| Delete an attribute | `POST /attributes/delete/{uuid}`{.text-wrap .text-break}; review soft/hard-delete behaviour before choosing a variant. |
+| Delete an object | `POST /objects/delete/{uuid}`{.text-wrap .text-break}; check the selected deletion mode. |
+| Delete an event | `POST /events/delete/{uuid}`{.text-wrap .text-break}; review the consequences for its children and connected systems. |
+| Publish a reviewed event | `POST /events/publish/{uuid}`{.text-wrap .text-break}; this can initiate synchronization and configured downstream actions. |
+
+:::
+
+Fetch the response and confirm the saved state. Do not retry an ambiguous create blindly:
+after a timeout, query the UUID or reconcile before adding another copy. Publication is a separate
+workflow decision; none of the training examples requires publishing an event.
+
+<a id="discussion-api"></a>
+
+## MISP 3.0 values and research data {#api-value-targets}
+
+MISP 3.0 distinguishes an **attribute occurrence** from the **value** it holds. An attribute has
+a UUID; a value has a SHA-256 address computed from the stored, normalized UTF-8 text.
+
+Look up an accessible value with:
+
+```bash
+misp_api GET /values/view --get --data-urlencode 'value=example.org'
+```
+
+The equivalent address lookup is `GET /values/view/sha256:{hex}`. Local numeric value IDs are
+not portable identifiers. Read the stored value and address from the response rather than
+hashing an unnormalized input. For a composite attribute, each component value has its own address.
+
+Use the address fields appropriate to the target type:
+
+::: {.table-responsive}
+
+| Target | Address in a write |
+|---|---|
+| Event, attribute, object or another UUID target | `object_uuid`{.text-wrap .text-break} for Analyst Data; `element_uuid`{.text-wrap .text-break} for collection elements. |
+| `AttributeValue`{.text-wrap .text-break} | `object_sha256`{.text-wrap .text-break} for Analyst Data; `element_sha256`{.text-wrap .text-break} for collection elements. |
+| Relationship's value target | `related_object_type: "AttributeValue"`{.text-wrap .text-break} with `related_object_sha256`{.text-wrap .text-break}. |
+
+:::
+
+For example, POST a note to
+`/analystData/add/Note/{sha256}/AttributeValue`{.text-wrap .text-break}:
+
+```json
+{
+  "Note": {
+    "note": "Training value: retain the source context before making an assessment.",
+    "language": "en",
+    "distribution": 0
+  }
+}
+```
+
+Add a value reference with `POST /collectionElements/add/{collection_id}`:
+
+```json
+{
+  "CollectionElement": {
+    "element_type": "AttributeValue",
+    "element_sha256": "SHA256_OF_STORED_VALUE",
+    "description": "Reserved training value, not a maliciousness verdict."
+  }
+}
+```
+
+These records have their own distribution. A reference does not give its reader access to the
+source event or reveal a value that the reader cannot resolve through a visible attribute.
+See [Analyst Data](../analyst-data/index.qmd) and [Collections](../collections/index.qmd) for
+visibility and older-peer limitations. Some 3.0 calls are not wrapped by every PyMISP release;
+use documented REST requests for those operations rather than inventing a client method.
+
+The old `/threads/` and `/posts/` discussion API is removed in this branch. Use Analyst Data
+notes/replies on the relevant target. Event reports use `/eventReports/` endpoints for a narrative;
+neither a note nor a report should be treated as an attribute containing a detection indicator.
+
+<a id="sightings"></a>
+<a id="post-sightingsadd"></a>
+
+## Sightings API {#sightings-api}
+
+POST to `/sightings/add/{attribute_uuid}` to record an observation of that occurrence:
+
+```json
+{
+  "type": 0,
+  "source": "Documentation exercise",
+  "timestamp": 1793956200
+}
+```
+
+Use **0** for a sighting, **1** for a false positive and **2** for an expiration.
+The add request uses **`timestamp`**; a returned record has `date_sighting`. Omitting the
+observation time records the current time. Supplying a value instead of one attribute occurrence
+can affect multiple matching attributes; choose the scope deliberately.
+
+`POST /sightings/restSearch` provides filtered retrieval. For bulk input, use the endpoint's
+documented batch format rather than repeatedly reporting the same observation after an uncertain
+response. See [Sightings](../sightings/index.qmd) for interpretation and visibility.
+
+<a id="organisation-management"></a>
+<a id="special-cases"></a>
+<a id="xml-export"></a>
+<a id="json-query-format"></a>
+<a id="xml-query-format"></a>
+<a id="xml-download-and-url-parameters"></a>
+<a id="csv-export"></a>
+<a id="update-2.4.82"></a>
+<a id="rpz-export"></a>
+<a id="text-export"></a>
+<a id="restful-searches-with-xml-result-export"></a>
+<a id="export-attributes-of-event-with-specified-type-as-xml"></a>
+<a id="download-attachment-or-malware-sample"></a>
+<a id="download-malware-sample-by-hash"></a>
+<a id="upload-malware-samples-using-the-upload-sample-api"></a>
+<a id="proposals-api"></a>
+<a id="sharing-groups"></a>
+<a id="warninglists-api"></a>
+<a id="get-warninglistsindex"></a>
+<a id="description-14"></a>
+<a id="parameters-3"></a>
+<a id="output-10"></a>
+<a id="example-21"></a>
+<a id="get-warninglistsview1"></a>
+<a id="description-15"></a>
+<a id="parameters-4"></a>
+<a id="output-11"></a>
+<a id="example-22"></a>
+<a id="attribute-statistics-api"></a>
+<a id="additional-statistics"></a>
+
+## Exports, attachments and specialised APIs {#api-exports}
+
+Use `returnFormat` in a `restSearch` body for exports. JSON is a useful starting point; CSV, text,
+STIX, Suricata/Snort, RPZ and other formats have different controller support and options.
+Inspect the live reference for the exact format and filters. Export success does not mean that
+every source feature is representable in the target format.
+Some formats, including text, default to published, IDS-enabled attributes when those filters
+are omitted. Set the intended scope explicitly; JSON and detection-oriented formats do not
+necessarily have identical defaults.
+
+::: {.table-responsive}
+
+| Task | Current approach |
+|---|---|
+| JSON/XML event export | Search `/events/restSearch`{.text-wrap .text-break} with the selected format and bounded filters. |
+| CSV or plain values | Search `/attributes/restSearch`{.text-wrap .text-break} with `returnFormat: "csv"`{.text-wrap .text-break} or `"text"`{.text-wrap .text-break}, selecting the required types and fields. |
+| IDS, hash/HIDS or DNS RPZ output | Select the supported format, source scope, detection flags and format-specific parameters explicitly. |
+| STIX export/import | Use the supported STIX version and installed conversion dependencies; validate the output with the receiving platform. |
+| Download an attachment | Use the attribute's attachment-download endpoint, subject to event visibility. Request binary data only when needed. |
+| Sample lookup/download | Use the documented sample APIs and retain the expected archive/password handling. Do not treat the response as ordinary indicator JSON. |
+| Upload a file/sample | Use an attribute/object attachment workflow or the documented upload API. Its base64 payload, distribution and IDS defaults need review. |
+| Proposals | `/shadow_attributes/view`{.text-wrap .text-break}, `/add`{.text-wrap .text-break}, `/edit`{.text-wrap .text-break}, `/accept`{.text-wrap .text-break} and `/discard`{.text-wrap .text-break}, with the required target identifier and `ShadowAttribute`{.text-wrap .text-break} envelope. The owner reviews proposed changes. |
+| Sharing groups | `GET /sharing_groups/index`{.text-wrap .text-break} returns groups visible to the authenticated account. Their membership is separate from collections of content. |
+| Feed metadata and jobs | `/feeds/`{.text-wrap .text-break} endpoints described below; caching and ingestion are separate. |
+| Organisations and users | Use the reference's organisation and admin-user endpoints, with the appropriate administrator role and scope. Numeric IDs differ between instances. |
+| Warninglists, statistics and type metadata | Use their documented read endpoints; access and response shape depend on the operation and role. |
+
+:::
+
+The old positional export recipes (`/events/xml/...`, `/events/csv/...`, `/events/text/...`
+and similar paths) are legacy interfaces. Prefer a named JSON search body for new clients.
+Never copy an old URL recipe that embeds an authentication key.
+
+<a id="enable-disable-and-fetching-feeds-via-the-api"></a>
+
+### Automate feed operations {#api-feed-operations}
+
+Feed administration requires a site administrator. Typical operations are:
+
+::: {.table-responsive}
+
+| Method and endpoint | Effect |
+|---|---|
+| `POST /feeds/enable/{id}`{.text-wrap .text-break} | Enable ingestion for that feed. |
+| `POST /feeds/disable/{id}`{.text-wrap .text-break} | Disable ingestion; caching is controlled separately. |
+| `POST /feeds/cacheFeeds/{id}`{.text-wrap .text-break} | Cache that feed when its caching flag is enabled. |
+| `POST /feeds/cacheFeeds/all`{.text-wrap .text-break} | Cache all eligible feeds; use `misp`{.text-wrap .text-break} or `freetext`{.text-wrap .text-break} for a format scope. |
+| `POST /feeds/fetchFromFeed/{id}`{.text-wrap .text-break} | Import an enabled feed. |
+| `POST /feeds/fetchFromAllFeeds`{.text-wrap .text-break} | Bulk ingestion; review the source set before running it. |
+
+:::
+
+With background jobs enabled, acceptance of a request does not prove the job completed.
+Inspect the job outcome, cache time or resulting event. See [Managing feeds](../managing-feeds/index.qmd).
+
+<a id="misp-modules"></a>
+<a id="description-16"></a>
+<a id="get-modules"></a>
+<a id="example-23"></a>
+<a id="output-12"></a>
+<a id="post-modulesqueryenrichment"></a>
+<a id="example-24"></a>
+
+### Query an enrichment service {#api-module-queries}
+
+`GET /modules/index` exposes enabled enrichment modules available to the account when the
+service is configured and reachable. `POST /modules/queryEnrichment` is the **hover-query**
+path: it requires an enabled module supporting hover and input matching that module's schema.
+It is not a generic import, expansion or AI endpoint. The request needs a `module` name; MISP
+adds configured module credentials before forwarding it to the service.
+
+Use the [Modules](../modules/index.qmd) chapter for service configuration, organisation
+restrictions, event import/enrichment and the separate AI family. Review results before saving
+them into intelligence or enabling their IDS flags.
+
+<a id="status-codes"></a>
+<a id="error-handling"></a>
+<a id="wrong-endpoint-chosen"></a>
+<a id="example"></a>
+
+## Errors and operational checks {#api-errors}
+
+::: {.table-responsive}
+
+| HTTP result | What to check |
+|---|---|
+| **200** | Parse the expected envelope and inspect endpoint-level success/error fields. A job may still be pending. |
+| **403** | Missing/invalid/expired key, IP restrictions, account role, read-only restriction or insufficient access. |
+| **404** | Wrong route, missing entity or an entity not visible to this account. Do not interpret every 404 as a source deletion. |
+| **405** | Method, required input or workflow constraint rejected. MISP also uses this status for some validation errors. Read the body. |
+| **429** | Respect a rate limit and any retry guidance from the instance or gateway. |
+| **5xx / transport failure** | Bound retries, retain the last successful checkpoint and investigate server/job logs. Reconcile an ambiguous write before retrying it. |
+
+:::
+
+Log status, endpoint, timing and stable identifiers rather than entire authenticated requests
+or sensitive response bodies. Test with the same account, filters and network path the scheduled
+integration will use. Include empty results, pagination, permission failures and source removals
+in acceptance checks, not only the first successful search.

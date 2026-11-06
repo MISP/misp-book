@@ -1,121 +1,167 @@
 ---
 title: "External Connectors"
+format:
+  html:
+    lightbox: true
 ---
-<a id="external-connectors"></a>
 
-
-MISP is designed to sit at the centre of a security stack, not in isolation. Threat
-intelligence stored in MISP is meant to flow *out* to detection and response tooling (SIEM,
-EDR/XDR, firewalls, IDS), and context is meant to flow *in* from those same tools and from
-other intelligence sources. This chapter is an index of the ways MISP connects to external
-systems, with one worked example.
-
-::: {.callout-tip}
-The authoritative, continuously updated catalogue of tools that talk to MISP lives on the
-[MISP project website](https://www.misp-project.org/tools/) and under the
-[MISP GitHub organisation](https://github.com/MISP). When in doubt about the current state of
-a specific integration, check there — third-party connectors evolve independently of MISP
-releases.
-:::
-
-## How MISP connects to other tools
-
-There is rarely just one way to integrate; pick the mechanism that fits the other system.
-
-| Mechanism | Use it for | Covered in |
-|---|---|---|
-| **REST API** | Any programmatic access — query, create, export, orchestrate | [Automation & API](../automation/index.qmd) |
-| **PyMISP** | Python integrations, scripts and glue code | [PyMISP](../pymisp/index.qmd) |
-| **MISP-to-MISP sync** | Sharing with other MISP instances and communities | [Sharing](../sharing/index.qmd) |
-| **STIX 1 / STIX 2 & TAXII 2.x** | Interop with STIX/TAXII-based platforms | [Sharing](../sharing/index.qmd), [Automation](../automation/index.qmd) |
-| **Enrichment / import / export modules** | Pluggable enrichment and format conversion | [Misp-modules](../modules/index.qmd) |
-| **ZeroMQ pub/sub** | Real-time streaming of MISP activity to other systems | [ZeroMQ](../misp-zmq/index.qmd) |
-| **Feeds** | Consuming external indicator feeds into MISP | [Managing feeds](../managing-feeds/index.qmd) |
-
-Most third-party "connectors" are built on top of one of these — typically the REST API (via
-PyMISP) for pulling indicators out, or STIX/TAXII for standards-based exchange.
-
-## Notable integrations
-
-The following are widely used integrations. Consult the linked upstream projects for current
-setup instructions and version support — they are maintained outside the MISP core release.
-
-- **SIEM / log analytics** — Splunk, Elastic/ELK, IBM QRadar and similar platforms typically
-  ingest MISP indicators through the REST API or a dedicated add-on. Several are listed in the
-  MISP tools catalogue.
-- **Microsoft Sentinel & Microsoft Defender** — export IoCs through the Microsoft Graph
-  Security API using the sample script (worked example below).
-- **SOAR / case management** — TheHive and Cortex integrate closely with MISP for alerting,
-  observable enrichment and case handling.
-- **STIX / TAXII platforms** — MISP exports and imports STIX 1 and STIX 2 (via the
-  [misp-stix](https://github.com/MISP/misp-stix) library) and can push to TAXII 2.x servers;
-  see the [Sharing](../sharing/index.qmd) chapter's TAXII section.
-- **Trust & directory** — [Cerebrate](https://github.com/cerebrate-project/cerebrate)
-  distributes organisation and sharing-group information across a community; see
-  [Sharing](../sharing/index.qmd).
-
-<a id="misp-to-microsoft-graph-security-script"></a>
-
-## Worked example: MISP to Microsoft Graph Security
-
-The **MISP to Microsoft Graph Security Script** lets you export custom threat indicators
-(IoCs) from MISP to Microsoft products such as **Microsoft Sentinel** and **Microsoft
-Defender**, through the [Microsoft Graph Security API](https://aka.ms/graphsecuritydocs).
-
-The sample and its most current instructions live in the
-[Microsoft Graph security-api-solutions repository](https://github.com/microsoftgraph/security-api-solutions/tree/master/Samples/MISP)
-([short link](https://aka.ms/tipmispsample)). The summary below reflects that sample at time
-of writing; treat the upstream README as authoritative.
-
-### Prerequisites
-
-- Python 3.x.
-- A Microsoft account or an Office 365 for business account able to register an application in
-  Azure Active Directory.
-
-### Getting started
-
-1. Clone the [sample repository](https://github.com/microsoftgraph/security-api-solutions/tree/master/Samples/MISP).
-2. Change into the `security-api-solutions/Samples/MISP` directory.
-3. Install the dependencies: `pip3 install requests requests-futures pymisp`.
-4. Register an application in the [Azure portal](https://portal.azure.com/) under
-   *App registrations → New registration*. Record the **Application (client) ID**, create a
-   **client secret** under *Certificates & secrets*, and under *API permissions* grant the
-   Microsoft Graph application permission **ThreatIndicators.ReadWrite.OwnedBy**.
-5. Fill in `config.py` with your tenant, client ID and client secret, and your MISP
-   connection details.
-6. Run the script: `PYTHONHASHSEED=0 python3 script.py`.
-
-### Key configuration options (`config.py`)
-
-- **Target product** — `targetProduct = "Azure Sentinel"` or `targetProduct = "Microsoft Defender ATP"`.
-- **MISP connection** — `misp_domain`, `misp_key` (use a dedicated sync/automation key — see
-  [Advanced AuthKeys](../user-management/index.qmd)), and `misp_verifycert`
-  (keep `True` in production with a valid certificate).
-- **Event filters** — `misp_event_filters` is a list of filter dictionaries applied as an
-  *intersection*; within a single filter, a list of values is an *OR*. An empty list
-  (`misp_event_filters = []`) exports all events. The filter keys mirror MISP's
-  [REST search parameters](../automation/index.qmd) (`type_attribute`, `category`, `tags`,
-  `date_from`/`date_to`, `last`, `published`, and so on).
-- **Action** — `alert` (default), `allow`, or `block`, controlling how the indicator is
-  treated in the target product.
-- **Expiry** — `days_to_expire` sets how long indicators live in the Graph Security API
-  (default 30).
-
-### Reading and troubleshooting
-
-- List indicators already pushed: `python3 script.py -r`.
-- Every request is logged as a JSON file under `logs/`; failed requests can be reviewed with
-  `cat logs/*_error_*`.
-- Schedule regular runs with cron, for example every Sunday at 02:00:
-
-```
-0 2 * * Sun /home/user/misp-graph-script/python3 script.py
-```
+A connector turns selected MISP intelligence into something another system can use, or brings
+observations back into MISP. Choose the data contract before the transport: which records,
+which audience, how updates/removals are handled and how processing failures are recovered.
 
 ::: {.callout-note}
-This worked example is adapted from the upstream Microsoft sample and is included to show the
-*shape* of a REST/PyMISP-based connector. For the exact, current steps — including any changes
-to Azure app registration or the script itself — always follow the
-[upstream README](https://aka.ms/tipmispsample).
+This chapter follows MISP **3.0.0** (`3.0_wip`, commit `99ebee729`). Third-party connectors have
+their own releases and compatibility requirements. Check the maintained
+[MISP tools catalogue](https://www.misp-project.org/tools/) and the connector's upstream project
+for current setup instructions.
 :::
+
+<!-- Verification and diagram provenance: ../assets/automation-screenshots.json -->
+
+<a id="how-misp-connects-to-other-tools"></a>
+<a id="notable-integrations"></a>
+<a id="external-connectors"></a>
+
+## Choose an integration mechanism {#connectors-mechanisms}
+
+::: {.table-responsive}
+
+| Mechanism | Suitable use | Check first |
+|---|---|---|
+| [REST API](../automation/index.qmd) / [PyMISP](../pymisp/index.qmd) | Query, ingest, export and orchestrate with an API account. | Account permissions, distribution, filters, pagination and retry/removal handling. |
+| [Native MISP synchronization](../sharing/index.qmd) | Exchange eligible intelligence with another MISP instance. | Peer identity, direction, feature support, distribution and sharing groups. |
+| STIX / TAXII | Exchange with platforms using those standards. | Exact STIX/TAXII version, conversion coverage and the receiving platform's contract. |
+| [Modules](../modules/index.qmd) | Enrichment, import/export conversion or workflow actions. | Enabled family/module, dependencies, provider/data scope and organisation restrictions. |
+| [ZeroMQ / Kafka notifications](../misp-zmq/index.qmd) | Trigger trusted processing when MISP activity occurs. | Instance-wide data boundary, framing/topics, recovery and consumer behaviour. |
+| [Feeds](../managing-feeds/index.qmd) | Cache or ingest a published source. | Source format, caching versus import, audience and publication policy. |
+
+:::
+
+![A connector selects authorised source data, maps stable identities and lifecycle changes, then applies them to a target and records progress.](figures/connector-lifecycle.svg)
+
+For a SIEM or EDR export, start with an account and filters appropriate to that destination.
+For SOAR/case management, preserve source UUIDs and context when creating cases or reporting
+observations. A broad administrator key or instance notification stream is not a substitute for
+deciding the destination's permitted audience.
+
+## Define the data contract {#connectors-contract}
+
+Document these decisions with the connector configuration:
+
+- **Selection**: approved sources, handling tags, distribution/audience, publication state,
+  detection flags, supported types and warninglist policy. A tag is a filter, not an ACL.
+- **Identity**: map MISP event/attribute UUIDs to target record IDs. Preserve provenance and the
+  source timestamp; local numeric IDs are not portable.
+- **Lifecycle**: update, expire and remove target records when values are corrected, withdrawn,
+  deleted, excluded or no longer visible. A one-time export cannot maintain that state.
+- **Delivery**: bound query pages/batches, retries and checkpoints. Apply writes idempotently and
+  reconcile after an ambiguous response or downtime.
+- **Feedback**: decide whether a target observation is a sighting, false positive, proposal or
+  Analyst Data assessment. Those record types have different meanings and permissions.
+
+MISP 3.0 value addresses are useful for context shared across occurrences, but a sink should not
+replace an attribute's identity with a value hash without considering its own lifecycle model.
+A collection is a set of references, not a guarantee that all referenced data arrived or is visible.
+
+## Worked example: stage a detection export {#connectors-worked-example}
+
+This example writes a local JSON snapshot for validation before building a product-specific
+adapter. It does not send data to a SIEM, EDR or other external system. Use an integration key
+with the intended read scope and the environment configuration described in
+[PyMISP](../pymisp/index.qmd#pymisp-configuration).
+
+```python
+import json
+import os
+from pathlib import Path
+import requests
+
+session = requests.Session()
+session.headers.update({
+    "Authorization": os.environ["MISP_KEY"],
+    "Accept": "application/json",
+    "Content-Type": "application/json",
+})
+base = os.environ["MISP_URL"].rstrip("/")
+records = {}
+page = 1
+while True:
+    response = session.post(
+        base + "/attributes/restSearch",
+        json={
+            "returnFormat": "json",
+            "published": True,
+            "to_ids": True,
+            "tags": ["tlp:clear"],
+            "enforceWarninglist": True,
+            "includeEventUuid": True,
+            "limit": 100,
+            "page": page,
+        },
+        timeout=30,
+        verify=os.environ.get("MISP_CA_BUNDLE") or True,
+    )
+    response.raise_for_status()
+    envelope = response.json()
+    container = envelope.get("response")
+    if not isinstance(container, dict) or not isinstance(container.get("Attribute"), list):
+        raise RuntimeError("Unexpected attribute-search response")
+    batch = container["Attribute"]
+    if not batch:
+        break
+    for attribute in batch:
+        records[attribute["uuid"]] = attribute
+    page += 1
+
+Path("misp-export.json").write_text(
+    json.dumps(list(records.values()), indent=2) + "\n", encoding="utf-8"
+)
+print(f"Staged {len(records)} attributes for review")
+```
+
+Replace the example's selection with the destination's approved policy. `tlp:clear` alone is not
+a source-quality or detection-value test. The book's private training observations have IDS
+flags off, so the expected training result for this detection selection is empty.
+
+Validate types, values, expiry, required context and target limits before implementing the
+upload. For a scheduled connector, add a bounded modification window, persistent checkpoints,
+backoff and reconciliation as described in the [polling workflow](../automation/index.qmd#api-incremental-polling).
+Do not treat this local snapshot script as a complete bidirectional synchronization service.
+
+<a id="worked-example-misp-to-microsoft-graph-security"></a>
+<a id="prerequisites"></a>
+<a id="getting-started"></a>
+<a id="key-configuration-options-config.py"></a>
+<a id="reading-and-troubleshooting"></a>
+<a id="misp-to-microsoft-graph-security-script"></a>
+
+## Microsoft Sentinel and the historical Graph sample {#connectors-microsoft}
+
+The old Microsoft Graph Security **`tiIndicator`** resource is documented by Microsoft as
+[deprecated](https://learn.microsoft.com/en-us/graph/api/resources/tiindicator?view=graph-rest-beta).
+The historical `security-api-solutions/Samples/MISP` recipe should not be the starting point for
+a new Microsoft Sentinel deployment. Its Graph permissions, target-product settings and
+`allow`/`block`/`alert` behaviour must not be assumed to apply to a replacement API.
+
+For a new integration, evaluate Microsoft's current
+[Sentinel threat intelligence upload API](https://learn.microsoft.com/en-us/azure/sentinel/connect-threat-intelligence-upload-api)
+and supported TAXII/data-connector options. The linked upload API is currently documented as
+**Preview** and accepts STIX objects. Follow Microsoft's current requirements for the target
+workspace, Entra application, permission, endpoint, object schema and limits.
+
+Keep the MISP extraction/selection stage separate from that adapter. Test a small synthetic
+payload in the intended target environment, retain a UUID-to-target mapping and verify update,
+expiry and removal behaviour. A STIX conversion or successful HTTP submission does not prove
+that the destination will use every indicator as expected.
+
+## Check compatibility and operations {#connectors-operations}
+
+For any third-party integration, record the tested MISP, client, connector and target versions.
+Verify an empty result, multi-page result, duplicate delivery, update, removal, access loss,
+expired key, rate limit and restart. Monitor source-query freshness and the last successfully
+applied batch, not just whether a scheduler process ran.
+
+Use [Cerebrate](../sharing/index.qmd#cerebrate) for directory and sharing-group identities,
+[native synchronization](../sharing/index.qmd) for MISP peers, and the relevant provider's
+documentation for external platforms. These mechanisms have different trust and data models;
+test the actual contract rather than assuming that every integration preserves all MISP 3.0 features.

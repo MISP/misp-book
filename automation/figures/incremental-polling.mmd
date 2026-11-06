@@ -1,0 +1,17 @@
+flowchart TB
+  accTitle: Advance a polling checkpoint after a complete successful window
+  accDescr: Read the last committed checkpoint, query a bounded overlapping window and process every page by UUID. Fetch more pages until the window is complete, then save the new checkpoint. On a query or processing failure, retain the previous checkpoint and retry idempotently. Periodic reconciliation is still required for changes that disappear from the query scope.
+  S["Last committed checkpoint"] --> Q["Query bounded window<br/>with overlap · current page"]
+  Q --> P["Apply page by UUID<br/>Updates · removals · expiry"]
+  P --> M{"More pages?"}
+  M -->|"Yes · next page"| Q
+  M -->|"No · entire window applied"| C["Commit new checkpoint"]
+  Q -->|"Request fails"| R["Keep previous checkpoint<br/>Retry with backoff"]
+  P -->|"Processing fails"| R
+  R -. "Restart from saved progress" .-> Q
+  classDef stage fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef success fill:#edf6ef,stroke:#377448,color:#20482c;
+  classDef retry fill:#fff4df,stroke:#91651c,color:#573d13;
+  class S,Q,P,M stage;
+  class C success;
+  class R retry;

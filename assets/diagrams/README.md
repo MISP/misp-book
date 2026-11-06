@@ -1,4 +1,4 @@
-# Sharing and synchronization diagrams
+# Book diagrams
 
 The `.mmd` files beside each diagram are the editable Mermaid sources. The SVGs are
 committed so HTML, PDF and EPUB builds do not need a browser or a Mermaid download.

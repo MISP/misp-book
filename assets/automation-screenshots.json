@@ -1,0 +1,368 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17",
+    "app/files/misp-objects": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326",
+    "app/files/misp-galaxy": "306db6a359edbe1cf7cdc86ab1c8a9c1ff1f4a96"
+  },
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "generated_at": "2026-11-06T14:54:44.241136+00:00",
+  "scope_chapters": [
+    "automation/index.qmd",
+    "pymisp/index.qmd",
+    "misp-zmq/index.qmd",
+    "modules/index.qmd",
+    "connectors/index.qmd"
+  ],
+  "capture_method": "Chromium via Playwright against the pinned running MISP 3.0 checkout. Eight fresh captures, without retouching or arrow annotations. Six use the recorded viewport; the key form and real CSV import preview use DOM screenshots. The key form is unsaved and exposes no generated key; the REST client contains an authorization placeholder only.",
+  "fixture": {
+    "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "server_version": "3.0.0",
+    "pymisp_recommended_version": "2.5.34.4",
+    "events": [
+      {
+        "id": 10,
+        "uuid": "a2ebaa0d-4f0f-41fb-ac05-2c98ff0d4fea",
+        "info": "Integration exercise: private observations"
+      },
+      {
+        "id": 11,
+        "uuid": "53187ef4-7739-4a42-8f33-e4d36c95ab1c",
+        "info": "Integration exercise: Python draft"
+      }
+    ],
+    "attribute_uuid": "e4eb86d8-2883-4485-af35-d14300a4ae0a",
+    "domain_attribute_uuid": "35b54f24-253e-4f6a-8f8c-8fb2201942c8",
+    "value_sha256": "839f41f78dad4351873791c3cdf5e8bd49d34a48bebc7afb7918e5f0d1b7d7da",
+    "collection_id": 2,
+    "verification": {
+      "private_unpublished_writes": true,
+      "all_detection_flags_off": true,
+      "event_pagination": true,
+      "attribute_response_envelope": true,
+      "csv_export": true,
+      "text_export": true,
+      "value_lookup_by_text_and_sha256": true,
+      "value_note_and_collection_reference": true,
+      "sighting_timestamp_request": true,
+      "readonly_post_search_allowed": true,
+      "readonly_write_rejected_403": true,
+      "exact_connector_code_empty_detection_export": true,
+      "subscriber_single_frame_transport": true,
+      "subscriber_payload_and_error_cases": true,
+      "rest_client_with_explicit_readonly_key": true,
+      "enabled_hover_module_query": true,
+      "module_catalogue": true,
+      "csv_module_local_parse": true,
+      "module_ui_preview_without_save": true,
+      "temporary_readonly_key_revoked": true
+    },
+    "modules": {
+      "package": "misp-modules",
+      "version": "3.1.3",
+      "enabled_for_fixture": [
+        "Import/csvimport",
+        "Enrichment/extract_url_components"
+      ],
+      "provider_calls": false,
+      "ai_enabled": false,
+      "notification_publishing_enabled": false
+    }
+  },
+  "dependencies": {
+    "pymisp": "2.5.34.4",
+    "misp-modules": "3.1.3",
+    "module_runtime_image": "python:3.12-slim@sha256:4840d514c583a4d3d8cad3940e68dee6f0f6f3635c12fcd0a3d74c21a5b93a54",
+    "module_service_url": "http://misp3-automation-modules:6666",
+    "optional_module_dependencies": "Base package installed; only csvimport and extract_url_components are enabled in MISP. Other modules may require additional dependencies."
+  },
+  "configuration_notes": [
+    "The application source is unmodified. Local ignored configuration supplies database/Redis settings and disables mail, AI, Kafka and ZeroMQ publishing.",
+    "The official core image provides PHP/Composer dependencies. The application and pinned CakePHP source are mounted from the checkout; the pinned galaxy files are initialized for REST-client API metadata.",
+    "Capture and API tests use loopback/Docker-local HTTP only. The documentation examples require HTTPS with certificate verification. Container outbound traffic retains the session proxy and trusted CA bundle; only local service names and loopback addresses bypass the proxy.",
+    "The PHP capture server uses four workers so its actual REST client can perform a loopback API request. That request supplies a temporary regular-user read-only key explicitly. A POST search succeeds and an attribute write returns 403. The temporary key was deleted after the checks.",
+    "All new API/PyMISP exercise events use distribution 0, remain unpublished and have every IDS flag disabled. Values use reserved documentation domains and addresses. A private value note, collection reference and synthetic sighting were checked.",
+    "The CSV parser and URL-components hover module run in a separate local misp-modules 3.1.3 container. CSV parsing returns two reserved attributes with IDS off. The actual MISP import preview is captured before saving; the event attribute count is unchanged.",
+    "No external provider, LLM, target connector, event publication or synchronization was exercised. AI remains disabled. Kafka, ZeroMQ publication and remote encrypted transport are source-checked, not end-to-end delivery tests.",
+    "ZeroMQ tests execute the documented decoder with malformed frames, absent action and a real single-frame in-process PAIR socket transfer. This checks framing, not live MISP PUB/SUB delivery or durable recovery.",
+    "The exact connector snapshot example was executed with the temporary read-only key. Its published/IDS-enabled selection correctly stages zero private training attributes; no target upload is implemented or performed.",
+    "The PyMISP executable cell was genuinely re-executed with the pinned client against the private local fixture. All three HTML/EPUB/Typst frozen results are regenerated; ordinary builds reuse those committed results without live credentials."
+  ],
+  "feature_sources": [
+    "app/Controller/ApiController.php",
+    "app/Controller/AuthKeysController.php",
+    "app/Controller/AppController.php",
+    "app/Controller/EventsController.php",
+    "app/Controller/AttributesController.php",
+    "app/Controller/ObjectsController.php",
+    "app/Controller/ValuesController.php",
+    "app/Controller/AnalystDataController.php",
+    "app/Controller/CollectionElementsController.php",
+    "app/Controller/SightingsController.php",
+    "app/Controller/ModulesController.php",
+    "app/Controller/FeedsController.php",
+    "app/Model/AuthKey.php",
+    "app/Model/Event.php",
+    "app/Model/MispAttribute.php",
+    "app/Model/AttributeValue.php",
+    "app/Model/Module.php",
+    "app/Model/CollectionElement.php",
+    "app/Lib/Tools/ServerSettingGroups.php",
+    "app/Lib/Tools/PubSubTool.php",
+    "app/files/scripts/mispzmq/mispzmq.py",
+    "tools/misp-zmq/sub.py",
+    "app/webroot/doc/openapi.yaml"
+  ],
+  "external_references": {
+    "checked_at": "2026-11-06",
+    "deprecated_graph_resource": "https://learn.microsoft.com/en-us/graph/api/resources/tiindicator?view=graph-rest-beta",
+    "sentinel_upload_api": "https://learn.microsoft.com/en-us/azure/sentinel/connect-threat-intelligence-upload-api",
+    "sentinel_upload_api_status": "Preview in the referenced Microsoft documentation; no target submission tested."
+  },
+  "shots": [
+    {
+      "file": "automation/figures/misp3-rest-client.png",
+      "url": "/api/rest",
+      "description": "Bounded request staged before sending; authorization placeholder only, no real key or generated request snippet",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T14:47:23.085357+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "59a670c804c855563f350249e6357d2b97fbfe936dc5bfd18dd190997a15dee5",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "automation/figures/misp3-openapi.png",
+      "url": "/api/openapi",
+      "description": "Bundled OpenAPI reference in actual MISP 3.0 interface",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T14:47:26.520475+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "55fdf853ec61114a7b7d5e93350f7b674ed1305b56ac294fdde623dcfd79c0f3",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "misp-zmq/figures/misp3-zmq-settings.png",
+      "url": "/servers/serverSettings/zeromq",
+      "description": "ZeroMQ settings in current grouped Integrations interface; publisher remains disabled",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T14:47:28.197440+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "2e0f3339569e44a3beb483c2c1aa81b7713f81beab37cf26f26836caa9f1b27a",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "misp-zmq/figures/misp3-service-health.png",
+      "url": "/servers/serverSettings/services",
+      "description": "Actual service diagnostics; local module families reachable, ZeroMQ and AI disabled",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T14:47:31.439393+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "a7ee65a111cb56b016c23a924cb85b86d338ad5465e39ea9efc6ffcd390ef76d",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "modules/figures/misp3-module-settings.png",
+      "url": "/servers/serverSettings/import",
+      "description": "Import service and enabled csvimport module, filtered to the local parser",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T14:47:33.589414+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "b80a980c1f50a8f929b2c7391bef5c1509207dfc4f43c8d9446ae6e4cbb1053e",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "modules/figures/misp3-ai-settings.png",
+      "url": "/servers/serverSettings/ai",
+      "description": "Separate AI configuration page; disabled and no provider credentials configured",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T14:47:35.217362+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1200
+      },
+      "sha256": "ff6dd1b65348a2fec8d9bf643d89dc1571a2e050f0ba537945e6c88983a76cbd",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "modules/figures/misp3-module-import.png",
+      "url": "/events/view/10",
+      "description": "Real CSV module import preview with reserved values and IDS flags off, before saving anything",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T14:47:40.013001+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 394
+      },
+      "sha256": "d524872dd2791657f734fc7ee0b74cfbfd8046c5244508bca6ce9f22636266a4",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    },
+    {
+      "file": "automation/figures/misp3-auth-key.png",
+      "url": "/users/view/me",
+      "description": "Regular User key form before generation, with documentation IP restriction and read-only option; no key generated in capture",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T14:47:42.617026+00:00",
+      "image_size": {
+        "width": 800,
+        "height": 714
+      },
+      "sha256": "210c673648f36f74d0586c49ebc6feadaf22c53d8e9b01148399f78045ba5851",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1"
+    }
+  ],
+  "diagrams": [
+    {
+      "source": "automation/figures/incremental-polling.mmd",
+      "file": "automation/figures/incremental-polling.svg",
+      "source_sha256": "9878c1bb0236a5eb73250cb8799a498401a90da20f507ead69a83a2f6f6bd4b3",
+      "sha256": "c6274145b61fc737389d2de5775f6d0d90934a5831a6a1b69c651315400f66fa",
+      "viewBox": "0 0 768.6796875 712.1468505859375"
+    },
+    {
+      "source": "misp-zmq/figures/notification-consumer.mmd",
+      "file": "misp-zmq/figures/notification-consumer.svg",
+      "source_sha256": "7ac0cbc1d8eede00919a3c17095715fa5257aa949f6e8df0b90526ea929b4d3e",
+      "sha256": "0a7a59189956ff760c172d306b1e853ee0c169317e757dc7f937d168c2a4da3c",
+      "viewBox": "0 0 565.8125 508.20001220703125"
+    },
+    {
+      "source": "modules/figures/module-workflow.mmd",
+      "file": "modules/figures/module-workflow.svg",
+      "source_sha256": "b8d9424fd8f6e6cc7973bd5bb89d9e34550df99ab156097b6cb6ffe1e242e1e1",
+      "sha256": "9e3da1cc448eb200838338ae34ff11c1440b44a8d4e97c68f416989ca654ce77",
+      "viewBox": "-2 0 571.5859375 640.3999633789062"
+    },
+    {
+      "source": "connectors/figures/connector-lifecycle.mmd",
+      "file": "connectors/figures/connector-lifecycle.svg",
+      "source_sha256": "4ce0cc3a9bdcdb09df4385ca03adc132621bbeea4b70c9597bedf62c19a49e64",
+      "sha256": "ec641e394f6c4dad6c45c9e4b67a293339bb39171a2ea1e19ac0501370553e02",
+      "viewBox": "0 0 573.203125 640.4000244140625"
+    }
+  ],
+  "retired_legacy_assets": [
+    "automation/figures/create-authkey-1.png",
+    "automation/figures/create-authkey-2-fill-form.png",
+    "automation/figures/create-authkey-3-authkey-displayed.png",
+    "automation/figures/pin-step-1.png",
+    "automation/figures/pin-step-2-confirm.png",
+    "automation/figures/pin-step-3-success-message.png",
+    "misp-zmq/figures/zmq-config.png",
+    "misp-zmq/figures/zmq-diagnostics.png"
+  ],
+  "book_verification": {
+    "formats": [
+      "html",
+      "pdf",
+      "epub"
+    ],
+    "build_uses_frozen_output_with_training_containers_stopped": true,
+    "browser_viewports": [
+      {
+        "width": 1440,
+        "height": 1000
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "all_12_figures_decode": true,
+    "png_and_svg_lightboxes": true,
+    "javascript_errors": 0,
+    "document_horizontal_overflow": false,
+    "preserved_legacy_anchors": 210,
+    "offline_link_check": {
+      "total": 4241,
+      "unique": 1038,
+      "errors": 0,
+      "external_or_excluded": 409
+    },
+    "pdf_figure_pages": {
+      "Advance a polling checkpoint only": 226,
+      "The MISP 3.0 Add auth key dialog": 223,
+      "Activity notifications trigger processing": 238,
+      "The MISP 3.0 module import workflow": 246,
+      "A connector selects authorised source": 250
+    }
+  }
+}

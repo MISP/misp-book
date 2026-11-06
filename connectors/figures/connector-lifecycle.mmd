@@ -1,0 +1,13 @@
+flowchart TB
+  accTitle: A connector maintains identity and lifecycle, not just an initial export
+  accDescr: An authorised source query is filtered and validated for the intended destination. The connector maps MISP UUIDs to target identifiers and applies additions, changes, expiry and removals. It records progress only after the target accepts the batch. Failures retry from the previous committed progress, and periodic reconciliation checks for records that no longer belong in the target.
+  Q["Authorised MISP source query"] --> S["Select and validate<br/>Audience · source · type · handling"]
+  S --> M["Map MISP UUID to target ID<br/>Add · update · expire · remove"]
+  M --> T["Apply batch to target"]
+  T -->|"Confirmed success"| C["Record progress<br/>Reconcile periodically"]
+  T -->|"Failure / ambiguous response"| R["Keep saved progress<br/>Reconcile and retry idempotently"]
+  R -. "Retry" .-> Q
+  classDef stage fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
+  classDef retry fill:#fff4df,stroke:#91651c,color:#573d13;
+  class Q,S,M,T,C stage;
+  class R retry;

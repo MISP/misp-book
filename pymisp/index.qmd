@@ -2,180 +2,209 @@
 title: "PyMISP - Python Library to Access MISP"
 ---
 
-PyMISP is a Python library for accessing MISP platforms through their REST API.
-
-PyMISP lets you fetch events, add or update events and attributes, add or update
-samples, manage sightings and tags, and search — working with MISP data as
-Python objects rather than raw JSON. You need an auth key (with API access) on
-your MISP instance to use it. See the
-[PyMISP repository](https://github.com/MISP/PyMISP) and the
-[PyMISP documentation](https://pymisp.readthedocs.io/) for the full,
-always-current reference.
-
-### Capabilities
-
-* Add, get, update, publish and delete events
-* Add and remove tags and galaxy clusters
-* Add attributes and MISP objects (files, network, email, and any object template)
-* Upload and download samples
-* Add and query sightings
-* Full-text search and structured search over events, attributes and objects
-* Export in the many formats supported by `restSearch`
-* Retrieve statistics
-
-...and much more — the library mirrors the REST API. Browse the `examples/`
-directory in the repository for ready-to-run scripts.
-
-### Installation
-
-Install the released version from PyPI:
-
-~~~~bash
-pip install pymisp
-~~~~
-
-Or install the latest version from the repository:
-
-~~~~bash
-git clone https://github.com/MISP/PyMISP.git && cd PyMISP
-pip install .
-~~~~
+**PyMISP** is the Python client for the MISP REST API. Use it to search intelligence, work with
+events and objects, submit sightings and build integrations without assembling every HTTP
+request yourself. API permissions and distribution still apply to the account behind its key.
 
 ::: {.callout-note}
-Keep PyMISP roughly in step with your MISP server. `GET /servers/getVersion`
-reports the recommended client version for your instance in its
-`pymisp_recommended_version` field (this instance recommends **2.5.34.1**).
-`ExpandedPyMISP` is a deprecated alias of `PyMISP` kept for backward
-compatibility — use `PyMISP` in new code.
+Examples were checked with MISP **3.0.0** (`3.0_wip`, commit `99ebee729`) and PyMISP **2.5.34.4**.
+The server's `GET /servers/getVersion` reports `pymisp_recommended_version`; use that recommendation
+when selecting a client version. The client and server do not need matching major-version numbers.
 :::
 
-### Getting started
+<!-- Runtime verification and frozen-example provenance: ../assets/automation-screenshots.json -->
 
-You need your API key, which you create and manage under **Global Actions → My
-Profile → Auth Keys** (`/users/view/me`). See the
-[automation chapter](../automation/index.qmd) for details on auth keys.
+<a id="installation"></a>
 
-The example scripts read your instance URL and key from a `keys.py` file in the
-`examples` folder. Copy the sample and edit it:
+## Install the client {#pymisp-installation}
 
-~~~~bash
-cd examples
-cp keys.py.sample keys.py
-$EDITOR keys.py
-~~~~
+Use a virtual environment and install the maintained package:
 
-A minimal `keys.py` looks like this:
-
-```python
-misp_url = 'https://<your MISP URL>/'
-misp_key = 'Your MISP auth key'   # from My Profile > Auth Keys
-misp_verifycert = True            # set to False only for self-signed certs in testing
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install pymisp
 ```
 
+For a reproducible deployment, pin the tested package and dependencies in your project's lock
+file. A source checkout is useful when developing PyMISP itself; follow its
+[upstream installation instructions](https://github.com/MISP/PyMISP).
+
+<a id="getting-started"></a>
+
+## Configure authentication {#pymisp-configuration}
+
+Create a suitably restricted key under **Account → My Profile → Auth keys**. Supply the URL and
+key through environment variables or your secret store. Keep TLS verification enabled:
+
+```python
+import os
+from pymisp import PyMISP
+
+misp = PyMISP(
+    os.environ["MISP_URL"],
+    os.environ["MISP_KEY"],
+    ssl=os.environ.get("MISP_CA_BUNDLE") or True,
+    timeout=30,
+    debug=False,
+)
+```
+
+`MISP_CA_BUNDLE`, when set, is the path to the CA bundle for a private certificate authority.
+Do not disable certificate verification to fix an unknown issuer. Avoid debug logging with real
+keys or sensitive response data. Upstream example scripts may read a local `keys.py`; keep such
+a file outside version control and follow that script's configuration contract.
+
+<a id="capabilities"></a>
+<a id="using-pymisp"></a>
+<a id="modern-equivalent-of-last.py-fetch-the-most-recent-tlpclear-events"></a>
 <a id="pymisp---python-library-to-access-misp"></a>
 
-### Using PyMISP
+## Search and inspect results {#pymisp-search}
 
-The core object is `PyMISP`, created with your instance URL and key. Its
-constructor is `PyMISP(url, key, ssl=True, debug=False, ...)` — note that `ssl`
-and `debug` are keyword arguments (the old positional `out_type='json'` argument
-no longer exists).
-
-```python
-from pymisp import PyMISP
-from keys import misp_url, misp_key, misp_verifycert
-
-misp = PyMISP(misp_url, misp_key, ssl=misp_verifycert)
-```
-
-By default the API methods return raw dictionaries. Pass `pythonify=True` to get
-rich objects (`MISPEvent`, `MISPAttribute`, `MISPObject`, …) instead, which are
-far more convenient to work with. For example, to fetch an event and add an
-attribute to it:
-
-```python
-# Fetch an event as a MISPEvent object
-event = misp.get_event(123, pythonify=True)
-
-# Add an attribute — the category is chosen automatically from the type.
-# (This replaces the old, removed add_named_attribute() helper.)
-misp.add_attribute(event, {'type': 'ip-dst', 'value': '1.2.3.4'}, pythonify=True)
-```
-
-You can also build objects locally and push them:
+Most methods return dictionaries by default. `pythonify=True` requests richer objects such as
+`MISPEvent` or `MISPAttribute` where the method supports them. Check for an error result before
+using object methods:
 
 ```python
 from pymisp import MISPEvent
 
-event = MISPEvent()
-event.info = 'Example event from PyMISP'
-event.add_attribute('domain', 'evil.example.com', to_ids=True)
-event.add_tag('tlp:clear')
-misp.add_event(event, pythonify=True)
+event = misp.get_event("EVENT_UUID", pythonify=True)
+if not isinstance(event, MISPEvent):
+    raise RuntimeError("MISP did not return an accessible event")
+
+print(event.uuid, event.info)
 ```
 
-### Example scripts
-
-The `examples/` directory in the PyMISP repository contains many ready-to-run
-scripts — creating events, adding attributes and objects, fetching the latest
-events, uploading samples, managing users and sharing groups, generating feeds,
-and more. Each accepts `-h` for its arguments:
-
-~~~~bash
-python examples/create_events.py -h
-~~~~
-
-Because the set of examples evolves with the library, this chapter does not list
-them all — browse the
-[examples directory](https://github.com/MISP/PyMISP/tree/main/examples) for the
-current catalogue.
-
-### Going further
-
-<a id="consuming-feed"></a>
-
-#### Generating and consuming feeds
-
-PyMISP can generate a MISP feed (a set of JSON files served over HTTP, as CIRCL
-does for its OSINT feed) and consume one back into an instance. Because a feed is
-just MISP JSON, importing it is straightforward:
+Search explicitly in the desired scope:
 
 ```python
-from pymisp import PyMISP
-import requests
+attributes = misp.search(
+    controller="attributes",
+    value="example.org",
+    type_attribute="domain",
+    limit=100,
+    page=1,
+    pythonify=True,
+)
+if not isinstance(attributes, list):
+    raise RuntimeError("Attribute search failed")
 
-url = 'https://www.circl.lu/doc/misp/feed-osint/'
-manifest = requests.get(f'{url}manifest.json').json()
-
-misp = PyMISP('https://misp.test/', 'key', ssl=False)
-for uuid in manifest:
-    event = requests.get(f'{url}{uuid}.json').json()
-    misp.add_event(event)
+for attribute in attributes:
+    print(attribute.uuid, attribute.type, attribute.value)
 ```
 
-See the feed-generator and `feed-generator` example, and the
-[Managing feeds](../managing-feeds/index.qmd) chapter, for the producing side.
+`type_attribute` is the PyMISP argument corresponding to the API's `type` filter. Do not assume
+every REST parameter has an identically named Python argument. Check the installed client's
+[API reference](https://pymisp.readthedocs.io/), pagination and response handling.
 
-### Simple example on fetching the last events
+## Create private exercise data {#pymisp-create-data}
 
-::: {.callout-note}
-The example below is **executed live against a MISP instance when the book is
-built**, so its output always reflects the current PyMISP/API behaviour. (The old
-`download_last()` helper is deprecated — modern PyMISP uses `search()`.) Results
-are *frozen* into `_freeze/` so CI can render without a live instance.
-:::
+Build an event locally, choose its audience and add context before sending it:
+
+```python
+from pymisp import MISPEvent
+
+draft = MISPEvent()
+draft.info = "Integration exercise: Python draft"
+draft.distribution = 0
+draft.threat_level_id = 4
+draft.analysis = 0
+draft.published = False
+draft.add_attribute("domain", "automation.example.org", to_ids=False)
+
+created = misp.add_event(draft, pythonify=True)
+if not isinstance(created, MISPEvent):
+    raise RuntimeError("MISP did not accept the event")
+
+print(created.uuid)
+```
+
+To add another observation, use `misp.add_attribute(created, {...}, pythonify=True)` with the
+appropriate type, category, distribution and detection flag. For structured data, use a
+`MISPObject` and the relevant template. Review the saved event before publication; creating it
+does not require publishing it. A production importer should retain the source identity and
+use UUIDs/reconciliation to avoid duplicate copies on retries.
+
+## MISP 3.0 targets and client coverage {#pymisp-value-targets}
+
+MISP 3.0 adds value-level research workflows and additional collection targets. An attribute
+UUID identifies one occurrence; an `AttributeValue` target uses the SHA-256 of a stored component
+value. Use `object_sha256`, `related_object_sha256` or `element_sha256` as appropriate, rather
+than putting the address in a UUID field.
+
+Not every new route or target is wrapped by every PyMISP release. Use the documented REST API
+for an unsupported operation, with the same account, TLS verification and error handling. For
+example, a Requests session can retrieve the stored address without guessing its normalization:
+
+```python
+import os
+import requests
+
+session = requests.Session()
+session.headers.update({
+    "Authorization": os.environ["MISP_KEY"],
+    "Accept": "application/json",
+})
+response = session.get(
+    os.environ["MISP_URL"].rstrip("/") + "/values/view",
+    params={"value": "example.org"},
+    timeout=30,
+    verify=os.environ.get("MISP_CA_BUNDLE") or True,
+)
+response.raise_for_status()
+value_result = response.json()
+```
+
+See [Automation & API](../automation/index.qmd#api-value-targets) for the address fields and
+payloads. A collection reference or note does not bypass the visibility of its source data.
+
+<a id="example-scripts"></a>
+<a id="going-further"></a>
+<a id="generating-and-consuming-feeds"></a>
+<a id="consuming-feed"></a>
+
+## Example scripts and feeds {#pymisp-examples}
+
+Browse the maintained [examples directory](https://github.com/MISP/PyMISP/tree/main/examples)
+and use each script's `--help` before running it. Examples can create, delete, publish or export
+data; inspect the intended action and account scope first.
+
+For generating a native MISP feed, use the upstream feed-generator tooling and review the
+exported distribution and source set. To consume one, configure a [MISP feed](../managing-feeds/index.qmd)
+and its import policy. Avoid an unbounded loop that downloads an entire public manifest and
+blindly calls `add_event`: source publication, audience, duplicates and attachments need handling.
+
+<a id="simple-example-on-fetching-the-last-events"></a>
+
+## Recorded example: fetch exercise events {#pymisp-recorded-example}
+
+The following result was executed against the local MISP 3.0 training fixture and committed
+under `_freeze/`. Normal book/CI builds reuse it; they do not contact a live instance. Maintainers
+refresh it explicitly with the intended instance, key and Python environment configured.
 
 ```{python}
 #| echo: true
 #| warning: false
-import os, urllib3
+import os
 from pymisp import PyMISP
-urllib3.disable_warnings()
 
-misp = PyMISP(os.environ["MISP_URL"], os.environ["MISP_KEY"], ssl=False)  # ssl=True in prod
-
-# Modern equivalent of last.py: fetch the most recent TLP:CLEAR events
-events = misp.search(controller="events", tags=["tlp:clear"], limit=5, pythonify=True)
-for e in events:
-    print(f"[{e.id}] {e.Orgc.name}: {e.info[:60]} - {len(e.attributes)} attributes")
+misp = PyMISP(
+    os.environ["MISP_URL"], os.environ["MISP_KEY"],
+    ssl=os.environ.get("MISP_CA_BUNDLE") or True,
+    timeout=30, debug=False,
+)
+events = misp.search(
+    controller="events", eventinfo="%Integration exercise%",
+    limit=5, page=1, pythonify=True,
+)
+if not isinstance(events, list):
+    raise RuntimeError("Event search failed")
+for event in events:
+    print(f"{event.info} | distribution={event.distribution} | "
+          f"published={event.published} | attributes={len(event.attributes)}")
 ```
+
+For a scheduled connector, add bounded pagination, modification checkpoints, retries and removal
+handling. See the [polling workflow](../automation/index.qmd#api-incremental-polling) and
+[connector lifecycle](../connectors/index.qmd).

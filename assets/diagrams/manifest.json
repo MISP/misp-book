@@ -51,6 +51,34 @@
       "source_sha256": "5bc9cff3d4c0e25486667eb00c91a8b14c9d5e0236e5efdc2a301d9a4ee69e8a",
       "sha256": "5470f72f8b7d6df49df919d1310bdedcb5f1eb286055aed5ee10ae51a2b242dd",
       "viewBox": "0 0 533.46875 700.940673828125"
+    },
+    {
+      "source": "automation/figures/incremental-polling.mmd",
+      "file": "automation/figures/incremental-polling.svg",
+      "source_sha256": "9878c1bb0236a5eb73250cb8799a498401a90da20f507ead69a83a2f6f6bd4b3",
+      "sha256": "c6274145b61fc737389d2de5775f6d0d90934a5831a6a1b69c651315400f66fa",
+      "viewBox": "0 0 768.6796875 712.1468505859375"
+    },
+    {
+      "source": "misp-zmq/figures/notification-consumer.mmd",
+      "file": "misp-zmq/figures/notification-consumer.svg",
+      "source_sha256": "7ac0cbc1d8eede00919a3c17095715fa5257aa949f6e8df0b90526ea929b4d3e",
+      "sha256": "0a7a59189956ff760c172d306b1e853ee0c169317e757dc7f937d168c2a4da3c",
+      "viewBox": "0 0 565.8125 508.20001220703125"
+    },
+    {
+      "source": "modules/figures/module-workflow.mmd",
+      "file": "modules/figures/module-workflow.svg",
+      "source_sha256": "b8d9424fd8f6e6cc7973bd5bb89d9e34550df99ab156097b6cb6ffe1e242e1e1",
+      "sha256": "9e3da1cc448eb200838338ae34ff11c1440b44a8d4e97c68f416989ca654ce77",
+      "viewBox": "-2 0 571.5859375 640.3999633789062"
+    },
+    {
+      "source": "connectors/figures/connector-lifecycle.mmd",
+      "file": "connectors/figures/connector-lifecycle.svg",
+      "source_sha256": "4ce0cc3a9bdcdb09df4385ca03adc132621bbeea4b70c9597bedf62c19a49e64",
+      "sha256": "ec641e394f6c4dad6c45c9e4b67a293339bb39171a2ea1e19ac0501370553e02",
+      "viewBox": "0 0 573.203125 640.4000244140625"
     }
   ]
 }
