@@ -1,0 +1,223 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "d039260aee3a3b97c95129479e73013afefccb1b",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17"
+  },
+  "capture_method": "Chromium via Playwright, screenshots of the actual running UI. No added arrows, callouts, or image retouching. Modal and panel images use DOM element screenshots.",
+  "fixture": {
+    "organization": "MISP Documentation",
+    "account": "analyst@example.org (synthetic)",
+    "event_title": "Quick-start exercise: suspicious email investigation",
+    "distribution": "Your organisation only",
+    "published": false,
+    "attributes": [
+      "example.org",
+      "https://example.org/login",
+      "example.net",
+      "198.51.100.25",
+      "contact@example.net"
+    ],
+    "all_to_ids": false,
+    "global_tag": "tlp:clear",
+    "local_tag": "review-needed",
+    "related_event": "Example report: related domain observation"
+  },
+  "shots": [
+    {
+      "file": "quick-start/figures/misp3-event-add.png",
+      "url": "/events/add",
+      "description": "New event form filled with an example title and organisation-only distribution.",
+      "selector": null,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:18:02.697721+00:00",
+      "image_size": {
+        "width": 1280,
+        "height": 900
+      },
+      "sha256": "bf995084b46d76bf617fce9ee1396020e07a7784273f83bab4a9d1e907782bcb"
+    },
+    {
+      "file": "quick-start/figures/misp3-event-overview.png",
+      "url": "/events/view/1",
+      "description": "The MISP 3.0 General tab for the initial private example event.",
+      "selector": null,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:18:04.025064+00:00",
+      "image_size": {
+        "width": 1280,
+        "height": 900
+      },
+      "sha256": "16ca1716fa68c9601ad595c2f699632d27ff02384581e7b5c19dd93b35af4ec5"
+    },
+    {
+      "file": "quick-start/figures/misp3-tag-picker.png",
+      "url": "/events/view/1",
+      "description": "Tag editor with tlp:clear selected as a global tag.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:19:46.048101+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 845
+      },
+      "sha256": "57178a97538cb1bca3661b414d23e07f0d0eb50b927a4c138b24d3da5ffa338a"
+    },
+    {
+      "file": "quick-start/figures/misp3-custom-tag.png",
+      "url": "/tags/add",
+      "description": "Add Tag form defining a local-only review-needed tag.",
+      "selector": null,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:21:13.821975+00:00",
+      "image_size": {
+        "width": 1280,
+        "height": 900
+      },
+      "sha256": "371d7a871c7e614204d223d71d68a5e82cfeb4c9a395b0545610b2ca9ceb0e05"
+    },
+    {
+      "file": "quick-start/figures/misp3-local-tags.png",
+      "url": "/events/view/1",
+      "description": "Tag editor showing tlp:clear as global and review-needed as a local-only tag.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:21:17.656475+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 850
+      },
+      "sha256": "7d371893c95639e469e4594cbbaa18be7cbffe6dcdffa6c80fda9b19aab254c5"
+    },
+    {
+      "file": "quick-start/figures/misp3-tagged-event.png",
+      "url": "/events/view/1",
+      "description": "Context panel showing the saved local review-needed tag; the global TLP label is displayed separately as an event marking.",
+      "selector": ".eo-context",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:21:19.573988+00:00",
+      "image_size": {
+        "width": 538,
+        "height": 260
+      },
+      "sha256": "d2e45b370f9a94ed712f39cfd6d5ee888ebefff007c11312a6e8d0425344c2c6"
+    },
+    {
+      "file": "quick-start/figures/misp3-freetext-input.png",
+      "url": "/events/view/1",
+      "description": "Import modal with Freetext Import expanded and three reserved documentation indicators.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:23:08.519098+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 834
+      },
+      "sha256": "2cce71687e7508fad378acf0840a99809a6156bfa848b1aec95c999b38bbc384"
+    },
+    {
+      "file": "quick-start/figures/misp3-freetext-review.png",
+      "url": "/events/view/1",
+      "description": "Detected domain, IPv4 address and email, with Send to IDS disabled for all example indicators.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:23:10.299206+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 646
+      },
+      "sha256": "114dcbdf66b54c849dba606256864de4aefc1367720762ab84c9c33fd03b527d"
+    },
+    {
+      "file": "quick-start/figures/misp3-export-formats.png",
+      "url": "/events/view/1",
+      "description": "Download as modal offering JSON, XML and other export formats for the example event.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:23:15.039229+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 518
+      },
+      "sha256": "684cb1df7128ae0f4dffee07c02f7dbd8a45a96ee5239003e0f0fbaa44c3adc3"
+    },
+    {
+      "file": "quick-start/figures/misp3-event-list.png",
+      "url": "/events/index",
+      "description": "Event list containing the two private example events after the import and tagging steps.",
+      "selector": null,
+      "viewport": {
+        "width": 1280,
+        "height": 650
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:25:39.662559+00:00",
+      "image_size": {
+        "width": 1280,
+        "height": 650
+      },
+      "sha256": "93e8eda22ed0792a18049f2eb4726b686252828f111603f12ce977dc02b4cc54"
+    },
+    {
+      "file": "quick-start/figures/misp3-event-attributes.png",
+      "url": "/events/view/1#tab-attributes",
+      "description": "Five saved documentation indicators in the Attributes tab, all with IDS flags disabled.",
+      "selector": null,
+      "viewport": {
+        "width": 1280,
+        "height": 650
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:25:41.545622+00:00",
+      "image_size": {
+        "width": 1280,
+        "height": 650
+      },
+      "sha256": "0c4f2532fda876331caffc07cb33d0c6f710e4398552ee16733d3873b28a5b68"
+    }
+  ]
+}

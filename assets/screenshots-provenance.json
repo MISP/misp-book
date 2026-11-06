@@ -547,18 +547,6 @@
       "captured_at": "2026-07-09T06:43:59.341Z"
     },
     {
-      "file": "quick-start/figures/ListEvents.png",
-      "url": "/events/index/searchtag:tlp:white",
-      "selector": "table.table",
-      "rows": 8,
-      "filtered": true,
-      "misp_version": "2.5.42",
-      "theme": "light",
-      "viewport": "1440x900",
-      "scale": 2,
-      "captured_at": "2026-07-03T14:03:33.023Z"
-    },
-    {
       "file": "sharing/figures/add_server_ui.png",
       "url": "/servers/add",
       "selector": "#ServerAddForm",

@@ -1,10 +1,20 @@
 ---
 title: "Quick Start"
+format:
+  html:
+    lightbox: true
 ---
 
 Get a MISP instance running with Docker, sign in, and create your first event.
 This walkthrough uses the official [misp-docker](https://github.com/MISP/misp-docker) project and its pre-built images.
 If you already have access to an instance, skip to [Sign in to MISP](#sign-in-to-misp).
+
+::: {.callout-note}
+The screenshots show MISP **3.0.0** from the development branch [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), using fictional data.
+The Docker instructions use the upstream project's default images; if you run MISP 2.5, some navigation labels and layouts differ.
+:::
+
+<!-- Screenshot source commits and capture details: screenshots.json -->
 
 ## Start MISP with Docker
 
@@ -136,157 +146,146 @@ For a host installation, run the same Cake command directly as the web server us
 
 ## Common actions at a glance
 
-### Create a report
-
-Use **Event Actions → Add Event** to start a report, then add attributes and tags.
-
-![Overview create an event in MISP](figures/quick_create.jpg)
-
-### Find existing events
-
-Use **Event Actions → List Events** to find existing reports and filter the results.
-
-![Overview browse past events in MISP](figures/quick_browse.jpg)
-
-### Export indicators
-
-Export selected indicators in the format your detection or analysis tools need.
-
-![Overview export events for logsearches](figures/quick_export.jpg)
-
-{{< pagebreak >}}
+- [Create an event](#create-an-event) to group the indicators and context for one investigation.
+- [Browse events](#browsing-events) to find existing intelligence and related reports.
+- [Export indicators](#export-events-for-log-search) in a format your analysis or detection tools can consume.
 
 ## Create an Event
 
-![Create an Event in MISP](figures/AddEvent.jpg)
+In the MISP 3.0 navigation, open **Data points → Events** and select **Add Event**.
+Enter a descriptive title in **Event Info**, such as `Quick-start exercise: suspicious email investigation`.
+Choose **Your organisation only** for this exercise, set the event date, and select the analysis and threat levels that match your information.
+Select **Create Event Entry** to save the event.
 
-Choose **Event Actions → Add Event**, enter a short, descriptive title in the **Info** field, and complete the date, threat level, analysis, and distribution fields.
-For your first test, use **Your organisation only** as the distribution.
-Save the event; you can then add its attributes, objects, and tags.
+![The MISP 3.0 Add Event form with an example title and organisation-only distribution.](figures/misp3-event-add.png)
+
+Distribution controls who can receive the event; a tag does not replace this setting.
+Keep the exercise private and unpublished while you add and review its contents.
 
 ## Describe Event
 
-![Describe Event](figures/AddEventOK.png)
+The **General** tab brings together the event's organization, distribution, context, reports, and indicator inventory.
+Use the other tabs to work with **Attributes**, **Objects**, **Reports**, and **Correlation**.
+The action panel provides shortcuts to edit the event, import data, or attach files.
 
-Use the event view to add the indicators and context that describe what happened.
-For a simple test, add `example.org` as a `domain` attribute and leave `to_ids` disabled.
-Use the free-text import tool below when you have several indicators to add at once.
+![The General tab of a private MISP 3.0 example event.](figures/misp3-event-overview.png)
+
+For a simple first indicator, open **Attributes**, choose **Add Attribute**, and add `example.org` as a `domain`.
+Clear **for Intrusion Detection System** (`to_ids`) for illustrative data.
+Add a comment explaining what the value represents, then save it.
+Use [objects](../misp-objects/index.qmd) when several attributes describe the same entity, such as a file or an email.
 
 ### Free-Text Import Tool
 
-![Use Freetext import](figures/AddEventDescription.png)
+From the event's **General** tab, select **Import** and expand **Freetext Import**.
+Paste one indicator per line into **IOCs**.
+For this exercise, use these reserved documentation values:
 
-The following will pop-up.
+```text
+example.net
+198.51.100.25
+contact@example.net
+```
 
-If you have a list of indicators from which you would like to quickly generate attributes then the **Free-text import tool** is
-just what you need. Simply paste your list of indicators (separated by line-breaks) into this tool.
+Select **Run Freetext Import** to review the detected attributes before saving them.
 
-![Freetext import pop-up](figures/freetextImportPopUp.png)
+![Freetext Import expanded in the MISP 3.0 Import modal, with three example indicators.](figures/misp3-freetext-input.png)
 
-![FreeText Import result](figures/FreeTextImportResult.jpg)
+Check each value, category, type, and distribution in **Review detected attributes**.
+Use a row's edit control to correct an ambiguous detection or its remove control to exclude a value.
+For these examples, turn off the **IDS** shield on each row so the indicators remain context rather than detection rules.
+Select **Create attributes** when the preview is correct.
 
-The tool will help you to find similarities between your import and other issues already registered in MISP.
+![The import review correctly detects a domain, an IPv4 address, and an email address, with IDS flags disabled.](figures/misp3-freetext-review.png)
 
-![FreeText Suggest](figures/FreeTextSuggest.png)
+Return to **Attributes** to review the saved values and comments.
+The example below contains the initial domain and URL plus the three imported indicators.
+The **Correlation** tab and **Related Events** panel help you investigate values that also appear in other events.
+A shared value is a lead to assess; it does not by itself prove that two reports describe the same activity.
 
-For example, you can see the ID of all related Events and view their information.
+![The MISP 3.0 Attributes tab after importing the example indicators.](figures/misp3-event-attributes.png)
 
-##### Alternative to import
-
-An alternative route to reach the Freetext import tool is shown below.
-
-![Import From](figures/populateFrom.png)
-
-![Import From pop-up](figures/populateFromPopUp.png)
+<a id="alternative-to-import"></a>
 
 ### Tags and Taglist
 
 #### Using existing Data
 
-Another easy way to add information is to use Tags. You can see the result of adding existing Tags (circl:incident-classification=XSS ans circl:incident-classification="information-leak).
+On the **General** tab, open **Tags → Edit Tags** in the **Context** panel.
+Browse an enabled taxonomy or use the search field to find a tag.
+Select the tag, check that it appears under **Global Tags**, and select **Save Tags**.
+The example uses `tlp:clear` because the event contains only public documentation values.
+Choose the marking appropriate to your actual information when working on real events.
 
-![Add Tag](figures/SelectTag.png)
-
-By clicking the button, you can add more tags from an existing Taglist.
-
-![Taglist](figures/AddEventTagsList.png)
-
-In particular the "Taxonomy Library: circl" Taglist is very complete.
-
-Once you added the tag(s) it will show in you main event window and in the list event view.
-
-![Tag Added](figures/tagAdded.png)
-
-### Local tags
-
-Local tags can be added in a similar fashion.
-
-![Add Local Tag](figures/addLocalTag.png)
-
-They will be identified by a corresponding icon.
-
-![Local Tags Mix](figures/localTagsOverview.png)
+![The MISP 3.0 tag editor with tlp:clear selected as a global event tag.](figures/misp3-tag-picker.png)
 
 #### No tags in list
 
-In case you get the below. You need to either enable an existing Taxonomy or add some custom tags.
-
-![No tags](figures/addTagEmpty.png)
+If the taxonomy or tag you need is missing, ask a site administrator to [enable the taxonomy and its tags](#enable-a-taxonomy).
+Prefer existing taxonomy tags to creating a custom tag with the same meaning.
 
 #### Make your own Taglist
 
-If you want make your own Taglist, select Add Tag.
+To create a custom tag, open **Data models → List Tags** and select **Add Tag**.
+Enter a meaningful name, choose its color, and review its restrictions and options before saving.
+In this example, `review-needed` is a **Local only** tag used to track an internal review task.
+It will be available in the tag editor after you save it.
 
-![Select Add New Tag](figures/SelectAddNewTag.jpg)
+![Creating a local-only review-needed tag in MISP 3.0.](figures/misp3-custom-tag.png)
 
-You will see the following window:
+### Local tags
 
-![Define Tag](figures/AddTag.jpg)
+Local tags describe your instance's assessment and are not synchronized to other instances.
+In **Edit Tags**, select the tag and check which list it appears in before saving.
+Tags configured as **Local only** go directly under **Local Tags**.
+For an ordinary tag, use the selected tag's **Make it local** control to move it from **Global Tags** to **Local Tags**.
 
-Then, when you add the new tag it will appear in the Custom Taglist.
+![The tag editor separates the global tlp:clear marking from the local review-needed tag.](figures/misp3-local-tags.png)
+
+After **Save Tags**, review the local label in the **Context** panel.
+Its local-scope indicator distinguishes your assessment from shared labels; the TLP marking is displayed separately in the event's marking area.
+
+![The saved Context panel shows review-needed with its local-scope indicator.](figures/misp3-tagged-event.png)
 
 ### Suggestions
 
-The following attribute types should be added for each Event:
-- ip-src: source IP of attacker
-- email-src: email used to send malware
-- md5/sha1/sha256: checksum
-- Hostname: full host/dnsname of attacker
-- Domain: domain name used in malware
+Choose attribute types that describe what you observed: for example, `domain`, `url`, `ip-src`, `ip-dst`, or `email-src`.
+Use comments to explain the source and relevance of each value.
+Set `to_ids` only for indicators you intend detection tools to use, and review the event's distribution and tags before sharing it.
+See [best practices](../best-practices/index.qmd) for tagging and data-modeling guidance.
 
 ## Browsing Events
-To see your Event, select List Events from the menu Events Action. You can click any row and select a filter.
 
-![Browsing Events](figures/ListEvents.png)
+Open **Data points → Events** to see the events available to your account.
+Select **Filters** to narrow the list by criteria such as organization, tags, date, or publication state.
+Open an event by selecting its ID or title.
 
-If you click on your Event's number, you can see all the information related to your Event.
-
-![See Event](figures/SeeEvent.png)
+![The MISP 3.0 event list containing two private documentation examples.](figures/misp3-event-list.png)
 
 ## Export Events for Log Search
 
-MISP can export your data in many formats for use in other tools — from plain MISP JSON/XML to detection rules (Suricata, Snort, Bro/Zeek), host and hash lists, CSV and STIX. Attributes flagged **for Intrusion Detection System** (the `to_ids` flag) are the ones included in the detection-rule exports; attributes without it are treated as context only. Use the export options to download the format you need — see the [automation](../automation/index.qmd) chapter for the full list of formats and the API.
+From an event, expand the action panel with **Show all actions** and select **Download as**.
+Choose the format required by your tool; **MISP JSON** is a useful starting point for exchanging the event with its metadata and attributes.
+The download dialog also offers XML, CSV, and detection-oriented formats, with options that vary by format.
 
-![Quick Export](figures/Export.jpg)
+![The MISP 3.0 Download as dialog with event export formats.](figures/misp3-export-formats.png)
 
-Simply click on any of the following buttons to download the appropriate data for log correlation.
-
-![Select Format](figures/SelectExport.jpg)
+Detection exports can require a published event and attributes marked **for Intrusion Detection System** (`to_ids`).
+The documentation indicators in this walkthrough deliberately have `to_ids` disabled, so they should not appear in detection-rule exports.
+See [automation](../automation/index.qmd) for export filters, supported formats, and API access.
 
 ## Enable a Taxonomy
 
-Most taxonomies are disabled out of the box. To start tagging with one, go to
-**Event Actions → List Taxonomies**, find the taxonomy you want (for example
-`tlp`), and enable it — you can also enable all of its tags at once. Its tags then
-appear in the tag picker on events and attributes. See the
-[Taxonomies](../taxonomy/index.qmd) chapter for more.
+As a site administrator, open **Data models → List Taxonomies**, find the taxonomy you need, and enable it.
+Enable the tags you want analysts to use as well.
+For this walkthrough, enable the `tlp` taxonomy so `tlp:clear` is available in the event tag editor.
+See [Taxonomies](../taxonomy/index.qmd) for the complete workflow.
 
 <a id="enable-and-fetch-a-feeds"></a>
 
 ## Enable and fetch a feed
 
-MISP ships with a set of public OSINT feeds. To use one, go to **Sync Actions →
-Feeds**, enable a feed (the CIRCL OSINT feed is a good starting point), and then
-either **cache** it — for fast correlation against your data without importing —
-or **fetch** it to import its events into your instance. See the
-[Managing feeds](../managing-feeds/index.qmd) chapter for the details.
+Open **Sync → Feeds**, choose a feed relevant to your work, and enable it.
+Cache a feed to correlate its indicators with your data without importing its events, or fetch it when you want to import those events into the instance.
+Start with one relevant feed and review the results before enabling more.
+See [Managing feeds](../managing-feeds/index.qmd) for configuration and import details.
