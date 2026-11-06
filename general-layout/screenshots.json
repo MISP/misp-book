@@ -1,0 +1,311 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "d039260aee3a3b97c95129479e73013afefccb1b",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17"
+  },
+  "capture_method": "Chromium via Playwright, capturing the running MISP 3.0 interface. No image retouching or added annotations. Menu and side-panel captures use DOM screenshots or documented viewport clips.",
+  "fixture": {
+    "organization": "MISP Documentation",
+    "accounts": [
+      {
+        "email": "reader@example.org",
+        "role_id": 3,
+        "role": "User",
+        "organization_id": 1
+      },
+      {
+        "email": "analyst@example.org",
+        "role_id": 1,
+        "role": "Site administrator",
+        "organization_id": 1
+      }
+    ],
+    "events": "The two organization-only fictional events used in quick-start/screenshots.json, with reserved documentation indicators and IDS disabled.",
+    "bookmark": {
+      "name": "Events",
+      "path": "/events/index",
+      "exposed_to_org": false
+    },
+    "personal_homepage": "/events/index for reader@example.org",
+    "workspace": {
+      "name": "Quick-start investigation",
+      "distribution": "Your organisation only",
+      "nodes": "The fictional quick-start event added through its Add to workspace action."
+    },
+    "configuration_notes": [
+      "The regular user belongs to the host organization and has audit permission, so Sync and Logs appear.",
+      "Audit logging and background jobs are disabled in this capture instance; conditional menu entries are described as such."
+    ]
+  },
+  "shots": [
+    {
+      "file": "general-layout/figures/misp3-navigation-user.png",
+      "url": "/events/index",
+      "description": "Main navigation for the regular User role in the host organization.",
+      "role": "User",
+      "selector": "nav[aria-label=\"Main\"]",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:30.601428+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 56
+      },
+      "sha256": "20620627f9c3ae2d55319ca16734ff019fbf94819ae619fc3adde82a89a43de0"
+    },
+    {
+      "file": "general-layout/figures/misp3-datapoints-menu.png",
+      "url": "/events/index",
+      "description": "The datapoints menu available to the regular documentation user.",
+      "role": "User",
+      "selector": "#rc-p-datapoints",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:31.934534+00:00",
+      "image_size": {
+        "width": 240,
+        "height": 357
+      },
+      "sha256": "03a0d5cf2db9e3fa7d46bb29b2d94d1dacf1bc05dd20cb69f3bf2058b2ee91dd"
+    },
+    {
+      "file": "general-layout/figures/misp3-sync-menu.png",
+      "url": "/events/index",
+      "description": "The sync menu available to the regular documentation user.",
+      "role": "User",
+      "selector": "#rc-p-sync",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:34.600952+00:00",
+      "image_size": {
+        "width": 241,
+        "height": 115
+      },
+      "sha256": "75f236ab7a2814bed566b545dbe7917f77fd5844a14e1cbba657cdf2da869d3e"
+    },
+    {
+      "file": "general-layout/figures/misp3-api-menu.png",
+      "url": "/events/index",
+      "description": "The api menu available to the regular documentation user.",
+      "role": "User",
+      "selector": "#rc-p-api",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:35.933274+00:00",
+      "image_size": {
+        "width": 241,
+        "height": 115
+      },
+      "sha256": "4e78d768d43127ce66efd88edf8ef1d8f799652bb471879d3072b742d2586679"
+    },
+    {
+      "file": "general-layout/figures/misp3-resources-menu.png",
+      "url": "/events/index",
+      "description": "The resources menu available to the regular documentation user.",
+      "role": "User",
+      "selector": "#rc-p-resources",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:37.232739+00:00",
+      "image_size": {
+        "width": 241,
+        "height": 115
+      },
+      "sha256": "0e69e22294f9997739fc8bef2b9fb231ec9f17274734a03742230c4106b320f2"
+    },
+    {
+      "file": "general-layout/figures/misp3-account-menu.png",
+      "url": "/events/index",
+      "description": "The account menu available to the regular documentation user.",
+      "role": "User",
+      "selector": "#rc-p-account",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:38.550694+00:00",
+      "image_size": {
+        "width": 240,
+        "height": 188
+      },
+      "sha256": "ea356436c6a13cd55f6ef0a27a16b307cac5bdd636a7455bf96b07923f807c36"
+    },
+    {
+      "file": "general-layout/figures/misp3-navigation-admin.png",
+      "url": "/events/index",
+      "description": "Main navigation for a site administrator.",
+      "role": "Site administrator",
+      "selector": "nav[aria-label=\"Main\"]",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:41.718498+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 56
+      },
+      "sha256": "1bf7abe6885b89b5497b028b230ef498e5f88089ebe7e1a8b2f7acde80c2a8fa"
+    },
+    {
+      "file": "general-layout/figures/misp3-administration-menu.png",
+      "url": "/events/index",
+      "description": "The administration menu shown to a site administrator.",
+      "role": "Site administrator",
+      "selector": "#rc-p-administration",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:43.149923+00:00",
+      "image_size": {
+        "width": 263,
+        "height": 229
+      },
+      "sha256": "b8fd7eb2715390dade7972ec41d977efaadeda5063c29d8515835373c78b2abc"
+    },
+    {
+      "file": "general-layout/figures/misp3-logs-menu.png",
+      "url": "/events/index",
+      "description": "The logs menu shown to a site administrator.",
+      "role": "Site administrator",
+      "selector": "#rc-p-logs",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:44:44.532410+00:00",
+      "image_size": {
+        "width": 241,
+        "height": 83
+      },
+      "sha256": "e0af8bb5c2fd8675e4a3f1d08d241f50decd77aad0328d7557907e97a7b5ec0c"
+    },
+    {
+      "file": "general-layout/figures/misp3-mobile-navigation.png",
+      "url": "/events/index",
+      "description": "Expanded mobile main navigation for the regular User account.",
+      "role": "User",
+      "selector": null,
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:52:21.247566+00:00",
+      "image_size": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "74234e7be1215c31afcd6eb81396d98149a6a439631776d6bef32feea4967078"
+    },
+    {
+      "file": "general-layout/figures/misp3-workspace-panel.png",
+      "url": "/events/view/1",
+      "description": "The organisation-only Quick-start investigation workspace containing the fictional event.",
+      "role": "User",
+      "selector": "#ig-so",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:53:35.537898+00:00",
+      "image_size": {
+        "width": 432,
+        "height": 842
+      },
+      "sha256": "52279d283f8e294e5c15b3b2dd709455f5f5b509a9b7d467ce56b77fda83caf8"
+    },
+    {
+      "file": "general-layout/figures/misp3-page-controls.png",
+      "url": "/events/index",
+      "description": "Event index showing page heading, primary action, search and filter controls, sortable table, result count and pagination.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1280,
+        "height": 650
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T09:55:34.435689+00:00",
+      "image_size": {
+        "width": 1280,
+        "height": 650
+      },
+      "sha256": "a2e64724a807c234973d853ad993acfae956bde966ebfa51ed668e3317404dea"
+    },
+    {
+      "file": "general-layout/figures/misp3-bookmarks-panel.png",
+      "url": "/events/index",
+      "description": "Bookmarks panel header, personal-homepage controls and private Events bookmark, cropped to the populated part of the settled panel.",
+      "role": "User",
+      "selector": "#bm-so",
+      "clip": {
+        "x": 920,
+        "y": 56,
+        "width": 360,
+        "height": 297.46875
+      },
+      "viewport": {
+        "width": 1280,
+        "height": 800
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T10:00:48.996204+00:00",
+      "image_size": {
+        "width": 360,
+        "height": 297
+      },
+      "sha256": "70b162991c79f8489e4bf1a5b7a111c6129e17d4fc93fa308e0b6541a19c9bb1"
+    },
+    {
+      "file": "general-layout/figures/misp3-datamodels-menu.png",
+      "url": "/events/index",
+      "description": "Data models menu grouping vocabularies, templates, modeling tools and reference lists.",
+      "role": "User",
+      "selector": "#rc-p-datamodels",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T10:02:02.760293+00:00",
+      "image_size": {
+        "width": 241,
+        "height": 229
+      },
+      "sha256": "331d990b3a5d84c66234ee426a51e20eee803966df3304288e5dc170d0bf7ad1"
+    }
+  ]
+}
