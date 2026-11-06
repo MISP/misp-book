@@ -2,20 +2,23 @@
 title: "Collections"
 ---
 
-A **Collection** is a named, distributable container that bundles a set of **events** and/or
-**galaxy clusters** into one shareable unit. Collections let you organise data — whether it is
+A **Collection** is a named, distributable container that groups references to intelligence
+into one shareable unit. Events and galaxy clusters are supported by the MISP 2.5 workflow;
+the MISP 3.0 development branch also supports attributes, objects, and attribute values.
+Collections let you organise data — whether it is
 shared by the community or produced during your own research — into buckets based on a common
 theme: a campaign, an intrusion set, a piece of research, and so on. Collections are
 first-class citizens in MISP: each has its own UUID and obeys the **same distribution and
 sharing rules as events**, so a collection can be shared and synchronised across instances just
 like the intelligence it groups.
 
-Collections are managed from *Global Actions → List Collections*, and creating or editing one
-requires a role with modify permission.
+In MISP 2.5, open *Global Actions → List Collections*. In the MISP 3.0 Overmind interface,
+open **Data points → Collections**. Creating or editing a collection requires a role with modify permission.
 
 ::: {.callout-note}
-A collection groups **events and galaxy clusters** — nothing else. It is distinct from two
-similarly named features:
+The additional target types described here are available in the
+[`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch.
+A collection is distinct from two similarly named features:
 
 - A **Sharing Group** is an access-control list (which organisations may see data), not a
   content bundle — a collection *references* a sharing group when its distribution is set to
@@ -36,27 +39,37 @@ A collection has a small set of metadata plus a list of element references:
 | **Distribution** | How widely the collection may be shared (see below). |
 | **Sharing group** | The sharing group to use when distribution is set to "Sharing group". |
 
-Each **element** in a collection is a *reference* (by UUID) to an event or a galaxy cluster,
-optionally with a short per-element description. The collection stores the reference, not a
-copy — so the underlying event or cluster keeps its own ownership and distribution, and an
-element can be removed from a collection without touching the event itself. The same element
-cannot be added to the same collection twice.
+Each **element** is a reference, optionally with a short per-element description:
+
+| Element type | Address | Version scope |
+|---|---|---|
+| `Event`, `GalaxyCluster` | UUID | MISP 2.5 and 3.0 |
+| `Attribute`, `Object` | UUID | Supported in the 3.0 development branch described here |
+| `AttributeValue` | SHA-256 of the stored value text, encoded as UTF-8 | Supported in the 3.0 development branch described here |
+
+The collection stores the reference, not a copy. Referenced material retains its ownership and
+access rules, and removing an element does not delete its target. The same element cannot be
+added to the same collection twice. A value target refers to the value across events, while an
+attribute target identifies one particular occurrence.
 
 ## Creating and populating a collection
 
-From *List Collections* choose to create a new collection and fill in its name, type,
-description and distribution. Once it exists you can add elements to it in two ways:
+From the collections list, create a collection and fill in its name, type, description, and
+distribution. Add elements through these entry points:
 
-- **From the collection** — open the collection and add an element by giving its type (Event or
-  Galaxy Cluster) and UUID.
+- **From the collection** — open the collection and add an element by its supported type and
+  address: a UUID for an event, cluster, attribute, or object; a value address for `AttributeValue` in 3.0.
 - **From an event or cluster** — while viewing an event or a galaxy cluster, use the "add to
   collection" action to attach it to one of your organisation's existing collections. If you
   have not created a collection yet, MISP prompts you to create one first.
+- **From Value Intelligence in 3.0** — open a value and choose **Add to collection**. Select an existing
+  collection or **New collection**, add an optional description, and submit. The picker identifies
+  the value being attached; see the [worked example](../best-practices/index.qmd#curate-research-with-collections-and-workspaces).
 
 The collection view lists all of its elements and shows the collection's metadata; the index
 lists your collections with an element count, type, distribution and timestamps, and lets you
 edit or delete each. Deleting a collection removes its element references but leaves the
-referenced events and clusters untouched.
+referenced material untouched.
 
 ## Distribution and sharing
 
@@ -76,9 +89,11 @@ organisation owns it, if it is distributed to your community or wider, or if it 
 sharing group you are part of.
 
 Note that a collection's distribution governs visibility of the **collection object itself** —
-the list and its metadata. The events and clusters it references each retain their own
-distribution, so being able to see a collection does not automatically grant access to every
-element inside it.
+the list and its metadata. Referenced material retains its own access rules, so being able to
+see a collection does not automatically grant access to every element inside it.
+For an `AttributeValue` reference in 3.0, the text resolves only when the reader can see an
+attribute holding the value. Otherwise the element shows its SHA-256 address. The value text
+is not transmitted with the collection reference.
 
 ## Synchronising collections between instances
 
@@ -98,10 +113,16 @@ recent modification time wins. Editing a collection's elements updates its modif
 the change propagates on the next sync. There is no separate revision history — the modification
 timestamp and the locked flag are what keep copies consistent.
 
+Value-addressed collection entries are withheld from MISP peers older than 3.0 during
+synchronization; the collection itself can still be shared. Check the receiving instance's
+version and visible source data before relying on a dossier as a complete handover.
+
 ## API
 
 Collections are available over the REST API under the `/collections/` and `/collectionElements/`
 controllers, using the standard MISP JSON envelope:
+
+::: {.table-responsive}
 
 | Endpoint | Purpose |
 |---|---|
@@ -114,7 +135,32 @@ controllers, using the standard MISP JSON envelope:
 | `GET /collectionElements/index/{collection_id}` | List a collection's elements. |
 | `POST /collectionElements/delete/{element_id}` | Remove an element from a collection. |
 
+:::
+
 Listing and viewing require only a logged-in user (subject to visibility); creating, editing and
 deleting require modify permission. The synchronisation endpoints used between instances require
 the sync permission. See the [Automation & API](../automation/index.qmd) chapter for
 authentication and the request/response envelope.
+
+### Element payloads in MISP 3.0
+
+For UUID targets, `POST /collectionElements/add/{collection_id}` accepts `element_type` and
+`element_uuid`, for example:
+
+```json
+{
+  "CollectionElement": {
+    "element_type": "Object",
+    "element_uuid": "42d4b34c-db91-4b24-83ee-b53fe0451a20",
+    "description": "File properties from the documentation exercise."
+  }
+}
+```
+
+For a value, set `element_type` to `AttributeValue` and use `element_sha256` instead of
+`element_uuid`. Compute the hash from the UTF-8 text returned by MISP after normalization.
+The same add endpoint also accepts `value` containing that text and stores its SHA-256 reference.
+
+Alternatively, `POST /collectionElements/addElementToCollection/AttributeValue/{sha256}`
+accepts `{"collection_id": 1}` to attach the value to an existing collection. These are
+value-level references; they do not grant access to the attributes holding the value.

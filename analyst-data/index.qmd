@@ -65,7 +65,9 @@ combine relationship types already used in analyst data with MISP's object-refer
 vocabulary — so you are not restricted to a fixed list.
 
 A relationship can link any two supported elements, even across events and across instances,
-and both ends are referenced by UUID. A record cannot relate an element to itself.
+and targets are normally referenced by UUID. In MISP 3.0, either end can instead target an
+attribute value using its SHA-256 address (see [Value-level analyst data](#value-level-analyst-data)).
+A record cannot relate an element to itself.
 
 ::: {.callout-important}
 Analyst-data **Relationships** are not the same as two other MISP concepts that also link
@@ -88,11 +90,14 @@ Analyst data can be attached to any of the following target types: **Attribute, 
 Report, Galaxy Cluster, Galaxy, Object, Organisation, Sharing Group**, and — because analyst
 data can annotate analyst data — **Note, Opinion and Relationship** themselves. Attaching a note
 or opinion to another note produces a **thread**, so a discussion can build up around a single
-element.
+element. The MISP 3.0 development branch also accepts **Collection**, **Workspace**, and
+**Attribute Value** (`AttributeValue`) targets. An attribute value identifies the value across
+events rather than one attribute occurrence.
 
 In practice, notes, opinions and relationships are surfaced automatically when you view an
 **event, attribute, object, event report or galaxy cluster**; the other target types are valid
-anchors but are not all rendered inline in their own views.
+anchors but are not all rendered inline in their own views. MISP 3.0 surfaces value-level
+analysis in **Value Intelligence**; see the workflow below.
 
 ## Working with analyst data in the UI
 
@@ -109,6 +114,26 @@ relationships, split into:
 
 Inbound relationships are computed automatically, so you can see who has linked to an element
 even if the link was created elsewhere.
+
+### Value-level analyst data in MISP 3.0 {#value-level-analyst-data}
+
+In the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development interface, open
+**Data points → Value Intelligence**, look up the value, and select **Open intelligence**.
+The **Collaboration** tab offers **Add note** and **Add opinion** for the value itself.
+Use the attribute occurrence instead when your statement depends on a particular source, event,
+or observation window. See [Best Practices](../best-practices/index.qmd#put-analysis-on-the-right-target)
+for a worked example and screenshots.
+
+A value has no UUID. Its address is the lowercase hexadecimal **SHA-256 of its stored text**, encoded
+as UTF-8. Compute it from the value returned by MISP after normalization, rather than from unprocessed
+input. Notes, Opinions, and either end of a Relationship can use this `AttributeValue` target.
+The analyst-data record itself still has its own UUID.
+
+Set the annotation's distribution separately from its target. An annotation's own sharing rules
+determine who may read it; access to the value's holder event does not restrict text you put in a
+more broadly shared Note. The value reference resolves to text only when the reader can see at least
+one attribute holding it. The value text does not travel with the reference.
+Value-addressed analyst data is withheld from MISP peers older than 3.0 during synchronization.
 
 ## Distribution and sharing
 
@@ -160,16 +185,53 @@ the other blocklists in MISP.
 Analyst data is fully accessible over the REST API under the `/analystData/` controller. The
 main actions are:
 
+::: {.table-responsive}
+
 | Action | Purpose | Permission |
 |--------|---------|------------|
-| `add/{type}/{object_uuid}/{object_type}` | Create a note/opinion/relationship on a target | `perm_add` + `perm_analyst_data` |
+| `add/{type}/{object_address}/{object_type}` | Create a note/opinion/relationship on a target | `perm_add` + `perm_analyst_data` |
 | `edit/{type}/{id or uuid}` | Modify a record you own | `perm_add` + `perm_analyst_data` |
 | `delete/{type}/{id or uuid}` | Delete a record you own | `perm_add` + `perm_analyst_data` |
 | `view/{type}/{id or uuid}` | View a single record | any logged-in user |
 | `index/{type}` | List records of a type | any logged-in user |
 | `getChildren/{type}/{uuid}` | Fetch a record's thread | any logged-in user |
 
+:::
+
 where `{type}` is `Note`, `Opinion` or `Relationship` (or `all`, letting MISP deduce the type
 from the UUID). The synchronisation endpoints used between instances require the
 `perm_sync` permission. As with the rest of the API, requests and responses use the standard
 MISP JSON envelope — see the [Automation & API](../automation/index.qmd) chapter.
+
+### Value targets through the 3.0 API
+
+For a value target, use its SHA-256 address as `{object_address}` and `AttributeValue` as
+`{object_type}`. These endpoints use the same analyst-data permissions and distribution checks
+as UUID targets:
+
+::: {.table-responsive}
+
+| Endpoint | Purpose |
+|---|---|
+| `POST /analystData/add/Note/{sha256}/AttributeValue` | Add a Note to the value. |
+| `POST /analystData/add/Opinion/{sha256}/AttributeValue` | Add an Opinion to the value. |
+| `POST /analystData/add/Relationship/{sha256}/AttributeValue` | Create a Relationship whose source is the value. |
+| `GET /analystData/viewForObject/AttributeValue/{sha256}` | Retrieve visible Notes, Opinions, and Relationships for the value. |
+
+:::
+
+For example, the Note endpoint accepts:
+
+```json
+{
+  "Note": {
+    "note": "Reserved documentation value; do not use for operational detection.",
+    "language": "en",
+    "distribution": 0
+  }
+}
+```
+
+For a Relationship pointing **to** a value, set `related_object_type` to `AttributeValue` and
+supply `related_object_sha256` instead of `related_object_uuid`. The source and destination
+can independently use a value address or a UUID target.
