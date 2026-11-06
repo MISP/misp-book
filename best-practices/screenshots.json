@@ -1,0 +1,244 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "d039260aee3a3b97c95129479e73013afefccb1b",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17",
+    "app/files/misp-objects": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326"
+  },
+  "capture_method": "Chromium via Playwright, capturing the running MISP 3.0 interface. No image retouching or added annotations. Menu and side-panel captures use DOM screenshots or documented viewport clips.",
+  "fixture": {
+    "organization": "MISP Documentation",
+    "capture_account": {
+      "email": "reader@example.org",
+      "role_id": 3,
+      "role": "User",
+      "organization_id": 1
+    },
+    "setup_account": {
+      "email": "analyst@example.org",
+      "role_id": 1,
+      "role": "Site administrator",
+      "organization_id": 1
+    },
+    "event": {
+      "id": 3,
+      "info": "Best-practice exercise: handling and evidence",
+      "date": "2026-11-02",
+      "published": false,
+      "distribution": 1,
+      "distribution_label": "This community only",
+      "tags": [
+        "tlp:clear",
+        "estimative-language:confidence-in-analytic-judgment=\"moderate\"",
+        "information-origin:human-generated"
+      ],
+      "standalone_attributes": [
+        {
+          "type": "domain",
+          "value": "example.org",
+          "distribution": 5,
+          "to_ids": false,
+          "first_seen": "2026-11-02T09:00:00Z",
+          "last_seen": "2026-11-02T09:10:00Z"
+        },
+        {
+          "type": "url",
+          "value": "https://example.org/training",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "type": "text",
+          "value": "Internal training note: verify the example before sharing.",
+          "distribution": 0,
+          "to_ids": false
+        }
+      ],
+      "object": {
+        "name": "file",
+        "template_version": 25,
+        "distribution": 5,
+        "attributes": {
+          "filename": "misp-training.txt",
+          "sha256": "b0ca205f869c270dd1d4972f666c15b3507cf45bc846b28ff4a9986197c19d4f",
+          "size-in-bytes": 50
+        },
+        "content": "MISP documentation fixture. Not a malware sample.\n",
+        "all_to_ids": false
+      }
+    },
+    "related_events": "The two fictional organization-only events documented in quick-start/screenshots.json; each also contains example.org. Three occurrences represent one creating organization, not three independent sources.",
+    "analyst_profile": {
+      "name": "default",
+      "uuid": "6e2679bc-ebb0-417f-90d8-16cb1d0144ba",
+      "source": "app/files/analyst-profiles/",
+      "selection": "Instance fallback; no user or organization override. Shipped profiles loaded through analystProfiles/update without custom weights."
+    },
+    "warninglist": {
+      "id": 179,
+      "name": "List of RFC 6761 Special-Use Domain Names",
+      "enabled": true
+    },
+    "value_note": {
+      "target_type": "AttributeValue",
+      "value": "example.org",
+      "distribution": 0,
+      "note": "Reserved example domain used for documentation. These occurrences are training data, not independent evidence of malicious activity. Reassess any real investigation in its own context."
+    },
+    "collection": {
+      "name": "Documentation: handling and evidence",
+      "type": "research",
+      "distribution": 0,
+      "elements": [
+        "Event 3",
+        "File object in Event 3",
+        "AttributeValue example.org"
+      ],
+      "workflow": "Value attached through the live UI after capturing the picker with its description before submission."
+    },
+    "visibility_verification": {
+      "recipient_organization_id": 2,
+      "visible_event": 3,
+      "visible_standalone_attributes": 2,
+      "visible_objects": 1,
+      "organization_only_attribute_visible": false,
+      "organization_only_value_note_visible": false,
+      "verified_at": "2026-11-06T10:42:27.616913+00:00"
+    },
+    "configuration_notes": [
+      "No external enrichment service enabled. No operational threat data used.",
+      "Account is a regular User in the host organization with audit permission, so Sync and Logs are visible.",
+      "Existing organization-only workspace retained from general-layout screenshots; the side panel is closed."
+    ]
+  },
+  "feature_sources": [
+    "app/Model/AnalystProfile.php",
+    "app/Model/CollectionElement.php",
+    "app/View/Themed/Overmind/Values/view.ctp",
+    "docs/dev/value_targets.md"
+  ],
+  "shots": [
+    {
+      "file": "best-practices/figures/misp3-event-context.png",
+      "url": "/events/view/3",
+      "description": "Event-level confidence and information-origin tags, interpreted through the default analyst profile.",
+      "role": "User (organization 1)",
+      "selector": "#eo-context-card",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T10:42:05.622068+00:00",
+      "image_size": {
+        "width": 610,
+        "height": 456
+      },
+      "sha256": "9c216d289e15eb83d7d4e66138ddf61dc11ef226f44b12553e88ddff574eb0d0"
+    },
+    {
+      "file": "best-practices/figures/misp3-attribute-distribution.png",
+      "url": "/events/view/3#tab-attributes",
+      "description": "Two standalone attributes inherit the community event audience; the internal note is organisation-only. IDS is disabled on all example attributes.",
+      "role": "User (organization 1)",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 560
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T10:42:07.811264+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 560
+      },
+      "sha256": "bb9fd1ae537d1e2017414e91ecc3b09da5a7d5df0dc4c3dd8ba792192e1e35f7"
+    },
+    {
+      "file": "best-practices/figures/misp3-file-object.png",
+      "url": "/events/view/3#tab-objects",
+      "description": "Expanded file object holding a harmless synthetic file name, SHA-256 and size, with IDS disabled.",
+      "role": "User (organization 1)",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 730
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T10:42:09.446956+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 730
+      },
+      "sha256": "f5ac9048752cadc6e6bbcaf707347db5aa0f3d6c86ca9154c4bb0fea4206fba9"
+    },
+    {
+      "file": "best-practices/figures/misp3-value-assessment.png",
+      "url": "/values/view/ZXhhbXBsZS5vcmc%3D#tab-assessment",
+      "description": "Assessment of example.org under the default analyst profile with the special-use-domain warninglist enabled.",
+      "role": "User (organization 1)",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T10:42:11.862854+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "94c0710884e1a0e90948cd356b533be299213e9445030def33e4759e9f234f46"
+    },
+    {
+      "file": "best-practices/figures/misp3-value-note.png",
+      "url": "/values/view/ZXhhbXBsZS5vcmc%3D#tab-analyst",
+      "description": "Value-level Note in the Collaboration tab, with its organisation-only distribution and separate occurrence comments.",
+      "role": "User (organization 1)",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T10:43:23.177783+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "0ce4663ee344ca0968571a42c57346305e93bbfeb0cf81518ecd776333fdb6d9"
+    },
+    {
+      "file": "best-practices/figures/misp3-value-collection.png",
+      "url": "/values/view/ZXhhbXBsZS5vcmc%3D",
+      "description": "Collection picker for example.org before submitting its attachment to the organisation-only research collection.",
+      "role": "User (organization 1)",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T10:44:47.512728+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 584
+      },
+      "sha256": "954f6ef534ab5d2fa6fa348a6f68a39af591d3e713af60421a0d9544d6971306"
+    }
+  ]
+}
