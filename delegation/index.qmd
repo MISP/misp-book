@@ -1,78 +1,77 @@
 ---
 title: "Delegation"
+format:
+  html:
+    lightbox: true
 ---
 
-In information sharing, the privacy of the reporting organization can be important in cases such as:
-
-- when an incident should not be linked to a potential victim.
-- when you want to avoid linking a specific organization to the shared information.
-
-MISP includes a delegation feature that lets another organization publish an event on your behalf and removes the direct link between the shared information and your organization.
-If you want to publish an event without your organization being tied to it, you can delegate publication to another organization.
-That organization becomes the owner of the event.
-You can delegate only to local target organizations, not to remote ones.
-
-::: {.callout-warning}
-You need a role with `Delegation access` to delegate an event.
-:::
-::: {.callout-warning}
-You must also enable the `MISP.delegation` parameter on your instance.
-:::
-
-### Send a delegation request
-
-To do this, you first need to set the event distribution to **Your organization only**.
-![Delegation possible](./figures/delegationpossible.png)
-Otherwise, the delegation option will not be available.
-![Delegation impossible](./figures/delegationimpossible.png)
+**Delegation** asks another local organization to take ownership of an event and handle its publication.
+It is useful when a trusted coordinator or partner should maintain the shared record instead of the original reporting organization.
+The recipient must review and accept the request; sending it does not publish the event.
 
 ::: {.callout-note}
-The "distribution must be *Your organization only*" restriction is lifted if the site
-administrator has enabled the `MISP.unpublishedprivate` setting on the instance. When that
-setting is on, an event with any distribution level can be delegated.
+The screenshots use MISP **3.0.0**, [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), and two fictional local organizations.
+The instance must enable `MISP.delegation`; requesting a handover requires **Delegation access** (`perm_delegate`).
+The recipient's controls also depend on its role and event permissions. Select a screenshot to enlarge it.
 :::
 
-An event can only have **one pending delegation request at a time**. If you need to change
-the target organization or the requested distribution, discard the existing request first,
-then create a new one.
+<!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
 
-When you click **Delegate Publishing**, a pop-up appears.
-![Delegation Popup](./figures/delagationpopup.png)
-Here you can choose the following options:
-- The organization to which you want to delegate the event.
-  In this example, we ask Setec Astronomy to publish the event for us.
-- The distribution option you would like to request for the event.
-  You can let the recipient organization choose if you do not mind.
-  In this example, we request **All communities**, but this is only a suggestion and the recipient can still change the distribution later.
-![Desired Distribution](./figures/desireddistribution.png)
-- An optional free-form message to the recipient organization.
-![Distribution ready](./figures/delegationpopup2.png)
+Delegation changes the owning and creating organization recorded on the event, but **does not guarantee anonymity**.
+Source links, report text, attachments, annotations, UUIDs, and previously shared copies can still identify or connect the original source.
+Review those details and agree on attribution with the recipient before requesting a handover.
+Use an [extension](../extended-events/index.qmd) when both organizations should retain their own separately owned contribution instead.
 
-Once the request is sent, a message appears on the event to remind you that the request is pending.
-![Reminder](./figures/delegationrequested.png)
-You can also view more details by clicking **View request details**.
-![Request Details](./figures/requestdetails.png)
-You can discard the request yourself by using either this pop-up or the link in the left-side menu.
+## Send a delegation request
 
-Both the requesting and the recipient organization can review pending delegations at any time
-from the top navigation bar under **Global Actions → View delegation requests** (labelled
-*Delegation Requests*), which lists every request awaiting action.
+1. Review the event and restrict it to **Your organisation only** for the ordinary delegation workflow.
+2. Open the event's **All actions** control and choose **Delegate Publishing**.
+3. Choose the **Target organisation**. It must be local to the instance; delegation is not a direct transfer to a remote organization on another server.
+4. Select a **Desired distribution**, or **Recipient decides**, and explain the requested handling in **Message**.
+5. Review the target and content, then submit the request.
 
-### Answer a delegation request
+![The 3.0 delegation form requests a handover to Documentation Recipient and proposes a community audience. The proposal does not itself change the event's distribution.](figures/misp3-delegation-request.png)
 
-As the recipient organization, you receive the delegation request.
-You are notified by a red envelope in the upper-right corner of the screen.
-![Notification](./figures/delegationwaiting.png)
-Open **Global Actions → View delegation requests** to see every event that other organizations want to delegate to your organization. In this example, there is a single request from Acme Factory.
-![Delegated list](./figures/delagated.png)
-Opening the event shows its metadata, including a banner about the pending delegation.
-![Delegated event](./figures/delegatedevent.png)
-Click **View request details** to see the full request — the requesting organization, the distribution level it suggested, and its message.
-![Request details](./figures/recipientdetails.png)
-If your role includes publishing rights, you can manage the delegation request by using one of the two links in the left-side menu.
-You can either discard it:
-![Discard request](./figures/discarddelegation.png)
-Or accept it:
-![Accept request](./figures/acceptdelegation.png)
-Note that the distribution requested by the original sender is not applied automatically.
-If the setting is not changed, the event remains distributed only to your own organization.
+Only one delegation request can be pending for an event at a time.
+Discard an existing request before changing its recipient or requested distribution.
+The source organization and recipient can inspect or discard it through their available controls.
+
+The distribution eligibility rule differs when `MISP.unpublishedprivate` is enabled: the controller permits delegation without the normal organization-only distribution check.
+Do not enable that setting merely to bypass a handover restriction; review the instance's unpublished-event visibility policy with its administrator.
+
+A pending request authorizes the target organization to retrieve the event through the supported event API.
+Send it only to an organization authorized to inspect the content, including the evidence attached to it.
+The request's desired distribution is advisory, rather than an automatic distribution change.
+
+## Answer a delegation request
+
+Open **Delegation Requests** from the **Data points** menu; its page is titled **Delegations**.
+You can also follow the pending-request controls where the event view is available.
+The list distinguishes requests received from requests issued by your organization.
+Review the requesting organization, event, desired audience, and message before choosing an action.
+
+![The recipient reviews the requesting organization, desired audience, and handover message.](figures/misp3-delegation-review.png)
+
+::: {.callout-note}
+In the pinned 3.0 development snapshot, the new event page can return **Invalid event** for an organization-only event while delegation is pending, even though the request details and authorized event API are accessible.
+Review the content through the event API or with an authorized administrator before accepting; do not widen distribution to work around the page or accept an unreviewed handover.
+:::
+
+- **Discard** rejects or withdraws the request without transferring ownership. It does not remove copies of content the recipient has already seen.
+- **Accept** transfers ownership to the recipient organization. Check the resulting event before publishing or making any audience changes.
+
+![The recipient's acceptance confirmation makes the ownership transfer explicit. Accepting does not substitute for the publication review.](figures/misp3-delegation-accept.png)
+
+In the pinned branch, accepting a request does **not** automatically apply its desired distribution or publish the event.
+The organization-only event in the example remains organization-only and unpublished after acceptance, even though the request proposed community sharing.
+The recipient must explicitly review and set distribution and publication afterward.
+
+The transferred event retains its UUID, but its local numeric ID can change.
+Use the resulting event link or UUID to find it, and confirm ownership, access, attachments, reports, and annotations after the handover.
+The original organization can lose access when it is no longer the owner and the distribution remains organization-only.
+
+## After the handover
+
+Agree who will respond to corrections, sightings, and partner questions.
+If the recipient will share more broadly, review source attribution, TLP/PAP, separately scoped annotations, and detection eligibility before publishing.
+See [publication](../using-the-system/index.qmd#publish-an-event) and the [pre-publication checklist](../best-practices/index.qmd#before-you-publish).

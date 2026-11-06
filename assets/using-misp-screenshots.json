@@ -1,0 +1,787 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "d039260aee3a3b97c95129479e73013afefccb1b",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17",
+    "app/files/misp-objects": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326",
+    "app/files/misp-decaying-models": "f1b974790f0969fab4251046f292eedc59a272ca"
+  },
+  "generated_at": "2026-11-06T11:53:23.897980+00:00",
+  "scope_chapters": [
+    "user-management/index.qmd",
+    "using-the-system/index.qmd",
+    "extended-events/index.qmd",
+    "create-event-report/index.qmd",
+    "event-reports/index.qmd",
+    "analyst-data/index.qmd",
+    "sightings/index.qmd",
+    "decaying-models/index.qmd",
+    "delegation/index.qmd",
+    "best-practices/index.qmd"
+  ],
+  "capture_method": "Chromium via Playwright against the running MISP 3.0 application. No image retouching or added annotations. Forms/cards use DOM screenshots; the extension header uses a recorded viewport clip. Dialogs are opened inside the actual application layout. Draft forms are staged without resubmitting existing attributes, generating credentials, publishing, or sending email.",
+  "fixture": {
+    "tutorial_event": 4,
+    "source_attribute": 13,
+    "import_complete": true,
+    "domain_attribute": 14,
+    "file_content": "MISP documentation training file. No executable content.\n",
+    "file_sha256": "46f2af8afd103d1a03ecb1c344acb19f0caa14627ca2140cc84297e59ed14f6b",
+    "file_object_uuid": "7a873312-f07a-440b-b5a5-799e52f291f2",
+    "attachment_uploaded": true,
+    "tutorial_uuid": "68b37167-05c1-4754-83c3-2f2b9a6155f7",
+    "report_id": "1",
+    "report_content": "# Training report: suspicious sign-in\n\n**Exercise only.** This fictional report uses reserved domains and addresses.\n\nOn 6 November 2026, from 09:00 to 09:15 UTC, a training gateway recorded a browser connection to https://signin.example.org/session through 192.0.2.80. The evidence does not establish credential theft or successful compromise.\n\n## Source and observations\n\nSource: @[attribute](3670b96b-1193-49f6-9f41-6ee032df55da)\n\nObserved host: @[attribute](dac18c02-307a-4161-a3b9-8fb2b22d7d0f)\n\nThe harmless file is represented by @[object](7a873312-f07a-440b-b5a5-799e52f291f2).\n\n## Assessment and next steps\n\nKeep every training value out of detection exports. A real investigation would require the original logs, source validation, and an assessment of the activity in context.\n",
+    "event_note_uuid": "d3a1ffcf-30a8-4c32-afdf-372687bb0ef5",
+    "event_opinion_uuid": "b7d039b6-7e18-4c63-81cc-395acf54936d",
+    "event_relationship_uuid": "f6c626ea-8e3a-41e2-b4ff-8d1a1e6a0539",
+    "sightings_seeded": true,
+    "delegation_event": 5,
+    "delegation_uuid": "b4b133cb-af5a-4a86-9bf4-e175d48a920f",
+    "recipient_publisher": true,
+    "extension_event": 6,
+    "sighting_timestamps_verified": true,
+    "report_editor_save_verified": true,
+    "delegation_request": 1,
+    "pending_delegation_api_access_verified": true,
+    "pending_overmind_event_status": 404,
+    "delegation_accepted": true,
+    "delegated_event_new_id": 7,
+    "delegation_verification": {
+      "uuid_preserved": true,
+      "old_event_id": 5,
+      "new_event_id": 7,
+      "recipient_org_id": 2,
+      "requested_distribution": 1,
+      "actual_distribution": 0,
+      "published": false,
+      "source_org_lost_access": true
+    },
+    "decay_api_verification": {
+      "attribute_uuid": "dac18c02-307a-4161-a3b9-8fb2b22d7d0f",
+      "model_id": 1,
+      "scores_returned": true,
+      "threshold_override_excluded_attribute": true,
+      "ids_unchanged": true
+    },
+    "proposal_verification": {
+      "target_attribute_id": 7,
+      "proposing_org_id": 2,
+      "source_org_id": 1,
+      "created_and_visible_to_owner": true,
+      "discarded_without_changing_source": true
+    },
+    "extension_verification": {
+      "recipient_sees_parent_and_own_contribution": true,
+      "restricted_parent_attribute_hidden_from_recipient": true,
+      "private_extension_hidden_from_parent_owner": true
+    },
+    "accounts": [
+      {
+        "id": 2,
+        "email": "reader@example.org",
+        "role_id": 3,
+        "role": "User",
+        "organization_id": 1,
+        "organization": "MISP Documentation"
+      },
+      {
+        "id": 3,
+        "email": "recipient@example.org",
+        "role_id": 4,
+        "role": "Publisher",
+        "organization_id": 2,
+        "organization": "Documentation Recipient"
+      },
+      {
+        "id": 1,
+        "email": "analyst@example.org",
+        "role_id": 1,
+        "role": "Site administrator",
+        "organization_id": 1,
+        "purpose": "Fixture setup and privileged forms"
+      }
+    ],
+    "tutorial_snapshot": {
+      "id": 4,
+      "uuid": "68b37167-05c1-4754-83c3-2f2b9a6155f7",
+      "info": "Training exercise: suspicious sign-in report",
+      "date": "2026-11-06",
+      "distribution": 0,
+      "published": false,
+      "analysis": 0,
+      "threat_level_id": 4,
+      "standalone_attributes": [
+        {
+          "id": 13,
+          "uuid": "3670b96b-1193-49f6-9f41-6ee032df55da",
+          "category": "External analysis",
+          "type": "link",
+          "value": "https://example.org/reports/sign-in-exercise",
+          "comment": "Fictional source for the documentation exercise; not an operational indicator.",
+          "distribution": 5,
+          "to_ids": false,
+          "first_seen": null,
+          "last_seen": null
+        },
+        {
+          "id": 14,
+          "uuid": "dac18c02-307a-4161-a3b9-8fb2b22d7d0f",
+          "category": "Network activity",
+          "type": "hostname",
+          "value": "signin.example.org",
+          "comment": "",
+          "distribution": 5,
+          "to_ids": false,
+          "first_seen": "2026-11-06T09:00:00.000000+00:00",
+          "last_seen": "2026-11-06T09:15:00.000000+00:00"
+        },
+        {
+          "id": 15,
+          "uuid": "d791b96f-7f31-4c82-8d94-dc600f98f0b5",
+          "category": "Network activity",
+          "type": "url",
+          "value": "https://signin.example.org/session",
+          "comment": "",
+          "distribution": 5,
+          "to_ids": false,
+          "first_seen": "2026-11-06T09:00:00.000000+00:00",
+          "last_seen": "2026-11-06T09:15:00.000000+00:00"
+        },
+        {
+          "id": 16,
+          "uuid": "e0f8f601-1bb7-42ae-9524-be1f2a2e644a",
+          "category": "Network activity",
+          "type": "ip-dst",
+          "value": "192.0.2.80",
+          "comment": "",
+          "distribution": 5,
+          "to_ids": false,
+          "first_seen": "2026-11-06T09:00:00.000000+00:00",
+          "last_seen": "2026-11-06T09:15:00.000000+00:00"
+        }
+      ],
+      "file_object_attributes": [
+        {
+          "object_relation": "attachment",
+          "category": "Payload delivery",
+          "type": "attachment",
+          "value": "signin-notes.txt",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "md5",
+          "category": "Payload delivery",
+          "type": "md5",
+          "value": "0cb5bd9fb0ba8add76e19e65408c2651",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha1",
+          "category": "Payload delivery",
+          "type": "sha1",
+          "value": "2a0c564a7ed0a97add396e1aa8a0e00e3ff3e752",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha224",
+          "category": "Payload delivery",
+          "type": "sha224",
+          "value": "d5dcea1ac3c215204a5c779910d1d866d675004f36109606a3c56249",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha256",
+          "category": "Payload delivery",
+          "type": "sha256",
+          "value": "46f2af8afd103d1a03ecb1c344acb19f0caa14627ca2140cc84297e59ed14f6b",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha384",
+          "category": "Payload delivery",
+          "type": "sha384",
+          "value": "dd9436cd296f4c4f15a556914d00bf3a066b6fba8ccb58973334d8cb3bcb1e3f00dc2866db6793ee0617189bc23a73e5",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha512",
+          "category": "Payload delivery",
+          "type": "sha512",
+          "value": "4480dae6e06fceae2acba5181492e44d87eddb6370d26a1666c5245f09e38d553ebd127e8f1d5aefe99f8eb015a727b2df10d8ad35cc76f7ce04a19723c99a68",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha3-224",
+          "category": "Payload delivery",
+          "type": "sha3-224",
+          "value": "0345af3ad492839a8a304f272127c5f3f7772dc04193759c22f94df0",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha3-256",
+          "category": "Payload delivery",
+          "type": "sha3-256",
+          "value": "3e8af326610bd828e8524776757362eca2664a93702af1b6d765cb7394de304a",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha3-384",
+          "category": "Payload delivery",
+          "type": "sha3-384",
+          "value": "436a97f565451ef49ba9389f00ac6e9ffeb4045d0d0af6fa37a1c64aa2e4024f62e8b46f25f2b29f5ca61e1d03dd58d5",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "sha3-512",
+          "category": "Payload delivery",
+          "type": "sha3-512",
+          "value": "3300cd9ad9cb0ea297a8a91cdfb5ab4831399b98792734b029fa8263197087fb0c622840c8f5c96eb34de305ca973457207570c7afd44f21a78127bb2d0339d8",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "ssdeep",
+          "category": "Payload delivery",
+          "type": "ssdeep",
+          "value": "3:w5KJRBQRUMVF7KFAC/GEALtv:98FO6C/Mv",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "filename",
+          "category": "Payload delivery",
+          "type": "filename",
+          "value": "signin-notes.txt",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "size-in-bytes",
+          "category": "Other",
+          "type": "size-in-bytes",
+          "value": "57",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "entropy",
+          "category": "Other",
+          "type": "float",
+          "value": "4.1917",
+          "distribution": 5,
+          "to_ids": false
+        },
+        {
+          "object_relation": "magic",
+          "category": "Other",
+          "type": "text",
+          "value": "ASCII text",
+          "distribution": 5,
+          "to_ids": false
+        }
+      ]
+    },
+    "extension_snapshot": {
+      "id": 6,
+      "uuid": "5f60fb68-b33d-4f3b-9a12-6999ceada85d",
+      "orgc_id": 2,
+      "org_id": 2,
+      "extends_uuid": "708600f8-a851-4db5-be22-f3ef2bda97d7",
+      "distribution": 0,
+      "published": false
+    }
+  },
+  "configuration_notes": [
+    "All data is fictional. Domains and IPs are reserved documentation values. All tutorial IDS flags are disabled.",
+    "Tutorial event created in the UI; source link added, values imported, benign file uploaded and report saved through real UI controls.",
+    "MISP.delegation enabled only in this local instance. No external AI/enrichment service used; email and background jobs disabled. No event published.",
+    "Pending delegation returned HTTP 404 in the Overmind event view while authorized API access and request review worked. No application code modified to hide this development limitation.",
+    "Phishing model is shared and disabled as shipped; scoring tests explicitly select it. Model parameters are unchanged.",
+    "The original Quick-start workspace remains active; the side panel is closed.",
+    "Auth key form captured before generation; no key, TOTP secret, QR code or paper token is included. Sharing-group form captured before saving."
+  ],
+  "feature_sources": [
+    "app/Controller/EventsController.php",
+    "app/Model/Event.php",
+    "app/View/Themed/Overmind/Elements/Events/View/event_actions.ctp",
+    "app/View/Themed/Overmind/Events/ajax/eventPublishConfirmationForm.ctp",
+    "app/Controller/EventReportsController.php",
+    "app/View/Themed/Overmind/Elements/EventReports/View/eventReport_content.ctp",
+    "app/Model/AnalystData.php",
+    "docs/dev/value_targets.md",
+    "app/Controller/SightingsController.php",
+    "app/View/Themed/Overmind/Sightings/ajax/advanced.ctp",
+    "app/Model/DecayingModelsFormulas/Polynomial.php",
+    "app/Model/DecayingModel.php",
+    "app/Controller/EventDelegationsController.php",
+    "app/Model/EventDelegation.php"
+  ],
+  "shots": [
+    {
+      "file": "using-the-system/figures/misp3-create-event.png",
+      "url": "/events/add",
+      "description": "Add Event form for the fictional report exercise, restricted to the creating organisation.",
+      "role": "User",
+      "selector": "#EventForm",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:11:23.847891+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 677
+      },
+      "sha256": "5bcf9415d07912e9a99401f2ba5201ec149b7e14100321bc195a2867fbc118e3"
+    },
+    {
+      "file": "user-management/figures/misp3-profile.png",
+      "url": "/users/view/me",
+      "description": "Regular user profile with Security & access, notification status and profile tabs.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:11:29.685793+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 900
+      },
+      "sha256": "7267245c8bdf3d064e14f360c246d54cd00696b3740f5acdecccf42413068387"
+    },
+    {
+      "file": "create-event-report/figures/misp3-freetext-input.png",
+      "url": "/events/view/4",
+      "description": "Freetext import of three reserved example values from the synthetic training report.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:13:49.038341+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 834
+      },
+      "sha256": "2f4934a78078c9fc4978bee28e835d5a63ae02d8ec814bca0dab0fc6e435230b"
+    },
+    {
+      "file": "create-event-report/figures/misp3-freetext-review.png",
+      "url": "/events/view/4",
+      "description": "Review of detected values, categories, types, distribution and IDS flags before creating attributes; all training values have IDS disabled.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:13:50.898537+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 604
+      },
+      "sha256": "130274f17a267c1026d88573e056114739bff0ce7b56f9e6b97b8b11ccd1f136"
+    },
+    {
+      "file": "user-management/figures/misp3-auth-key.png",
+      "url": "/users/view/me#tab-authkeys",
+      "description": "New authentication key restrictions before generation. Documentation-only allowlist; no API key is displayed.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:13:56.414321+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 714
+      },
+      "sha256": "9a6a5e926aed5a4271551920459f5f58e13e81fee597e4c021007c6a989696d7"
+    },
+    {
+      "file": "using-the-system/figures/misp3-attachment.png",
+      "url": "/events/view/4",
+      "description": "Upload of a harmless text file using the non-malware Generic file object template.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:16:53.923403+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 826
+      },
+      "sha256": "63fbb1a3a570844f1feda4b1075b920a44db6b1bd92af324cb98dde7111b3eef"
+    },
+    {
+      "file": "extended-events/figures/misp3-extension-form.png",
+      "url": "/events/add",
+      "description": "Publisher in the recipient organisation creates an organisation-only extension of the community event.",
+      "role": "Publisher (organisation 2)",
+      "selector": "#EventForm",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:19:15.172916+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 835
+      },
+      "sha256": "0257c7996b0d952d8f4c85e5428c71223c40ef5b2986e9e4c2dfa8eebcc468ed"
+    },
+    {
+      "file": "event-reports/figures/misp3-report-view.png",
+      "url": "/eventReports/view/1",
+      "description": "Rendered training narrative with live references to the source, observed hostname and file object.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:27:50.462057+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "f1e0f700546480ba34d610c895ff9d554141d91dd51a5d8e23da4c9baf5bfc74"
+    },
+    {
+      "file": "event-reports/figures/misp3-report-editor.png",
+      "url": "/eventReports/view/1#tab-content",
+      "description": "The 3.0 Edit Content tab with Markdown source, reference toolbar, preview and Save control.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:27:51.682675+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "ac9be6cb86b04df94187f66d60534a1d432e833ea8efea7bde6c246653a5aa06"
+    },
+    {
+      "file": "analyst-data/figures/misp3-event-note.png",
+      "url": "/analystData/view/Note/d3a1ffcf-30a8-4c32-afdf-372687bb0ef5",
+      "description": "Standalone Note attached to the training event, with its own distribution and authorship.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:27:54.508952+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "f163e51bfa3c89c3b0e33aa79c0c129d551315041c23dea6ed6e847cd06f855c"
+    },
+    {
+      "file": "analyst-data/figures/misp3-event-assessment.png",
+      "url": "/events/view/4",
+      "description": "Event assessment showing the training Note, neutral Opinion and directed Relationship.",
+      "role": "User",
+      "selector": ".eo-assessment",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:27:56.175248+00:00",
+      "image_size": {
+        "width": 431,
+        "height": 443
+      },
+      "sha256": "32724c2fedb1aece438de03be0e1c5e94c4facc60584efe3436328fa9dbda21c"
+    },
+    {
+      "file": "sightings/figures/misp3-sighting-journal.png",
+      "url": "/events/view/4#tab-attributes",
+      "description": "Sighting journal with two synthetic observations and one false-positive assessment at the specified observation times.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:27:58.796690+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 490
+      },
+      "sha256": "3aa946f8ddc91af95be95817407a2d10e71a754f62e03a7c575f111272444dbc"
+    },
+    {
+      "file": "using-the-system/figures/misp3-publish.png",
+      "url": "/events/view/4",
+      "description": "Publish confirmation with the notification switch off. No publication is submitted.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:28:04.838986+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 354
+      },
+      "sha256": "5a59c055e30c22a43f4ca0f8231cfff88b4089aefb7614943ff53d8044d951c1"
+    },
+    {
+      "file": "delegation/figures/misp3-delegation-request.png",
+      "url": "/events/view/5",
+      "description": "Request to Documentation Recipient with desired community distribution, before submitting the synthetic handover.",
+      "role": "Site administrator (organisation 1)",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 950
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:31:37.232208+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 580
+      },
+      "sha256": "dfae4cf1316ea6d96ea488a22fea1a26efe4a401897b9f0ff3a7b369c49620c2"
+    },
+    {
+      "file": "delegation/figures/misp3-delegation-review.png",
+      "url": "/event_delegations/index",
+      "description": "Recipient review of the requesting and target organisations, event, desired audience and message.",
+      "role": "Publisher (organisation 2)",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 950
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:35:21.047869+00:00",
+      "image_size": {
+        "width": 800,
+        "height": 350
+      },
+      "sha256": "29f75ee453ed674972fe11e7de647b1c5e34ba936bed4e997176df2db6645db4"
+    },
+    {
+      "file": "delegation/figures/misp3-delegation-accept.png",
+      "url": "/event_delegations/index",
+      "description": "Recipient confirms the ownership transfer. No publication is requested by this confirmation.",
+      "role": "Publisher (organisation 2)",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 950
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:35:22.921191+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 346
+      },
+      "sha256": "6988055bc8054e7537cbbeedf2403d2320eedcfac6ca968399c163c98e8efd5d"
+    },
+    {
+      "file": "using-the-system/figures/misp3-proposal.png",
+      "url": "/events/view/3#tab-attributes",
+      "description": "Publisher in another organisation proposes a comment correction without altering the source attribute directly.",
+      "role": "Publisher (organisation 2)",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:39:40.946633+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 698
+      },
+      "sha256": "11137a0242f10c5b698ed316b04a6062f9f36834d0e7de91b74f5cf473d68e31"
+    },
+    {
+      "file": "using-the-system/figures/misp3-sharing-group.png",
+      "url": "/sharingGroups/index",
+      "description": "The styled 3.0 sharing-group accordion editor opened from its index, before saving.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:42:33.811071+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 1012
+      },
+      "sha256": "40d8ebf7d42e8fbb3ade42d1e9bf08a0fc5ff08138a2cb7782cebab1bb60c60f"
+    },
+    {
+      "file": "using-the-system/figures/misp3-event-overview.png",
+      "url": "/events/view/4",
+      "description": "Training event General tab with its narrative, audience, context, inventory and action card at a wide viewport.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1920,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:42:35.925406+00:00",
+      "image_size": {
+        "width": 1920,
+        "height": 1100
+      },
+      "sha256": "3a5eea66aaed1fc5c9b05c19922aa3970716ad808ca0bf3c190e891f88524aaf"
+    },
+    {
+      "file": "using-the-system/figures/misp3-add-attribute.png",
+      "url": "/events/view/4#tab-attributes",
+      "description": "Add Attribute form for the fictional source link, including the save controls, with IDS disabled.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1250
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:48:27.982624+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 946
+      },
+      "sha256": "c1af7312142319bc965effaa2ad504dd4742f9cdcb7f623b05c6fdfdc4030b62"
+    },
+    {
+      "file": "decaying-models/figures/misp3-model-overview.png",
+      "url": "/decayingModel/view/1",
+      "description": "Shipped Phishing model, its formula and state, assigned types, and full nominal polynomial preview.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1350
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:48:29.870757+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1350
+      },
+      "sha256": "f3a39f41f17620d247839f338a5cd756c03f4c9c1cd8d8a5378cbaaaa5e08408"
+    },
+    {
+      "file": "extended-events/figures/misp3-extension-event.png",
+      "url": "/events/view/6",
+      "description": "Extension header identifies its parent and its own creating organisation and audience.",
+      "role": "Publisher (organisation 2)",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 56,
+        "width": 1075,
+        "height": 251
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:48:31.707678+00:00",
+      "image_size": {
+        "width": 1075,
+        "height": 251
+      },
+      "sha256": "a78d44318384c47f681503213a41a6cebee61735572896be517c00fb1927ef40"
+    },
+    {
+      "file": "sightings/figures/misp3-sighting-add.png",
+      "url": "/events/view/4#tab-attributes",
+      "description": "Add sighting with an explicit observation time, synthetic source and optional context-only TLP:CLEAR filters. The form is not submitted.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T11:48:35.324365+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 778
+      },
+      "sha256": "9c7328596655713c20734197efd76d9e99f63733777aa2d94df13dc69b906522"
+    }
+  ],
+  "reused_screenshot_manifests": [
+    "best-practices/screenshots.json"
+  ],
+  "retired_legacy_image_count": 69,
+  "preserved_old_section_anchors": true
+}

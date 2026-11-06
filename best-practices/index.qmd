@@ -7,6 +7,7 @@ format:
 
 Useful intelligence tells the recipient what was observed, why it matters, how confident you are, and what they may do with it.
 Use this chapter as a review guide when creating, assessing, and sharing data in MISP.
+For the complete workflow, start with [Using the System](../using-the-system/index.qmd) or work through the [report exercise](../create-event-report/index.qmd); the [Sightings](../sightings/index.qmd) and [Decaying Models](../decaying-models/index.qmd) chapters explain how to keep an assessment current.
 For broader guidance, see the [MISP threat intelligence best practices](https://www.misp-project.org/best-practices-in-threat-intelligence.html).
 
 ::: {.callout-note}

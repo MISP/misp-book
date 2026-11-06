@@ -1,77 +1,100 @@
 ---
-title: "User Management and Global Actions"
+title: "User Accounts and Preferences"
+format:
+  html:
+    lightbox: true
 ---
 <a id="user-management-and-global-actions"></a>
 
+Your account controls how you sign in, receive notifications, and use the API.
+Start with your own profile; creating other users and assigning roles are administrative tasks covered in [Administration](../administration/index.qmd#users).
 
-This chapter covers managing your own MISP account — first login, your profile,
-notification preferences, API keys, multi-factor authentication and personal
-settings. Creating and administering *other* users, and the role/permission model,
-are covered in the [Administration](../administration/index.qmd) chapter.
+::: {.callout-note}
+This chapter describes MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, using the light Overmind interface.
+Open your account menu at the upper right and choose **My Profile**. Older MISP 2.5 instructions place this under **Global Actions**.
+Available controls depend on your permissions and the instance's authentication configuration. Select a screenshot to enlarge it.
+:::
+
+<!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
 
 ## First run of the system
 
-When you first log in with the credentials provided by your administrator, there
-are a few things to do before you start using the system:
+1. Sign in using the credentials or identity provider supplied by your administrator.
+2. Read and accept the instance's terms of use when prompted.
+3. If asked to change a temporary password, choose a new one that meets the displayed [password policy](../quick-start/index.qmd#password-policy).
+4. Set up the required authentication factors and check your organization and role before entering intelligence.
 
-*   **Accept the terms of use** — shown immediately after your first login. Read
-    the page and click **Accept Terms** at the bottom.
-*   **Change your password** — you are then prompted to set your own password. It
-    must satisfy the [MISP password policy](../quick-start/index.qmd#password-policy).
-    Enter it in both fields and submit.
-
-    ![Changing the password](figures/password.png)
-
-*   **Set up your PGP/GnuPG key** — so MISP can encrypt the emails it sends you.
-    Go to **My Profile → Edit profile** and paste your public key into the
-    *GnuPG Key* field.
-*   **Subscribe to notifications** — in the same Edit profile view, tick the
-    relevant boxes (see below).
-
-    ![Use these checkboxes to subscribe to auto-alerts and contact-reporter emails.](figures/alerts.png)
+Externally managed accounts can have a different password or MFA workflow. Follow your organization's sign-in procedure when the corresponding controls are absent.
 
 ## Your profile
 
-**My Profile** (`Global Actions → My Profile`) shows your account details and,
-via **Edit profile**, lets you manage:
+The **General** tab shows your organization, role, **Security & access**, and notification status.
+Use **Edit** to change the fields your administrator allows you to manage, such as your display name, public encryption key, and email preferences.
+Passwords, API keys, and authenticator recovery material should remain private.
 
-*   your display name and PGP/GnuPG (and optional S/MIME) key for encrypted mail;
-*   **Receive alerts when events are published** (auto-alert) — email whenever a
-    new event you are eligible to see is published;
-*   **Receive alerts from "contact reporter" requests** — email when another user
-    contacts your organisation about one of its events. (You may still be
-    contacted directly as an event's creator even with this off.)
+![The regular user's profile in MISP 3.0, including security status and the Settings and Auth keys tabs.](figures/misp3-profile.png)
+
+Check these settings deliberately:
+
+| Setting | What to check |
+|---|---|
+| Public PGP/GnuPG key, or S/MIME where configured | Supply your public key for encrypted notifications; confirm that you can decrypt a test message. |
+| Event publication alerts | Receive alerts only for events you may access; use filters or digests if individual messages are too frequent. |
+| Contact requests | Decide whether to receive organization-wide **Contact reporter** messages. Event creators can still be contacted directly. |
+| Security & access | Check the enabled sign-in factors and whether your role permits API access. |
+
+Saving a public key does not establish end-to-end protection for every notification: delivery also depends on the instance's mail and encryption configuration.
 
 ## API keys
 
-To use the [REST API](../automation/index.qmd) or [PyMISP](../pymisp/index.qmd),
-create an authentication key under **My Profile → Auth Keys**. Modern MISP uses
-*advanced* auth keys: each key is stored hashed, shown only once at creation, and
-can carry a comment, an expiry, an IP allowlist and a read-only flag. See the
-[automation chapter](../automation/index.qmd) for the full workflow.
+Open the **Auth keys** tab and select **Add authentication key**.
+Use a separate key for each integration, with a recognizable comment, a suitable expiry, and an IP allowlist where practical.
+Choose **Read only** for an integration that only retrieves data; write or synchronization tasks need their corresponding permissions.
+
+![Authentication key restrictions before generation. The example uses a reserved documentation address and displays no usable key.](figures/misp3-auth-key.png)
+
+The generated key is shown once. Store it in the integration's secret store, rather than in a report, screenshot, or source repository.
+Rotate or revoke it when the integration changes or the key is exposed.
+A key remains subject to the user's role and access rights; creating a key does not grant additional access.
+See [Automation & API](../automation/index.qmd) for authentication and request examples.
 
 ## Multi-factor authentication
 
-If your instance enables it, you can secure your account with TOTP/HOTP
-multi-factor authentication from **My Profile**. See
-[Multi-factor authentication](../using-the-system/index.qmd#multi-factor-authentication-totphotp)
-for the user-facing walkthrough, and the
-[administration chapter](../administration/index.qmd) for enabling it
-instance-wide.
+The **Security & access** card shows whether built-in two-factor authentication is configured.
+Where available, **Set up** opens the TOTP enrollment form.
+
+### Enroll an authenticator
+
+1. Open **My Profile → General → Security & access → Set up**.
+2. Add the displayed QR code or secret to your authenticator application.
+3. Enter a current verification code to activate it.
+4. Save the offered single-use paper tokens securely, separately from the device that generates your codes.
+
+The QR code, setup secret, and paper tokens are credentials. Keep them out of shared documentation.
+MISP can require enrollment at first login; instances using an external identity provider or LinOTP can use a different process.
+
+### Sign in and recover access
+
+After entering your password, supply the requested authenticator code or an eligible single-use paper token.
+Use **View paper tokens** from your profile where available to retrieve the fallback tokens.
+If you lose access, contact your organization administrator or site administrator for a reset, then enroll again.
+Built-in TOTP/HOTP and email OTP are alternative flows; do not assume that email provides a second recovery path once TOTP is active.
 
 ## Personal settings
 
-**My Settings** (`Global Actions → My Settings`) holds per-user preferences,
-including your interface **theme**, dashboard configuration, and the
-**publish alert filter** — a JSON filter that narrows which published-event
-emails you receive (by tag, creator organisation or threat level). See
-[Setting a Publish Alert Filter](../administration/index.qmd#various-administration-tips-tricks)
-in the administration chapter for the filter syntax.
+The profile's **Settings** tab lists per-user preferences. Use **Add setting** to choose a supported preference and enter its value.
+Some settings use JSON: follow the field's help and validate the structure before saving.
+Self-management can be disabled by an administrator.
+
+Bookmarks, the personal homepage, theme controls, and [workspaces](../general-layout/index.qmd#workspaces) are also accessible from the main interface; they do not all live in this settings table.
+In MISP 3.0, an **analyst profile** controls how assessment signals are interpreted. It is distinct from your login profile and role; see [assessing values](../best-practices/index.qmd#assess-values-across-events-in-misp-3.0).
+
+For notification filtering, use the publish-alert filter supported by your instance.
+See [Setting a Publish Alert Filter](../administration/index.qmd#various-administration-tips-tricks) for the filter syntax.
 
 ## User administration and roles
 
-Administrators (site and organisation admins) create, edit, disable and contact
-users, and assign them roles. A role sets a user's base permission level and a
-set of feature permissions. All of this is covered in the
-[Administration → Users](../administration/index.qmd#users) and
-[Roles](../administration/index.qmd#roles) sections.
+A role combines base access with permissions for particular features.
+For example, event creation, publication, sightings, Analyst Data, and sharing-group editing can be granted separately.
+Organization administrators manage users within their organization; site administrators manage the wider instance.
+See [Users](../administration/index.qmd#users) and [Roles](../administration/index.qmd#roles) for those tasks.

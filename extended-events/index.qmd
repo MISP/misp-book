@@ -1,77 +1,74 @@
 ---
-title: "MISP Extended Events"
+title: "Extended Events"
+format:
+  html:
+    lightbox: true
 ---
 <a id="misp-extended-events"></a>
 
+An **extended event** adds your organization's findings to an existing event while keeping the original and your contribution separately owned.
+Your event records the original event's UUID in `extends_uuid`. A combined view can then show the contributions together.
 
-An **extended event** lets you build on top of an existing event without
-modifying it. Instead of editing someone else's event (which you often cannot do)
-or attaching proposals to it, you create your *own* event that declares itself an
-extension of the original. MISP can then present a **combined view** that merges
-the original event with all the events that extend it.
+::: {.callout-note}
+The workflow and screenshots use the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch and fictional data.
+MISP 2.5 also supports extended events, but its controls and event layout differ.
+Select a screenshot to enlarge it.
+:::
+
+<!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
 
 ## When to use an extended event
 
-Extending is the right tool when you want to add your own analysis, indicators or
-context to an event while keeping a clear separation between the original and your
-contribution:
+Use an extension when your contribution deserves its own event, source attribution, and publication lifecycle:
 
-*   **Adding to intelligence you received** — you pull a report from a partner or
-    a feed and want to enrich it with your own findings, without altering the
-    source event (so it can still be updated cleanly on the next sync).
-*   **Collaborative, long-running events** — several organisations each maintain
-    their own extension of a shared "base" event (for example an ongoing campaign),
-    keeping ownership of their own data.
-*   **Layering** — separating a raw, machine-generated base event from a curated,
-    human-analysed layer on top.
+- Add observations to intelligence received from a partner while allowing the partner's original event to keep receiving updates.
+- Maintain your organization's contribution to an investigation involving several organizations.
+- Separate a raw source report from a curated analysis with its own distribution and assessment.
 
-Compare this with the alternatives: **editing** changes the event in place (and
-requires ownership); **proposals** suggest changes to the original organisation
-for them to accept; **extending** creates an independent, separately-owned event
-that references the original.
+Choose a [proposal](../using-the-system/index.qmd#proposing-changes-to-another-organisations-event) to request a correction to the original event.
+Use [Analyst Data](../analyst-data/index.qmd) for a Note, Opinion, or Relationship that does not require a separate event.
+An extension references the parent; it does not transfer ownership or give you permission to edit it.
 
 ## Creating an extended event
 
-There are two ways to create one:
+1. Open the original event and copy its **UUID**.
+2. Create an event through **Data points → Events → Add event**.
+3. Enter the parent UUID in **Extends**. The form also accepts a local event ID, which is resolved to the parent.
+4. Give your contribution a specific title, set its date and audience, and create it.
+5. Add your evidence, source references, and analysis, then review and publish your event when ready.
 
-*   **From the event you want to extend** — open the original event and use
-    **Extend this event** (the extend button on the event's UUID row). This starts
-    a new event with the parent already filled in.
-*   **From the Add Event form** — enter the parent event's UUID (or ID) in the
-    **Extends Event** field when [creating an event](../using-the-system/index.qmd#creating-an-event).
-    A live preview of the parent is shown as you type.
+![The MISP 3.0 Add Event form with a parent event selected in Extends and an organization-only audience for the contribution.](figures/misp3-extension-form.png)
 
-Your extension is a normal event in every other respect: it has its own
-distribution, its own attributes and objects, and its own owner. It simply
-records, via its `extends_uuid`, which event it builds upon. An event can extend
-another event on the same instance or one received from a remote instance.
+The parent can be a local event or a copy received through synchronization.
+Use UUIDs in durable references and automation: local numeric IDs can differ between instances.
+Your extension has its own distribution, sharing group, attributes, objects, reports, and publication state.
 
 ## Viewing extended events
 
-The single-event view understands the extension relationship:
+The event's extension information links the parent and the events extending it.
+Use the available **Extended view** or **Extending view** action to inspect the combined context.
+The exact action depends on whether you opened the parent or the contribution.
 
-*   The **general information** block shows **Extends** (the parent this event
-    builds on) and **Extended by** (the events that extend this one), as links.
-*   You can switch between viewing an event on its own and the **Extended view**,
-    which merges the parent and all of its extensions into one combined picture —
-    useful for seeing the full intelligence across all contributors at once. The
-    page title indicates when you are in *Extended view* (looking at a parent with
-    its extensions merged in) or *Extending view* (looking at an extension in the
-    context of its parent).
+![An extension in MISP 3.0, with its parent relationship and its own creating organization and audience.](figures/misp3-extension-event.png)
+
+A combined view only includes data the current user may access.
+Review the source event attached to each contribution before editing, exporting, or drawing conclusions; a combined screen does not merge ownership or override distribution.
+Publishing your extension does not publish the parent, and changing the parent does not automatically approve your analysis.
 
 ## Finding extended events
 
-When browsing or searching events you can filter on the extension relationship.
-The event index can show an **Is extension** column, and the search/[REST API](../automation/index.qmd)
-accepts:
+The event index and API can distinguish base events from contributions.
+For [REST searches](../automation/index.qmd), use the supported filters:
 
-*   **`extended`** — return the combined (extended) form of the matching events.
-*   **`is_extended`** — restrict to events that are extended by at least one other
-    event.
-*   **`is_extension`** — restrict to events that are themselves extensions of
-    another event.
+| Filter | Purpose |
+|---|---|
+| `extended` | Request the combined form of matching events. |
+| `is_extended` | Find events extended by another event. |
+| `is_extension` | Find events that extend another event. |
+
+Check the returned UUIDs and your access to the source events before treating a result as a complete investigation.
 
 ## Further reading
 
-For the original design write-up and worked examples, see the MISP project blog
-post [Extended Events](https://www.misp-project.org/2018/04/19/Extended-Events-Feature.html).
+The original [Extended Events design article](https://www.misp-project.org/2018/04/19/Extended-Events-Feature.html) explains the model and its motivation.
+For current interface orientation, see [General Layout](../general-layout/index.qmd); for sharing choices, see [Best Practices](../best-practices/index.qmd#setting-distribution).
