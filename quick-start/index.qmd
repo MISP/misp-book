@@ -2,76 +2,156 @@
 title: "Quick Start"
 ---
 
-<!-- This is a comment.
-And Justice for All! -->
+Get a MISP instance running with Docker, sign in, and create your first event.
+This walkthrough uses the official [misp-docker](https://github.com/MISP/misp-docker) project and its pre-built images.
+If you already have access to an instance, skip to [Sign in to MISP](#sign-in-to-misp).
 
-# Quick Start
+## Start MISP with Docker
 
-![A Logo :)_](figures/logo.png)
-MISP (the MISP Intelligence Sharing Platform) software facilitates the exchange and sharing of threat intelligence, Indicators of Compromise (IoCs) about targeted malware and attacks, financial fraud or any intelligence within your community of trusted members. MISP sharing is a distributed model containing technical and non-technical information which can be shared within closed, semi-private or open communities. Exchanging such information should result in faster detection of targeted attacks and improve the detection ratio, whilst also reducing the number of false positives.
+### Prerequisites
 
-With the focus on automation and standards, MISP provides you with a powerful ReST API, extensibility (via misp-modules) or additional libraries such as PyMISP, jump ahead to these chapters to get started.
+You need Git, Docker Engine **25 or later**, and the Docker Compose plugin **2.17 or later**.
+Docker must be running, and your user must be able to run Docker commands.
+The host needs access to GitHub Container Registry (`ghcr.io`) and Docker Hub to pull the images.
+See the [instance requirements](../requirements/index.qmd) for sizing guidance.
 
-## Login into MISP
+Check your Docker installation:
 
-MISP default credentials:
-<table>
-<tr>
-  <td>Username:</td>
-  <td>admin@admin.test</td>
-</tr>
-<tr>
-  <td>Password:</td>
-  <td>admin</td>
-</tr>
-</table>
+```bash
+docker --version
+docker compose version
+```
+
+### Prepare the configuration
+
+Clone the project and create its local configuration file:
+
+```bash
+git clone https://github.com/MISP/misp-docker.git
+cd misp-docker
+cp template.env .env
+```
+
+Before starting MISP, open `.env` in your editor and review these settings:
+
+| Setting | What to configure |
+|---|---|
+| `BASE_URL` | Keep `http://localhost` for access from the Docker host. For another hostname or port, use the exact URL you will open in your browser. |
+| `ADMIN_EMAIL` | Set the initial administrator's email address. If left empty, it defaults to `admin@admin.test`. |
+| `ADMIN_PASSWORD` | Set a unique, strong administrator password. If left empty, it defaults to `admin`. |
+| `ADMIN_ORG` | Set your organization's name. |
+
+Uncomment `DISABLE_PRINTING_PLAINTEXT_CREDENTIALS` and set it to `true` to keep the administrator password and API key out of initialization logs.
+Keep `.env` private: it contains credentials.
+The default Compose configuration publishes web ports **80** and **443** on the host; make sure they are available.
+For a different port, consult the `NGINX_HTTP_PORT` and `NGINX_HTTPS_PORT` settings in `template.env` and update `BASE_URL` to match.
+
+::: {.callout-note}
+This walkthrough is for getting started on a trusted test host.
+Before making the instance available to others, review the [misp-docker production guidance](https://github.com/MISP/misp-docker#production) for credentials, HTTPS, mail, and persistent storage.
+:::
+
+### Start the containers
+
+From the `misp-docker` directory, pull the images and start the services:
+
+```bash
+docker compose pull
+docker compose up -d
+docker compose ps
+```
+
+The first startup initializes the database and MISP configuration and can take several minutes.
+Follow its progress with:
+
+```bash
+docker compose logs --follow misp-core
+```
+
+Press **Ctrl+C** to stop following the logs; the containers keep running.
+Once initialization finishes, open **http://localhost** on the Docker host, or the address you configured in `BASE_URL`.
+If the page is not available yet, check `docker compose ps` and the logs before trying again.
+The [upstream troubleshooting guide](https://github.com/MISP/misp-docker#troubleshooting) covers common startup problems.
+
+To stop the instance without deleting its data:
+
+```bash
+docker compose stop
+```
+
+Run `docker compose up -d` from the same directory to start it again.
+
+<a id="login-into-misp"></a>
+
+## Sign in to MISP
+
+Use the `ADMIN_EMAIL` and `ADMIN_PASSWORD` you configured in `.env`.
+If you left both empty, the initial credentials are `admin@admin.test` / `admin`; change the default password immediately.
+For an existing instance, use the credentials supplied by your administrator.
+
+Accept the terms of use and set a new password if prompted.
+See [First run of the system](../user-management/index.qmd#first-run-of-the-system) for the account setup screens.
+
+<a id="tasks-to-do-after-first-start"></a>
+
+## First steps after login
+
+1. **Secure your administrator account.** Use a unique password that meets the [password policy](#password-policy), and enable multi-factor authentication if your instance supports it.
+   In Docker, keep `ADMIN_PASSWORD` in `.env` consistent with your intended administrator password: environment-driven settings are reapplied when the container starts.
+2. **Set up your organization and users.** Check your organization's name, designate site and organization administrators, and create separate accounts for contributors with the appropriate [roles](../administration/index.qmd#roles).
+   Use an account with the permissions you need for daily analysis rather than sharing the initial administrator login.
+   See [user administration](../administration/index.qmd#users) and [organizations](../administration/index.qmd#organisations).
+3. **Check that the instance is ready.** As a site administrator, open **Administration → Server Settings & Maintenance** and review the diagnostics and background workers.
+   Resolve reported configuration issues before importing data; see [server settings and maintenance](../administration/index.qmd#server-settings-and-maintenance).
+4. **Choose your tags and feeds.** [Enable a taxonomy](#enable-a-taxonomy), such as `tlp`, so analysts can label information consistently.
+   Then [enable a feed](#enable-and-fetch-a-feed) relevant to your work.
+   Start with caching for correlation; fetch events only when you want to import them into your instance.
+5. **Create a small test event.** Follow [Create an Event](#create-an-event) below, choose **Your organisation only** as the distribution, and add a harmless example indicator such as `example.org`.
+   Keep illustrative indicators out of detection exports by clearing **for Intrusion Detection System** (`to_ids`).
+   Review the event's tags and distribution before publishing or sharing it; see [distribution guidance](../best-practices/index.qmd#setting-distribution).
+
+## Password Policy
+
+Use a password manager to generate and store a unique password.
+The instance's configured policy determines the minimum length and required character types; follow the requirements shown when you change your password.
+See [user management](../user-management/index.qmd) for profile settings and multi-factor authentication.
 
 <a id="i-forgot-my-admin-password-"></a>
 
-## I forgot my admin password :(
+## Reset an administrator password
 
-You can quickly reset it via the command line. You need to know the Admins E-Mail address.
-Replace www-data with whoever runs the webserver.
+For a Docker deployment, run the password reset command from your `misp-docker` directory.
+Replace the email address with the administrator's login and `NEW_PASSWORD` with a strong password that meets the instance's policy:
 
+```bash
+docker compose exec --user www-data misp-core /var/www/MISP/app/Console/cake User change_pw admin@admin.test 'NEW_PASSWORD'
 ```
-sudo -u www-data /var/www/MISP/app/Console/cake Password admin@admin.test Password1234
-```
 
-## Tasks to do after first Start
-
-<!-- TODO: Consollidate all sources to misp-book -->
-1. [Change site admin password](https://www.circl.lu/doc/misp/quick-start/#password-policy)
-2. [Activate Feeds](https://www.circl.lu/doc/misp/managing-feeds/)
-3. [Setup your User](https://www.circl.lu/doc/misp/user-management/#first-run-of-the-system)
-3.1 Designate a Site Admin and an Org Admin
-3.2 Add some contributing users and assign the corresponding Roles
-4. [MISP Administration](https://www.circl.lu/doc/misp/administration/)
-4.1 Edit your first organisations' name
-
-## Password Policy 
-- `[12]`: Ensure that the password is at least 12 characters long
-- `[A-Z]`: contains at least one upper-case
-- `[0-9| ]`: includes a digit or a special character
-- `[a-z]`: at least one lower-case character.
-
-If you need a password generator use:
-- Ubuntu / Debian: [pwgen](https://linux.die.net/man/1/pwgen)
-- Built-in generator in KeePass and other password managers
-- Built-in generator in various web browsers
-
-**All Generator tools are only possibilities without any guarantee!**
+If `ADMIN_PASSWORD` is set in `.env`, update it too so a later container start does not restore the previous value.
+For a host installation, run the same Cake command directly as the web server user, using the path to your MISP installation.
 
 {{< pagebreak >}}
 
-## tl;dr
+<a id="tldr"></a>
 
-### Create an Event
+## Common actions at a glance
+
+### Create a report
+
+Use **Event Actions → Add Event** to start a report, then add attributes and tags.
+
 ![Overview create an event in MISP](figures/quick_create.jpg)
 
-### Browse Past Events
-![Overview browse past evente in MISP](figures/quick_browse.jpg)
+### Find existing events
 
-### Export Events for logsearches
+Use **Event Actions → List Events** to find existing reports and filter the results.
+
+![Overview browse past events in MISP](figures/quick_browse.jpg)
+
+### Export indicators
+
+Export selected indicators in the format your detection or analysis tools need.
+
 ![Overview export events for logsearches](figures/quick_export.jpg)
 
 {{< pagebreak >}}
@@ -80,13 +160,17 @@ If you need a password generator use:
 
 ![Create an Event in MISP](figures/AddEvent.jpg)
 
-You only have to add a few pieces of information to register your Event. Further details will be specified after the Event has been added.
+Choose **Event Actions → Add Event**, enter a short, descriptive title in the **Info** field, and complete the date, threat level, analysis, and distribution fields.
+For your first test, use **Your organisation only** as the distribution.
+Save the event; you can then add its attributes, objects, and tags.
 
 ## Describe Event
 
 ![Describe Event](figures/AddEventOK.png)
 
-Now you can specify the information for your Event (you will need to scroll the window).
+Use the event view to add the indicators and context that describe what happened.
+For a simple test, add `example.org` as a `domain` attribute and leave `to_ids` disabled.
+Use the free-text import tool below when you have several indicators to add at once.
 
 ### Free-Text Import Tool
 
