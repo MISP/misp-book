@@ -1,0 +1,53 @@
+{
+  "checked_at": "2026-11-06",
+  "scope": "Module catalogue, service API/operations, development guidance and linked training. Existing MISP UI captures retain their original provenance.",
+  "module_service": {
+    "repository": "https://github.com/MISP/misp-modules/",
+    "branch": "main",
+    "commit": "5ba217fe765cb5f3b62df0918709c2c0c9df99bb",
+    "package_version": "3.1.3",
+    "candidate_python_files": {
+      "expansion": 229,
+      "import_mod": 22,
+      "export_mod": 32,
+      "action_mod": 14
+    },
+    "count_method": "Family-directory .py files excluding underscore-prefixed names; counts do not imply runtime loading or availability."
+  },
+  "catalogue": {
+    "url": "https://misp-project.org/modules/",
+    "listed_modules": 294,
+    "book_wording": "around 300 modules",
+    "note": "The published catalogue and source update independently; use live catalogue details and runtime /modules for discovery."
+  },
+  "training": {
+    "repository": "https://github.com/MISP/misp-training",
+    "branch": "main",
+    "commit": "ac3cc9614467a3665c304732e0d142e75e5fcd8e",
+    "paths": [
+      "3.1-misp-modules",
+      "a.14-ai-assisted-misp-modules"
+    ],
+    "note": "Linked course READMEs document their own reviewed service snapshot and lab prerequisites."
+  },
+  "verification": {
+    "service_version": "3.1.3",
+    "runtime": "Local Python service using the pinned source and a custom training-module root; optional dependencies are not all installed.",
+    "url_example": {
+      "module": "extract_url_components",
+      "synthetic_value": "https://portal.example.org/a?item=1",
+      "result": "MISP url object, host portal.example.org, and generated-from reference to the input UUID verified over HTTP.",
+      "external_provider_queries": false,
+      "misp_event_writes": false
+    },
+    "training_exercise": {
+      "verifier": "a.14-ai-assisted-misp-modules/examples/verify_module.py",
+      "unit_tests_passed": 8,
+      "http_tests_passed": 3,
+      "total_tests_passed": 11,
+      "checked": "Explicit unit-only run and combined unit/HTTP run; discovery/OpenAPI, structured output, provenance, boolean detection flags, input/state isolation and invalid-request error envelopes.",
+      "live_misp_ui_or_external_provider_tested": false
+    }
+  },
+  "existing_ui_provenance": "assets/automation-screenshots.json"
+}
