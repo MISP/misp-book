@@ -110,6 +110,7 @@ format:
       dark: [darkly, assets/misp.scss]
     toc: true
     toc-depth: 3
+    include-after-body: assets/reference-tables.html
     code-copy: true
     code-overflow: wrap
     code-block-bg: true

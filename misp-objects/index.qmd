@@ -1,107 +1,129 @@
 ---
 title: "MISP Objects"
+format:
+  html:
+    lightbox: true
 ---
 
-A **MISP object** is a structured group of related attributes, built from a
-reusable **template** — for example a `file` object bundling a filename with its
-hashes and size, or a `domain-ip` object. Objects sit alongside plain attributes
-and let you express richer, real-world constructs while keeping each value a
-first-class, correlatable attribute. The object templates are community-maintained
-in the [misp-objects](https://github.com/MISP/misp-objects) repository and are
-designed around real cyber-security use-cases and sharing practices.
+An object groups attributes that describe one observed entity, using a template to give each
+attribute a named **object relation**. A `file` can contain its filename and hashes; a
+`domain-ip` can describe a domain/address observation. Each contained attribute still has its
+own UUID, type, detection flag, visibility context and correlatable value.
 
-## Using objects
+::: {.callout-note}
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+Templates come from [misp-objects](https://github.com/MISP/misp-objects). Screenshots use reserved
+values in a private unpublished event; no example requires enabling IDS or publishing it.
+:::
 
-To add an object to an event, open the event and choose **Add Object** from the
-left-hand menu:
+<!-- Template pins, creation checks and capture hashes: ../assets/data-model-screenshots.json -->
 
-![The event side menu, with Add Object highlighted.](figures/add_object.png)
+<a id="using-objects"></a>
 
-This opens a picker that lists every available object template in a single
-searchable dropdown. Start typing to filter the list by name — each entry shows
-the template's **meta-category** beneath its name, and its info icon reveals a
-short description of what the object is for:
+## Choose and populate a template {#objects-use}
 
-![Choosing a template from the searchable object picker.](figures/object_picker.png)
+From an event, choose **Add Object**. Search the template picker and use its meta-category and
+description to select the intended representation. A meta-category such as `network` groups
+object templates; it is not the same field as an attribute category such as Network activity.
 
-For this example we will add an `ip-port` object. Selecting a template opens its
-form, which lists every attribute the template defines:
+![The MISP 3.0 object-template picker for the training event.](figures/misp3-object-picker.png)
 
-![The ip-port object form.](figures/object_ipport.png)
+The 3.0 form separates template selection, attributes, optional relationships and review.
+Choose the relations you need; optional relations appear as addable controls rather than a
+requirement to fill every possible field.
 
-Each template sets its own **requirements**, shown at the top of the form. The
-`ip-port` template requires *one of* `dst-port`, `src-port`, `domain`,
-`hostname`, `ip`, `ip-src` or `ip-dst` to be set — you do not have to fill in
-every field, but an object with no attributes at all, or one that does not
-satisfy its template's requirements, is invalid and will not be added to the
-event.
+![An ip-port object draft with selected relations and IDS flags off, before saving.](figures/misp3-object-form.png)
 
-After pressing **Submit** you are shown a pre-save review, so you can confirm the
-object reflects what you intended before it is created:
+::: {.table-responsive}
 
-![The object pre-save review.](figures/object_preview.png)
+| Template field | Meaning |
+|---|---|
+| `misp-attribute`{.text-wrap .text-break} | The underlying attribute type. The relation `dst-port`{.text-wrap .text-break}, for example, uses type `port`{.text-wrap .text-break}. |
+| `required`{.text-wrap .text-break} | Every listed relation must be present. |
+| `requiredOneOf`{.text-wrap .text-break} | At least one listed relation must be present. It does not require all of them. |
+| `multiple`{.text-wrap .text-break} | Whether that relation can occur more than once. |
+| `categories`{.text-wrap .text-break}, `to_ids`{.text-wrap .text-break}, `disable_correlation`{.text-wrap .text-break} | Template constraints/defaults for that relation; inspect the actual saved attribute. |
+| `sane_default`{.text-wrap .text-break}, `values_list`{.text-wrap .text-break}, `ui-priority`{.text-wrap .text-break} | Suggested/allowed values and presentation hints, according to the template/schema. |
 
-Objects can also be created for you by the [import tools](../using-the-system/index.qmd#populate-from) (freetext and the various "Populate from…" formats), which build the appropriate objects from the data you paste in.
+:::
 
-## Object references and relationships
+An object is not inherently required to contain two attributes. The pinned `ip-port` template,
+for example, accepts one of its required-one-of relations; a single `ip-dst` can satisfy that
+rule. A valid object still needs useful context and the template's actual constraints.
 
-The real power of objects comes from linking them together. An object can hold
-**references** to other objects — or to individual attributes — each labelled with
-a **relationship type** that says *how* they are related (for example a
-`network-connection` object *`connects-to`* an `ip-port` object, or a `file`
-object was *`downloaded-from`* a `url`). Together these references form the
-**event graph** you can explore from the event view.
+Review values, comments, observation times, distribution and IDS/correlation flags before the
+final save. Object distribution can inherit from the event; child distribution must stay within
+its parent. A populated field or template default does not establish detection value.
 
-To add one, use the **Add reference** action on an object and pick the target
-object or attribute plus a relationship type. MISP offers a standard set of
-relationship types (maintained in the misp-objects repository), or you can enter
-a custom one. References are directional (source → target) and are shown both on
-the objects themselves and in the event graph.
+![The object review step summarizes the draft; the final save has not been submitted.](figures/misp3-object-review.png)
 
-## Editing objects
+## Identity and MISP 3.0 values {#objects-identities}
 
-An object's attributes are edited just like any other attribute — inline in the
-event view, or through the object's edit form. As with attributes, changing an
-object un-publishes the event, so you republish once you are done.
+![A template defines the shape, an object instance holds observed attributes, and a directional object reference links it to another observed entity.](figures/object-structure.svg)
 
-## Object templates
+An instance records its template UUID/version, object UUID and relation names. The template is
+not the observation itself: updating a template catalogue does not silently turn every older
+object into a newly validated instance of the latest schema.
 
-Every object is created from an **object template** that defines which attributes
-it can contain, which are required, and how they are presented. The template
-library ships with MISP and is kept up to date from the
-[misp-objects](https://github.com/MISP/misp-objects) repository — refresh it with
-**Update Objects** in the administration menu, or on the command line with
-`cake Admin updateObjectTemplates` (a good candidate for a cron job).
+In MISP 3.0, a contained attribute retains its occurrence identity while its stored value can
+share a [value address](../categories-and-types/index.qmd#types-values) with other occurrences.
+Do not replace object/attribute UUIDs with a value hash when maintaining references or tracking
+updates. Object and attribute first/last-seen times describe observations, not publication times.
 
+## Object references and relationships {#object-references-and-relationships}
+
+Use **Add reference** / the object's relationship controls to link a source object to a target
+object or attribute. Select the target UUID and a relationship type, and document what the link
+means. References are directional; a matching value does not automatically create every
+relationship you might infer from it.
+
+![The event's Objects tab shows the saved domain-ip and ip-port objects and their declared relationship.](figures/misp3-event-objects.png)
+
+The training example uses `related-to` between two private observed entities. A more precise
+relation should be supported by the observation, not chosen for a visually pleasing graph.
+Object references differ from galaxy-cluster knowledge relationships and Analyst Data
+relationships; use the model appropriate to the statement.
+
+The event graph/workspace can help explore connections, but a graph's layout is not evidence
+of causality. Preserve the source, timestamps, comments and assessment in the underlying records.
+
+<a id="editing-objects"></a>
+<a id="object-templates"></a>
+
+## Edit observations and maintain templates {#objects-maintenance}
+
+Edit an object's fields/attributes through the current object controls. Review the resulting
+attributes, references and event state; changes can unpublish the event. Deleting a relation,
+attribute or object has a different scope, so check the confirmation and any dependent links.
+
+Open **Data models → Templates → List Object Templates** (`/objectTemplates/index`) to inspect installed
+versions, active state, elements and requirements. The template's detail view is a better
+starting point than a fixed example copied from an older installation.
+
+![The ip-port template detail page exposes its requirements and relation definitions.](figures/misp3-object-template.png)
+
+To update the catalogue, deploy the intended `app/files/misp-objects` revision, then use
+**Update Object** or `cake Admin updateObjectTemplates`. Keep older instance/template version
+relationships in mind when planning migrations. Do not rewrite event data simply to make a
+catalogue version indicator look current.
+
+<a id="creating-object-templates"></a>
 <a id="creating-object"></a>
 
-### Creating object templates
+## Author a template {#objects-authoring}
 
-An object template is a JSON file that follows the
-[object schema](https://github.com/MISP/misp-objects/blob/main/schema_objects.json).
+Follow the [current object schema](https://github.com/MISP/misp-objects/blob/main/schema_objects.json).
+Choose a stable template UUID, increment its version for changes and define meaningful relation
+names with existing MISP attribute types. State required/required-one-of and multiplicity rules,
+then validate representative complete, minimal and invalid objects.
 
-An object is basically a combination of two or more attributes that can be used together to represent real cyber security use-cases. These attributes are listed in a JSON object.
+An object template's defaults can differ from the
+[base attribute defaults](../categories-and-types/index.qmd#types). A relation's data type and
+its name are separate: adding a relation does not create a new core attribute type. Test the
+form, saved JSON and intended export/client compatibility.
 
-Each attribute is an JSON object defined by a name, a description, a misp-attribute and an ui-priority value.
-- Name and description are self-explanatory.
-- misp-attribute is an existing type of attribute in misp that matches the attribute.
-- Concerning ui-priority, the higher the number is, the most it is expected to be seen.
-
-There are also others options that can be added to define an attribute more precisely.
-- sane_default is a list of default valid value for this attribute. The user can pick a value from this list or choose "Enter value manually"
-- disable_correlation will disable correlation for this value. Useful for dates for instance
-- recommended value for this field
-- multiple, if set to true, allow the user to add multiple instances of this attribute.
-
-Not all attributes are mandatory, but some can be required. If so, they need to be listed in a list called "required". The object will only be valid if the listed attributes are set.
-The same way, there are sometimes when only one attribute in a set is needed. This set can be put in a list called "requiredOneOf". If at least one of the attributes in this list is set, the object will be valid.
-
-Rather than hand-editing and validating these JSON files, you can use the
-**Object Template Creator**, part of the
-[MISP Engineering Bay](https://github.com/MISP/misp-engineering-bay) toolset. It
-is a small self-hosted web application that provides a guided editor for object
-templates — a searchable attribute-type picker driven by MISP's `describeTypes`,
-real-time validation, and import/export of `definition.json` files — and can load
-any of the existing templates as a starting point. Once your template is ready,
-add it to `app/files/misp-objects/` and run **Update Objects** (or
-`cake Admin updateObjectTemplates`) to load it.
+The [MISP Engineering Bay](https://github.com/MISP/misp-engineering-bay) includes a guided
+Object Template Creator. Treat it as an authoring aid: validate its output against the intended
+schema/installed version, load the definition into the catalogue and test the resulting object.
+Keep private templates under managed deployment control and contribute reusable public ones
+through the upstream repository's review process.

@@ -1,222 +1,156 @@
 ---
 title: "Galaxies"
+format:
+  html:
+    lightbox: true
 ---
 
-Galaxies are MISP's way of attaching rich, structured knowledge objects —
-**clusters** — to events and attributes. A cluster is a named entry (a threat
-actor, a malware family, an ATT&CK technique, a sector, a country, …) carrying a
-description, synonyms, and a set of key/value metadata. Where a plain tag gives
-you one label and one colour, a galaxy cluster gives you a whole reusable object
-with context and relationships.
+A galaxy organizes reusable knowledge such as techniques, actors, malware families, sectors
+or countries. Its **clusters** carry a name, UUID, description, metadata and relationships.
+Attach a cluster to an observation when the relationship is supported by your evidence;
+matching a familiar name is not sufficient attribution.
 
-MISP ships with a large library of community-maintained galaxies (from
-[misp-galaxy](https://github.com/MISP/misp-galaxy), and drawing on standards such
-as [ATT&CK](https://attack.mitre.org/), STIX and others). You can use these
-default clusters as they are, and — since "Galaxy 2.0" — create, edit, fork and
-relate **your own** clusters directly in the web interface. Each cluster carries a
-MISP distribution level, so custom knowledge can be kept local or shared as
-widely as you like.
+::: {.callout-note}
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+The community library comes from [misp-galaxy](https://github.com/MISP/misp-galaxy).
+Examples use a neutral country attachment and private unpublished custom knowledge.
+:::
 
-Under the hood a galaxy cluster is stored as a tag of the form
-`misp-galaxy:<type>="<uuid>"`, which is what actually gets attached to an event
-or attribute — but the UI presents it as a first-class object rather than a flat
-tag. For the difference between galaxies and taxonomy tags, see the
-[Taxonomies](../taxonomy/index.qmd) chapter.
+<!-- Definition pins, private fixture and captures: ../assets/data-model-screenshots.json -->
 
+## Distinguish the entities {#galaxy-concepts}
+
+::: {.table-responsive}
+
+| Entity | Role |
+|---|---|
+| Galaxy | Defines a knowledge collection: name/type, namespace, description and optional matrix layout. |
+| Cluster | A particular entry, with its own UUID, metadata, version, source and distribution. |
+| Cluster relationship | A directional statement between knowledge entries, with a relationship type and its own scope. |
+| Event/attribute attachment | Associates a cluster with one observation, using an underlying tag and a local/global scope. |
+
+:::
+
+![Galaxy definitions organize clusters. Relationships connect knowledge entries; attachments connect that context to events or attributes. These are separate relationships.](figures/galaxy-context.svg)
+
+The underlying tag is not the entire cluster. Shipped entries can have tags based on their
+value, while custom entries use UUID-based tags; read the stored `tag_name` and cluster UUID
+rather than constructing a tag string or assuming every suffix is a UUID.
+
+<a id="managing-galaxies-in-the-ui"></a>
 <a id="managing-galaxies-in-misp"></a>
 
-## Managing galaxies in the UI
+## Browse galaxies and clusters {#galaxy-management}
 
-Open **Galaxies** from the top menu to see every galaxy on the instance.
+Open **Data models → Galaxies** (`/galaxies/index`). Search/filter the catalogue and inspect
+enabled/local-only status. A disabled galaxy is not normally offered by the attachment picker.
+Use a local-only galaxy when its attachments must remain local; this is distinct from an
+individual cluster's distribution.
 
-![The Galaxies menu.](./figures/GalaxyMenu.png)
+![The MISP 3.0 galaxy catalogue, loaded from the pinned local definition files.](figures/misp3-galaxies.png)
 
-The index lists each galaxy with its icon, name, version, namespace and
-description, and shows whether it is **enabled** and whether it is **local only**.
-Use the *All / Enabled / Disabled* tabs and the search box to filter.
+Open a galaxy to inspect its metadata and clusters. Overmind's **General** and other context
+tabs, searchable cluster list and related views replace the old left-menu walkthrough.
+Use exact identifiers, descriptions, sources and synonyms to distinguish similarly named entries.
 
-![The galaxy index.](./figures/GalaxyView.png)
+![The Country galaxy, its cluster list and usage context in Overmind.](figures/misp3-galaxy-detail.png)
 
-Each galaxy can be opened with the **View** action. The galaxy page shows its
-metadata (namespace, UUID, distribution, owner and creator organisation, whether
-it is a default galaxy, and its kill-chain layout for matrix galaxies) and, below
-it, the list of its clusters.
+A cluster view exposes its **Elements**, relationships and activity alongside source/identity
+information. Synonyms and references help discovery; they are not independent confirmation of
+a source's assessment. In 3.0, the view also links to workspace/research context. Those records
+retain their own ownership and visibility rules.
 
-![Viewing a galaxy and its clusters.](./figures/GalaxyList.png)
+![A neutral country cluster with its metadata and relationships. The example does not assert attribution to a real incident.](figures/misp3-cluster-detail.png)
 
-The cluster list has its own context tabs — **All**, **Default** (shipped
-clusters), **Custom** (clusters created on this instance), **My Clusters**,
-**Deleted**, **View Fork Tree** and **View Galaxy Relationships** — and, for each
-cluster, an activity sparkline (from sightings) alongside the number of events
-and relationships it appears in.
-
-### Enabling, disabling and updating galaxies
-
-Site admins can **enable** or **disable** a whole galaxy from the index (a
-disabled galaxy is hidden from the attach picker). The bundled galaxy library is
-refreshed from the misp-galaxy files on disk with the side-menu actions:
-
-*   **Update Galaxies** — reimport all galaxies from the library, adding new
-    default clusters and relationships.
-*   **Force Update Galaxies** — drop and reimport, useful when a definition
-    changed in place.
-*   **Wipe Default Galaxy Clusters** — remove all shipped clusters (custom
-    clusters are kept).
-
-![Confirming a galaxy update.](./figures/GalaxyUpdate.png)
-
-The same reimport is available on the command line with
-`cake Admin updateGalaxies [force]`, which is convenient for a cron job (see the
-[administration](../administration/index.qmd) chapter). The library files
-themselves are updated by pulling the misp-galaxy submodule (part of the standard
-`git submodule` update during a MISP upgrade).
-
-### Matrix galaxies
-
-Galaxies that define a `kill_chain_order` — most notably the MITRE ATT&CK
-galaxies — are rendered as an interactive **matrix**, with the techniques present
-in an event highlighted as a heat-map across the tactics.
-
-![A matrix (ATT&CK-style) galaxy.](./figures/Matrix.png)
-
+<a id="using-galaxies-in-events-and-attributes"></a>
 <a id="using-galaxies-in-misp-events---example"></a>
 
-## Using galaxies in events and attributes
+## Attach context to an event or attribute {#galaxy-attachments}
 
-Galaxy clusters are attached from the **Galaxies** panel on an event (or on an
-individual attribute). The panel offers two add buttons: **Add new cluster**
-(global — the cluster is shared and synchronised with the event) and **Add new
-local cluster** (the attachment stays on your instance only). Local attachments
-are useful for adding your own context to data you intend to share without
-leaking that context.
+Open the target's context/tagging controls and choose the cluster attachment action. Search by
+galaxy, cluster name or synonym, inspect the entry, then confirm the target and local/global
+scope. A default cluster can be used without publishing it as a custom cluster.
 
-![An event before any galaxy cluster is attached — note the Galaxies panel and its "Add new cluster" button.](./figures/EventWithoutCluster.png)
+![The galaxy picker for the private training event. Cluster selection and attachment scope are explicit choices.](figures/misp3-cluster-picker.png)
 
-Clicking either button opens a picker where you first choose a galaxy (or search
-across all of them), then select one or more clusters to attach.
+A **local** attachment stays with this instance in normal native sharing. A **global** attachment
+is eligible for propagation according to the event, tag and synchronization rules; it does not
+make the event or cluster visible to everyone. Review format-specific/manual exports separately.
+Cluster distribution, attachment scope and event distribution answer different questions.
 
-![The galaxy picker.](./figures/GalaxyPopup.png)
+The pinned branch's multi-event attachment path can downgrade a global preference to a local
+attachment on events the user cannot modify. Check the per-event result rather than assuming
+all selected events were changed globally. A local-only galaxy rejects a global attachment.
 
-Clusters carry synonyms, so if you cannot find an actor or family under the name
-you know, search for it — an alias will lead you to the canonical cluster. In the
-example below, searching for "Sneaky Panda" surfaces the cluster under its
-primary name.
+Detach the attachment when the observation no longer supports it; deleting the knowledge entry
+is a different action. Changes to a global event/attribute attachment can unpublish the event.
+Review the saved state before any later publication.
 
-![Searching the cluster list.](./figures/Search.png)
+<a id="matrix-galaxies"></a>
 
-![The synonym reveals the matching cluster.](./figures/Alias.png)
+## Matrix galaxies {#galaxy-matrices}
 
-Once attached, each cluster in the Galaxies panel offers inline actions: a
-magnifier to **view the cluster**, an icon to **list the events** that use it, a
-control to **modify the tag relationship**, and a trash icon to **detach** it. A
-globe or user icon indicates whether the attachment is global or local.
+Galaxies with a `kill_chain_order`, such as ATT&CK collections, can render techniques by tactic
+in a matrix. Check the selected framework/version and what the highlighting counts. An attached
+technique is an assertion/context link, not proof of coverage, detection quality or attribution.
 
-![A cluster attached to the event.](./figures/NewThreatActor.png)
+![An actual ATT&CK-style galaxy matrix in the MISP 3.0 installation.](figures/misp3-galaxy-matrix.png)
 
-## Creating your own galaxy clusters (Galaxy 2.0)
+Use the matrix to navigate/compare context and inspect the underlying clusters. Preserve
+external IDs and references when exchanging knowledge with another tool; matching a label or
+column position is not a stable cross-version identity.
 
-Users with the **Galaxy Editor** role permission (or site admins) can create
-custom clusters directly in the UI. Default (shipped) clusters are read-only;
-your custom clusters are owned by your organisation and are fully editable.
+<a id="creating-your-own-galaxy-clusters-galaxy-2.0"></a>
+<a id="publishing-custom-clusters"></a>
+<a id="forking-a-cluster"></a>
+<a id="cluster-relationships"></a>
+<a id="blocklisting-galaxy-clusters"></a>
 
-From a galaxy's view, use **Add Cluster** to open the cluster form:
+## Create and relate custom knowledge {#galaxy-custom}
 
-*   **Name** — the cluster's value (for example the actor or family name).
-*   **Distribution** / **Sharing Group** — who the cluster is shared with, using
-    the standard MISP distribution levels (Your organisation only → All
-    communities, or a sharing group).
-*   **Description** — free text describing the cluster.
-*   **Authors** — a JSON array or comma-separated list of authors.
-*   **Source** — where the information comes from.
-*   **Galaxy Cluster Elements** — the key/value metadata (synonyms, references,
-    external IDs, and any other fields). You can paste a JSON array of
-    `{key, value}` objects, or use the **Toggle UI** button to fill in the
-    key/value pairs through a form.
+Use **Add Custom Galaxy** for a local knowledge collection, then **Add cluster** for entries.
+Galaxy editing requires the relevant role permission. Review the name/namespace, local-only
+choice, distribution, owner and creator organisation rather than inheriting an unintended audience.
 
-You can also create an entirely new **custom galaxy** to hold your clusters with
-**Add Custom Galaxy** (from the galaxies index side menu) — for example a galaxy
-specific to your organisation's internal taxonomy of adversaries.
+A custom cluster can include authors, source, description and key/value elements such as
+`synonyms` and `refs`. The UI supports structured element entry. Save a private draft first,
+then check its UUID, version and resulting scope.
 
-### Publishing custom clusters
+![Private custom-cluster knowledge in MISP 3.0. Both exercise clusters remain unpublished.](figures/misp3-custom-cluster.png)
 
-A custom cluster must be **published** before it can be attached to data or
-synchronised — an unpublished cluster is hidden from the attach picker, and the
-cluster view warns you that users cannot yet use it. Publishing requires both the
-*Galaxy Editor* and *Publish* permissions. Note that editing a cluster (or
-changing one of its relationships) automatically un-publishes it, so you republish
-when your changes are ready. Published clusters are pushed to the sync servers you
-are connected to, according to their distribution level.
+The normal attachment picker offers published custom clusters and shipped defaults. Review and
+publish custom knowledge before offering it through that picker or synchronization. Publication is
+a separate privileged action and can start cluster propagation; it is not required for the
+private drafting example. Shipped default clusters are a separate case. Editing custom knowledge
+or its relationships can unpublish it, requiring a deliberate review/republication later.
 
-## Forking a cluster
+Use cluster relationships for statements such as one knowledge entry being related to another.
+Choose a source, target UUID, type and distribution; optional tags qualify the relationship.
+Inspect direction and inbound/outbound views. This is different from an
+[object reference](../misp-objects/index.qmd#object-references-and-relationships) between observed entities.
 
-Sometimes you want to build on a shipped cluster without losing the link to the
-original — for example to add your own metadata or relationships to a MITRE
-technique. **Forking** creates an editable copy of any cluster in the same
-galaxy: use the **Fork** action on a cluster row (or *Fork Cluster* in the cluster
-menu).
+Fork a cluster when an editable derivative should retain a link to its parent. The fork has its
+own identity; review parent-version changes before merging them. A fork is not a local edit of
+the shared default entry. Use the cluster blocklist for identifiers that should not be captured
+or synchronized; see [Administration](../administration/index.qmd#galaxy-cluster-blocklist).
 
-The fork is a new, independent custom cluster owned by your organisation, with its
-own UUID, but it records the parent it was forked from. The cluster view shows
-**Forked From** / **Forked By** links, and when the parent later advances to a
-newer version you get a **New version available** banner with the option to pull
-the parent's changes into your fork.
+<a id="enabling-disabling-and-updating-galaxies"></a>
+<a id="authoring-galaxies-as-json"></a>
+<a id="available-galaxies"></a>
 
-## Cluster relationships
+## Update and author definitions {#galaxy-definition-updates}
 
-Clusters can be linked to one another to build a graph of related knowledge — for
-example marking one actor as *is-similar* to another, or a malware family as
-*used-by* an actor. A relationship connects a **source** cluster to a **target**
-cluster with a **relationship type** (a free-form string; the picker suggests
-existing types such as `is-similar`), can carry its own **tags** (for example
-estimative-language or false-positive tags to qualify the link), and has its own
-distribution level.
+Update the pinned `app/files/misp-galaxy` files through the deployment process, then import them
+with **Update Galaxies** or `cake Admin updateGalaxies`. Normal update, forced reimport and
+wiping default clusters have different effects; inspect the selected action and preserve custom
+knowledge before a destructive repair. Importing definitions does not attach them to every event.
 
-Add relationships from a cluster's **View Galaxy Relationships** panel using the
-inline **Add relationship** form (the source is pre-filled; pick a type, choose
-the target cluster, and optionally add tags), or from the dedicated relationship
-add form. The panel offers both a **tree** and a **tabular** view, with an option
-to include inbound relations. Because a relationship is part of the cluster's
-shared data, adding, editing or deleting one un-publishes the source cluster until
-you republish.
+For repository contributions, validate the paired galaxy definition (`galaxies/<type>.json`)
+and cluster collection (`clusters/<type>.json`), including their shared identifiers, metadata,
+versions and relationship targets. Use the upstream schema/tests. The
+[MISP Engineering Bay](https://github.com/MISP/misp-engineering-bay) offers authoring tools;
+validate the exported data and installed-version compatibility before importing it.
 
-## Blocklisting galaxy clusters
-
-If you want to keep a specific cluster from ever being captured or synchronised
-onto your instance, add its UUID to the **galaxy cluster blocklist** (List Cluster
-Blocklists in the galaxies menu; hard-deleting a cluster also adds it to the
-blocklist). See [Blocklists](../administration/index.qmd#galaxy-cluster-blocklist)
-in the administration chapter.
-
-## Authoring galaxies as JSON
-
-The UI editor is the recommended way to build clusters on a running instance.
-If instead you want to author galaxies as JSON files — for example to contribute
-them back to the community [misp-galaxy](https://github.com/MISP/misp-galaxy)
-repository — a galaxy is made up of two paired files that share the same `type`
-and `uuid`:
-
-*   a **galaxy definition** (`galaxies/<type>.json`) — metadata: name,
-    description, icon, namespace, and (for matrix galaxies) the `kill_chain_order`
-    that lays out the matrix columns; and
-*   a **cluster collection** (`clusters/<type>.json`) — the actual clusters, each
-    with a value, description, and `meta` key/values (and, for matrix galaxies, a
-    `kill_chain` entry per value that places it in the matrix).
-
-Rather than hand-editing and validating these files, use the **MISP Galaxy
-Editor**, part of the
-[MISP Engineering Bay](https://github.com/MISP/misp-engineering-bay) toolset. It
-is a small self-hosted web application that provides a guided editor for both
-simple and matrix galaxies: a unified galaxy-and-cluster editor, a drag-and-drop
-matrix builder, autocomplete for the common meta keys, a relationship editor,
-real-time validation with a live JSON preview, and one-click export of a zip that
-matches the misp-galaxy repository layout (`galaxies/` + `clusters/`). Once you
-have your files, drop them into `app/files/misp-galaxy/` and run **Update
-Galaxies** (or `cake Admin updateGalaxies force`) to load them.
-
-## Available galaxies
-
-The set of bundled galaxies changes with every misp-galaxy release, so this
-chapter does not reproduce the list. To see exactly what is available on your
-instance, browse **Galaxies** in the UI; for the authoritative, always-current
-catalogue see the [misp-galaxy](https://github.com/MISP/misp-galaxy) repository
-and the [MISP galaxy page](https://www.misp-project.org/galaxy.html).
+The available library changes independently of the book. Browse your installed catalogue or
+[MISP's galaxy catalogue](https://www.misp-project.org/galaxy.html) rather than relying on a
+fixed printed list of every cluster.

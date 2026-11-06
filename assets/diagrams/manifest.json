@@ -107,6 +107,41 @@
       "source_sha256": "60913883c9a60b623cbf783a3afdd48c46dfbdea4dab8b0e3cad6c74752c1da0",
       "sha256": "9514db571821bff0cfa3f9173526ea8cd09ba1fbdcdc2e6fbb85e2c3f274c96b",
       "viewBox": "0 0 275.3125 802.4000244140625"
+    },
+    {
+      "source": "categories-and-types/figures/data-model-layers.mmd",
+      "file": "categories-and-types/figures/data-model-layers.svg",
+      "source_sha256": "7d3a7c91465b311d5cd3003275447663da423050723a43488b83c5664b1fddd6",
+      "sha256": "b530a84796c4c4a1a3d7f99d3baf5585535d71e4f5c01167a9295f876a3f6a2c",
+      "viewBox": "0 0 772.55078125 490.6000061035156"
+    },
+    {
+      "source": "taxonomy/figures/taxonomy-scope.mmd",
+      "file": "taxonomy/figures/taxonomy-scope.svg",
+      "source_sha256": "2b272978bd34031b8d0e67fb4e7443b97b2c3350cc69941732b4d6cccee91137",
+      "sha256": "c042a40dfbf0f8ed7d292222a0e95f004bf45aeaaf736dd2b1f998d7d658b96c",
+      "viewBox": "0 0 495.9765625 564.5999755859375"
+    },
+    {
+      "source": "galaxy/figures/galaxy-context.mmd",
+      "file": "galaxy/figures/galaxy-context.svg",
+      "source_sha256": "9d960fff107c015da9f2159d8a2ea4ce4b38ee2c5f2a1a098a0a607c0c9f257c",
+      "sha256": "4c9a01977ddbdbb8122f175093b1e37afcdfaa080368dada708947659f725a9e",
+      "viewBox": "0 0 572.59375 490.5999755859375"
+    },
+    {
+      "source": "misp-objects/figures/object-structure.mmd",
+      "file": "misp-objects/figures/object-structure.svg",
+      "source_sha256": "68d44b49ae2eea09044cd5b43a3d4538e7be23ccbeb7934f25beecad7b02772f",
+      "sha256": "6ce83f949153c963d13d38916ff473122829ca0c7769005d743685af39c73be4",
+      "viewBox": "0 0 559.921875 531.2000122070312"
+    },
+    {
+      "source": "warninglists/figures/warninglist-review.mmd",
+      "file": "warninglists/figures/warninglist-review.svg",
+      "source_sha256": "8ad9347e7f06ea1797f37d0a5365d0d6635f13f8639e06d1265ca338b42b4939",
+      "sha256": "d629162243c3c8a8b0626b766477b1959b3db6c67914f4e6c22e043ed0f4b110",
+      "viewBox": "0 0 571.5 520.4000244140625"
     }
   ]
 }

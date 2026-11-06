@@ -1,0 +1,10 @@
+flowchart TD
+  accTitle: Event structure and shared value addresses
+  accDescr: An event contains standalone attribute occurrences and object instances. Objects contain their own attributes. Occurrence UUIDs remain distinct while stored component values can share a SHA-256 address. Tags, galaxy clusters and Analyst Data add context without granting access.
+  E["Event<br/>Audience and source context"] --> A["Standalone attribute<br/>Occurrence UUID · type · category"]
+  E --> O["Object instance<br/>Template · object UUID"]
+  O --> B["Object attribute<br/>Occurrence UUID · relation · type"]
+  A --> V["Stored component value<br/>Shared SHA-256 address"]
+  B --> V
+  C["Tags · galaxy context<br/>Analyst Data"] -. Context and assessment .-> A
+  C -. Context and assessment .-> B

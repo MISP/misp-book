@@ -1,227 +1,155 @@
 ---
 title: "Taxonomies"
+format:
+  html:
+    lightbox: true
 ---
 
-MISP supports a flexible mechanism for [taxonomies of classification](https://github.com/MISP/misp-taxonomies) — curated sets of machine tags you can enable, cherry-pick, and share across instances.
+A taxonomy gives classification a shared vocabulary: handling instructions, source reliability,
+confidence, workflow state or another defined meaning. Use a taxonomy tag so another analyst
+or tool can interpret the label consistently, rather than guessing what a free-text tag means.
 
-You can access the taxonomy by going into 'Event Actions' and select 'List Taxonomies'. For fresh install, make sure to click 'Update Taxonomies' to view available taxonomies.
+::: {.callout-note}
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind. The vocabulary
+has its own release cycle in [misp-taxonomies](https://github.com/MISP/misp-taxonomies).
+Screenshots use synthetic private data; select a figure to enlarge it.
+:::
 
-A [complete list of the available taxonomies](https://www.misp-project.org/taxonomies.html) [PDF](https://www.misp-project.org/taxonomies.pdf) are available on the MISP project website.
+<!-- Definition pins, tests and captures: ../assets/data-model-screenshots.json -->
 
+<a id="reserved-taxonomy"></a>
 
-![MISP Taxonomy index](./figures/taxonomies-index.png)
+## Read a machine tag {#taxonomy-machine-tags}
 
-Taxonomies can be used in MISP (as local or distributed tags) or in other tools willing to share common taxonomies among security information sharing tools.
+The general form is `namespace:predicate="value"`. Some taxonomies have a predicate without a
+separate value, such as `tlp:clear`.
 
-![Overview of the MISP taxonomies](./figures/taxonomy-explanation.png)
+::: {.table-responsive}
 
-MISP ships **166 taxonomies** in 2.5.42 and the catalogue grows regularly, so this guide no longer reproduces the full list. Browse the always-current, authoritative catalogue on the [MISP taxonomies page](https://www.misp-project.org/taxonomies.html) ([PDF](https://www.misp-project.org/taxonomies.pdf)), or in your own instance under **Event Actions → List Taxonomies** (on a fresh install, click **Update Taxonomies** first). Widely used examples include [TLP](https://github.com/MISP/misp-taxonomies/tree/main/tlp), [PAP](https://github.com/MISP/misp-taxonomies/tree/main/PAP), [Admiralty Scale](https://github.com/MISP/misp-taxonomies/tree/main/admiralty-scale), [Estimative Language](https://github.com/MISP/misp-taxonomies/tree/main/estimative-language) and the [MISP](https://github.com/MISP/misp-taxonomies/tree/main/misp) taxonomy.
+| Example | What it expresses |
+|---|---|
+| `tlp:clear`{.text-wrap .text-break} | A handling/disclosure marking. It does not make an event accessible by itself. |
+| `admiralty-scale:source-reliability="a"`{.text-wrap .text-break} | A rating in a defined source-reliability scale, separate from the information's credibility. |
+| `estimative-language:likelihood-probability="likely"`{.text-wrap .text-break} | A qualified likelihood statement. Preserve the source and reasoning behind it. |
+| `ai-computer-assisted:review-level="unreviewed"`{.text-wrap .text-break} | A provenance/review marking used by assisted-analysis workflows; it is not a validation of the content. |
 
-A taxonomy contains a series of tags that can be used as normal tags in your MISP instance.
+:::
 
-Tagging is a simple way to attach a classification to an event. In the early version of MISP, tagging was local to an instance. Classification must be globally used to be efficient. After evaluating different solutions of classification, we build a new scheme using the concept of machine tags.
+Use [galaxy clusters](../galaxy/index.qmd#galaxy-concepts) to refer to a knowledge entity such as an actor or
+technique. Do not manufacture `misp-galaxy:*` tags as a replacement for the galaxy attachment
+workflow. The cluster has identity and metadata beyond its tag representation.
 
-Taxonomy is a classification of informations. Taxonomies are implemented in a simple JSON format. Anyone can create their own taxonomy or reuse an existing one.
+![A taxonomy supplies a vocabulary. An enabled tag is attached with a scope, while distribution and peer rules separately govern sharing.](figures/taxonomy-scope.svg)
 
-Taxonomies are in an [independent git repository](https://github.com/MISP/misp-taxonomies).
-
-These can be **freely reused** and **integrated** in other threat intel tools.
-
-The advantage is that you can set a specific tag as being
-exportable. This means that you can **export** your classification with other MISP instance and **share** the same taxonomies. Tagging is a simple way to attach a classification to an event.
-
-**Classification must be globally used to be efficient.**
-
-If you want to enable a specific taxonomy, you can click on the cross to enable it.
-
-![enableTaxonomy](./figures/enableTaxonomy.png)
-
-Then you can even cherry-pick the tags you want to use on the system. If you want to use the whole taxonomy, select all and then click on the cross in the top left.
-
-## Contributing to Taxonomy
-
-It is quite easy. Create a JSON file describing your taxonomy as triple tags.
-
-![](./figures/writeTaxonomy.png)
-
-![](./figures/writeTaxonomy2.png)
-
- (e.g. check an existing one like [Admiralty Scale](https://github.com/MISP/misp-taxonomies/tree/master/admiralty-scale)), create a directory matching your name space, put your machinetag file in the directory and pull your request. Publishing your taxonomy is as easy as a simple git pull request on misp-taxonomies (https://github.com/MISP/misp-taxonomies). That's it. Everyone can benefit from your taxonomy and can be automatically enabled in information sharing tools like [MISP](https://www.github.com/MISP/MISP).
-
-
-## Reserved Taxonomy
-
- The following taxonomy namespaces are reserved and used internally to MISP.
-
- - [galaxy](../galaxy/) mapping taxonomy with cluster:element:"value".
-
-## Adding Taxonomy in MISP
-
-How are taxonomies integrated in MISP?
-
-MISP administrators have only to import (or even cherry pick) the namespace or predicates they want to use as tags.
-
-Tags can be exported to other instances.
-
-Tags are also accessible via the MISP REST API.
-
-For more information, "[Information Sharing and Taxonomies Practical Classification of Threat Indicators using MISP](https://www.circl.lu/assets/files/misp-training/first2016/2-MISP-Taxonomies.pdf)" presentation given to the last MISP training in Luxembourg.
-
-## Adding a private taxonomy
-
-~~~~ shell
-$ cd /var/www/MISP/app/files/taxonomies/
-$ mkdir privatetaxonomy
-$ cd privatetaxonomy
-$ vi machinetag.json
-~~~~
-
-Create a JSON file describing your taxonomy as triple tags.
-
-~~~~ shell
-For example :
-mkdir sample
-cd sample
-vim machinetag.json
-~~~~
-
-Sample JSON with triple tags. You can use the JSON validator to be sure that there is no syntax error.
-
-~~~~ shell
-{
-  "namespace": "sample",
-  "description": "Some descriptive words",
-  "version": 1,
-  "predicates": [
-    {
-      "value": "my-predicate",
-      "expanded": "my-predicate"
-    }
-  ],
-  "values": [
-    {
-      "predicate": "my-predicate",
-      "entry": [
-        {
-          "value": "a-value",
-          "expanded": "A value"
-        }
-      ]
-    }
-  ]
-}
-~~~~
-
-Go to MISP Web GUI taxonomies/index and update the taxonomies once you are happy with your file. The newly created taxonomy should be visible. Now you need to activate the tags within your taxonomy.
-
-## How to use Taxonomy in MISP
-
-### Filtering the distribution of events among MISP instances
-
-Taxonomy tags can drive what MISP shares with connected instances. When you configure a synchronisation server (**Sync Actions → List Servers**), the push and pull rules let you allow or block events by tag — as well as by organisation, attribute type, or object. This makes tags such as `tlp:*` a practical distribution control. See [Synchronisation and Sharing](../sharing/index.qmd) for the full push/pull rule set.
-
+<a id="adding-taxonomy-in-misp"></a>
+<a id="bulk-actions-and-normalising-custom-tags"></a>
 <a id="taxonomies"></a>
 
-### MISP Taxonomies - tools
+## Find and enable a vocabulary {#taxonomy-management}
 
-- [machinetag.py](https://github.com/MISP/misp-taxonomies/blob/main/tools/machinetag.py) is a parsing tool to dump taxonomies expressed in Machine Tags (Triple Tags) and list all valid tags from a specific taxonomy.
+Open **Data models → Tags & Taxonomies → List Taxonomies** (`/taxonomies/index`). The 3.0 index shows version, enabled,
+required and highlighted state, plus active tag counts. Use search and supported row/bulk actions
+to find and configure the vocabulary your community uses.
 
-~~~~shell
-% cd tools
-% python machinetag.py
-        admiralty-scale:source-reliability="a"
-        admiralty-scale:source-reliability="b"
-        admiralty-scale:source-reliability="c"
-        admiralty-scale:source-reliability="d"
-        admiralty-scale:source-reliability="e"  
-        admiralty-scale:source-reliability="f"
-        admiralty-scale:information-credibility="1"
-        admiralty-scale:information-credibility="2"
-        admiralty-scale:information-credibility="3"
-        admiralty-scale:information-credibility="4"
-        admiralty-scale:information-credibility="5"
-        admiralty-scale:information-credibility="6"
-        ...
-~~~~
+![The current taxonomy index separates vocabulary enablement, required/highlighted state and active tags.](figures/misp3-taxonomies.png)
 
-- [PyTaxonomies](https://github.com/MISP/PyTaxonomies) - Python module to use the MISP Taxonomies
+Open a taxonomy to read its description, scope, exclusivity and version. **General** summarizes
+it; **Tags** lists its predicates/values and the tags available on this instance.
 
-### Other use cases using MISP taxonomies
+![The TLP taxonomy in MISP 3.0, with its settings, vocabulary and installed/shipped versions.](figures/misp3-taxonomy-detail.png)
 
-Tags can be used to:
+An enabled taxonomy and enabled individual tags are separate choices. A vocabulary can be
+installed while its tags are unavailable to attach. Enable the intended entries, or use the
+explicit enable-all action after reviewing their meaning. Taxonomy administration normally
+requires a site administrator; attaching existing tags depends on tagging permissions and scope.
 
-* Set events for further processing by external tools (for example to trigger automated enrichment or export via a [workflow](../workflows/index.qmd) or an external integration).
+Definitions on disk and definitions in the database are also separate. Update the pinned
+`app/files/taxonomies` files through the deployment process, then use **Update Taxonomies**
+or `cake Admin updateTaxonomies` to import them. A new vocabulary does not automatically
+establish the community's marking policy.
 
-* Ensure a classification manager classes the events before release (e.g. release of information from air-gapped/classified networks).
+<a id="how-to-use-taxonomy-in-misp"></a>
+<a id="filtering-the-distribution-of-events-among-misp-instances"></a>
+<a id="other-use-cases-using-misp-taxonomies"></a>
+<a id="future-functionalities-related-to-misp-taxonomies"></a>
 
-* Enrich IDS export with tags to fit your NIDS deployment.
+## Attach classification with the right scope {#taxonomy-use}
 
+On an event or attribute, open its tagging action and choose the appropriate enabled tag.
+Check the selected target and whether the attachment is **global** or **local**. A local
+attachment provides instance-local context; normal synchronization does not propagate it.
+Global attachments are eligible for sharing subject to exportability, filters and the target's
+own distribution and visibility.
+
+![The actual event tagging picker, used to select classification for the private training event.](figures/misp3-taxonomy-picker.png)
+
+A handling tag is **not an access-control list**. Event/object/attribute distribution and
+sharing groups still define the audience. Peer push/pull tag rules can select eligible content,
+but applying `tlp:clear` does not override a private event's distribution. See
+[Sharing & Synchronisation](../sharing/index.qmd#rules).
+
+Tags can select work for a [workflow](../workflows/index.qmd#workflow-hub) or connector, but the automation
+must implement that policy. An arbitrary tag does not by itself run enrichment, expire an
+indicator or change its IDS flag.
+
+<a id="more-options-to-configure-taxonomies."></a>
+<a id="setting-a-taxonomy-as-highlighted"></a>
+<a id="setting-a-taxonomy-as-required"></a>
+<a id="exclusive-taxonomies"></a>
 <a id="more-options-to-configure-taxonomies"></a>
 
-## More options to configure taxonomies.
+## Highlighting, required classification and exclusivity {#taxonomy-consistency}
 
-For MISP users and organisations, it's important to show the important contextualised information and especially the taxonomies which are important to your use-case.
-Once a taxonomy is enabled and available for use in MISP, there are two more options a admin can be set to encourage the use of particular taxonomies. Both are found in Event Actions > List Taxonomies menu.
+::: {.table-responsive}
 
-![taxonomies-list](./figures/taxonomy-list.png)
+| Setting/property | Effect and limit |
+|---|---|
+| **Highlighted** | Makes that namespace easier to see/apply in event context. It encourages consistent classification; it does not fill in a missing assessment. |
+| **Required** | An enabled required taxonomy must be represented among the event tags for the publication check. Attribute tags alone are not that event-level classification. |
+| **Exclusive taxonomy/predicate** | Defines which values should not coexist. MISP uses it for conflict checks and some attachment decisions; review imported/API data and resolve conflicting meanings. |
 
-### Setting a taxonomy as "Highlighted"
+:::
 
-If a taxonomy is highlighted, its namespace will appear in a visible box, even if it is not set in the event.
+The current required-taxonomy check can be inspected without publishing an event. Review any
+missing-namespace message and add the justified classification before release. Do not choose
+a label merely to clear a warning. For conflicting handling tags, establish the intended meaning
+and remove/correct the attachment in the right local/global scope.
 
-![highlight-event](./figures/highlight-event.png)
+Exclusivity comes from the vocabulary definition, not an arbitrary UI checkbox. The branch has
+specific compatibility handling for legacy TLP white/clear; do not generalize that to every
+pair of exclusive tags. `MISP.disable_taxonomy_consistency_checks` affects conflict reporting,
+so an absence of a warning is not evidence that the classification is coherent.
 
-Tags are also hilighted in the event list.
+<a id="contributing-to-taxonomy"></a>
+<a id="adding-a-private-taxonomy"></a>
+<a id="misp-taxonomies---tools"></a>
 
-![highlight-list-event](./figures/highlight-list-event.png)
+## Private vocabularies and contributions {#taxonomy-authoring}
 
-It is also easier to add an highlighted tag to an event.
+For a private vocabulary, choose a namespace that does not impersonate an upstream taxonomy.
+Define its description, version, predicates and values in `machinetag.json`, following the
+[current schema and examples](https://github.com/MISP/misp-taxonomies). A minimal definition is:
 
-![tag-box](./figures/tag-box.png)
+```json
+{
+  "namespace": "documentation-exercise",
+  "description": "Synthetic classification for a local documentation exercise",
+  "version": 1,
+  "predicates": [{"value": "review", "expanded": "Review state"}],
+  "values": [{
+    "predicate": "review",
+    "entry": [{"value": "pending", "expanded": "Pending review"}]
+  }]
+}
+```
 
-### Setting a taxonomy as "Required"
-If taxonomies are set as required, a message will be visible on the tag list of the event, enumerating the missing required taxonomies still missing.
+This yields `documentation-exercise:review="pending"`. Validate the definition, place it in
+the deployment's taxonomy directory and import it before enabling the intended tags. Keep
+private files/customization in a managed location that survives upgrades; avoid editing an
+upstream definition in place and losing it on the next update.
 
-![missing-taxo](./figures/missing-taxo.png)
-
-An event will not be published if it is not tagged with at least one of tag of each required taxonomy.
-
-![publishing-without-required](./figures/publishing-without-required.png)
-
-### Exclusive taxonomies
-
-A taxonomy — or an individual predicate within one — can be marked **exclusive**. Exclusivity
-means only one value may apply at a time: for an exclusive *taxonomy*, an event may carry only a
-single tag from that whole namespace; for an exclusive *predicate*, only one value of that
-predicate may be set. `tlp` is the classic example — an event should have exactly one TLP level.
-When an event ends up carrying more than one value from an exclusive taxonomy or predicate — for
-example both `tlp:white` and `tlp:red` — MISP does not silently reconcile them: it applies the
-tags but flags the conflict with a prominent warning in the event's tag area, so you can resolve
-it. (Such a state most often arises from synchronised or API-tagged events.) Exclusivity is
-defined in the taxonomy's JSON, not toggled from the UI.
-
-![An exclusivity conflict: because `tlp` is an exclusive taxonomy, an event tagged both `tlp:white` and `tlp:red` is flagged with a warning in its tag area.](./figures/exclusive-conflict.png)
-
-### Bulk actions and normalising custom tags
-
-The *List Taxonomies* index supports **bulk actions** across selected taxonomies — enable,
-disable, set required/optional, and highlight/remove highlight — so you can configure many
-taxonomies in one step instead of one at a time.
-
-If your instance has accumulated free-text (custom) tags that happen to match a taxonomy's
-machine-tag format, the **Normalise custom tags to taxonomy format** action converts them into
-proper taxonomy tags, so they benefit from the taxonomy's metadata (expanded labels, exclusivity,
-numerical values) and display consistently.
-
-## Future functionalities related to MISP taxonomies
-
-- Sighting support (thanks to NCSC-NL) is integrated in MISP allowing to auto expire IOC based on user detection.
-
-- Adjusting taxonomies (adding/removing tags) based on their score or visibility via sighting.
-
-- Simple taxonomy editors to help non-technical users to create their
-taxonomies.
-
-- Filtering mechanisms in MISP to rename or replace taxonomies/tags at pull and push synchronisation.
-
-- More public taxonomies to be included
+For a public contribution, use the upstream repository's schema/tests and contribution process.
+[MISP's taxonomy catalogue](https://www.misp-project.org/taxonomies.html) and
+[PyTaxonomies](https://github.com/MISP/PyTaxonomies) help discover/consume vocabularies. Match
+namespace and exact machine-tag meaning across instances; a similar display label is not a
+version or semantic equivalence check.
