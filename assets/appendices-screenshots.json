@@ -1,0 +1,370 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6",
+    "app/files/taxonomies": "7b66073f68b1d7323542638b38c31442b38d366b",
+    "app/files/warninglists": "154896d7bf00be5c336e2aed5c60862e60c40a17",
+    "app/files/misp-objects": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326",
+    "app/files/misp-galaxy": "306db6a359edbe1cf7cdc86ab1c8a9c1ff1f4a96",
+    "app/files/misp-workflow-blueprints": "2337bdeb8c0aa7125db3a410fdb6a54ec50d6865",
+    "app/files/noticelists": "028f569e26b5b47286167b7d39f81cd1791eb04e"
+  },
+  "generated_at": "2026-11-06T20:42:38.411168+00:00",
+  "scope_chapters": [
+    "appendices/index.qmd",
+    "glossary.qmd"
+  ],
+  "capture_method": "Four fresh Chromium/Playwright captures of the actual pinned Overmind UI, with existing synthetic local data. No retouching, arrows or fabricated controls. CustomAuth stays disabled. The recurring-task form uses the native Admin type card and report-only action; enabled is off and no form is saved.",
+  "ui_checks": {
+    "recurring_task_draft_not_saved": true,
+    "authentication_not_enabled_or_changed": true,
+    "all_events_unpublished": true
+  },
+  "acl_checks": {
+    "role-access": {
+      "request": "/servers/queryACL/printRoleAccess/3",
+      "entries": 1,
+      "urls": 774
+    },
+    "all-role-access": {
+      "request": "/servers/queryACL/printRoleAccess",
+      "entries": 6
+    },
+    "functions": {
+      "request": "/servers/queryACL/printAllFunctionNames",
+      "entries": 72
+    },
+    "missing-functions": {
+      "request": "/servers/queryACL/findMissingFunctionNames",
+      "entries": 0
+    },
+    "unknown-command": {
+      "rejected": true,
+      "status": 405
+    },
+    "unknown-role": {
+      "rejected": true,
+      "status": 404
+    },
+    "all_events_unpublished": true
+  },
+  "model_component_checks": {
+    "ldap_attribute_case_and_full_dn": true,
+    "ldap_scalar_defaults": true,
+    "ldap_mapping_order_and_field_precedence": true,
+    "unmapped_roles_and_organisations_do_not_use_defaults": true,
+    "ldap_empty_untrusted_trusted_ipv4_ipv6_proxy_checks": true,
+    "ordinary_user_acl_descriptor_denied_by_component": true,
+    "live_directory_or_identity_provider_not_contacted": true,
+    "no_accounts_or_configuration_saved": true
+  },
+  "cli_checks": {
+    "validity-help": {
+      "exit_code": 0
+    },
+    "ordinary-worker-help": {
+      "exit_code": 0
+    },
+    "scheduler-worker-help": {
+      "exit_code": 0
+    },
+    "worker-status": {
+      "exit_code": 0
+    },
+    "queues": {
+      "exit_code": 0
+    }
+  },
+  "example_checks": {
+    "php-fragment-0": "syntax valid",
+    "php-fragment-1": "syntax valid",
+    "php-fragment-2": "syntax valid",
+    "supervisor-example": "Two documented process types and matching group parsed; this is a partial configuration, not an installed pool."
+  },
+  "shots": [
+    {
+      "file": "appendices/figures/misp3-custom-auth.png",
+      "url": "/servers/serverSettings/customauth",
+      "description": "Actual Custom authentication settings; disabled throughout capture and no identity assertion configured",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T20:36:37.803125+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "a7734d8947fd569cb99485ebae07ea1cf66a5fb5229f0da13316f3bf821867f0"
+    },
+    {
+      "file": "appendices/figures/misp3-role-catalogue.png",
+      "url": "/roles/index",
+      "description": "Actual local role catalogue and IDs; no role edited",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T20:36:39.422323+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "34651bf53302496919295b88161fd257924493b22d3f9e38e6f579d778a28df3"
+    },
+    {
+      "file": "appendices/figures/misp3-background-jobs.png",
+      "url": "/servers/serverSettings/jobs",
+      "description": "Actual job settings/health with background execution deliberately disabled; no worker settings changed",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T20:36:41.091594+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "1da6dddb830247c430643e0787de03acac579affa22f6d62c090cda57c6455c4"
+    },
+    {
+      "file": "appendices/figures/misp3-recurring-task.png",
+      "url": "/tasks/index",
+      "description": "Actual Admin report-only account-validity action in a disabled unsaved task draft; no task/job created",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "scale": 1,
+      "captured_at": "2026-11-06T20:39:50.840201+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 1036
+      },
+      "sha256": "75394e2f01a79b29e47751e600177416517dce157e828957578019f49e77e419"
+    }
+  ],
+  "diagrams": [
+    {
+      "source": "appendices/figures/authentication-boundaries.mmd",
+      "file": "appendices/figures/authentication-boundaries.svg",
+      "source_sha256": "3384a15b615c8bf054fa72282fa0ed67a725fdc3f684f8fb01797b7772a21ff9",
+      "sha256": "8b17b01e7ce6b78df900e6edfafe91383f2179b24032fb44c85f471d34cd79b5",
+      "viewBox": "0 0 628.96875 369.6000061035156"
+    },
+    {
+      "source": "appendices/figures/recurring-task-execution.mmd",
+      "file": "appendices/figures/recurring-task-execution.svg",
+      "source_sha256": "7a94167bc6f9a0bd26af1a13ad826074f00077bfe4a3037a9d6b2526604ac2c3",
+      "sha256": "b83421183368c28a66d2db2c51c98566ce5f4fd14346c7b3274d99827f498ec3",
+      "viewBox": "0 0 963.921875 352"
+    }
+  ],
+  "retired_legacy_assets": [
+    "appendices/figures/a/add_user.png",
+    "appendices/figures/a/settings.png"
+  ],
+  "legacy_anchors": {
+    "appendices": 29,
+    "glossary": 47
+  },
+  "glossary": {
+    "terms": 60,
+    "alphabetical_groups": 7,
+    "earlier_attribution_retained": [
+      "API",
+      "RESTful",
+      "MISP Taxonomies",
+      "OSINT"
+    ]
+  },
+  "source_checks": [
+    {
+      "file": "app/Controller/AppController.php",
+      "sha256": "6c431009e908b5b8443c2a040665d7ae3f0973caf49047e080bb6be95d9edc5f"
+    },
+    {
+      "file": "app/Controller/Component/ACLComponent.php",
+      "sha256": "f03006744715af299db0d6ad169da340f6a45e3ee56f8168ed1632cd4362ec00"
+    },
+    {
+      "file": "app/Model/User.php",
+      "sha256": "15129be7c5c26b0133667a8fe545aab88f8aad14a16de627d6fb5bb8e086d46b"
+    },
+    {
+      "file": "app/Model/Server.php",
+      "sha256": "663de1aed513358027c2751fb75569f75d9711469d678882e23c8f090f35e2f6"
+    },
+    {
+      "file": "app/Lib/Tools/ServerSettingGroups.php",
+      "sha256": "5e455479cce91f7a8b0828db6f7ab4a82a74f78f8287989f028dbfe155d884b4"
+    },
+    {
+      "file": "app/Config/bootstrap.php",
+      "sha256": "e01a463a1f2458a37fec077c752143a2e8677ead93b82cc4b040609ade0413e0"
+    },
+    {
+      "file": "app/Plugin/LdapAuth/Controller/Component/Auth/LdapAuthenticate.php",
+      "sha256": "3af4b591b89fd97cd5647ff209043b44432a5dde41a5e2e74efc2a9b7f01113a"
+    },
+    {
+      "file": "app/Plugin/LdapAuth/Lib/LdapSync.php",
+      "sha256": "20b6c21cf5a16fb5d838a73d183d658ec2c6f368281d322c5a7afa4df27685e9"
+    },
+    {
+      "file": "app/Console/Command/UserShell.php",
+      "sha256": "4570557ab2923d64f1001fb566596724adb8514962a6c34bdf754b1609330208"
+    },
+    {
+      "file": "app/Console/Command/AdminShell.php",
+      "sha256": "c2425cba85926634e1aed97872f8a63ed8a0bac8fed6c321736fe988b2a5cc8c"
+    },
+    {
+      "file": "app/Console/Command/StartWorkerShell.php",
+      "sha256": "7ea2db70e458a1032bb76b00af831e4540f28977b572d46a9ceec79c3021291d"
+    },
+    {
+      "file": "app/Console/Command/SchedulerWorkerShell.php",
+      "sha256": "d1633945e3099748aad4bdb701cce0c02302159bbc9a71cca542b00738ec1907"
+    },
+    {
+      "file": "app/Console/Command/WorkerShell.php",
+      "sha256": "1f151e37f6097542757f9eababe73f820282692cd0800c5b10713ef96d81cc0e"
+    },
+    {
+      "file": "app/Lib/Tools/BackgroundJobsTool.php",
+      "sha256": "db39c5ec4d793fe6e94d42f45adf6a430ada61873a4ddba49e0676951a9e4189"
+    },
+    {
+      "file": "app/Model/Task.php",
+      "sha256": "49a7c9dc67ee9127571fda8929f43ecf2ec5538f3e702fb05e5e48cc6658beaf"
+    },
+    {
+      "file": "app/View/Themed/Overmind/Tasks/add.ctp",
+      "sha256": "2e3cc9fdf1148cf7fa4dba9d32025acf9fae3f7e575ba9d6261ceff74fc49e99"
+    },
+    {
+      "file": "app/Model/MispAttribute.php",
+      "sha256": "904a4d13c6ec3058a7d861b0492786a5fe46f5b68abc4589f5ef15e2c4df0009"
+    },
+    {
+      "file": "app/Model/Value.php",
+      "sha256": "e895b981e033cc2207143c2cb48711adc5a7605762e33526bbdd31e27fa5424a"
+    },
+    {
+      "file": "app/Model/Collection.php",
+      "sha256": "ee7b563bbab142d750771a04fe4730eedb650d2b41b4d5d69f150c21ff9dbf84"
+    },
+    {
+      "file": "app/Model/Workspace.php",
+      "sha256": "d0f19bc9557eaf9e3b8c9de47d3305d558aec6182dd41be25181e396c80d36af"
+    }
+  ],
+  "verification_limits": "Live read-only ACL requests, negative command/role cases, console help/job diagnostics and unsaved current UI were checked. LDAP mapping and proxy checks invoke the real plugin with synthetic entries and read-only local model lookups, not a real directory or IdP. No complete external-authentication, MFA, directory TLS, deprovisioning, provider or third-party integration test is claimed. No authentication policy, account credentials/roles, keys, worker state, schedules, publications or synchronization were changed/started. Supervisor example is intentionally partial and parsed, not installed.",
+  "runtime_final_checks": {
+    "configuration_matches_original_restored_baseline": true,
+    "all_events_unpublished": true,
+    "recurring_tasks_created": 0,
+    "authentication_or_background_execution_not_enabled": true,
+    "no_explicit_account_credential_role_key_or_intelligence_mutations": true
+  },
+  "resource_links_checked": [
+    {
+      "url": "https://www.misp-project.org/tools/",
+      "status": 200,
+      "resolved_url": "https://www.misp-project.org/tools/"
+    },
+    {
+      "url": "https://www.misp-standard.org/",
+      "status": 200,
+      "resolved_url": "https://www.misp-standard.org/"
+    },
+    {
+      "url": "https://www.misp-project.org/best-practices-in-threat-intelligence.html",
+      "status": 200,
+      "resolved_url": "https://www.misp-project.org/best-practices-in-threat-intelligence.html"
+    },
+    {
+      "url": "https://github.com/cerebrate-project/cerebrate",
+      "status": 200,
+      "resolved_url": "https://github.com/cerebrate-project/cerebrate"
+    },
+    {
+      "url": "https://github.com/MISP/misp-stix",
+      "status": 200,
+      "resolved_url": "https://github.com/MISP/misp-stix"
+    },
+    {
+      "url": "https://github.com/MISP/misp-engineering-bay",
+      "status": 200,
+      "resolved_url": "https://github.com/MISP/misp-engineering-bay"
+    },
+    {
+      "url": "https://github.com/MISP/misp-workflow-blueprints",
+      "status": 200,
+      "resolved_url": "https://github.com/MISP/misp-workflow-blueprints"
+    },
+    {
+      "url": "https://github.com/rshipp/awesome-malware-analysis",
+      "status": 200,
+      "resolved_url": "https://github.com/rshipp/awesome-malware-analysis"
+    },
+    {
+      "url": "https://github.com/InQuest/python-iocextract",
+      "status": 200,
+      "resolved_url": "https://github.com/pedramamini/iocextract"
+    }
+  ],
+  "validation": {
+    "quarto": "1.9.38; full HTML, Typst PDF and ePub render",
+    "artifact_checks": {
+      "legacy_anchors_html_epub": 76,
+      "duplicate_main_ids": 0,
+      "figures_verified": 6,
+      "epub_relative_resources_fragments": 125,
+      "epub_chapters": 2,
+      "earlier_diagram_hashes_unchanged": true
+    },
+    "pdf_pages": 321,
+    "desktop_width": 1440,
+    "mobile_width": 390,
+    "figures_decode_and_lightboxes": 6,
+    "glossary_terms": 60,
+    "glossary_toc_groups_including_maintenance": 8,
+    "unique_native_glossary_term_ids": true,
+    "legacy_glossary_link_navigation": true,
+    "page_horizontal_overflow": false,
+    "javascript_errors": 0,
+    "offline_html_link_check": {
+      "total": 4228,
+      "unique": 784,
+      "ok": 3953,
+      "errors": 0,
+      "excluded": 275
+    },
+    "capture_containers_stopped": true,
+    "capture_secret_scan": true
+  }
+}

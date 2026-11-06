@@ -1,0 +1,12 @@
+flowchart TB
+    accTitle: Identity verification and MISP authorization are separate stages
+    accDescr: A configured login mechanism verifies identity and resolves a local MISP account. Role checks and resource visibility then decide the permitted result; an external identity assertion does not grant access to every record.
+    subgraph Identity["Establish identity"]
+        direction LR
+        A["Verify the configured identity<br/>Password · directory · IdP · front end"] --> B["Resolve the MISP account<br/>Organisation · role · account state"]
+    end
+    subgraph Access["Authorize the request"]
+        direction LR
+        C["Check operation and record<br/>ACL · ownership · distribution"] --> D["Return the permitted result<br/>Resource scope · key restrictions"]
+    end
+    Identity --> Access

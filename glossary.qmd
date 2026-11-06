@@ -1,190 +1,550 @@
 ---
 title: "Glossary"
+toc-depth: 2
 ---
 
-This glossary is intended as a quick reference for clarifying threat-sharing and threat-intelligence terminology.
-Be careful when adding terms to the glossary. Adding a generic term such as *MISP* will prevent more specific terms such as *MISP noticelist* from being added. As a general rule, please use the singular form for each term.
-If you use any CC BY-SA licensed content, or any other material that is subject to licensing, make sure to add the appropriate attribution at the end of the entry.
+Use these definitions to distinguish observations, assessment, access and delivery. They follow
+MISP **3.0.0**, `3.0_wip` commit `99ebee729`; an integration's terminology or an older API
+specification may use the same word differently. Links lead to the detailed procedures.
 
-## API
-MISP makes extensive use of its RESTful API (Application programming interface) both internally and provides an external API for automation, synchronisation or any other tasks requiring a machine to machine interface.
-In general terms, it is a set of clearly defined methods of communication between various software components. A good [API](https://en.wikipedia.org/wiki/Application_programming_interface) makes it easier to develop a computer program by providing all the building blocks, which are then put together by the programmer. An API may be for a web-based system, operating system, database system, computer hardware or software library.
-The de-facto standard for talking to MISP via an API is [PyMISP](https://github.com/MISP/PyMISP). Partial source ["API"](https://en.wikipedia.org/wiki/Application_programming_interface) - [CCBYSA](https://creativecommons.org/licenses/by-sa/3.0/).
+<!-- Source and validation provenance: assets/appendices-screenshots.json -->
 
-## RESTful
-Representational state transfer ([REST](https://en.wikipedia.org/wiki/Representational_state_transfer)) or RESTful web services are a way of providing interoperability between computer systems on the Internet. REST-compliant Web services allow requesting systems to access and manipulate textual representations of Web resources using a uniform and predefined set of stateless operations. Other forms of Web services exist which expose their own arbitrary sets of operations such as WSDL and SOAP. Source ["REST"](https://en.wikipedia.org/wiki/Representational_state_transfer) - [CCBYSA](https://creativecommons.org/licenses/by-sa/3.0/).
+## A–C {#glossary-a-c}
 
-## Sharing groups
-Sharing groups in MISP are a more granular way to create re-usable distribution lists for events/attributes that allow users to include organisations from their own instance (local organisations) as well as organisations from directly, or indirectly connected instances (external organisations).
-[More about creating and managing sharing groups](using-the-system/index.qmd#create-and-manage-sharing-groups)
+<a id="analyst-data"></a>
 
-## Site admin
-As an admin (not to be confused with Org Admin), you can set up new accounts for users, edit user profiles, delete them, or just have a look at all the viewers' profiles.
-Site admins have access to every administrator feature for all the data located on the system including global features such as the creation and modification of user roles and instance links. You will also see all other organizations connected to or set up in the instance. The site admin can be considered as a super-user of a MISP instance.
+### Analyst Data {#glossary-analyst-data}
 
-## Indicators
-Indicators contain a pattern that can be used to detect suspicious or malicious cyber activity.
+Research records associated with supported MISP targets: **Notes** hold commentary,
+**Opinions** express an assessment, and **Relationships** state typed links. They retain their
+own authorship/ownership and visibility rather than rewriting the observed fact. MISP 3.0 also
+supports value-targeted research. Sharing an event does not automatically make every associated
+research record visible. See [Analyst Data](analyst-data/index.qmd#the-three-types).
 
-## IOC
-Indicator of compromise (IOC or IoC) is an artefact observed on a network or in an operating system or information channel that could reference an intrusion or a reference to a technique used by an attacker. IoCs are a subset of indicators.
+<a id="api"></a>
 
-## NIDS
-Network Intrusion Detection System eg. Snort, Suricata
+### API {#glossary-api}
+
+An application programming interface: the operations, inputs and responses through which a
+client interacts with MISP. REST endpoints support automation, lookup and sharing; permission,
+record-visibility and key restrictions still apply. PyMISP is a Python client for that API, not
+a second MISP server. See [Automation & API](automation/index.qmd#api-reference).
+
+Earlier terminology adapted from Wikipedia's [API](https://en.wikipedia.org/wiki/Application_programming_interface)
+entry, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+### API key {#glossary-api-key}
+
+A credential associated with a MISP user. Its expiry, allowed IPs, read-only restrictions and
+other supported controls supplement the account's permissions. It is distinct from a browser
+password, a CustomAuth external key and a remote peer's configuration. See
+[authentication keys](administration/index.qmd#admin-authentication).
+
+### Cache {#glossary-cache}
+
+A stored representation used to accelerate lookup or avoid repeating a fetch. Feed/remote-data
+caches are distinct from fully imported local events, and job Redis storage is another use of
+Redis again. Cache presence does not prove freshness, local ownership or permission to share.
+See [feed management](managing-feeds/index.qmd#feeds).
+
+<a id="cerebrate"></a>
+
+### Cerebrate {#glossary-cerebrate}
+
+A companion platform for managing community and organisation information. MISP can use a
+configured connection to obtain supported organisation/sharing-group definitions. The integration
+has its own credentials and update process; it does not replace event distribution or the need
+to verify identities. See [connectors](connectors/index.qmd#connectors-mechanisms).
+
+<a id="collection"></a>
+
+### Collection {#glossary-collection}
+
+A curated resource that references supported elements such as events and galaxy clusters.
+Its own access and sharing settings do not flatten the members' visibility or ensure that every
+recipient receives every referenced item. See [Collections](collections/index.qmd#what-a-collection-contains).
+
+<a id="community"></a>
+
+### Community {#glossary-community}
+
+People and organisations that cooperate on intelligence sharing under agreed practices and
+trust relationships. An instance, organisation, sharing group and synchronization link are
+technical structures used by a community; none alone describes its entire governance or membership.
+
+### Correlation {#glossary-correlation}
+
+A link discovered between relevant matching observations according to the configured engine,
+types, exclusions and visibility. It is a pivot for investigation, not proof of common ownership,
+maliciousness, causality or attribution. See
+[value and correlation maintenance](administration/index.qmd#admin-correlations).
+
+## D–I {#glossary-d-i}
+
+<a id="decaying-model"></a>
+
+### Decaying Model {#glossary-decaying-model}
+
+A configurable way to score an indicator's remaining relevance over time using the supported
+inputs and parameters. A score informs selection/review; it does not inherently delete the
+observation, clear IDS or deploy a downstream response. See
+[decaying models](decaying-models/index.qmd#how-scoring-works).
+
+### Distribution {#glossary-distribution}
+
+The audience/sharing scope of a supported record. Event, child-record, analyst-data and knowledge
+scopes have their own rules; tags and publication do not override them. Child inheritance uses
+stored value **5**, while sharing-group distribution needs an actual group. See
+[distribution boundaries](sharing/index.qmd#distribution-mechanisms).
+
+<a id="event-report"></a>
+
+### Event Report {#glossary-event-report}
+
+A Markdown report attached to an event, used to explain observations, sources and analysis.
+MISP element references connect the narrative to the underlying records. Extraction/import and
+export capabilities depend on the supported action and deployment; a report is not automatically
+an independent case-management record. See [Event Reports](event-reports/index.qmd#writing-a-report).
+
+### IDS flag {#glossary-ids-flag}
+
+The attribute's `to_ids` flag, indicating intended use in supported detection-oriented exports
+or selection. It is separate from correlation, distribution and an assessment of maliciousness.
+An attribute with IDS off remains a usable observation; IDS on does not install a detection rule
+in another tool. See [attribute fields](categories-and-types/index.qmd#attribute-categories-vs-types).
+
+<a id="indicators"></a>
+
+### Indicators {#glossary-indicators}
+
+Patterns or observations selected for a detection or intelligence purpose with enough context
+to explain their intended use. A string extracted from a report, a warninglist miss or an IDS
+default does not by itself establish a useful indicator. See
+[detection exports](user-stories/index.qmd#stories-detection).
+
+<a id="ioc"></a>
+
+### IOC {#glossary-ioc}
+
+An **indicator of compromise**: an artefact or pattern that may support identifying intrusion
+or compromise in context. A domain, hash or address is an observation before its significance
+has been assessed; the term does not make every occurrence malicious.
+
+## J–M {#glossary-j-m}
+
+### Job {#glossary-job}
+
+A unit of work and its execution/status record. A SQL job ID and the backend process/job UUID
+are different identifiers. Waiting, running, successful and failed states require inspection of
+the actual outcome. See [background jobs](administration/index.qmd#admin-background-jobs).
+
+<a id="local-tags"></a>
+
+### Local tags {#glossary-local-tags}
+
+Instance-local **attachments** of tags or galaxy context to supported targets. They allow
+local classification without asserting a shared change to the owner's observation. Normal
+native synchronization excludes local attachments; check manual/format-specific exports
+separately. A tag definition and one attachment's local/global scope are distinct. See
+[taxonomy scope](taxonomy/index.qmd#taxonomy-use).
 
 <a id="malware-information-sharing-platform-and-threat-sharing"></a>
 
-## MISP
-**MISP** is a recursive acronym for the **MISP Intelligence Sharing Platform**. The project was originally named the *Malware Information Sharing Platform*, but as its scope grew well beyond malware to cover every kind of threat intelligence, the name was redefined recursively — in the tradition of GNU ("GNU's Not Unix"). It is commonly known simply as MISP.
+<a id="misp"></a>
 
-## MISP Attribute
-Attributes in MISP can be network indicators (e.g. IP address), system indicators (e.g. a string in memory) or even bank account details.
-◦ A type (e.g. MD5, url) is how an attribute is described.
-◦ An attribute is always in a category (e.g. Payload delivery) which puts it in a context.
-• A category is what describes an attribute.
-◦ An IDS flag on an attribute allows to determine if an attribute can be automated (such as being exported as an IDS ruleset or used for detection). If the IDS flag is not present, the attribute
-can be useful for contextualisation only.
+### MISP {#glossary-misp}
 
-## Observable
-Some other SIEMs or formats (STIX) use the term observable. This is the same as an attribute in MISP-speak. Usually an observable is a MISP attribute without the IDS flag set.
+The **MISP Intelligence Sharing Platform**, commonly called MISP. The project's historical
+name referred to malware information sharing; its present scope includes broader threat
+intelligence, observations, knowledge and collaborative analysis. The acronym is also used
+recursively as “MISP Intelligence Sharing Platform”.
 
-## MISP Event
-MISP events are encapsulations for contextually related information represented as attribute and object.
+<a id="misp-attribute"></a>
 
-## MISP Extended Events
-MISP can extend an event (since version 2.4.90). This allows users to build full blown events that extend an existing event, giving way to a combined event view that includes a sum total of the event along with all extending events.
-[More](extended-events/index.qmd)
+### MISP Attribute {#glossary-misp-attribute}
 
-## MISP feeds
-MISP includes a set of public OSINT feeds in its default configuration. The feeds can be used as a source of correlations for all of your events and attributes without the need to import them directly into your system. The MISP feed system allows for fast correlation but also a for quick comparisons of the feeds against one another.
-To get started with MISP we advise to enable the CIRCL OSINT feed within your MISP instance. This feed is generated with the PyMISP [feed-generator](https://github.com/CIRCL/PyMISP/tree/master/examples/feed-generator).
-[More](http://www.misp-project.org/feeds/)
+One typed occurrence of a value in an investigative context, with its own UUID, category,
+observation times, flags and access context. It may stand alone in an event or be an object
+relation. In 3.0, its component values also have shared addresses, which do not replace that
+occurrence identity. See [categories and types](categories-and-types/index.qmd#types-values).
 
-## MISP format
-MISP formats are described in specification document based on the current implementation of MISP core and PyMISP. These specifications are available for other developers willing to develop their own tools or software supporting the [MISP format](https://github.com/MISP/misp-rfc/blob/main/misp-core-format/raw.md.txt).
+<a id="misp-event"></a>
 
-## MISP Galaxy Cluster
-MISP galaxy is a simple method to express a large object called cluster that can be attached to MISP events or attributes. A cluster can be composed of one or more elements. Elements are expressed as key-values. There are default vocabularies available in MISP galaxy but those can be overwritten, replaced or updated as you wish. Existing clusters and vocabularies can be used as-is or as a template. MISP distribution can be applied to each cluster to permit a limited or broader distribution scheme. The following document is generated from the machine-readable JSON describing the MISP galaxy.
-There is a Python module available to work with Galaxy Cluster in a Pythonic way called [PyMISPGalaxies](https://github.com/MISP/PyMISPGalaxies).
-[MISP galaxy GitHub Repo](https://github.com/MISP/misp-galaxy)
-[More](https://www.misp-project.org/galaxy.html)
+### MISP Event {#glossary-misp-event}
 
-## MISP modules
-MISP modules are autonomous modules that can be used for expansion and other services in MISP.
-The modules are written in Python 3 following a simple API interface. The objective is to ease the extensions of MISP functionalities without modifying core components. The API is available via a simple REST API which is independent from MISP installation or configuration.
-[MISP modules GitHub Repo](https://github.com/MISP/misp-modules)
+A container for contextually related observations, objects, reports and other supported records,
+with a creator/owner context, distribution and publication state. It is not necessarily one
+confirmed real-world incident. See [creating an event](using-the-system/index.qmd#creating-an-event).
 
-## MISP Instance
-A MISP instance is an installation of the MISP software and the connected database. All the data visible to the users is stored locally in the database and data that is shareable (based on the distribution settings) can be synchronised with other instances via the Sync actions. The instance that you are reading this manual on will be referred to as "this instance" or "your instance". The instances that your instance synchronises with will be referred to as "remote instances".
+<a id="misp-extended-events"></a>
 
-## MISP Objects
-MISP objects are used in MISP (starting from version 2.4.80) system and can be used by other information sharing tool. MISP objects are in addition to MISP attributes to allow advanced combinations of attributes. The creation of these objects and their associated attributes are based on real cyber security use-cases and existing practices in information sharing. The objects are just shared like any other attributes in MISP even if the other MISP instances don’t have the template of the object. The following document is generated from the machine-readable JSON describing the MISP objects.
-[MISP objects GitHub Repo](https://github.com/MISP/misp-objects)
-[More](https://www.misp-project.org/objects.html)
+### MISP Extended Events {#glossary-misp-extended-events}
 
-## MISP GnuPG Key
-or GnuPG instance key is the GnuPG (Gnu Privacy Guard) key used by the MISP instance and which is only used to sign notification.
-The GnuPG key used in the MISP instance must **not** be used anywhere else and should not be valuable.
+Separately owned events linked to an original event to contribute additional observations.
+A combined view remains subject to visibility; extension does not transfer ownership of all
+the original data. See [extended events](extended-events/index.qmd#when-to-use-an-extended-event).
 
-## MISP Sightings
-Basically, sighting is a system allowing people to react on attributes on an event. It was originally designed to provide an easy method for user to tell when they see a given attribute, giving it more credibility.
+<a id="misp-feeds"></a>
 
-## MISP Taxonomies
-[Taxonomy](https://en.wikipedia.org/wiki/Taxonomy_(general)) is the practice and science of classification. The word is also used as a count noun: a taxonomy, or taxonomic scheme, is a particular classification. The word finds its roots in the Greek language τάξις, taxis (meaning 'order', 'arrangement') and νόμος, nomos ('law' or 'science').
-Taxonomies that can be used in MISP (2.5) and other information sharing tools, expressed in Machine Tags (Triple Tags). A machine tag is composed of a namespace (MUST), a predicate (MUST) and an (OPTIONAL) value. Machine tags are often called triple tag due to their format.
-For more details on taxonomies and classification see [the taxonomies catalogue](https://www.misp-project.org/taxonomies.html). Partial source ["Taxonomy_(general)"](https://en.wikipedia.org/wiki/Taxonomy_(general)) - [CCBYSA](https://creativecommons.org/licenses/by-sa/3.0/).
-There is a Python module available to work with Taxonomies in a Pythonic way called [PyTaxonomies](https://github.com/MISP/PyTaxonomies).
-[MISP taxonomies GitHub Repo](https://github.com/MISP/misp-taxonomies)
+### MISP feeds {#glossary-misp-feeds}
 
-## Local tags
-You can create tags locally if you are a member of the given MISP instance’s host organisation, enabling “in-place” tagging for synchronisation and export filtering. MISP events are not modified while using the local tags and are in turn always stripped before being synchronised with other MISP instances and sharing communities. Local tags allow users to avoid violating the ownership model of MISP, but still be able to tag any event or attribute for further dissemination and data contextualisation. Local tagging works for tags, tag collections, galaxies and matrix-like galaxies such as ATT&CK.
+Sources that MISP can cache, compare or import using a supported format/configuration.
+Caching context and importing full events have different storage and update behaviour. Review
+the source's terms, identifiers, format and quality before enabling it. See
+[feed management](managing-feeds/index.qmd#feeds).
 
-## MISP warninglists
-MISP warninglists are lists of well-known indicators that can be associated to potential false positives, errors or mistakes.
-There is a Python module available to work with warninglists in a Pythonic way called [PyMISPWarningLists](https://github.com/MISP/PyMISPWarningLists).
-[MISP warninglists GitHub Repo](https://github.com/MISP/misp-warninglists)
+<a id="misp-format"></a>
 
-## MISP noticelist
-Notice lists to inform MISP users of the legal, privacy, policy or even technical implications of using specific attributes, categories or objects.
-[MISP noticelist GitHub Repo](https://github.com/MISP/misp-noticelist)
+### MISP format {#glossary-misp-format}
 
-## Org Admin
-Organisation admins (Org Admin) are restricted to executing site-admin actions exclusively within their own organisation’s users only.
-They can administer users, events and logs of their own respective organisations.
+The native data structures and interchange contracts used for MISP records. Consult the
+[MISP format specifications](https://github.com/MISP/misp-rfc) together with the installed
+implementation and client version. MISP JSON, a STIX export and an arbitrary API response are
+not interchangeable contracts. See [API reference](automation/index.qmd#api-reference).
 
-## OSINT
-[Open-source intelligence](https://en.wikipedia.org/wiki/Open-source_intelligence) (OSINT) is data collected from publicly available sources to be used in an intelligence context.[1] In the intelligence community, the term "open" refers to overt, publicly available sources (as opposed to covert or clandestine sources). It is not related to open-source software or public intelligence.
-OSINT under one name or another has been around for hundreds of years. With the advent of instant communications and rapid information transfer, a great deal of actionable and predictive intelligence can now be obtained from public, unclassified sources. Source ["Open-source intelligence"](https://en.wikipedia.org/wiki/Open-source_intelligence) - [CCBYSA](https://creativecommons.org/licenses/by-sa/3.0/).
+<a id="misp-galaxy-cluster"></a>
 
-## Pivot path
-The (branching) path taken by a user from event to event while following correlation links. This is represented by the branching graph in the event view.
+### MISP Galaxy Cluster {#glossary-misp-galaxy-cluster}
 
-## Pivoting
-The act of navigating from event to event through correlation links.
+An identifiable knowledge entry within a galaxy, with a UUID, description, metadata, version
+and supported relationships. An attachment connects that context to an observation using a tag
+and local/global scope. Shipped and custom tag representations can differ; read the stored
+identity rather than constructing it from a display label. See
+[galaxies](galaxy/index.qmd#galaxy-concepts).
 
-## Proposals
-Each event can only be directly edited by users of the original creator organisation (and site admins). However, if another organisation would like to amend an event with extra information on an event, or if they'd like to correct a mistake in an attribute, they can create a Proposal. These proposals could then be accepted by the original creator organisation. These proposals can be pulled to another server, allowing users on connected instances to propose changes which then could be accepted by the original creators on another instance (and subsequently pushed back).
+<a id="misp-gnupg-key"></a>
 
-## Publishing
-When an event is first created by a user, it is visible to everyone on the instance based on the access rights ("Your organisation only" events will not be visible to users of other organisations), but they will not be synchronised and they won't be exportable. For this, a user with publishing permission of the organisation that created the event has to publish the event. The system will then inform all the users of the instance that are subscribing to e-mail notifications and who have access to view the published event via an e-mail.
+### MISP GnuPG Key {#glossary-misp-gnupg-key}
 
-## Pull
-Pulling is the process of using the configured sync user on a remote instance to REST GET all of the accessible data (based on the distribution rights) to your instance and store it.
+The instance's configured OpenPGP key used by supported notification-signing/encryption workflows.
+Manage it according to the mail deployment's identity, protection and lifecycle requirements.
+It is separate from an event-signing key in the protected-event system. See
+[mail settings](administration/index.qmd#admin-configuration-baseline).
 
-## Push
-Pushing is the process of using a configured instance link to send an event or all accessible events (limited by the distribution rights) through the REST interface to a remote instance.
+<a id="misp-instance"></a>
 
-## Roles
-Roles are the central place where you can define ACL roles for your local users on your instance.
-You can add new Roles depending on your use case. The following permissions can be given depending on which overall *Permission* the role inherits.
+### MISP Instance {#glossary-misp-instance}
 
-* Permission -> Read Only, Manage Own Events, Manage Organisation Events, Manage and Publish Organisation Events
-* Site Admin, Org Admin
-* Sync Actions (and Internal / Authoritative Sync Actions)
-* Audit Actions, Auth key access, Regex Actions
-* Tagger, Tag Editor, Template Editor, Sharing Group Editor, Delegations Access
-* Sighting Creator, Object Template Editor, Galaxy Editor, Decaying Model Editor
-* ZMQ publisher, Kafka publisher, Warninglist Editor, View Feed Correlations
-* Analyst Data Creator, Skip OTP Reqs, Server Signing
+A deployment of the MISP application, its datastores and configured services. Local versus
+remote describes the instance from which a request or sharing operation is being considered;
+a connected instance is not automatically entitled to every local record. Files/object storage,
+caches and external providers also matter when operating or backing up the service.
 
-See the [Roles](administration/index.qmd#roles) section for the full list of permissions with descriptions.
+<a id="misp-modules"></a>
 
-## Scheduled Tasks
-Certain common tasks can be scheduled for a later execution or for regular recurring executions. These tasks currently include caching all of the export formats, pulling from all eligible instances and pushing to all eligible instances.
+### MISP modules {#glossary-misp-modules}
 
-## Standard MISP Install
-Any MISP instance install that is strongly aligned with our [official install guides](https://misp.github.io/MISP/).
-This is mostly to make sure you have a similar folder structure, /var/www/MISP for an Ubuntu Server Install.
-It will also be easier to debug any Web Server issues or other system related problems.
+A companion service providing supported enrichment, import, export or other module operations.
+The service, module dependencies, configuration and provider access must be present for a
+particular action to work. A module result is a sourced claim requiring interpretation, and a
+live lookup can disclose submitted data to a provider. See [Modules](modules/index.qmd#modules-families).
 
-## Sync User
-A user of a role that grants sync permissions, these users (and their authentication keys) are used to serve as the points of connection between instances. Events pushed to an instance are pushed to a sync user, who then creates the events on the remote instance. Events pulled are added by the sync user that is used to connect the remote instance to your instance. As an administrator, keep in mind that a sync user needs auth key and publish permissions, has to have undergone the mandatory password change and has to have accepted the Terms of Use in order for the sync to work. Please make sure that all of these steps are taken before attempting to push or pull.
+<a id="misp-noticelist"></a>
 
-## Synchronisation
-What we call synchronisation is an exchange of data between two (or more) MISP instances through our pull and push mechanisms.
+### MISP noticelist {#glossary-misp-noticelist}
 
-## Tagging
-Users with tagging rights can assigned various dynamically created tags to events, allowing an arbitrary link between events to be created. It is possible to filter events based on these tags and they can also be used to filter events for the automation.
+A definition that supplies informational guidance on supported entry forms. In the pinned
+implementation, attribute-form checks use category/type triggers. It is not an arbitrary
+value-matching engine, an automatic access policy or proof of compliance. See
+[notice lists](noticelists/index.qmd#noticelists-triggers).
 
-## Templating
-Users with templating rights can create easy to fill forms that help with the event creation process.
+<a id="misp-objects"></a>
 
-## Analyst Data
-Collaborative annotations attached to almost any MISP element (events, attributes, objects, galaxy clusters, event reports). There are three kinds: **Notes** (free-text commentary), **Opinions** (a confidence/agreement score with an optional comment) and **Relationships** (typed links between elements). Analyst data is shared and synchronised alongside the data it annotates.
+### MISP Objects {#glossary-misp-objects}
 
-## Event Report
-A rich-text (Markdown) report attached to an event, used to narrate the intelligence around the indicators. Event reports support indicator extraction, import from a URL, and PDF export.
+Structured observations composed of attributes with named object relations, based on an
+object template. Each instance/attribute retains its own identity and context. Template
+requirements can allow a single-attribute object; object references declare directional links
+to observed entities. See [MISP objects](misp-objects/index.qmd#objects-use).
 
-## Decaying Model
-A configurable model that scores how relevant an indicator remains over time, so stale indicators can be automatically aged out instead of being trusted indefinitely.
+<a id="misp-sightings"></a>
 
-## Workflow
-An event-driven automation graph that runs when something happens in MISP (for example when an event is published), used to block, enrich or otherwise act on data. Workflows are built from triggers and modules and can be shared as blueprints.
+### MISP Sightings {#glossary-misp-sightings}
 
-## Cerebrate
-A companion platform for managing organisations and sharing communities; a MISP instance can synchronise organisation and sharing-group definitions from a connected Cerebrate node.
+Records associated with an observed value/attribute context, such as a positive observation,
+false-positive claim or expiration claim, with source/time information as supported. They
+inform assessment; they do not automatically validate a threat or change every IDS flag.
+See [Sightings](sightings/index.qmd#explanation).
 
-## Collection
-A named bundle of MISP elements (such as events and galaxy clusters) that can be managed and synchronised as a unit.
+<a id="misp-taxonomies"></a>
 
-## Community
-A community is composed of the local organisations on a MISP server and the remote organisations connected by the sync users.
+### MISP Taxonomies {#glossary-misp-taxonomies}
+
+Controlled classification vocabularies expressed through machine tags: a namespace and
+predicate, optionally with a value. Their handling/classification meanings are separate from
+an access grant. Enable the intended vocabulary and tags, then choose the attachment scope.
+See [Taxonomies](taxonomy/index.qmd#taxonomy-machine-tags).
+
+Earlier terminology adapted from Wikipedia's
+[Taxonomy](https://en.wikipedia.org/wiki/Taxonomy_(general)) entry,
+[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+<a id="misp-warninglists"></a>
+
+### MISP warninglists {#glossary-misp-warninglists}
+
+Lists whose enabled matching rules identify values that merit contextual review: for example,
+known infrastructure or potential false positives. A hit is not a universal benign/malicious
+verdict. Warning display and export filtering can have different scopes. See
+[Warning Lists](warninglists/index.qmd#warninglists-use).
+
+## N–O {#glossary-n-o}
+
+<a id="nids"></a>
+
+### NIDS {#glossary-nids}
+
+A **network intrusion detection system**, such as a compatible Snort/Suricata deployment.
+A MISP export must fit that system's format and operational policy; generating a ruleset does
+not establish that it was deployed or is effective.
+
+### Object template {#glossary-object-template}
+
+A definition of relation names, attribute types, constraints and presentation for an observed
+object. Its UUID/version identify the template, not a particular observation. Updating the
+catalogue does not silently migrate every saved instance. See
+[object templates](misp-objects/index.qmd#objects-maintenance).
+
+<a id="observable"></a>
+
+### Observable {#glossary-observable}
+
+Something observed, such as a file, address or activity, represented with the data model and
+context appropriate to the source. Other standards use the term in their own schemas. It is
+not an exact synonym for “MISP attribute with IDS off”; observations can be represented by
+several attributes or an object, and detection use is a separate decision.
+
+### Occurrence {#glossary-occurrence}
+
+One attribute record in its event/object context, identified by its attribute UUID. Several
+occurrences can share component values while retaining different sources, times, roles,
+ownership and visibility. See [3.0 values](categories-and-types/index.qmd#types-values).
+
+<a id="org-admin"></a>
+
+### Org Admin {#glossary-org-admin}
+
+An **organisation administrator**, with the account-management scope granted by the role and
+applicable organisation checks. This is distinct from site administration. The title does not
+grant global role editing, server configuration or unrestricted access to other organisations.
+See [administrative access](administration/index.qmd#admin-access).
+
+### Organisation {#glossary-organisation}
+
+A local or known remote organisational identity, with a UUID used in sharing relationships.
+Local database IDs are instance-specific. Creator/owner identity, membership in an organisation
+and membership of a sharing group answer different questions. See
+[organisation identities](administration/index.qmd#organisations).
+
+<a id="osint"></a>
+
+### OSINT {#glossary-osint}
+
+**Open-source intelligence**: information collected from publicly available sources and used
+in an intelligence context. “Open” describes source availability, not open-source software,
+redistribution rights or verified accuracy.
+
+Earlier terminology adapted from Wikipedia's
+[Open-source intelligence](https://en.wikipedia.org/wiki/Open-source_intelligence) entry,
+[CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+## P–R {#glossary-p-r}
+
+<a id="pivot-path"></a>
+
+### Pivot path {#glossary-pivot-path}
+
+A sequence of links followed during an investigation, such as accessible occurrences,
+correlations or declared relationships. A path records navigable context, not a chain of proof.
+
+<a id="pivoting"></a>
+
+### Pivoting {#glossary-pivoting}
+
+Moving from a starting observation to relevant accessible context. In 3.0 this can include
+value views, workspaces, graphs and knowledge entries as well as event-to-event correlation.
+See [investigation workflows](user-stories/index.qmd#stories-investigate).
+
+<a id="proposals"></a>
+
+### Proposals {#glossary-proposals}
+
+Suggested attribute additions or changes for an owner/reviewer to assess through the supported
+proposal workflow. Acceptance changes the relevant data and requires the appropriate rights.
+An attribute proposal is distinct from a separately owned extended event or a complete
+object-template proposal. See [the proposal FAQ](faq/index.qmd#faq-object-proposals).
+
+### Protected event {#glossary-protected-event}
+
+An event using the supported cryptographic signing/protection mechanism. Verification concerns
+the signed material and the trusted signing identity; it does not prove the truth of every
+assessment or widen distribution. See [cryptographic keys](cryptographic-keys/index.qmd#how-it-works).
+
+<a id="publishing"></a>
+
+### Publishing {#glossary-publishing}
+
+A deliberate event release/state transition performed with the relevant permissions and checks.
+It makes an eligible event available to supported sharing/notification processes; it does not
+make private data public or bypass distribution. Unpublished data can still be visible locally
+and accessible to an authorized API/export selection. Mail and peer delivery depend on their
+configuration and results. See [publication](using-the-system/index.qmd#publish-an-event).
+
+<a id="pull"></a>
+
+### Pull {#glossary-pull}
+
+Retrieving eligible data from a configured remote instance using the relevant credentials,
+rules and update/checkpoint behaviour. It is not a guarantee of downloading every record the
+remote instance stores. See [push and pull](sharing/index.qmd#pull-vs-push-synchronisation).
+
+<a id="push"></a>
+
+### Push {#glossary-push}
+
+Sending eligible data to a configured remote instance, subject to identities, publication,
+distribution, filters and the recipient's accepted contract. A successful connection test does
+not establish that a particular record was delivered. See
+[synchronization checks](sharing/index.qmd#troubleshooting).
+
+<a id="restful"></a>
+
+### RESTful {#glossary-restful}
+
+An interface style based on representations of resources and HTTP operations. In MISP,
+endpoint-specific routes, parameters and response shapes remain part of the actual contract;
+calling a service “RESTful” does not make every action or format interchangeable.
+See [API reference](automation/index.qmd#api-reference).
+
+Earlier terminology adapted from Wikipedia's
+[Representational state transfer](https://en.wikipedia.org/wiki/Representational_state_transfer)
+entry, [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
+
+<a id="roles"></a>
+
+### Roles {#glossary-roles}
+
+Local permission definitions assigned to users. They control capabilities alongside access
+levels, dynamic checks and resource limits; record-level visibility and ownership still matter.
+Role IDs are local database identifiers, not universal labels for privileges. See
+[roles](administration/index.qmd#roles) and
+[ACL descriptors](appendices/index.qmd#appendix-b-acl-descriptors).
+
+## S–T {#glossary-s-t}
+
+<a id="scheduled-tasks"></a>
+
+### Scheduled Tasks {#glossary-scheduled-tasks}
+
+Configured recurring operations with an interval, next execution, action and execution user.
+The 3.0 task scheduler discovers due tasks and queues work; a saved schedule is distinct from
+a running scheduler or a successful job. See
+[recurring tasks](administration/index.qmd#admin-scheduled-tasks).
+
+<a id="sharing-groups"></a>
+
+### Sharing groups {#glossary-sharing-groups}
+
+Reusable distribution scopes combining the intended organisation and server memberships with
+their sharing rules. They can include local and remote organisations, and must account for
+relay/hosting trust. A group is not an end-to-end secrecy channel through an excluded host.
+See [sharing groups](sharing/index.qmd#sharing-groups).
+
+<a id="site-admin"></a>
+
+### Site admin {#glossary-site-admin}
+
+A user whose role grants site administration for instance-wide operations, such as global
+settings and role/account management. Treat this as privileged access, separate from ordinary
+organisation administration; resource-specific/dynamic checks can still apply. See
+[administrative access](administration/index.qmd#admin-access).
+
+<a id="standard-misp-install"></a>
+
+### Standard MISP Install {#glossary-standard-misp-install}
+
+An installation following the supported process for its chosen deployment/release. Filesystem,
+container and orchestrated deployments can have different paths and service identities; the
+phrase does not imply a universal `/var/www/MISP` layout or dependency set. See
+[deployment choices](get-your-instance/index.qmd#choosing-a-deployment-method).
+
+<a id="sync-user"></a>
+
+### Sync User {#glossary-sync-user}
+
+An account used by a peer connection with the required API/synchronization permissions and
+intended organisation identity. Its key and applicable account state must allow the requested
+operation. Connection, owner identity and sharing rules still need verification. See
+[sync identities](sharing/index.qmd#concept).
+
+<a id="synchronisation"></a>
+
+### Synchronisation {#glossary-synchronisation}
+
+The exchange of supported data and updates between instances through configured push/pull
+mechanisms. Native MISP synchronization, feed import and TAXII integration have different
+contracts and scopes. See [sharing options](sharing/index.qmd#sharing-overview).
+
+<a id="tagging"></a>
+
+### Tagging {#glossary-tagging}
+
+Attaching classification/context labels to supported records with the appropriate permission
+and local/global scope. A tag can be used in a filter or configured automation policy; its
+presence alone does not trigger every action, change IDS or grant access. See
+[taxonomy use](taxonomy/index.qmd#taxonomy-use).
+
+<a id="templating"></a>
+
+### Templating {#glossary-templating}
+
+Using definitions/forms to guide structured entry. Object templates describe relations and
+constraints; event-entry templates/forms are a different mechanism. A template is separate
+from the observed instance created with it. See
+[object authoring](misp-objects/index.qmd#objects-authoring).
+
+## V–W {#glossary-v-w}
+
+### Value {#glossary-value}
+
+A stored component value used across attribute occurrences in MISP 3.0. A composite attribute
+can have separate component values. Equal stored values do not merge occurrences or establish
+their interpretation, ownership or visibility. See
+[value identities](categories-and-types/index.qmd#types-values).
+
+### Value address {#glossary-value-address}
+
+The SHA-256 address MISP assigns to a stored normalized component value. Use the returned
+address rather than hashing an unnormalized input. It is distinct from a file-hash attribute,
+an occurrence UUID, an event UUID and an access grant. See
+[value APIs](automation/index.qmd#api-value-targets).
+
+### Worker {#glossary-worker}
+
+A managed process consuming the intended background-job queue. In 3.0, ordinary queue workers
+use `start_worker`; the recurring-task poller uses `scheduler_worker`. Supervisor process state,
+Redis reachability and job completion are distinct checks. See
+[background processing](appendices/index.qmd#appendix-jobs-workers).
+
+<a id="workflow"></a>
+
+### Workflow {#glossary-workflow}
+
+An automation graph connecting supported triggers, conditions and actions. Blocking and
+non-blocking execution paths differ; a graph/blueprint alone does not enable every trigger or
+provider. Workflows are distinct from recurring task schedules. See
+[Workflows](workflows/index.qmd#workflow-hub).
+
+### Workspace {#glossary-workspace}
+
+A 3.0 research context for organizing and exploring supported graph elements and relationships.
+Its saved state and visibility are separate from ownership/distribution of the underlying
+records. A layout or edge is an investigative aid rather than evidence of causality. See
+[investigation workflows](user-stories/index.qmd#stories-investigate).
+
+## Maintaining this glossary {#glossary-maintenance}
+
+Use a concise definition and a link to the relevant procedure. Distinguish terminology from
+specific deployments, avoid claiming automatic enforcement without a configured mechanism,
+and retain source/licence attribution for adapted material. A broad term does not prevent
+adding a more specific term in this Quarto glossary.

@@ -1,907 +1,491 @@
 ---
 title: "Appendices"
+format:
+  html:
+    lightbox: true
 ---
+
 <a id="summary"></a>
 
+These references cover authentication, access-control inspection, companion projects and
+background processing. Use the installed branch's settings and implementation together with
+the deployment's configuration process; service paths and role IDs are not universal defaults.
+The [glossary](../glossary.qmd#glossary-a-c) explains the terminology used throughout the guide.
 
-# Appendix A: External Authentication
+::: {.callout-note}
+Checked against MISP **3.0.0**, `3.0_wip` commit
+[`99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1).
+The examples use reserved names and synthetic private data. Authentication mechanisms and
+third-party integrations need their own deployment tests; the presence of a plugin is not a
+compatibility guarantee.
+:::
 
-#### The external authentication mechanism described
+<!-- Implementation references, ACL checks and UI captures: ../assets/appendices-screenshots.json -->
 
-The external authentication allows a user or an external tool to authenticate with MISP using an arbitrary value passed along in a custom header. This authentication method overrides the regular authentication mechanisms and is customisable by a site-admin. 
+## External authentication {#appendix-a-external-authentication}
 
-It is possible to create a mixed mode MISP setup where certain users can go through the normal authentication mechanism and other users are required to use the external authentication method.
+<a id="other-external-authentication-plugins"></a>
+<a id="the-external-authentication-mechanism-described"></a>
 
-#### Setting up the external authentication mechanism
+### Choose the mechanism {#appendix-auth-choice}
 
-To change the authentication settings, navigate to Administration - Server settings - Plugin settings
+Authentication establishes an identity; MISP still needs a user account, organisation, role
+and applicable access checks. Distinguish the browser login, a trusted front-end assertion and
+a REST API key. Configuring one does not automatically configure or revoke all the others.
 
-The settings associated with the external authentication can be found by pressing the CustomAuth button as depicted below:
+::: {.table-responsive}
 
-![The server settings relevant to the Custom Authentication system.](figures/a/settings.png)
+| Mechanism | Identity source and configuration |
+|---|---|
+| **CustomAuth** | A configured server/header value matches an existing user's external authentication key. Uses `Plugin.CustomAuth_*`{.text-wrap .text-break}; this is not LDAP auto-provisioning. |
+| **LdapAuth** | The plugin searches a directory, validates credentials or a trusted header, and resolves/provisions the MISP account. See [LDAP](#appendix-f-ldap-authentication). |
+| **OidcAuth** | An OpenID Connect provider supplies the browser identity and claims. Check the plugin's issuer, callback, dependency, role/organisation mapping and mixed-login configuration. |
+| **ShibbAuth / CertAuth** | A correctly configured web server/SP validates SAML or client certificates and supplies verified server variables. The MISP plugin maps that result; it does not replace the front-end protocol validation. |
+| **Other shipped plugins** | AadAuth and LinOTPAuth have their own requirements and activation paths. Read the installed implementation and its README before selecting one. |
 
-To change a setting simply double click on the value to edit the field. Use the guidance provided by the setting tool to configure the external authentication. The accessible settings are as follows:
+:::
 
-*   **enable**: Enable or disable external authentication (off by default)
+For CakePHP authentication handlers, inspect **`Security.auth`** and **`Security.auth_enforced`**.
+The latter removes the built-in Form authenticator when enabled. A plugin's own `mixedAuth`
+setting is separate. Bootstrap/plugin loading and additional dependencies vary by mechanism;
+do not assume every plugin is activated by one identical setting.
 
-*   **header**: The header which MISP will use to identify users
+![Identity verification, local account mapping and access to a particular resource are separate stages.](figures/authentication-boundaries.svg)
 
-*   **required**: Enabling this setting will force all users to use the external authentication. Leave this disabled allows administrators to assign external authentication or regular authentication users.
+The branch's plugin references are
+[OidcAuth](https://github.com/MISP/MISP/blob/3.0_wip/app/Plugin/OidcAuth/README.md),
+[ShibbAuth](https://github.com/MISP/MISP/blob/3.0_wip/app/Plugin/ShibbAuth/README.md),
+[CertAuth](https://github.com/MISP/MISP/blob/3.0_wip/app/Plugin/CertAuth/README.md),
+[AadAuth](https://github.com/MISP/MISP/blob/3.0_wip/app/Plugin/AadAuth/README.md) and
+[LinOTPAuth](https://github.com/MISP/MISP/blob/3.0_wip/app/Plugin/LinOTPAuth/README.md).
+Test the actual login, logout, MFA, recovery and API paths before enforcing a new mechanism.
 
-*   **only_allow_source**: Setting a url / IP address here will only allow requests that originated from the given address
+<a id="setting-up-the-external-authentication-mechanism"></a>
 
-*   **name**: The name to be used for the authentication mechanism. This is reflected in the user creation / edit views, the logs and the error messages on failed logins.
+### Configure CustomAuth {#appendix-custom-auth}
 
-*   **disable_logout**: Disable the default logout button. Using an external authentication mechanism that authenticates via the header with each requests makes the logout button obsolete. 
+Open **Administration → Server Settings & Maintenance → Integrations → Custom authentication**
+(`/servers/serverSettings/customauth`). The Overmind page groups the supported settings and
+provides their current validation/help; use the durable configuration source for managed deployments.
 
-*   **custom_password_reset**: If your authentication system has a url that a user can access to reset his/her password, please specify the full url for it here. This will then be reused in the UI.
+![The actual Custom authentication settings in MISP 3.0. Header authentication remains disabled in this documentation instance.](figures/misp3-custom-auth.png)
 
-*   **custom_password_logout**: If your authentication system has a url that a user can access to logout, please specify the full url for it here. This will then be reused in the UI.
+::: {.table-responsive}
 
-#### User management
+| Setting | Meaning in the pinned implementation |
+|---|---|
+| `Plugin.CustomAuth_enable`{.text-wrap .text-break} | Enables the header mechanism. Keep it off until the front end and account mapping are ready. |
+| `Plugin.CustomAuth_header`{.text-wrap .text-break} | Names the server-variable suffix to read; the default is `AUTHORIZATION`{.text-wrap .text-break}. |
+| `Plugin.CustomAuth_use_header_namespace`{.text-wrap .text-break}, `Plugin.CustomAuth_header_namespace`{.text-wrap .text-break} | Control the prefix, normally `HTTP_`{.text-wrap .text-break}. Confirm the exact variable PHP receives. |
+| `Plugin.CustomAuth_required`{.text-wrap .text-break} | Controls required versus mixed CustomAuth behaviour. It is separate from the CakePHP plugin/Form settings. |
+| `Plugin.CustomAuth_only_allow_source`{.text-wrap .text-break} | Compares one exact value with MISP's calculated remote IP. It is not a URL or CIDR allowlist. |
+| `Plugin.CustomAuth_name`{.text-wrap .text-break} | The display name used in user controls, messages and logs. |
+| `Plugin.CustomAuth_disable_logout`{.text-wrap .text-break} | Controls the normal logout affordance for external-authentication users. |
+| `Plugin.CustomAuth_custom_password_reset`{.text-wrap .text-break} | The external password-reset URL offered to users. |
+| `Plugin.CustomAuth_custom_logout`{.text-wrap .text-break} | The external logout URL. The historical name `custom_password_logout`{.text-wrap .text-break} is not this setting. |
 
-Using a new setting, user self management can be disabled for all users that are not administrators via the MISP.disableUserSelfManagement setting, found in the MISP settings tab. Enabling this setting removes the ability of users to change their user settings and reset their authentication keys. All other functionality remains unchanged.
+:::
 
-![Adding a user with the external authentication enabled.](figures/a/add_user.png)
+For example, a front-end HTTP header `X-Remote-User` commonly reaches PHP as
+`HTTP_X_REMOTE_USER`: with the default prefix, the CustomAuth header setting would be
+`X_REMOTE_USER`. Check the actual server environment rather than copying the HTTP spelling
+with hyphens. A dedicated identity header also avoids confusing this value with a REST API key
+in the default Authorization header.
 
-To create an external authenticated user, simply tick the External authentication user checkbox, after which an external auth key field will appear. This will be used to identify the users via the passed along header. 
+Configure the trusted front end to remove client-supplied identity headers and supply its own
+verified value. Restrict direct access to the backend. The source check uses MISP's remote-IP
+calculation, which can be affected by forwarded-IP configuration; it is not a substitute for
+establishing the proxy trust boundary.
 
-#### Logging
+<a id="logging"></a>
+<a id="user-management"></a>
 
-For a description of the logging facilities provided by this plugin, please refer to the "Logging of failed authentication attempts" section of the Administration section.
+### Map users and inspect authentication failures {#appendix-auth-users}
 
-# Appendix B: ACL descriptors
+When CustomAuth is enabled, the user form exposes the external-authentication flag and key.
+The asserted value must match an existing account with `external_auth_required` enabled and the
+intended `external_auth_key`. Keep the account's role/organisation, disabled state, recovery
+process and API-key lifecycle under administrative control.
 
-#### Querying the ACL system
+`MISP.disableUserSelfManagement` changes which self-service operations users may perform; it is
+not a general account-locking or external-authentication switch. Check the relevant operation's
+permissions rather than assuming every other account function is unaffected.
 
-MISP allows site admins to query the ACL system for various types of data. This can be interesting when tuning for example WAF access to MISP. All applicable queries can be requested via /servers/queryACL
+Use [authentication and audit logs](../administration/index.qmd#admin-logs) to correlate a failed
+request, account and front-end assertion. The branch normally masks external keys in failure
+logs; unsafe cleartext-key logging changes that. Review diagnostic output before sharing it.
+See [user authentication](../administration/index.qmd#admin-authentication) for keys and MFA.
 
-#### Getting a list of URLs accessible to a role
+## ACL descriptors {#appendix-b-acl-descriptors}
 
-~~~~
-https://<misp url>/servers/queryACL/printRoleAccess/<role id>
-~~~~
+<a id="getting-a-list-of-all-accessible-controllers-and-actions-in-misp"></a>
+<a id="getting-a-list-of-urls-accessible-to-a-role"></a>
+<a id="querying-the-acl-system"></a>
 
-The above URL will return a JSON with all accessible URLs for the given role ID. If no Role ID is provided, a JSON containing all roles and their access lists will be returned. 
+### Query the installed ACL {#appendix-acl-query}
 
-Example:
+A site administrator can inspect the controller/action ACL through `/servers/queryACL`.
+Use an authenticated JSON request. The following are **read-only descriptors**:
 
-~~~~json
-{
-    "3": {
-        "name": "User",
-        "urls": [
-            "/*/restSearch",
-            "/attributes/add",
-            "/attributes/add_attachment",
-            "/attributes/add_threatconnect",
-            "/attributes/addTag",
-            "/attributes/attributeReplace",
-            "/attributes/attributeStatistics",
-            "/attributes/bro",
-            "/attributes/delete",
-            "/attributes/deleteSelected",
-            "/attributes/describeTypes",
-            "/attributes/download",
-            "/attributes/downloadAttachment",
-            "/attributes/downloadSample",
-            "/attributes/edit",
-            "/attributes/editField",
-            "/attributes/editSelected",
-            "/attributes/exportSearch",
-            "/attributes/fetchEditForm",
-            "/attributes/fetchViewValue",
-            "/attributes/getMassEditForm",
-            "/attributes/hoverEnrichment",
-            "/attributes/index",
-            "/attributes/removeTag",
-            "/attributes/restore",
-            "/attributes/restSearch",
-            "/attributes/returnAttributes",
-            "/attributes/rpz",
-            "/attributes/search",
-            "/attributes/searchAlternate",
-            "/attributes/toggleCorrelation",
-            "/attributes/text",
-            "/attributes/toggleToIDS",
-            "/attributes/updateAttributeValues",
-            "/attributes/view",
-            "/attributes/viewPicture",
-            "/authKeys/add",
-            "/authKeys/delete",
-            "/authKeys/edit",
-            "/authKeys/index",
-            "/authKeys/view",
-            "/auth_keys/add",
-            "/auth_keys/delete",
-            "/auth_keys/edit",
-            "/auth_keys/index",
-            "/auth_keys/view",
-            "/dashboards/getForm",
-            "/dashboards/index",
-            "/dashboards/updateSettings",
-            "/dashboards/getEmptyWidget",
-            "/dashboards/renderWidget",
-            "/dashboards/listTemplates",
-            "/dashboards/saveTemplate",
-            "/dashboards/export",
-            "/dashboards/import",
-            "/dashboards/deleteTemplate",
-            "/decayingModel/export",
-            "/decayingModel/import",
-            "/decayingModel/view",
-            "/decayingModel/index",
-            "/decayingModel/add",
-            "/decayingModel/edit",
-            "/decayingModel/delete",
-            "/decayingModel/enable",
-            "/decayingModel/disable",
-            "/decayingModel/decayingTool",
-            "/decayingModel/getAllDecayingModels",
-            "/decayingModel/decayingToolBasescore",
-            "/decayingModel/decayingToolSimulation",
-            "/decayingModel/decayingToolRestSearch",
-            "/decayingModel/decayingToolComputeSimulation",
-            "/decaying_model/export",
-            "/decaying_model/import",
-            "/decaying_model/view",
-            "/decaying_model/index",
-            "/decaying_model/add",
-            "/decaying_model/edit",
-            "/decaying_model/delete",
-            "/decaying_model/enable",
-            "/decaying_model/disable",
-            "/decaying_model/decayingTool",
-            "/decaying_model/getAllDecayingModels",
-            "/decaying_model/decayingToolBasescore",
-            "/decaying_model/decayingToolSimulation",
-            "/decaying_model/decayingToolRestSearch",
-            "/decaying_model/decayingToolComputeSimulation",
-            "/decayingModelMapping/viewAssociatedTypes",
-            "/decayingModelMapping/linkAttributeTypeToModel",
-            "/decaying_model_mapping/viewAssociatedTypes",
-            "/decaying_model_mapping/linkAttributeTypeToModel",
-            "/eventBlocklists/add",
-            "/eventBlocklists/delete",
-            "/eventBlocklists/edit",
-            "/eventBlocklists/index",
-            "/eventBlocklists/massDelete",
-            "/event_blocklists/add",
-            "/event_blocklists/delete",
-            "/event_blocklists/edit",
-            "/event_blocklists/index",
-            "/event_blocklists/massDelete",
-            "/eventReports/add",
-            "/eventReports/view",
-            "/eventReports/viewSummary",
-            "/eventReports/edit",
-            "/eventReports/delete",
-            "/eventReports/reportFromEvent",
-            "/eventReports/restore",
-            "/eventReports/index",
-            "/eventReports/getProxyMISPElements",
-            "/eventReports/extractAllFromReport",
-            "/eventReports/extractFromReport",
-            "/eventReports/replaceSuggestionInReport",
-            "/eventReports/importReportFromUrl",
-            "/event_reports/add",
-            "/event_reports/view",
-            "/event_reports/viewSummary",
-            "/event_reports/edit",
-            "/event_reports/delete",
-            "/event_reports/reportFromEvent",
-            "/event_reports/restore",
-            "/event_reports/index",
-            "/event_reports/getProxyMISPElements",
-            "/event_reports/extractAllFromReport",
-            "/event_reports/extractFromReport",
-            "/event_reports/replaceSuggestionInReport",
-            "/event_reports/importReportFromUrl",
-            "/events/add",
-            "/events/addIOC",
-            "/events/addTag",
-            "/events/add_misp_export",
-            "/events/automation",
-            "/events/checkLocks",
-            "/events/checkPublishedStatus",
-            "/events/contact",
-            "/events/csv",
-            "/events/delegation_index",
-            "/events/delete",
-            "/events/deleteNode",
-            "/events/downloadExport",
-            "/events/downloadOpenIOCEvent",
-            "/events/edit",
-            "/events/enrichEvent",
-            "/events/export",
-            "/events/exportChoice",
-            "/events/exportModule",
-            "/events/filterEventIndex",
-            "/events/freeTextImport",
-            "/events/getEditStrategy",
-            "/events/getEventInfoById",
-            "/events/getEventGraphReferences",
-            "/events/getEventGraphTags",
-            "/events/getEventGraphGeneric",
-            "/events/getEventTimeline",
-            "/events/genDistributionGraph",
-            "/events/getDistributionGraph",
-            "/events/getReferenceData",
-            "/events/getReferences",
-            "/events/getObjectTemplate",
-            "/events/handleModuleResults",
-            "/events/hids",
-            "/events/index",
-            "/events/importChoice",
-            "/events/importModule",
-            "/events/merge",
-            "/events/nids",
-            "/events/proposalEventIndex",
-            "/events/publishSightings",
-            "/events/queryEnrichment",
-            "/events/removePivot",
-            "/events/removeTag",
-            "/events/restSearch",
-            "/events/runTaxonomyExclusivityCheck",
-            "/events/saveFreeText",
-            "/events/stix",
-            "/events/stix2",
-            "/events/toggleCorrelation",
-            "/events/unpublish",
-            "/events/updateGraph",
-            "/events/upload_analysis_file",
-            "/events/upload_sample",
-            "/events/upload_stix",
-            "/events/view",
-            "/events/viewClusterRelations",
-            "/events/viewEventAttributes",
-            "/events/viewGraph",
-            "/events/viewGalaxyMatrix",
-            "/events/xml",
-            "/favouriteTags/toggle",
-            "/favouriteTags/getToggleField",
-            "/favourite_tags/toggle",
-            "/favourite_tags/getToggleField",
-            "/feeds/compareFeeds",
-            "/feeds/feedCoverage",
-            "/feeds/index",
-            "/feeds/previewEvent",
-            "/feeds/previewIndex",
-            "/feeds/searchCaches",
-            "/feeds/view",
-            "/galaxies/attachCluster",
-            "/galaxies/attachMultipleClusters",
-            "/galaxies/export",
-            "/galaxies/forkTree",
-            "/galaxies/index",
-            "/galaxies/relationsGraph",
-            "/galaxies/selectGalaxy",
-            "/galaxies/selectGalaxyNamespace",
-            "/galaxies/selectCluster",
-            "/galaxies/showGalaxies",
-            "/galaxies/view",
-            "/galaxies/viewGraph",
-            "/galaxyClusters/attachToEvent",
-            "/galaxyClusters/detach",
-            "/galaxyClusters/index",
-            "/galaxyClusters/restSearch",
-            "/galaxyClusters/view",
-            "/galaxyClusters/viewGalaxyMatrix",
-            "/galaxyClusters/viewRelations",
-            "/galaxyClusters/viewRelationTree",
-            "/galaxy_clusters/attachToEvent",
-            "/galaxy_clusters/detach",
-            "/galaxy_clusters/index",
-            "/galaxy_clusters/restSearch",
-            "/galaxy_clusters/view",
-            "/galaxy_clusters/viewGalaxyMatrix",
-            "/galaxy_clusters/viewRelations",
-            "/galaxy_clusters/viewRelationTree",
-            "/galaxyClusterRelations/index",
-            "/galaxyClusterRelations/view",
-            "/galaxy_cluster_relations/index",
-            "/galaxy_cluster_relations/view",
-            "/galaxyElements/index",
-            "/galaxy_elements/index",
-            "/jobs/cache",
-            "/jobs/getGenerateCorrelationProgress",
-            "/jobs/getProgress",
-            "/logs/event_index",
-            "/logs/returnDates",
-            "/modules/index",
-            "/modules/queryEnrichment",
-            "/news/index",
-            "/noticelists/index",
-            "/noticelists/view",
-            "/objects/add",
-            "/objects/addValueField",
-            "/objects/delete",
-            "/objects/edit",
-            "/objects/get_row",
-            "/objects/editField",
-            "/objects/fetchEditForm",
-            "/objects/fetchViewValue",
-            "/objects/quickAddAttributeForm",
-            "/objects/quickFetchTemplateWithValidObjectAttributes",
-            "/objects/restSearch",
-            "/objects/proposeObjectsFromAttributes",
-            "/objects/groupAttributesIntoObject",
-            "/objects/revise_object",
-            "/objects/view",
-            "/objectReferences/add",
-            "/objectReferences/delete",
-            "/objectReferences/view",
-            "/object_references/add",
-            "/object_references/delete",
-            "/object_references/view",
-            "/objectTemplates/objectChoice",
-            "/objectTemplates/objectMetaChoice",
-            "/objectTemplates/view",
-            "/objectTemplates/viewElements",
-            "/objectTemplates/index",
-            "/object_templates/objectChoice",
-            "/object_templates/objectMetaChoice",
-            "/object_templates/view",
-            "/object_templates/viewElements",
-            "/object_templates/index",
-            "/objectTemplateElements/viewElements",
-            "/object_template_elements/viewElements",
-            "/organisations/fetchSGOrgRow",
-            "/organisations/index",
-            "/organisations/view",
-            "/pages/display",
-            "/posts/add",
-            "/posts/delete",
-            "/posts/edit",
-            "/regexp/index",
-            "/restClientHistory/delete",
-            "/restClientHistory/index",
-            "/rest_client_history/delete",
-            "/rest_client_history/index",
-            "/roles/index",
-            "/roles/view",
-            "/servers/getApiInfo",
-            "/servers/getPyMISPVersion",
-            "/servers/getVersion",
-            "/servers/idTranslator",
-            "/servers/postTest",
-            "/servers/rest",
-            "/shadowAttributes/accept",
-            "/shadowAttributes/acceptSelected",
-            "/shadowAttributes/add",
-            "/shadowAttributes/add_attachment",
-            "/shadowAttributes/delete",
-            "/shadowAttributes/discard",
-            "/shadowAttributes/discardSelected",
-            "/shadowAttributes/download",
-            "/shadowAttributes/edit",
-            "/shadowAttributes/index",
-            "/shadowAttributes/view",
-            "/shadowAttributes/viewPicture",
-            "/shadow_attributes/accept",
-            "/shadow_attributes/acceptSelected",
-            "/shadow_attributes/add",
-            "/shadow_attributes/add_attachment",
-            "/shadow_attributes/delete",
-            "/shadow_attributes/discard",
-            "/shadow_attributes/discardSelected",
-            "/shadow_attributes/download",
-            "/shadow_attributes/edit",
-            "/shadow_attributes/index",
-            "/shadow_attributes/view",
-            "/shadow_attributes/viewPicture",
-            "/sharingGroups/index",
-            "/sharingGroups/view",
-            "/sharing_groups/index",
-            "/sharing_groups/view",
-            "/sightings/add",
-            "/sightings/restSearch",
-            "/sightings/advanced",
-            "/sightings/delete",
-            "/sightings/index",
-            "/sightings/listSightings",
-            "/sightings/quickDelete",
-            "/sightings/viewSightings",
-            "/sightings/bulkSaveSightings",
-            "/sightings/quickAdd",
-            "/tagCollections/index",
-            "/tagCollections/view",
-            "/tag_collections/index",
-            "/tag_collections/view",
-            "/tags/attachTagToObject",
-            "/tags/index",
-            "/tags/removeTagFromObject",
-            "/tags/search",
-            "/tags/selectTag",
-            "/tags/selectTaxonomy",
-            "/tags/showEventTag",
-            "/tags/showAttributeTag",
-            "/tags/showTagControllerTag",
-            "/tags/tagStatistics",
-            "/tags/view",
-            "/tags/viewGraph",
-            "/tags/viewTag",
-            "/taxonomies/index",
-            "/taxonomies/taxonomyMassConfirmation",
-            "/taxonomies/taxonomyMassHide",
-            "/taxonomies/taxonomyMassUnhide",
-            "/taxonomies/view",
-            "/taxonomies/unhideTag",
-            "/taxonomies/hideTag",
-            "/templateElements/index",
-            "/template_elements/index",
-            "/templates/deleteTemporaryFile",
-            "/templates/index",
-            "/templates/populateEventFromTemplate",
-            "/templates/submitEventPopulation",
-            "/templates/templateChoices",
-            "/templates/uploadFile",
-            "/templates/view",
-            "/threads/index",
-            "/threads/view",
-            "/threads/viewEvent",
-            "/users/attributehistogram",
-            "/users/change_pw",
-            "/users/checkIfLoggedIn",
-            "/users/dashboard",
-            "/users/downloadTerms",
-            "/users/edit",
-            "/users/email_otp",
-            "/users/searchGpgKey",
-            "/users/fetchGpgKey",
-            "/users/histogram",
-            "/users/login",
-            "/users/logout",
-            "/users/register",
-            "/users/resetauthkey",
-            "/users/request_API",
-            "/users/routeafterlogin",
-            "/users/statistics",
-            "/users/tagStatisticsGraph",
-            "/users/terms",
-            "/users/updateLoginTime",
-            "/users/view",
-            "/users/getGpgPublicKey",
-            "/userSettings/index",
-            "/userSettings/view",
-            "/userSettings/setSetting",
-            "/userSettings/getSetting",
-            "/userSettings/delete",
-            "/userSettings/setHomePage",
-            "/user_settings/index",
-            "/user_settings/view",
-            "/user_settings/setSetting",
-            "/user_settings/getSetting",
-            "/user_settings/delete",
-            "/user_settings/setHomePage",
-            "/warninglists/checkValue",
-            "/warninglists/index",
-            "/warninglists/view",
-            "/allowedlists/index",
-            "/eventGraph/view",
-            "/eventGraph/add",
-            "/eventGraph/delete",
-            "/event_graph/view",
-            "/event_graph/add",
-            "/event_graph/delete"
-        ]
-    }
-}
-~~~~
+::: {.table-responsive}
 
-#### Getting a list of all accessible controllers and actions in MISP
+| Request path | Result |
+|---|---|
+| `/servers/queryACL/printRoleAccess/ROLE_ID`{.text-wrap .text-break} | Role name and allowed controller/action patterns for one existing local role ID. |
+| `/servers/queryACL/printRoleAccess`{.text-wrap .text-break} | Descriptors for all local roles. |
+| `/servers/queryACL/printAllFunctionNames`{.text-wrap .text-break} | Controller/function names discovered by the installed source scanner. |
+| `/servers/queryACL/findMissingFunctionNames`{.text-wrap .text-break} | Discovered functions without an explicit mapping according to that scanner. |
 
-~~~~
-https://<misp url>/servers/queryACL/printAllFunctionNames
-~~~~
+:::
 
-This URL will return a JSON with all controller and all mapped functions within them. 
+Find the intended role under **Administration → Roles**; role IDs and permission combinations
+belong to the local database. A missing role ID returns an error. The output for a different
+release or another installation can differ, so this appendix no longer embeds hundreds of
+stale example URLs.
 
-#### Viewing a list of yet unmapped functions
+![The current role catalogue identifies the local role IDs and permissions used by the ACL query.](figures/misp3-role-catalogue.png)
 
-~~~~
-https://<misp url>/servers/queryACL/findMissingFunctionNames
-~~~~
+<a id="viewing-a-list-of-yet-unmapped-functions"></a>
 
-Functions that have not been tied into the new ACL yet show up here. These functions will (until added to the ACL) only be accessible to site admins.
+### Interpret the descriptor's limits {#appendix-acl-limits}
 
-# Appendix C: Official MISP developments
+`printRoleAccess` evaluates the component's controller/action rules with the selected role and
+a synthetic user context using the host organisation. Some rules are dynamic. The result is
+not a proof that a particular real user can read or modify every record behind a listed path.
+Controller/model checks still enforce ownership, distribution, sharing groups and resource-specific
+constraints. API-key scope and authentication restrictions are separate again.
 
-This section lists the projects that can be found on the main [MISP GitHub](https://github.com/MISP/repositories) page
- e know of but not officially support and rely on their respective maintainers to keep up to date to the MISP 2.5 developments.
+A descriptor can contain wildcard patterns or route-name variants. It does not enumerate all
+HTTP methods, parameters, entity IDs or deployments behind a reverse proxy. Treat it as input
+to a WAF/access review, then test real permitted and denied requests; do not install it as a
+complete network policy without those checks.
 
+The missing-function report is a development diagnostic, not a list of routes to open to every
+user. Inspect `app/Controller/Component/ACLComponent.php`, the discovered action and its model
+checks when adding a feature. See [roles](../administration/index.qmd#roles) and
+[developer testing](../dev-faq/index.qmd#developer-testing).
 
-| Project | Description | Status |
-| -- | -- | -- |
-| [misp-objects](https://github.com/MISP/misp-objects) | Definition, description and relationship types of MISP objects | Core to MISP, frequently updated and tested |
-| [Best Practices in ThreatIntel](https://github.com/MISP/best-practices-in-threat-intelligence) | Best practices in threat intelligence | Book available here: https://www.misp-project.org/best-practices-in-threat-intelligence.html |
+## MISP project resources {#appendix-c-official-misp-developments}
 
-<!--
-| []() |  | Core to MISP, frequently updated and tested |
-| []() |  | Core to MISP, frequently updated and tested |
-| []() |  | Core to MISP, frequently updated and tested |
--->
+Use the [MISP organisation](https://github.com/MISP) to find project-owned repositories. Match
+the application, client, definitions and deployment revisions you actually use. A project-owned
+repository has its own releases and dependencies; this list does not certify every combination
+with the developing 3.0 branch.
 
-# Appendix D: Third-party development
+::: {.table-responsive}
 
-This section lists some projects we know of but not officially support and rely on their respective maintainers to keep up to date to the MISP 2.5 developments.
+| Purpose | Starting points |
+|---|---|
+| Application and deployment | [MISP core](https://github.com/MISP/MISP), [misp-docker](https://github.com/MISP/misp-docker) and the [development guide](https://github.com/MISP/MISP/blob/3.0_wip/docs/dev/docker-dev-environment.md). |
+| Clients and automation | [PyMISP](https://github.com/MISP/PyMISP), [misp-modules](https://github.com/MISP/misp-modules) and [misp-stix](https://github.com/MISP/misp-stix). |
+| Structured data and knowledge | [misp-objects](https://github.com/MISP/misp-objects), [misp-taxonomies](https://github.com/MISP/misp-taxonomies) and [misp-galaxy](https://github.com/MISP/misp-galaxy). |
+| Contextual lists | [misp-warninglists](https://github.com/MISP/misp-warninglists) and [misp-noticelist](https://github.com/MISP/misp-noticelist). |
+| Community and authoring | [Cerebrate](https://github.com/cerebrate-project/cerebrate), [MISP Engineering Bay](https://github.com/MISP/misp-engineering-bay) and [workflow blueprints](https://github.com/MISP/misp-workflow-blueprints). |
+| Formats and guidance | [MISP standards](https://www.misp-standard.org/), [MISP formats](https://github.com/MISP/misp-rfc), [this book](https://github.com/MISP/misp-book) and [threat-intelligence best practices](https://www.misp-project.org/best-practices-in-threat-intelligence.html). |
 
-| Project | Description | Status |
-| -- | -- | -- |
-| [MISP-STIX-ESM](https://github.com/mohlcyber/MISP-STIX-ESM) | Exports MISP events to STIX and ingest into McAfee ESM | Not tested by MISP core team |
-| [Docker MISP](https://github.com/harvard-itsecurity/docker-misp) | Automated Docker MISP container | Not tested by MISP core team |
-| [misp42splunk](https://github.com/remg427/misp42splunk) | A Splunk app to use MISP in background and combine with TheHive | Not tested by MISP core team |
-| [getmispioc](https://github.com/xme/splunk/tree/master/getmispioc) | getiocmisp is a Splunk custom search command that helps to extract IOCs from a MISP instance. | Not tested by MISP core team |
-| [OTX MISP](https://github.com/gcrahay/otx_misp) | Imports Alienvault OTX pulses to a MISP instance | Not tested by MISP core team |
-| [BTG](https://github.com/conix-security/BTG) | BTG's purpose is to make fast and efficient search on IOC | Not tested by MISP core team |
-| [MISP OSINT Collection](https://github.com/adulau/misp-osint-collection) | Collection of best practices to add OSINT into MISP and/or MISP communities | Not tested by MISP core team |
-| [IBM XFE module](https://github.com/johestephan/XFE) | Various IBM X-Force Exchange modules | Not tested by MISP core team |
-| [MISP dockerized](https://github.com/DCSO/MISP-dockerized-misp-modules) | MISP dockerized is a project designed to provide an easy-to-use and easy-to-install'out of the box' MISP instance that includes everything you need to run MISP with minimal host-side requirements. | Not tested by MISP core team |
-| [MISP dockerized modules](https://github.com/DCSO/MISP-dockerized-misp-modules) | MISP-modules for MISP dockerized | Not tested by MISP core team |
-| [FireMISP](https://github.com/deralexxx/FireMISP) | FireEye Alert json files to MISP Malware information sharing plattform (Alpha) | Not tested by MISP core team |
-| [MISP Chrome Plugin](https://github.com/deralexxx/misp-chrome-plugin) | MISP Chrome plugin for adding and looking up indicators | Not tested by MISP core team |
-| [PySight2MISP](https://github.com/deralexxx/PySight2MISP) | PySight2MISP is a project that can be run to be used as glue between iSight intel API and MISP API | Not tested by MISP core team |
-| [tie2misp](https://github.com/DCSO/tie2misp) | Import DCSO TIE IOCs as MISP events | Not tested by MISP core team |
-| [security onion MISP](https://github.com/weslambert/securityonion-misp) | Grab NIDS rules and Bro Intel generated from a MISP instance and use them in Security Onion | Not tested by MISP core team |
-| [virustream](https://github.com/ntddk/virustream) | A script to track malware IOCs with OSINT on Twitter. | Not tested by MISP core team |
-| [LAC CSV Import](https://github.com/LAC-Japan/MISP-CSVImport) | Register MISP events based on information described in files such as CSV and TSV. | Not tested by MISP core team |
-| [The Hive](https://github.com/TheHive-Project/TheHive) | TheHive: a Scalable, Open Source and Free Security Incident Response Platform | Strong links between core team members, tested and known working |
-| [puppet-misp](https://github.com/voxpupuli/puppet-misp) | This module installs and configures MISP - [puppet forge site](https://forge.puppet.com/puppet/misp) | Not tested by MISP core team |
-| [Ansible MISP](https://github.com/StamusNetworks/ansible-misp) | Ansible playbook to install Malware Information Sharing Platform (MISP) | **unmaintained** |
-| [ansible MISP](https://github.com/juju4/ansible-MISP) | ansible role to setup MISP | Not tested by MISP core team |
-| [OpenDXL ATD MISP](https://github.com/mohlcyber/OpenDXL-ATD-MISP) | Automated threat intelligence collection with McAfee ATD, OpenDXL and MISP | Not tested by MISP core team |
-| [IMAP Proxy](https://github.com/CIRCL/IMAP-Proxy) | Modular IMAP proxy (including PyCIRCLeanMail and MISP forward modules) | Not tested by MISP core team |
-| [AutoMISP](https://github.com/da667/AutoMISP) | automate your MISP installs - This shell script is designed to automatically install [MISP](https://github.com/MISP/MISP) and the [misp-modules](https://github.com/MISP/misp-modules) extension on either Ubuntu 16.04, or 18.04. | Not tested by MISP core team |
-| [Palo Alto Networks report_to_misp](https://github.com/PaloAltoNetworks/report_to_misp) | Parse a report and import the events into MISP | Not tested by MISP core team |
-| [Palo Alto Networks minemeld-misp](https://github.com/PaloAltoNetworks/minemeld-misp) | MineMeld nodes for MISP | Not tested by MISP core team |
-| [golang-misp](https://github.com/0xrawsec/golang-misp) | Golang Library to interact with your MISP instance | Not tested by MISP core team |
-| [go-misp](https://github.com/Zenithar/go-misp) | Golang MISP [API Client](http://zenithar.org/go/misp) | Not tested by MISP core team |
-| [MISP MAR](https://github.com/mohlcyber/MISP-MAR) | Integration between MISP platform and McAfee Active Response | Not tested by MISP core team |
-| [MISP IoC Validator](https://github.com/tom8941/MISP-IOC-Validator) | Validate IOC from MISP ; Export results and iocs to SIEM and sensors using syslog and CEF format | Not tested by MISP core team |
-| [vt2misp](https://github.com/eCrimeLabs/vt2misp) | Script to fetch data from virustotal and add it to a specific event as an object | Not tested by MISP core team |
-| [Threat Pinch Lookup](https://github.com/cloudtracer/ThreatPinchLookup) | Documentation and Sharing Repository for ThreatPinch Lookup Chrome & Firefox [Extension](https://chrome.google.com/webstore/detail/threatpinch-lookup/ljdgplocfnmnofbhpkjclbefmjoikgke) | Not tested by MISP core team |
-| [dovehawk](https://github.com/tylabs/dovehawk) | Dovehawk is a Bro module that automatically imports MISP indicators and reports Sightings | Not tested by MISP core team |
-| [yara-exporter](https://github.com/CERT-Bund/yara-exporter) | Exporting MISP event attributes to yara rules usable with Thor apt scanner | Not tested by MISP core team |
-| [volatility-misp](https://github.com/CIRCL/volatility-misp) | Volatility plugin to interface with MISP | Not tested by MISP core team |
-| [misp2bro](https://github.com/thnyheim/misp2bro) | Python script that gets IOC from MISP and converts it into BRO intel files. | Not tested by MISP core team |
-| [TA-misp](https://github.com/stricaud/TA-misp) | Splunk integration with MISP | Not tested by MISP core team |
-| [Tinycheck](https://github.com/KasperskyLab/TinyCheck) | TinyCheck integration with MISP | Not tested by MISP core team |
-| [MISP QRadar](https://github.com/karthikkbala/MISP-QRadar-Integration) | The Project can used to integrate QRadar with MISP Threat Sharing Platform | Not tested by MISP core team |
-| [pymisp-suricata_search](https://github.com/raw-data/pymisp-suricata_search) | Multi-threaded suricata search module for MISP | Not tested by MISP core team |
-| [MISP-ThreatExchange](https://github.com/EC-DIGIT-CSIRC/MISP-ThreatExchange) | Script to interface MISP with Facebook ThreatExchange | Not tested by MISP core team |
-| [aptc](https://github.com/jymcheong/aptc) | [Automated Payload Test Controller](https://jymcheong.github.io/aptc/) | Not tested by MISP core team |
-| [aptmap](https://github.com/3c7/aptmap) | A [map](https://aptmap.netlify.com) displaying threat actors from the [misp-galaxy](https://github.com/MISP/misp-galaxy) | Not tested by MISP core team |
-| [mispy](https://github.com/nbareil/mispy) | Another MISP module for Python | Not tested by MISP core team |
-| [MispSharp](https://github.com/DBHeise/MispSharp) | C# Library for MISP | Not tested by MISP core team |
-| [misp_btc](https://github.com/rommelfs/misp_btc) | get BTC addresses from MISP and fetch BTC transactions | Tested by MISP core team |
-| [Privacy Aware Sharing of IoCs in MISP](https://github.com/charly077/MISP-privacy-aware-sharing-master-thesis) | [Master Thesis](https://github.com/charly077/MISP-privacy-aware-sharing-master-thesis/blob/master/report/report.pdf) including MISP data. | Master thesis |
-| [sam-bot ](https://github.com/IRATEAU/sam-bot) | Bot to create MISP events from data in Slack | Not tested by MISP core team |
-| [Polarity.io Connector](https://github.com/polarityio/misp) | "Polarity is the memory augmentation platform that makes your team smarter" | Not tested by MISP core team |
+:::
 
-<!--
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
-| []() |  | Not tested by MISP core team |
--->
+For companion definitions, the files on disk, imported database entries and enabled state are
+separate. Follow the relevant [data-model](../categories-and-types/index.qmd#types-reference-source)
+and [update](../updating-python/index.qmd#python-deployment) guidance. Normal book rendering does not fetch the
+latest content or connect to an instance.
 
-# Appendix E: Other Threat Intel Ressources
+## Third-party integrations {#appendix-d-third-party-development}
 
-A brief list of online ressources that around #ThreatIntel
+Choose an integration for a specific input, output and workflow. The
+[MISP tools directory](https://www.misp-project.org/tools/) and the product/provider's current
+documentation are better discovery points than an unversioned historical list of connectors.
+For deployment, use the maintained release process of the chosen tool and verify its MISP
+server/client requirements.
 
-* [A curated list of awesome malware analysis tools and resources](https://github.com/rshipp/awesome-malware-analysis/blob/master/README.md). Inspired by [awesome-python](https://github.com/vinta/awesome-python) and [awesome-php](https://github.com/ziadoz/awesome-php).
-* [An authoritative list of awesome devsecops tools with the help from community experiments and contributions](https://github.com/devsecops/awesome-devsecops/blob/master/README.md).[DEV.SEC.OPS](http://devsecops.org)
-* [Advance Python IoC extractor](https://github.com/InQuest/python-iocextract)
+::: {.table-responsive}
 
-# Appendix F: LDAP Authentication
+| Integration class | Check before enabling it |
+|---|---|
+| SIEM, IDS and detection tooling | Search/export scope, format support, pagination/checkpoints, update/delete behaviour and downstream interpretation of IDS flags. |
+| Case management and response | Ownership, observation/report mapping, relationship direction, retries and which actions change records in either system. |
+| Enrichment, sample analysis and lookup | Which data leaves the instance, provider credentials/terms, cached versus live results and provenance of returned claims. |
+| Deployment or configuration management | Supported branch/runtime, dependency pins, upgrades, secrets, jobs and a tested restore procedure. |
 
-MISP can authenticate users against an LDAP server through the shipped **`LdapAuth`** plugin
-(`app/Plugin/LdapAuth`). When enabled, a user logs in on the normal MISP login form with their
-LDAP credentials; if the account does not yet exist in MISP it is created on first login. The
-authoritative option reference is the plugin's own
-[README](https://github.com/MISP/MISP/blob/2.5/app/Plugin/LdapAuth/README.md); the summary below
-covers the essentials.
+:::
 
-#### Prerequisites
+Run a bounded test with reserved values and a suitably scoped key, then inspect the saved
+records and delivery result. A successful HTTP response or a connector's presence in a list is
+not an end-to-end validation. Older integration claims such as “tested by the core team” do
+not establish current 3.0 compatibility. See
+[External Connectors](../connectors/index.qmd#connectors-mechanisms) and
+[Automation & API](../automation/index.qmd#api-reference).
 
-Install the PHP LDAP extension:
+## Threat-intelligence resources {#appendix-e-other-threat-intel-ressources}
 
-```bash
-# RHEL / CentOS / Fedora
-sudo dnf install php-ldap
-# Debian / Ubuntu
-sudo apt install php-ldap
-```
+Use external resources for a defined research question and preserve the source, date and
+uncertainty of any result you bring into MISP. Public availability is separate from reliability,
+licensing and the authority to redistribute information.
 
-#### Configuration
+- [MISP threat-intelligence best practices](https://www.misp-project.org/best-practices-in-threat-intelligence.html)
+  for collection, analysis and community sharing.
+- [MISP taxonomy catalogue](https://www.misp-project.org/taxonomies.html) and
+  [galaxy catalogue](https://www.misp-project.org/galaxy.html) for machine-readable vocabularies
+  and knowledge collections; verify the versions installed locally.
+- [Awesome Malware Analysis](https://github.com/rshipp/awesome-malware-analysis) for discovering
+  analysis tools and reading material. Evaluate the current project and handling requirements
+  before executing tools or submitting samples.
+- [python-iocextract](https://github.com/InQuest/python-iocextract) for extracting candidate
+  observables from text. Extraction is not validation of maliciousness, context or detection value.
 
-LDAP is configured entirely in `app/Config/config.php`, in **two** parts. Both are required — the
-second is the step most commonly missed, and without it LDAP is simply never used.
+## LDAP authentication {#appendix-f-ldap-authentication}
 
-**1. Add the `LdapAuth` settings block** with your server details and a reader account used to
-search the directory:
+<a id="configuration"></a>
+<a id="prerequisites"></a>
+<a id="tls-ldaps"></a>
+
+### Configure the directory and authenticator {#appendix-ldap-setup}
+
+The shipped [LdapAuth implementation](https://github.com/MISP/MISP/blob/3.0_wip/app/Plugin/LdapAuth/Controller/Component/Auth/LdapAuthenticate.php)
+uses the PHP LDAP extension in the **application runtime**. Install it through the deployment's
+supported package/image process and verify both web and console runtimes. The plugin's
+[README](https://github.com/MISP/MISP/blob/3.0_wip/app/Plugin/LdapAuth/README.md) provides the broader
+option reference; use the checked-out implementation to resolve any difference.
+
+Merge the following fragments into the deployment-managed configuration. Supply
+`$directoryOrgId` and `$directoryRoleId` from the intended existing MISP organisation and role;
+no numeric role ID has a universal privilege meaning. Replace the reader-secret placeholder
+through the deployment's secret-management process.
 
 ```php
 'LdapAuth' => [
-    'ldapServer'         => 'ldap://ldap.example.com',
-    'ldapDn'             => 'dc=example,dc=com',
-    'ldapReaderUser'     => 'cn=reader,dc=example,dc=com',
-    'ldapReaderPassword' => 'password',
-    'ldapSearchFilter'   => '(objectClass=inetOrgPerson)',
-    'ldapSearchAttribute'=> 'mail',
-    'ldapEmailField'     => ['mail'],
-    'ldapDefaultOrg'     => 1,
-    'ldapDefaultRoleId'  => 3,
-    'updateUser'         => true,
+    'ldapServer' => 'ldaps://ldap.example.org:636',
+    'ldapDn' => 'ou=People,dc=example,dc=org',
+    'ldapReaderUser' => 'cn=misp-reader,ou=Services,dc=example,dc=org',
+    'ldapReaderPassword' => '<reader-secret-from-your-deployment>',
+    'ldapSearchFilter' => '(objectClass=inetOrgPerson)',
+    'ldapSearchAttribute' => 'mail',
+    'ldapEmailField' => ['mail'],
+    'ldapNetworkTimeout' => 10,
+    'ldapDefaultOrgId' => $directoryOrgId,
+    'ldapDefaultRoleId' => $directoryRoleId,
+    'mixedAuth' => false,
+    'updateUser' => true,
 ],
 ```
 
-**2. Enable the plugin** by adding it to the `Security.auth` array — this is what actually turns
-LDAP on:
+Also include the handler in `Security.auth`:
 
 ```php
 'Security' => [
-    // ... your existing Security settings ...
-    'auth' => [
-        0 => 'LdapAuth.Ldap',
-    ],
+    // Merge with the deployment's other Security settings.
+    'auth' => ['LdapAuth.Ldap'],
+    'auth_enforced' => true,
 ],
 ```
 
-::: {.callout-important}
-Configuring the `LdapAuth` block alone does **not** enable LDAP. You must also add
-`'LdapAuth.Ldap'` to `Security.auth`. If you skip this step, LDAP login silently does nothing.
+A `LdapAuth` block alone does not select the handler. **`Security.auth_enforced`** removes the
+built-in local Form authenticator; **`LdapAuth.mixedAuth`** controls the LDAP plugin's own local
+fallback when a submitted user is absent from the directory. Setting only one does not express
+the whole login policy. Verify an out-of-band administrative recovery path and the intended
+browser/API/MFA behaviour before enforcing directory-only access.
+
+The organisation default is **`ldapDefaultOrgId`**, not the historical `ldapDefaultOrg` spelling.
+Keep certificate verification and a correct CA/hostname in place for LDAPS or configured StartTLS;
+changing to plaintext is not a TLS diagnosis.
+
+<a id="key-settings"></a>
+<a id="mapping-ldap-groups-to-misp-roles"></a>
+<a id="migrating-existing-user-to-ldap"></a>
+<a id="migrating-existing-users-to-ldap"></a>
+
+### Resolve identity, organisation and role {#appendix-ldap-mapping}
+
+`ldapSearchAttribute` selects the login identifier. `ldapEmailField` supplies the value used to
+find/link the MISP account; fields are tried in order and attribute names are matched without
+case sensitivity. `dn` is a special full-DN value, not its first character. Choose a unique,
+stable value. Changing it can create a second account while leaving the original account and
+its keys in place; there is no immutable LDAP identity link that automatically merges them.
+
+::: {.table-responsive}
+
+| Option | Current resolution rule |
+|---|---|
+| `ldapOrgField`{.text-wrap .text-break} | Read an organisation ID/name from the entry, resolving it against existing MISP organisations. |
+| `ldapOrgGroupMapping`{.text-wrap .text-break} | Map memberships to existing organisations; used after the attribute path when both are configured. Mapping order decides precedence among matching groups. |
+| `ldapDefaultOrgId`{.text-wrap .text-break} | Used when neither directory organisation mechanism is configured. A configured mapping that cannot resolve does not silently use this default. |
+| `ldapRoleField`{.text-wrap .text-break} | Read a role ID/name from the entry, resolving it against existing MISP roles. |
+| `ldapRoleGroupMapping`{.text-wrap .text-break} | Map memberships to roles after the attribute path; mapping order decides precedence. |
+| `ldapDefaultRoleId`{.text-wrap .text-break} | Scalar fallback when no role mapping is configured. The legacy array form remains a group map, with directory membership order rather than the new map's precedence. The explicit new map takes priority when both are supplied. |
+| `updateUser`{.text-wrap .text-break} | With `true`{.text-wrap .text-break}, refresh an existing account's organisation/role on login. With `false`{.text-wrap .text-break}, an existing account skips that provisioning refresh. |
+
 :::
 
-#### Key settings
-
-The plugin exposes many options; the most important are:
-
-| Setting | Purpose | Default |
-|---|---|---|
-| `ldapServer` | LDAP server URI (`ldap://host:port` or `ldaps://…`) | — |
-| `ldapDn` | Search-base DN containing your users | — |
-| `ldapReaderUser` / `ldapReaderPassword` | Bind account used to search the directory | — |
-| `ldapSearchFilter` | Filter used to locate the user entry | — |
-| `ldapSearchAttribute` | Attribute matched against the login identifier | `mail` |
-| `ldapEmailField` | Attribute(s) holding the user's e-mail | `['mail']` |
-| `ldapDefaultOrg` | Organisation ID assigned to newly created LDAP users | — |
-| `ldapDefaultRoleId` | Default role ID, or a group→role mapping (see below) | `3` |
-| `updateUser` | Refresh a user's e-mail and role from LDAP on each login | `true` |
-| `mixedAuth` | Allow both LDAP and local (MISP password) authentication | `true` |
-| `starttls` | Use StartTLS for a secure connection | `false` |
-| `ldapNetworkTimeout` | Connection timeout in seconds (`-1` = none) | `-1` |
-| `ldapProtocol` | LDAP protocol version | `3` |
-
-#### Mapping LDAP groups to MISP roles
-
-`ldapDefaultRoleId` can be a single role ID, or an array mapping an LDAP group to a MISP role ID,
-so group membership drives the assigned role:
+For example, directory membership can resolve both the organisation and role without assigning
+an arbitrary default. The example names must match the intended local records:
 
 ```php
-'ldapDefaultRoleId' => [
-    'misp_admin'     => 1,
-    'misp_orgadmin'  => 2,
-    'misp_user'      => 3,
-    'misp_publisher' => 4,
-    'misp_syncuser'  => 5,
-    'misp_readonly'  => 6,
+'ldapUseMemberOf' => true,
+'ldapOrgGroupMapping' => [
+    'CN=MISP-Research,OU=Groups,DC=example,DC=org' => 'Example Research',
+],
+'ldapRoleGroupMapping' => [
+    'CN=MISP-Readers,OU=Groups,DC=example,DC=org' => 'Read Only',
 ],
 ```
 
-For **Microsoft Active Directory**, set `ldapUseMemberOf => true` to resolve group membership from
-the user's `memberOf` attribute; when you do, the keys in the mapping above must be the full group
-DN (for example `CN=MISP Admins,OU=Groups,DC=example,DC=com`) rather than the short group name.
+With `ldapUseMemberOf`, mapping keys are full group DNs. Without it, the normal group lookup
+returns group CNs. `ldapNestedGroups` uses Active Directory's matching-rule-in-chain OID; it is
+AD-specific, not a generic recursive lookup for every LDAP server. Test membership, precedence,
+missing attributes and unmapped users before relying on the resulting access scope.
 
-#### TLS / LDAPS
+`ldapCheckUserAccountControl` optionally checks the AD ACCOUNTDISABLE bit. Without that option,
+a directory entry's presence is not the same as a check of that AD disabled flag. Missing
+organisation/role mappings, a disabled directory account and a local MISP disabled account are
+different states; inspect the actual refusal and saved account state.
 
-For encrypted connections use an `ldaps://` URI or enable `starttls`. A set of
-`ldapTls*` options (`ldapTlsRequireCert`, `ldapTlsCustomCaCert`, `ldapTlsCrlCheck`,
-`ldapTlsProtocolMin`) map to the corresponding PHP `LDAP_OPT_X_TLS_*` constants for cases where you
-need a custom CA or to relax certificate checking during testing — see the plugin README for the
-full list.
+### Use a trusted front-end LDAP assertion {#appendix-ldap-header}
 
-#### Diagnostics
+The 3.0 plugin also supports `ldapHeaderAuth`, `ldapHeaderAuthHeader` and
+`ldapHeaderAuthTrustedProxies`. This path accepts an identity asserted by a front end such as
+an authenticating Apache, then queries the directory and applies the same account-mapping rules.
+It does not authenticate an arbitrary header as a standalone MISP API key.
 
-The plugin ships a standalone test script that reads your `LdapAuth` configuration and walks
-through a bind and a user search, which is the fastest way to debug a connection:
+The trusted-proxy list supports exact addresses and IPv4/IPv6 CIDRs. It checks the direct
+`REMOTE_ADDR`, not a forwarded client-IP header. An empty list or untrusted peer does not trust
+the assertion and leaves the normal login path available. A trusted asserted identity must be
+found in LDAP; this path has no `mixedAuth` fallback to a local account. Strip untrusted identity
+headers at the edge and prevent direct clients from reaching the trusted backend path.
+
+These controls are **different from CustomAuth's** single calculated-source-IP comparison and
+header namespace rules. Follow the mechanism actually enabled on the instance.
+
+<a id="caveats"></a>
+
+### Reconcile accounts outside a login {#appendix-ldap-lifecycle}
+
+MISP 3.0 supports LDAP in **`User check_validity`** as well as OIDC. Start with the console help
+and a scoped report-only check before considering updates or disabling accounts:
 
 ```bash
-php app/Plugin/LdapAuth/Controller/Component/Auth/TestLdapAuth.php
+sudo -u www-data /var/www/MISP/app/Console/cake User check_validity --help
 ```
 
-You can also inspect `app/tmp/logs/error.log` for the raw error responses from the LDAP server. A
-good troubleshooting order is: set `debug => true`, start with `starttls => false`, and if you hit
-`LDAP user search failed: Operations error`, set `ldapAllowReferrals => 0`.
+The command's `--update` option can refresh organisation/role when `updateUser` permits it;
+`--block_invalid` additionally disables invalid accounts. The LDAP implementation protects site
+administrators from automatic disabling/movement, skips already disabled users, and does not
+re-enable them as a reconciliation side effect. With `mixedAuth` enabled, an account absent
+from LDAP is left alone because it may be a legitimate local account. A failed reader bind
+aborts rather than judging every account absent. If both OIDC and LDAP handlers are configured,
+the command selects OIDC.
 
-<a id="migrating-existing-user-to-ldap"></a>
+The recurring-task UI exposes separate **report only** and **disable invalid users** actions.
+The latter includes update/blocking behaviour; it is an operational change. The scheduler must
+be running, and results should be reviewed in the task/job logs. This is not an automatic
+revocation guarantee for every existing session, API key or external system. Include those
+credentials and retained accounts in the organisation's offboarding process.
 
-#### Migrating existing users to LDAP
+<a id="diagnostics"></a>
 
-LDAP and MISP users are paired by e-mail address. When you enable LDAP and an LDAP user logs in,
-an existing MISP user with the same e-mail address is found and linked to the LDAP identity, so
-existing accounts are preserved.
+### Diagnose the relevant layer {#appendix-ldap-diagnostics}
 
-#### Caveats
+Check, in order: the active handler and login policy; application-runtime DNS/TLS and reader
+bind; search base/filter and returned identity fields; organisation/role/group mapping; then
+MISP disabled state, MFA and session/API behaviour. Use finite connection timeouts and test
+wrong credentials, missing mappings and removed/disabled users as well as successful logins.
 
-* A user disabled in LDAP (or removed from the required group) is not disabled in MISP
-  automatically — the block takes effect the next time they try to log in.
-* With `mixedAuth` enabled (the default) both LDAP and local MISP authentication are accepted; set
-  it to `false` to force LDAP only.
-* The `Security.require_password_confirmation` setting does not apply to LDAP authentication.
+The shipped standalone `TestLdapAuth.php` diagnostic **prints configuration including the reader
+password**. Keep its output private; it is not a safe file to attach unchanged to an issue.
+The branch also includes [LDAP integration tests](https://github.com/MISP/MISP/tree/3.0_wip/tests/ldapauth)
+that require a real test directory and MISP instance, can alter configuration and provision
+accounts, and describe their fixture cleanup. Run those in an isolated environment, not against
+an operational directory as a connectivity probe.
 
-#### Other external authentication plugins
+## Background jobs and recurring tasks {#appendix-g-simplebackgroundjobs-migration-guide}
 
-`LdapAuth` is one of several external authentication plugins shipped with MISP. Each is enabled the
-same way — configured in `app/Config/config.php` and added to `Security.auth` — and each has its own
-README under `app/Plugin/`:
+<a id="install-requirements"></a>
+<a id="misp-config"></a>
 
-* **OidcAuth** — [OpenID Connect](https://github.com/MISP/MISP/blob/2.5/app/Plugin/OidcAuth/README.md)
-  (e.g. Keycloak, generic OIDC identity providers).
-* **AadAuth** — [Microsoft Entra ID / Azure Active Directory](https://github.com/MISP/MISP/blob/2.5/app/Plugin/AadAuth/README.md).
-* **ShibbAuth** — Apache Shibboleth / SAML via an Apache module.
-* **CertAuth** — client-certificate (X.509) authentication.
-* **LinOTPAuth** — [LinOTP](https://github.com/MISP/MISP/blob/2.5/app/Plugin/LinOTPAuth/README.md)
-  one-time-password authentication (do not combine with MISP's built-in TOTP).
+### Use the current backend {#appendix-jobs-backend}
 
-Choose at most one primary identity source for a given deployment, and consult the relevant
-plugin README for its exact option list.
+MISP 3.0 uses **SimpleBackgroundJobs**, Redis and Supervisor. Install the release's locked
+runtime/dependencies through the deployment process. Adding packages with `composer require`
+in an existing application or following a CakeResque migration recipe is not the current
+installation procedure. `MISP.background_jobs` controls background execution; there is no
+`SimpleBackgroundJobs.enabled` switch in this branch's settings.
 
-# Appendix G: SimpleBackgroundJobs Migration guide
-Since **MISP 2.5**, background jobs are handled by **SimpleBackgroundJobs**, a simpler system that no longer relies on the unmaintained CakeResque library. SimpleBackgroundJobs is now the default (and only) background-job backend — CakeResque has been removed.
+Inspect **Administration → Server Settings & Maintenance → Background jobs**. Configure the
+job Redis host, database/namespace and authentication separately from other Redis uses. Configure
+the Supervisor endpoint and credentials to match the actual process manager. The source supports
+HTTP XML-RPC or a Unix socket via `SimpleBackgroundJobs.supervisor_host` such as
+`unix:/run/supervisor.sock`, with the required cURL support and socket permissions. Reuse the
+deployment's supported endpoint rather than exposing a new unauthenticated management port.
 
-The backend requires [Supervisor](http://supervisord.org/) and some extra PHP packages. On a fresh 2.5 install these are set up for you by the installer scripts (the required packages are already declared in MISP's `composer.json`); the steps below are mainly relevant when migrating an older instance.
+![The actual background-job settings and status page. The capture instance leaves background execution disabled.](figures/misp3-background-jobs.png)
 
-**This guide is intended for Ubuntu/Debian systems**
+### Distinguish queue workers from the scheduler {#appendix-jobs-workers}
 
-## Install requirements
-Run on your MISP instance the following commands.
+The ordinary queues are **`default`**, **`email`**, **`cache`**, **`prio`** and **`update`**.
+Their workers run `cake start_worker QUEUE`. The task scheduler is a different process:
+**`cake scheduler_worker`** discovers due recurring tasks and queues their work. Merely launching
+`start_worker scheduler` does not substitute for that polling process.
 
-1. Install **Supervisord**:
-    ```
-    sudo apt install supervisor -y
-    ```
+A Supervisor deployment needs the matching programs in the group MISP manages, normally
+`misp-workers`. The following shows the two process types, **not a complete worker-pool
+configuration**. The other ordinary queues need their own program sections and capacity:
 
+```ini
+[group:misp-workers]
+programs=default,scheduler
 
-2. Install required PHP packages:
-    ```
-    cd /var/www/MISP/app
-    sudo -u www-data php composer.phar require --with-all-dependencies supervisorphp/supervisor:^4.0 \
-        guzzlehttp/guzzle \
-        php-http/message  \
-        lstrojny/fxmlrpc
+[program:default]
+directory=/var/www/MISP
+command=/var/www/MISP/app/Console/cake start_worker default
+user=www-data
+numprocs=1
+process_name=%(program_name)s_%(process_num)02d
+autostart=true
+autorestart=true
 
-    ```
+[program:scheduler]
+directory=/var/www/MISP
+command=/var/www/MISP/app/Console/cake scheduler_worker
+user=www-data
+numprocs=1
+process_name=%(program_name)s_%(process_num)02d
+autostart=true
+autorestart=true
+```
 
-3. Add the following settings at the bottom of the **Supervisord** conf file, usually located in:
+Adapt paths, service identity, logging/rotation and concurrency to the deployment. Check the
+actual release's installation template and command help; a copied service file can lag the
+worker implementation. Run only the intended scheduler/pool, and review pending/in-flight jobs
+before replacing older services. Verify the new processes and job outcomes before retiring the
+old ones; queue flushing is destructive, not a normal migration step.
 
-    `/etc/supervisor/supervisord.conf`
-    ```
-    [inet_http_server]
-    port=127.0.0.1:9001
-    username=supervisor
-    password=PWD_CHANGE_ME
-    ```
+<a id="notes"></a>
 
-4. Use the following configuration as a template for the services, usually located in:
+### Inspect jobs and recurring tasks {#appendix-jobs-checks}
 
-    `/etc/supervisor/conf.d/misp-workers.conf`
-    ```
-    [group:misp-workers]
-    programs=default,email,cache,prio,update
+Read-only starting points are:
 
-    [program:default]
-    directory=/var/www/MISP
-    command=/var/www/MISP/app/Console/cake start_worker default
-    process_name=%(program_name)s_%(process_num)02d
-    numprocs=5
-    autostart=true
-    autorestart=true
-    redirect_stderr=false
-    stderr_logfile=/var/www/MISP/app/tmp/logs/misp-workers-errors.log
-    stdout_logfile=/var/www/MISP/app/tmp/logs/misp-workers.log
-    directory=/var/www/MISP
-    user=www-data
+```bash
+sudo -u www-data /var/www/MISP/app/Console/cake Worker status
+sudo -u www-data /var/www/MISP/app/Console/cake Worker showQueues
+sudo -u www-data /var/www/MISP/app/Console/cake start_worker --help
+sudo -u www-data /var/www/MISP/app/Console/cake scheduler_worker --help
+```
 
-    [program:prio]
-    directory=/var/www/MISP
-    command=/var/www/MISP/app/Console/cake start_worker prio
-    process_name=%(program_name)s_%(process_num)02d
-    numprocs=5
-    autostart=true
-    autorestart=true
-    redirect_stderr=false
-    stderr_logfile=/var/www/MISP/app/tmp/logs/misp-workers-errors.log
-    stdout_logfile=/var/www/MISP/app/tmp/logs/misp-workers.log
-    directory=/var/www/MISP
-    user=www-data
+Use `Worker showJobStatus` with the actual SQL job ID or process UUID. `Worker restart` and
+`Worker restartDead` change process state; check their help and scope first. Supervisor's
+reported process state, Redis reachability, a waiting queue and a completed job answer different
+questions. Inspect each when diagnosing a stalled operation.
 
-    [program:email]
-    directory=/var/www/MISP
-    command=/var/www/MISP/app/Console/cake start_worker email
-    process_name=%(program_name)s_%(process_num)02d
-    numprocs=5
-    autostart=true
-    autorestart=true
-    redirect_stderr=false
-    stderr_logfile=/var/www/MISP/app/tmp/logs/misp-workers-errors.log
-    stdout_logfile=/var/www/MISP/app/tmp/logs/misp-workers.log
-    directory=/var/www/MISP
-    user=www-data
+**Recurring tasks are supported** in this branch at `/tasks/index`. The UI defines an interval,
+next execution, action and execution user. Review that user's permissions and the distinction
+between a report-only task and an action that updates, imports, disables users or pushes data.
+A saved schedule does not prove the scheduler ran or its queued job succeeded.
 
-    [program:update]
-    directory=/var/www/MISP
-    command=/var/www/MISP/app/Console/cake start_worker update
-    process_name=%(program_name)s_%(process_num)02d
-    numprocs=1
-    autostart=true
-    autorestart=true
-    redirect_stderr=false
-    stderr_logfile=/var/www/MISP/app/tmp/logs/misp-workers-errors.log
-    stdout_logfile=/var/www/MISP/app/tmp/logs/misp-workers.log
-    directory=/var/www/MISP
-    user=www-data
+![The scheduler dispatches due tasks; a separate worker performs the queued action and records its result.](figures/recurring-task-execution.svg)
 
-    [program:cache]
-    directory=/var/www/MISP
-    command=/var/www/MISP/app/Console/cake start_worker cache
-    process_name=%(program_name)s_%(process_num)02d
-    numprocs=5
-    autostart=true
-    autorestart=true
-    redirect_stderr=false
-    stderr_logfile=/var/www/MISP/app/tmp/logs/misp-workers-errors.log
-    stdout_logfile=/var/www/MISP/app/tmp/logs/misp-workers.log
-    user=www-data
-    ```
+![The current scheduled-task form, shown as a disabled unsaved draft with no task created.](figures/misp3-recurring-task.png)
 
-5. Restart **Supervisord** to load the changes:
-    ```
-    sudo service supervisor restart
-    ```
-
-6. Check **Supervisord** workers are running:
-    ```
-    $ sudo supervisorctl status
-    misp-workers:cache_00            RUNNING   pid 1673228, uptime 1:37:54
-    misp-workers:cache_01            RUNNING   pid 1673225, uptime 1:37:54
-    misp-workers:cache_02            RUNNING   pid 1673375, uptime 1:37:53
-    misp-workers:cache_03            RUNNING   pid 1673398, uptime 1:37:52
-    misp-workers:cache_04            RUNNING   pid 1673303, uptime 1:37:53
-    misp-workers:default_00          RUNNING   pid 1673222, uptime 1:37:54
-    misp-workers:default_01          RUNNING   pid 1673385, uptime 1:37:52
-    misp-workers:default_02          RUNNING   pid 1673391, uptime 1:37:52
-    misp-workers:default_03          RUNNING   pid 1673223, uptime 1:37:54
-    misp-workers:default_04          RUNNING   pid 1673393, uptime 1:37:52
-    misp-workers:email_00            RUNNING   pid 1673394, uptime 1:37:52
-    misp-workers:email_01            RUNNING   pid 1673312, uptime 1:37:53
-    misp-workers:email_02            RUNNING   pid 1673224, uptime 1:37:54
-    misp-workers:email_03            RUNNING   pid 1673227, uptime 1:37:54
-    misp-workers:email_04            RUNNING   pid 1673333, uptime 1:37:53
-    misp-workers:prio_00             RUNNING   pid 1673279, uptime 1:37:54
-    misp-workers:prio_01             RUNNING   pid 1673304, uptime 1:37:53
-    misp-workers:prio_02             RUNNING   pid 1673305, uptime 1:37:53
-    misp-workers:prio_03             RUNNING   pid 1673232, uptime 1:37:54
-    misp-workers:prio_04             RUNNING   pid 1673319, uptime 1:37:53
-    misp-workers:update_00           RUNNING   pid 1673327, uptime 1:37:53
-    ```
-
-## MISP Config
-1. Go to your **MISP** instances `Server Settings & Maintenance` page, and then to the new **SimpleBackgroundJobs** tab.
-
-2. Update the `SimpleBackgroundJobs.supervisor_password` with the password you set in the _Install requirements_ section 3.
-
-3. Verify Redis and other settings are correct and then set `SimpleBackgroundJobs.enabled` to `true`.
-
-4. Use **MISP** normally and visit **Administration -> Jobs** (`/jobs/index` on your instance) to check Jobs are running correctly. 
-    If there are any issues check the logs:
-    * /var/www/MISP/app/tmp/logs/misp-workers-errors.log
-    * /var/www/MISP/app/tmp/logs/misp-workers.log
-
-5. Once the new workers are functioning as expected, you can remove the previous workers service:
-    ```bash
-    $ sudo systemctl stop --now misp-workers
-    $ sudo systemctl disable --now misp-workers
-    ```
-
-### Notes
-Scheduled tasks (TasksController) are not supported with the new backend, however this feature is going to be deprecated, it is recommended to use cron jobs instead.
+See [background jobs](../administration/index.qmd#admin-background-jobs),
+[recurring tasks](../administration/index.qmd#admin-scheduled-tasks) and
+[workflows](../workflows/index.qmd#workflow-hub) for operational procedures. Workflow triggers,
+recurring tasks and an external cron/orchestration system are distinct mechanisms.
