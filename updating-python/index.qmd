@@ -12,7 +12,7 @@ These features include the import and export tools, binary extraction from attac
 
 MISP uses virtual environments to make Python installation and maintenance easier.
 
-If you use the [installation scripts](https://github.com/MISP/MISP/tree/2.5/INSTALL) to set up MISP on your machine, or start from the automatically generated [virtual machine](https://www.circl.lu/misp-images/latest/), you already have the latest required Python libraries installed in a virtual environment.
+If you use the [installation scripts](https://github.com/MISP/MISP/tree/2.5/INSTALL) to set up MISP on your machine, you already have the latest required Python libraries installed in a virtual environment.
 
 If you are using an older MISP version, you may want to create the virtual environment manually.
 
@@ -106,7 +106,8 @@ Another set of dependencies you may want to update are MISP modules.
 
 MISP modules have their own dependencies that need to be up-to-date as well as the modules scripts themselves.
 
-**Note that the following instructions consider your MISP modules are installed in the default path where we install them on our virtual machine or following the install script. Please change the path accordingly if needed.**
+The following instructions assume that MISP modules are installed in `/usr/local/src/misp-modules`.
+Change the path if your installation uses a different location.
 
 ~~~~bash
 # Change here the path if needed

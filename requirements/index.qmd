@@ -9,8 +9,7 @@ title: "Requirements"
 
 There are various ways you can run a MISP instance.
 
-- Virtualized with docker/ansible/packer etc
-- VMware/Virtualbox/Xen etc
+- Containers using [misp-docker](https://github.com/MISP/misp-docker)
 - Dedicated hardware
 - Road warrior setups
 - Air-gapped setups
