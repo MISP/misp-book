@@ -1,0 +1,6 @@
+# Append a regression chapter only in the smoke build. The normal book is unchanged.
+project:
+  output-dir: _book-pdf-smoke
+book:
+  chapters:
+    - assets/pdf/smoke.qmd

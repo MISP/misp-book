@@ -1,0 +1,36 @@
+---
+title: PDF regression checks
+---
+
+## Referenced callouts
+
+See @nte-layout-note and @fig-layout-example and @tbl-layout-example.
+
+::: {#nte-layout-note .callout-note title="A referenced note"}
+A referenced note with **important text**, `literal_code` and a [link](https://www.misp-project.org).
+:::
+
+::: {#wrn-layout-warning .callout-warning}
+A referenced warning. See @nte-layout-note.
+:::
+
+![Existing project logo](../misp-2-verti.png){#fig-layout-example width=24mm}
+
+| Example | Value |
+|:--|:--|
+| JSON with a quoted comma | `{"key":"part,one","tag":"example-tag"}` |
+| JSON with escaped quotes | `{"key":"a\"quoted\"value","tag":"test"}` |
+
+: Table cross-reference {#tbl-layout-example}
+
+## Highlighted code
+
+```{.python code-line-numbers="true"}
+def example():
+    # Preserve indentation and literal strings.
+    return {"url": "https://www.misp-project.org", "value": 42}
+```
+
+[A chapter-only link to Administration](../../administration/index.qmd).
+
+A final reference to @fig-layout-example, @tbl-layout-example and @wrn-layout-warning.

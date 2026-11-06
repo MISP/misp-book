@@ -1,0 +1,3 @@
+
+# Preserve the exact upstream font license bytes recorded in the manifest.
+assets/pdf/fonts/*LICENSE.md -text -whitespace
