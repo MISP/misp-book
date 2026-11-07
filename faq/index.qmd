@@ -11,8 +11,8 @@ A failed request is not by itself evidence that the database needs repair.
 
 ::: {.callout-note}
 Checked against MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
-Deployment paths, service names and optional integrations vary. The answers below replace
-older 2.4/2.5 recipes; a historical error message is not a current repair instruction.
+Deployment paths, service names and optional integrations vary.
+Use the procedures checked for MISP 3.0; a historical error message is not a current repair instruction.
 :::
 
 <!-- Source checks, synthetic fixture and capture provenance: ../assets/reference-faq-screenshots.json -->

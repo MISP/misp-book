@@ -15,8 +15,8 @@ its content is correct or malicious.
 
 ::: {.callout-note}
 This chapter follows MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
-development branch in light mode. Protected events also exist in MISP 2.5;
-peers must support the feature. Site-administrator and internal-sync trust paths have exceptions
+development branch in light mode.
+Peers must support protected events. Site-administrator and internal-sync trust paths have exceptions
 to ordinary signature checks, so this is not an end-to-end guarantee against every privileged
 recipient. Select a figure to enlarge it.
 :::

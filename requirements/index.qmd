@@ -18,16 +18,19 @@ Whilst there is never an ultimate answer to what specifications a system needs, 
 
 ## Software requirements
 
-MISP is a LAMP-stack application. The core software requirements for MISP 2.5 are:
+MISP is a LAMP-stack application.
+The main components for MISP **3.0** are:
 
-- **Operating system**: a current, supported Linux. The official installer scripts target **Ubuntu 24.04 LTS**, **Debian 12 / 13**, and **RHEL 9.4**.
+- **Operating system**: a current, supported Linux distribution covered by your chosen MISP 3.0 deployment instructions.
 - **PHP 8.x** (`>=8.1, <9.0`; the installers use **PHP 8.3**). The extensions `json`, `mbstring`, `xml`, `dom`, `simplexml`, `pcre` and `curl` are required, and `gd`, `openssl`, `redis`, `zip`, `intl`, `bcmath`, `ssdeep`, `zstd`, `brotli` and `apcu` are recommended.
 - **MariaDB** (or MySQL) for the main database — SSD-backed storage is strongly recommended (see [Database](#database)).
 - **Redis** — required for caching (feeds, warninglists, exports) and for the background-job system.
-- **Supervisor** — MISP 2.5 runs its background workers via **SimpleBackgroundJobs** on Supervisor (Redis-backed); the legacy CakeResque worker system has been removed.
-- **Python 3** with a virtualenv for PyMISP and the helper scripts (`pymisp==2.5.34.1` is the pinned/recommended version), plus optionally **misp-modules** for enrichment/import/export.
+- **Supervisor** — MISP 3.0 runs its Redis-backed **SimpleBackgroundJobs** workers under Supervisor.
+- **Python 3** with a virtual environment for PyMISP and helper scripts, using the selected revision's `requirements.txt`.
+  Install optional services such as **misp-modules** in their own environment for enrichment, import, and export.
 
-The web server (Apache or nginx) and the exact package list are handled by the installer scripts; see the [installation guides](https://misp.github.io/MISP/) for the per-OS specifics.
+Use the selected revision's [`app/composer.json`](https://github.com/MISP/MISP/blob/3.0_wip/app/composer.json), [`requirements.txt`](https://github.com/MISP/MISP/blob/3.0_wip/requirements.txt), and [installation instructions](https://github.com/MISP/MISP/tree/3.0_wip/INSTALL) for the exact dependencies, web-server configuration, and OS-specific steps.
+See [Updating Python Dependencies](../updating-python/index.qmd) for dependency management.
 
 ## The biggie
 

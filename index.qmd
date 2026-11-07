@@ -13,7 +13,7 @@ format:
 
 ::: {.content-visible when-format="html:js"}
 ::: {.guide-version}
-MISP 2.5 · User documentation
+MISP 3.0 · User documentation
 :::
 :::
 
@@ -23,7 +23,7 @@ This guide introduces MISP, the MISP Intelligence Sharing Platform — an open s
 
 It is intended for ICT professionals such as security analysts, incident responders, and malware reverse engineers who share threat intelligence with MISP or integrate MISP into other security monitoring tools.
 The guide covers day-to-day use of the MISP graphical user interface together with its automated interfaces (API) so that teams can integrate MISP into their security environment and operate one or more MISP instances.
-It is maintained against the current **MISP 2.5.x** release series; where behaviour differs from earlier versions this is called out in the relevant chapter.
+This guide documents **MISP 3.0**; version-specific examples identify the branch or source revision they use.
 
 ::: {.content-visible when-format="html:js"}
 ::: {.guide-links}

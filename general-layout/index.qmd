@@ -11,7 +11,7 @@ For a first hands-on exercise, follow the [Quick Start](../quick-start/index.qmd
 
 ::: {.callout-note}
 The screenshots show MISP **3.0.0** from the development branch [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), in light mode with fictional data.
-Your menus can differ with your role, enabled features, and theme; MISP 2.5 uses some different menu names and layouts.
+Your menus can differ with your role, enabled features, and theme.
 Select a screenshot to enlarge it in the website.
 :::
 

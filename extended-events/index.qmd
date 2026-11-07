@@ -11,7 +11,6 @@ Your event records the original event's UUID in `extends_uuid`. A combined view 
 
 ::: {.callout-note}
 The workflow and screenshots use the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch and fictional data.
-MISP 2.5 also supports extended events, but its controls and event layout differ.
 Select a screenshot to enlarge it.
 :::
 

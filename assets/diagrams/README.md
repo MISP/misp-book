@@ -78,7 +78,7 @@ AGPL-3.0-or-later / CC-BY-SA-4.0 licensing:
 | `event-anatomy.mmd` | `event-anatomy.tikz` | Labeled arrows show optional event/object contents. |
 | `references-and-correlation.mmd` | `object-references.tikz`, `correlation.tikz` | Solid arrows are explicit directed references; a dashed undirected line is a computed match. The examples are separate. |
 
-The chapter adapts the training's 2.5 explanation to the book's MISP 3.0 snapshot,
+The chapter adapts the training overview to the book's MISP 3.0 snapshot,
 `99ebee729702c560528f9788953719bda68aa1c1`. Value identity and Analyst Data target
 claims were checked against `MispAttribute.php`, `AttributeValue.php`,
 `AnalystData.php` and `Relationship.php`; reference/correlation caveats against

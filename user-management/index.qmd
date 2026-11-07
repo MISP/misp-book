@@ -11,7 +11,7 @@ Start with your own profile; creating other users and assigning roles are admini
 
 ::: {.callout-note}
 This chapter describes MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, using light mode.
-Open your account menu at the upper right and choose **My Profile**. Older MISP 2.5 instructions place this under **Global Actions**.
+Open your account menu at the upper right and choose **My Profile**.
 Available controls depend on your permissions and the instance's authentication configuration. Select a screenshot to enlarge it.
 :::
 
