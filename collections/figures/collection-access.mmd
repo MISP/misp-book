@@ -5,7 +5,5 @@ flowchart TB
   C -->|"Target access check"| E["Visible event<br/>Can be opened"]
   C -->|"Target access check"| P["Private event<br/>Remains restricted"]
   C -->|"Value reference"| V["SHA-256 address<br/>Text requires a visible attribute"]
-  classDef shared fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
-  classDef restricted fill:#fff4df,stroke:#91651c,color:#573d13;
-  class R,C,E shared;
-  class P,V restricted;
+  class R,C,E accent;
+  class P,V caution;

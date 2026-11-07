@@ -7,7 +7,5 @@ flowchart TB
   T -->|"Confirmed success"| C["Record progress<br/>Reconcile periodically"]
   T -->|"Failure / ambiguous response"| R["Keep saved progress<br/>Reconcile and retry idempotently"]
   R -. "Retry" .-> Q
-  classDef stage fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
-  classDef retry fill:#fff4df,stroke:#91651c,color:#573d13;
-  class Q,S,M,T,C stage;
-  class R retry;
+  class Q,S,M,T,C accent;
+  class R caution;

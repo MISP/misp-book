@@ -9,9 +9,6 @@ flowchart TB
   Q -->|"Request fails"| R["Keep previous checkpoint<br/>Retry with backoff"]
   P -->|"Processing fails"| R
   R -. "Restart from saved progress" .-> Q
-  classDef stage fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
-  classDef success fill:#edf6ef,stroke:#377448,color:#20482c;
-  classDef retry fill:#fff4df,stroke:#91651c,color:#573d13;
-  class S,Q,P,M stage;
+  class S,Q,P,M accent;
   class C success;
-  class R retry;
+  class R caution;

@@ -5,7 +5,5 @@ flowchart TB
   Z -->|"Trigger"| C["Trusted consumer queue"]
   R["REST queries and reconciliation<br/>API account's visibility"] -->|"Current authorised state"| C
   C --> T["Apply target changes by UUID<br/>Handle retries and removals"]
-  classDef stream fill:#fff4df,stroke:#91651c,color:#573d13;
-  classDef stage fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
-  class A,Z stream;
-  class R,C,T stage;
+  class A,Z caution;
+  class R,C,T accent;

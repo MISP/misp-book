@@ -5,6 +5,53 @@ committed so HTML, PDF and EPUB builds do not need a browser or a Mermaid downlo
 Each SVG includes a title, a description and native text labels. Arrows explicitly
 identify requests, data transfers or decisions; colour is supplementary.
 
+## Shared MISP theme
+
+[`theme.json`](theme.json) is the single source for the Mermaid palette, typography,
+spacing, semantic node classes and branded frame. It uses the book's teal
+(`#007f99`), navy ink (`#203344`) and pale neutral surfaces. Rounded nodes, restrained
+borders and clear connector labels provide a consistent style. Amber and green
+remain available for caution and success; the wording and arrows carry the meaning.
+
+Every rendered diagram receives the MISP logo at the top left, above a separator
+and outside the graph's bounds. The white canvas keeps text and the unmodified
+logo readable in the website's light/dark modes and in PDF/ePub. The logo is embedded
+as vector paths in every SVG, so no remote image, raster fallback or brand font is
+required. It is decorative; the diagram retains its own accessible title/description.
+
+The [`misp-logo.svg`](misp-logo.svg) artwork is copied unchanged from
+[MISP/misp-modules](https://github.com/MISP/misp-modules/blob/8548067afbb14c2a089c41105ec18b06ef71ab79/website/app/static/images/misp-logo.svg).
+Credit: **MISP contributors**. See the MISP project's
+[logo license (CC BY 4.0)](https://github.com/MISP/MISP/blob/99ebee729702c560528f9788953719bda68aa1c1/INSTALL/logos/README.md).
+
+Use these shared classes in a source, without copying color definitions:
+
+```text
+flowchart LR
+  accTitle: A reviewed result
+  accDescr: An input is reviewed before an approved result is saved.
+  A[Input] --> B[Review] --> C[Approved result]
+  class A,B accent;
+  class C success;
+```
+
+| Class | Use |
+|---|---|
+| Default | Ordinary diagram elements, with navy text and a teal outline. |
+| `accent` | Main stages, instances or shared elements. |
+| `muted` | Supporting records, credentials or results. |
+| `caution` | Restricted paths, external trust boundaries, failures or retries. |
+| `success` | Confirmed outcomes. |
+
+The renderer discovers every `*/figures/*.mmd`, including new chapter diagrams,
+and applies the theme and logo automatically. Keep local `classDef`, color values
+and Mermaid initialization directives out of those sources so styling cannot drift.
+The standalone `.mmd` files remain editable; use the renderer below to obtain the
+shared appearance. The book includes the generated SVGs rather than rendering
+Mermaid at page-load time.
+
+## Regenerate
+
 To regenerate with Quarto **1.9.38**, Python Playwright and Chromium installed:
 
 ```sh
@@ -13,7 +60,7 @@ python assets/diagrams/render.py \
   --chromium /usr/bin/chromium
 ```
 
-`manifest.json` records source/output hashes and the Mermaid script hash. Review
+`manifest.json` records source/output, theme, logo and Mermaid script hashes. Review
 the rendered figures after editing; check labels and arrow directions, and render
 all book formats. HTML labels are disabled because Typst does not render SVG
 `foreignObject` content.

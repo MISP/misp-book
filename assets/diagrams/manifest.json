@@ -1,196 +1,200 @@
 {
   "renderer": "Mermaid bundled with Quarto 1.9.38; Chromium via Playwright",
   "mermaid_js_sha256": "07e37dfa97b337ccc85365d57eddf99b9706f09db3b59b260d0333b23b343c4b",
+  "theme": "assets/diagrams/theme.json",
+  "theme_sha256": "23a9f9318ecb8a8686d3b93509e46052dd225dbda10859b6b8236a6560694bc1",
+  "logo": "assets/diagrams/misp-logo.svg",
+  "logo_sha256": "8189fee49314db2a4c4480268987cb8762660dc29649529129be83534eeab209",
   "accessibility": "Each diagram has accTitle/accDescr, SVG text labels and explicit arrow labels; HTML labels are disabled for Typst compatibility.",
   "diagrams": [
-    {
-      "source": "sharing/figures/distribution-boundaries.mmd",
-      "file": "sharing/figures/distribution-boundaries.svg",
-      "source_sha256": "11cb76ed72af71293b97f943b363b5cb1a550fdbe00ff7ec28801325cf9efeca",
-      "sha256": "330617a8026e8ee9e291dc1f9579fe70b85d529a1eade098af5ccca93ccab64e",
-      "viewBox": "0 0 936.90625 334.3999938964844"
-    },
-    {
-      "source": "sharing/figures/review-pipeline.mmd",
-      "file": "sharing/figures/review-pipeline.svg",
-      "source_sha256": "6cdcfb6e78e128677983f2ecf696fd6cd0fe2fc6bec57c2fd6fdcb8ebefcee1e",
-      "sha256": "a24cb31641a474034cdebe092a3e5963a577f2aa85283d077b45dbe13f23bef1",
-      "viewBox": "0 0 533.078125 485.20001220703125"
-    },
-    {
-      "source": "sharing/figures/sync-directions.mmd",
-      "file": "sharing/figures/sync-directions.svg",
-      "source_sha256": "24c03da98acafbcfaf3dfed550cc6a4859d266de94bb4acd6287222a92c8d2f4",
-      "sha256": "c87c0481cfb7eff72872a9f7b71a7b2e84fbf2c99c707044291002cadfc6ccae",
-      "viewBox": "0 0 810.296875 335.4000244140625"
-    },
-    {
-      "source": "sharing/figures/sync-identity.mmd",
-      "file": "sharing/figures/sync-identity.svg",
-      "source_sha256": "e25e8d8a61b0aa1f61262fb31ee88e2e8ba614c9c7428c20254900d2bea99c91",
-      "sha256": "4eac9626d749ce55ac0e7a72cfa249a01d36f50013a5a834025e7bc3ac8c4317",
-      "viewBox": "0 0 868.2734375 348"
-    },
-    {
-      "source": "managing-feeds/figures/cache-or-import.mmd",
-      "file": "managing-feeds/figures/cache-or-import.svg",
-      "source_sha256": "60dd4276e7ec89bd0aa38c2d0433dc5c8d082ab8bde4956782403ae0f09fdde4",
-      "sha256": "2e7fd1be653084a1dca4dd95df5eb249902bd50ccdf69f54dabd3691d0557c7a",
-      "viewBox": "0 0 563.1171875 411.20001220703125"
-    },
-    {
-      "source": "collections/figures/collection-access.mmd",
-      "file": "collections/figures/collection-access.svg",
-      "source_sha256": "d16b2d011be9dbe55d145ef58f837e59d824b513b1686a08e2ba9269d4e8a524",
-      "sha256": "9777f1b26044eb5243e4cd79d325d41f6353d94109e1ff54362d23d78090c739",
-      "viewBox": "0 0 734.453125 363.79998779296875"
-    },
-    {
-      "source": "cryptographic-keys/figures/protected-sync.mmd",
-      "file": "cryptographic-keys/figures/protected-sync.svg",
-      "source_sha256": "5bc9cff3d4c0e25486667eb00c91a8b14c9d5e0236e5efdc2a301d9a4ee69e8a",
-      "sha256": "5470f72f8b7d6df49df919d1310bdedcb5f1eb286055aed5ee10ae51a2b242dd",
-      "viewBox": "0 0 533.46875 700.940673828125"
-    },
-    {
-      "source": "automation/figures/incremental-polling.mmd",
-      "file": "automation/figures/incremental-polling.svg",
-      "source_sha256": "9878c1bb0236a5eb73250cb8799a498401a90da20f507ead69a83a2f6f6bd4b3",
-      "sha256": "c6274145b61fc737389d2de5775f6d0d90934a5831a6a1b69c651315400f66fa",
-      "viewBox": "0 0 768.6796875 712.1468505859375"
-    },
-    {
-      "source": "misp-zmq/figures/notification-consumer.mmd",
-      "file": "misp-zmq/figures/notification-consumer.svg",
-      "source_sha256": "7ac0cbc1d8eede00919a3c17095715fa5257aa949f6e8df0b90526ea929b4d3e",
-      "sha256": "0a7a59189956ff760c172d306b1e853ee0c169317e757dc7f937d168c2a4da3c",
-      "viewBox": "0 0 565.8125 508.20001220703125"
-    },
-    {
-      "source": "modules/figures/module-workflow.mmd",
-      "file": "modules/figures/module-workflow.svg",
-      "source_sha256": "b8d9424fd8f6e6cc7973bd5bb89d9e34550df99ab156097b6cb6ffe1e242e1e1",
-      "sha256": "9e3da1cc448eb200838338ae34ff11c1440b44a8d4e97c68f416989ca654ce77",
-      "viewBox": "-2 0 571.5859375 640.3999633789062"
-    },
-    {
-      "source": "connectors/figures/connector-lifecycle.mmd",
-      "file": "connectors/figures/connector-lifecycle.svg",
-      "source_sha256": "4ce0cc3a9bdcdb09df4385ca03adc132621bbeea4b70c9597bedf62c19a49e64",
-      "sha256": "ec641e394f6c4dad6c45c9e4b67a293339bb39171a2ea1e19ac0501370553e02",
-      "viewBox": "0 0 573.203125 640.4000244140625"
-    },
     {
       "source": "administration/figures/administration-cycle.mmd",
       "file": "administration/figures/administration-cycle.svg",
       "source_sha256": "f0a40c7dca5d55d0880a1895c95418f405e1e02790988fe8dc4f8ddd1c9e356c",
-      "sha256": "cf4d9701ec6e4ba365478cb833e8d5080459b9d71f864633252399dba0b612aa",
-      "viewBox": "0 0 376.888671875 652.6000366210938"
+      "sha256": "4e1747cbada71fb33305ea10f3507063cea8463a2ed7d2e860c63db7a27e1956",
+      "viewBox": "0 0 416.888671875 752.6000366210938"
     },
     {
       "source": "administration/figures/recovery-checkpoints.mmd",
       "file": "administration/figures/recovery-checkpoints.svg",
       "source_sha256": "6d2a66a9af6d0edfcf043ae3ebe483fcc8449cfaf0fc07d8893181fd0bf62b8c",
-      "sha256": "aa665257d6e6e5aebd5ccba063ce9e1a774767b88bddcfb605a900884b570a49",
-      "viewBox": "0 0 286.8203125 693.2000122070312"
-    },
-    {
-      "source": "workflows/figures/blocking-and-background.mmd",
-      "file": "workflows/figures/blocking-and-background.svg",
-      "source_sha256": "52d7af21fa9f5451fa7554a55aca62909996be4bc9176cd0ace64a0203ba6246",
-      "sha256": "4e3e13f9395d3a4bec71148c17ab5566782cb19cbe7c8798dfe1f78c90960232",
-      "viewBox": "0 0 536.390625 845.5"
-    },
-    {
-      "source": "updating-python/figures/dependency-update.mmd",
-      "file": "updating-python/figures/dependency-update.svg",
-      "source_sha256": "60913883c9a60b623cbf783a3afdd48c46dfbdea4dab8b0e3cad6c74752c1da0",
-      "sha256": "9514db571821bff0cfa3f9173526ea8cd09ba1fbdcdc2e6fbb85e2c3f274c96b",
-      "viewBox": "0 0 275.3125 802.4000244140625"
-    },
-    {
-      "source": "data-model/figures/event-anatomy.mmd",
-      "file": "data-model/figures/event-anatomy.svg",
-      "source_sha256": "1175d964ad97692735640a6b86413ad5071a49a57f297d889cb6a0c686dbe27e",
-      "sha256": "ad72b9e6564f1ce25c62315e36204fb4e12c8d1a1bf789c036dbdf955ff87b69",
-      "viewBox": "0 0 784.6875 451.79998779296875"
-    },
-    {
-      "source": "data-model/figures/model-map.mmd",
-      "file": "data-model/figures/model-map.svg",
-      "source_sha256": "bf3563d478fd14c6522e530ef9d62daf731981ba14a733fb222989bed97b40d4",
-      "sha256": "1459fea1ce561c6faa644d9a340b8cddb7f56afac0f5a3867ba2ea982f6804c9",
-      "viewBox": "0 0 714.4453125 408"
-    },
-    {
-      "source": "data-model/figures/references-and-correlation.mmd",
-      "file": "data-model/figures/references-and-correlation.svg",
-      "source_sha256": "b4eb9e3c9b86106c32662a190f554ea2360147cd032d00496e6e4a5ec41da210",
-      "sha256": "28f4fba3ee8deb24fd466fa3734849b7c9c69298dec83f53fe3593d26032aef8",
-      "viewBox": "0 0 898.5625 334.3999938964844"
-    },
-    {
-      "source": "categories-and-types/figures/data-model-layers.mmd",
-      "file": "categories-and-types/figures/data-model-layers.svg",
-      "source_sha256": "7d3a7c91465b311d5cd3003275447663da423050723a43488b83c5664b1fddd6",
-      "sha256": "b530a84796c4c4a1a3d7f99d3baf5585535d71e4f5c01167a9295f876a3f6a2c",
-      "viewBox": "0 0 772.55078125 490.6000061035156"
-    },
-    {
-      "source": "taxonomy/figures/taxonomy-scope.mmd",
-      "file": "taxonomy/figures/taxonomy-scope.svg",
-      "source_sha256": "2b272978bd34031b8d0e67fb4e7443b97b2c3350cc69941732b4d6cccee91137",
-      "sha256": "c042a40dfbf0f8ed7d292222a0e95f004bf45aeaaf736dd2b1f998d7d658b96c",
-      "viewBox": "0 0 495.9765625 564.5999755859375"
-    },
-    {
-      "source": "galaxy/figures/galaxy-context.mmd",
-      "file": "galaxy/figures/galaxy-context.svg",
-      "source_sha256": "9d960fff107c015da9f2159d8a2ea4ce4b38ee2c5f2a1a098a0a607c0c9f257c",
-      "sha256": "4c9a01977ddbdbb8122f175093b1e37afcdfaa080368dada708947659f725a9e",
-      "viewBox": "0 0 572.59375 490.5999755859375"
-    },
-    {
-      "source": "misp-objects/figures/object-structure.mmd",
-      "file": "misp-objects/figures/object-structure.svg",
-      "source_sha256": "68d44b49ae2eea09044cd5b43a3d4538e7be23ccbeb7934f25beecad7b02772f",
-      "sha256": "6ce83f949153c963d13d38916ff473122829ca0c7769005d743685af39c73be4",
-      "viewBox": "0 0 559.921875 531.2000122070312"
-    },
-    {
-      "source": "warninglists/figures/warninglist-review.mmd",
-      "file": "warninglists/figures/warninglist-review.svg",
-      "source_sha256": "8ad9347e7f06ea1797f37d0a5365d0d6635f13f8639e06d1265ca338b42b4939",
-      "sha256": "d629162243c3c8a8b0626b766477b1959b3db6c67914f4e6c22e043ed0f4b110",
-      "viewBox": "0 0 571.5 520.4000244140625"
-    },
-    {
-      "source": "faq/figures/diagnose-before-changing.mmd",
-      "file": "faq/figures/diagnose-before-changing.svg",
-      "source_sha256": "4526d3bfeb4d4b764b0c855a426e255293c49127bf80d40d1555e29f725a065e",
-      "sha256": "cd1b341a470b4c646535e2353d5b7c5a142929b0f9889c2bc8e04dcd3c4ac502",
-      "viewBox": "0 0 948.96875 369.6000061035156"
-    },
-    {
-      "source": "user-stories/figures/research-to-sharing.mmd",
-      "file": "user-stories/figures/research-to-sharing.svg",
-      "source_sha256": "316c3652e4ff7d5562f1e6023cd6d13ca43244c992a11ab7ffe62796102a76a2",
-      "sha256": "cec648b96219bfc3523f78b37ea4019f98b836d79209d64e63ec9eb688717d9c",
-      "viewBox": "0 0 981.875 334.3999938964844"
+      "sha256": "75e005ade5b5b8f40963b4c1d402fc505278d084993b43f55818f0c7542fe764",
+      "viewBox": "0 0 326.8203125 793.2000122070312"
     },
     {
       "source": "appendices/figures/authentication-boundaries.mmd",
       "file": "appendices/figures/authentication-boundaries.svg",
       "source_sha256": "3384a15b615c8bf054fa72282fa0ed67a725fdc3f684f8fb01797b7772a21ff9",
-      "sha256": "8b17b01e7ce6b78df900e6edfafe91383f2179b24032fb44c85f471d34cd79b5",
-      "viewBox": "0 0 628.96875 369.6000061035156"
+      "sha256": "f501fc59441b32782614e908e07fa76d0cc530ea59f90cf4f23a027b8d8dd0c7",
+      "viewBox": "0 0 668.96875 469.6000061035156"
     },
     {
       "source": "appendices/figures/recurring-task-execution.mmd",
       "file": "appendices/figures/recurring-task-execution.svg",
       "source_sha256": "7a94167bc6f9a0bd26af1a13ad826074f00077bfe4a3037a9d6b2526604ac2c3",
-      "sha256": "b83421183368c28a66d2db2c51c98566ce5f4fd14346c7b3274d99827f498ec3",
-      "viewBox": "0 0 963.921875 352"
+      "sha256": "86401b2245adea3ea0ee2f3222e4e315a1b589524e6693efcf4fad63f5a89bbe",
+      "viewBox": "0 0 1003.921875 452"
+    },
+    {
+      "source": "automation/figures/incremental-polling.mmd",
+      "file": "automation/figures/incremental-polling.svg",
+      "source_sha256": "2bb8c7e2fd8f9e37d9aabba968fb3b76d4a9bf292f2814bdb121c73e6c629101",
+      "sha256": "bf4b5f2d05ff450970189945a759e733fce4cfe7d44edc8414e09d5e1c26aab1",
+      "viewBox": "0 0 808.6796875 812.1468505859375"
+    },
+    {
+      "source": "categories-and-types/figures/data-model-layers.mmd",
+      "file": "categories-and-types/figures/data-model-layers.svg",
+      "source_sha256": "7d3a7c91465b311d5cd3003275447663da423050723a43488b83c5664b1fddd6",
+      "sha256": "ede9cb7e1e5d5ea1873cb09bceb51a5b480e1f5c5257aafe2ae5735e2f446c8b",
+      "viewBox": "0 0 812.55078125 590.6000061035156"
+    },
+    {
+      "source": "collections/figures/collection-access.mmd",
+      "file": "collections/figures/collection-access.svg",
+      "source_sha256": "40fae09280806dc0d2ea3efce128dd7d51e7292bcfa4a3997a4e34ab2924462c",
+      "sha256": "abb39354b754281e9cedced7d8d31736fcd98dae0fd23c2b4273d583d509441c",
+      "viewBox": "0 0 774.453125 463.79998779296875"
+    },
+    {
+      "source": "connectors/figures/connector-lifecycle.mmd",
+      "file": "connectors/figures/connector-lifecycle.svg",
+      "source_sha256": "05a16b85a0c4e124df590d272f081d5d1d9a362254728d367133b7f31d25b251",
+      "sha256": "92f16f810b3dc74c74ce180fb73e6ab4b519a9c70f124aa58eadc385fffb2828",
+      "viewBox": "0 0 613.203125 740.4000244140625"
+    },
+    {
+      "source": "cryptographic-keys/figures/protected-sync.mmd",
+      "file": "cryptographic-keys/figures/protected-sync.svg",
+      "source_sha256": "d46fce85508d31e6d45fafe8d15ec267b0776a98c53c6e480572d0ba9dadd7ef",
+      "sha256": "01c043459274af73930100fb7365e5ff5d256c4134ea04ccd009621bd3c2f60f",
+      "viewBox": "0 0 573.46875 800.940673828125"
+    },
+    {
+      "source": "data-model/figures/event-anatomy.mmd",
+      "file": "data-model/figures/event-anatomy.svg",
+      "source_sha256": "1175d964ad97692735640a6b86413ad5071a49a57f297d889cb6a0c686dbe27e",
+      "sha256": "42411d3790a36d874298adab023010db8827dde78af49e66084a75d051d19143",
+      "viewBox": "0 0 824.6875 551.7999877929688"
+    },
+    {
+      "source": "data-model/figures/model-map.mmd",
+      "file": "data-model/figures/model-map.svg",
+      "source_sha256": "bf3563d478fd14c6522e530ef9d62daf731981ba14a733fb222989bed97b40d4",
+      "sha256": "2ddd1f21ba1b29178881a6e7bd1462bde98fe1854083bd065edcbdae0989d70d",
+      "viewBox": "0 0 754.4453125 508"
+    },
+    {
+      "source": "data-model/figures/references-and-correlation.mmd",
+      "file": "data-model/figures/references-and-correlation.svg",
+      "source_sha256": "b4eb9e3c9b86106c32662a190f554ea2360147cd032d00496e6e4a5ec41da210",
+      "sha256": "1f3cfeafe9e15c169f2cf9e8aef9a7e7086c4a9ec6cd25e0933d28037be26479",
+      "viewBox": "0 0 938.5625 434.3999938964844"
+    },
+    {
+      "source": "faq/figures/diagnose-before-changing.mmd",
+      "file": "faq/figures/diagnose-before-changing.svg",
+      "source_sha256": "4526d3bfeb4d4b764b0c855a426e255293c49127bf80d40d1555e29f725a065e",
+      "sha256": "ef8b4a4aeac5ec494a9f059d66aaeca75eff63aa7d90a3b1fcb0ac15a4b0767f",
+      "viewBox": "0 0 988.96875 469.6000061035156"
+    },
+    {
+      "source": "galaxy/figures/galaxy-context.mmd",
+      "file": "galaxy/figures/galaxy-context.svg",
+      "source_sha256": "9d960fff107c015da9f2159d8a2ea4ce4b38ee2c5f2a1a098a0a607c0c9f257c",
+      "sha256": "fddeb954e3fa7c6f8a1a5fafb6e42cb441250e9a4638f37a523391b1cfd31854",
+      "viewBox": "0 0 612.59375 590.5999755859375"
+    },
+    {
+      "source": "managing-feeds/figures/cache-or-import.mmd",
+      "file": "managing-feeds/figures/cache-or-import.svg",
+      "source_sha256": "887e49b1f1b653ab2b0a049059cc0bd0a2ba6bead13e19b3c86b5c365b77b19c",
+      "sha256": "5678bef0938ff0975b7bcec4bbc32cfe9f8e85a1b81f61c9afb050fbafc8bba0",
+      "viewBox": "0 0 603.1171875 511.20001220703125"
+    },
+    {
+      "source": "misp-objects/figures/object-structure.mmd",
+      "file": "misp-objects/figures/object-structure.svg",
+      "source_sha256": "68d44b49ae2eea09044cd5b43a3d4538e7be23ccbeb7934f25beecad7b02772f",
+      "sha256": "07a5bd581d12492c40dc2be383ddb50f6e35ee1f68d1946581f4c482cdc1fbd2",
+      "viewBox": "0 0 599.921875 631.2000122070312"
+    },
+    {
+      "source": "misp-zmq/figures/notification-consumer.mmd",
+      "file": "misp-zmq/figures/notification-consumer.svg",
+      "source_sha256": "c8ecc4ca1d7c5719ed6fdd10f5c415b5f3faab9384780a51e83fb226c13b2b54",
+      "sha256": "9857a28485f03015006fab0e6664165518d154dbc86d35d0567f191383612519",
+      "viewBox": "0 0 605.8125 608.2000122070312"
+    },
+    {
+      "source": "modules/figures/module-workflow.mmd",
+      "file": "modules/figures/module-workflow.svg",
+      "source_sha256": "c1e056053dbd00cc37c8076d21749155efbf7c578c8c1aec3f05254658a532e4",
+      "sha256": "33e3d2de50dd9416de6a170f31bdee1ae3ef52681d8a6b240c202639f5f3ceed",
+      "viewBox": "0 0 611.5859375 740.3999633789062"
+    },
+    {
+      "source": "sharing/figures/distribution-boundaries.mmd",
+      "file": "sharing/figures/distribution-boundaries.svg",
+      "source_sha256": "32c8248b4c6c99145a99e423b65854286be8f3084d4fd73644c1b800a18e18e6",
+      "sha256": "2d6d2fe93839d520cc382305ef8aa0f17c64022e4e7c78ea8c8ae21281d86e72",
+      "viewBox": "0 0 976.90625 434.3999938964844"
+    },
+    {
+      "source": "sharing/figures/review-pipeline.mmd",
+      "file": "sharing/figures/review-pipeline.svg",
+      "source_sha256": "7f0871d9e21590d743ec60371a197de3078761a535511e452ee10e1d769134af",
+      "sha256": "c703e5700c5c7163e1b7a34a1005cce0a0a6b6631a4144e956d87d491ecc1c37",
+      "viewBox": "0 0 573.078125 585.2000122070312"
+    },
+    {
+      "source": "sharing/figures/sync-directions.mmd",
+      "file": "sharing/figures/sync-directions.svg",
+      "source_sha256": "a6893292a647dad860ba4204a61b231ab175024d592842a59d17c1b9368f2def",
+      "sha256": "de881a00ff41f5c6429d0f9acdea755485abc5ba1a206034c412ad89317c5e67",
+      "viewBox": "0 0 850.296875 435.4000244140625"
+    },
+    {
+      "source": "sharing/figures/sync-identity.mmd",
+      "file": "sharing/figures/sync-identity.svg",
+      "source_sha256": "e0638669b15893db716d249667c728ebbc2ebb41dc45d00808be39e8e0c72f3a",
+      "sha256": "d47158b71d48270f1cf365ddc5fb00c97ce2ef655b9b8958b58db750af044f71",
+      "viewBox": "0 0 908.2734375 448"
+    },
+    {
+      "source": "taxonomy/figures/taxonomy-scope.mmd",
+      "file": "taxonomy/figures/taxonomy-scope.svg",
+      "source_sha256": "2b272978bd34031b8d0e67fb4e7443b97b2c3350cc69941732b4d6cccee91137",
+      "sha256": "8c029fd12b3049adca863b1caacbd984b4a2cc7f61b20e36866c766221d88026",
+      "viewBox": "0 0 535.9765625 664.5999755859375"
+    },
+    {
+      "source": "updating-python/figures/dependency-update.mmd",
+      "file": "updating-python/figures/dependency-update.svg",
+      "source_sha256": "60913883c9a60b623cbf783a3afdd48c46dfbdea4dab8b0e3cad6c74752c1da0",
+      "sha256": "d5455c04d4dfaf114c0fda8fa821620a24b45a674118c90798d510553d46d6b2",
+      "viewBox": "0 0 315.3125 902.4000244140625"
+    },
+    {
+      "source": "user-stories/figures/research-to-sharing.mmd",
+      "file": "user-stories/figures/research-to-sharing.svg",
+      "source_sha256": "316c3652e4ff7d5562f1e6023cd6d13ca43244c992a11ab7ffe62796102a76a2",
+      "sha256": "4ebaf299a1cbf3e0fb93efa93a04c2ef6d0bd94922f3a3acc807a2b6533d199d",
+      "viewBox": "0 0 1021.875 434.3999938964844"
+    },
+    {
+      "source": "warninglists/figures/warninglist-review.mmd",
+      "file": "warninglists/figures/warninglist-review.svg",
+      "source_sha256": "8ad9347e7f06ea1797f37d0a5365d0d6635f13f8639e06d1265ca338b42b4939",
+      "sha256": "56bd3e50659d374f771122391d6420a611dc13f618d8c705ac3810a133ff6f66",
+      "viewBox": "0 0 611.5 620.4000244140625"
+    },
+    {
+      "source": "workflows/figures/blocking-and-background.mmd",
+      "file": "workflows/figures/blocking-and-background.svg",
+      "source_sha256": "06c843402a2ac573b6f964458beae86af55ee7133684ba4ee171e854533dfe38",
+      "sha256": "2733eda48566784af5dab830e0c5c97e1b98a2ee9c023668c01a824490791bb7",
+      "viewBox": "0 0 576.390625 945.5"
     }
   ]
 }

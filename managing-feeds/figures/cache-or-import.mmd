@@ -5,7 +5,5 @@ flowchart TB
   F -->|"Fetch / import"| I["Local events and attributes<br/>New or updated database records"]
   C --> L["Value lookup · Feed hits<br/>Overlap analysis"]
   I --> R["Review context and handling<br/>Then select detection / sharing"]
-  classDef source fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
-  classDef result fill:#f0f3f7,stroke:#516479,color:#153448;
-  class F,C,I source;
-  class L,R result;
+  class F,C,I accent;
+  class L,R muted;
