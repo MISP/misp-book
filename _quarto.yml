@@ -93,6 +93,8 @@ book:
   appendices:
     - appendices/index.qmd
     - glossary.qmd
+    - contributing/index.qmd
+    - acknowledgements/index.qmd
 
 # Executable PyMISP/REST cells run locally against the dev instance and are
 # frozen into _freeze/ (committed), so CI renders without a live instance (D3/A10).
