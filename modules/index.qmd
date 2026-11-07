@@ -14,7 +14,7 @@ A module may process data locally, query a provider or submit information to ano
 
 ::: {.callout-note}
 The MISP interface examples follow **3.0.0**, `3.0_wip` commit `99ebee729`.
-Service guidance was checked against [misp-modules `5ba217fe`](https://github.com/MISP/misp-modules/tree/5ba217fe765cb5f3b62df0918709c2c0c9df99bb), whose package metadata declares **3.1.3**.
+Service guidance was checked against [misp-modules `8548067a`](https://github.com/MISP/misp-modules/tree/8548067afbb14c2a089c41105ec18b06ef71ab79), whose package metadata declares **3.1.3**.
 The catalogue and service have their own release cycle: a listed module is not necessarily installed, configured or enabled for every organization.
 Select a figure to enlarge it.
 :::
@@ -24,7 +24,7 @@ Select a figure to enlarge it.
 The [live catalogue](https://misp-project.org/modules/) is the starting point for the growing collection of modules.
 Search by provider, module name, input type or requirement, and filter by expansion, import, export or action.
 Open a module's details to inspect its supported inputs and outputs, dependencies, configuration, references and source code.
-The exact count changes as modules are added; the upstream catalogue is broader than any particular installation.
+The exact count changes as modules are added; the upstream catalogue does not describe what is installed on a particular service.
 
 Choose by the task and the result you need:
 
@@ -38,7 +38,7 @@ Choose by the task and the result you need:
 Before enabling a provider integration, check its account requirements, API permissions, rate limits and permitted use of the data.
 Use the catalogue for discovery, the module documentation for its contract, and `GET /modules` on your service for actual availability.
 
-<!-- Existing MISP capture provenance: ../assets/automation-screenshots.json. Current service/training audit: ../assets/modules-reference.json. -->
+<!-- Existing captures: ../assets/automation-screenshots.json. New website/MISP captures: ../assets/modules-ui-screenshots.json. Service/training/uv audit: ../assets/modules-reference.json. -->
 
 <a id="module-families"></a>
 <a id="misp-modules"></a>
@@ -47,7 +47,7 @@ Use the catalogue for discovery, the module documentation for its contract, and 
 
 | Service family | What it does |
 |---|---|
-| **Expansion** | Enriches an observation with additional attributes, objects or context. Review proposed results before saving them. |
+| **Expansion** | Enriches observations with additional attributes, objects or context. The MISP entry point determines whether results are previewed or written to an event. |
 | **Import** | Parses an external file, text or service response into MISP data. |
 | **Export** | Serializes MISP data into another format. |
 | **Action** | Executes a task, commonly from a configured workflow; it may change other systems. |
@@ -56,7 +56,7 @@ Within MISP's **Enrichment** settings, expansion modules can advertise expansion
 Hover supplies lookup context without automatically saving an event update; expansion and hover are capabilities of this family.
 MISP's Cortex integration and the dedicated [AI connector](#modules-ai) have their own configuration paths.
 
-![MISP checks configuration and access before invoking a module. External provider calls are optional; proposed intelligence still needs review before being saved.](figures/module-workflow.svg)
+![An attribute enrichment review flow: MISP checks configuration and access, invokes the module and lets the analyst review proposed intelligence before importing it. External provider calls depend on the module.](figures/module-workflow.svg)
 
 <a id="running-the-module-server"></a>
 
@@ -76,6 +76,27 @@ The module service has its own API, including **`GET /modules`** for discovery a
 `/modules/index` and `/modules/queryEnrichment`. Its catalogue/OpenAPI describes module-specific
 inputs, user configuration and results. Check the service's version and installed modules when
 diagnosing a mismatch with MISP.
+
+### Install with uv {#modules-install-uv}
+
+With [uv installed](https://github.com/astral-sh/uv#installation), create a new virtual environment and install the service:
+
+```sh
+uv venv --python 3.12 misp-modules-venv
+. misp-modules-venv/bin/activate
+uv pip install misp-modules
+misp-modules -l 127.0.0.1 -p 6666
+```
+
+`uv` can obtain Python 3.12 if it is not already available.
+Keep that terminal running and use another terminal for the checks below; **Ctrl+C** stops this foreground service.
+This installs and starts the module API service; the standalone website and CLI are separate clients.
+For a persistent deployment, follow the maintained installation guide's service-management instructions.
+
+The base package loads the modules whose dependencies are available.
+For broader coverage, run `uv pip install 'misp-modules[minimal]'` in the same environment, then restart the service.
+The optional `all` extra, installed with `uv pip install 'misp-modules[all]'`, can also require native system packages listed in the installation guide.
+Extras do not provide provider accounts or enable modules in MISP; verify the required identifiers in `/modules`.
 
 ### Check the running service {#modules-service-checks}
 
@@ -142,26 +163,67 @@ Check **System health → Services** and the module service's logs when discover
 
 ## Use a module in Overmind {#modules-use}
 
-The available actions depend on role, ownership, family settings, module suitability and
-organization restrictions:
+Module actions appear where the relevant data is being used.
+Their availability depends on role, ownership, family settings, compatible input types and organization restrictions.
 
-- **Import**: from an event, choose **Import**, then the supported module/format. Supply the
-  input and user configuration, preview the parsed data and review what will be added.
-- **Expansion**: choose **All actions → Enrich Event** when enabled, or the applicable attribute
-  enrichment action. Limit a first test to a known observation before enriching a whole event.
-- **Hover**: use the enabled value lookup interaction. A lookup response is context, not a saved
-  event update or a detection verdict.
-- **Export**: choose **All actions → Download as**, then an available export module/format.
-  Check which source information the format can represent.
-- **Action**: configure and test the relevant workflow. Its execution can send messages or
-  modify other systems, so treat it differently from previewing parsed data.
+| MISP 3.0 surface | Module use |
+|---|---|
+| Event → **Attributes** → row menu → **Enrich** | Choose a compatible expansion module for one attribute, then review its proposed objects/attributes before importing. |
+| Event → **All actions** → **Enrich Event** | Select expansion modules for the event's attributes. This can add results directly to the event, with background processing when enabled. |
+| Event → **Import** | Choose an available import module/format, supply its file/text/options, and review the parsed data. |
+| Event → **All actions** → **Download as** | Select a built-in format or an enabled export module; check the output format and any module-specific options. |
+| **Value Intelligence** → a value → **Enrichment** | Inspect compatible modules, proposed requests and stored value-level answers, or deliberately run a selected module. |
+| [**Workflows**](../workflows/index.qmd#workflow-modules) | Configure module-backed actions for a trigger or ad-hoc process; these can affect other systems. |
+
+Configured hover lookups provide context for a value without automatically importing event attributes.
+A lookup response is neither a detection verdict nor a saved event update.
+
+![The MISP 3.0 event action drawer includes Enrich Event and Download as. Open All actions to find actions that are not pinned.](figures/misp3-module-event-actions.png)
+
+### Enrich one attribute and review the result {#modules-misp-attribute}
+
+Open the event's **Attributes** tab and the required row's action menu, then choose **Enrich**.
+The module picker offers enabled modules compatible with that attribute's type.
+For a controlled first test, use a synthetic URL and the local `extract_url_components` parser.
+
+![The URL attribute's row menu exposes Enrich in MISP 3.0.](figures/misp3-module-attribute-actions.png)
+
+Select the parser, expand its proposed object and inspect the values, source references, distribution, correlation and IDS flags.
+The review dialog can propose enabled IDS flags; decide which observations are actually appropriate for detection.
+Remove unwanted results and choose **Import** only when the proposal is ready, or **Discard** to leave the event unchanged.
+The screenshot below is a real parser response captured before import; its proposals were not saved.
+
+![Expanded URL-parser results in the MISP 3.0 enrichment review dialog, with attribute-level controls and an explicit Import action.](figures/misp3-module-enrichment-preview.png)
+
+### Enrich an event {#modules-misp-event}
+
+Choose **All actions → Enrich Event**, then select the expansion modules to apply across the event's attributes.
+Submitting **Enrich** invokes the event-enrichment workflow, which can create data directly in the event.
+With background jobs enabled it queues a job; otherwise it can execute synchronously.
+Use the single-attribute review flow above to assess a new integration before running it across an event.
+
+![The event enrichment dialog lists enabled expansion modules. This capture stops before submitting Enrich; no event-wide job was run.](figures/misp3-module-event-picker.png)
+
+### Inspect a value across occurrences {#modules-misp-value}
+
+Open a value in **Value Intelligence** and select **Enrichment** to see the compatible modules and answers held for your organization.
+Selecting a module shows what it would be asked; pressing its run control sends the request.
+The resulting value-level answer can be retained and reused according to the analyst profile's reuse settings; it is not automatically imported as an event attribute.
+Automatic queries also depend on the administrator's `Plugin.ValueIntelligence_enrichment_auto_run`{.text-wrap .text-break} setting, which is disabled by default, and the effective profile's choices.
+
+![MISP 3.0 Value Intelligence shows the URL module's request context before execution. No Run action was pressed and automatic runs were disabled for this capture.](figures/misp3-module-value-enrichment.png)
+
+### Import, export and workflows {#modules-misp-exchange}
+
+For imports, follow the selected module's input contract and review the preview before saving.
+An import module's CSV schema is not necessarily the [feed parser's](../managing-feeds/index.qmd) schema.
+For example, `csvimport` uses module-specific header/options and base64-encoded file contents in API requests; a server filesystem path does not supply those contents.
 
 ![The MISP 3.0 module import workflow for a small synthetic CSV. Module availability depends on the configured service.](figures/misp3-module-import.png)
 
-An import module's CSV schema is not necessarily the [feed parser's](../managing-feeds/index.qmd)
-schema. For example, `csvimport` uses module-specific header/user-configuration rules and
-base64-encoded file contents in API requests. Do not pass a server filesystem path where the
-module expects the file's contents.
+For exports, choose **Download as**, select the required format/module and check which source information it can represent.
+For workflow actions, follow the [workflow configuration guidance](../workflows/index.qmd#workflow-modules) and test the action's intended effects before enabling a trigger.
+Module-backed enrichment, notifications and publication to another system have different execution and review paths.
 
 ## Use modules without a MISP instance {#modules-standalone}
 
@@ -170,9 +232,56 @@ It supports enrichment, import, export, results in visual/JSON/Markdown views, h
 This is useful for exploring a module or building a repeatable analysis process before connecting it to MISP.
 Website results do not automatically become saved events in a MISP instance.
 
+![The standalone misp-modules workspace with a synthetic URL, its MISP attribute type and the local URL Components Extractor selected.](figures/modules-web-workspace.png)
+
+A first local enrichment follows three steps:
+
+1. Choose **New enrichment**, enter `https://portal.example.org/a?item=1` and select the **url** attribute type.
+2. Search for `extract_url_components` and select that module alone.
+3. Choose **Run enrichment**, then inspect the structured URL object in **Visual**, **JSON** or **Markdown** view.
+
+Use **Choose modules** on a returned attribute to start a related lookup, or download the result for another tool.
+Each selected module follows its own processing and provider requirements; this example uses only local parsing.
+
+![A real standalone enrichment result, with a structured URL object, alternate result views and download/pivot controls.](figures/modules-web-results.png)
+
 Deploy and configure the website separately: it has its own database, administration and module settings.
 Follow its maintained installation and interface guides rather than reusing MISP's login or assuming that every service module is enabled in the website.
 For scripts and other clients, use the service's HTTP API or the [misp-modules CLI](https://github.com/MISP/misp-modules-cli).
+
+### Use misp-modules-cli {#modules-cli}
+
+[**misp-modules-cli**](https://github.com/MISP/misp-modules-cli) is a command-line client for a running local or remote module service.
+It can discover expansion modules and their input types, infer likely types for a value, restrict execution to named modules, and emit combined JSON or Markdown reports.
+Install the client as a separate uv tool:
+
+```sh
+uv tool install git+https://github.com/MISP/misp-modules-cli.git
+```
+
+If uv reports that its tool directory is not on `PATH`, run `uv tool update-shell` and open a new terminal.
+List the expansion modules available from your service:
+
+```sh
+misp-modules-cli --url http://127.0.0.1:6666 --list-active-modules
+```
+
+Here, active means available from the service, rather than enabled for a particular MISP account.
+For the same synthetic URL used above, select a single local module and use type metadata from the MISP 3.0 branch:
+
+```sh
+misp_types_url=https://raw.githubusercontent.com/MISP/MISP
+misp_types_url="$misp_types_url/refs/heads/3.0_wip/describeTypes.json"
+misp-modules-cli --url http://127.0.0.1:6666 \
+  --describe-types-url "$misp_types_url" \
+  --type url --value 'https://portal.example.org/a?item=1' \
+  --module extract_url_components --unified-output
+```
+
+The CLI normally fetches type metadata over HTTPS; `--describe-types-url` lets you select a matching published JSON catalogue.
+Use `--module` to constrain execution: without a module selection the client can query multiple compatible integrations.
+Its local configuration and response cache are separate from MISP settings and the module service's optional result cache.
+See the CLI README for configuration, cache controls and `--markdown-output` reporting.
 
 ## AI services in MISP 3.0 {#modules-ai}
 

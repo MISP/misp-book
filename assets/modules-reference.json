@@ -1,15 +1,15 @@
 {
-  "checked_at": "2026-11-06",
-  "scope": "Module catalogue, service API/operations, development guidance and linked training. Existing MISP UI captures retain their original provenance.",
+  "checked_at": "2026-11-07",
+  "scope": "Catalogue/service guidance, uv installation and CLI, module development/training, and real standalone/MISP 3.0 interface workflows. Older captures and training checks retain their recorded source revisions.",
   "module_service": {
     "repository": "https://github.com/MISP/misp-modules/",
     "branch": "main",
-    "commit": "5ba217fe765cb5f3b62df0918709c2c0c9df99bb",
+    "commit": "8548067afbb14c2a089c41105ec18b06ef71ab79",
     "package_version": "3.1.3",
     "candidate_python_files": {
       "expansion": 229,
       "import_mod": 22,
-      "export_mod": 32,
+      "export_mod": 33,
       "action_mod": 14
     },
     "count_method": "Family-directory .py files excluding underscore-prefixed names; counts do not imply runtime loading or availability."
@@ -18,7 +18,8 @@
     "url": "https://misp-project.org/modules/",
     "listed_modules": 294,
     "book_wording": "around 300 modules",
-    "note": "The published catalogue and source update independently; use live catalogue details and runtime /modules for discovery."
+    "note": "The published catalogue and source update independently; use live catalogue details and runtime /modules for discovery.",
+    "captured_at": "2026-11-06"
   },
   "training": {
     "repository": "https://github.com/MISP/misp-training",
@@ -32,7 +33,7 @@
   },
   "verification": {
     "service_version": "3.1.3",
-    "runtime": "Local Python service using the pinned source and a custom training-module root; optional dependencies are not all installed.",
+    "runtime": "Original local Python service using 5ba217fe and a custom training root; optional dependencies were not all installed. The separate uv/package/UI checks below were completed on 2026-11-07.",
     "url_example": {
       "module": "extract_url_components",
       "synthetic_value": "https://portal.example.org/a?item=1",
@@ -47,7 +48,31 @@
       "total_tests_passed": 11,
       "checked": "Explicit unit-only run and combined unit/HTTP run; discovery/OpenAPI, structured output, provenance, boolean detection flags, input/state isolation and invalid-request error envelopes.",
       "live_misp_ui_or_external_provider_tested": false
-    }
+    },
+    "original_service_commit": "5ba217fe765cb5f3b62df0918709c2c0c9df99bb",
+    "original_checked_at": "2026-11-06"
   },
-  "existing_ui_provenance": "assets/automation-screenshots.json"
+  "existing_ui_provenance": "assets/automation-screenshots.json",
+  "uv_installation": {
+    "checked_at": "2026-11-07",
+    "uv_version": "0.13.5",
+    "python_version": "3.12.14",
+    "module_package_version": "3.1.3",
+    "package_source": "PyPI",
+    "base_virtual_environment_created_and_service_started": true,
+    "base_install_structured_url_query_passed": true,
+    "base_install_tested_separately_from_website_extras": true
+  },
+  "cli": {
+    "repository": "https://github.com/MISP/misp-modules-cli",
+    "commit": "eab8043fa331df2ce9bf754ba26d04ff9e533326",
+    "package_version": "0.1.0",
+    "uv_tool_install_from_git_passed": true,
+    "list_active_modules_passed": true,
+    "query_module": "extract_url_components",
+    "query_result": "Structured URL object returned with --unified-output. Only the local parser was selected.",
+    "type_metadata_url": "https://raw.githubusercontent.com/MISP/MISP/refs/heads/3.0_wip/describeTypes.json",
+    "external_provider_queries": false
+  },
+  "new_ui_provenance": "assets/modules-ui-screenshots.json"
 }
