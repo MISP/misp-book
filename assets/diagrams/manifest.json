@@ -64,6 +64,13 @@
       "viewBox": "0 0 613.203125 740.4000244140625"
     },
     {
+      "source": "correlation/figures/correlation-lifecycle.mmd",
+      "file": "correlation/figures/correlation-lifecycle.svg",
+      "source_sha256": "47daabc624514fe1634c3853747e43de5539a6436adc5d3e3bfbcb6706ac60ea",
+      "sha256": "c124afacb64f540c5f7f495aaaed5fa16e60f3e8e7bf6ed3c6f43437ff9f4ed9",
+      "viewBox": "0 0 829.72265625 756.5999755859375"
+    },
+    {
       "source": "cryptographic-keys/figures/protected-sync.mmd",
       "file": "cryptographic-keys/figures/protected-sync.svg",
       "source_sha256": "d46fce85508d31e6d45fafe8d15ec267b0776a98c53c6e480572d0ba9dadd7ef",

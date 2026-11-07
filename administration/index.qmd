@@ -299,6 +299,8 @@ long conversion. Restart the web PHP runtime after an upgrade, as directed by th
 
 ### Values, correlations and retention {#admin-correlations}
 
+See [Correlation](../correlation/index.qmd) for the complete matching lifecycle, analyst views, exclusion/rule semantics and rebuild guidance.
+
 A MISP 3.0 **value address** is not an attribute occurrence. Values can be referenced by Analyst
 Data and collections; correlation suppression, detection eligibility and source visibility
 remain separate decisions. Do not manually truncate value tables to reduce correlation noise.

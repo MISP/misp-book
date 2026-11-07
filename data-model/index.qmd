@@ -109,6 +109,7 @@ An **object relation**, such as `ip`, instead names a field inside an object.
 It creates an investigative pivot without requiring an analyst to assert an object reference.
 Matching values can reflect shared infrastructure or noise as well as related activity; examine the evidence before drawing conclusions.
 Correlation depends on supported types, engine/configuration, exclusions and correlation flags; `to_ids=false` does not by itself disable it.
+See [Correlation](../correlation/index.qmd) for matching methods, lifecycle, investigation controls and maintenance.
 Advanced matching, such as CIDR or ssdeep, has additional configuration and runtime requirements.
 
 Galaxy-cluster relations connect knowledge entries, while Analyst Data Relationships connect supported analysis targets.

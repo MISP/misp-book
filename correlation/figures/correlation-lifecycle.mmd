@@ -1,0 +1,15 @@
+flowchart TB
+  accTitle: Correlation maintenance and reading in MISP
+  accDescr: Normal attribute creates and relevant edits generate stored matches for Default and NoAcl, while deletes remove affected rows. OnDemand calculates on reads. Explicit recorrelation revisits eligibility. Engine-specific reads feed a graph or table whose display filters do not change stored policy.
+  W[Attribute create or relevant edit] -->|save| E[Check values, types, flags and policies]
+  J[Explicit recorrelation request or job] -->|rebuild| E
+  E -->|eligible matches| S[Stored matches<br/>Default / NoAcl]
+  D[Normal attribute or event deletion] -->|delete| P[Remove affected stored matches]
+  P -->|update rows| S
+  S -->|query| R[Read according to engine<br/>and account]
+  O[OnDemand: compute on read] -->|computed matches| R
+  R -->|display| V[Graph or table<br/>with display filters]
+  class W,E,R accent;
+  class S,V success;
+  class D,P caution;
+  class J,O muted;
