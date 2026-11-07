@@ -12,8 +12,8 @@ instance-wide command language.
 ::: {.callout-note}
 Checked against MISP **3.0.0**, `3.0_wip` commit
 [`99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1),
-with the Overmind interface. The classic interface's `l`, `e`, `t`, `a`, `o`, `s` and `?`
-shortcut manager is **not loaded by Overmind**. Its old help triangle is not the guide for this UI.
+using the MISP 3.0 interface. The classic interface's `l`, `e`, `t`, `a`, `o`, `s` and `?`
+shortcut manager is **not loaded by the MISP 3.0 interface**. Its old help triangle is not the guide for this UI.
 :::
 
 <!-- Source checks and actual UI captures: ../assets/reference-faq-screenshots.json -->
@@ -21,7 +21,7 @@ shortcut manager is **not loaded by Overmind**. Its old help triangle is not the
 <a id="default-shortcuts"></a>
 <a id="keyboard-shortcuts-in-misp"></a>
 
-## Navigate and search in Overmind {#shortcuts-overmind}
+## Navigate and search in MISP 3.0 {#shortcuts-navigation}
 
 ::: {.table-responsive}
 
@@ -41,7 +41,7 @@ The list and side-panel letter shortcuts do not activate while typing in support
 fields or behind an open modal. They also leave Ctrl/Command/Alt combinations to the browser
 or editor. A page without the relevant search bar or panel has no corresponding action.
 
-![The real Bookmarks panel opened with its Overmind keyboard shortcut.](figures/misp3-bookmarks-shortcut.png)
+![The real Bookmarks panel opened with its MISP 3.0 keyboard shortcut.](figures/misp3-bookmarks-shortcut.png)
 
 The navbar and optional rail have their own arrow-key navigation. Start with `Tab` to focus a
 menu control, use the keys supported by that menu, and use `Escape` to dismiss it. Keep the
@@ -76,11 +76,11 @@ visible toolbar/help action when a key is unavailable. See
 ## Troubleshoot or extend shortcuts {#shortcuts-maintenance}
 
 Check the page, focused element, open dialogs and user permissions before diagnosing a missing
-action. The relevant Overmind sources are `app/webroot/js/index-filters.js`, `side-panel.js`,
-`overmind-navbar.js` / `overmind-rail.js`, `server-settings.js` and the event-report view/editor code.
+action. The relevant MISP 3.0 interface sources are `app/webroot/js/index-filters.js`, `side-panel.js`,
+the navbar/rail scripts under `app/webroot/js/`, `server-settings.js` and the event-report view/editor code.
 
 `keyboard-shortcuts-definition.js` and `keyboard-shortcuts.js` still describe the deprecated
-classic interface. Editing them does not add an Overmind shortcut. There is no general GUI
+classic interface. Editing them does not add a MISP 3.0 shortcut. There is no general GUI
 shortcut editor. For a contribution, use the appropriate component, respect editable fields
 and modal focus, provide a visible equivalent, and test with the supported browser and layout.
 Keep deployment customizations under version control rather than replacing shipped assets.

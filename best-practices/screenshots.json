@@ -3,7 +3,7 @@
   "repository": "https://github.com/MISP/MISP",
   "branch": "3.0_wip",
   "commit": "d039260aee3a3b97c95129479e73013afefccb1b",
-  "theme": "Overmind, light",
+  "theme": "MISP 3.0 interface, light",
   "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
   "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
   "submodules": {
@@ -122,7 +122,7 @@
   "feature_sources": [
     "app/Model/AnalystProfile.php",
     "app/Model/CollectionElement.php",
-    "app/View/Themed/Overmind/Values/view.ctp",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/a6b03702426752e880d034c01469b7330fd4a1dd",
     "docs/dev/value_targets.md"
   ],
   "shots": [
@@ -240,5 +240,6 @@
       },
       "sha256": "954f6ef534ab5d2fa6fa348a6f68a39af591d3e713af60421a0d9544d6971306"
     }
-  ]
+  ],
+  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
 }

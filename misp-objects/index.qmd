@@ -11,7 +11,7 @@ attribute a named **object relation**. A `file` can contain its filename and has
 own UUID, type, detection flag, visibility context and correlatable value.
 
 ::: {.callout-note}
-This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
 Templates come from [misp-objects](https://github.com/MISP/misp-objects). Screenshots use reserved
 values in a private unpublished event; no example requires enabling IDS or publishing it.
 :::

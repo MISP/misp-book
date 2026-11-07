@@ -53,12 +53,12 @@ under `app/Locale/`; the 3.0 loader excludes runtime symlink aliases from the ch
 Save the intended locale through the settings interface and reload a page. The setting's
 save hook clears relevant cache files. `AppController` then sets CakePHP's request language;
 it is an instance setting, not a separate language selector on each analyst's profile.
-The Overmind layout also maps catalogue codes to HTML language/direction metadata.
+The MISP 3.0 layout also maps catalogue codes to HTML language/direction metadata.
 
 ![A page rendered using the installed French catalogue. Some developing interface strings can remain in English.](figures/misp3-french-interface.png)
 
 If a label remains in English, check the saved locale, the catalogue shipped by that exact
-checkout, the source message and its translation/review status. New Overmind strings may not
+checkout, the source message and its translation/review status. New MISP 3.0 interface strings may not
 have corresponding entries yet. Do not promise an installed language count from the number
 of languages a translation service can support.
 

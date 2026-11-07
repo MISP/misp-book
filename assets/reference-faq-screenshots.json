@@ -3,7 +3,7 @@
   "repository": "https://github.com/MISP/MISP",
   "branch": "3.0_wip",
   "commit": "99ebee729702c560528f9788953719bda68aa1c1",
-  "theme": "Overmind, light",
+  "theme": "MISP 3.0 interface, light",
   "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
   "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
   "submodules": {
@@ -25,9 +25,9 @@
     "user-stories/index.qmd",
     "user-personas/index.qmd"
   ],
-  "capture_method": "Chromium/Playwright against the pinned checkout: nine fresh viewport or real modal screenshots, without retouching or arrow annotations. Existing synthetic private data and reserved domain/address fixtures only. Report help and settings/appearance controls opened without saving. French/Arabic instance language selected temporarily through the supported console setting and original config restored byte for byte.",
+  "capture_method": "Chromium/Playwright against the pinned checkout: nine fresh viewport or real modal screenshots, without retouching or arrow annotations. Existing synthetic private data and reserved domain/address fixtures only. Report help and language editors opened without saving. The appearance capture was refreshed using a temporarily selected Cosmo preference; the original account preference was restored. French/Arabic instance language selected temporarily through the supported console setting and original config restored byte for byte.",
   "ui_checks": {
-    "classic_shortcut_manager_absent_in_overmind": true,
+    "classic_shortcut_manager_absent_in_misp3": true,
     "list_search_focus_and_filter_toggle": true,
     "bookmark_shortcut_and_escape": true,
     "report_help_without_edit_or_save": true,
@@ -221,17 +221,18 @@
     "sprintf_arguments_verified": true,
     "html_language_direction_verified": true,
     "runtime_aliases_excluded": true,
-    "built_bootstrap_themes": [
+    "built_additional_bootstrap_themes": [
       "cosmo",
       "factory",
       "fathom",
       "flatly",
       "hex",
       "neon",
-      "overmind",
       "scifi",
       "slate"
-    ]
+    ],
+    "default_bootstrap_theme_built": true,
+    "built_bootstrap_theme_count": 9
   },
   "cli_checks": {
     "user-password-help": {
@@ -352,7 +353,7 @@
     {
       "file": "faq/figures/misp3-appearance.png",
       "url": "/events/index",
-      "description": "Actual account theme menu showing choices available in this build; no preference saved",
+      "description": "Actual MISP 3.0 account appearance controls with the supported Cosmo Bootstrap preference selected temporarily. The submenu of theme names remains closed. The original preference was restored after capture.",
       "role": "Site administrator",
       "selector": null,
       "clip": null,
@@ -361,12 +362,15 @@
         "height": 1000
       },
       "scale": 1,
-      "captured_at": "2026-11-06T19:55:18.012617+00:00",
+      "captured_at": "2026-11-07T08:03:22.774259+00:00",
       "image_size": {
         "width": 1440,
         "height": 1000
       },
-      "sha256": "29b35b50c12129d952dc5eb675f3cd8302436f369323ac36b28254bff7b65dc6"
+      "sha256": "be627745ba9c727d788c80eaf7f048161aa3db5a3c5fbf0218b5ad08fb7886da",
+      "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+      "bootstrap_preference": "cosmo",
+      "original_preference_restored": true
     },
     {
       "file": "dev-faq/figures/misp3-openapi.png",
@@ -466,7 +470,7 @@
   "source_checks": {
     "shortcuts": [
       {
-        "file": "app/View/Themed/Overmind/Layouts/default.ctp",
+        "file": "https://api.github.com/repos/MISP/MISP/git/blobs/eb6fc57f8c0e3b282a6d7b8dd5ca27e86a69e643",
         "sha256": "d56b83177c7b0de6317ee8be826533fd5f3b14ce10b26e6d6bf513ab4404225a"
       },
       {
@@ -490,7 +494,7 @@
         "sha256": "c5351bcebfa03cf78832369190f5f170a38e380a06c16b895b2d87b2c60f2479"
       },
       {
-        "file": "app/View/Themed/Overmind/Elements/EventReports/View/eventReport_help_modal.ctp",
+        "file": "https://api.github.com/repos/MISP/MISP/git/blobs/ee8563e1cba806d327382ea9131cf94e3119caf5",
         "sha256": "774d1e12340d58765046560da70886ff025983c03600a4a553b8a507ac06eb94"
       }
     ],
@@ -620,5 +624,6 @@
     "capture_services_stopped": true,
     "pdf_pages": 336,
     "compact_diagrams_checked_in_pdf": true
-  }
+  },
+  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
 }

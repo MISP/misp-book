@@ -161,7 +161,7 @@ Check **System health → Services** and the module service's logs when discover
 
 <a id="using-modules"></a>
 
-## Use a module in Overmind {#modules-use}
+## Use a module in MISP 3.0 {#modules-use}
 
 Module actions appear where the relevant data is being used.
 Their availability depends on role, ownership, family settings, compatible input types and organization restrictions.

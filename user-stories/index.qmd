@@ -11,7 +11,7 @@ automatically authorizes sharing.
 
 ::: {.callout-note}
 Aligned with MISP **3.0.0**, `3.0_wip` commit `99ebee729`. Workspaces, shared-value research,
-collections and the current Overmind views complement events and objects. Each resource keeps
+collections and the current MISP 3.0 views complement events and objects. Each resource keeps
 its own ownership, permissions and distribution. External tools/providers require a separate
 working integration.
 :::

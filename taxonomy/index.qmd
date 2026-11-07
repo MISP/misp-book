@@ -10,7 +10,7 @@ confidence, workflow state or another defined meaning. Use a taxonomy tag so ano
 or tool can interpret the label consistently, rather than guessing what a free-text tag means.
 
 ::: {.callout-note}
-This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind. The vocabulary
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`. The vocabulary
 has its own release cycle in [misp-taxonomies](https://github.com/MISP/misp-taxonomies).
 Screenshots use synthetic private data; select a figure to enlarge it.
 :::

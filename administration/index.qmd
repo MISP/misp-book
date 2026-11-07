@@ -12,7 +12,7 @@ background jobs, updates and backups. A successful page load is only one part of
 ::: {.callout-note}
 This chapter follows MISP **3.0.0**, `3.0_wip` commit
 [`99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1),
-in the light Overmind interface. This is a development branch; choose an approved release and
+in light mode. This is a development branch; choose an approved release and
 tested deployment procedure for a production upgrade. Select a figure to enlarge it.
 :::
 
@@ -204,7 +204,7 @@ account after a permission change, including an operation that should be refused
 
 ## Use grouped settings and health checks {#server-settings-and-maintenance}
 
-Open **Administration → Server Settings & Maintenance**. Overmind replaces the old tab strip
+Open **Administration → Server Settings & Maintenance**. MISP 3.0 replaces the old tab strip
 with grouped navigation, searchable settings and separate health pages. The underlying names
 such as `MISP.*`, `Security.*` and `Plugin.*` remain useful for API/CLI configuration.
 

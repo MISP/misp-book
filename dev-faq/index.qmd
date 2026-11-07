@@ -54,7 +54,7 @@ separate development database.
 |---|---|
 | Requests and permissions | `app/Controller/`{.text-wrap .text-break}, `Component/ACLComponent.php`{.text-wrap .text-break} and model-level checks. A visible control and an API route still need correct authorization. |
 | Business logic and validation | `app/Model/`{.text-wrap .text-break}. The running `MispAttribute`{.text-wrap .text-break} model defines types/defaults; `GET /attributes/describeTypes`{.text-wrap .text-break} exposes current public metadata. |
-| Current interface | `app/View/Themed/Overmind/`{.text-wrap .text-break}, shared elements, and their scripts/styles under `app/webroot/`{.text-wrap .text-break}. Classic views can coexist without being the page Overmind actually renders. |
+| Current interface | `app/View/Themed/`{.text-wrap .text-break}, shared elements, and their scripts/styles under `app/webroot/`{.text-wrap .text-break}. Classic views can coexist without being the page MISP 3.0 actually renders. |
 | Dependencies | The checked-out CakePHP 2 framework and `app/composer.json`{.text-wrap .text-break}. This commit declares PHP `>=8.1.0,<9.0.0`{.text-wrap .text-break}; use a runtime satisfying the complete locked dependency set. |
 | Database evolution | `app/Lib/Migration/`{.text-wrap .text-break} and its ordered migrations/ledger. Repository schema snapshots help orientation; they do not establish a running instance's migration state. |
 | Shared component values | `MispAttribute`{.text-wrap .text-break}, `Value`{.text-wrap .text-break} and value/attribute-value storage. Occurrence UUIDs and SHA-256 value addresses identify different things. |
@@ -92,7 +92,7 @@ Choose checks that exercise the changed behaviour. The repository has PHP tests 
 live suites can create, edit, publish and delete data. Run them against an isolated disposable
 instance with the intended branch and companion definitions.
 
-For a UI change, test the actual Overmind view, a permitted and a denied user, empty/error
+For a UI change, test the actual MISP 3.0 view, a permitted and a denied user, empty/error
 states, keyboard access and a narrow viewport. For a model/API change, inspect both the saved
 record and returned JSON; test updates, visibility and invalid input as well as the happy path.
 A formatter or a successful administrator request alone does not establish these behaviours.

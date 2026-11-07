@@ -10,7 +10,7 @@ public infrastructure, common domains, empty-file hashes or another known set. A
 reason to review the observation and intended use, not proof that it is benign or malicious.
 
 ::: {.callout-note}
-This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
 Lists come from [misp-warninglists](https://github.com/MISP/misp-warninglists) or local definitions.
 The examples use a synthetic `known` list for reserved documentation domains, with IDS off.
 :::

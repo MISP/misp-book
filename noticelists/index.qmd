@@ -10,7 +10,7 @@ can remind an analyst to consider personal data, handling obligations or another
 It informs a decision; it is not a proof of compliance, a value lookup or an automatic access rule.
 
 ::: {.callout-note}
-This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
 The bundled definitions come from [misp-noticelist](https://github.com/MISP/misp-noticelist).
 The training example previews the form without saving personal information.
 :::

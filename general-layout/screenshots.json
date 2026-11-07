@@ -3,7 +3,7 @@
   "repository": "https://github.com/MISP/MISP",
   "branch": "3.0_wip",
   "commit": "d039260aee3a3b97c95129479e73013afefccb1b",
-  "theme": "Overmind, light",
+  "theme": "MISP 3.0 interface, light",
   "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
   "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
   "submodules": {
@@ -140,20 +140,24 @@
     {
       "file": "general-layout/figures/misp3-account-menu.png",
       "url": "/events/index",
-      "description": "The account menu available to the regular documentation user.",
+      "description": "Actual MISP 3.0 account appearance controls with the supported Cosmo Bootstrap preference selected temporarily. The submenu of theme names remains closed. The original preference was restored after capture.",
       "role": "User",
       "selector": "#rc-p-account",
       "viewport": {
         "width": 1440,
-        "height": 900
+        "height": 1000
       },
       "scale": 1,
-      "captured_at": "2026-11-06T09:44:38.550694+00:00",
+      "captured_at": "2026-11-07T08:03:27.615393+00:00",
       "image_size": {
         "width": 240,
-        "height": 188
+        "height": 229
       },
-      "sha256": "ea356436c6a13cd55f6ef0a27a16b307cac5bdd636a7455bf96b07923f807c36"
+      "sha256": "5ab687aa3a29a366a0a9b1b1b0bb498475450a7510b29021cc71bf1c1f0e76ed",
+      "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+      "bootstrap_preference": "cosmo",
+      "original_preference_restored": true,
+      "clip": null
     },
     {
       "file": "general-layout/figures/misp3-navigation-admin.png",

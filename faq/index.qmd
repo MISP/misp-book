@@ -10,7 +10,7 @@ procedure. Record the installed version, component and exact error before changi
 A failed request is not by itself evidence that the database needs repair.
 
 ::: {.callout-note}
-Checked against MISP **3.0.0**, `3.0_wip` commit `99ebee729`, using Overmind.
+Checked against MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
 Deployment paths, service names and optional integrations vary. The answers below replace
 older 2.4/2.5 recipes; a historical error message is not a current repair instruction.
 :::
@@ -408,12 +408,12 @@ and backups afterwards. A successful repository update alone does not establish 
 
 ### How do I change the theme or branding? {#faq-appearance}
 
-Overmind is the 3.0 default. Use the supported appearance settings and your account menu's available
-Bootstrap theme preferences. `MISP.default_bootstrap_theme` sets the Overmind default for users
+Use the MISP 3.0 appearance settings and your account menu's available
+Bootstrap theme preferences. `MISP.default_bootstrap_theme` sets the default Bootstrap theme for users
 without their own choice. `MISP.enable_themes` and `MISP.default_theme` are separate CLI-only
 settings governing alternative application themes; the classic **Default** interface is deprecated.
 
-![The current appearance preferences, rather than a replacement of the old Bootstrap CSS file.](figures/misp3-appearance.png)
+![The MISP 3.0 account menu exposes theme preferences, shown here with Cosmo selected.](figures/misp3-appearance.png)
 
 Use the organisation's supported logo controls and configured instance branding. Do not download
 a Bootstrap 2 stylesheet over the application's shipped CSS. See

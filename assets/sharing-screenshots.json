@@ -3,7 +3,7 @@
   "repository": "https://github.com/MISP/MISP",
   "branch": "3.0_wip",
   "commit": "4dcd953d1b987c4ce7089c6b9d55237fa81835a8",
-  "theme": "Overmind, light",
+  "theme": "MISP 3.0 interface, light",
   "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
   "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
   "submodules": {
@@ -112,12 +112,12 @@
   "configuration_notes": [
     "Both local instances run the same updated source, with separate databases, Redis and sessions. Peer URLs use Docker-local HTTP; documentation examples use HTTPS.",
     "Only local Docker peer names are exempted from the capture processes\u2019 HTTP proxy. Outbound session proxy and certificate trust are preserved.",
-    "Collection Push/Pull and remote-cache switches were saved through the actual Overmind edit form, read back through the API and restored. Server card labels and successful connection tests were checked.",
+    "Collection Push/Pull and remote-cache switches were saved through the actual MISP 3.0 edit form, read back through the API and restored. Server card labels and successful connection tests were checked.",
     "The per-feed Cache feed action was hidden with caching disabled, then exercised with caching enabled and ingestion disabled. It refreshed the synthetic feed cache in Redis and created no event. Feed flags were restored.",
     "The earlier two-row CSV import remains unpublished, distribution 0, with both IDS flags off. No new import or external feed fetch was performed in this update.",
     "Protection/unprotection and the empty public-key dialog were rechecked on the existing private draft. No key was generated or attached.",
     "No event was published or synchronized and no signed transfer was attempted. Transfer/distribution/signature behaviour remains source-checked rather than an end-to-end publication test.",
-    "The Overmind form now exposes collection Push/Pull in What to synchronise, and server cards show both directions. Feed row/card menus now include Cache feed when caching_enabled is true.",
+    "The MISP 3.0 form now exposes collection Push/Pull in What to synchronise, and server cards show both directions. Feed row/card menus now include Cache feed when caching_enabled is true.",
     "Cache search still uses the legacy-layout fallback at this commit. Its refreshed screenshot shows the actual page; this separate limitation is retained."
   ],
   "feature_sources": [
@@ -125,7 +125,7 @@
     "app/Model/Server.php",
     "app/Model/Event.php",
     "app/Lib/Tools/ServerSyncTool.php",
-    "app/View/Themed/Overmind/Servers/edit.ctp",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/d43b0c345f735f430ccc1a07ef759d77ffb328a1",
     "app/Lib/Migration/Migrations/Migration_20261007_120823_threads_to_analyst_data.php",
     "app/Model/Feed.php",
     "app/Controller/FeedsController.php",
@@ -136,10 +136,10 @@
     "app/Controller/CryptographicKeysController.php",
     "app/Model/CryptographicKey.php",
     "app/Controller/EventsController.php",
-    "app/View/Themed/Overmind/Elements/Events/View/event_actions.ctp",
-    "app/View/Themed/Overmind/Servers/index.ctp",
-    "app/View/Themed/Overmind/Elements/Servers/server_card.ctp",
-    "app/View/Themed/Overmind/Feeds/index.ctp"
+    "https://api.github.com/repos/MISP/MISP/git/blobs/53f9d2bdaa2a97ebe2ac76f5eca80b9c4f91e7b9",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/97b8d6005ef2dfe3b051978acc04fa82bc5dca82",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/13a3cc342f719abb4a5ed4f21d6a68b5ce97f898",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/fcd0a58aaf85785bc25f0a2f166abdfdc9d69ba5"
   ],
   "shots": [
     {
@@ -449,5 +449,6 @@
         "description": "Rename form step to What to synchronise"
       }
     ]
-  }
+  },
+  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
 }

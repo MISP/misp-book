@@ -9,7 +9,7 @@ This chapter follows an analyst's daily workflow: create an event, record the ev
 Use the [report exercise](../create-event-report/index.qmd) for a guided example, or [Quick Start](../quick-start/index.qmd) for a first introduction.
 
 ::: {.callout-note}
-The instructions and screenshots use MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, in the light Overmind interface.
+The instructions and screenshots use MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, in light mode.
 The event page uses tabs and an action card; MISP 2.5's sidebar, content toggles, and some action labels differ.
 Controls depend on your role, event ownership, and enabled services. Select a screenshot to enlarge it.
 :::

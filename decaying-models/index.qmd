@@ -11,7 +11,7 @@ A model returns a score and a **decayed** flag; it does not automatically remove
 
 ::: {.callout-note}
 This chapter follows the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch.
-The model detail page has a new Overmind layout, while some advanced Decaying Tool and simulation pages still use the classic interface.
+The model detail page has a new 3.0 layout, while some advanced Decaying Tool and simulation pages still use the classic interface.
 Decaying-model scores are distinct from MISP 3.0's **Value Intelligence** assessments and **analyst profiles**.
 Select the screenshot to enlarge it.
 :::
@@ -86,7 +86,7 @@ It is a preview, not the current score of a particular attribute or a substitute
 **Copy parameters** and **Download JSON** help record a configuration for review.
 
 Advanced Decaying Tool pages support type mappings, base-score inspection, and simulation using a REST-search selection or a specific attribute.
-Some remain in the classic layout, and the pinned Overmind detail page does not offer a **Simulate model** action.
+Some remain in the classic layout, and the pinned MISP 3.0 detail page does not offer a **Simulate model** action.
 Use the tools exposed by your instance, or verify a representative attribute through the search API below.
 Query overrides allow comparison without changing the stored model.
 

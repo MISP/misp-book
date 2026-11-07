@@ -16,7 +16,7 @@
     "branch": "3.0_wip",
     "version": "3.0.0",
     "commit": "99ebee729702c560528f9788953719bda68aa1c1",
-    "theme": "Overmind, light",
+    "theme": "MISP 3.0 interface, light",
     "role": "Site administrator in an isolated documentation fixture",
     "module_service_image": "sha256:78976a69c067520ef8be34cde307ef9f6fea6dcefa50edb57039773d241ca0db",
     "module_service_version": "3.1.3",

@@ -3,7 +3,7 @@
   "repository": "https://github.com/MISP/MISP",
   "branch": "3.0_wip",
   "commit": "d039260aee3a3b97c95129479e73013afefccb1b",
-  "theme": "Overmind, light",
+  "theme": "MISP 3.0 interface, light",
   "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
   "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
   "submodules": {
@@ -52,7 +52,7 @@
     "report_editor_save_verified": true,
     "delegation_request": 1,
     "pending_delegation_api_access_verified": true,
-    "pending_overmind_event_status": 404,
+    "pending_misp3_event_status": 404,
     "delegation_accepted": true,
     "delegated_event_new_id": 7,
     "delegation_verification": {
@@ -314,7 +314,7 @@
     "All data is fictional. Domains and IPs are reserved documentation values. All tutorial IDS flags are disabled.",
     "Tutorial event created in the UI; source link added, values imported, benign file uploaded and report saved through real UI controls.",
     "MISP.delegation enabled only in this local instance. No external AI/enrichment service used; email and background jobs disabled. No event published.",
-    "Pending delegation returned HTTP 404 in the Overmind event view while authorized API access and request review worked. No application code modified to hide this development limitation.",
+    "Pending delegation returned HTTP 404 in the MISP 3.0 event view while authorized API access and request review worked. No application code modified to hide this development limitation.",
     "Phishing model is shared and disabled as shipped; scoring tests explicitly select it. Model parameters are unchanged.",
     "The original Quick-start workspace remains active; the side panel is closed.",
     "Auth key form captured before generation; no key, TOTP secret, QR code or paper token is included. Sharing-group form captured before saving."
@@ -322,14 +322,14 @@
   "feature_sources": [
     "app/Controller/EventsController.php",
     "app/Model/Event.php",
-    "app/View/Themed/Overmind/Elements/Events/View/event_actions.ctp",
-    "app/View/Themed/Overmind/Events/ajax/eventPublishConfirmationForm.ctp",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/53f9d2bdaa2a97ebe2ac76f5eca80b9c4f91e7b9",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/6749ee66c3b45de8778cec95a3b47aa932ca02ff",
     "app/Controller/EventReportsController.php",
-    "app/View/Themed/Overmind/Elements/EventReports/View/eventReport_content.ctp",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/38509ce4672c31f6232ecb7af15e9fe9f02e1f85",
     "app/Model/AnalystData.php",
     "docs/dev/value_targets.md",
     "app/Controller/SightingsController.php",
-    "app/View/Themed/Overmind/Sightings/ajax/advanced.ctp",
+    "https://api.github.com/repos/MISP/MISP/git/blobs/50a9bba2714d0ebb31053379aeb31d2fb615a432",
     "app/Model/DecayingModelsFormulas/Polynomial.php",
     "app/Model/DecayingModel.php",
     "app/Controller/EventDelegationsController.php",
@@ -783,5 +783,6 @@
     "best-practices/screenshots.json"
   ],
   "retired_legacy_image_count": 69,
-  "preserved_old_section_anchors": true
+  "preserved_old_section_anchors": true,
+  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
 }

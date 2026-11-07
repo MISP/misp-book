@@ -11,7 +11,7 @@ record how to recover if an action fails. A workflow can modify intelligence, co
 or prevent a core operation; its execution context matters as much as its diagram.
 
 ::: {.callout-note}
-This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
 Workflow and blueprint administration is **site-admin only**. The editor still uses its own
 canvas interface in this branch. Screenshots show a local training graph with its automatic
 trigger disabled; select a figure to enlarge it.
