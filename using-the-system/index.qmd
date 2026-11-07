@@ -151,6 +151,8 @@ Use **TLP 2.0** labels for new data and set distribution separately; a TLP tag i
 **Tag collections** apply a predefined bundle of tags and are distinct from intelligence [collections](../collections/index.qmd).
 
 Global tags travel with shared intelligence. Local tags support instance-local work and are not synchronized as global markings; check any export options that explicitly include local tags.
+With tagging permission, a member of the instance's host organization can add local tags to an accessible event even when another organization created it.
+Creator-organization users need the appropriate tagging and event-edit permissions; see [local event-tagging permissions](../taxonomy/index.qmd#taxonomy-local-tagging-permissions) for the rules and the checked 3.0 editor limitation.
 See [Taxonomies](../taxonomy/index.qmd), [Galaxies](../galaxy/index.qmd), and [tagging best practices](../best-practices/index.qmd#tagging).
 
 ### Analyst data: notes, opinions and relationships

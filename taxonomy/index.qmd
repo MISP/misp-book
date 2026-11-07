@@ -92,6 +92,44 @@ Tags can select work for a [workflow](../workflows/index.qmd#workflow-hub) or co
 must implement that policy. An arbitrary tag does not by itself run enrichment, expire an
 indicator or change its IDS flag.
 
+### Who can add local tags to an event? {#taxonomy-local-tagging-permissions}
+
+Local tagging has its own permission check: being unable to edit another organization's event does not always prevent adding an instance-local label.
+For ordinary users, the event-tagging action requires the role's **tagging permission** (`perm_tagger`).
+The following rules apply to an event the user can access:
+
+::: {.table-responsive}
+
+| User's position | Local event tags | Global event tags |
+|---|---|---|
+| Member of the instance's **host organization**, with tagging permission | Can add local tags even when another organization created the event and the user cannot edit it. | Host-organization membership alone grants no right to change global tags. |
+| Member of the event's **creator organization**, with tagging and the appropriate event-edit permissions | Can add local tags through the normal event-editing permission path. | Can manage global tags through that same permission path. |
+| Other user without event-edit permissions | Viewing the event and having tagging permission alone are insufficient. | No right to change global tags. |
+| Site administrator | Allowed by the site-administrator exception. | Allowed by the site-administrator exception. |
+
+:::
+
+The **host organization** is configured by `MISP.host_org_id` on this instance.
+The event's **creator organization** is `Orgc`; it can differ from the locally owning organization, `Org`, after synchronization.
+Membership in either organization is not a substitute for the required role permissions.
+For the normal edit path, `perm_modify_org` permits edits to the creator organization's events, while `perm_modify` permits edits to events created by that user.
+A read-only account does not gain tagging rights merely by belonging to the host organization.
+
+For example, a host-organization analyst can mark a received event from a partner as needing local review, without gaining permission to rewrite that partner's shared markings.
+The selected tag must also be available to the account; creating a new tag definition is a separate permission (`perm_tag_editor`).
+
+::: {.callout-note}
+In the checked MISP 3.0 revision, the **Edit Tags** dialog also requires permission to modify the event when saving.
+The broader host-organization local-tagging right therefore does not guarantee that this dialog can save changes on a received event.
+The event-tagging API provides the explicit local action shown below.
+These rules were checked against [`ACLComponent::canModifyTag` and `canModifyEvent`](https://github.com/MISP/MISP/blob/99ebee729702c560528f9788953719bda68aa1c1/app/Controller/Component/ACLComponent.php#L1308) and [`EventsController::editEventTags` and `addTag`](https://github.com/MISP/MISP/blob/99ebee729702c560528f9788953719bda68aa1c1/app/Controller/EventsController.php#L3607).
+:::
+
+To add an existing tag locally through the API, send `POST /events/addTag/EVENT_ID/local:1` with a JSON body such as `{"tag": 123}` and your account's API authentication.
+Replace `EVENT_ID` with the accessible event's ID or UUID and `123` with the intended tag's ID.
+Check the response's `saved` and `errors` fields, then verify the local attachment on the event; an HTTP 200 response alone is not confirmation of success.
+See [Automation & API](../automation/index.qmd#api-authentication) for authentication and key restrictions.
+
 <a id="more-options-to-configure-taxonomies."></a>
 <a id="setting-a-taxonomy-as-highlighted"></a>
 <a id="setting-a-taxonomy-as-required"></a>

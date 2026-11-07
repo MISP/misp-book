@@ -245,6 +245,7 @@ It will be available in the tag editor after you save it.
 ### Local tags
 
 Local tags describe your instance's assessment and are not synchronized to other instances.
+For the host-organization and creator-organization rules, see [Who can add local tags to an event?](../taxonomy/index.qmd#taxonomy-local-tagging-permissions).
 In **Edit Tags**, select the tag and check which list it appears in before saving.
 Tags configured as **Local only** go directly under **Local Tags**.
 For an ordinary tag, use the selected tag's **Make it local** control to move it from **Global Tags** to **Local Tags**.
