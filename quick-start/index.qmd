@@ -6,13 +6,13 @@ format:
 ---
 
 Get a MISP instance running with Docker, sign in, and create your first event.
-This walkthrough uses the official [misp-docker](https://github.com/MISP/misp-docker) project and its pre-built images.
+This walkthrough builds MISP 3.0 locally using the official [misp-docker early-access branch](https://github.com/MISP/misp-docker/tree/misp-3.0_wip).
 If you already have access to an instance, skip to [Sign in to MISP](#sign-in-to-misp).
 
 ::: {.callout-note}
 The screenshots show MISP **3.0.0** from the development branch [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), using fictional data.
-For the MISP 3.0 interface shown here, use images built for the intended 3.0 revision and verify the running server version.
-The upstream project's default image tags do not automatically select the development branch.
+The [MISP 3.0 early-access instructions](https://misp.github.io/misp-website/2026/10/16/misp.3.0-early-access.html/) use the Docker branch **`misp-3.0_wip`**, which builds the application from **`3.0_wip`**.
+No pre-built images are published for this early-access deployment; build them locally as shown below.
 :::
 
 <!-- Screenshot source commits and capture details: screenshots.json -->
@@ -23,7 +23,7 @@ The upstream project's default image tags do not automatically select the develo
 
 You need Git, Docker Engine **25 or later**, and the Docker Compose plugin **2.17 or later**.
 Docker must be running, and your user must be able to run Docker commands.
-The host needs access to GitHub Container Registry (`ghcr.io`) and Docker Hub to pull the images.
+The build needs access to GitHub, GitHub Container Registry (`ghcr.io`), Docker Hub, and the package repositories used by the Dockerfiles.
 See the [instance requirements](../requirements/index.qmd) for sizing guidance.
 
 Check your Docker installation:
@@ -35,10 +35,10 @@ docker compose version
 
 ### Prepare the configuration
 
-Clone the project and create its local configuration file:
+Clone the MISP 3.0 Docker branch and create its local configuration file:
 
 ```bash
-git clone https://github.com/MISP/misp-docker.git
+git clone -b misp-3.0_wip https://github.com/MISP/misp-docker.git
 cd misp-docker
 cp template.env .env
 ```
@@ -47,6 +47,7 @@ Before starting MISP, open `.env` in your editor and review these settings:
 
 | Setting | What to configure |
 |---|---|
+| `CORE_TAG` | Keep `3.0_wip`, as supplied by this branch's `template.env`, to build MISP 3.0. |
 | `BASE_URL` | Keep `http://localhost` for access from the Docker host. For another hostname or port, use the exact URL you will open in your browser. |
 | `ADMIN_EMAIL` | Set the initial administrator's email address. If left empty, it defaults to `admin@admin.test`. |
 | `ADMIN_PASSWORD` | Set a unique, strong administrator password. If left empty, it defaults to `admin`. |
@@ -59,20 +60,21 @@ For a different port, consult the `NGINX_HTTP_PORT` and `NGINX_HTTPS_PORT` setti
 
 ::: {.callout-note}
 This walkthrough is for getting started on a trusted test host.
-Before making the instance available to others, review the [misp-docker production guidance](https://github.com/MISP/misp-docker#production) for credentials, HTTPS, mail, and persistent storage.
+Before making the instance available to others, review the [misp-docker production guidance](https://github.com/MISP/misp-docker/tree/misp-3.0_wip#production) for credentials, HTTPS, mail, and persistent storage.
 :::
 
 ### Start the containers
 
-From the `misp-docker` directory, pull the images and start the services:
+From the `misp-docker` directory, build the application images locally, then start the services once the build succeeds:
 
 ```bash
-docker compose pull
+docker compose build
 docker compose up -d
 docker compose ps
 ```
 
-The first startup initializes the database and MISP configuration and can take several minutes.
+The build downloads and installs the application and its dependencies, so it can take some time.
+The first startup then initializes the database and MISP configuration and can take several minutes.
 Follow its progress with:
 
 ```bash
@@ -82,7 +84,11 @@ docker compose logs --follow misp-core
 Press **Ctrl+C** to stop following the logs; the containers keep running.
 Once initialization finishes, open **http://localhost** on the Docker host, or the address you configured in `BASE_URL`.
 If the page is not available yet, check `docker compose ps` and the logs before trying again.
-The [upstream troubleshooting guide](https://github.com/MISP/misp-docker#troubleshooting) covers common startup problems.
+The [upstream troubleshooting guide](https://github.com/MISP/misp-docker/tree/misp-3.0_wip#troubleshooting) covers common startup problems.
+
+The application branch moves over time.
+For a later update, follow the [early-access upgrade instructions](https://misp.github.io/misp-website/2026/10/16/misp.3.0-early-access.html/) and rebuild with `docker compose build --no-cache` to fetch current source, or set `CORE_COMMIT` in `.env` to the specific application revision you intend to build.
+Keep the Docker checkout, configuration, and database upgrade steps aligned with that revision.
 
 To stop the instance without deleting its data:
 
@@ -102,6 +108,8 @@ For an existing instance, use the credentials supplied by your administrator.
 
 Accept the terms of use and set a new password if prompted.
 See [First run of the system](../user-management/index.qmd#first-run-of-the-system) for the account setup screens.
+
+Using the initial administrator account, open **Administration → Server Settings & Maintenance → Version & updates** and confirm that the running server reports **MISP 3.0** before continuing with the interface walkthrough.
 
 <a id="tasks-to-do-after-first-start"></a>
 

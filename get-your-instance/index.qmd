@@ -15,9 +15,10 @@ right option rather than reproducing install steps that change between releases.
     own host. MISP provides an installer script and step-by-step guides for the
     supported operating systems (recent Ubuntu, Debian and RHEL-based
     distributions). Start from the [download page](https://www.misp-project.org/download/).
-*   **Docker** — the [misp-docker](https://github.com/MISP/misp-docker) project
-    provides official container images and a `docker compose` setup, which is a
-    convenient way to run MISP (and misp-modules) in containers.
+*   **Docker** — for MISP 3.0 early access, use the
+    [`misp-3.0_wip` branch of misp-docker](https://github.com/MISP/misp-docker/tree/misp-3.0_wip)
+    and build the images locally; no pre-built images are published for this deployment.
+    Follow [Quick Start](../quick-start/index.qmd#start-misp-with-docker) for the configuration and build steps.
 *   **Cloud images** — MISP can be deployed from cloud/marketplace images and with
     infrastructure-as-code; see the download page for the current options.
 
