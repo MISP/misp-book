@@ -470,7 +470,7 @@
   "source_checks": {
     "shortcuts": [
       {
-        "file": "https://api.github.com/repos/MISP/MISP/git/blobs/eb6fc57f8c0e3b282a6d7b8dd5ca27e86a69e643",
+        "file": "app/View/Themed/Overmind/Layouts/default.ctp",
         "sha256": "d56b83177c7b0de6317ee8be826533fd5f3b14ce10b26e6d6bf513ab4404225a"
       },
       {
@@ -494,7 +494,7 @@
         "sha256": "c5351bcebfa03cf78832369190f5f170a38e380a06c16b895b2d87b2c60f2479"
       },
       {
-        "file": "https://api.github.com/repos/MISP/MISP/git/blobs/ee8563e1cba806d327382ea9131cf94e3119caf5",
+        "file": "app/View/Themed/Overmind/Elements/EventReports/View/eventReport_help_modal.ctp",
         "sha256": "774d1e12340d58765046560da70886ff025983c03600a4a553b8a507ac06eb94"
       }
     ],
@@ -625,5 +625,5 @@
     "pdf_pages": 336,
     "compact_diagrams_checked_in_pdf": true
   },
-  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
+  "source_reference_note": "Source paths retain their original repository identifiers at the recorded commit for reproducibility."
 }

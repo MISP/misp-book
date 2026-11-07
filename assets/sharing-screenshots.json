@@ -125,7 +125,7 @@
     "app/Model/Server.php",
     "app/Model/Event.php",
     "app/Lib/Tools/ServerSyncTool.php",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/d43b0c345f735f430ccc1a07ef759d77ffb328a1",
+    "app/View/Themed/Overmind/Servers/edit.ctp",
     "app/Lib/Migration/Migrations/Migration_20261007_120823_threads_to_analyst_data.php",
     "app/Model/Feed.php",
     "app/Controller/FeedsController.php",
@@ -136,10 +136,10 @@
     "app/Controller/CryptographicKeysController.php",
     "app/Model/CryptographicKey.php",
     "app/Controller/EventsController.php",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/53f9d2bdaa2a97ebe2ac76f5eca80b9c4f91e7b9",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/97b8d6005ef2dfe3b051978acc04fa82bc5dca82",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/13a3cc342f719abb4a5ed4f21d6a68b5ce97f898",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/fcd0a58aaf85785bc25f0a2f166abdfdc9d69ba5"
+    "app/View/Themed/Overmind/Elements/Events/View/event_actions.ctp",
+    "app/View/Themed/Overmind/Servers/index.ctp",
+    "app/View/Themed/Overmind/Elements/Servers/server_card.ctp",
+    "app/View/Themed/Overmind/Feeds/index.ctp"
   ],
   "shots": [
     {
@@ -450,5 +450,5 @@
       }
     ]
   },
-  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
+  "source_reference_note": "Source paths retain their original repository identifiers at the recorded commit for reproducibility."
 }
