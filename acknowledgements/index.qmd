@@ -1,0 +1,24 @@
+---
+title: "Acknowledgements"
+---
+
+The MISP User Guide is a collaborative effort involving contributors to [MISP](https://github.com/MISP), including:
+
+- Belgian Ministry of Defence (CERT)
+- [CIRCL Computer Incident Response Center Luxembourg](https://www.circl.lu/)
+- Iklody IT Solutions
+- [NATO NCIRC](http://www.ncirc.nato.int/)
+- Cthulhu Solutions
+- [CERT-EU](https://cert.europa.eu)
+
+We also thank the many other contributors, especially those who participated in the [MISP hackathons](https://github.com/MISP/MISP/wiki/Hackathon).
+Their shared experience helps turn the platform's features into guidance that other users can apply.
+
+The guide benefits from people who write and review chapters, report unclear instructions, test examples, update screenshots, draw diagrams, and improve the language and accessibility of the documentation.
+These contributions matter whether they arrive as a small correction, a detailed issue, a review, or a new chapter.
+
+The [repository's contributor history](https://github.com/MISP/misp-book/graphs/contributors) records contributions made through Git commits.
+It does not capture every discussion, report, or piece of feedback that has helped improve the book.
+Credits and source licenses for particular examples, diagrams, and adaptations are retained alongside that material.
+
+To take part, see [How to Contribute](../contributing/index.qmd).

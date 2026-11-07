@@ -1,0 +1,130 @@
+---
+title: "How to Contribute"
+---
+
+The MISP User Guide grows through the experience of the people who use, operate, teach, and develop MISP.
+You do not need to write code or be a MISP expert to help.
+A corrected sentence, a reproducible report of a confusing step, or a review of a procedure can make the next reader's work easier.
+
+The book's source is maintained in [MISP/misp-book](https://github.com/MISP/misp-book).
+Use its [issues](https://github.com/MISP/misp-book/issues) to report documentation problems or propose work, and its [pull requests](https://github.com/MISP/misp-book/pulls) to submit changes for review.
+For a substantial new chapter or reorganization, discuss the scope in an issue before investing in the full change.
+
+## Choose a way to help {#contribution-options}
+
+- **Report an error or missing explanation.** Identify the page and the point where the instructions stop being useful; a proposed fix is welcome but not required.
+- **Improve the writing.** Correct spelling, explain a term, simplify an ambiguous instruction, improve a caption, or connect a page to the relevant [glossary](../glossary.qmd) entry.
+- **Test a procedure.** Follow it on a known MISP version and report the result, prerequisites, required role, and any missing steps.
+- **Share a use case.** Describe a question, the observations available, the investigation steps, the result, and the limitations so another reader can repeat the method.
+- **Update illustrations.** Replace an outdated screenshot or improve a diagram's labels, structure, accessibility, or explanation.
+- **Review a proposed change.** Check technical accuracy, readability, examples, links, and whether the instructions work for the intended audience.
+- **Help with language and translations.** Improve the English text or discuss a translation with maintainers so the source, destination, and update process are clear.
+
+## Report a documentation problem {#contribution-issues}
+
+Search the [open issues](https://github.com/MISP/misp-book/issues) first; an existing report may already describe the problem.
+If it does, add any new reproduction details there.
+Otherwise, [open an issue](https://github.com/MISP/misp-book/issues/new) with a title that identifies the affected page and problem.
+
+Include the page URL and section heading, what you expected to understand or achieve, what the text currently says, and a suggested correction if you have one.
+For a procedure or screenshot, state the MISP version or branch, your user role, relevant prerequisites, and the steps you followed.
+For a layout problem, identify HTML, PDF, or ePub and the browser or reader involved.
+Use sanitized examples that can be shared publicly; omit credentials, session cookies, private threat intelligence, and personal information.
+
+Report defects in the MISP application to the [MISP core issue tracker](https://github.com/MISP/MISP/issues), and component-specific problems to that component's repository.
+Link the related report when the book also needs a correction.
+
+## Make a small edit in your browser {#contribution-browser}
+
+You can propose a text change without installing Git, Quarto, or MISP:
+
+1. Open the relevant page in the online book and select **Edit this page**, or find its source file in the repository.
+2. Sign in to GitHub and use its file editor. If you do not have write access, GitHub will guide you through creating a fork.
+3. Edit the `.qmd` source, which is Markdown with a short metadata header. Preserve the surrounding structure and existing heading identifiers.
+4. Commit the change to a branch in your fork and open a pull request against **MISP/misp-book**, base branch **main**.
+5. Explain the reader's problem, what changed, and how you checked it. Link the relevant issue, then respond to review comments and check results.
+
+For a broken link or typo, a short explanation is enough.
+For changed procedures, describe the version tested and the observed result so reviewers can assess the claim.
+
+## Work on a larger change locally {#contribution-local}
+
+Fork the repository on GitHub, then clone your fork and create a focused branch.
+Replace `YOUR-ACCOUNT` with your GitHub account:
+
+```sh
+git clone https://github.com/YOUR-ACCOUNT/misp-book.git
+cd misp-book
+git switch -c docs/improve-a-procedure
+```
+
+Most chapters are stored as `<chapter>/index.qmd`; illustrations belong in that chapter's `figures/` directory.
+The root `_quarto.yml` defines the reading order and output formats.
+When adding a chapter, register it in the appropriate part and add useful links from related pages.
+
+Install [Quarto](https://quarto.org/docs/get-started/), using the version pinned in the repository's [build workflow](https://github.com/MISP/misp-book/blob/main/.github/workflows/quarto.yml) for reproducible results.
+Preview while editing, then render the book:
+
+```sh
+quarto preview
+```
+
+Stop the preview with Ctrl+C before running the full checks:
+
+```sh
+quarto render
+quarto render --profile pdf-smoke --to typst
+```
+
+The main render produces HTML, PDF, and ePub in `_book/`.
+The smoke profile checks representative PDF cross-reference layouts.
+Inspect the changed pages in the relevant formats, including a narrow browser window for new tables or figures.
+Ordinary documentation builds reuse committed `_freeze/` results and do not require a live MISP instance or API key.
+If you intentionally update executable examples, follow the [README's refresh procedure](https://github.com/MISP/misp-book/blob/main/README.md#executable-code-chapters) and review the frozen output before committing it.
+
+Commit the source changes, push your branch to your fork, and open a pull request against `main`.
+Generated `_book/` and `_book-pdf-smoke/` output should remain outside the commit.
+GitHub Actions renders the formats, checks the PDF smoke profile, and validates internal links and anchors; investigate any failed check and describe unresolved issues in the PR.
+Passing automated checks supports review but does not replace checking the procedure itself.
+Maintainers review and merge accepted changes.
+
+## Add useful examples, screenshots, and diagrams {#contribution-illustrations}
+
+Describe the version or source revision you tested, the role used, and any configuration needed to reproduce a procedure.
+Distinguish current behavior from a proposed feature or an observation from an older branch.
+Link to maintained installation instructions and component documentation rather than copying long procedures that can drift independently.
+
+Capture screenshots from the interface you describe, using a dedicated test instance and shareable data.
+Prefer reserved domains and addresses for constructed examples and label them as synthetic.
+Show the relevant controls at a readable size, add meaningful alternative text and a caption, and state the version captured.
+Keep credentials and private records out of the capture.
+Record provenance alongside version-specific illustrations, following the existing chapter manifests in `assets/`.
+
+For Mermaid diagrams, edit the `.mmd` source beside the figure and use the shared renderer to generate its SVG.
+The [diagram guide](https://github.com/MISP/misp-book/blob/main/assets/diagrams/README.md) explains the MISP theme, automatic logo, accessible labels, dependencies, and regeneration command.
+Commit the source, generated SVG, and updated diagram manifest together.
+For generated category/type tables, follow the [data model reference guide](https://github.com/MISP/misp-book/blob/main/assets/data-model/README.md) instead of editing generated rows by hand.
+
+## Review, language, and related MISP contributions {#contribution-review}
+
+Reviewers can help by following the proposed instructions, checking whether a different role sees the same controls, or identifying an unsupported conclusion.
+Leave feedback that names the affected passage, explains the problem, and suggests a clearer alternative where possible.
+Report what you tested rather than implying coverage of versions or environments you did not use.
+
+The book uses American English and English interface examples.
+Language corrections are welcome from all contributors.
+For a book translation, open an issue to agree on the language, publication format, and how it will track source updates; translating the application interface is a separate activity covered in [MISP and Internationalization](../translation/index.qmd).
+
+Changes to MISP code, object templates, taxonomies, galaxies, warninglists, or modules belong in their own repositories and follow those projects' contribution instructions.
+The book can explain the resulting behavior and link to it; see [MISP Objects](../misp-objects/index.qmd), [Taxonomies](../taxonomy/index.qmd), [Galaxies](../galaxy/index.qmd), [Warninglists](../warninglists/index.qmd), and [MISP Modules](../modules/index.qmd) for the relevant context.
+
+## Style, attribution, and community {#contribution-credit}
+
+Use clear headings, relative `.qmd` links within the book, fenced code blocks with a language, and one sentence per source line where practical.
+Preserve existing anchors when changing headings, and explain acronyms before relying on them.
+The repository's [contribution guidelines](https://github.com/MISP/misp-book/blob/main/CONTRIBUTING.md) summarize the source conventions.
+
+The guide is dual-licensed under [AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html) and [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+Check that material you contribute can be shared under the applicable terms, credit external sources, and retain any material-specific notices and licenses.
+Treat other participants respectfully and follow the MISP project's [code of conduct](https://github.com/MISP/MISP/blob/3.0_wip/code_of_conduct.md).
+The [Acknowledgements](../acknowledgements/index.qmd) recognize the community behind this guide.

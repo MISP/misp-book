@@ -35,25 +35,10 @@ It is maintained against the current **MISP 2.5.x** release series; where behavi
 :::
 :::
 
-## Acknowledgement
+<a id="acknowledgement"></a>
+<a id="contributing"></a>
 
-The MISP user guide is a collaborative effort involving contributors to [MISP](https://www.github.com/MISP), including:
-
-* Belgian Ministry of Defence \(CERT\)
-* [CIRCL Computer Incident Response Center Luxembourg](https://www.circl.lu/)
-* Iklody IT Solutions
-* [NATO NCIRC](http://www.ncirc.nato.int/)
-* Cthulhu Solutions
-* [CERT-EU](https://cert.europa.eu)
-
-and many other contributors, especially those who participated in the [MISP hackathons](https://github.com/MISP/MISP/wiki/Hackathon "MISP Hackathon Wiki").
-
-## Contributing
-
-We welcome contributions to the MISP book.
-If you want to contribute, see our [contributing guide](https://github.com/MISP/misp-book/blob/main/CONTRIBUTING.md).
-
-{{< pagebreak >}}
+To help improve this guide, see [How to Contribute](contributing/index.qmd) at the end of the book, followed by the [Acknowledgements](acknowledgements/index.qmd).
 
 ## Format
 

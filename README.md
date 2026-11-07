@@ -74,6 +74,7 @@ deploy on push to `main` (deploy requires the `CIRCL_DEPLOY_KEY` and
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). The MISP user guide is dual-licensed
+See [How to Contribute](contributing/index.qmd) for ways to help and [CONTRIBUTING.md](CONTRIBUTING.md) for repository conventions.
+The MISP user guide is dual-licensed
 under [AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html) and
 [CC-BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
