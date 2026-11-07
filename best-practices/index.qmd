@@ -100,6 +100,8 @@ Open **Data points → Value Intelligence**, look up a value, and select **Open 
 Use the **Occurrences** tab to inspect the underlying events and their provenance, rather than treating the number of matches as independent corroboration.
 Three events copied from one source can still represent one observation.
 
+The [pivoting use case](../pivoting/index.qmd) walks through broad discovery, refinement and validation using synthetic infrastructure and page artifacts.
+
 The **Assessment** tab explains the available signals and the effective **analyst profile** used to interpret them.
 A user profile takes precedence over an organization profile, which takes precedence over the instance default.
 Profiles define weights, thresholds, and other assessment settings, so analysts with different profiles or visibility can reach different displayed results for the same value.

@@ -134,6 +134,13 @@
       "viewBox": "0 0 611.5859375 740.3999633789062"
     },
     {
+      "source": "pivoting/figures/pivoting-workflow.mmd",
+      "file": "pivoting/figures/pivoting-workflow.svg",
+      "source_sha256": "53a722a4069fe6ef18b0ed23a8135799d975bcaae08c1db056ed57b5852201d8",
+      "sha256": "a7c7541727eafb4b245af2ca57e202b3491b1db9eaa002b3592514360052ad0c",
+      "viewBox": "0 0 584.6640625 895.7874755859375"
+    },
+    {
       "source": "sharing/figures/distribution-boundaries.mmd",
       "file": "sharing/figures/distribution-boundaries.svg",
       "source_sha256": "32c8248b4c6c99145a99e423b65854286be8f3084d4fd73644c1b800a18e18e6",
