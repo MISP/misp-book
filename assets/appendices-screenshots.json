@@ -262,7 +262,7 @@
       "sha256": "49a7c9dc67ee9127571fda8929f43ecf2ec5538f3e702fb05e5e48cc6658beaf"
     },
     {
-      "file": "https://api.github.com/repos/MISP/MISP/git/blobs/bcc93ff713d47830a426937834287fa3650943f0",
+      "file": "app/View/Themed/Overmind/Tasks/add.ctp",
       "sha256": "2e3cc9fdf1148cf7fa4dba9d32025acf9fae3f7e575ba9d6261ceff74fc49e99"
     },
     {
@@ -367,5 +367,5 @@
     "capture_containers_stopped": true,
     "capture_secret_scan": true
   },
-  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
+  "source_reference_note": "Source paths retain their original repository identifiers at the recorded commit for reproducibility."
 }

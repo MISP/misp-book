@@ -322,14 +322,14 @@
   "feature_sources": [
     "app/Controller/EventsController.php",
     "app/Model/Event.php",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/53f9d2bdaa2a97ebe2ac76f5eca80b9c4f91e7b9",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/6749ee66c3b45de8778cec95a3b47aa932ca02ff",
+    "app/View/Themed/Overmind/Elements/Events/View/event_actions.ctp",
+    "app/View/Themed/Overmind/Events/ajax/eventPublishConfirmationForm.ctp",
     "app/Controller/EventReportsController.php",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/38509ce4672c31f6232ecb7af15e9fe9f02e1f85",
+    "app/View/Themed/Overmind/Elements/EventReports/View/eventReport_content.ctp",
     "app/Model/AnalystData.php",
     "docs/dev/value_targets.md",
     "app/Controller/SightingsController.php",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/50a9bba2714d0ebb31053379aeb31d2fb615a432",
+    "app/View/Themed/Overmind/Sightings/ajax/advanced.ctp",
     "app/Model/DecayingModelsFormulas/Polynomial.php",
     "app/Model/DecayingModel.php",
     "app/Controller/EventDelegationsController.php",
@@ -784,5 +784,5 @@
   ],
   "retired_legacy_image_count": 69,
   "preserved_old_section_anchors": true,
-  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
+  "source_reference_note": "Source paths retain their original repository identifiers at the recorded commit for reproducibility."
 }
