@@ -9,6 +9,8 @@ A warninglist adds context to a value that may need attention: reserved/private 
 public infrastructure, common domains, empty-file hashes or another known set. A hit is a
 reason to review the observation and intended use, not proof that it is benign or malicious.
 
+See [How to Deal with False Positives](../false-positives/index.qmd) for a practical workflow combining warninglists, feedback and detection selection.
+
 ::: {.callout-note}
 This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
 Lists come from [misp-warninglists](https://github.com/MISP/misp-warninglists) or local definitions.

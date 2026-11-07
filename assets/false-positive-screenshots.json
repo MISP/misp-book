@@ -1,0 +1,412 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "theme": "MISP 3.0 interface, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "The isolated fixture uses a compatible container runtime with the pinned 3.0 application source mounted over it. This is not a claim that the runtime image itself is a released MISP 3.0 image.",
+  "generated_at": "2026-11-07T17:46:26.642494+00:00",
+  "scope_chapters": [
+    "false-positives"
+  ],
+  "issue": "https://github.com/MISP/misp-book/issues/66",
+  "capture_method": "Genuine Chromium screenshots at device scale 1, using full viewports, DOM-element screenshots or recorded page clips. No arrows, overlays, image edits or fabricated UI. Sighting and IDS changes were saved and verified; the import form was captured before its temporary rule was saved/tested/removed. Correlation and REST Client forms are staged only. No API key was entered into the REST Client.",
+  "fixture": {
+    "event_id": "13",
+    "event_uuid": "68a8785c-aaec-4d0d-9f10-a1d2d3db4e62",
+    "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "attributes": {
+      "health-check.example": {
+        "id": "47",
+        "uuid": "f9016ad7-bb03-4485-b16c-2204c0b9f302"
+      },
+      "review-pending.example": {
+        "id": "48",
+        "uuid": "813de2ac-1352-4e75-8c3c-e7851c4de343"
+      },
+      "context-only.example": {
+        "id": "49",
+        "uuid": "f6507ef8-9eaa-43b4-b2ff-e1b9d2d8b8f1"
+      },
+      "stale-observation.example": {
+        "id": "50",
+        "uuid": "a533db7f-3752-42bc-9695-0a7155ad7727"
+      }
+    },
+    "warninglist": {
+      "id": "229",
+      "initial_enabled": false
+    },
+    "note_uuid": "caefb1eb-2a16-4f30-99dd-abf0d9f8f7f6",
+    "ids_cleared_via_ui": true,
+    "regexp_verification": {
+      "regexp": "/^blocked-import\\.example$/i",
+      "type": "domain",
+      "matching_domain_rejected": true,
+      "nonmatching_domain_accepted": true,
+      "same_value_outside_type_scope_accepted": true,
+      "temporary_rule_removed": true
+    },
+    "cleanup": {
+      "all_four_detection_flags_off": true,
+      "synthetic_warninglist_disabled": true,
+      "event_private_unpublished": true,
+      "temporary_regexp_removed": true,
+      "correlation_exclusion_never_saved": true,
+      "staged_rest_client_never_sent": true,
+      "no_publication_or_external_provider": true
+    }
+  },
+  "behavior_checks": {
+    "query": {
+      "returnFormat": "json",
+      "eventid": "13"
+    },
+    "baseline": [
+      "health-check.example",
+      "review-pending.example",
+      "context-only.example",
+      "stale-observation.example"
+    ],
+    "warninglist_enforced": [
+      "review-pending.example",
+      "context-only.example",
+      "stale-observation.example"
+    ],
+    "ids": [
+      "review-pending.example",
+      "stale-observation.example"
+    ],
+    "scores": [
+      {
+        "uuid": "f9016ad7-bb03-4485-b16c-2204c0b9f302",
+        "value": "health-check.example",
+        "decay_score": [
+          {
+            "score": 46.784964233966036,
+            "base_score": 80,
+            "decayed": false,
+            "DecayingModel": {
+              "id": 1,
+              "name": "Phishing model"
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "813de2ac-1352-4e75-8c3c-e7851c4de343",
+        "value": "review-pending.example",
+        "decay_score": [
+          {
+            "score": 46.784964233966036,
+            "base_score": 80,
+            "decayed": false,
+            "DecayingModel": {
+              "id": 1,
+              "name": "Phishing model"
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "f6507ef8-9eaa-43b4-b2ff-e1b9d2d8b8f1",
+        "value": "context-only.example",
+        "decay_score": [
+          {
+            "score": 76.16803367151716,
+            "base_score": 80,
+            "decayed": false,
+            "DecayingModel": {
+              "id": 1,
+              "name": "Phishing model"
+            }
+          }
+        ]
+      },
+      {
+        "uuid": "a533db7f-3752-42bc-9695-0a7155ad7727",
+        "value": "stale-observation.example",
+        "decay_score": [
+          {
+            "score": 0,
+            "base_score": 80,
+            "decayed": true,
+            "DecayingModel": {
+              "id": 1,
+              "name": "Phishing model"
+            }
+          }
+        ]
+      }
+    ],
+    "excludeDecayed": [
+      "health-check.example",
+      "review-pending.example",
+      "context-only.example"
+    ],
+    "combined": [
+      "review-pending.example"
+    ],
+    "combined_query": {
+      "returnFormat": "json",
+      "eventid": "13",
+      "to_ids": true,
+      "enforceWarninglist": true,
+      "decayingModel": 1,
+      "excludeDecayed": true
+    },
+    "sighting": {
+      "type": 1,
+      "timestamp": 1794038700,
+      "source": "Synthetic gateway review: scheduled health check",
+      "count": 1,
+      "ids_remained_enabled_until_separate_edit": true
+    },
+    "ids_and_correlation": {
+      "health_check_ids": false,
+      "health_check_disable_correlation": false,
+      "independent_flags_verified": true
+    }
+  },
+  "source_checks": [
+    {
+      "file": "app/Model/MispAttribute.php",
+      "sha256": "904a4d13c6ec3058a7d861b0492786a5fe46f5b68abc4589f5ef15e2c4df0009"
+    },
+    {
+      "file": "app/Model/Sighting.php",
+      "sha256": "74bbfd6c684694484b8560963bf9f417dcfb7faad4c921d8f10244e0d6551098"
+    },
+    {
+      "file": "app/Controller/SightingsController.php",
+      "sha256": "03840ffaa2a7531996b43520c6a6bff1770451a90285307db77ac23000447488"
+    },
+    {
+      "file": "app/Model/Warninglist.php",
+      "sha256": "c00d89dfddb2ddcdacff106333cf3fe320d449ae324e8225f63f500b32e67064"
+    },
+    {
+      "file": "app/Controller/WarninglistsController.php",
+      "sha256": "5880a330ed4995fee960b9b7d9f63c5adb480e8ce40e4138315124000c3ca6e8"
+    },
+    {
+      "file": "app/Model/DecayingModel.php",
+      "sha256": "30c2f2afd66866d63d438147499bce27bf1f2923239b2c3f55984ab0f3100721"
+    },
+    {
+      "file": "app/Model/AnalystData.php",
+      "sha256": "6f97ab9811b26e99fb8bb5bc03816ce6da5d1dc545e80efd0d34de8d94b747c0"
+    },
+    {
+      "file": "app/Controller/RegexpController.php",
+      "sha256": "dc563212ba1787700388b4ff5e8d3df8f727a3b31c8371b542f04b02831448e5"
+    },
+    {
+      "file": "app/Model/Regexp.php",
+      "sha256": "971865685b490580d269b40c21a96a69d06678e183a2d46999ede337f39eb315"
+    },
+    {
+      "file": "app/Model/CorrelationExclusion.php",
+      "sha256": "d13775a26dd27fad573dfbc9ea1199d56503b8c7d9f89ec936d5061b814e4b27"
+    },
+    {
+      "file": "app/Controller/CorrelationExclusionsController.php",
+      "sha256": "579b5c840442a3861e69dffa54eabd9e9126d2383395af694904e86c57480d5d"
+    },
+    {
+      "file": "app/Controller/ApiController.php",
+      "sha256": "c0332dbe18caf441a4725331a66026de54c8dfc68ffad10634ee06b2b70e0bf1"
+    }
+  ],
+  "shots": [
+    {
+      "file": "false-positives/figures/misp3-false-positive-sighting.png",
+      "url": "/events/view/13#tab-attributes",
+      "description": "False-positive sighting type selected with the source and observation time; before submitting.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:35:59.052014+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 764
+      },
+      "sha256": "c70debb3615f308c90493d800b0eaab8d483bdf93cdcb1522317efb43f7d95da",
+      "clip": null
+    },
+    {
+      "file": "false-positives/figures/misp3-false-positive-journal.png",
+      "url": "/events/view/13#tab-attributes",
+      "description": "Saved type-1 feedback in the sighting journal. Detection and correlation flags are separate.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:36:00.904300+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 414
+      },
+      "sha256": "742ce3bb77ad23e2ca289a5826f8be322c791357fcb59d91219b454d5dbe8cad",
+      "clip": null
+    },
+    {
+      "file": "false-positives/figures/misp3-context-only.png",
+      "url": "/events/view/13#tab-attributes",
+      "description": "For IDS is cleared while Correlation remains enabled, preserving the observation as context.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:36:03.299269+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 946
+      },
+      "sha256": "d5a5fd816066057b3ba1c3565c4d5ee387b01efc037adec64dfc0a070d796283",
+      "clip": null
+    },
+    {
+      "file": "false-positives/figures/misp3-import-regexp.png",
+      "url": "/admin/regexp/index",
+      "description": "An anchored PHP expression with an empty replacement, restricted to domain attributes; staged before saving.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:40:04.386805+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 572
+      },
+      "sha256": "fb8b027620b3914387c905d2ccaa6736c4f6632f37d6fe774625308804db5aad",
+      "clip": null
+    },
+    {
+      "file": "false-positives/figures/misp3-correlation-exclusion.png",
+      "url": "/correlationExclusions/index",
+      "description": "A staged exact-value correlation exclusion; it does not change the IDS flag or the detection export. No global exclusion was saved.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:40:08.111800+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 468
+      },
+      "sha256": "3ed5f4224bec8b7ab471efe8f9c891b14bf8962ade3bb801f0963d905716bda6",
+      "clip": null
+    },
+    {
+      "file": "false-positives/figures/misp3-assessment-note.png",
+      "url": "/analystData/view/Note/caefb1eb-2a16-4f30-99dd-abf0d9f8f7f6",
+      "description": "Saved occurrence-level Note and its author/distribution cards, captured directly from the live page.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 12,
+        "y": 241,
+        "width": 1056,
+        "height": 283
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:44:52.552587+00:00",
+      "image_size": {
+        "width": 1056,
+        "height": 283
+      },
+      "sha256": "e46f22c15983b1c6d18f8fc0c13aa6a0b69a9fe630926f153f78a2a3ea257d8b"
+    },
+    {
+      "file": "false-positives/figures/misp3-warninglist-match.png",
+      "url": "/warninglists/index/matchValue:health-check.example",
+      "description": "Enabled synthetic exact-match list and its value-match result, captured from the live page.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 400
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:44:54.000784+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 400
+      },
+      "sha256": "fabd7220a95d109c28336112f1f06e144124a142f9b64f80eace9f87ba273245"
+    },
+    {
+      "file": "false-positives/figures/misp3-export-filters.png",
+      "url": "/api/rest",
+      "description": "Staged event-scoped request in the actual REST Client form; no key entered and no UI request sent. Selections were verified separately via the API.",
+      "role": "Site administrator",
+      "selector": "#restClientForm",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:45:12.352016+00:00",
+      "image_size": {
+        "width": 1058,
+        "height": 447
+      },
+      "sha256": "84263233baea8fd264aae39ab0681e6e0084ecd30becc2a617bf46a6245cf1e0"
+    },
+    {
+      "file": "false-positives/figures/misp3-decaying-model.png",
+      "url": "/decayingModel/view/1",
+      "description": "The actual Phishing model decay-curve card and parameter summary. This is a nominal preview rather than the current score of a particular attribute.",
+      "role": "User",
+      "selector": "div.card:has-text(\"Decay curve\"):not(:has(div.card))",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T17:45:46.709908+00:00",
+      "image_size": {
+        "width": 1056,
+        "height": 641
+      },
+      "sha256": "2f87b70f6f0121ea2baec679472a8aca07755a5d0c9fefebabbef2cc3b70d025"
+    }
+  ],
+  "verification_limits": [
+    "The behavior checks use a private unpublished synthetic event at the pinned source revision, not a production consumer or peer.",
+    "The Correlation exclusion form was staged but not saved; no global correlation policy or cleanup was applied.",
+    "The REST Client form was staged but not sent. The illustrated filter selections were executed separately through the authenticated local attribute API.",
+    "Import rejection was tested on attribute creation, not every import/synchronization path. The legacy Regexp JSON index/redirect returned HTTP 500 in this fixture, so temporary rule persistence/removal was confirmed in the local database, with behavior checked through the attribute API.",
+    "The nominal decay curve is not an attribute-specific score; API checks recorded the actual selected-model result. Synthetic warninglist enablement and test IDS flags were cleared after capture."
+  ]
+}

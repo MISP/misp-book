@@ -60,6 +60,9 @@ book:
         - misp-objects/index.qmd
         - warninglists/index.qmd
         - noticelists/index.qmd
+    - part: "Use Cases"
+      chapters:
+        - false-positives/index.qmd
     - part: "Sharing & Synchronisation"
       chapters:
         - sharing/index.qmd
