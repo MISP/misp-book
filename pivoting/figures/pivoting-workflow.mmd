@@ -1,0 +1,11 @@
+flowchart TD
+  accTitle: Question-driven pivoting with explicit validation
+  accDescr: Define an investigative question, choose a typed selector with source and time context, and fetch candidate observations. Validate the candidates. A useful lead is recorded with limitations; an overbroad result is refined with another selector or time window; a branch without value for this question is parked with a reopening condition. This is an analyst workflow, not a database schema or an automatic attribution engine.
+  Q["Define the question<br/>Evidence needed · stopping condition"] --> F["Choose a typed selector and fetch<br/>Source · observation time<br/>Inspect visible candidates"]
+  F --> V{"Useful for this question?"}
+  V -->|Retain a lead| R["Record evidence and alternatives<br/>Qualified assessment · next step"]
+  V -->|Refine selector, time or source| F
+  V -->|No useful next step| P["Park this branch<br/>Reason · condition for reopening"]
+  class Q,F accent;
+  class R success;
+  class P caution;

@@ -1,0 +1,503 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "theme": "MISP 3.0 interface, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "The isolated fixture uses a compatible container runtime with the pinned 3.0 application source mounted over it; the runtime tag is not presented as a released MISP 3.0 image.",
+  "generated_at": "2026-11-07T18:22:54.410311+00:00",
+  "scope_chapters": [
+    "pivoting"
+  ],
+  "adapted_source": {
+    "title": "The Art of Pivoting: Techniques for Intelligence Analysts to Discover New Relationships",
+    "author": "Alexandre Dulaunoy",
+    "copyright": "Alexandre Dulaunoy",
+    "license": "CC BY-SA 4.0",
+    "repository": "https://github.com/adulau/the-art-of-pivoting",
+    "commit": "3484c8ec60aff3f324a0c15d9ab82ccd9c9182b6",
+    "file": "book/book.md",
+    "sha256": "e89a93df65e2ed4b75f9ca4e9ab7f87d73a12392ef13109b0078c01abdaf682c",
+    "adaptation": "A shortened constructed MISP 3.0 exercise, new screenshots and a workflow diagram; source attribution and CC BY-SA 4.0 are retained in the chapter."
+  },
+  "capture_method": "Genuine Chromium screenshots using recorded viewports, page clips and DOM-element captures. No image editing, annotation arrows or fabricated UI. Occurrence columns were selected through the UI and restored. The graph was populated through native event-element and correlation Fetch/review/ingest controls; its computed edges were not drawn manually.",
+  "fixture": {
+    "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "favicon_mmh3": "1357913579",
+    "favicon_note": "An explicitly synthetic integer selector, not a hash asserted to come from a collected real favicon.",
+    "dom_hash": "450a5b80faeb6c6e481ebaed5c12471c",
+    "other_dom_hash": "06c8be37a550e61d2b24169ba31b00bb",
+    "cookie_name": "caseflow_session",
+    "events": {
+      "A": {
+        "id": "14",
+        "uuid": "84cecfec-bac9-4714-9709-33523c6ca98c",
+        "domain": "portal-alpha.example",
+        "ip": "192.0.2.40",
+        "first_seen": "2026-11-07T08:00:00Z",
+        "last_seen": "2026-11-07T08:10:00Z",
+        "attributes": {
+          "url": {
+            "id": "55",
+            "uuid": "152a3b22-158e-4495-beb0-b485772b6ed8",
+            "value": "https://portal-alpha.example/signin"
+          },
+          "favicon-mmh3": {
+            "id": "56",
+            "uuid": "ec37aa76-8d3e-452b-8183-544aa7d29ebf",
+            "value": "1357913579"
+          },
+          "dom-hash": {
+            "id": "57",
+            "uuid": "ced06d09-e192-483f-856c-932d60be6ccd",
+            "value": "450a5b80faeb6c6e481ebaed5c12471c"
+          },
+          "cookie": {
+            "id": "58",
+            "uuid": "54f33118-ba4f-4d29-ba74-9527a41e0c16",
+            "value": "caseflow_session"
+          }
+        },
+        "object_uuid": "d1518694-86b9-4ff8-a938-1cf546e18a71",
+        "object_id": "5"
+      },
+      "B": {
+        "id": "15",
+        "uuid": "f01063fb-e7e6-40c2-b6b6-7c2c581fca5b",
+        "domain": "portal-beta.example",
+        "ip": "198.51.100.27",
+        "first_seen": "2026-11-07T08:05:00Z",
+        "last_seen": "2026-11-07T08:20:00Z",
+        "attributes": {
+          "url": {
+            "id": "61",
+            "uuid": "6d3cbeb6-8b8e-4795-9c4e-4b7780b02268",
+            "value": "https://portal-beta.example/signin"
+          },
+          "favicon-mmh3": {
+            "id": "62",
+            "uuid": "9f12d745-54a7-480f-a8df-3db90e11bfd8",
+            "value": "1357913579"
+          },
+          "dom-hash": {
+            "id": "63",
+            "uuid": "40596caf-2f11-4fd1-8c87-a6a48e4965f4",
+            "value": "450a5b80faeb6c6e481ebaed5c12471c"
+          },
+          "cookie": {
+            "id": "64",
+            "uuid": "325e4905-e577-4f47-a1e4-6431bcbc0673",
+            "value": "caseflow_session"
+          }
+        },
+        "object_uuid": "29060ba9-dd6a-47dc-8aef-80623fc6327b",
+        "object_id": "6"
+      },
+      "C": {
+        "id": "16",
+        "uuid": "8f6f47b7-a8bc-47c6-bb13-9d4d55c2aa56",
+        "domain": "shared-host.example",
+        "ip": "192.0.2.40",
+        "first_seen": "2026-11-01T08:00:00Z",
+        "last_seen": "2026-11-01T08:10:00Z",
+        "attributes": {
+          "url": {
+            "id": "67",
+            "uuid": "6a05d5fe-36d3-4551-a671-ecd2d0477026",
+            "value": "https://shared-host.example/signin"
+          },
+          "favicon-mmh3": {
+            "id": "68",
+            "uuid": "6c7a3d4f-3714-4c5f-b293-715528e7d886",
+            "value": "1357913579"
+          },
+          "dom-hash": {
+            "id": "69",
+            "uuid": "d39aa24c-e4bc-43ef-aca4-8f664fb87e10",
+            "value": "06c8be37a550e61d2b24169ba31b00bb"
+          },
+          "cookie": {
+            "id": "70",
+            "uuid": "a55421ed-f25f-4948-b85e-fefdc6d2d9de",
+            "value": "generic_session"
+          }
+        },
+        "object_uuid": "5aef6c83-9651-4a96-bd9d-3d7447358f34",
+        "object_id": "7"
+      }
+    },
+    "question": "Does candidate B merit follow-up for possible template reuse with seed A, while C is parked for this question?",
+    "note_uuid": "d9d03ced-0f09-4d2e-b47d-e40c969523a6",
+    "original_active_workspace": "ea3144eb-313d-4f6a-b897-c65b099ee1e8",
+    "workspace_uuid": "0ab5a427-aa1b-403b-b4a1-add2bc0b827d",
+    "active_workspace_restored": true
+  },
+  "behavior_checks": {
+    "favicon": {
+      "type": "favicon-mmh3",
+      "value": "1357913579",
+      "captures": [
+        "A",
+        "B",
+        "C"
+      ],
+      "attributes": [
+        {
+          "uuid": "ec37aa76-8d3e-452b-8183-544aa7d29ebf",
+          "event_id": 14,
+          "type": "favicon-mmh3",
+          "value": "1357913579",
+          "first_seen": "2026-11-07T08:00:00.000000+00:00",
+          "last_seen": "2026-11-07T08:10:00.000000+00:00",
+          "to_ids": false
+        },
+        {
+          "uuid": "9f12d745-54a7-480f-a8df-3db90e11bfd8",
+          "event_id": 15,
+          "type": "favicon-mmh3",
+          "value": "1357913579",
+          "first_seen": "2026-11-07T08:05:00.000000+00:00",
+          "last_seen": "2026-11-07T08:20:00.000000+00:00",
+          "to_ids": false
+        },
+        {
+          "uuid": "6c7a3d4f-3714-4c5f-b293-715528e7d886",
+          "event_id": 16,
+          "type": "favicon-mmh3",
+          "value": "1357913579",
+          "first_seen": "2026-11-01T08:00:00.000000+00:00",
+          "last_seen": "2026-11-01T08:10:00.000000+00:00",
+          "to_ids": false
+        }
+      ]
+    },
+    "dom": {
+      "type": "dom-hash",
+      "value": "450a5b80faeb6c6e481ebaed5c12471c",
+      "captures": [
+        "A",
+        "B"
+      ],
+      "attributes": [
+        {
+          "uuid": "ced06d09-e192-483f-856c-932d60be6ccd",
+          "event_id": 14,
+          "type": "dom-hash",
+          "value": "450a5b80faeb6c6e481ebaed5c12471c",
+          "first_seen": "2026-11-07T08:00:00.000000+00:00",
+          "last_seen": "2026-11-07T08:10:00.000000+00:00",
+          "to_ids": false
+        },
+        {
+          "uuid": "40596caf-2f11-4fd1-8c87-a6a48e4965f4",
+          "event_id": 15,
+          "type": "dom-hash",
+          "value": "450a5b80faeb6c6e481ebaed5c12471c",
+          "first_seen": "2026-11-07T08:05:00.000000+00:00",
+          "last_seen": "2026-11-07T08:20:00.000000+00:00",
+          "to_ids": false
+        }
+      ]
+    },
+    "cookie": {
+      "type": "cookie",
+      "value": "caseflow_session",
+      "captures": [
+        "A",
+        "B"
+      ],
+      "attributes": [
+        {
+          "uuid": "54f33118-ba4f-4d29-ba74-9527a41e0c16",
+          "event_id": 14,
+          "type": "cookie",
+          "value": "caseflow_session",
+          "first_seen": "2026-11-07T08:00:00.000000+00:00",
+          "last_seen": "2026-11-07T08:10:00.000000+00:00",
+          "to_ids": false
+        },
+        {
+          "uuid": "325e4905-e577-4f47-a1e4-6431bcbc0673",
+          "event_id": 15,
+          "type": "cookie",
+          "value": "caseflow_session",
+          "first_seen": "2026-11-07T08:05:00.000000+00:00",
+          "last_seen": "2026-11-07T08:20:00.000000+00:00",
+          "to_ids": false
+        }
+      ]
+    },
+    "ip": {
+      "type": "ip-dst",
+      "value": "192.0.2.40",
+      "captures": [
+        "A",
+        "C"
+      ],
+      "attributes": [
+        {
+          "uuid": "7375e573-23df-4744-8974-b1540901c2b3",
+          "event_id": 14,
+          "type": "ip-dst",
+          "value": "192.0.2.40",
+          "first_seen": "2026-11-07T08:00:00.000000+00:00",
+          "last_seen": "2026-11-07T08:10:00.000000+00:00",
+          "to_ids": false
+        },
+        {
+          "uuid": "37cdccaa-e70f-49a5-b078-f407f6317b42",
+          "event_id": 16,
+          "type": "ip-dst",
+          "value": "192.0.2.40",
+          "first_seen": "2026-11-01T08:00:00.000000+00:00",
+          "last_seen": "2026-11-01T08:10:00.000000+00:00",
+          "to_ids": false
+        }
+      ]
+    },
+    "native_pivot": {
+      "source_capture": "A",
+      "matching_attributes": 2,
+      "parent_event_contexts": 2,
+      "review_rows": 4,
+      "canvas_nodes_after_add": 5,
+      "computed_correlation_edges": 2,
+      "in_event_edges": 2,
+      "analyst_relationships_created": false,
+      "verified_through_native_fetch_review_ingest_controls": true
+    },
+    "cleanup": {
+      "all_18_attributes_ids_off": true,
+      "all_three_events_private_unpublished": true,
+      "annotation_distribution": 0,
+      "workspace_distribution": 0,
+      "original_active_workspace_restored": true,
+      "column_choices_restored_after_capture": true,
+      "no_global_correlation_or_warninglist_settings_changed": true,
+      "no_external_collection_or_enrichment_or_publication": true
+    }
+  },
+  "source_checks": [
+    {
+      "file": "app/Model/MispAttribute.php",
+      "sha256": "904a4d13c6ec3058a7d861b0492786a5fe46f5b68abc4589f5ef15e2c4df0009"
+    },
+    {
+      "file": "app/Model/Correlation.php",
+      "sha256": "ff9db39f7c753b8c0f272b06fc4abd6fd4fec57e45ba2a9f391115b4461c0489"
+    },
+    {
+      "file": "app/Model/AttributeValue.php",
+      "sha256": "f576652337fb19c204aae5169fcb4149b51c7ecf4b4bde5d790f5d9ea0ae13fc"
+    },
+    {
+      "file": "app/Model/AnalystData.php",
+      "sha256": "6f97ab9811b26e99fb8bb5bc03816ce6da5d1dc545e80efd0d34de8d94b747c0"
+    },
+    {
+      "file": "app/Model/Workspace.php",
+      "sha256": "d0f19bc9557eaf9e3b8c9de47d3305d558aec6182dd41be25181e396c80d36af"
+    },
+    {
+      "file": "app/Model/AnalystGraphData.php",
+      "sha256": "b843f504b7ef83b048cb255ea37ecb84beeb41291aa0a336097ac379cdd67650"
+    },
+    {
+      "file": "app/Controller/ValuesController.php",
+      "sha256": "5d433c66087b6b6302d028001071088e2aca86ce04b255f8a8af09ccbb521674"
+    },
+    {
+      "file": "app/Controller/WorkspacesController.php",
+      "sha256": "8e1c796c410e698c3a4ceb3230b1c33d5af87cac1fd5d0456c5b41b480835a29"
+    },
+    {
+      "file": "app/Controller/EventsController.php",
+      "sha256": "cad23b53c1c00762d859bfcab8cfa584196598f24f53b3278b113b9fdf88dddb"
+    },
+    {
+      "file": "app/webroot/js/pivot-explorer.js",
+      "sha256": "09ccccb065108ec3ec4ebf7cff87083e77342bbd9f09e86033d34a1684e07a54"
+    },
+    {
+      "file": "app/webroot/js/intel-graph.js",
+      "sha256": "e4621be6c7adbd31cf5351a50931fa381f7727411efc81dd9038a753e226d36e"
+    }
+  ],
+  "shots": [
+    {
+      "file": "pivoting/figures/misp3-seed-selectors.png",
+      "url": "/events/view/14#tab-attributes",
+      "description": "Standalone typed selectors and source comments in seed event A. Their IDS flags are off; the related-event links differ between the broad favicon and the narrower selectors.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 820
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T18:15:49.909723+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 820
+      },
+      "sha256": "ae92b800d326c5afeb6eb734d6b8d392ca792fb6fcae181d4ae5195b966848e6"
+    },
+    {
+      "file": "pivoting/figures/misp3-hypothesis-note.png",
+      "url": "/analystData/view/Note/d9d03ced-0f09-4d2e-b47d-e40c969523a6",
+      "description": "Saved event-level Note distinguishes a retained comparison lead from proven ownership or maliciousness, and records why C is parked.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 12,
+        "y": 241,
+        "width": 1056,
+        "height": 331
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T18:15:57.209617+00:00",
+      "image_size": {
+        "width": 1056,
+        "height": 331
+      },
+      "sha256": "8a9ba9162177535bffa1631d48643d6de9aef41ae31c9988d5f2d6e273a23793"
+    },
+    {
+      "file": "pivoting/figures/misp3-ip-occurrences.png",
+      "url": "/values/view/MTkyLjAuMi40MA%3D%3D#tab-occurrences",
+      "description": "Actual visible occurrences with the event, type, context and first/last-seen columns selected through the interface. Original column choices were restored after capture.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 740
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T18:19:50.951085+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 740
+      },
+      "sha256": "36287f724b168d3307c97ed926874feaa00b78cc41c0503e2ef48e3d38293c66"
+    },
+    {
+      "file": "pivoting/figures/misp3-favicon-occurrences.png",
+      "url": "/values/view/MTM1NzkxMzU3OQ%3D%3D#tab-occurrences",
+      "description": "Actual visible occurrences with the event, type, context and first/last-seen columns selected through the interface. Original column choices were restored after capture.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 740
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T18:19:53.784170+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 740
+      },
+      "sha256": "a2cc0f1d004df5fe4469683f66e33867744ca22f3a80f6e19e325d4cb899143b"
+    },
+    {
+      "file": "pivoting/figures/misp3-dom-occurrences.png",
+      "url": "/values/view/NDUwYTViODBmYWViNmM2ZTQ4MWViYWVkNWMxMjQ3MWM%3D#tab-occurrences",
+      "description": "Actual visible occurrences with the event, type, context and first/last-seen columns selected through the interface. Original column choices were restored after capture.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 740
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T18:19:56.580132+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 740
+      },
+      "sha256": "9f5833a596892ce6a1e623fb7eab7fcd202980c16294d4bade9663a976029a36"
+    },
+    {
+      "file": "pivoting/figures/misp3-pivot-review.png",
+      "url": "/events/view/14#tab-pivot-explorer",
+      "description": "Pivot Explorer fetches one narrowed event element into review before adding it to the graph. Ingest here means adding to the analysis canvas, not creating a source observation.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T18:20:40.235522+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "279347f538bf85c2674e5f9f3f66b57a18d2e68a0e8a6c42f81e25cb11c82bbf"
+    },
+    {
+      "file": "pivoting/figures/misp3-pivot-correlations.png",
+      "url": "/events/view/14#tab-pivot-explorer",
+      "description": "The native Pivot Explorer graph after fetching the two computed favicon correlations. The script did not create analyst relationships or manually drawn links.",
+      "role": "User",
+      "selector": "#tab-pivot-explorer",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T18:20:46.956047+00:00",
+      "image_size": {
+        "width": 1416,
+        "height": 759
+      },
+      "sha256": "fa4281c5d73fdbdbb50d8d064c7ba0c22648393a4738b398cfd198e23971587b"
+    }
+  ],
+  "diagrams": [
+    {
+      "source": "pivoting/figures/pivoting-workflow.mmd",
+      "file": "pivoting/figures/pivoting-workflow.svg",
+      "source_sha256": "53a722a4069fe6ef18b0ed23a8135799d975bcaae08c1db056ed57b5852201d8",
+      "sha256": "a7c7541727eafb4b245af2ca57e202b3491b1db9eaa002b3592514360052ad0c",
+      "viewBox": "0 0 584.6640625 895.7874755859375"
+    }
+  ],
+  "verification_limits": [
+    "Constructed private observations on the pinned local instance; no live DNS, passive DNS, web crawl, external provider, peer synchronization or detection publication was used.",
+    "The favicon integer is an explicitly synthetic selector. DOM fingerprints were computed from local harmless HTML tag sequences; they do not describe a real target.",
+    "The demonstrated matches are exact local typed-value matches. Broader fuzzy, group-based and external pivoting methods are discussed without claiming that every algorithm is implemented automatically by MISP.",
+    "The optional private workspace was created through the UI. Value nodes were added through their UI control; additional real fixture event/attribute references were added through the application client API. The native Pivot Explorer screenshots use a separate ephemeral canvas populated only through its UI controls.",
+    "Normal-user UI occurrence counts were checked alongside authenticated attribute API selections. The fixture does not validate recipient visibility after remote sharing or the independence of real-world sources."
+  ]
+}
