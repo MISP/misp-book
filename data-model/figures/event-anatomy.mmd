@@ -1,0 +1,9 @@
+flowchart TD
+  accTitle: Observations and narrative inside a MISP event
+  accDescr: An event can contain a standalone URL attribute, a domain-ip object and an Event Report. The object contains a domain attribute and an ip attribute whose type is ip-dst. Every attribute has its own UUID. Solid arrows indicate containment, and these contents are optional.
+  E["Event<br/>Identity · source · audience"]
+  E -->|Contains| U["Standalone attribute<br/>type: url<br/>Own attribute UUID"]
+  E -->|Contains| O["Object: domain-ip<br/>Template UUID and version<br/>Object instance UUID"]
+  E -->|Contains| R["Event Report<br/>Markdown narrative<br/>References to event data"]
+  O -->|Contains| D["Attribute UUID A<br/>relation: domain · type: domain<br/>login.example"]
+  O -->|Contains| I["Attribute UUID B<br/>relation: ip · type: ip-dst<br/>192.0.2.10"]

@@ -109,6 +109,27 @@
       "viewBox": "0 0 275.3125 802.4000244140625"
     },
     {
+      "source": "data-model/figures/event-anatomy.mmd",
+      "file": "data-model/figures/event-anatomy.svg",
+      "source_sha256": "1175d964ad97692735640a6b86413ad5071a49a57f297d889cb6a0c686dbe27e",
+      "sha256": "ad72b9e6564f1ce25c62315e36204fb4e12c8d1a1bf789c036dbdf955ff87b69",
+      "viewBox": "0 0 784.6875 451.79998779296875"
+    },
+    {
+      "source": "data-model/figures/model-map.mmd",
+      "file": "data-model/figures/model-map.svg",
+      "source_sha256": "bf3563d478fd14c6522e530ef9d62daf731981ba14a733fb222989bed97b40d4",
+      "sha256": "1459fea1ce561c6faa644d9a340b8cddb7f56afac0f5a3867ba2ea982f6804c9",
+      "viewBox": "0 0 714.4453125 408"
+    },
+    {
+      "source": "data-model/figures/references-and-correlation.mmd",
+      "file": "data-model/figures/references-and-correlation.svg",
+      "source_sha256": "b4eb9e3c9b86106c32662a190f554ea2360147cd032d00496e6e4a5ec41da210",
+      "sha256": "28f4fba3ee8deb24fd466fa3734849b7c9c69298dec83f53fe3593d26032aef8",
+      "viewBox": "0 0 898.5625 334.3999938964844"
+    },
+    {
       "source": "categories-and-types/figures/data-model-layers.mmd",
       "file": "categories-and-types/figures/data-model-layers.svg",
       "source_sha256": "7d3a7c91465b311d5cd3003275447663da423050723a43488b83c5664b1fddd6",

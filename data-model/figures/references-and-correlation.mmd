@@ -1,0 +1,14 @@
+flowchart TD
+  accTitle: Directed object references and computed correlations
+  accDescr: In one event an email object includes a file object, which connects-to an IP attribute. Solid directed arrows are explicit object references. Separately, two distinct domain attribute occurrences in different events can have a computed correlation, shown by a dashed line with no asserted direction. A match is an investigative lead rather than attribution evidence.
+  subgraph REF["Object references"]
+    direction LR
+    E["email object<br/>UUID A"] -->|includes| F["file object<br/>UUID B"]
+    F -->|connects-to| I["ip-dst attribute<br/>192.0.2.10<br/>UUID C"]
+  end
+  subgraph COR["Computed correlation"]
+    direction LR
+    X["Event X<br/>Attribute UUID D<br/>domain: login.example"] -.-|Eligible matching value| Y["Event Y<br/>Attribute UUID E<br/>domain: login.example"]
+  end
+  %% Invisible layout edge stacks the independent examples; it asserts no relationship.
+  REF ~~~ COR
