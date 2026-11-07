@@ -43,6 +43,7 @@ book:
       chapters:
         - user-management/index.qmd
         - using-the-system/index.qmd
+        - dashboards/index.qmd
         - extended-events/index.qmd
         - create-event-report/index.qmd
         - event-reports/index.qmd

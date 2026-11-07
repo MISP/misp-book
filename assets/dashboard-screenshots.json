@@ -1,0 +1,893 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "generated_at": "2026-11-07T21:19:05.836139+00:00",
+  "scope_chapters": [
+    "dashboards"
+  ],
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "Compatible container runtime with the pinned MISP 3.0 application mounted over it; this tag is not presented as a published MISP 3.0 image.",
+  "capture_method": "Genuine Chromium viewport, viewport-clip and DOM-element screenshots; native dashboard controls and configuration import. No fabricated UI, annotation arrows or image editing. The operations board was reloaded after real monitor samples accumulated.",
+  "training": {
+    "repository": "https://github.com/MISP/misp-training",
+    "path": "6.0-misp-dashboard",
+    "commit": "172f26e9af3f4ba1810cc393f2cc1ecb47c81fcb",
+    "use": "Credit for the decision-first workshop approach; independently checked 3.0 instructions, screenshots and PHP example rather than reused training screenshots."
+  },
+  "fixture": {
+    "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "tags": {
+      "documentation-dashboard": "98",
+      "review:new": "99",
+      "review:triaged": "100"
+    },
+    "events": [
+      {
+        "id": "29",
+        "uuid": "e968cfe0-c044-4c22-931d-f69944ccde9b",
+        "title": "Suspicious sign-in review",
+        "attributes": [
+          {
+            "id": "100",
+            "uuid": "381f4a7e-2e48-4058-ba10-6eb61bf858b4",
+            "type": "domain",
+            "value": "login-dashboard.example"
+          },
+          {
+            "id": "101",
+            "uuid": "0352cd07-f124-4aec-a87d-7ba6949ce2fa",
+            "type": "url",
+            "value": "https://login-dashboard.example/signin"
+          }
+        ]
+      },
+      {
+        "id": "30",
+        "uuid": "7953f7b1-dc0c-4e0b-bf72-4ac0f7a7e6ad",
+        "title": "Attachment review",
+        "attributes": [
+          {
+            "id": "102",
+            "uuid": "78d936e4-f107-46d8-89e3-7b5ae93aa265",
+            "type": "sha256",
+            "value": "7d5ce4133166aa12a8ba12f15b601efd92b2e362d80f91585e8e5ffa5f3f28e7"
+          },
+          {
+            "id": "103",
+            "uuid": "0d318cd0-07d6-463f-a231-8ec01c26a432",
+            "type": "filename",
+            "value": "dashboard-example.txt"
+          }
+        ]
+      },
+      {
+        "id": "31",
+        "uuid": "1be7bff6-b310-4915-8e35-df6044a3b3e8",
+        "title": "Infrastructure follow-up",
+        "attributes": [
+          {
+            "id": "104",
+            "uuid": "eb08a4f4-facd-42db-9398-2036fbaf424d",
+            "type": "domain",
+            "value": "followup-dashboard.example"
+          },
+          {
+            "id": "105",
+            "uuid": "0dadf519-0458-4137-bba6-59c1da2ca991",
+            "type": "ip-dst",
+            "value": "192.0.2.120"
+          }
+        ]
+      }
+    ]
+  },
+  "runtime_checks": {
+    "user_example_role": "User",
+    "user_catalogue_with_example": 35,
+    "restricted_widget_direct_request": 404,
+    "review_queue_event_ids": [
+      "29",
+      "30"
+    ],
+    "pause_resume": true,
+    "discard_restores_tile_preserves_saved_alias": true,
+    "shared_time_filter_four_of_five": true,
+    "raw_json_and_csv_downloads": true,
+    "admin_example_role": "admin",
+    "admin_catalogue_with_example": 55,
+    "per_user_cached_payload_isolation": true,
+    "template_created_by_regular_user_org_restricted": true,
+    "native_template_replacement_and_roundtrip": true
+  },
+  "cleanup_checks": {
+    "user_core_widget_count": 34,
+    "admin_core_widget_count": 54,
+    "temporary_custom_widget_removed": true,
+    "temporary_owned_template_removed": true,
+    "personal_layout_and_theme_row_absence_restored": true,
+    "exercise_events_private_unpublished_ids_off": true,
+    "task_started_fixture_containers_stopped": [
+      "misp3-capture",
+      "misp3-redis",
+      "misp3-db"
+    ]
+  },
+  "source_checks": [
+    {
+      "file": "app/Controller/DashboardsController.php",
+      "sha256": "c3319d3dd1ffd13a52a8fbb265df57e0b2279dc201432e3f716450c11c95e6a6"
+    },
+    {
+      "file": "app/Model/Dashboard.php",
+      "sha256": "013717b01af540d8fdb86c39c0974a3c46684416413c83b9ff392f14063e4129"
+    },
+    {
+      "file": "app/Lib/Dashboard/Tools/WidgetSchema.php",
+      "sha256": "e512abdf4c436bfbea06ce1672a9bd0775774e74b2f912efc063ee7d66924aef"
+    },
+    {
+      "file": "app/Lib/Dashboard/Tools/CanonicalTypeAdapter.php",
+      "sha256": "d20d85a15fc2c58660c2919cf3c60b4beac3041fc62d5fa2908ea15d741594b9"
+    },
+    {
+      "file": "app/Lib/Dashboard/Tools/WidgetCache.php",
+      "sha256": "241f81dcd5d5a82bd1aec3bdc3e220dd8f966d3bf3ac0b8162fbe3cafe7cf6bf"
+    },
+    {
+      "file": "app/Lib/Dashboard/Tools/LayoutFixup.php",
+      "sha256": "7d12d731ab7ed543c242e4256c7fa9b4cff3c99d833265814533a240c80bb772"
+    },
+    {
+      "file": "app/Lib/Dashboard/Tools/MonitorSeriesStore.php",
+      "sha256": "8272e2b0497aca46fb535266a7293ce9bbdf8b4210178469acf27d4ee00faadb"
+    },
+    {
+      "file": "app/View/Elements/dashboard/Widgets/SimpleList.ctp",
+      "sha256": "3e096e09ed7573b815579ee73e8efbb002c47fe8c4491f6193b09b56f979ec36"
+    },
+    {
+      "file": "app/webroot/js/dashboard/board.module.mjs",
+      "sha256": "ca26cdd2a5fa2a13b97c1562c201b36b8519bcdd48d51410aed7e860889a67d0"
+    },
+    {
+      "file": "app/webroot/js/dashboard/toolbar.module.mjs",
+      "sha256": "adf37cd584a7f81a45c9e850c21b945a5f89597452c9447611e8c61bf495a3ce"
+    },
+    {
+      "file": "app/webroot/js/dashboard/scheduler.module.mjs",
+      "sha256": "2133029ff6492da98d61bbedc6099d5f8ef1e6a10c1daeacd572130b1682d603"
+    },
+    {
+      "file": "app/webroot/js/dashboard/charts/monitor-chart.mjs",
+      "sha256": "d9ece30b20d102be35334b1459afae2c16cbcb1cc2a877ca4bbdad6225a8c707"
+    },
+    {
+      "file": "app/Lib/Dashboard/APIActivityWidget.php",
+      "sha256": "30a3300194651ab5bccd69d620b32e108a7f863801f72c984a0a90bd40d8a358"
+    },
+    {
+      "file": "app/Lib/Dashboard/AchievementsWidget.php",
+      "sha256": "1228162db5ca8cf0044f13cd4559299d9a1dc30f28f8e8ce57df119122fc3f5c"
+    },
+    {
+      "file": "app/Lib/Dashboard/AttackWidget.php",
+      "sha256": "572559a499294d23ea29ac6e9d6adf1d1d88e0b8a675eca28249755a90aa21b5"
+    },
+    {
+      "file": "app/Lib/Dashboard/AttributeGeoMapWidget.php",
+      "sha256": "aa11e359646f5105f218916fc942e74d7406d74c033828d5a99809a8ad0e552c"
+    },
+    {
+      "file": "app/Lib/Dashboard/AuthenticationFailureWidget.php",
+      "sha256": "539c8a369ed985ee252f8e6f3c1a5ecef7d78f781643b2bf1aebe20fd99a1c52"
+    },
+    {
+      "file": "app/Lib/Dashboard/BenchmarkTopListWidget.php",
+      "sha256": "46720f7d3c7a63abcbc1f92d065c29e39f7f5141a6ad35371a7a5abfad1f257b"
+    },
+    {
+      "file": "app/Lib/Dashboard/ButtonWidget.php",
+      "sha256": "5b8b9111ee3063049560c09378b6e453b031850f0162f0c01d8bdc2873f76c21"
+    },
+    {
+      "file": "app/Lib/Dashboard/CpuLoadMonitorWidget.php",
+      "sha256": "56c8689570300294ef46de8465ccae3611046eaff630d094e9cf3f1763aa6fd7"
+    },
+    {
+      "file": "app/Lib/Dashboard/CsseCovidMapWidget.php",
+      "sha256": "b3bad5ff5e96a3976f1da1137356f30bace32173d1ab632c8106e93001861981"
+    },
+    {
+      "file": "app/Lib/Dashboard/CsseCovidTrendsWidget.php",
+      "sha256": "b54224ff70e5fb53ae2a635538ec3c277c249f5b025b1ef01c37f5c11992a180"
+    },
+    {
+      "file": "app/Lib/Dashboard/CsseCovidWidget.php",
+      "sha256": "9be0b4c3fbdffd927bb6b3f8a168638478e5b12b7cc8e79dc790a27c9b08dbc2"
+    },
+    {
+      "file": "app/Lib/Dashboard/DiskUsageMonitorWidget.php",
+      "sha256": "310407c806a2ead7af23c90b3e1906ba94ae09fef4f9efb35c7ff1bda2fc2f67"
+    },
+    {
+      "file": "app/Lib/Dashboard/EventEvolutionLineWidget.php",
+      "sha256": "cee40f5f494e713a40e824c313104943bdd0818954f3f59bb32be1fa5c3f5d8d"
+    },
+    {
+      "file": "app/Lib/Dashboard/EventStreamCardsWidget.php",
+      "sha256": "9ec2b7feacde722e813b8c4da1c8bbd9c0a3da16a7b7d238d6f12266bec894e5"
+    },
+    {
+      "file": "app/Lib/Dashboard/EventStreamWidget.php",
+      "sha256": "3e338bab0bacafad89d49e087d7023b69d516f1286bc050e3e76eadea156694e"
+    },
+    {
+      "file": "app/Lib/Dashboard/LoggedInUsersWidget.php",
+      "sha256": "e0c6b76b0027c5df42a460100e65cfe646ede8a208a4dbd4e679231ea7211224"
+    },
+    {
+      "file": "app/Lib/Dashboard/LoginsWidget.php",
+      "sha256": "6af6a178d504e1a9bff588ff7c3ed1fa639dc0dbb042ee48357b58d933a1ca89"
+    },
+    {
+      "file": "app/Lib/Dashboard/MemoryUsageMonitorWidget.php",
+      "sha256": "c205f425bb5f62580614c1fc8d0d9bbfbf2d37ce6686e6e6a8e076acd54778da"
+    },
+    {
+      "file": "app/Lib/Dashboard/MispAdminHealthWidget.php",
+      "sha256": "b41fd7131b6c6af2b60908523c4875b739f46f06d35ed06ad0f2fd138669c520"
+    },
+    {
+      "file": "app/Lib/Dashboard/MispAdminResourceWidget.php",
+      "sha256": "e6d321b36d2461a85dbc22105f0ca1fac600870237feff89c7c0b07cf0029ac8"
+    },
+    {
+      "file": "app/Lib/Dashboard/MispAdminSyncTestWidget.php",
+      "sha256": "0cedeccadfd80b8ef794f8bbd3646f5756a5c86cd68111b98ccfd93bf5c6cfee"
+    },
+    {
+      "file": "app/Lib/Dashboard/MispAdminWorkerWidget.php",
+      "sha256": "29fce738e22330cf82dfa338ede04cf122ebfb126f142e27d155853090a17747"
+    },
+    {
+      "file": "app/Lib/Dashboard/MispCacheStatusWidget.php",
+      "sha256": "e2785c1cadabbf1e90ad43f8bc5defdd3da78f8ac7c7c148588e736c60204fd3"
+    },
+    {
+      "file": "app/Lib/Dashboard/MispMailLogWidget.php",
+      "sha256": "7c0c5bf90fdba540fbac67e871ea40637059b263960440ab9b758ef61beae19b"
+    },
+    {
+      "file": "app/Lib/Dashboard/MispStatusWidget.php",
+      "sha256": "b49c3db3406ea87223e431e434fcabc00fffede4d7c91ab604f997a700fad894"
+    },
+    {
+      "file": "app/Lib/Dashboard/MispSystemResourceWidget.php",
+      "sha256": "dd7a5c70d452226a2ba6dec1a4c61338a79139818eb2390f0f14f59811a48e77"
+    },
+    {
+      "file": "app/Lib/Dashboard/NewDataStatsWidget.php",
+      "sha256": "efef78e968bb4aecb05f40209da2d92b32719737060b83e4da46737b548c9c86"
+    },
+    {
+      "file": "app/Lib/Dashboard/NewOrgsWidget.php",
+      "sha256": "bdd9be935724e4dc2b73b01aac06c629d718c593db68a158e602b8664fb43c49"
+    },
+    {
+      "file": "app/Lib/Dashboard/NewUsersWidget.php",
+      "sha256": "92756e8bfa71373f1eee6d69881efb994654c5a37a07c77084ce59b522915a47"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrgContributionToplistWidget.php",
+      "sha256": "98cf2fbb439218f2a9fa6a71b1e6434aac5b2efb0e1408fb61c5e872eb19490c"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrgEventsWidget.php",
+      "sha256": "73fdea5251d1451f6b245fe016b22727271e3da31c310465c884ea5baa03a835"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrgEvolutionLineWidget.php",
+      "sha256": "0dff001c1de25c87701b83b10365bb748b1981d5870f21313f365416a8e09d69"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrganisationListWidget.php",
+      "sha256": "cc3c0f53c8e3838f5043927701db6b3782ed23d089583e7d49489eb1b8343f5e"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrganisationMapWidget.php",
+      "sha256": "691b8bd27776a1d5ab7ff0d202c1d2fbbaf7bedae330d3ded1bc40d0efaa66b5"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrgsContributorLastMonthWidget.php",
+      "sha256": "dea2c72b4654da98834699e47a3bdb0fc16a0a4e59c931eb4f11290b52d1fb0c"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrgsEvolutionWidget.php",
+      "sha256": "ebc2e0548c8fce9d08e363fe7dc223b836b7544459321ea6d4c8c7636e045fcc"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrgsUsingMitreWidget.php",
+      "sha256": "5d06f791b30cbb46947bcf5fbf3424f21b3eaa6caf05e0c17d1f13c0635fa908"
+    },
+    {
+      "file": "app/Lib/Dashboard/OrgsUsingObjectsWidget.php",
+      "sha256": "818d86be3e92b4ac5421d2e6eac9bea8f63f66dd88f64575a8fcf7d513e420d1"
+    },
+    {
+      "file": "app/Lib/Dashboard/OverlapWithMyOrgWidget.php",
+      "sha256": "5148a545bf562574a4f8b2563f1d96dde3221ee74345cc5e3446760ea2dc417e"
+    },
+    {
+      "file": "app/Lib/Dashboard/PewPewMapWidget.php",
+      "sha256": "13b86d82da660535e0d15f37135a980c336d32dc0d80d2383de4820c851974d1"
+    },
+    {
+      "file": "app/Lib/Dashboard/RecentAnalystDataWidget.php",
+      "sha256": "60bb61ed31f2b3cb40bec4e90a3aeca8c357e5763f770d377b721ff6d0234a66"
+    },
+    {
+      "file": "app/Lib/Dashboard/RecentEventReportsWidget.php",
+      "sha256": "bbda0823418559eb52f0f6c246c71923ccdfe1275b656ef70008c8cd79c055c9"
+    },
+    {
+      "file": "app/Lib/Dashboard/RecentGalaxyClustersWidget.php",
+      "sha256": "64edbe6936b5c062dbbbd69be9790a872b9f629a29b4159818d82f79ae34e654"
+    },
+    {
+      "file": "app/Lib/Dashboard/RecentSightingsWidget.php",
+      "sha256": "006bfd0bc24c42bc3c76ecf7b1e42084956ab7a041423d9734b5abc3e7dd52de"
+    },
+    {
+      "file": "app/Lib/Dashboard/SharingGraphWidget.php",
+      "sha256": "0b429c4337f2f4dd31496ea2d832b7c3a78e735bc8acd68a5cadd2c0db4f2cf2"
+    },
+    {
+      "file": "app/Lib/Dashboard/ThreatActorCountryMapWidget.php",
+      "sha256": "5799bee2efc1036b9f47fec514fd463967635615c8fa5fef6c33832d50afeb2f"
+    },
+    {
+      "file": "app/Lib/Dashboard/ThresholdSightingsWidget.php",
+      "sha256": "51437bab7ced5a69f5f89091f3795c64cd00baed58eb9eaf5a446ae66e74cf6c"
+    },
+    {
+      "file": "app/Lib/Dashboard/TrendingAttributesWidget.php",
+      "sha256": "391695776eda8b13633f430b76092b3b994d8960d5963bc0df2e8620fee7f1d1"
+    },
+    {
+      "file": "app/Lib/Dashboard/TrendingTagsWidget.php",
+      "sha256": "ca5a9a72961557900a7f17f83a22b53dcb613354cbdcbe116b4577553c08570d"
+    },
+    {
+      "file": "app/Lib/Dashboard/TrendingWidget.php",
+      "sha256": "6eaac01ad06505795e7cf7a0c5f2d444fd0b0aaa064c10abe1fd4f780d0ef73e"
+    },
+    {
+      "file": "app/Lib/Dashboard/UsageDataWidget.php",
+      "sha256": "c64080f0f9116d692953bf1ff5a04fe690bcc5bf21fda65c4c636cb82e0eb5cb"
+    },
+    {
+      "file": "app/Lib/Dashboard/UserContributionToplistWidget.php",
+      "sha256": "4e9f4912054b6fb268ef7a3cd4fa3720c6c2cd3fe4658deedcb1fb1f49b41e2a"
+    },
+    {
+      "file": "app/Lib/Dashboard/UsersEvolutionWidget.php",
+      "sha256": "c15d32fd363accdb8837a651b427c3cb60ea199b48002186d10a591bcba0906a"
+    },
+    {
+      "file": "app/Lib/Dashboard/WhoamiWidget.php",
+      "sha256": "c4273c4c022d35511edb0ce7ec55c40f16dd207b16b48416b6d56534ff241901"
+    }
+  ],
+  "widget_catalogue": [
+    {
+      "class": "APIActivityWidget",
+      "title": "API Activity",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "AchievementsWidget",
+      "title": "Achievements of my organization",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "AttackWidget",
+      "title": "ATT&CK heatmap",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "AttributeGeoMapWidget",
+      "title": "Recent data geolocation map",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "AuthenticationFailureWidget",
+      "title": "D4 Authentication Failures",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "BenchmarkTopListWidget",
+      "title": "Benchmark top list",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "ButtonWidget",
+      "title": "Button Widget",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "CpuLoadMonitorWidget",
+      "title": "CPU Load Monitor",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "CsseCovidMapWidget",
+      "title": "CSSE Covid-19 map",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "CsseCovidTrendsWidget",
+      "title": "CSSE Covid-19 trends",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "CsseCovidWidget",
+      "title": "CSSE Covid-19 data",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "DiskUsageMonitorWidget",
+      "title": "Disk Usage Monitor",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "EventEvolutionLineWidget",
+      "title": "Evolution of published event count (filterable)",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "EventStreamCardsWidget",
+      "title": "Event Card Stream",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "EventStreamWidget",
+      "title": "Event Stream",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "LoggedInUsersWidget",
+      "title": "Logged-in users",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "LoginsWidget",
+      "title": "Logins",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "MemoryUsageMonitorWidget",
+      "title": "Memory Usage Monitor",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "MispAdminHealthWidget",
+      "title": "MISP Health",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "MispAdminResourceWidget",
+      "title": "MISP Resource Usage",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "MispAdminSyncTestWidget",
+      "title": "MISP Sync Test",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "MispAdminWorkerWidget",
+      "title": "MISP Workers",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "MispCacheStatusWidget",
+      "title": "MISP Cache Status",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "MispMailLogWidget",
+      "title": "MISP Mail Log",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "MispStatusWidget",
+      "title": "MISP Status",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "MispSystemResourceWidget",
+      "title": "MISP System Resource Usage",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "NewDataStatsWidget",
+      "title": "New data",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "NewOrgsWidget",
+      "title": "New organisations",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "NewUsersWidget",
+      "title": "New users",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "OrgContributionToplistWidget",
+      "title": "Contributor Top List (Orgs)",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "OrgEventsWidget",
+      "title": "Org Events",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "OrgEvolutionLineWidget",
+      "title": "Evolution of orgs count (filterable)",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "OrganisationListWidget",
+      "title": "Organisation list",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "OrganisationMapWidget",
+      "title": "Organisation world map",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "OrgsContributorLastMonthWidget",
+      "title": "Active Contributors in the last 30 days",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "OrgsEvolutionWidget",
+      "title": "Evolution of orgs count",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "OrgsUsingMitreWidget",
+      "title": "Orgs using MITRE ATT&CK",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "OrgsUsingObjectsWidget",
+      "title": "Orgs using MISP objects",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "OverlapWithMyOrgWidget",
+      "title": "Overlap with my organisation",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "PewPewMapWidget",
+      "title": "Pew-pew map",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "RecentAnalystDataWidget",
+      "title": "Recent Analyst Data",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "RecentEventReportsWidget",
+      "title": "Recent Event Reports",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "RecentGalaxyClustersWidget",
+      "title": "Recently Added Galaxy Clusters",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "RecentSightingsWidget",
+      "title": "Recent Sightings",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "SharingGraphWidget",
+      "title": "Sharing Trends",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "ThreatActorCountryMapWidget",
+      "title": "Threat actor origins",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "ThresholdSightingsWidget",
+      "title": "Threshold Sightings",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "TrendingAttributesWidget",
+      "title": "Trending Attribute values",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "TrendingTagsWidget",
+      "title": "Trending Tags",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "TrendingWidget",
+      "title": "Trending",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "UsageDataWidget",
+      "title": "Usage data",
+      "available_to_regular_fixture_user": true
+    },
+    {
+      "class": "UserContributionToplistWidget",
+      "title": "Contributor Top List (Users)",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "UsersEvolutionWidget",
+      "title": "Evolution of user count",
+      "available_to_regular_fixture_user": false
+    },
+    {
+      "class": "WhoamiWidget",
+      "title": "Whoami",
+      "available_to_regular_fixture_user": true
+    }
+  ],
+  "shots": [
+    {
+      "file": "dashboards/figures/misp3-overview.png",
+      "url": "/dashboards",
+      "description": "Five-widget analyst dashboard: private two-event review queue, review-label counts, instance activity, analyst notes and event reports.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1600,
+        "height": 1130
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:06:10.635607+00:00",
+      "image_size": {
+        "width": 1600,
+        "height": 1130
+      },
+      "sha256": "60911fcb834620d8a3b67dad9850d535b40c1582071dedef3f185ae879850285"
+    },
+    {
+      "file": "dashboards/figures/misp3-shared-filter.png",
+      "url": "/dashboards",
+      "description": "Shared time-window editor explicitly targets four compatible widgets.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 110,
+        "y": 48,
+        "width": 720,
+        "height": 410
+      },
+      "viewport": {
+        "width": 1600,
+        "height": 1130
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:06:11.236553+00:00",
+      "image_size": {
+        "width": 720,
+        "height": 410
+      },
+      "sha256": "f10c55aeef7c2105f7cb6682a6c9ce28387fcefc4aec0a2e9d85e05c5eb3f8e3"
+    },
+    {
+      "file": "dashboards/figures/misp3-configure.png",
+      "url": "/dashboards",
+      "description": "Trending Tags typed controls and live preview, including time window, include/exclude patterns and chart mode.",
+      "role": "User",
+      "selector": "[data-misp-configure-root]",
+      "clip": null,
+      "viewport": {
+        "width": 1600,
+        "height": 1130
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:06:13.822935+00:00",
+      "image_size": {
+        "width": 820,
+        "height": 1130
+      },
+      "sha256": "27500931c77991962ae95aa7ac619ea4f8c325b34ba6911e873e32d2fb121eaa"
+    },
+    {
+      "file": "dashboards/figures/misp3-edit-layout.png",
+      "url": "/dashboards",
+      "description": "Layout editing exposes Add widget, Save changes, Discard and tile controls.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 48,
+        "width": 1600,
+        "height": 470
+      },
+      "viewport": {
+        "width": 1600,
+        "height": 1130
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:06:14.452629+00:00",
+      "image_size": {
+        "width": 1600,
+        "height": 470
+      },
+      "sha256": "d73187ac56c10ac260859d0a0b377d454c3bf1f1c63110210a949f71f4b109aa"
+    },
+    {
+      "file": "dashboards/figures/misp3-gallery.png",
+      "url": "/dashboards",
+      "description": "Role-filtered widget gallery with descriptions and category/search controls.",
+      "role": "User",
+      "selector": "[data-misp-configure-root]",
+      "clip": null,
+      "viewport": {
+        "width": 1600,
+        "height": 1130
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:06:16.321598+00:00",
+      "image_size": {
+        "width": 820,
+        "height": 1130
+      },
+      "sha256": "9ab9aa5106b75ed075513ed721e18a93974a74a285a73f16c12ebe27d001d006"
+    },
+    {
+      "file": "dashboards/figures/misp3-export-config.png",
+      "url": "/dashboards",
+      "description": "Export configuration: saved personal widget array, distinct from handler raw data.",
+      "role": "User",
+      "selector": "[data-misp-configure-root]",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:08:51.256879+00:00",
+      "image_size": {
+        "width": 820,
+        "height": 1000
+      },
+      "sha256": "f04b5ffe8df491449ea6787f0ec87663a4cfa982f85bbd83bda4a4712aa259b6"
+    },
+    {
+      "file": "dashboards/figures/misp3-templates.png",
+      "url": "/dashboards/listTemplates",
+      "description": "Template gallery with built-in starter layouts and the organization-restricted example created by the regular user.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:11:17.912762+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "a2c8096b0aa233a3584a57dd1822577c46c54477cb43c200dec2f5f0cd689bc2"
+    },
+    {
+      "file": "dashboards/figures/misp3-dark.png",
+      "url": "/dashboards",
+      "description": "The analyst board follows the native navbar dark-mode switch in the MISP 3.0 interface.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1600,
+        "height": 1080
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:12:46.254221+00:00",
+      "image_size": {
+        "width": 1600,
+        "height": 1080
+      },
+      "sha256": "c731a299102087942cb8b84e6428c4bed7d965dfe48de7f5951af03113fed8d4"
+    },
+    {
+      "file": "dashboards/figures/misp3-operations.png",
+      "url": "/dashboards",
+      "description": "Site-administrator board showing worker queues, sync/feed-cache age, retained CPU and memory samples and disk use. No external diagnostic checks were captured.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 820
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:17:29.588321+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 820
+      },
+      "sha256": "d978e1da7327ae45d79c5bb514732ae6df669d865fab336c25e49e80a838c5f1"
+    }
+  ],
+  "limits": [
+    "Catalogue metadata and source contracts were reviewed for all 54 shipped widgets. Functional checks cover selected analyst, operator and custom-example paths, not every widget, provider, role or ACL combination.",
+    "External CSSE/D4 providers, live synchronization tests and complete module/GPG/STIX health diagnostics are not demonstrated. The operations screenshot shows the fixture's real zero-worker warning and example cache age.",
+    "The one-hour Trending Tags cache and bounded monitor-history behavior are source-verified; no one-hour cache-expiration soak test or long-term monitoring claim is made.",
+    "Template application and deletion were exercised with native keyboard activation and confirmation; pointer activation was obstructed by the current gallery thumbnail overlay in this fixture.",
+    "The current stream help describes comma-separated tag negation, but the combined documentation-dashboard,!review:triaged string returned no events in a runtime probe. The documented queue uses the independently verified single review:new tag.",
+    "A saved personal board was used before testing separate configuration saves and layout Discard. The no-personal-setting fallback is source-verified, and original setting-row absence was restored after testing."
+  ],
+  "book_validation": {
+    "rendered_formats": [
+      "HTML",
+      "PDF (Typst)",
+      "ePub"
+    ],
+    "artifacts": {
+      "html_images": 9,
+      "diagram_hashes_checked": 29,
+      "all_9_screenshot_hashes_and_sizes_valid": true,
+      "html_epub_assets_match_sources": true,
+      "all_9_original_screenshot_pixel_sets_embedded_in_pdf": true,
+      "pdf_pages": 318,
+      "chapter_pages": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64
+      ],
+      "pdf_text_within_page_bounds": true
+    },
+    "browser": {
+      "images_and_lightboxes_checked": 9,
+      "widths": [
+        1440,
+        390
+      ],
+      "modes": [
+        "light",
+        "dark"
+      ],
+      "using_misp_navigation_order": true,
+      "horizontal_page_overflow": false,
+      "javascript_errors": []
+    },
+    "offline_links_and_fragments": "5378 checked, 0 errors",
+    "pdf_cross_reference_smoke_build": "passed"
+  }
+}
