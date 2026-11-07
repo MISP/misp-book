@@ -5,7 +5,5 @@ flowchart TB
   B --> Q{"Can B sign with<br/>an authorised key?"}
   Q -->|"Yes · sign with key B"| C["Instance C<br/>Verifies signature B and signer"]
   Q -->|"No"| S["Onward relay stops"]
-  classDef instance fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
-  classDef limited fill:#fff4df,stroke:#91651c,color:#573d13;
-  class A,B,C instance;
-  class Q,S limited;
+  class A,B,C accent;
+  class Q,S caution;

@@ -14,7 +14,5 @@ flowchart LR
     connection --> stored
   end
   A -. "Exchange A-issued key securely" .-> B
-  classDef identity fill:#e7f6fa,stroke:#007b96,color:#153448,stroke-width:2px;
-  classDef credential fill:#f0f3f7,stroke:#516479,color:#153448;
-  class account,connection identity;
-  class key,stored credential;
+  class account,connection accent;
+  class key,stored muted;
