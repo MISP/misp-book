@@ -53,6 +53,7 @@ book:
         - best-practices/index.qmd
     - part: "Data Model & Context"
       chapters:
+        - data-model/index.qmd
         - categories-and-types/index.qmd
         - taxonomy/index.qmd
         - galaxy/index.qmd
