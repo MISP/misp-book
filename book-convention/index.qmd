@@ -35,7 +35,7 @@ All the screenshots and examples are in English.
 
 The same code of conduct applies to this book as to the main MISP project.
 Because documentation often reflects the spirit of a software project, please treat the book with the same care and consideration.
-You can read the `Code of Conduct` [here](https://github.com/MISP/MISP/blob/2.5/code_of_conduct.md).
+You can read the `Code of Conduct` [here](https://github.com/MISP/MISP/blob/3.0_wip/code_of_conduct.md).
 
 ## MISP Instance
 

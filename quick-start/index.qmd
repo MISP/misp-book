@@ -11,7 +11,8 @@ If you already have access to an instance, skip to [Sign in to MISP](#sign-in-to
 
 ::: {.callout-note}
 The screenshots show MISP **3.0.0** from the development branch [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), using fictional data.
-The Docker instructions use the upstream project's default images; if you run MISP 2.5, some navigation labels and layouts differ.
+For the MISP 3.0 interface shown here, use images built for the intended 3.0 revision and verify the running server version.
+The upstream project's default image tags do not automatically select the development branch.
 :::
 
 <!-- Screenshot source commits and capture details: screenshots.json -->

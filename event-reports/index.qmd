@@ -11,7 +11,7 @@ A report belongs to one event and has its own UUID, name, Markdown content, and 
 
 ::: {.callout-note}
 This chapter describes the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch in light mode.
-The 3.0 report page has **General** and **Edit Content** tabs; the editor layout differs from MISP 2.5.
+The MISP 3.0 report page has **General** and **Edit Content** tabs.
 For a guided exercise starting from an external source, see [Create an Event Based on a Report](../create-event-report/index.qmd).
 Select a screenshot to enlarge it.
 :::

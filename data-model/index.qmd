@@ -143,5 +143,5 @@ Use the detailed chapters that follow to choose valid types, templates and conte
 ## Sources and further training {#model-sources}
 
 Adapted from **MISP / Team CIRCL**, [MISP data model overview](https://github.com/MISP/misp-training/tree/b93884a7e2cefbeebdee0521e19638bca6962ed2/a.11.a-misp-data-model-overview), including the `model-map`, `event-anatomy`, `object-references` and `correlation` TikZ diagrams, under the training repository's AGPL-3.0-or-later / CC-BY-SA-4.0 licensing.
-The training snapshot reviews MISP 2.5; this chapter incorporates the book's MISP **3.0.0** value-addressing guidance, checked against [`3.0_wip` commit `99ebee729`](https://github.com/MISP/MISP/tree/99ebee729702c560528f9788953719bda68aa1c1).
+This chapter incorporates the book's MISP **3.0.0** value-addressing guidance, checked against [`3.0_wip` commit `99ebee729`](https://github.com/MISP/MISP/tree/99ebee729702c560528f9788953719bda68aa1c1).
 The [MISP standard](https://www.misp-standard.org/) describes interchange formats, and the [full data-model course](https://github.com/MISP/misp-training/tree/main/a.11-misp-data-model) develops the model in more detail.

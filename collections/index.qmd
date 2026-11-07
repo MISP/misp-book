@@ -20,8 +20,8 @@ requires a role with modify permission and the relevant ownership checks.
 
 ::: {.callout-note}
 Instructions and screenshots use MISP **3.0.0** from the
-[`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, in light mode. MISP 2.5 collections support events and galaxy clusters; its menus differ. Select a
-figure to enlarge it.
+[`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, in light mode.
+Select a figure to enlarge it.
 A collection is distinct from two similarly named features:
 
 - A **Sharing Group** is an access-control list (which organisations may see data), not a
@@ -47,11 +47,11 @@ A collection has a small set of metadata plus a list of element references:
 
 Each **element** is a reference, optionally with a short per-element description:
 
-| Element type | Address | Version scope |
-|---|---|---|
-| `Event`, `GalaxyCluster` | UUID | MISP 2.5 and 3.0 |
-| `Attribute`, `Object` | UUID | Supported in the 3.0 development branch described here |
-| `AttributeValue` | SHA-256 of the stored value text, encoded as UTF-8 | Supported in the 3.0 development branch described here |
+| Element type | Address in MISP 3.0 |
+|---|---|
+| `Event`, `GalaxyCluster` | UUID |
+| `Attribute`, `Object` | UUID |
+| `AttributeValue` | SHA-256 of the stored value text, encoded as UTF-8 |
 
 The collection stores the reference, not a copy. Referenced material retains its ownership and
 access rules, and removing an element does not delete its target. The same element cannot be
@@ -121,7 +121,7 @@ not establish what a recipient can open.
 
 Collections synchronise between MISP instances much like events do, but only when **both**
 instances support the feature and the relevant per-server setting is enabled. There are two
-dedicated settings (see [Sharing](../sharing/index.qmd#synchronising-analyst-data-and-collections-2.5)):
+dedicated settings (see [Sharing](../sharing/index.qmd#synchronising-analyst-data-and-collections)):
 
 - **Push** in the **Collections** row — send your eligible collections to the remote instance.
 - **Pull** in the **Collections** row — retrieve collections from the remote instance.

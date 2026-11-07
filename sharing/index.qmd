@@ -12,7 +12,7 @@ that exchange. Receiving intelligence does not oblige you to publish your own in
 ::: {.callout-note}
 This chapter follows MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
 development branch, using light mode. Controls depend on your role and enabled
-services. MISP 2.5 uses different menus. Select a screenshot or diagram to enlarge it.
+services. Select a screenshot or diagram to enlarge it.
 The server controls shown here were checked at commit
 [`4dcd953d1`](https://github.com/MISP/MISP/commit/4dcd953d1b987c4ce7089c6b9d55237fa81835a8).
 :::
@@ -117,7 +117,9 @@ The MISP 3.0 form groups the settings into expandable sections. The underlying e
 The remote host organisation is used when evaluating sharing-group eligibility. Selecting the
 wrong organisation changes that evaluation. Confirm its UUID with the partner before saving.
 
-### Analyst Data, collections and MISP 3.0 {#synchronising-analyst-data-and-collections-2.5}
+<a id="synchronising-analyst-data-and-collections-2.5"></a>
+
+### Analyst Data, collections and MISP 3.0 {#synchronising-analyst-data-and-collections}
 
 Expand **What to synchronise** when adding or editing a server. Each row describes what is
 exchanged and offers the available directions:
@@ -155,8 +157,8 @@ attributes, objects and values. A value reference uses the SHA-256 address of th
 it does not identify one particular attribute occurrence. See [Analyst Data](../analyst-data/index.qmd)
 and [Collections](../collections/index.qmd) for the supported targets and payloads.
 
-The branch supports native synchronization between **3.0 and 2.5**, with feature negotiation.
-That does not make all 3.0 data transferable: value-targeted Analyst Data and value-addressed
+Native synchronization negotiates peer capabilities.
+Not all MISP 3.0 data can be transferred to every peer: value-targeted Analyst Data and value-addressed
 collection elements are withheld from peers older than 3.0. Check the actual received records
 before treating a mixed-version handover as complete.
 

@@ -10,7 +10,7 @@ Use the [report exercise](../create-event-report/index.qmd) for a guided example
 
 ::: {.callout-note}
 The instructions and screenshots use MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, in light mode.
-The event page uses tabs and an action card; MISP 2.5's sidebar, content toggles, and some action labels differ.
+The event page uses tabs and an action card.
 Controls depend on your role, event ownership, and enabled services. Select a screenshot to enlarge it.
 :::
 
@@ -210,7 +210,7 @@ It is not a statement that its indicators are benign or independently verified; 
 | **History** | Review changes and their authorship. |
 
 Tabs and actions can vary with features, permissions, and the selected view.
-For ATT&CK context, inspect attached galaxy clusters and the matrix controls available on your instance; the 2.5 **Galaxy matrix** content toggle is not a universal 3.0 navigation path.
+For ATT&CK context, inspect attached galaxy clusters and the matrix controls available on your MISP 3.0 instance.
 
 ### The attribute table
 
@@ -238,7 +238,6 @@ For a worked investigation using infrastructure, favicon, DOM and cookie-name se
 
 Where discussions are available, use them for coordination around an event.
 For analysis that recipients should find attached to a particular event, object, attribute, or value, use **Analyst Data** and set its distribution explicitly.
-Do not rely on the old 2.5 discussion panel being present in the same place in every 3.0 view.
 
 ## Collaborating on events
 
@@ -376,7 +375,7 @@ For Python integrations, see [PyMISP](../pymisp/index.qmd).
 ## Multi-factor authentication (TOTP/HOTP)
 
 Account security is covered in [User Accounts and Preferences](../user-management/index.qmd#multi-factor-authentication).
-The enrollment workflow now starts from **My Profile → General → Security & access → Set up**, rather than the 2.5 **Global Actions** menu.
+Start enrollment from **My Profile → General → Security & access → Set up**.
 
 ### Generating TOTP/HOTP tokens
 

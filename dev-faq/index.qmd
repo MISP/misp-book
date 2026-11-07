@@ -71,11 +71,9 @@ or change an old migration to repair a database that has already applied it.
 ## Which API description should I use? {#developer-api}
 
 The installed **API → OpenAPI** page (`/api/openapi`) serves the bundled specification from
-`app/webroot/doc/openapi.yaml`. Its title at this commit still says **MISP Automation API (2.5)**.
-That compatibility label does not mean the instance is running 2.5, nor guarantee every 3.0
-endpoint/parameter is fully documented there.
-
-![The actual API page in the checked-out 3.0 instance. Its bundled specification retains a 2.5 title.](figures/misp3-openapi.png)
+`app/webroot/doc/openapi.yaml`.
+Use `GET /servers/getVersion` to confirm the running MISP version.
+The bundled specification does not guarantee complete coverage of every MISP 3.0 endpoint or parameter.
 
 Use the installed specification as a starting point, then inspect the route/controller, ACL,
 model validation, response and client version for a new or changed feature. The REST client

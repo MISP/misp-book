@@ -35,8 +35,6 @@ not replace the request's authentication key**: replace `YOUR_API_KEY` in its **
 Keep **Skip SSL validation** off. Check the method, target URL and body before choosing **Send**;
 the client can perform writes as well as searches. Its response panel shows status, headers and body.
 
-![The OpenAPI reference bundled with the running MISP 3.0 installation.](figures/misp3-openapi.png)
-
 Use `GET /servers/getVersion` for the running server version and recommended PyMISP version.
 The OpenAPI document's own `info.version` is not a substitute for that server-version check.
 For new development-branch features, check the relevant controller and its constraints as well

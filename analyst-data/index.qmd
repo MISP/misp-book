@@ -15,7 +15,7 @@ independently of the thing it describes.
 ::: {.callout-note}
 The examples describe MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch.
 The 3.0 interface surfaces event analysis in **Assessment** and value-level analysis in **Value Intelligence → Collaboration**.
-MISP 2.5 supports the core annotation layer with a different interface and target set. Select a screenshot to enlarge it.
+Select a screenshot to enlarge it.
 :::
 
 <!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
