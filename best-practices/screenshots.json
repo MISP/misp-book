@@ -122,7 +122,7 @@
   "feature_sources": [
     "app/Model/AnalystProfile.php",
     "app/Model/CollectionElement.php",
-    "https://api.github.com/repos/MISP/MISP/git/blobs/a6b03702426752e880d034c01469b7330fd4a1dd",
+    "app/View/Themed/Overmind/Values/view.ctp",
     "docs/dev/value_targets.md"
   ],
   "shots": [
@@ -241,5 +241,5 @@
       "sha256": "954f6ef534ab5d2fa6fa348a6f68a39af591d3e713af60421a0d9544d6971306"
     }
   ],
-  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
+  "source_reference_note": "Source paths retain their original repository identifiers at the recorded commit for reproducibility."
 }

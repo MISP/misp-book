@@ -20,6 +20,8 @@ shortcut manager is **not loaded by the MISP 3.0 interface**. Its old help trian
 
 <a id="default-shortcuts"></a>
 <a id="keyboard-shortcuts-in-misp"></a>
+<!-- Compatibility fragment for existing inbound links. -->
+<a id="shortcuts-overmind"></a>
 
 ## Navigate and search in MISP 3.0 {#shortcuts-navigation}
 
