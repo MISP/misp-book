@@ -266,7 +266,7 @@ end-to-end channel through an excluded relay organisation. Review each hop using
 MISP has TAXII integration, but TAXII collections and native MISP synchronization have different
 data/format contracts. Configure the intended supported server/collection and direction; check
 [external connectors](../connectors/index.qmd#connectors-mechanisms).
-MISP's built-in dashboards are separate from the external **misp-dashboard** application.
+MISP's [built-in dashboards](../dashboards/index.qmd) are separate from the external **misp-dashboard** application.
 For an external dashboard, inspect its subscription/transport, processing and web service in
 turn; enabling ZMQ does not install or configure the consumer. See
 [ZMQ and streaming](../misp-zmq/index.qmd#zmq-overview).

@@ -79,7 +79,7 @@ Open **Events** to browse reports and create a new event, or use **Objects** and
 
 **Collections**, **Event Reports**, and **Analyst Data** organize related intelligence and its narrative or assessment.
 **Proposals** groups suggested changes and related requests.
-**Dashboard** and **Statistics** provide overview pages.
+[**Dashboard**](../dashboards/index.qmd) and **Statistics** provide overview pages.
 See [Using MISP](../using-the-system/index.qmd), [Collections](../collections/index.qmd), and [Analyst data](../analyst-data/index.qmd) for the detailed workflows.
 
 <a id="galaxies"></a>
