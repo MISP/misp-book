@@ -229,6 +229,7 @@ Inspect object attributes in the **Objects** tab rather than assuming the standa
 A related event shares a correlating value, such as an address, domain, or hash.
 Follow the related-event link, inspect the matching attributes, and compare sources and observation times.
 Shared hosting, reused infrastructure, and copied reports can create correlations without establishing a common campaign.
+The [Correlation](../correlation/index.qmd) chapter explains how matches are generated, when they are updated, and how to filter or suppress them.
 
 For work spanning several pages, add relevant material to a [workspace](../general-layout/index.qmd#workspaces).
 For one value across events, use **Data points → Value Intelligence** and inspect its occurrences and effective analyst profile.

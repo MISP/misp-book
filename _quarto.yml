@@ -58,6 +58,7 @@ book:
         - taxonomy/index.qmd
         - galaxy/index.qmd
         - misp-objects/index.qmd
+        - correlation/index.qmd
         - warninglists/index.qmd
         - noticelists/index.qmd
     - part: "Use Cases"

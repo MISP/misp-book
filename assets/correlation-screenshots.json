@@ -1,0 +1,805 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "generated_at": "2026-11-07T20:19:21.708494+00:00",
+  "scope_chapters": [
+    "correlation"
+  ],
+  "theme": "MISP 3.0 interface, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "Compatible PHP/container runtime with the pinned MISP 3.0 application mounted over it; this tag is not presented as a published MISP 3.0 image.",
+  "capture_method": "Genuine Chromium viewport clips and DOM-element screenshots. No annotation arrows, image editing or fabricated UI. Display filters and occurrence columns were selected through native controls; column preferences were restored. Dialogs show native confirmations.",
+  "fixture": {
+    "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "events": {
+      "A": {
+        "id": "17",
+        "uuid": "e16a57b5-8918-453a-8255-ebf813c3e0c2",
+        "attributes": [
+          {
+            "id": "71",
+            "uuid": "29e6bb7c-e029-4466-8b46-4815b15b21b0",
+            "type": "domain",
+            "value": "correlation-lab.example"
+          },
+          {
+            "id": "72",
+            "uuid": "87d31a3f-a389-4c98-8f28-72a9a50e517c",
+            "type": "domain|ip",
+            "value": "correlation-lab.example|192.0.2.225"
+          },
+          {
+            "id": "73",
+            "uuid": "4cfaee4b-b62b-4c61-a10e-945abebef4c1",
+            "type": "ip-dst",
+            "value": "192.0.2.226"
+          },
+          {
+            "id": "74",
+            "uuid": "c694e3f8-e171-44b7-8e1f-4e954661111f",
+            "type": "ip-dst|port",
+            "value": "192.0.2.227|443"
+          },
+          {
+            "id": "75",
+            "uuid": "4e7911dc-4777-4b93-a4dc-2c5f7f313e55",
+            "type": "domain",
+            "value": "object-correlation.example"
+          },
+          {
+            "id": "76",
+            "uuid": "e694bdc4-57cf-434e-ad66-824cf574e87b",
+            "type": "domain",
+            "value": "excluded-correlation.example"
+          },
+          {
+            "id": "77",
+            "uuid": "72078888-a3ee-4609-9d18-d9024f1902cd",
+            "type": "domain",
+            "value": "disabled-correlation.example"
+          },
+          {
+            "id": "78",
+            "uuid": "33c086b0-4f6a-4d9a-ad64-0d35f2a7ce31",
+            "type": "comment",
+            "value": "correlation-lab.example"
+          }
+        ]
+      },
+      "B": {
+        "id": "18",
+        "uuid": "08cbbcba-3493-4c98-8a6b-872e7381df77",
+        "attributes": [
+          {
+            "id": "79",
+            "uuid": "f9dfcf13-2cd8-44c1-b3d3-d40ff5ac739e",
+            "type": "hostname",
+            "value": "correlation-lab.example"
+          },
+          {
+            "id": "80",
+            "uuid": "62be94a4-563b-4ef8-83c9-8c7b9121616a",
+            "type": "ip-src",
+            "value": "192.0.2.225"
+          },
+          {
+            "id": "81",
+            "uuid": "62173014-02c7-4d43-b46c-6d57a0dfeb10",
+            "type": "ip-src",
+            "value": "192.0.2.224/28"
+          },
+          {
+            "id": "82",
+            "uuid": "60cabbea-1fbd-46df-9096-9cff63746592",
+            "type": "ip-src",
+            "value": "192.0.2.227"
+          },
+          {
+            "id": "83",
+            "uuid": "969b501c-c5df-423e-a5a7-ff12514a65b2",
+            "type": "port",
+            "value": "443"
+          },
+          {
+            "id": "84",
+            "uuid": "28eb8aa4-7809-4802-bb9f-f4708cd08764",
+            "type": "domain",
+            "value": "excluded-correlation.example"
+          },
+          {
+            "id": "85",
+            "uuid": "6919d5bc-28f6-499a-89c5-fba2de11bc51",
+            "type": "domain",
+            "value": "disabled-correlation.example"
+          }
+        ],
+        "object_id": "8"
+      },
+      "C": {
+        "id": "19",
+        "uuid": "cb9b9098-e770-45d3-a602-5847de40238d",
+        "attributes": [
+          {
+            "id": "88",
+            "uuid": "1cca89f5-b16d-4bf6-bfe6-fbdc2ae49234",
+            "type": "domain",
+            "value": "correlation-lab.example"
+          }
+        ]
+      },
+      "I": {
+        "id": "20",
+        "uuid": "d78e1f20-ecb1-4924-bc13-538d48047277",
+        "attributes": [
+          {
+            "id": "89",
+            "uuid": "709a5106-1e9a-4ecf-bb40-cb5cfb0a0098",
+            "type": "ssdeep",
+            "value": "384:1ePSJSUq4Xdiao9ddvP4o6+wXwU5sWFHyN5sym7T3+:1hJSs0Xbvl2RHyN0O"
+          }
+        ]
+      },
+      "J": {
+        "id": "21",
+        "uuid": "3f20e96d-eb95-4670-8743-9802138ec97d",
+        "attributes": [
+          {
+            "id": "90",
+            "uuid": "d0bed486-454b-4be5-964c-b5f7ed2c3eec",
+            "type": "ssdeep",
+            "value": "384:1ePSJSUq4XdiaF9ddvP4o6+wXwU5sWFHyN5sym7T3+:1hJSs0Mbvl2RHyN0O"
+          }
+        ]
+      }
+    },
+    "values": {
+      "shared": "correlation-lab.example",
+      "excluded": "excluded-correlation.example",
+      "disabled": "disabled-correlation.example",
+      "object": "object-correlation.example",
+      "noisy": "noisy-correlation.example",
+      "cidr": "192.0.2.224/28"
+    },
+    "exclusion_id": "1",
+    "exclusion_removed": true,
+    "rule_id": "1",
+    "rule_removed": true,
+    "ssdeep": {
+      "a": "384:1ePSJSUq4Xdiao9ddvP4o6+wXwU5sWFHyN5sym7T3+:1hJSs0Xbvl2RHyN0O",
+      "b": "384:1ePSJSUq4XdiaF9ddvP4o6+wXwU5sWFHyN5sym7T3+:1hJSs0Mbvl2RHyN0O",
+      "score": 99
+    },
+    "noisy_events": [
+      {
+        "id": "22",
+        "uuid": "dc1cd2c7-6bf2-47d9-b158-acd7913769d6",
+        "attribute_id": "91"
+      },
+      {
+        "id": "23",
+        "uuid": "a182d9c0-e4bb-41c4-9904-373691fc5a5e",
+        "attribute_id": "92"
+      },
+      {
+        "id": "24",
+        "uuid": "ca2c1248-e17c-4e79-8a4a-c399a812f603",
+        "attribute_id": "93"
+      },
+      {
+        "id": "25",
+        "uuid": "29b076a6-7dd1-4d05-a20d-a9e4875e27f8",
+        "attribute_id": "94"
+      },
+      {
+        "id": "26",
+        "uuid": "b92001f0-4e1a-4946-85dc-750908d6cab4",
+        "attribute_id": "95"
+      }
+    ],
+    "lifecycle": {
+      "events": {
+        "K": {
+          "id": "27",
+          "uuid": "b41e6b8d-f6f0-4c49-9aa1-15f89130df23"
+        },
+        "L": {
+          "id": "28",
+          "uuid": "58df44bb-492b-4e16-8c79-1d6afb76c118"
+        }
+      },
+      "L_deleted": true,
+      "K_retained_private": true
+    }
+  },
+  "behavior_checks": {
+    "baseline": {
+      "71": [
+        {
+          "event_id": "18",
+          "value": "correlation-lab.example",
+          "type": "hostname"
+        },
+        {
+          "event_id": "19",
+          "value": "correlation-lab.example",
+          "type": "domain"
+        }
+      ],
+      "72": [
+        {
+          "event_id": "18",
+          "value": "correlation-lab.example",
+          "type": "hostname"
+        },
+        {
+          "event_id": "18",
+          "value": "192.0.2.225",
+          "type": "ip-src"
+        },
+        {
+          "event_id": "19",
+          "value": "correlation-lab.example",
+          "type": "domain"
+        }
+      ],
+      "74": [
+        {
+          "event_id": "18",
+          "value": "192.0.2.227",
+          "type": "ip-src"
+        }
+      ],
+      "76": [
+        {
+          "event_id": "18",
+          "value": "excluded-correlation.example",
+          "type": "domain"
+        }
+      ],
+      "75": [
+        {
+          "event_id": "18",
+          "value": "object-correlation.example",
+          "type": "domain"
+        }
+      ]
+    },
+    "advanced": {
+      "71": [
+        {
+          "event_id": "18",
+          "value": "correlation-lab.example",
+          "type": "hostname"
+        },
+        {
+          "event_id": "19",
+          "value": "correlation-lab.example",
+          "type": "domain"
+        }
+      ],
+      "72": [
+        {
+          "event_id": "18",
+          "value": "correlation-lab.example",
+          "type": "hostname"
+        },
+        {
+          "event_id": "18",
+          "value": "192.0.2.225",
+          "type": "ip-src"
+        },
+        {
+          "event_id": "19",
+          "value": "correlation-lab.example",
+          "type": "domain"
+        }
+      ],
+      "73": [
+        {
+          "event_id": "18",
+          "value": "192.0.2.224/28",
+          "type": "ip-src"
+        }
+      ],
+      "74": [
+        {
+          "event_id": "18",
+          "value": "192.0.2.224/28",
+          "type": "ip-src"
+        },
+        {
+          "event_id": "18",
+          "value": "192.0.2.227",
+          "type": "ip-src"
+        }
+      ],
+      "76": [
+        {
+          "event_id": "18",
+          "value": "excluded-correlation.example",
+          "type": "domain"
+        }
+      ],
+      "75": [
+        {
+          "event_id": "18",
+          "value": "object-correlation.example",
+          "type": "domain"
+        }
+      ]
+    },
+    "exact_exclusion_hides_match": true,
+    "exclusion_removal_recorrelates_value": true,
+    "rule_suppresses_A_B_but_preserves_A_C": true,
+    "rule_removal_then_event_recorrelation_restores_B": true,
+    "ssdeep_distinct_benign_hashes_match": {
+      "score": 99,
+      "threshold": 40
+    },
+    "overcorrelation_blocked_at_temporary_limit_3": true,
+    "limit_restored_and_value_unblocked_after_recorrelation": true,
+    "attribute_toggle_adds_and_removes_only_eligible_matches": true,
+    "event_toggle_removes_then_rebuilds_event_matches": true,
+    "lifecycle": {
+      "create_generates_match_without_rebuild_or_wait": true,
+      "value_edit_removes_old_match_without_rebuild_or_wait": true,
+      "restoring_value_regenerates_match_without_rebuild_or_wait": true,
+      "soft_delete_removes_match_without_rebuild_or_wait": true,
+      "event_delete_removes_match_without_rebuild_or_wait": true
+    },
+    "cleanup": {
+      "settings_restored": {
+        "MISP.correlation_engine": "default",
+        "MISP.correlation_limit": 20,
+        "MISP.enable_advanced_correlations": false,
+        "MISP.allow_disabling_correlation": false,
+        "MISP.completely_disable_correlation": false,
+        "MISP.ssdeep_correlation_threshold": 40,
+        "MISP.background_jobs": false
+      },
+      "all_synthetic_exclusions_and_rules_removed": true,
+      "temporary_block_removed": true,
+      "advanced_only_links_removed_after_restoration": true,
+      "private_unpublished_events_retained": 11,
+      "all_retained_attributes_IDS_off": 27,
+      "engine_switches": 0,
+      "table_truncations": 0,
+      "external_lookups": 0,
+      "top_ranking_cache_regenerated": true
+    }
+  },
+  "source_checks": [
+    {
+      "file": "app/Model/Correlation.php",
+      "sha256": "ff9db39f7c753b8c0f272b06fc4abd6fd4fec57e45ba2a9f391115b4461c0489"
+    },
+    {
+      "file": "app/Model/AttributeValue.php",
+      "sha256": "f576652337fb19c204aae5169fcb4149b51c7ecf4b4bde5d790f5d9ea0ae13fc"
+    },
+    {
+      "file": "app/Model/MispAttribute.php",
+      "sha256": "904a4d13c6ec3058a7d861b0492786a5fe46f5b68abc4589f5ef15e2c4df0009"
+    },
+    {
+      "file": "app/Model/Event.php",
+      "sha256": "b2cf4f72a3f3d43f443bdd08b1f9ac1a752146d942f08d1562fe897adbb45ad5"
+    },
+    {
+      "file": "app/Model/CorrelationExclusion.php",
+      "sha256": "d13775a26dd27fad573dfbc9ea1199d56503b8c7d9f89ec936d5061b814e4b27"
+    },
+    {
+      "file": "app/Model/CorrelationRule.php",
+      "sha256": "35d11c3459bc79a0627357bfb0bc84abf91abd36e368552e1a90435740d70951"
+    },
+    {
+      "file": "app/Model/OverCorrelatingValue.php",
+      "sha256": "49c587c6e92aa210355b13641082c45ed8a7d1bae6cd0977ac94b52adfff9d6e"
+    },
+    {
+      "file": "app/Model/Behavior/DefaultCorrelationBehavior.php",
+      "sha256": "9534603563803a4ff0ad5d2879e1bee6ce1491a4833b5445cc342c589a31e410"
+    },
+    {
+      "file": "app/Model/Behavior/NoAclCorrelationBehavior.php",
+      "sha256": "27ef6fb66e8314b3e3de90f785c97720d8bdc69a6aedabc89ce0b646a7f3f338"
+    },
+    {
+      "file": "app/Model/Behavior/OnDemandCorrelationBehavior.php",
+      "sha256": "ad9ccbf9db0a61e58b30c1ef4e64215ba4867cc93a8a6c79a8a145b29ac37205"
+    },
+    {
+      "file": "app/Lib/Tools/ValueFacetTool.php",
+      "sha256": "7c6d59370048284865f4684624c34da8da895f76ba89ceaf808b980da545c7e1"
+    },
+    {
+      "file": "app/Controller/CorrelationsController.php",
+      "sha256": "839a8b0669c815b038d11735362f57e70701d2c8d04a6f4505c09d878537c5e8"
+    },
+    {
+      "file": "app/Controller/CorrelationExclusionsController.php",
+      "sha256": "579b5c840442a3861e69dffa54eabd9e9126d2383395af694904e86c57480d5d"
+    },
+    {
+      "file": "app/Controller/CorrelationRulesController.php",
+      "sha256": "ae06bc531649657ec63c5ba50c124dbdca6bbc87f1785acbdfafeacb04e0b12f"
+    },
+    {
+      "file": "app/Controller/EventsController.php",
+      "sha256": "cad23b53c1c00762d859bfcab8cfa584196598f24f53b3278b113b9fdf88dddb"
+    },
+    {
+      "file": "app/Controller/AttributesController.php",
+      "sha256": "fe47db1f80a876d1848c7f74cdccd17136d502da0965897eb4f93a4f19370437"
+    }
+  ],
+  "shots": [
+    {
+      "file": "correlation/figures/misp3-engine-health.png",
+      "url": "/servers/serverSettings/correlations",
+      "description": "Correlation engine health, active and dormant engines, recorrelation and counters. No engine was switched or truncated.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T19:56:29.903718+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "71f346e324e87eb742c4238521ff6e87a945912427b4d1746f6d96b0aa120576"
+    },
+    {
+      "file": "correlation/figures/misp3-over-correlating.png",
+      "url": "/correlations/overCorrelations",
+      "description": "The deliberately frequent synthetic selector is blocked at a temporary fixture limit of three; occurrence counts were regenerated.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 560
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:02:39.337440+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 560
+      },
+      "sha256": "bdaf251cc40eb2216e8bdd1f3d71dd40ee03dd939b93f212eee669c07e8e5e8e"
+    },
+    {
+      "file": "correlation/figures/misp3-top-correlations.png",
+      "url": "/correlations/top",
+      "description": "Freshly regenerated administrative ranking of stored correlations with cache age and exclusion controls.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 780
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:02:41.238831+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 780
+      },
+      "sha256": "c9f321f56224696d4825da64e0a512188b929237dfb89035c818c352aa741758"
+    },
+    {
+      "file": "correlation/figures/misp3-attribute-toggle.png",
+      "url": "/events/view/17#tab-attributes",
+      "description": "The native confirmation for enabling a disabled synthetic attribute, without changing IDS eligibility.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:08:20.953922+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 180
+      },
+      "sha256": "e2d8c3968eaf76ce1d2096bbf6ff6534267ac84195d448708a5c1abf49ba5a0f"
+    },
+    {
+      "file": "correlation/figures/misp3-event-toggle.png",
+      "url": "/events/view/17#tab-general",
+      "description": "The native confirmation for disabling correlation on the synthetic event; source data are retained.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:08:24.219940+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 308
+      },
+      "sha256": "8e4c8a6064a1b4084873049d51a5f89d249a897ae2a28a3a2e6684b9543fb3b6"
+    },
+    {
+      "file": "correlation/figures/misp3-cidr-source.png",
+      "url": "/events/view/18#tab-attributes",
+      "description": "The actual stored CIDR and address/port evidence behind the advanced match, with a non-correlating port type.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 820
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:08:28.558367+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 820
+      },
+      "sha256": "0f0bfc0117221bef0c38d049ed4f8d5098dc993d034103007576f45b128cc79d"
+    },
+    {
+      "file": "correlation/figures/misp3-ssdeep-match.png",
+      "url": "/events/view/20#tab-attributes",
+      "description": "A genuine advanced match between distinct fingerprints of harmless generated text; the measured fixture similarity is not a threat-confidence score.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 540
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:08:30.626188+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 540
+      },
+      "sha256": "88d22acbc25e3375a89f281635123776ec4dc4b2c6720eb81df909e590159f8f"
+    },
+    {
+      "file": "correlation/figures/misp3-event-graph.png",
+      "url": "/events/view/17#tab-correlation",
+      "description": "The event correlation graph and timeline for the synthetic seed. Graph weights, attributes and event counts are different aggregations.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 842
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:10:08.347476+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 842
+      },
+      "sha256": "30d70be1e3ae78ff87994febce2fc6b456ca39402848fd14cbaca2a6e0db077e"
+    },
+    {
+      "file": "correlation/figures/misp3-expanded-matches.png",
+      "url": "/events/view/17#tab-correlation",
+      "description": "Expanded correlated-event records, including type, object context and IDS state; underlying records retain full stored composite/range values.",
+      "role": "User",
+      "selector": "#correlations-list",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:10:09.237594+00:00",
+      "image_size": {
+        "width": 1416,
+        "height": 476
+      },
+      "sha256": "5f54bd458642c53dd5f14df96d4c50424aa72d925a18085e4171db18ff5761ba"
+    },
+    {
+      "file": "correlation/figures/misp3-graph-filters.png",
+      "url": "/events/view/17#tab-correlation",
+      "description": "Actual display controls for values, types/objects and events; deselecting the outside control changes the view rather than stored policy.",
+      "role": "User",
+      "selector": "#sankey-filters",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:10:09.975459+00:00",
+      "image_size": {
+        "width": 1414,
+        "height": 526
+      },
+      "sha256": "b8e2de027108b46629acc203496c124d5e0ee9aeb899dac525dbac60c5cc6dc3"
+    },
+    {
+      "file": "correlation/figures/misp3-attribute-matches.png",
+      "url": "/events/view/17#tab-attributes",
+      "description": "Typed synthetic attributes with related-event links, a disabled-correlation value, and a non-correlating comment.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 800
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:10:10.645405+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 800
+      },
+      "sha256": "498ed7d41d416015480fd10e492c5489f394b56da9908eca19c65270ace0f727"
+    },
+    {
+      "file": "correlation/figures/misp3-value-occurrences.png",
+      "url": "/values/view/Y29ycmVsYXRpb24tbGFiLmV4YW1wbGU=#tab-occurrences",
+      "description": "Five component-value occurrences across three events include a comment and multiple source-event records; occurrence totals are not correlated-event counts.",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 850
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:12:18.229980+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 850
+      },
+      "sha256": "c5f66576efd2bc3557a55617cd933648fbb0997f579687096f839ff51f0a2fae"
+    },
+    {
+      "file": "correlation/figures/misp3-advanced-setting.png",
+      "url": "/servers/serverSettings/correlations",
+      "description": "The advanced-correlation setting found through configuration search, temporarily enabled for the isolated demonstrations.",
+      "role": "Site administrator",
+      "selector": "#ssSearchModal .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:12:22.091796+00:00",
+      "image_size": {
+        "width": 800,
+        "height": 221
+      },
+      "sha256": "9984e08f16b36cf9fc3f577aaa1c74dced45b52e1f9eb4f07b2116a46c12bf92"
+    },
+    {
+      "file": "correlation/figures/misp3-exclusions.png",
+      "url": "/correlation_exclusions/index",
+      "description": "The exact synthetic exclusion and the distinct action for cleaning existing correlations.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 480
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:12:23.891354+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 480
+      },
+      "sha256": "87aa0754e6586e9d81e34f611d6cb3aa47f764ba21e8b66a837b204dc5a10e31"
+    },
+    {
+      "file": "correlation/figures/misp3-rules.png",
+      "url": "/correlation_rules/index",
+      "description": "The rule selects A and B by event ID; C is outside the set.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 490
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:12:25.982195+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 490
+      },
+      "sha256": "6c6142c8ee576f26d07db283e1f41a34c1631348aa03b5959d912e39ffea2765"
+    },
+    {
+      "file": "correlation/figures/misp3-rule-impact.png",
+      "url": "/correlation_rules/index",
+      "description": "The confirmation counts the two events in the selected set, rather than the number of edges. This second framing was not executed.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T20:12:26.977335+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 242
+      },
+      "sha256": "b08d75a76fae772bb41f11abec7b2b242541b4e1f94c65d960c49378d8c5f585"
+    }
+  ],
+  "diagram": {
+    "source": "correlation/figures/correlation-lifecycle.mmd",
+    "file": "correlation/figures/correlation-lifecycle.svg",
+    "source_sha256": "47daabc624514fe1634c3853747e43de5539a6436adc5d3e3bfbcb6706ac60ea",
+    "sha256": "c124afacb64f540c5f7f495aaaed5fa16e60f3e8e7bf6ed3c6f43437ff9f4ed9",
+    "viewBox": "0 0 829.72265625 756.5999755859375"
+  },
+  "limits": [
+    "Default engine and same-organization synthetic corpus used for runtime examples; NoAcl/OnDemand documented from source without switching engines.",
+    "Advanced correlations and ordinary-user correlation toggles temporarily enabled, and a temporary limit of three used for the over-correlation demonstration; original settings restored and advanced-only fixture links removed afterwards.",
+    "Rule execution tested on A/B only and verified to preserve A/C. Later list/dialog recaptures staged the same selectors without executing again, then removed the policy.",
+    "Lifecycle create, value edit, soft attribute deletion and event deletion verified through normal API writes without polling delays or explicit rebuilds between operations.",
+    "No external DNS, enrichment, feed download, mail, publication, engine switch, table truncation or production migration was performed.",
+    "The warninglist display toggle is shown in its actual disabled state when the view has no applicable hits; it was not presented as an administrative exclusion."
+  ]
+}
