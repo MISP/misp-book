@@ -15,7 +15,7 @@ its content is correct or malicious.
 
 ::: {.callout-note}
 This chapter follows MISP **3.0.0** from the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
-development branch in the light Overmind interface. Protected events also exist in MISP 2.5;
+development branch in light mode. Protected events also exist in MISP 2.5;
 peers must support the feature. Site-administrator and internal-sync trust paths have exceptions
 to ordinary signature checks, so this is not an end-to-end guarantee against every privileged
 recipient. Select a figure to enlarge it.
@@ -60,7 +60,7 @@ organisation. Deletion also allows a site-administrator path. Do not assume admi
 alone makes every key-management action available for another creator organisation.
 
 1. On a locally created event, choose **All actions → Protect event** and confirm. This
-   **unpublishes** the event. In this Overmind build, the protection action is offered to the
+   **unpublishes** the event. In this MISP 3.0 build, the protection action is offered to the
    creator organisation in the host organisation, for an unlocked event.
 2. Open **All actions → Add signing key**, which becomes available once the event is protected.
 3. Paste a PGP **public key**, or use the instance-key shortcut when the public-key file is

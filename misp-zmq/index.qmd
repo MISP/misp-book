@@ -37,7 +37,7 @@ Use native synchronization, an appropriately scoped API account or a filtered in
 ## Configure ZeroMQ {#zmq-configuration}
 
 As a site administrator, open **Administration → Server Settings & Maintenance → Integrations
-→ ZeroMQ**. In Overmind, integrations are grouped pages rather than the old Plugin tab.
+→ ZeroMQ**. In MISP 3.0, integrations are grouped pages rather than the old Plugin tab.
 The settings retain their `Plugin.ZeroMQ_*` names.
 
 ![The MISP 3.0 ZeroMQ settings page, showing the actual integration controls.](figures/misp3-zmq-settings.png)

@@ -15,13 +15,12 @@ first-class citizens in MISP: each has its own UUID and obeys the **same distrib
 sharing rules as events**, so a collection can be shared and synchronised across instances just
 like the intelligence it groups.
 
-Open **Data points → Collections** in the Overmind interface. Creating or editing a collection
+Open **Data points → Collections** in the MISP 3.0 interface. Creating or editing a collection
 requires a role with modify permission and the relevant ownership checks.
 
 ::: {.callout-note}
 Instructions and screenshots use MISP **3.0.0** from the
-[`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, in the light Overmind
-interface. MISP 2.5 collections support events and galaxy clusters; its menus differ. Select a
+[`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip) development branch, in light mode. MISP 2.5 collections support events and galaxy clusters; its menus differ. Select a
 figure to enlarge it.
 A collection is distinct from two similarly named features:
 

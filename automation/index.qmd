@@ -12,7 +12,7 @@ scope and schema, then add writes or scheduled processing deliberately.
 ::: {.callout-note}
 This chapter follows MISP **3.0.0**, [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
 commit [`99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1),
-in the light Overmind interface. Examples use reserved training values. Screenshots can be enlarged.
+in light mode. Examples use reserved training values. Screenshots can be enlarged.
 :::
 
 <!-- Source checks, runtime examples and capture hashes: ../assets/automation-screenshots.json -->

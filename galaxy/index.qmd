@@ -11,7 +11,7 @@ Attach a cluster to an observation when the relationship is supported by your ev
 matching a familiar name is not sufficient attribution.
 
 ::: {.callout-note}
-This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`, in Overmind.
+This chapter follows MISP **3.0.0**, `3.0_wip` commit `99ebee729`.
 The community library comes from [misp-galaxy](https://github.com/MISP/misp-galaxy).
 Examples use a neutral country attachment and private unpublished custom knowledge.
 :::
@@ -49,11 +49,11 @@ individual cluster's distribution.
 
 ![The MISP 3.0 galaxy catalogue, loaded from the pinned local definition files.](figures/misp3-galaxies.png)
 
-Open a galaxy to inspect its metadata and clusters. Overmind's **General** and other context
+Open a galaxy to inspect its metadata and clusters. The MISP 3.0 interface's **General** and other context
 tabs, searchable cluster list and related views replace the old left-menu walkthrough.
 Use exact identifiers, descriptions, sources and synonyms to distinguish similarly named entries.
 
-![The Country galaxy, its cluster list and usage context in Overmind.](figures/misp3-galaxy-detail.png)
+![The Country galaxy, its cluster list and usage context in the MISP 3.0 interface.](figures/misp3-galaxy-detail.png)
 
 A cluster view exposes its **Elements**, relationships and activity alongside source/identity
 information. Synonyms and references help discovery; they are not independent confirmation of

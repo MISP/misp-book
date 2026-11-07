@@ -3,7 +3,7 @@
   "repository": "https://github.com/MISP/MISP",
   "branch": "3.0_wip",
   "commit": "99ebee729702c560528f9788953719bda68aa1c1",
-  "theme": "Overmind, light",
+  "theme": "MISP 3.0 interface, light",
   "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
   "runtime_note": "The official image supplies PHP and Composer dependencies; the application and framework run from the checked-out 3.0_wip source. Database initialized with that checkout's INSTALL/MARIADB.sql and Admin runUpgrade.",
   "submodules": {
@@ -21,7 +21,7 @@
     "appendices/index.qmd",
     "glossary.qmd"
   ],
-  "capture_method": "Four fresh Chromium/Playwright captures of the actual pinned Overmind UI, with existing synthetic local data. No retouching, arrows or fabricated controls. CustomAuth stays disabled. The recurring-task form uses the native Admin type card and report-only action; enabled is off and no form is saved.",
+  "capture_method": "Four fresh Chromium/Playwright captures of the actual pinned MISP 3.0 UI, with existing synthetic local data. No retouching, arrows or fabricated controls. CustomAuth stays disabled. The recurring-task form uses the native Admin type card and report-only action; enabled is off and no form is saved.",
   "ui_checks": {
     "recurring_task_draft_not_saved": true,
     "authentication_not_enabled_or_changed": true,
@@ -262,7 +262,7 @@
       "sha256": "49a7c9dc67ee9127571fda8929f43ecf2ec5538f3e702fb05e5e48cc6658beaf"
     },
     {
-      "file": "app/View/Themed/Overmind/Tasks/add.ctp",
+      "file": "https://api.github.com/repos/MISP/MISP/git/blobs/bcc93ff713d47830a426937834287fa3650943f0",
       "sha256": "2e3cc9fdf1148cf7fa4dba9d32025acf9fae3f7e575ba9d6261ceff74fc49e99"
     },
     {
@@ -366,5 +366,6 @@
     },
     "capture_containers_stopped": true,
     "capture_secret_scan": true
-  }
+  },
+  "source_reference_note": "Theme-specific source files are identified by immutable Git blob API URLs at the recorded commit; other source entries are paths relative to that checkout."
 }

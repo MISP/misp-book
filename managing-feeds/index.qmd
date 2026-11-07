@@ -11,7 +11,7 @@ definition records where to get the data, how to parse it and what to do with th
 
 ::: {.callout-note}
 Instructions and screenshots use MISP **3.0.0**, the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
-development branch, in the light Overmind interface. Feed administration requires a **site
+development branch, in light mode. Feed administration requires a **site
 administrator**. Select a screenshot or diagram to enlarge it.
 The per-feed cache action shown here was checked at commit
 [`4dcd953d1`](https://github.com/MISP/MISP/commit/4dcd953d1b987c4ce7089c6b9d55237fa81835a8).
@@ -78,7 +78,7 @@ parsed types, duplicate handling and detection flags before making the data oper
 ### Search feed caches
 
 Open `/feeds/searchCaches`. At this development commit it uses a legacy-layout page rather than
-the Overmind feed list. Search for an
+the MISP 3.0 feed list. Search for an
 exact value to check the caches of feeds and eligible remote servers. A hit means the cached
 source contains that value; it is not a verdict that the value is malicious.
 

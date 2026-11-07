@@ -65,7 +65,7 @@ Test the actual login, logout, MFA, recovery and API paths before enforcing a ne
 ### Configure CustomAuth {#appendix-custom-auth}
 
 Open **Administration → Server Settings & Maintenance → Integrations → Custom authentication**
-(`/servers/serverSettings/customauth`). The Overmind page groups the supported settings and
+(`/servers/serverSettings/customauth`). The MISP 3.0 page groups the supported settings and
 provides their current validation/help; use the durable configuration source for managed deployments.
 
 ![The actual Custom authentication settings in MISP 3.0. Header authentication remains disabled in this documentation instance.](figures/misp3-custom-auth.png)

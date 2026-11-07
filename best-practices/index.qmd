@@ -11,7 +11,7 @@ For the complete workflow, start with [Using the System](../using-the-system/ind
 For broader guidance, see the [MISP threat intelligence best practices](https://www.misp-project.org/best-practices-in-threat-intelligence.html).
 
 ::: {.callout-note}
-The examples and screenshots use MISP **3.0.0** from the development branch [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), with fictional data in the light Overmind interface.
+The examples and screenshots use MISP **3.0.0** from the development branch [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), with fictional data in light mode.
 Value Intelligence, analyst profiles, and value-level annotation examples describe that branch; their interface can change before release.
 Other practices also apply to MISP 2.5. Available actions depend on your role and the instance's configuration.
 Select a screenshot to enlarge it in the website.

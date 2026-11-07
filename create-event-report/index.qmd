@@ -11,7 +11,7 @@ It uses fictional data so you can repeat it without distributing live indicators
 You need permission to create events and their contents; publication requires a separate permission.
 
 ::: {.callout-note}
-The screenshots show MISP **3.0.0**, [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), in the light Overmind interface.
+The screenshots show MISP **3.0.0**, [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip), in light mode.
 Use **Your organisation only** and leave **For IDS** off throughout this exercise.
 The domains and addresses are reserved examples; the source URL identifies the fictional report and is not a page you need to fetch.
 Select a screenshot to enlarge it.
