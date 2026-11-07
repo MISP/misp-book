@@ -29,6 +29,8 @@ Several sightings from one organization can describe repeated observations, rath
 False-positive feedback is separate from the IDS flag: `to_ids=false` means context-only eligibility, not a recorded false positive.
 Expiration records do not automatically clear IDS flags or remove an indicator from every export.
 
+For a complete investigation and correction workflow, see [How to Deal with False Positives](../false-positives/index.qmd).
+
 ## Record sightings in MISP 3.0 {#using-sightings-on-an-event-gui}
 
 Open the event's **Attributes** tab, or expand an object in **Objects**, and find the attribute's sighting controls.
