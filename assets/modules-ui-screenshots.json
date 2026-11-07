@@ -1,0 +1,166 @@
+{
+  "generated_at": "2026-11-07",
+  "capture_method": "Chromium via Playwright against running local applications. Page screenshots and DOM screenshots of real modal components; no image retouching or arrow annotations. All values and MISP events are synthetic.",
+  "website": {
+    "repository": "https://github.com/MISP/misp-modules",
+    "commit": "8548067afbb14c2a089c41105ec18b06ef71ab79",
+    "path": "website",
+    "module_service": "misp-modules 3.1.3 installed from PyPI with uv; website dependencies include the minimal extra.",
+    "object_templates_commit": "df9c8ff525a0cadc62b77651dc0a17f8f4d7f11f",
+    "fixture": "Fresh SQLite database initialized from the actual local service catalogue. Only URL Components Extractor executed; its real visual result was captured.",
+    "misp_event_writes": false,
+    "external_provider_queries": false
+  },
+  "misp": {
+    "repository": "https://github.com/MISP/MISP",
+    "branch": "3.0_wip",
+    "version": "3.0.0",
+    "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "theme": "Overmind, light",
+    "role": "Site administrator in an isolated documentation fixture",
+    "module_service_image": "sha256:78976a69c067520ef8be34cde307ef9f6fea6dcefa50edb57039773d241ca0db",
+    "module_service_version": "3.1.3",
+    "module": "extract_url_components",
+    "event_id": 1,
+    "attribute_id": 2,
+    "fixture": "Existing private synthetic URL attribute. Local parser was temporarily enabled; Value Intelligence automatic enrichment was disabled.",
+    "verification": {
+      "attribute_preview_returned_real_object": true,
+      "event_attributes_unchanged": true,
+      "event_object_count_unchanged": true,
+      "event_remains_unpublished": true,
+      "event_wide_enrichment_not_submitted": true,
+      "value_enrichment_not_run": true,
+      "provider_queries_not_run": true
+    },
+    "baseline_configuration_restored": true
+  },
+  "shots": [
+    {
+      "file": "modules/figures/modules-web-workspace.png",
+      "application": "misp-modules website",
+      "url": "/",
+      "description": "Standalone workspace with a synthetic URL, url input type and only the local extract_url_components module selected.",
+      "selector": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "device_scale_factor": 1,
+      "captured_at": "2026-11-07T06:13:05.050770+00:00",
+      "sha256": "412882cc960aaf072beee60595cb618d4669d93186ab5c0e398da1b6aeb30f69"
+    },
+    {
+      "file": "modules/figures/modules-web-results.png",
+      "application": "misp-modules website",
+      "url": "/query/34a9ca67-efac-431e-8269-451899422651",
+      "description": "The real URL parser result in the standalone website, with a structured URL object and JSON/Markdown views. Only local parsing was executed.",
+      "selector": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "image_size": {
+        "width": 1440,
+        "height": 1100
+      },
+      "device_scale_factor": 1,
+      "captured_at": "2026-11-07T06:15:14.247284+00:00",
+      "sha256": "1a2e4cce7e7bfe42124c0150b7baa3fb219c5874bb32ccaa70e5ab1201f01760"
+    },
+    {
+      "file": "modules/figures/misp3-module-event-actions.png",
+      "application": "MISP 3.0",
+      "url": "/events/view/1",
+      "description": "Event action drawer showing Enrich Event and Download as; no whole-event enrichment or export was executed.",
+      "selector": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "device_scale_factor": 1,
+      "captured_at": "2026-11-07T06:15:44.031875+00:00",
+      "sha256": "60a8682d50a50ffab626cdfab3494c6ca2b083895c34c3ade45aba26c0655141"
+    },
+    {
+      "file": "modules/figures/misp3-module-event-picker.png",
+      "application": "MISP 3.0",
+      "url": "/events/view/1",
+      "description": "Event enrichment module selector with only the local URL parser enabled; the Enrich action has not been submitted.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "image_size": {
+        "width": 1140,
+        "height": 304
+      },
+      "device_scale_factor": 1,
+      "captured_at": "2026-11-07T06:15:45.516720+00:00",
+      "sha256": "af055421c0f6bb03d858d813f992c13cd47b1e8792cd40018051755948cc62bf"
+    },
+    {
+      "file": "modules/figures/misp3-module-attribute-actions.png",
+      "application": "MISP 3.0",
+      "url": "/events/view/1#tab-attributes",
+      "description": "The URL attribute row menu exposes Enrich for a single-observation query.",
+      "selector": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "device_scale_factor": 1,
+      "captured_at": "2026-11-07T06:17:56.126585+00:00",
+      "sha256": "cddfbe7035119a6ff1a4f0e9854f9aeb1dd8f0c10f5b5b21c153ddb56c1cdc05"
+    },
+    {
+      "file": "modules/figures/misp3-module-enrichment-preview.png",
+      "application": "MISP 3.0",
+      "url": "/events/view/1#tab-attributes",
+      "description": "Real local URL-parser results in the attribute enrichment review dialog. The import/save action has not been submitted.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "image_size": {
+        "width": 1140,
+        "height": 838
+      },
+      "device_scale_factor": 1,
+      "captured_at": "2026-11-07T06:17:59.328679+00:00",
+      "sha256": "faf43eea9d1e6f47e7d5cb458bd9cafebb6a3a9a4474f72985da80dcb8297640"
+    },
+    {
+      "file": "modules/figures/misp3-module-value-enrichment.png",
+      "application": "MISP 3.0",
+      "url": "/values/view/aHR0cHM6Ly9leGFtcGxlLm9yZy9sb2dpbg#tab-enrichment",
+      "description": "Value Intelligence Enrichment tab with the URL module selected for inspection. Automatic runs are disabled and no Run action was pressed.",
+      "selector": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 1,
+      "captured_at": "2026-11-07T06:19:40.523993+00:00",
+      "sha256": "af922954570e6eb81b7f02ee148025094caf626cf3abbe48b1199b18cdcb5fcf"
+    }
+  ]
+}
