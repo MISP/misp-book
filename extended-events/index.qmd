@@ -18,6 +18,8 @@ Select a screenshot to enlarge it.
 
 ## When to use an extended event
 
+To copy selected attributes, objects or reports into an existing event, see [Data Maintenance](../data-maintenance/index.qmd#maintenance-merge). That operation writes copies; the combined extension view described here preserves separate events.
+
 Use an extension when your contribution deserves its own event, source attribution, and publication lifecycle:
 
 - Add observations to intelligence received from a partner while allowing the partner's original event to keep receiving updates.

@@ -1,0 +1,514 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "generated_at": "2026-11-08T10:34:20.553016+00:00",
+  "scope_chapters": [
+    "data-maintenance"
+  ],
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "Compatible container runtime with the pinned MISP 3.0 application mounted over it; this tag is not presented as a published MISP 3.0 image.",
+  "capture_method": "Genuine native Chromium viewports, modal elements and an object-review DOM element. Native row selection, form entry, filtering, candidate removal and scrolling. No fabricated UI, pixel editing, arrows or application patches.",
+  "core_source_files_checked": [
+    {
+      "file": "app/Controller/EventsController.php",
+      "sha256": "cad23b53c1c00762d859bfcab8cfa584196598f24f53b3278b113b9fdf88dddb"
+    },
+    {
+      "file": "app/Controller/AttributesController.php",
+      "sha256": "fe47db1f80a876d1848c7f74cdccd17136d502da0965897eb4f93a4f19370437"
+    },
+    {
+      "file": "app/Controller/ObjectsController.php",
+      "sha256": "4ffd511ffe2e2fdd475cdc3fc1cb8f27f4cb2196e1441eb8fed2062316646ca9"
+    },
+    {
+      "file": "app/Model/Event.php",
+      "sha256": "b2cf4f72a3f3d43f443bdd08b1f9ac1a752146d942f08d1562fe897adbb45ad5"
+    },
+    {
+      "file": "app/Model/MispAttribute.php",
+      "sha256": "904a4d13c6ec3058a7d861b0492786a5fe46f5b68abc4589f5ef15e2c4df0009"
+    },
+    {
+      "file": "app/Model/MispObject.php",
+      "sha256": "77100f3264ba426d683d7ae727b489e1147666f66a7682fc3620c4d84e55772b"
+    },
+    {
+      "file": "app/View/Helper/AclHelper.php",
+      "sha256": "f545b91cb4ad72d28c614e59d63f9fdf3416c1a8c82618248bdf91925b4241a9"
+    },
+    {
+      "file": "app/Lib/Tools/IndexFilterState.php",
+      "sha256": "9380f5a7f4ff6556e0b2f70fa47293a655f7b5cdaba581975eb647f74d56cf89"
+    },
+    {
+      "file": "app/webroot/js/index-filters.js",
+      "sha256": "75b7381fa6ca80b842a4298b5425d5aed91051c010e0d604fd0adec7ce502de7"
+    }
+  ],
+  "fixture": {
+    "events": {
+      "Target": {
+        "id": "43",
+        "uuid": "31ea70be-fcfb-41cf-9fa8-95f93f43e05b",
+        "title": "Maintenance guide: Target",
+        "attributes": [
+          {
+            "role": "group-url",
+            "id": "143",
+            "uuid": "31aad60c-03d7-4561-b106-dabee8543ea1",
+            "type": "url",
+            "value": "https://portal.maintenance.example/login"
+          },
+          {
+            "role": "group-host",
+            "id": "144",
+            "uuid": "f4ead5af-25f5-4fde-99cc-79582a4d219a",
+            "type": "hostname",
+            "value": "portal.maintenance.example"
+          },
+          {
+            "role": "bulk-domain",
+            "id": "145",
+            "uuid": "3beae35a-a2ea-4803-b6c4-5463ae9b8c42",
+            "type": "domain",
+            "value": "review.maintenance.example"
+          },
+          {
+            "role": "bulk-ip",
+            "id": "146",
+            "uuid": "442da3de-f3d5-4e81-b5d0-102e3879f012",
+            "type": "ip-dst",
+            "value": "192.0.2.230"
+          },
+          {
+            "role": "delete-note",
+            "id": "147",
+            "uuid": "3a337644-9680-4786-abee-5a518fc3be41",
+            "type": "comment",
+            "value": "Maintenance exercise: duplicate note"
+          }
+        ],
+        "objects": []
+      },
+      "Source": {
+        "id": "44",
+        "uuid": "9cfd8f27-c032-48ac-ba3f-08111945dc5f",
+        "title": "Maintenance guide: Source",
+        "attributes": [
+          {
+            "id": "148",
+            "uuid": "9ccd5ca9-f124-463e-b901-50c60a0c236a",
+            "type": "domain",
+            "value": "followup.maintenance.example"
+          }
+        ],
+        "objects": [
+          {
+            "id": "21",
+            "uuid": "3785544d-1bb0-415d-b3d5-d7d500b897c7",
+            "name": "url",
+            "attributes": [
+              {
+                "id": "149",
+                "uuid": "5603e8a0-47b6-4084-a8ee-cebc0429e760",
+                "type": "url",
+                "value": "https://followup.maintenance.example/status"
+              },
+              {
+                "id": "150",
+                "uuid": "00454c6e-73fc-4df8-bfdf-2dcea9117742",
+                "type": "hostname",
+                "value": "followup.maintenance.example"
+              }
+            ]
+          }
+        ],
+        "report": {
+          "id": "13",
+          "uuid": "ba93012a-2a30-466b-bd90-8f528832c06b",
+          "name": "Maintenance guide follow-up"
+        }
+      },
+      "Deletion sandbox": {
+        "id": "45",
+        "uuid": "c847a265-a716-46db-871e-fd53126c9466",
+        "title": "Maintenance guide: Deletion sandbox",
+        "attributes": [],
+        "objects": []
+      }
+    },
+    "values": {
+      "url": "https://portal.maintenance.example/login",
+      "hostname": "portal.maintenance.example"
+    },
+    "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "tag": {
+      "id": "106",
+      "name": "maintenance:grouped"
+    },
+    "merged_object": {
+      "id": "22",
+      "uuid": "9a358161-2fc5-4bdc-8ab3-c2bf0263b1f3"
+    },
+    "merged_report": {
+      "id": "14",
+      "uuid": "28bba14a-a6b8-47fc-9b4c-5044e7c7ac47"
+    }
+  },
+  "verification": {
+    "account": "Organization user 2 (Reader display name) for all native UI operations; administrator API read-back verified persisted records. No credentials are included.",
+    "completed_live_checks": {
+      "bulk_comment": {
+        "changed_ids": [
+          145,
+          146
+        ],
+        "ids_and_distribution_preserved": true,
+        "ids_flag_remains_off": true
+      },
+      "merge": {
+        "source_event_unchanged": true,
+        "source_domain_excluded": true,
+        "copied_objects": 1,
+        "copied_reports": 1,
+        "new_uuids": true,
+        "target_event_uuid_preserved": true
+      },
+      "soft_delete": {
+        "attribute_id": "147",
+        "uuid_and_value_retained": true
+      },
+      "restore": {
+        "same_attribute_id": "147",
+        "same_uuid": "3a337644-9680-4786-abee-5a518fc3be41",
+        "original_value_and_flags_retained": true
+      },
+      "whole_event_delete": {
+        "deleted_only_task_created_empty_event": "45",
+        "admin_readback_status": 404
+      }
+    },
+    "grouping_source_checks": {
+      "prefill": "Only live standalone attributes from the target are considered; compatible fields are seeded by type into available template relations. Attachments are skipped.",
+      "save_semantics": "For a matching unchanged type/value, the new property receives tags and sightings and the standalone source is deleted; never-published events use permanent deletion, previously published events use soft-deletion markers. This is source-verified semantics, not a claimed successful native grouping mutation.",
+      "context_limits": "The seed does not copy every association or original UUID/observation-time field; references and analyst context require review."
+    },
+    "known_limitations": [
+      {
+        "scope": "Native grouping form save on the pinned development commit",
+        "observed": "Template selection, prefill and Review worked. POST /objects/add/43/423 returned HTTP 400 from form protection, both after Review and in a fresh form without Review. No object was created or original attribute removed.",
+        "documentation": "The grouping screenshots stop at a genuine review. The text explicitly describes the save failure and preserves the standalone originals for the subsequent exercise."
+      },
+      {
+        "scope": "Merge review label",
+        "observed": "The browser merge uses the shared review page labelled Enrichment results. The documented event merge did not contact an enrichment provider."
+      },
+      {
+        "scope": "Whole-object restoration",
+        "observed": "Object deletion marks the parent and properties deleted. The checked object menu has no whole-object Restore action; restoring one child does not restore the deleted parent and references. No whole-object restoration success is claimed."
+      }
+    ],
+    "fixture_safety": "Only newly constructed reserved-domain/documentation-address records were changed. Working events remain organization-only, unpublished, IDS-off. Object deletion was cancelled; actual whole-event deletion was restricted to the new empty disposable event.",
+    "cleanup": {
+      "retained_private_unpublished_ids_off_working_events": {
+        "Target": {
+          "id": "43",
+          "attributes_including_properties": 7,
+          "objects": 1,
+          "reports": 1
+        },
+        "Source": {
+          "id": "44",
+          "attributes_including_properties": 3,
+          "objects": 1,
+          "reports": 1
+        }
+      },
+      "all_five_original_target_attributes_retained_with_uuids": true,
+      "grouping_failure_left_originals_intact": true,
+      "only_two_bulk_comments_changed": true,
+      "source_authored_content_and_identities_unchanged": true,
+      "restored_note_not_left_deleted": true,
+      "object_delete_cancelled": true,
+      "deleted_only_task_created_empty_event": "45",
+      "all_reader_user_settings_and_timestamps_unchanged": true,
+      "application_tracked_source_unchanged": true,
+      "only_task_started_services_stopped": [
+        "misp3-capture",
+        "misp3-redis",
+        "misp3-db"
+      ]
+    }
+  },
+  "shots": [
+    {
+      "file": "data-maintenance/figures/misp3-bulk-selection.png",
+      "url": "/events/view/43#tab-attributes",
+      "description": "Two standalone attributes selected in one event; the native mass-action toolbar shows the selection scope",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:21:22.637158+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 850
+      },
+      "sha256": "818f5469db529389c3c012f2d609d0e57423e631b2c49a6629bef36f423ebb78"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-bulk-edit.png",
+      "url": "/events/view/43#tab-attributes",
+      "description": "Native Edit selected attributes modal with Keep current defaults and a replacement comment",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:21:23.859295+00:00",
+      "image_size": {
+        "width": 800,
+        "height": 580
+      },
+      "sha256": "001ceb5a018543236feab58586e6eee9da31c18a2b0c6c0825099a25545d426f"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-group-template.png",
+      "url": "/events/view/43#tab-attributes",
+      "description": "Native compatible-template picker filtered to URL templates",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:21:28.399322+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 452
+      },
+      "sha256": "1ccfd78251a0dc718f26ae407c54fdb225cb94b81bd515d6a89d3620ebefd3af"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-group-review.png",
+      "url": "/events/view/43#tab-attributes",
+      "description": "Native review of the composed URL object before saving",
+      "role": "User",
+      "selector": "#objReviewBody",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 950
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:22:34.596736+00:00",
+      "image_size": {
+        "width": 1058,
+        "height": 193
+      },
+      "sha256": "be666db0d0b2eb26284016893e70f0a147928ee3dfb98a089cce8dd77b48cbb0"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-merge-source.png",
+      "url": "/events/view/43",
+      "description": "Native source event selection and target confirmation before reviewing a merge",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 950
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:27:05.644232+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 416
+      },
+      "sha256": "8659a8c3879723410335476611d80a568e12e2bd7faada66295e11fc7bc8bd3a"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-merge-review.png",
+      "url": "/events/merge/43",
+      "description": "Native review after excluding the standalone domain, retaining the source URL object and report",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 950
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:27:07.353285+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 950
+      },
+      "sha256": "2880123df9593f05c12489e1fc3bdfd5e1a16aed5bf3d9e6feb262378969f875"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-merged-object.png",
+      "url": "/events/view/43#tab-objects",
+      "description": "Copied URL object in the target after selective import",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:28:59.061455+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 850
+      },
+      "sha256": "426e90fb83ce485dcb307d055730a9ac2a9224c8da3ac6bf5bdedde6ea9ca797"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-object-delete-confirm.png",
+      "url": "/events/view/43#tab-objects",
+      "description": "Native object deletion applies to the object and its properties; cancelled in this exercise",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:28:59.859720+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 336
+      },
+      "sha256": "d214378754a1221328d1bf7aa4b28e03cac5d7565ac957d54f1baab60105272c"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-merged-report.png",
+      "url": "/events/view/43#tab-reports",
+      "description": "Copied follow-up report in the target event",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:29:01.064767+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 850
+      },
+      "sha256": "e1de371bf7a0fff3f03ea84ee9aca0d869c636e48ceddf07e6db886faf7c3c3a"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-delete-confirm.png",
+      "url": "/events/view/43#tab-attributes",
+      "description": "Native attribute deletion confirmation with permanent deletion left off",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:29:03.861541+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 336
+      },
+      "sha256": "6ccd3b09f67562f070b23a52d1424df3607e6ad640b96db58eba421776ee1bbf"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-deleted-row.png",
+      "url": "/events/view/43#tab-attributes",
+      "description": "Native Deleted-only view shows the soft-deleted standalone note",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:29:08.358660+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 850
+      },
+      "sha256": "3048197a8e910c3859deb1974913f67b29555302c16260e8c5c4b732a72cc0bf"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-restore-confirm.png",
+      "url": "/events/view/43#tab-attributes",
+      "description": "Native restoration confirmation for the same attribute identity",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:29:09.106242+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 152
+      },
+      "sha256": "8f2aee0714adf5e73c1d8951eafc9b6a4c10ea708222b7f856855f0511b57aa8"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-restored-row.png",
+      "url": "/events/view/43#tab-attributes",
+      "description": "Restored note is visible again in the normal standalone Attributes tab",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 850
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:29:12.284776+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 850
+      },
+      "sha256": "164da702d3da0a0dc29d8136c02e34531f2e34a4a7fe532b57b7a18d93f4944d"
+    },
+    {
+      "file": "data-maintenance/figures/misp3-event-delete-confirm.png",
+      "url": "/events/view/45",
+      "description": "Whole-event deletion confirmation for the new empty disposable event",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T10:33:16.373315+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 218
+      },
+      "sha256": "866a430ab6567742916f6b700ad36bdc3db72f6ae0a4df25c6df01e0f42ed818"
+    }
+  ]
+}
