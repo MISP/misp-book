@@ -222,6 +222,7 @@ Table and card views offer different ways to inspect the same data.
 
 Use row actions to edit or delete where permitted, add tags or analysis, or open sighting details.
 Check the confirmation before deleting: a soft deletion can propagate and may be restored, while a permanent deletion cannot.
+For bulk edits, grouping, selective event merges and the verified deletion/restoration workflow, see [Data Maintenance](../data-maintenance/index.qmd).
 Inspect object attributes in the **Objects** tab rather than assuming the standalone table is the full event inventory.
 
 ### Pivoting and related events

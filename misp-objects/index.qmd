@@ -92,6 +92,8 @@ of causality. Preserve the source, timestamps, comments and assessment in the un
 
 ## Edit observations and maintain templates {#objects-maintenance}
 
+[Data Maintenance](../data-maintenance/index.qmd#maintenance-group) covers grouping standalone attributes, identity changes and the checked development-branch save limitation.
+
 Edit an object's fields/attributes through the current object controls. Review the resulting
 attributes, references and event state; changes can unpublish the event. Deleting a relation,
 attribute or object has a different scope, so check the confirmation and any dependent links.
