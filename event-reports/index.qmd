@@ -18,6 +18,8 @@ Select a screenshot to enlarge it.
 
 <!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
 
+To discover narratives across events, follow the [report search example](../searching-filtering/index.qmd#search-reports).
+
 ## Writing a report
 
 Start with a short summary, then separate what was observed from what you infer.

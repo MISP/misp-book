@@ -43,6 +43,7 @@ book:
       chapters:
         - user-management/index.qmd
         - using-the-system/index.qmd
+        - searching-filtering/index.qmd
         - event-templates/index.qmd
         - dashboards/index.qmd
         - value-intelligence/index.qmd

@@ -306,6 +306,8 @@ Combined views respect access to the parent and each extension; publication and 
 
 ## Browsing and searching
 
+[Searching and Filtering Intelligence](../searching-filtering/index.qmd) provides practical UI examples across events, attributes, objects, values and reports, with a short API bridge.
+
 ### Listing events
 
 Open **Data points → Events**.

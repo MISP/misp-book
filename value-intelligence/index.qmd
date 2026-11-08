@@ -29,6 +29,7 @@ https://portal-invoice.example/signin?case=DOC-VALUE-001
 ```
 
 Use **Search** when you need to discover stored values rather than open a known value.
+The [search guide](../searching-filtering/index.qmd#search-values) explains word-start, prefix, inside-word and CIDR matching.
 A pasted list produces a worklist; **Extract from text** finds candidate observables in prose.
 Review the extracted candidates before investigating them: extraction identifies syntax, not maliciousness.
 For a value that legitimately contains a comma, check whether you need the offered whole-line interpretation rather than a split list.

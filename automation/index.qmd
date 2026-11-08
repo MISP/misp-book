@@ -144,6 +144,8 @@ Do not infer support for every MISP 3.0 target type from the PyMISP package's ma
 
 ## Search events and attributes {#api-search}
 
+For a worked comparison with the browser interface, see [Searching and Filtering Intelligence](../searching-filtering/index.qmd#search-api).
+
 Use **POST `/events/restSearch`** for event containers and **POST `/attributes/restSearch`**
 for individual observations. Put filters in a JSON body, not positional URL segments. For example,
 save this as `search.json` to find occurrences of a reserved training domain:
