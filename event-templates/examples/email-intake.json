@@ -1,0 +1,123 @@
+{
+  "_meta": {
+    "misp_version": "3.0.0",
+    "exported_at": "2026-11-07T21:47:31+00:00",
+    "event_template_schema_version": 1
+  },
+  "template": {
+    "uuid": "e3e5ad28-6df7-43a6-8b30-e35f56c383f1",
+    "name": "Documentation — suspicious email intake",
+    "description": "A guided intake for a reported email, its attachment metadata and the initial assessment. Documentation exercise: reserved values and harmless file content only.",
+    "version": 4,
+    "distribution": 0,
+    "active": false,
+    "misp_default": false,
+    "definition": {
+      "schema_version": 1,
+      "uuid": "e3e5ad28-6df7-43a6-8b30-e35f56c383f1",
+      "name": "Documentation — suspicious email intake",
+      "event_defaults": {
+        "info_template": "Email intake — {{date}} — {{field:attr_3}}",
+        "distribution": 0,
+        "threat_level_id": 4,
+        "analysis": 0
+      },
+      "structure": [
+        {
+          "type": "section",
+          "id": "section_1",
+          "label": "Case and source",
+          "help": "Start with the case identifier so the report can be traced back to its source."
+        },
+        {
+          "type": "text_block",
+          "id": "text_2",
+          "content": "**Exercise only.** Use reserved addresses and harmless content. A filled form structures a report; it does not establish maliciousness or publish the event."
+        },
+        {
+          "type": "attribute_field",
+          "id": "attr_3",
+          "label": "Case reference",
+          "help": "Your internal case or ticket identifier, for example DOC-2026-001.",
+          "mandatory": true,
+          "repeatable": false,
+          "misp": {
+            "category": "Internal reference",
+            "type": "text",
+            "to_ids_default": false,
+            "comment_template": "Constructed documentation exercise; not a live incident.",
+            "default_value": ""
+          }
+        },
+        {
+          "type": "section",
+          "id": "section_4",
+          "label": "Email and attachment",
+          "help": "Capture message context and describe the attachment without executing it."
+        },
+        {
+          "type": "object_field",
+          "id": "obj_5",
+          "label": "Reported email",
+          "help": "Record the observed values exactly. The exercise uses reserved examples; review IDS flags before using any data for detection.",
+          "mandatory": true,
+          "repeatable": false,
+          "object_template": {
+            "uuid": "a0c666e0-fc65-4be8-b48f-3423d788b552",
+            "name": "email",
+            "minimum_version": 19
+          },
+          "relations": [
+            {
+              "object_relation": "from"
+            },
+            {
+              "object_relation": "subject"
+            }
+          ]
+        },
+        {
+          "type": "object_field",
+          "id": "obj_6",
+          "label": "Attachment metadata",
+          "help": "Record the observed values exactly. The exercise uses reserved examples; review IDS flags before using any data for detection.",
+          "mandatory": false,
+          "repeatable": true,
+          "object_template": {
+            "uuid": "688c46fb-5edb-40a3-8273-1af7923e2215",
+            "name": "file",
+            "minimum_version": 25
+          },
+          "relations": [
+            {
+              "object_relation": "filename"
+            }
+          ]
+        },
+        {
+          "type": "object_reference",
+          "id": "ref_7",
+          "from": "obj_5",
+          "to": "obj_6",
+          "relationship_type": "has-attachment",
+          "comment": "The reported email carried the described attachment. Repeatable fields link their first instances only."
+        },
+        {
+          "type": "section",
+          "id": "section_8",
+          "label": "Analyst assessment",
+          "help": "Separate observations from an assessment and record what to do next."
+        },
+        {
+          "type": "event_report",
+          "id": "report_9",
+          "label": "Initial triage note",
+          "help": "Describe the source, the evidence and what remains uncertain.",
+          "mandatory": true,
+          "default_content": "## Source\nUser report; assessment pending.\n\n## Assessment\nDescribe the observations, uncertainty and next action.\n"
+        }
+      ],
+      "description": "A guided intake for a reported email, its attachment metadata and the initial assessment. Documentation exercise: reserved values and harmless file content only."
+    }
+  }
+}

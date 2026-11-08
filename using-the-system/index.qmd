@@ -61,8 +61,8 @@ Objects and attributes can inherit the event audience or narrow it.
 A more permissive attribute setting does not bypass the event's restrictions.
 See [distribution best practices](../best-practices/index.qmd#setting-distribution) and [sharing groups](#create-and-manage-sharing-groups).
 
-Where available, **Use a template** starts a guided event-template workflow with predefined objects and fields.
-Use it for a recurring report type; confirm that the resulting fields and audience match the evidence.
+On the Events page, open **More actions** beside **Add Event** and choose **From template** for a guided event-creation form.
+See [Event Templates](../event-templates/index.qmd) to use or create a reusable reporting workflow, including a complete email-intake example.
 
 ## Populating an event with data
 
