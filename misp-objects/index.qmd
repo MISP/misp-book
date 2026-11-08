@@ -112,6 +112,9 @@ catalogue version indicator look current.
 
 ## Author a template {#objects-authoring}
 
+To build a guided form that combines several objects and other event content, use an [event template](../event-templates/index.qmd).
+The object template described here defines the structure of one entity.
+
 Follow the [current object schema](https://github.com/MISP/misp-objects/blob/main/schema_objects.json).
 Choose a stable template UUID, increment its version for changes and define meaningful relation
 names with existing MISP attribute types. State required/required-one-of and multiplicity rules,

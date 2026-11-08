@@ -1,0 +1,454 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "generated_at": "2026-11-08T05:26:36.860721+00:00",
+  "scope_chapters": [
+    "event-templates"
+  ],
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "Compatible container runtime with the pinned MISP 3.0 application mounted over it; this tag is not presented as a published MISP 3.0 image.",
+  "capture_method": "Genuine Chromium viewport, viewport-clip and DOM-element screenshots. Native builder, picker, guided-form, import, preview and object-expansion controls. No fabricated UI, image editing or annotation arrows. The saved-event views were captured after the cloud workspace recovered; the application source pin was rechecked unchanged.",
+  "dependencies": {
+    "event_template_library": {
+      "repository": "https://github.com/MISP/misp-event-templates",
+      "commit": "9ed997a05d2db71c93c2c37f832e2859eb1c5f8d"
+    },
+    "object_template_library": {
+      "repository": "https://github.com/MISP/misp-objects",
+      "commit": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326"
+    },
+    "used_object_templates": [
+      {
+        "name": "email",
+        "uuid": "a0c666e0-fc65-4be8-b48f-3423d788b552",
+        "minimum_version": 19,
+        "matched_version": 19
+      },
+      {
+        "name": "file",
+        "uuid": "688c46fb-5edb-40a3-8273-1af7923e2215",
+        "minimum_version": 25,
+        "matched_version": 25
+      }
+    ]
+  },
+  "downloadable_example": {
+    "file": "event-templates/examples/email-intake.json",
+    "sha256": "31c170f134969f6b8b9f01f9c0ad83bf4f1bebd488c2ed4b770573a0266a60c5",
+    "origin": "Native visual-builder export with separately configured event_defaults; imported through the native file form in overwrite mode, reviewed, activated, then revised in the builder to the verified filename-only file field. The downloadable export sets active=false for recipient review.",
+    "contains_events": false,
+    "includes_object_template_definitions": false,
+    "active": false,
+    "template_distribution": 0,
+    "event_distribution": 0,
+    "library_managed": false
+  },
+  "fixture": {
+    "event_id": "33",
+    "event_uuid": "a1e13d95-cfac-4e79-8ae8-bd458af800e8",
+    "template_uuid": "e3e5ad28-6df7-43a6-8b30-e35f56c383f1",
+    "template_version": 4,
+    "publication": "Unpublished and organization-only throughout. All exercise attributes have IDS off after review; object fields initially inherit their object-template IDS defaults.",
+    "objects": [
+      {
+        "name": "email",
+        "uuid": "d5c0e73e-ec7e-4d9b-bb76-95b7afc58a29",
+        "template_uuid": "a0c666e0-fc65-4be8-b48f-3423d788b552",
+        "template_version": 19,
+        "attributes": [
+          {
+            "relation": "from",
+            "type": "email-src",
+            "value": "notice@example.org",
+            "to_ids": false
+          },
+          {
+            "relation": "subject",
+            "type": "email-subject",
+            "value": "Training invoice review",
+            "to_ids": false
+          }
+        ]
+      },
+      {
+        "name": "file",
+        "uuid": "bf9bb178-7f62-479e-9168-aaf2b3f4f5bc",
+        "template_uuid": "688c46fb-5edb-40a3-8273-1af7923e2215",
+        "template_version": 25,
+        "attributes": [
+          {
+            "relation": "filename",
+            "type": "filename",
+            "value": "invoice-training.txt",
+            "to_ids": false
+          }
+        ]
+      }
+    ],
+    "reports": [
+      {
+        "id": "4",
+        "name": "Initial triage note"
+      },
+      {
+        "id": "5",
+        "name": "Instantiation report \u2014 Documentation \u2014 suspicious email intake v4"
+      }
+    ]
+  },
+  "runtime_checks": {
+    "native_reporter_event": {
+      "id": "33",
+      "uuid": "a1e13d95-cfac-4e79-8ae8-bd458af800e8",
+      "objects": 2,
+      "total_attributes": 4,
+      "reports": 2,
+      "relationship": "email has-attachment file",
+      "template_version": 4,
+      "generated_title": "Email intake \u2014 2026-11-07 \u2014 DOC-2026-001",
+      "private_unpublished_ids_off": true
+    },
+    "missing_object_dependency_rejected": true,
+    "regular_user_author_and_preview_permissions_denied": true,
+    "missing_mandatory_rejected_without_event": true,
+    "invalid_top_level_type_rolls_back_event": true,
+    "repeated_objects_reference_first_instance_only": true,
+    "omitted_optional_object_skips_its_reference": true,
+    "downloadable_inactive_private_example_validated": true,
+    "import_default_collision_rejected": true,
+    "duplicate_import_new_uuid": true,
+    "library_duplicate_is_local_org_only_not_exposed": true,
+    "native_visual_builder_create_save_and_validate": true,
+    "native_json_file_import_overwrite_then_activation": true,
+    "missing_label_validation_and_recovery_without_save": true,
+    "saved_preview_disables_creation": true,
+    "reporter_modal_mandatory_guard_and_repeat_add_remove": true
+  },
+  "cleanup_checks": {
+    "initial_template_catalogue_count": 0,
+    "removed_only_task_created_template_ids": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14"
+    ],
+    "original_empty_catalogue_restored": true,
+    "inactive_library_rows_verified_unchanged_before_removal": 10,
+    "all_exercise_events_private_unpublished_ids_off": true,
+    "application_source_modified": false,
+    "task_started_fixture_containers_stopped": [
+      "misp3-capture",
+      "misp3-redis",
+      "misp3-db"
+    ]
+  },
+  "source_checks": [
+    {
+      "file": "app/Controller/EventTemplatesController.php",
+      "sha256": "8996a323a72a36049a2b5e59ab23203e787d7747a0dec1c61b9f85b0187d274e"
+    },
+    {
+      "file": "app/Controller/Component/ACLComponent.php",
+      "sha256": "f03006744715af299db0d6ad169da340f6a45e3ee56f8168ed1632cd4362ec00"
+    },
+    {
+      "file": "app/Model/EventTemplate.php",
+      "sha256": "94bee34f7302d5362bdb0d35b3052f0b30b4ec62f22b5baef33672ea7d17f84d"
+    },
+    {
+      "file": "app/Lib/Tools/EventTemplateValidator.php",
+      "sha256": "1a69984301dbc5df51a6207ef0970057c1e7d2aa0664a85e501b9830ea5d6501"
+    },
+    {
+      "file": "app/Lib/Tools/EventTemplateInstantiator.php",
+      "sha256": "578be9ce6f7d2755c964d77a5b1b7f7233f3d15e3456462215a9c20f2818f8c2"
+    },
+    {
+      "file": "app/Lib/Tools/EventTemplateImporter.php",
+      "sha256": "86423af074daebc5c55f26323c129f67bfdab29a2d55d1eee4dc3b68d6ae0ec7"
+    },
+    {
+      "file": "app/Lib/Tools/EventTemplateExporter.php",
+      "sha256": "39c049936c990db11116cd4c984ee8c917bea5fb6d73d8d056997d997705efda"
+    },
+    {
+      "file": "app/Lib/Tools/EventTemplateInfoRenderer.php",
+      "sha256": "d68ca04793be1ea55696db56d312763b7a34fa34d17f91dc69d8fbee1c760cb2"
+    },
+    {
+      "file": "app/Lib/Tools/EventTemplateDependencies.php",
+      "sha256": "8622d6bbdd65b27c6b2f76bbcbe7e5a0a0527f8cb1c2ddddec7cbffa3e3c0a6b"
+    },
+    {
+      "file": "app/files/schemas/event-template-v1.schema.json",
+      "sha256": "d7fece5ff6641be607c8934305256fa0113ed4e794c26b0de34e0171a17b4f01"
+    }
+  ],
+  "shots": [
+    {
+      "file": "event-templates/figures/misp3-import.png",
+      "url": "/event_templates/import",
+      "description": "Native JSON import with explicit overwrite mode for the operator-owned example; the uploaded example starts inactive.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:40:01.289518+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "54aa21311a46fe84e8c8eb289c541642c479f23ed04b17f2d3d52dfbb22721c3"
+    },
+    {
+      "file": "event-templates/figures/misp3-picker.png",
+      "url": "/events/index",
+      "description": "Regular user selects the active training template from the native Events-page picker.",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1600
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:48:38.566028+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 386
+      },
+      "sha256": "d0dc736c9f0d2c40f8d80658541282efa1984baa35a1ba96124ae3e81f17e7bd"
+    },
+    {
+      "file": "event-templates/figures/misp3-form-evidence.png",
+      "url": "/events/index",
+      "description": "Guided form, evidence step: email and attachment object fields selected by the creator; repeatable attachment controls are available.",
+      "role": "User",
+      "selector": "[data-et-element-id=\"obj_6\"]",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1600
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:48:41.464807+00:00",
+      "image_size": {
+        "width": 1050,
+        "height": 360
+      },
+      "sha256": "4830d66fb651f3e590f58f72cbd4836e74210fe47bf1fd17fe0207f003ff44a7"
+    },
+    {
+      "file": "event-templates/figures/misp3-form-report.png",
+      "url": "/events/index",
+      "description": "Reporter edits the initial triage report before creating the event.",
+      "role": "User",
+      "selector": "[data-et-step=\"3\"]",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1600
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:48:42.364016+00:00",
+      "image_size": {
+        "width": 1092,
+        "height": 555
+      },
+      "sha256": "5adb14508264398fc01bcd54bdca32894d7cbb898c4b9ba50c41d9313c7839f7"
+    },
+    {
+      "file": "event-templates/figures/misp3-builder.png",
+      "url": "/event_templates/edit/11",
+      "description": "Saved visual builder with nine ordered elements, Event report properties and successful server validation.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1600,
+        "height": 1260
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:49:52.572727+00:00",
+      "image_size": {
+        "width": 1600,
+        "height": 1260
+      },
+      "sha256": "a0e5399de779d8b50ff8cf1c1d0a6c01dded6aa739352abbbc00ce3d9b91c97b"
+    },
+    {
+      "file": "event-templates/figures/misp3-builder-attribute.png",
+      "url": "/event_templates/edit/11",
+      "description": "Case-reference attribute properties show its Internal reference/text mapping, required state and IDS default off.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 250,
+        "y": 490,
+        "width": 1350,
+        "height": 735
+      },
+      "viewport": {
+        "width": 1600,
+        "height": 1260
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:49:53.361756+00:00",
+      "image_size": {
+        "width": 1350,
+        "height": 735
+      },
+      "sha256": "e37cce348f5ce83f7e56cc8c717b3d90258c23e3e1dd1af65448bffc4751d993"
+    },
+    {
+      "file": "event-templates/figures/misp3-builder-object.png",
+      "url": "/event_templates/edit/11",
+      "description": "Object properties choose the file object template at minimum version 25, selected relations and repeatability.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 250,
+        "y": 490,
+        "width": 1350,
+        "height": 735
+      },
+      "viewport": {
+        "width": 1600,
+        "height": 1260
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:49:54.545618+00:00",
+      "image_size": {
+        "width": 1350,
+        "height": 735
+      },
+      "sha256": "6ff0707e2abda6629a1eb5c5de22f10d206cb90539ea18b206f0f26462beda85"
+    },
+    {
+      "file": "event-templates/figures/misp3-preview.png",
+      "url": "/event_templates/preview/11",
+      "description": "Saved template preview identifies preview mode and disables event creation.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-07T21:49:56.316839+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "32fa63f5ecff8df516c196088b76b5dac89865284a1d78266321567d6c10b64c"
+    },
+    {
+      "file": "event-templates/figures/misp3-created-objects.png",
+      "url": "/events/view/33#tab-objects",
+      "description": "Saved event Objects tab: separate email and file objects with the template-created reference; all exercise attribute IDS flags were reviewed and disabled.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:24:42.296194+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "61d77c7f95cb578a874f4592b4c12af2fabcf17c30d8f51ca7864f5f08326a15"
+    },
+    {
+      "file": "event-templates/figures/misp3-instantiation-report.png",
+      "url": "/eventReports/view/5",
+      "description": "Generated Event Report records template UUID/version and submitted field values, with links to created attributes.",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:24:44.792427+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "67790e6e48728d6a2e41cfc596c9baf2a5d1d63a42d314b3a21f54074774483f"
+    }
+  ],
+  "limits": [
+    "The current visual builder exposes the definition structure and template envelope, but not a dedicated editor for advanced event_defaults. These were configured through validated JSON import, and the distinction is stated in the chapter.",
+    "An earlier private probe entered file.sha256 alongside filename. The event succeeded but retained only filename: the matched object-template hash relation lacked categories and the instantiator fell back to Other. The final downloadable example and screenshots use verified filename-only file metadata; no application patch or synthetic UI hid the behavior. The chapter tells readers to compare submitted and saved object values.",
+    "Runtime checks cover selected builder, reporter, permission, validation, import and repetition paths. Tag/galaxy pickers, malware-sample packaging, every sharing-group/role combination and external Draugnet reporting were source-reviewed rather than exercised end to end.",
+    "Event reports and audit entries are written after the event transaction; report failures do not roll back an already-created event. The example confirms both expected reports, but no induced post-commit report failure was tested.",
+    "The library was initialized at the application-pinned revision. Its ten newly installed inactive rows were verified unchanged and removed with the local example/probe templates to restore the original empty catalogue. No external templates or events were published."
+  ],
+  "book_validation": {
+    "rendered_formats": [
+      "HTML",
+      "PDF (Typst)",
+      "ePub"
+    ],
+    "artifacts": {
+      "html_images": 10,
+      "diagram_hashes_checked": 29,
+      "all_10_screenshot_hashes_and_sizes_valid": true,
+      "html_epub_assets_match_sources": true,
+      "all_10_original_screenshot_pixel_sets_embedded_in_pdf": true,
+      "pdf_pages": 329,
+      "chapter_pages": [
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "pdf_text_within_page_bounds": true
+    },
+    "browser": {
+      "images_and_lightboxes_checked": 10,
+      "widths": [
+        1440,
+        390
+      ],
+      "modes": [
+        "light",
+        "dark"
+      ],
+      "using_misp_navigation_order": true,
+      "horizontal_page_overflow": false,
+      "javascript_errors": []
+    },
+    "offline_links_and_fragments": "5558 checked, zero errors",
+    "portable_download_links": "Local JSON copy in HTML, HTTPS source link in PDF and ePub",
+    "pdf_cross_reference_smoke_build": "passed"
+  }
+}

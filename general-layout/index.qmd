@@ -93,7 +93,7 @@ Use this menu to find the vocabularies, structures, and reference lists that giv
 
 - **Tags & Taxonomies** contains **List Taxonomies**, **List Tags**, and **List Tag Collections**.
 - **Galaxies** leads to galaxy knowledge bases and cluster relationships.
-- **Templates** contains event templates, object templates, and object relationships.
+- **Templates** contains [event templates](../event-templates/index.qmd), object templates, and object relationships.
 - **Filters & Lists** groups warninglists, noticelists, import regular expressions, and correlation exclusions.
 - **Decaying Models** and **Analyst Profiles** provide additional modeling tools where available.
 
