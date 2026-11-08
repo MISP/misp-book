@@ -232,7 +232,7 @@ Shared hosting, reused infrastructure, and copied reports can create correlation
 The [Correlation](../correlation/index.qmd) chapter explains how matches are generated, when they are updated, and how to filter or suppress them.
 
 For work spanning several pages, add relevant material to a [workspace](../general-layout/index.qmd#workspaces).
-For one value across events, use **Data points → Value Intelligence** and inspect its occurrences and effective analyst profile.
+For one value across events, use [**Data points → Value Intelligence**](../value-intelligence/index.qmd) and inspect its occurrences and effective analyst profile.
 A workspace connection used while exploring is not automatically an asserted Analyst Data Relationship.
 
 For a worked investigation using infrastructure, favicon, DOM and cookie-name selectors, see [Pivoting from One Observation to Related Infrastructure](../pivoting/index.qmd).
