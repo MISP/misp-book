@@ -1,0 +1,551 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "generated_at": "2026-11-08T06:03:31.365409+00:00",
+  "scope_chapters": [
+    "value-intelligence"
+  ],
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "Compatible container runtime with the pinned MISP 3.0 application mounted over it; this tag is not presented as a published MISP 3.0 image.",
+  "capture_method": "Genuine Chromium viewport and DOM-element screenshots at scale 1. Native tabs, filters, parser execution, retained-answer display and review-only New event dialog. No application patches, fabricated UI, image editing or annotation arrows.",
+  "source_files": [
+    {
+      "file": "app/Controller/ValuesController.php",
+      "sha256": "5d433c66087b6b6302d028001071088e2aca86ce04b255f8a8af09ccbb521674"
+    },
+    {
+      "file": "app/Model/Value.php",
+      "sha256": "e895b981e033cc2207143c2cb48711adc5a7605762e33526bbdd31e27fa5424a"
+    },
+    {
+      "file": "app/Model/ValueIntelligence.php",
+      "sha256": "1bd0989df7d7b38b8faed389dcea1a5ebf04a2633c81e1837b277d724c65f315"
+    },
+    {
+      "file": "app/Model/ValueEnrichmentRun.php",
+      "sha256": "ec7e6c192aa856266966c708a90f6ee7aba71534c9b28e532b215c86cbc6acfb"
+    },
+    {
+      "file": "app/Model/AnalystProfile.php",
+      "sha256": "2ab208921dbe9d25042c8b06de50155e59bc75c20fd4cf2cf0a3801e06f33705"
+    },
+    {
+      "file": "app/Lib/Tools/ValueIntelligence/ValueEnrichmentTool.php",
+      "sha256": "ed2375c31ee6c918521d2a5ed17dbfe7e299d23845ff00f08848bc0c21e4fc8b"
+    },
+    {
+      "file": "app/Controller/SightingsController.php",
+      "sha256": "03840ffaa2a7531996b43520c6a6bff1770451a90285307db77ac23000447488"
+    },
+    {
+      "file": "app/Model/UserSetting.php",
+      "sha256": "4b2d6477c585351fd87489649abc56e1d2c0e2b268ae3716b46931555312ea9b"
+    },
+    {
+      "file": "app/webroot/js/value-intelligence.js",
+      "sha256": "e393cd09ca7549cf37a9afc1f01186b6f119fb9c7b759a05ba5623e11dfafe6c"
+    },
+    {
+      "file": "app/webroot/js/value-new-event.js",
+      "sha256": "d15ce1fedf15a7f140a2f38633b7d88b95b6275ecbef6c493c394d0c9f9d1428"
+    }
+  ],
+  "fixture": {
+    "source_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "value": "https://portal-invoice.example/signin?case=DOC-VALUE-001",
+    "domain": "portal-invoice.example",
+    "value_sha256": "addb469eb4a81657d6dc37feff96855adb025f48378603225154e1dc0fa52398",
+    "value_path": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE",
+    "events": {
+      "A": {
+        "id": "37",
+        "uuid": "ee53549c-1e75-44d6-b030-34e3a8081a11",
+        "title": "reported sign-in link",
+        "date": "2026-11-01",
+        "attributes": [
+          {
+            "id": "125",
+            "uuid": "db025bd0-a4a7-4d10-9511-d2640d2d82b9",
+            "type": "url",
+            "value": "https://portal-invoice.example/signin?case=DOC-VALUE-001",
+            "first_seen": "2026-11-01T09:00:00Z",
+            "last_seen": "2026-11-01T09:10:00Z"
+          },
+          {
+            "id": "126",
+            "uuid": "d00bcd2d-0069-4de1-ad26-773668a35a04",
+            "type": "domain",
+            "value": "portal-invoice.example",
+            "first_seen": null,
+            "last_seen": null
+          },
+          {
+            "id": "127",
+            "uuid": "c5a6b8c5-06ed-410a-8c75-b996b3b1befc",
+            "type": "ip-dst",
+            "value": "192.0.2.180",
+            "first_seen": null,
+            "last_seen": null
+          }
+        ]
+      },
+      "B": {
+        "id": "38",
+        "uuid": "333d0c60-a6fc-4c9f-865b-a5042f669076",
+        "title": "gateway follow-up",
+        "date": "2026-11-03",
+        "attributes": [
+          {
+            "id": "128",
+            "uuid": "e4d91a8a-20c1-4133-b115-0607f5480ed7",
+            "type": "url",
+            "value": "https://portal-invoice.example/signin?case=DOC-VALUE-001",
+            "first_seen": "2026-11-03T14:00:00Z",
+            "last_seen": "2026-11-03T14:30:00Z"
+          },
+          {
+            "id": "129",
+            "uuid": "58200cd3-89cd-448e-a52f-3064d869365b",
+            "type": "domain",
+            "value": "portal-invoice.example",
+            "first_seen": null,
+            "last_seen": null
+          },
+          {
+            "id": "130",
+            "uuid": "121f5484-1c90-4b4c-8d42-c8b2965a7f8b",
+            "type": "ip-dst",
+            "value": "198.51.100.90",
+            "first_seen": null,
+            "last_seen": null
+          }
+        ]
+      },
+      "C": {
+        "id": "39",
+        "uuid": "000e728c-2efc-4b49-8cde-390765ccfe1f",
+        "title": "quoted benign control",
+        "date": "2026-11-06",
+        "attributes": [
+          {
+            "id": "131",
+            "uuid": "ce9c5549-24b7-4820-ad46-5397eac8a054",
+            "type": "comment",
+            "value": "https://portal-invoice.example/signin?case=DOC-VALUE-001",
+            "first_seen": null,
+            "last_seen": null
+          },
+          {
+            "id": "132",
+            "uuid": "cab1b59f-77de-4d9e-9825-34945ed8a044",
+            "type": "domain",
+            "value": "portal-invoice.example",
+            "first_seen": null,
+            "last_seen": null
+          }
+        ]
+      }
+    },
+    "sightings": [
+      {
+        "attribute_id": "125",
+        "date": "2026-11-01T09:05:00+00:00",
+        "type": 0,
+        "source": "Documentation email simulation",
+        "id": "12",
+        "uuid": "435a6ebc-c268-464c-8e88-39c8d22407c9"
+      },
+      {
+        "attribute_id": "128",
+        "date": "2026-11-03T14:15:00+00:00",
+        "type": 0,
+        "source": "Documentation gateway simulation",
+        "id": "13",
+        "uuid": "5ef664f7-7397-4357-b85b-b7884905e6cc"
+      },
+      {
+        "attribute_id": "128",
+        "date": "2026-11-07T12:00:00+00:00",
+        "type": 1,
+        "source": "Documentation benign-control assessment",
+        "id": "14",
+        "uuid": "c44dfa00-20a0-4941-950d-8d05c9dfae91"
+      }
+    ],
+    "note_uuid": "119fedd4-9d5f-4a10-a461-c9c6fab3e979",
+    "report_id": "10"
+  },
+  "verification": {
+    "url_occurrences": 3,
+    "visible_events": 3,
+    "reporting_organizations": 1,
+    "types": {
+      "url": 2,
+      "comment": 1
+    },
+    "type_chip_filters_to_two_url_rows": true,
+    "native_event_correlation": {
+      "event_A_to_B": [
+        "url",
+        "domain"
+      ],
+      "event_A_to_C": [
+        "domain"
+      ],
+      "C_comment_not_a_url_correlation": true
+    },
+    "sighting_timestamps_verified_in_api": true,
+    "positive_sightings": 2,
+    "false_positive_reports": 1,
+    "manual_module": "extract_url_components",
+    "manual_module_requests": 1,
+    "automatic_run_gate": "off (unset/default)",
+    "external_provider_queries": 0,
+    "returned_url_objects": 1,
+    "returned_object_attributes": 8,
+    "reopening_and_showing_stored_rows_made_no_new_module_request": true,
+    "new_event_dialog": "Opened with a picked URL object; never submitted. It also proposes a standalone attribute for the investigated value. Suggested IDS flags in this preview are not saved attributes.",
+    "new_audit_log": "Disabled throughout; History screenshot records the limitation.",
+    "timeline": {
+      "full_window": "2026-11-01 \u2192 2026-11-08",
+      "drag_selected_window": "2026-11-01 \u2192 2026-11-04",
+      "reset_restored_full_window": true
+    },
+    "browser_page_errors": [],
+    "cleanup": {
+      "all_three_exercise_events_remain_organization_only_unpublished_ids_off": true,
+      "no_enrichment_object_or_attribute_was_imported": true,
+      "all_original_user_settings_restored_exactly_including_recent_values_and_timestamp": true,
+      "tracked_application_source_unchanged": true,
+      "application_configuration_analyst_profiles_and_auditing_settings_not_modified": true,
+      "stopped_only_the_four_services_started_for_this_task": [
+        "misp3-capture",
+        "misp3-automation-modules",
+        "misp3-redis",
+        "misp3-db"
+      ]
+    },
+    "book_output_checks": {
+      "complete_html_pdf_epub_render": true,
+      "offline_internal_links_and_anchors": {
+        "total": 5742,
+        "unique": 1027,
+        "errors": 0
+      },
+      "browser": {
+        "images_and_lightboxes_checked": 14,
+        "widths": [
+          1440,
+          390
+        ],
+        "modes": [
+          "light",
+          "dark"
+        ],
+        "using_misp_navigation_order": true,
+        "horizontal_page_overflow": false,
+        "javascript_errors": []
+      },
+      "artifacts": {
+        "html_images": 14,
+        "diagram_hashes_checked": 29,
+        "all_14_screenshot_hashes_and_sizes_valid": true,
+        "html_epub_assets_match_sources": true,
+        "all_14_original_screenshot_pixel_sets_embedded_in_pdf": true,
+        "pdf_pages": 341,
+        "chapter_pages": [
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82,
+          83,
+          84,
+          85,
+          86,
+          87
+        ],
+        "pdf_text_within_page_bounds": true
+      }
+    }
+  },
+  "limitations": [
+    "Reserved URL/domain and TEST-NET addresses are constructed context, not live DNS, reputation or maliciousness claims.",
+    "All three source events belong to the same organization; event count does not establish independent corroboration.",
+    "Only one local parser was enabled for this workflow; the screenshots do not demonstrate remote-provider results.",
+    "No configuration, analyst profile or global auditing changes were made.",
+    "Value enrichment retains an organization-local answer; no returned object was imported into an event."
+  ],
+  "shots": [
+    {
+      "file": "value-intelligence/figures/misp3-lookup.png",
+      "url": "/values",
+      "description": "Values entry with the exercise URL, before lookup",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:55:39.531110+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "fc959af784273ef66cd6faa78956361cd6512586a4e527cc390e3f8aca450f1b"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-enrichment-question.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-enrichment",
+      "description": "URL parser request context before the first manual run",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:56:48.138084+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "648609dcf8e50a9801db314b6436e33bb2e2341c607556d9174b1f89485f5dc3"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-enrichment-result.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-enrichment",
+      "description": "Manually obtained URL parser answer, with structured components and local matches",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:56:51.823065+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "623a70e5adc6527c1c0952698826ba9c536fe3ded2a81902884892e30fcbb387"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-history.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-history",
+      "description": "Native history panel after verified exercise sighting timestamps",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:57:01.638942+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "7b435dc4549e3cd13e7d7d387c16fcafcf218b12b2d533c4f7453080b0994d5d"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-analyst.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-analyst",
+      "description": "Native analyst panel after verified exercise sighting timestamps",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:57:03.637083+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "f20b04fe3067a8b47bcdf24ea079feab8f74142209d9d3765379e3662ec90696"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-overview.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE",
+      "description": "Value overview with three visible occurrences, three events and one organization",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:58:24.404314+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "d0560089564b81d5d5ac9ce87f96e89fd89f35f61c2d14e425b7a97253f5ae6d"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-occurrences.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-occurrences",
+      "description": "Native occurrences panel for the final exercise data",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:58:25.922086+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "1f76f31e20d870e1fcb71bd5b6a0b4725063e9a95287e2df537233f959f1265f"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-assessment.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-assessment",
+      "description": "Native assessment panel for the final exercise data",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:58:27.620582+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "d7ae3a2ccb90601b209adab01e45e6084f4ca0800e24920e6b87b719014d97c1"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-timeline-lanes.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-timeline",
+      "description": "Timeline source lanes distinguish observation intervals from recorded changes",
+      "role": "User",
+      "selector": "[data-vp-tl] .vp-tl-card:has([data-vp-tl-window-label])",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:58:31.202746+00:00",
+      "image_size": {
+        "width": 1382,
+        "height": 725
+      },
+      "sha256": "ef81e11ab692d9e8e7e53ec0481e79a2be5690a089c7aacea615481eb8d0e953"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-timeline-chronology.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-timeline",
+      "description": "Chronology orders the dated sightings, observation spans, report and note",
+      "role": "User",
+      "selector": "[data-vp-tl-list]",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:58:31.691834+00:00",
+      "image_size": {
+        "width": 1382,
+        "height": 596
+      },
+      "sha256": "554f280910afb8693eff2cca738c1c7cdb8cb257dac918e324e56de468384e82"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-new-event.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-enrichment",
+      "description": "Native new-event review with a selected URL object; not submitted",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T05:58:36.210572+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 934
+      },
+      "sha256": "b97b633cbd64c34647328ea0d7d29f8cc5a2902ec3b6d57b003ffc1a02540c09"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-event-correlation.png",
+      "url": "/events/view/37#tab-correlation",
+      "description": "Expanded native correlation evidence: B matches URL and domain, C matches domain only",
+      "role": "User",
+      "selector": ".card:has(.corr-row)",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T06:01:40.543049+00:00",
+      "image_size": {
+        "width": 1416,
+        "height": 412
+      },
+      "sha256": "3d9976a996c4096264ac1a46928561ed3982c872fde3b9afad9609d393499945"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-relationships.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-relationships",
+      "description": "Complete co-occurrence table with domain and both constructed IP addresses",
+      "role": "User",
+      "selector": ".vp-rel-k-co[data-vp-narrow-url]",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T06:01:44.033586+00:00",
+      "image_size": {
+        "width": 1056,
+        "height": 594
+      },
+      "sha256": "3d5e82266137e88a5f0aff5a380d6d488942137ed7f0b9b6cad29a14968e75ec"
+    },
+    {
+      "file": "value-intelligence/figures/misp3-timeline-chart.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-timeline",
+      "description": "Native activity chart with source key and draggable period selection",
+      "role": "User",
+      "selector": ".vp-tl-card:has([data-vp-tl-spine])",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T06:02:25.392082+00:00",
+      "image_size": {
+        "width": 1382,
+        "height": 278
+      },
+      "sha256": "feca99b4df8719fdbc328ca7866b2c7db6db732e2060e607984ec1475f2e97ab"
+    }
+  ]
+}

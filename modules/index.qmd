@@ -213,6 +213,8 @@ Automatic queries also depend on the administrator's `Plugin.ValueIntelligence_e
 
 ![MISP 3.0 Value Intelligence shows the URL module's request context before execution. No Run action was pressed and automatic runs were disabled for this capture.](figures/misp3-module-value-enrichment.png)
 
+The [Value Intelligence walkthrough](../value-intelligence/index.qmd#value-intelligence-enrichment) runs the local URL parser, inspects its structured answer, reopens the retained result and reviews selected findings before event creation.
+
 ### Import, export and workflows {#modules-misp-exchange}
 
 For imports, follow the selected module's input contract and review the preview before saving.

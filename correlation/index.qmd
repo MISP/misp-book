@@ -110,7 +110,7 @@ The event timeline uses event dates; do not substitute it for an attribute's act
 
 ### Compare occurrences without confusing the counts {#correlation-occurrences}
 
-[Value Intelligence](../best-practices/index.qmd#assess-values-across-events-in-misp-3.0) shows where a stored value occurs and the context of each occurrence.
+[Value Intelligence](../value-intelligence/index.qmd#value-intelligence-occurrences) shows where a stored value occurs and the context of each occurrence.
 Its **Occurrences** tab and the event Correlation tab answer different questions.
 In this exercise, `correlation-lab.example` appears in several types, in a composite component, and in a non-correlating comment; multiple records belong to the source event itself.
 An occurrence count therefore need not equal a count of correlated attributes or other events.

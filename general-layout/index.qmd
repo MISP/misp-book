@@ -73,7 +73,7 @@ For example, **Data models → Tags & Taxonomies → List Taxonomies** opens the
 
 This is the main starting point for analysis.
 Open **Events** to browse reports and create a new event, or use **Objects** and **Attributes** to work across the data you can access.
-**Value Intelligence** provides an entry point for investigating a value.
+[**Value Intelligence**](../value-intelligence/index.qmd) brings together a value's occurrences, enrichment, relationships, timeline and analyst assessments.
 
 ![The Data points menu for the regular documentation user.](figures/misp3-datapoints-menu.png)
 
