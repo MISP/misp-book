@@ -209,6 +209,7 @@ Even without that audit log, occurrence creation/latest-edit times and dated sig
 ## Interpret the assessment in context {#value-intelligence-assessment}
 
 Open **Assessment** and read the contributing signals, source organizations and explanation behind the label.
+See [Analyst Profiles](../analyst-profiles/index.qmd) to choose, customize and test the rules behind that interpretation.
 MISP resolves the effective **analyst profile** from the user, then organization, then instance default.
 Weights, thresholds, exclusions and available evidence can therefore produce different readings for different analysts.
 Record the profile and the evidence when passing an assessment to a colleague.

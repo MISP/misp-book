@@ -95,7 +95,7 @@ Use this menu to find the vocabularies, structures, and reference lists that giv
 - **Galaxies** leads to galaxy knowledge bases and cluster relationships.
 - **Templates** contains [event templates](../event-templates/index.qmd), object templates, and object relationships.
 - **Filters & Lists** groups warninglists, noticelists, import regular expressions, and correlation exclusions.
-- **Decaying Models** and **Analyst Profiles** provide additional modeling tools where available.
+- **Decaying Models** and [**Analyst Profiles**](../analyst-profiles/index.qmd) provide additional modeling tools where available.
 
 Warninglists help flag well-known values that may be false positives; noticelists explain relevant policy or technical considerations.
 Import regular expressions apply input rules, while correlation exclusions prevent chosen values from creating correlations.

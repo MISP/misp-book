@@ -103,7 +103,7 @@ Three events copied from one source can still represent one observation.
 The [Value Intelligence chapter](../value-intelligence/index.qmd) provides a worked example of occurrences versus correlations, local enrichment, timeline analysis and a documented conclusion.
 The [pivoting use case](../pivoting/index.qmd) walks through broad discovery, refinement and validation using synthetic infrastructure and page artifacts.
 
-The **Assessment** tab explains the available signals and the effective **analyst profile** used to interpret them.
+The **Assessment** tab explains the available signals and the effective [**analyst profile**](../analyst-profiles/index.qmd) used to interpret them.
 A user profile takes precedence over an organization profile, which takes precedence over the instance default.
 Profiles define weights, thresholds, and other assessment settings, so analysts with different profiles or visibility can reach different displayed results for the same value.
 Record the profile and supporting evidence when passing an assessment to another team.

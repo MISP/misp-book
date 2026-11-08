@@ -1,0 +1,378 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "generated_at": "2026-11-08T08:14:04.545429+00:00",
+  "scope_chapters": [
+    "analyst-profiles"
+  ],
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "Compatible container runtime with the pinned MISP 3.0 application mounted over it; this tag is not presented as a published MISP 3.0 image.",
+  "capture_method": "Genuine native Chromium viewports, modal elements and a viewport clip focused on the comparison and changed contribution. Native page scrolling and module-list filtering. No fabricated UI, image editing, annotation arrows or application patches.",
+  "source_files": [
+    {
+      "file": "app/Controller/AnalystProfilesController.php",
+      "sha256": "f7c9b46c4675c3704a853da8df6ab519ab0379e5298231671b7d41142ca954a9"
+    },
+    {
+      "file": "app/Model/AnalystProfile.php",
+      "sha256": "2ab208921dbe9d25042c8b06de50155e59bc75c20fd4cf2cf0a3801e06f33705"
+    },
+    {
+      "file": "app/Lib/Tools/AnalystProfile/AnalystProfileFormTool.php",
+      "sha256": "d72e45b8ba712325fab9a994c88705e88cc63d9b5def629b972d3115383b0763"
+    },
+    {
+      "file": "app/Lib/Tools/AnalystProfile/OrgGradeTool.php",
+      "sha256": "f697ee88045b2b10f8c3c349dc93c60bc80e86bb1a0dbb6c0141742e7f38473f"
+    },
+    {
+      "file": "app/Lib/Tools/AnalystProfile/ShippedProfileTool.php",
+      "sha256": "0d136bc4f90380f4347af59a838581605f6635e948887d3443975578fc8dae31"
+    },
+    {
+      "file": "app/Lib/Tools/ValueIntelligence/ValueEnrichmentTool.php",
+      "sha256": "ed2375c31ee6c918521d2a5ed17dbfe7e299d23845ff00f08848bc0c21e4fc8b"
+    },
+    {
+      "file": "app/Lib/Tools/ValueIntelligence/ValueTrustTool.php",
+      "sha256": "c97746fea7294ab9b69c8b9b4afefd05547b07258cfd0f58a97193d781fe7525"
+    },
+    {
+      "file": "app/webroot/js/analyst-profile.js",
+      "sha256": "16c199f6879bbe88de20c0ed420f4fe39a377f7918027c23e12279cb5e64398c"
+    }
+  ],
+  "shipped_catalogue": [
+    {
+      "file": "app/files/analyst-profiles/default-v1.json",
+      "sha256": "ee148721ecb6177f11f5fd4a6e18aa5771fd6a130ddcb156eb62e3b24c847c4c"
+    },
+    {
+      "file": "app/files/analyst-profiles/disinformation-v1.json",
+      "sha256": "8560741feebbeefb7260a26fb10e99b9ad5aaf0f4083006d480ea3ca9205d337"
+    },
+    {
+      "file": "app/files/analyst-profiles/fraud-abuse-v1.json",
+      "sha256": "f1f94a0ca1d6c67e87e9629cf5332b1789d839931b9e834a09b7b19dfd6113f8"
+    },
+    {
+      "file": "app/files/analyst-profiles/incident-response-v1.json",
+      "sha256": "e6788bf6fe0f402e58b05eff4def2d567541b9ad549cb50322c8808ddab718fa"
+    },
+    {
+      "file": "app/files/analyst-profiles/risk-reporting-v1.json",
+      "sha256": "67442a6defc26f76bae987bb1952158fa75c4899e6316de050583c7a16c0a4ad"
+    },
+    {
+      "file": "app/files/analyst-profiles/soc-triage-v1.json",
+      "sha256": "caca322b06e7b634cd5b38c8dba5c5bd9a6fbe4103760a2f6137e0523bd3dd36"
+    }
+  ],
+  "fixture": {
+    "profile_id": "7",
+    "value": "https://portal-invoice.example/signin?case=DOC-VALUE-001",
+    "value_sha256": "addb469eb4a81657d6dc37feff96855adb025f48378603225154e1dc0fa52398",
+    "source_event_ids": [
+      "37",
+      "38",
+      "39"
+    ],
+    "imported_profile_id": "8"
+  },
+  "verification": {
+    "selection": "SOC Triage selected for the reader, then personal selection stopped before forking default. Organization and instance selections not modified.",
+    "experiment": {
+      "page_errors": [],
+      "module_run_requests": 0,
+      "unsaved_ttl_did_not_write": true,
+      "saved_ttl_days": 14,
+      "saved_only_you_points": -10
+    },
+    "roundtrip": {
+      "imported_id": "8",
+      "uuid_reminted": true,
+      "parameters_preserved": true,
+      "saved_original_restored_after_recapture": true
+    },
+    "expected_comparison": {
+      "signal_strength_before": 24,
+      "signal_strength_after": 18,
+      "only_you_points_before": -4,
+      "only_you_points_after": -10,
+      "url_lifetime_before_days": 60,
+      "url_lifetime_after_days": 14,
+      "stance_remained": "benign",
+      "signal_band_remained": "low"
+    },
+    "pinning": "One reserved exercise URL pinned to the per-user comparison set.",
+    "source_grade": "Grade B demonstrated in unsaved editor only; never saved.",
+    "provider_queries": 0,
+    "scope_changes": "Personal only; no organization or instance policy changes.",
+    "cleanup": {
+      "deleted_only_task_created_profiles": [
+        "7",
+        "8"
+      ],
+      "original_six_profile_summaries_and_selection_state_restored": true,
+      "all_user_settings_and_timestamps_restored_exactly": true,
+      "original_private_unpublished_ids_off_source_events_retained": true,
+      "unsaved_source_grade_not_persisted": true,
+      "application_source_not_modified": true,
+      "instance_configuration_and_organization_selection_not_modified": true,
+      "only_task_started_services_stopped": [
+        "misp3-capture",
+        "misp3-automation-modules",
+        "misp3-redis",
+        "misp3-db"
+      ]
+    },
+    "book_output_checks": {
+      "html_pdf_epub_render": true,
+      "offline_links": {
+        "total": 5913,
+        "unique": 1051,
+        "errors": 0
+      },
+      "browser": {
+        "images_and_lightboxes_checked": 10,
+        "widths": [
+          1440,
+          390
+        ],
+        "modes": [
+          "light",
+          "dark"
+        ],
+        "using_misp_navigation_order": true,
+        "horizontal_page_overflow": false,
+        "javascript_errors": []
+      },
+      "artifacts": {
+        "html_images": 10,
+        "diagram_hashes_checked": 29,
+        "all_10_screenshot_hashes_and_sizes_valid": true,
+        "html_epub_assets_match_sources": true,
+        "all_10_original_screenshot_pixel_sets_embedded_in_pdf": true,
+        "pdf_pages": 352,
+        "chapter_pages": [
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95,
+          96,
+          97,
+          98
+        ],
+        "pdf_text_within_page_bounds": true
+      }
+    }
+  },
+  "limitations": [
+    "Fictional URL and private unpublished IDS-off source events reused from the Value Intelligence chapter.",
+    "Assessment numbers depend on date, data, visibility and configuration.",
+    "The local module catalogue is limited; absent/disabled modules are shown honestly. No enrichment run was requested."
+  ],
+  "shots": [
+    {
+      "file": "analyst-profiles/figures/misp3-index.png",
+      "url": "/analystProfiles/index",
+      "description": "Six shipped profiles, effective scope and instance capabilities",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:03:05.126366+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "93a50688525c93d33daefde6b8d15cd33db0fb9bada4b01e410b521c13a02c07"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-select-confirm.png",
+      "url": "/analystProfiles/index",
+      "description": "Personal selection confirmation names the scope and displaced profile",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:04:13.617771+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 260
+      },
+      "sha256": "f1985776d9b6b7ce88c9b86e334ab191751ce2b5d9ccacc2f3efbae3d54bc968"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-selected-index.png",
+      "url": "/analystProfiles",
+      "description": "SOC Triage selected for the reader while the instance keeps default",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:04:15.483533+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "ca8c8081222fc7a248579ca51cd4bdf4995b4205f71e177db1c47f50d924017a"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-fork-confirm.png",
+      "url": "/analystProfiles",
+      "description": "Forking the default into an enabled personal copy",
+      "role": "User",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:04:50.550536+00:00",
+      "image_size": {
+        "width": 500,
+        "height": 318
+      },
+      "sha256": "5925d3f15c89a6c05ef657ef016a6a03561c3bc850a488cbec60ac80b6a9019b"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-applied-assessment.png",
+      "url": "/values/view/aHR0cHM6Ly9wb3J0YWwtaW52b2ljZS5leGFtcGxlL3NpZ25pbj9jYXNlPURPQy1WQUxVRS0wMDE#tab-assessment",
+      "description": "Value Intelligence uses the saved personal profile: 18 signal strength, 14-day lifetime and unchanged benign stance",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:08:38.155276+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "7be84ed156bc5123bab888bd2833ad72b7dba07225e730a85cfe43d0cae872c6"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-lifetime-preview.png",
+      "url": "/analystProfiles/edit/7?value=https%3A%2F%2Fportal-invoice.example%2Fsignin%3Fcase%3DDOC-VALUE-001#tab-relevance",
+      "description": "Unsaved URL lifetime override of 14 days; recomputed relevance shown beside the typed settings",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1300
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:12:47.839382+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1300
+      },
+      "sha256": "e2e7f3e7610b941059000989a5d60fd8ed1f44c3c01cb823f313f55d2ef11dbb"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-comparison.png",
+      "url": "/analystProfiles/edit/7?value=https%3A%2F%2Fportal-invoice.example%2Fsignin%3Fcase%3DDOC-VALUE-001#tab-signals",
+      "description": "Native viewport clip of the comparison, including the changed single-source contribution",
+      "role": "User",
+      "selector": null,
+      "clip": {
+        "x": 150,
+        "y": 0,
+        "width": 1140,
+        "height": 805
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:12:50.868989+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 805
+      },
+      "sha256": "54d9035cd71aad2ee7442732e2e35aa5dd66efe41132657997ed9cc5cb4e5a45"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-sources.png",
+      "url": "/analystProfiles/edit/7?value=https%3A%2F%2Fportal-invoice.example%2Fsignin%3Fcase%3DDOC-VALUE-001#tab-reference",
+      "description": "Unsaved illustrative source grade B on the fictional documentation organization; no grade saved",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:14:08.890815+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "017d1aff41ac523cab664b93c7206be6d7eaeeb9d190be2cbd37cda8cdc19cb5"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-enrichment.png",
+      "url": "/analystProfiles/edit/7?value=https%3A%2F%2Fportal-invoice.example%2Fsignin%3Fcase%3DDOC-VALUE-001#tab-enrichment",
+      "description": "Native module filter focuses the disabled hashlookup declaration, its accepted input types and reuse setting",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:14:11.135193+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "063a97431565a223ce6cf6a34837872876b6864aed1d1e65f2c85858078066e5"
+    },
+    {
+      "file": "analyst-profiles/figures/misp3-import.png",
+      "url": "/analystProfiles/import",
+      "description": "Validated export document and explicit disabled-on-import notice for this reader",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:15:03.287336+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "952a981cf3f6340ee8d7774a01f660e00844d4c569690fdad2170eaaebc7a50b"
+    }
+  ]
+}
