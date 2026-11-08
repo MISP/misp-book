@@ -1,0 +1,616 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "generated_at": "2026-11-08T08:59:32.363715+00:00",
+  "scope_chapters": [
+    "searching-filtering"
+  ],
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core:latest",
+  "runtime_note": "Compatible container runtime with the pinned MISP 3.0 application mounted over it; this tag is not presented as a published MISP 3.0 image.",
+  "capture_method": "Genuine native Chromium viewports or DOM-element screenshots, with native picker interaction and scrolling. No application patches, fabricated UI, image editing or annotation arrows.",
+  "source_files": [
+    {
+      "file": "app/Controller/EventsController.php",
+      "sha256": "cad23b53c1c00762d859bfcab8cfa584196598f24f53b3278b113b9fdf88dddb"
+    },
+    {
+      "file": "app/Controller/AttributesController.php",
+      "sha256": "fe47db1f80a876d1848c7f74cdccd17136d502da0965897eb4f93a4f19370437"
+    },
+    {
+      "file": "app/Controller/ObjectsController.php",
+      "sha256": "4ffd511ffe2e2fdd475cdc3fc1cb8f27f4cb2196e1441eb8fed2062316646ca9"
+    },
+    {
+      "file": "app/Controller/EventReportsController.php",
+      "sha256": "540265c385a2e4ed82caf2496975ee7b467ee859a01a929c6f2a8a3211203121"
+    },
+    {
+      "file": "app/Controller/ValuesController.php",
+      "sha256": "5d433c66087b6b6302d028001071088e2aca86ce04b255f8a8af09ccbb521674"
+    },
+    {
+      "file": "app/Model/Event.php",
+      "sha256": "b2cf4f72a3f3d43f443bdd08b1f9ac1a752146d942f08d1562fe897adbb45ad5"
+    },
+    {
+      "file": "app/Model/MispAttribute.php",
+      "sha256": "904a4d13c6ec3058a7d861b0492786a5fe46f5b68abc4589f5ef15e2c4df0009"
+    },
+    {
+      "file": "app/Model/MispObject.php",
+      "sha256": "77100f3264ba426d683d7ae727b489e1147666f66a7682fc3620c4d84e55772b"
+    },
+    {
+      "file": "app/Model/Value.php",
+      "sha256": "e895b981e033cc2207143c2cb48711adc5a7605762e33526bbdd31e27fa5424a"
+    },
+    {
+      "file": "app/Lib/Tools/IndexFilterState.php",
+      "sha256": "9380f5a7f4ff6556e0b2f70fa47293a655f7b5cdaba581975eb647f74d56cf89"
+    },
+    {
+      "file": "app/Lib/Tools/AttributeFilterPanel.php",
+      "sha256": "c83da58aba1671d3eb1fc0301473f2ee4d69c06611b826f9829360e4d7764c72"
+    },
+    {
+      "file": "app/Lib/Tools/IndexPicker.php",
+      "sha256": "5c9d4fbaaaafc53e3acb42f0e72aa858cc9c67941a395ee77e2ce190e1067231"
+    },
+    {
+      "file": "app/webroot/js/index-filters.js",
+      "sha256": "75b7381fa6ca80b842a4298b5425d5aed91051c010e0d604fd0adec7ce502de7"
+    },
+    {
+      "file": "app/webroot/js/index-filter-browser.js",
+      "sha256": "46b35585eabc1a1c2c7b0f7e7b6a9aa643c9b4cffd0dbbea541b2b02e6ee5227"
+    },
+    {
+      "file": "app/webroot/js/value-index-search.js",
+      "sha256": "8ee9a4a673a6e9c9abd6a1a6ba554ec7e495bcb9ce35544654f3044be7ded6b9"
+    }
+  ],
+  "fixture": {
+    "value": "https://portal.search-review.example/signin?case=SEARCH-GUIDE-001",
+    "host": "portal.search-review.example",
+    "events": {
+      "A": {
+        "id": "40",
+        "uuid": "aedc4d09-d2e9-470b-a72a-dfeb1b6879ff",
+        "title": "Search guide A: email report",
+        "attributes": [
+          {
+            "id": "135",
+            "uuid": "0ecf6748-a48c-4cd4-a5e1-a2eeafc4468d",
+            "type": "domain",
+            "value": "portal.search-review.example"
+          },
+          {
+            "id": "136",
+            "uuid": "b9f15aa3-e9a0-44d5-85f1-d3dab27dfaac",
+            "type": "ip-dst",
+            "value": "192.0.2.210"
+          }
+        ],
+        "objects": [
+          {
+            "id": "19",
+            "uuid": "24e9023c-2423-4d3c-8755-cba4a20a3316",
+            "name": "url",
+            "attributes": [
+              {
+                "id": "133",
+                "uuid": "96ac13b7-d321-456a-822d-46042a5b845b",
+                "type": "url",
+                "value": "https://portal.search-review.example/signin?case=SEARCH-GUIDE-001",
+                "object_relation": "url"
+              },
+              {
+                "id": "134",
+                "uuid": "35a98abf-9db9-450a-81ab-0ff87eb21a08",
+                "type": "hostname",
+                "value": "portal.search-review.example",
+                "object_relation": "host"
+              }
+            ]
+          }
+        ],
+        "report_id": "11"
+      },
+      "B": {
+        "id": "41",
+        "uuid": "ff952565-1a93-4c2a-b582-5c6850ddbf1c",
+        "title": "Search guide B: gateway follow-up",
+        "attributes": [
+          {
+            "id": "139",
+            "uuid": "cd299780-b198-4388-b672-ab2624546f0e",
+            "type": "domain",
+            "value": "portal.search-review.example"
+          },
+          {
+            "id": "140",
+            "uuid": "362eebc3-0c81-419a-b5a1-226a788cef5a",
+            "type": "ip-dst",
+            "value": "198.51.100.210"
+          }
+        ],
+        "objects": [
+          {
+            "id": "20",
+            "uuid": "543e523f-6606-41ed-b2df-97a6939bc35f",
+            "name": "url",
+            "attributes": [
+              {
+                "id": "137",
+                "uuid": "5a12d374-83b1-4a57-acee-f670b5c49e84",
+                "type": "url",
+                "value": "https://portal.search-review.example/signin?case=SEARCH-GUIDE-001",
+                "object_relation": "url"
+              },
+              {
+                "id": "138",
+                "uuid": "d1c3e776-da11-4bff-a928-4b3c0ba91e87",
+                "type": "hostname",
+                "value": "portal.search-review.example",
+                "object_relation": "host"
+              }
+            ]
+          }
+        ],
+        "report_id": "12"
+      },
+      "C": {
+        "id": "42",
+        "uuid": "590f13a7-3d8d-4449-adb2-2bb7894de6fd",
+        "title": "Search guide C: quoted control",
+        "attributes": [
+          {
+            "id": "141",
+            "uuid": "2d751906-bb13-4638-8797-46ec89ce3866",
+            "type": "comment",
+            "value": "https://portal.search-review.example/signin?case=SEARCH-GUIDE-001"
+          },
+          {
+            "id": "142",
+            "uuid": "f963059a-838d-41e1-8cd9-5dcdd880d351",
+            "type": "domain",
+            "value": "archive.search-review.example"
+          }
+        ],
+        "objects": []
+      }
+    },
+    "tags": {
+      "documentation-search-guide": {
+        "id": "101",
+        "name": "documentation-search-guide"
+      },
+      "search-review:new": {
+        "id": "102",
+        "name": "search-review:new"
+      },
+      "search-review:complete": {
+        "id": "103",
+        "name": "search-review:complete"
+      },
+      "search-review:exclude": {
+        "id": "104",
+        "name": "search-review:exclude"
+      },
+      "search-review:deferred": {
+        "id": "105",
+        "name": "search-review:deferred"
+      }
+    }
+  },
+  "verification": {
+    "account": "Organization reader, user 2; API search requests used the same authenticated account and access controls as the UI screenshots. No credentials are included.",
+    "ui_counts": {
+      "event_title": 3,
+      "event_tags_all": 2,
+      "event_tags_any": 3,
+      "event_level_deferred_exclusion": 1,
+      "event_attribute_only_exclusion_does_not_remove_B": 2,
+      "global_attribute_word_search": 7,
+      "attribute_type_url": 2,
+      "attribute_url_exclusion": 1,
+      "attribute_inside_word_in_word_start_mode": 0,
+      "attribute_inside_word_in_containing_mode": 2,
+      "objects_complete_hostname": 2,
+      "objects_modified_24h": 2,
+      "distinct_value_texts": 2,
+      "report_body_marker": 2,
+      "published_only_fixture": 0,
+      "event_A_standalone_attributes": 2
+    },
+    "ui_extra_checks": {
+      "event_tag_any": {
+        "count": 3,
+        "url": "/events/index/searcheventinfo:Search%20guide/searchtag:documentation-search-guide%7Csearch-review%3Anew"
+      },
+      "event_tag_all": {
+        "count": 2,
+        "url": "/events/index/searcheventinfo:Search%20guide/searchtag:documentation-search-guide%26search-review%3Anew"
+      },
+      "remove_publication_chip": {
+        "restored_count": 1,
+        "url": "/events/index/searcheventinfo:Search%20guide/searchtag:documentation-search-guide%26search-review%3Anew%26%21search-review%3Adeferred"
+      },
+      "object_relation_host": {
+        "count": 2,
+        "url": "/objects/index?value=portal.search-review.example&template=url&relation=host"
+      },
+      "object_relation_url": {
+        "count": 0,
+        "url": "/objects/index?value=portal.search-review.example&template=url&relation=url"
+      }
+    },
+    "api_searches": {
+      "attributes": {
+        "status": 200,
+        "query": {
+          "returnFormat": "json",
+          "value": "https://portal.search-review.example/signin?case=SEARCH-GUIDE-001",
+          "type": "url",
+          "to_ids": false,
+          "tags": {
+            "AND": [
+              "documentation-search-guide",
+              "search-review:new"
+            ],
+            "NOT": [
+              "search-review:exclude"
+            ]
+          },
+          "includeEventUuid": true,
+          "limit": 100,
+          "page": 1
+        },
+        "response_container": [
+          "response"
+        ],
+        "count": 1,
+        "matched_attribute_uuid": "96ac13b7-d321-456a-822d-46042a5b845b"
+      },
+      "events": {
+        "status": 200,
+        "query": {
+          "returnFormat": "json",
+          "tags": {
+            "AND": [
+              "documentation-search-guide",
+              "search-review:new"
+            ],
+            "NOT": [
+              "search-review:deferred"
+            ]
+          },
+          "published": false,
+          "limit": 100,
+          "page": 1
+        },
+        "response_container": [
+          "response"
+        ],
+        "count": 1,
+        "matched_event_uuid": "aedc4d09-d2e9-470b-a72a-dfeb1b6879ff"
+      },
+      "dated_attributes": {
+        "status": 200,
+        "query": {
+          "returnFormat": "json",
+          "value": "https://portal.search-review.example/signin?case=SEARCH-GUIDE-001",
+          "type": "url",
+          "first_seen": [
+            "2026-11-01",
+            "2026-11-02"
+          ],
+          "limit": 100,
+          "page": 1
+        },
+        "response_container": [
+          "response"
+        ],
+        "count": 1,
+        "matched_attribute_uuid": "96ac13b7-d321-456a-822d-46042a5b845b"
+      }
+    },
+    "known_limitations": [
+      {
+        "scope": "Objects index custom two-ended first_seen date picker",
+        "observed": "The native UI serialized bounds as 2026-11-01||2026-11-02T23:59:59, and returned zero objects for the fixture instead of A. ObjectsController does not split that scalar into range bounds on the pinned branch.",
+        "working_alternative": "The native Modified 24h preset returned both recently created objects. A separate attributes/restSearch request with first_seen as an explicit two-element JSON array returned the expected A URL occurrence.",
+        "documentation": "The chapter labels this development-branch limitation and distinguishes modification, observation, publication and event-date clocks."
+      }
+    ],
+    "fixture_safety": "Constructed reserved-domain/documentation-address examples only; three organization-only unpublished events, two URL objects, ten IDS-off attributes, two reports and five non-exportable custom tags. No enrichment provider or example destination contacted.",
+    "cleanup": {
+      "private_unpublished_ids_off_fixture_retained": {
+        "events": 3,
+        "objects": 2,
+        "attributes": 10,
+        "reports": 2
+      },
+      "all_reader_user_settings_and_timestamps_unchanged": true,
+      "no_bookmarks_or_column_preferences_saved": true,
+      "application_tracked_source_unchanged": true,
+      "no_instance_configuration_changes": true,
+      "only_task_started_services_stopped": [
+        "misp3-capture",
+        "misp3-redis",
+        "misp3-db"
+      ]
+    }
+  },
+  "shots": [
+    {
+      "file": "searching-filtering/figures/misp3-events-search.png",
+      "url": "/events/index/searcheventinfo:Search%20guide",
+      "description": "Native events search for the documentation fixture",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:37:01.609755+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "bd06903ff4a1bc276fa618132bd5c70a621a815074c22a6161b16b13cd5c3454"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-tag-all.png",
+      "url": "/events/index/searcheventinfo:Search%20guide",
+      "description": "Native tag browser with two included tags and All of selected",
+      "role": "User",
+      "selector": ".ifb-panel",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:40:04.544099+00:00",
+      "image_size": {
+        "width": 801,
+        "height": 492
+      },
+      "sha256": "7a3b6ebbac913150b767297f0fb50cfb2904af279a2a3e2e03ad4ce3ec232dcb"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-values-results.png",
+      "url": "/values/index",
+      "description": "Value search returns distinct stored texts, with their occurrence context",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:40:42.371334+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "b46cfaade3142a2b82cd145d1fc397e8b9191966f44db1d52bbea7c758d85940"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-event-attribute-filters.png",
+      "url": "/events/view/40#tab-attributes",
+      "description": "Event-local attribute filters include related-event, feed-hit, distribution and dated-field predicates",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:43:56.234656+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "f42ad2e150830ec6c5e5133cbe3a014e72f5b35c10be3cff2328fb75a2f50cea"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-objects-time.png",
+      "url": "/objects/index?value=portal.search-review.example",
+      "description": "Object Modified 24h preset; first-seen and last-seen remain separate controls",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:46:57.316714+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "21f02f69d4a303a2ad1a4296b97c2db21a50a32028df54d99304aee2834fc041"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-objects-expanded.png",
+      "url": "/objects/index?value=portal.search-review.example&timestamp=1d",
+      "description": "Both recently modified objects match, with A expanded to inspect URL and host properties",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:46:59.714088+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "5bfcb11900694f2a751aa6e8a2703346fa0b2fefc3c98ac126a6f2586381698f"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-attributes-url.png",
+      "url": "/attributes/index?value_search=portal.search-review.example&type=url",
+      "description": "Native attributes-url results with applied filter chips and the picker panel closed",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:48:57.239444+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "0617727700ec5475d6c06152b24a8ad4a98a841234f97f1d3b0c766a061a04a8"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-attributes-exclude.png",
+      "url": "/attributes/index?value_search=portal.search-review.example&type=url&tags=%21search-review%3Aexclude",
+      "description": "Native attributes-exclude results with applied filter chips and the picker panel closed",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:48:59.726235+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "5fb813eccf4e884864b57d0131ff6167cfe1ef79ca7422ae1db883cb71122656"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-attributes-contains.png",
+      "url": "/attributes/index?type=url&value=ortal.search-review.example",
+      "description": "Native attributes-contains results with applied filter chips and the picker panel closed",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:49:02.136759+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "f220bbeccabb850904285e7e2810db7985a60adf6651132ea593f4891b4d78ba"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-reports-search.png",
+      "url": "/eventReports/index/value:SEARCH-GUIDE-001",
+      "description": "Report search finds the marker in both report bodies, retaining their source events",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:49:05.021106+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "a9bf2440798bfbcd72112077ad781b2b4a284f19f5443b8802d657d32ec6ca42"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-events-empty.png",
+      "url": "/events/index/searcheventinfo:Search%20guide/searchtag:documentation-search-guide%26search-review%3Anew%26!search-review%3Adeferred/searchpublished:1",
+      "description": "Published-only adds a filter that excludes the unpublished example; the active chips show the cause",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:53:11.368357+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "bbe0c1eed9bccf7616f0a74938f287df3c786bd6f8784d739913e14b196fc959"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-events-time.png",
+      "url": "/events/index/searcheventinfo:Search%20guide",
+      "description": "Event time picker offers Changed and Published clocks",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:53:13.619496+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "5bc4b6032dee4e54a54556de4346a4500a8e6e89f69d6679bf9c751dd9ec4086"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-values-cidr.png",
+      "url": "/values/index",
+      "description": "Values recognizes CIDR and explains addresses/blocks inside and around the requested block",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:53:16.734461+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e3e60357e5e5b05e93eb1d09fa08f539a84cdb99cf1ac26eeba000893ea87477"
+    },
+    {
+      "file": "searching-filtering/figures/misp3-events-exclude.png",
+      "url": "/events/index/searcheventinfo:Search%20guide/searchtag:documentation-search-guide%26search-review%3Anew%26%21search-review%3Adeferred",
+      "description": "A remains after including both event labels and excluding B\u2019s event-level deferred label",
+      "role": "User",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "scale": 1,
+      "captured_at": "2026-11-08T08:58:59.355683+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "9bc590be3c781bc2994b0725c41be10ec63da7797b431a258316cd045c1ddd4d"
+    }
+  ]
+}

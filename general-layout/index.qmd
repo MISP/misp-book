@@ -181,6 +181,7 @@ On an index page such as **Events**, look for the page heading, primary action, 
 ![The Events index with its search field, filter controls, result table, count, and page actions.](figures/misp3-page-controls.png)
 
 Use the search field and **Filters** to narrow the results, then check the active filters and result count before acting on the list.
+See [Searching and Filtering Intelligence](../searching-filtering/index.qmd) for the matching modes, include/exclude choices and differences between pages.
 Where a table offers sorting or pagination, use those controls to change the order or move between pages.
 Creation, editing, and publication controls appear according to your permissions.
 
