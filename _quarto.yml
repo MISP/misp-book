@@ -99,6 +99,7 @@ book:
         - user-personas/index.qmd
   appendices:
     - appendices/index.qmd
+    - what-misp-can-do/index.qmd
     - glossary.qmd
     - contributing/index.qmd
     - acknowledgements/index.qmd

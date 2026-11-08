@@ -204,6 +204,13 @@
       "viewBox": "0 0 611.5 620.4000244140625"
     },
     {
+      "source": "what-misp-can-do/figures/tip-capabilities.mmd",
+      "file": "what-misp-can-do/figures/tip-capabilities.svg",
+      "source_sha256": "2c8dc270772f698c569bd2f6fc1583a58082fffb1a944d65e5ba663f621ea52e",
+      "sha256": "05f783024d4a0a49a3af2f990733a22a5dc02a570053b303b66e69a2c1c45d67",
+      "viewBox": "0 0 524.47265625 666.3999633789062"
+    },
+    {
       "source": "workflows/figures/blocking-and-background.mmd",
       "file": "workflows/figures/blocking-and-background.svg",
       "source_sha256": "06c843402a2ac573b6f964458beae86af55ee7133684ba4ee171e854533dfe38",

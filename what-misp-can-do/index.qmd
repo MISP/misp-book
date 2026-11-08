@@ -1,0 +1,190 @@
+---
+title: "MISP as a Threat Intelligence Platform"
+format:
+  html:
+    lightbox: true
+---
+
+MISP helps teams turn observations and reports into intelligence they can investigate, assess, share and use in security operations.
+It combines a common data model, an analyst interface, controlled exchange and programmable interfaces.
+This annex is a positive capability guide: start with an outcome, see how MISP supports it, and follow the links for the implementation.
+
+The guide follows **MISP 3.0**, checked against [`3.0_wip` commit `99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1).
+The linked chapters provide detailed procedures, examples, source revisions and observed development-branch limitations.
+
+![Teams combine collection, investigation, assessment and sharing, then use operational feedback to improve the intelligence. The arrows describe a process implemented through the linked UI procedures, configured workflows or integrations.](figures/tip-capabilities.svg){width=75%}
+
+## Read the capability guide {#tip-guide}
+
+Three kinds of capability work together:
+
+- **Application features:** events, objects, search, correlation, analyst data, sharing controls and other tools exposed by the MISP application, according to permissions.
+- **Configured services and automation:** feeds, enrichment, workflows, notifications and background processing, enabled and configured for a particular deployment.
+- **Connected systems:** collectors, SIEM/EDR consumers, case-management systems and other integrations that exchange selected data through supported interfaces.
+
+Each table gives a concrete starting point and links to the relevant chapters.
+Choose the combination that fits your team's data, audience and operational purpose.
+
+## Collect and structure intelligence {#tip-collect}
+
+MISP can retain both machine-readable observations and the narrative needed to interpret them.
+An event supplies investigation or reporting context; typed attributes describe values; objects model related properties; reports preserve prose and references.
+Source comments and first/last-seen fields help explain where and when an observation was made.
+
+::: {.table-responsive}
+
+| Outcome | Put it into practice | Guide |
+|---|---|---|
+| Record an investigation or source report | Create an event, add typed attributes and retain the source and reasoning in a report. | [Using the System](../using-the-system/index.qmd), [Event Reports](../event-reports/index.qmd) |
+| Model an entity and its relationships | Choose an object template, populate its properties and add explicit references to related entities. | [Data Model](../data-model/index.qmd), [MISP Objects](../misp-objects/index.qmd) |
+| Make recurring collection consistent | Use an event template for the collection procedure and object templates for the resulting entities. | [Event Templates](../event-templates/index.qmd) |
+| Bring in external intelligence | Select a feed, import module or API integration; choose its source format, import scope and review process. | [Feeds](../managing-feeds/index.qmd), [Modules](../modules/index.qmd), [Automation](../automation/index.qmd) |
+
+:::
+
+For example, an email investigation can preserve the source narrative in an event report and represent an extracted URL and its host in a URL object.
+The resulting records let another analyst inspect the value together with the evidence that motivated its collection.
+
+## Classify information and define its audience {#tip-classify}
+
+MISP supports shared vocabularies and local working context.
+Classification can express handling instructions, confidence, source information and the stage of an investigation.
+Use TLP/PAP taxonomy labels to communicate handling, and distribution settings and sharing groups to enforce the intended audience.
+
+::: {.table-responsive}
+
+| Outcome | Put it into practice | Guide |
+|---|---|---|
+| Apply a consistent vocabulary | Enable appropriate taxonomies, attach their machine tags, and define a private vocabulary when the team needs one. | [Taxonomies](../taxonomy/index.qmd#taxonomy-authoring) |
+| Keep a review label on the local instance | Use a **local tag attachment** on the intended event or attribute. Normal synchronization keeps that attachment instance-local. | [Tag scope and permissions](../taxonomy/index.qmd#taxonomy-use) |
+| Apply repeatable classification rules | Configure a suitable workflow trigger and tagging action, or use an API script with explicit selection criteria. | [Workflows](../workflows/index.qmd), [API updates and tags](../automation/index.qmd#api-updates-and-tags) |
+| Express confidence and source context | Combine source references, confidence taxonomies, reports and analyst assessments; keep the supporting evidence readable. | [Analyst Data](../analyst-data/index.qmd), [Taxonomies](../taxonomy/index.qmd) |
+| Share selected parts with the right recipients | Set event, object and attribute distribution, inheritance and sharing groups. Check the recipient's view of the resulting record. | [Sharing & Synchronisation](../sharing/index.qmd) |
+| Bring handling guidance into collection | Enable relevant notice lists and review their guidance when entering the affected kinds of data. | [Notice Lists](../noticelists/index.qmd) |
+
+:::
+
+A private event can contain additional restrictions on particular elements.
+A child inherits the applicable parent restrictions; its setting cannot widen a restricted parent.
+Before release, review both the markings that explain handling and the controls that determine access.
+
+## Discover, connect and enrich observations {#tip-investigate}
+
+MISP can help analysts discover existing knowledge, identify related observations and follow promising leads.
+Keep the distinction between a computed match, an asserted relationship and the evidence supporting an assessment visible throughout the investigation.
+
+::: {.table-responsive}
+
+| Outcome | Put it into practice | Guide |
+|---|---|---|
+| Find a useful selection of intelligence | Choose event, attribute, object, value or report search, then apply the matching mode and contextual filters appropriate to the question. | [Searching and Filtering Intelligence](../searching-filtering/index.qmd) |
+| Find related observations | Inspect correlations for supported values, compare the linked events and review exclusions or noisy matches. | [Correlation](../correlation/index.qmd) |
+| Investigate a value across its occurrences | Open Value Intelligence to review accessible context, assessments, enrichment and temporal information. | [Value Intelligence](../value-intelligence/index.qmd) |
+| Follow an investigative lead | Select a meaningful observable, retrieve related records, compare their source and time context, and document the pivot. | [Pivoting](../pivoting/index.qmd) |
+| Add context from a tool or provider | Select a configured enrichment module, inspect its input/output contract and review returned information before incorporating it. | [Modules](../modules/index.qmd) |
+| Describe broader threat context | Attach relevant galaxy clusters and inspect the structured context behind those classifications. | [Galaxies](../galaxy/index.qmd) |
+
+:::
+
+A shared infrastructure value can connect several events while still requiring separate judgments about the organizations, activity and ownership involved.
+The correlation and pivoting chapters show how to turn those connections into questions that can be checked.
+
+## Assess, prioritize and maintain intelligence {#tip-assess}
+
+MISP can preserve analyst judgment alongside observations and bring feedback into later decisions.
+Source grades, confidence statements, relevance, warning context and detection eligibility each describe a different aspect of the intelligence.
+
+::: {.table-responsive}
+
+| Outcome | Put it into practice | Guide |
+|---|---|---|
+| Record and discuss an assessment | Add notes, opinions and relationships to supported targets, with evidence and distribution appropriate to the contribution. | [Analyst Data](../analyst-data/index.qmd) |
+| Apply an understood assessment perspective | Choose or configure an analyst profile, inspect the evidence behind its results and record source grades in the appropriate scope. | [Analyst Profiles](../analyst-profiles/index.qmd) |
+| Account for age and observation feedback | Select an applicable decaying model and inspect its inputs, formula and query-time score. | [Decaying Models](../decaying-models/index.qmd) |
+| Recognize context that may need special treatment | Enable relevant warninglists, inspect matches and choose the IDS/export policy appropriate to the consumer. | [Warninglists](../warninglists/index.qmd), [False Positives](../false-positives/index.qmd) |
+| Incorporate operational feedback | Record sightings, false-positive feedback or expiration information with the correct meaning and source. | [Sightings](../sightings/index.qmd) |
+| Trace changes and contributions | Use event History and the available audit logs to review record changes and their authors, with the required permissions. | [Audit logs](../administration/index.qmd#admin-logs) |
+| Keep the working record accurate | Review bulk edits, grouping, selective copies and deletion/restoration against the affected identities and context. | [Data Maintenance](../data-maintenance/index.qmd) |
+
+:::
+
+For example, a value can remain useful investigation context with its IDS flag off.
+An analyst can document that decision, compare a profile's assessment, review warninglist matches and revisit it after new sightings.
+A decaying score is a model result to interpret with the evidence; teams can choose models and thresholds for their own operational questions.
+
+## Collaborate and exchange reviewed intelligence {#tip-collaborate}
+
+MISP supports collaboration within an organization and across communities.
+Contributions can retain their own attribution while publication and synchronization provide controlled ways to exchange eligible updates.
+
+::: {.table-responsive}
+
+| Outcome | Put it into practice | Guide |
+|---|---|---|
+| Separate preparation and release duties | Configure creation/modification and publication permissions, record the review in reports or analyst data, and have an authorized publisher release the result. | [User Management](../user-management/index.qmd), [Publishing](../using-the-system/index.qmd#publish-an-event) |
+| Improve a partner's intelligence | Submit supported proposals for the owner's review, or add appropriately scoped analyst data. | [Proposals](../using-the-system/index.qmd#proposing-changes-to-another-organisations-event), [Analyst Data](../analyst-data/index.qmd) |
+| Retain a separate contributing event | Create an extended event with its own ownership, context and publication lifecycle. | [Extended Events](../extended-events/index.qmd) |
+| Exchange intelligence with a community | Configure peer accounts, distribution, sharing groups and synchronization rules, then verify eligible push/pull updates. | [Sharing & Synchronisation](../sharing/index.qmd) |
+| Hand maintenance to a trusted coordinator | Request delegation and have the recipient review and accept the handover, including the attribution retained in the content. | [Delegation](../delegation/index.qmd) |
+| Curate a research set | Create a collection of references and share it with an appropriate audience. Referenced records retain their own access controls. | [Collections](../collections/index.qmd) |
+
+:::
+
+For a peer-review process, define who prepares a record, how the reviewer records a decision, and who publishes it.
+Those roles and records make the review understandable.
+An automated gate can implement a tested condition on a supported blocking workflow path; a multi-stage approval process needs its own explicit design and state management.
+
+## Automate processing and support security operations {#tip-operationalize}
+
+MISP can supply selected intelligence to operational tools and accept observations or feedback from them.
+Define the data selection, identity mapping and update behavior with the consumer so that intelligence stays useful as its source records change.
+
+::: {.table-responsive}
+
+| Outcome | Put it into practice | Guide |
+|---|---|---|
+| Supply a SIEM, EDR or investigation tool | Query/export selected records with an appropriately scoped account, supported types, audience, IDS and publication criteria. | [Automation & API](../automation/index.qmd), [PyMISP](../pymisp/index.qmd), [Connectors](../connectors/index.qmd) |
+| Exchange intelligence in supported formats | Choose native MISP JSON or a supported export/converter, and check the format/version and field mapping with the recipient. | [API exports](../automation/index.qmd#api-exports), [Connectors](../connectors/index.qmd) |
+| Apply repeatable processing or notification rules | Have a site administrator configure the relevant workflow trigger, logic and action modules, including its execution and recovery behavior. | [Workflows & Blueprints](../workflows/index.qmd) |
+| Respond to changes through an integration | Use API polling or configured notifications with checkpoints, reconciliation and a defined consumer. | [Incremental polling](../automation/index.qmd#api-incremental-polling), [Notifications](../misp-zmq/index.qmd) |
+| Coordinate with incident or case handling | Connect a maintained case/ticketing integration and preserve MISP UUIDs and context when exchanging investigation updates or feedback. | [External Connectors](../connectors/index.qmd) |
+| Build useful analyst views | Configure integrated dashboard widgets and their individual filters for a review queue, recent assessments or another recurring question. | [Dashboards](../dashboards/index.qmd) |
+| Compare source contributions and outcomes | Define the comparison criteria, select the relevant records and feedback, and combine API/dashboard information with recorded source assessments. | [Dashboards](../dashboards/index.qmd), [Source grades](../analyst-profiles/index.qmd#profiles-source-grades), [Automation](../automation/index.qmd) |
+
+:::
+
+Record the dataset, time window and account visibility behind a metric.
+When evaluating downstream use, arrange for consumers to return the observations or feedback your comparison needs.
+This makes a count of stored records, a source grade and a measure of operational usefulness separately interpretable.
+
+## Combine the capabilities in a practical workflow {#tip-example}
+
+Consider a team investigating the fictional URL **`https://portal.example/login`{.text-wrap .text-break}**.
+This is a workflow design to adapt using the linked procedures; it does not require visiting that example address.
+
+1. **Collect with context.** Create an organization-only event, preserve the source narrative in a report, and add a URL object with its hostname and observed times. Keep the exercise's IDS flags off.
+2. **Classify and investigate.** Apply the appropriate source/confidence and handling information. Search the hostname and URL, inspect accessible correlations and compare other observations with the source report.
+3. **Enrich and assess.** Use a configured module where it adds relevant context. Review the returned information, record the analyst's reasoning, and inspect the effective profile and warning context before deciding how to use the value.
+4. **Collaborate and release.** Ask a colleague to record a review, choose the intended distribution/sharing group and have the authorized publisher release the reviewed intelligence. Verify what the intended recipient can access.
+5. **Use and learn.** Deliver the selected records through an API query or connector, preserving UUIDs and update state. Bring operational sightings or false-positive feedback back into the assessment and maintain the record as the evidence changes.
+
+Two additional patterns use the same building blocks:
+
+- **An analyst review queue:** apply agreed review labels through a tested workflow or API process, configure a dashboard widget to select that queue, and record the review outcome. A taxonomy defines the label's meaning; the configured automation implements the rule.
+- **A domain watch:** curate the relevant values and context in a collection, have a collector supply fresh DNS or other observations, and use a scheduled API selection or suitable workflow to identify matches and notify a configured channel. The collector supplies new evidence; MISP stores, connects and processes the intelligence.
+
+## Choose a starting outcome {#tip-start}
+
+Start with one result the team can inspect: a documented investigation, a useful correlation lead, a reviewed event received by a partner, or a consumer supplied with a reproducible selection.
+Choose the required application features and configure the services or integrations involved.
+For every process, identify the contributing accounts, the data and audience in scope, the review decision and how updates or feedback are handled.
+
+The linked chapters describe the permissions and deployment requirements for each capability.
+For example, enrichment uses the modules/providers configured on the instance, workflows require enabled triggers/modules and functioning background processing, and an external consumer needs a maintained integration and its own credentials.
+The integrated dashboard and the separate misp-dashboard application have their own deployment and data scopes, described in [Dashboards](../dashboards/index.qmd) and the [integration FAQ](../faq/index.qmd#faq-integrations).
+
+### Background and contribution
+
+The capability questions in [PR #289](https://github.com/MISP/misp-book/pull/289) by [Nicolas-Pellletier](https://github.com/Nicolas-Pellletier), originating in [MISP issue #9005](https://github.com/MISP/MISP/issues/9005), inspired this annex.
+This guide connects those practical questions to the MISP 3.0 documentation and current assessment, collaboration and integration features.
+To add a capability, describe a concrete outcome, its implementation and prerequisites, and link a maintained procedure or example; see [How to Contribute](../contributing/index.qmd).

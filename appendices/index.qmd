@@ -10,6 +10,7 @@ format:
 These references cover authentication, access-control inspection, companion projects and
 background processing. Use the installed branch's settings and implementation together with
 the deployment's configuration process; service paths and role IDs are not universal defaults.
+The [MISP as a Threat Intelligence Platform](../what-misp-can-do/index.qmd) annex maps practical outcomes to capabilities and implementation chapters.
 The [glossary](../glossary.qmd#glossary-a-c) explains the terminology used throughout the guide.
 
 ::: {.callout-note}
