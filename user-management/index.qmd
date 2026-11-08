@@ -87,7 +87,7 @@ Some settings use JSON: follow the field's help and validate the structure befor
 Self-management can be disabled by an administrator.
 
 Bookmarks, the personal homepage, theme controls, and [workspaces](../general-layout/index.qmd#workspaces) are also accessible from the main interface; they do not all live in this settings table.
-In MISP 3.0, an **analyst profile** controls how assessment signals are interpreted. It is distinct from your login profile and role; see [assessing values](../best-practices/index.qmd#assess-values-across-events-in-misp-3.0).
+In MISP 3.0, an **analyst profile** controls how assessment signals are interpreted. It is distinct from your login profile and role; see [Analyst Profiles](../analyst-profiles/index.qmd) for choosing, editing and testing one.
 
 For notification filtering, use the publish-alert filter supported by your instance.
 See [Setting a Publish Alert Filter](../administration/index.qmd#various-administration-tips-tricks) for the filter syntax.

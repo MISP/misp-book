@@ -125,7 +125,7 @@ Confirm how unmapped attributes and multiple models are handled by the query and
 
 The older event interface can expose decay scores through its attribute filters and columns.
 Do not assume that every 3.0 tab or export automatically displays or applies them.
-Value Intelligence's assessment label, signal strength, and shelf life use the effective **analyst profile** and are a separate assessment path; see [Best Practices](../best-practices/index.qmd#assess-values-across-events-in-misp-3.0).
+Value Intelligence's assessment label, signal strength, and shelf life use the effective **analyst profile** and are a separate assessment path; see [Analyst Profiles](../analyst-profiles/index.qmd).
 
 ## Ownership, sharing and default models
 
