@@ -1,4 +1,4 @@
--- Only the print edition: keep one chapter title per source file, and cap tall figures.
+-- Only the print edition: keep one chapter title per source file, and size figures for print.
 local current_file, seen_title, legacy_container = nil, false, false
 local level_offset = nil
 local chapter_ids = {}
@@ -49,19 +49,24 @@ local function image(el)
   local f = io.open(el.src, 'rb')
   if not f then return nil end
   local bytes = f:read(4096); f:close()
-  local w, h
+  local w, h, raster
   if bytes:sub(1, 8) == '\137PNG\13\10\26\10' then
     local function uint32(n)
       local a,b,c,d = bytes:byte(n,n+3)
       return ((a*256+b)*256+c)*256+d
     end
     w, h = uint32(17), uint32(21)
+    raster = true
   elseif el.src:match('%.svg$') then
     local box = bytes:match('viewBox="([^"]+)"')
     if box then local x,y; x,y,w,h = box:match('(%S+)%s+(%S+)%s+(%S+)%s+(%S+)'); w,h=tonumber(w),tonumber(h) end
   end
   if w and h and w>0 and h>0 then
     local width = math.min(164, 140*w/h)
+    -- Keep small UI captures at a readable print size instead of enlarging every
+    -- dialog/menu to the text width. At 120ppi, 16px UI text prints at 9.6pt.
+    -- Vector diagrams keep the full available width; explicit sizes bypass this.
+    if raster then width = math.min(width, w * 25.4 / 120) end
     el.attributes.width = string.format('%.2fmm',width)
   end
   return el
