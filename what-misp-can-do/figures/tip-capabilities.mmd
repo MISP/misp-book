@@ -1,0 +1,11 @@
+flowchart TB
+  accTitle: MISP capabilities across an intelligence process
+  accDescr: Collection and modeling support investigation and assessment. Reviewed intelligence is shared or supplied to consumers, whose sightings and analyst feedback inform a later assessment. Classification, access controls and maintenance support all three stages.
+  C["Collect and model<br/>Events, objects, reports"] -->|"Search, correlate and enrich"| A["Investigate and assess<br/>Evidence, profiles, collaboration"]
+  A -->|"Review, publish and integrate"| S["Share and use<br/>Communities and consumers"]
+  S -->|"Sightings and analyst feedback"| A
+  M["Classification, access controls<br/>and maintenance"] -.-> C
+  M -.-> A
+  M -.-> S
+  class C,A,S accent;
+  class M muted;

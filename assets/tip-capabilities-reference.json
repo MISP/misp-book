@@ -1,0 +1,262 @@
+{
+  "purpose": "Sources for the integration, authorization, open-source availability and CTI-CMM support additions to the TIP capability annex. Source inspection and documentation mapping; no live deployment/integration execution is claimed.",
+  "misp": {
+    "repository": "https://github.com/MISP/MISP",
+    "branch": "3.0_wip",
+    "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "license_file": "LICENSE",
+    "license_file_sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6",
+    "authorization_source_files": [
+      {
+        "file": "app/Controller/Component/ACLComponent.php",
+        "sha256": "f03006744715af299db0d6ad169da340f6a45e3ee56f8168ed1632cd4362ec00"
+      },
+      {
+        "file": "app/Controller/RolesController.php",
+        "sha256": "564ee6d3b874795c2bb2e46f84bfa31c439b0bc0ecd7669bdea20e9e7d8d1ff2"
+      },
+      {
+        "file": "app/Controller/AuthKeysController.php",
+        "sha256": "bc95b99367b1beeebc671493bbacd4b62a1cb806fa26d799f668c9d43ed06a91"
+      },
+      {
+        "file": "app/Model/Role.php",
+        "sha256": "0d9141c3513f7c0394cd58fd41a7469478923f3ed37ad7bf11411c314345ff16"
+      },
+      {
+        "file": "app/Model/AuthKey.php",
+        "sha256": "010a9e51a83c6b22c09f492724a1d2ab4dfeddf65b446977745c67262fb88f72"
+      },
+      {
+        "file": "app/Model/Module.php",
+        "sha256": "4cbfced54da89d2199e0e4606a9e41d0189a4e72bbe7ad840c42009d1dd857a9"
+      },
+      {
+        "file": "app/Model/SharingGroup.php",
+        "sha256": "cc93ee7101efd899b3ae2c61cb3c48fda7955c373e23f1f5a95d2be70c25deb9"
+      }
+    ]
+  },
+  "misp_modules": {
+    "repository": "https://github.com/MISP/misp-modules",
+    "commit": "64fc7bc8764e6d0a1ff5c833f64555d8c2f3055a",
+    "version": "3.1.4",
+    "license": "AGPL-3.0-only (project metadata)",
+    "license_sha256": "76a97c878c9c7a8321bb395c2b44d3fe2f8d81314d219b20138ed0e2dddd5182",
+    "module_source_files": 313,
+    "families": {
+      "action_mod": 20,
+      "expansion": 238,
+      "export_mod": 33,
+      "import_mod": 22
+    },
+    "count_definition": "Python files directly within the four module-family directories, excluding names beginning with underscore. This source count is not a claim that every module loads in an installed service.",
+    "examples": [
+      {
+        "file": "misp_modules/modules/expansion/urlscan.py",
+        "sha256": "ba01a99c56a1a29d25801f061a192c69afa1843eacf7be27a98d18f84ca26e40"
+      },
+      {
+        "file": "misp_modules/modules/expansion/virustotal.py",
+        "sha256": "ffb33f7871a2cd02f397cd4b28f36538d87ad44b4ace216946d83f830a07d512"
+      },
+      {
+        "file": "misp_modules/modules/expansion/shodan.py",
+        "sha256": "bd4855b85b23fbf1808ee1086c409171be183790a229f3564426288c123250be"
+      },
+      {
+        "file": "misp_modules/modules/expansion/vulnerability_lookup.py",
+        "sha256": "493bbe4076cf23eb25ad9e9a7c3838594cf739b5207b9de8c73bb86b31c045cd"
+      },
+      {
+        "file": "misp_modules/modules/import_mod/cuckooimport.py",
+        "sha256": "96dd6ef52f89260f07aa5ddc7ea1de276a5823d733858de68fc29d49c29f3dbd"
+      },
+      {
+        "file": "misp_modules/modules/import_mod/joe_import.py",
+        "sha256": "459f28ebab972eb1f60cd3e5ec05d34e434e4823014e37ce15a09e1b96a28c5b"
+      },
+      {
+        "file": "misp_modules/modules/export_mod/elastic_ecs_export.py",
+        "sha256": "43b04e4796ba7679021351ffc6e4d5017c59d48e60eef99b5492f2dbd0fa4a91"
+      },
+      {
+        "file": "misp_modules/modules/export_mod/splunk_export.py",
+        "sha256": "e57e2fad251a496f43e780c019ccc48b9e23e6f023f5b4841d831bf7e45e2410"
+      },
+      {
+        "file": "misp_modules/modules/export_mod/sigma_export.py",
+        "sha256": "67f3c802459d610a29fef1f9de3ce813ac5c7c39a2c2a7a922d47248880219b8"
+      },
+      {
+        "file": "misp_modules/modules/export_mod/yara_export.py",
+        "sha256": "184879381b4642f074f35b1b85bd087ccc482b9382ba25e98b3e41a617be6f3e"
+      },
+      {
+        "file": "misp_modules/modules/action_mod/qradar_reference_set_publish.py",
+        "sha256": "3235ca6076e2253696530e58781f5b8ed6a2022734db6760c5d74be0af9bf38f"
+      },
+      {
+        "file": "misp_modules/modules/action_mod/sentinelone_ioc_publish.py",
+        "sha256": "fe39d29f8db14e4f48d1a3eae859b637c7607b9b5dffe12a768c838f8ca4f790"
+      },
+      {
+        "file": "misp_modules/modules/action_mod/crowdstrike_ioc_publish.py",
+        "sha256": "e76e177b68cbdf934e99d4564545ec2a3481eb05e23d2c09da92d73ce380d2eb"
+      },
+      {
+        "file": "misp_modules/modules/action_mod/export_sentinel.py",
+        "sha256": "2a2ed2b2a48d30faec4fd110c9483f36fe9b39220859409c855931498f8c0fa3"
+      }
+    ]
+  },
+  "misp_guard": {
+    "repository": "https://github.com/MISP/misp-guard",
+    "commit": "79a3d4c89796f0a91201f5e9de82d89518b32a8a",
+    "source_files": [
+      {
+        "file": "README.md",
+        "sha256": "2d67a1bd82075cb5e3ca36060ca1b01153e88bb302b87ac34f8e19ec45f8a4b4"
+      },
+      {
+        "file": "src/mispguard.py",
+        "sha256": "61209f4010c8619d84089619ce1e155652fdc682250e7153f9e4f539e0e0d226"
+      },
+      {
+        "file": "src/test/test_config.json",
+        "sha256": "0a7c05da0a35ca6787caf459ab684db48ed78e1deced084a07d0fa97f2a65a3f"
+      }
+    ],
+    "scope": "Separately deployed protocol-aware proxy. Configured reachability and content rules apply on covered traffic paths; allowlisted URLs/domains skip normal further processing. Coverage and optional sightings paths need deployment-specific verification."
+  },
+  "cti_cmm": {
+    "repository": "https://github.com/cti-cmm/framework",
+    "commit": "f42e71e962b920063ca61f83be6f905a753e956c",
+    "version": "1.3",
+    "document": "CTI-CMM book Version 1.3.pdf",
+    "url": "https://github.com/cti-cmm/framework/blob/f42e71e962b920063ca61f83be6f905a753e956c/CTI-CMM%20book%20Version%201.3.pdf",
+    "sha256": "ddd8e1a70c5ea20e591b29e6cda646800fa094f3e1768031da3b0f9a656dd9d4",
+    "pdf_pages": 70,
+    "mapping_scope": "Original implementation-support and stakeholder-evidence mapping by the MISP book authors. It is not a maturity rating or a reproduction of the framework practice tables. The source PDF remains in its upstream repository.",
+    "domains": [
+      {
+        "code": "ASSET",
+        "name": "Asset, Change, and Configuration Management",
+        "section": "6.1",
+        "pages": [
+          24,
+          25
+        ]
+      },
+      {
+        "code": "THREAT",
+        "name": "Threat and Vulnerability Management",
+        "section": "6.2",
+        "pages": [
+          26,
+          28
+        ]
+      },
+      {
+        "code": "RISK",
+        "name": "Risk Management",
+        "section": "6.3",
+        "pages": [
+          29,
+          30
+        ]
+      },
+      {
+        "code": "ACCESS",
+        "name": "Identity and Access Management",
+        "section": "6.4",
+        "pages": [
+          31,
+          32
+        ]
+      },
+      {
+        "code": "SITUATION",
+        "name": "Situational Awareness",
+        "section": "6.5",
+        "pages": [
+          33,
+          34
+        ]
+      },
+      {
+        "code": "RESPONSE",
+        "name": "Event and Incident Response, Continuity of Operations",
+        "section": "6.6",
+        "pages": [
+          35,
+          37
+        ]
+      },
+      {
+        "code": "THIRD-PARTIES",
+        "name": "Third-Party Risk Management",
+        "section": "6.7",
+        "pages": [
+          38,
+          39
+        ]
+      },
+      {
+        "code": "FRAUD",
+        "name": "Fraud and Abuse Management",
+        "section": "6.8",
+        "pages": [
+          40,
+          42
+        ]
+      },
+      {
+        "code": "WORKFORCE",
+        "name": "Workforce Management",
+        "section": "6.9",
+        "pages": [
+          43,
+          45
+        ]
+      },
+      {
+        "code": "ARCHITECTURE",
+        "name": "Cybersecurity Architecture",
+        "section": "6.10",
+        "pages": [
+          46,
+          47
+        ]
+      },
+      {
+        "code": "PROGRAM",
+        "name": "Cybersecurity Program Management",
+        "section": "6.11",
+        "pages": [
+          48,
+          49
+        ]
+      }
+    ],
+    "structure_and_maturity_pages": [
+      16,
+      17
+    ],
+    "improvement_cycle_pages": [
+      18,
+      23
+    ],
+    "metrics_appendix": "C",
+    "metrics_pages": [
+      55,
+      60
+    ],
+    "worked_example": {
+      "practice": "ACCESS-1.c",
+      "page": 31,
+      "level": "CTI2",
+      "interpretation": "Support a repeatable identity-threat alert integration with stakeholder ownership and response feedback; platform RBAC alone is a different supporting control."
+    }
+  }
+}

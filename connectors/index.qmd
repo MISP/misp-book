@@ -44,6 +44,8 @@ For SOAR/case management, preserve source UUIDs and context when creating cases 
 observations. A broad administrator key or instance notification stream is not a substitute for
 deciding the destination's permitted audience.
 
+The [TIP access-control guide](../what-misp-can-do/index.qmd#tip-access-controls) connects MISP roles, record visibility, external identity services and an optional misp-guard synchronization boundary.
+
 ## Define the data contract {#connectors-contract}
 
 Document these decisions with the connector configuration:
