@@ -34,3 +34,25 @@ def example():
 [A chapter-only link to Administration](../../administration/index.qmd).
 
 A final reference to @fig-layout-example, @tbl-layout-example and @wrn-layout-warning.
+
+## Screenshot sizing
+
+Small menus and dialogs should retain readable controls without filling the text
+width. Keep captions, figure references and nearby explanations in the normal flow.
+
+![A narrow navigation menu.](../../general-layout/figures/misp3-datapoints-menu.png){#fig-layout-menu}
+
+![A compact publication dialog.](../../using-the-system/figures/misp3-publish.png){#fig-layout-dialog}
+
+The menu in @fig-layout-menu and the dialog in @fig-layout-dialog should be smaller
+than the wide capture below. Neither should be stretched to match its width.
+
+![A wide event overview.](../../using-the-system/figures/misp3-event-overview.png){#fig-layout-wide}
+
+Tall captures must fit within the page while preserving their aspect ratio.
+
+![A tall mobile navigation panel.](../../general-layout/figures/misp3-mobile-navigation.png){#fig-layout-tall}
+
+An author's explicit size must still take precedence over the automatic limit.
+
+![The same dialog with an explicit height.](../../using-the-system/figures/misp3-publish.png){#fig-layout-explicit height=30mm}

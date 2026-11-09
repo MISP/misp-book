@@ -24,6 +24,12 @@ The result is `_book/book.pdf`. No LaTeX installation or live MISP service is ne
   appendix divider. It preserves heading identifiers and resolves chapter-only
   `.qmd` links to those identifiers inside the PDF. PNG/SVG figures without an
   explicit size fit within 164mm width and 140mm height, retaining their aspect ratio.
+  PNGs also have a 120 pixels-per-inch size limit: a 500px-wide dialog prints at
+  about 106mm rather than stretching to the full column, while large screenshots
+  still use the available width. This keeps small controls proportional to the
+  surrounding text and leaves more room for their explanations. SVG diagrams
+  remain scalable. An explicit image `width` or `height` overrides automatic sizing;
+  HTML/ePub sizing and the source images are unaffected.
   The introduction's explicit print page break is omitted; its repeat logo is hidden
   with a format condition in `index.qmd` because the cover already supplies branding.
 - `fonts/` contains Source Sans 3 and Source Code Pro, under the SIL Open Font
@@ -42,8 +48,10 @@ The existing build and offline HTML link checks also need to pass. CI additional
 runs `quarto render --profile pdf-smoke --to typst`. This profile appends `smoke.qmd`
 to the book and writes to the ignored `_book-pdf-smoke/` directory. It exercises
 referenced notes/warnings, figure/table references, quoted/escaped JSON values and
-numbered highlighted code. It does not add test content to the published book.
-When reviewing its PDF, check that the referenced note retains its explicit title.
+numbered highlighted code, plus small, wide, tall and explicitly sized screenshots.
+It does not add test content to the published book. When reviewing its PDF, check
+that the referenced note retains its explicit title and that the small screenshots
+leave room for their captions and surrounding prose without enlarging the UI text.
 
 For layout iteration, `quarto render --to typst -M keep-typ:true` retains the generated
 `index.typ`; compile it with the bundled `quarto typst compile` command after editing
