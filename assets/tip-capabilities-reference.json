@@ -107,10 +107,6 @@
       {
         "file": "misp_modules/modules/action_mod/export_sentinel.py",
         "sha256": "2a2ed2b2a48d30faec4fd110c9483f36fe9b39220859409c855931498f8c0fa3"
-      },
-      {
-        "file": "misp_modules/modules/expansion/opencti.py",
-        "sha256": "f749d07d9a9e7fa701190bf8506888f8b9d10a09549f6648086f5259f6b48815"
       }
     ]
   },

@@ -231,13 +231,12 @@ See [standalone use](../modules/index.qmd#modules-standalone), the [CLI](../modu
 | Detection engineering | `sigma_export`, `yara_export` | Export supported rule content and use the selected module's documented conversion options. Validate the resulting rules in the target tool and preserve their source identity. |
 | Controlled response through workflows or SOAR | `qradar_reference_set_publish`, `sentinelone_ioc_publish`, `crowdstrike_ioc_publish` | Write supported indicators to explicitly configured destination scopes. Check acknowledgements, available dry runs and each module's creation/renewal/withdrawal behavior. |
 | Existing Microsoft security pipelines | `export_sentinel` | Invoke an existing MISP2Sentinel or MISP2Defender installation. This action depends on that separately configured integration. |
-| Context from another CTI platform | `opencti` | Perform read-only observable lookups and return context, provenance and supported markings. Review the result and set the intended MISP distribution; the source platform's access rules require an explicit mapping. |
 
 :::
 
 These are concrete examples from the [pinned module tree](https://github.com/MISP/misp-modules/tree/64fc7bc8764e6d0a1ff5c833f64555d8c2f3055a/misp_modules/modules), rather than a fixed list of supported commercial products.
 A format exporter, a lookup and an action that writes to another system each have a different contract.
-The OpenCTI example is a lookup, while the ECS/Splunk examples produce data for a downstream importer; complete platform synchronization or SIEM deployment needs the corresponding integration process.
+The ECS/Splunk examples produce data for a downstream importer; complete platform synchronization or SIEM deployment needs the corresponding integration process.
 
 ### Connect the intelligence and response loops
 
