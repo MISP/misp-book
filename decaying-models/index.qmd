@@ -127,6 +127,17 @@ The older event interface can expose decay scores through its attribute filters 
 Do not assume that every 3.0 tab or export automatically displays or applies them.
 Value Intelligence's assessment label, signal strength, and shelf life use the effective **analyst profile** and are a separate assessment path; see [Analyst Profiles](../analyst-profiles/index.qmd).
 
+### Choose decay or a fixed feed export window {#decay-export-policy}
+
+Both decay filtering and the [tag-based two-query strategy](../automation/index.qmd#api-feed-export-policy) can retain historical observations for correlation while limiting detection exports.
+The tag strategy expresses a source-specific publication window: include ordinary eligible data plus tagged feed data from recently published events.
+Decay instead evaluates attribute relevance using the selected formula, evidence, type mappings and thresholds.
+It is an alternative when publication time does not express the intended lifetime, rather than an automatic replacement for the feed policy.
+
+For a decay-based export, select and inspect applicable models, then explicitly request `excludeDecayed` along with the consumer's other filters.
+Neither a displayed decay score nor the policy tag automatically changes an export or recalls a previously delivered indicator.
+Reconcile the receiving tool's managed detections when attributes stop matching, while keeping source records and correlation enabled where appropriate.
+
 ## Ownership, sharing and default models
 
 Models can be owned by your organization, shared across organizations, or supplied as upstream defaults.

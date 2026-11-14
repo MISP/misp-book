@@ -198,6 +198,76 @@ For a detection export, combine a deliberate source/audience selection with `pub
 disabled and is not intended for detection. Check [best practices](../best-practices/index.qmd)
 before enabling an operational export.
 
+### Keep feed history while limiting detection exports {#api-feed-export-policy}
+
+Keep older imported observations in MISP for investigation and correlation, while applying a shorter lifetime to the data sent to a SIEM or NIDS.
+The following two-query policy includes all otherwise eligible data outside a tagged feed, plus that feed's recently published events.
+It filters the export without deleting source records or changing their IDS or correlation flags.
+
+1. Ask a site administrator to set the feed's **Default tag** to a dedicated label such as `expireMeInAMonth`; see [Managing Feeds](../managing-feeds/index.qmd#feed-export-policy).
+   If a **Default tag collection** is configured, include the label in that collection, which takes precedence over the single default tag.
+   This example label is a local policy marker, not a built-in expiration action.
+   Check the event-level tag after importing, and review/tag previously imported events separately: changing the feed definition does not immediately retag historical records.
+   Keep correlation enabled and review any **Delta merge** or other deletion policy separately if history must remain available.
+2. Configure the exporting account and the intended source/audience scope using the [API setup](#api-authentication).
+   Apply the same baseline filters to both requests below.
+   These examples select published, IDS-enabled attributes; add your approved source/type and warninglist restrictions to both as needed.
+3. Save the first body as `regular-data.json` to select eligible attributes **without** the policy tag, with no time cutoff:
+
+```json
+{
+  "returnFormat": "json",
+  "published": true,
+  "to_ids": true,
+  "tags": {"NOT": ["expireMeInAMonth"]},
+  "limit": 100,
+  "page": 1
+}
+```
+
+4. Save the second body as `recent-feed.json` to select eligible attributes **with** that tag, restricted to events published in the past 30 days:
+
+```json
+{
+  "returnFormat": "json",
+  "published": true,
+  "to_ids": true,
+  "tags": {"OR": ["expireMeInAMonth"]},
+  "publish_timestamp": "30d",
+  "limit": 100,
+  "page": 1
+}
+```
+
+Use the [request helper](#api-first-request) to send each body to **`/attributes/restSearch`**:
+
+```bash
+misp_api POST /attributes/restSearch --data @regular-data.json
+misp_api POST /attributes/restSearch --data @recent-feed.json
+```
+
+Request every page of **each** result, then feed their union to the destination.
+Preserve attribute UUIDs for reconciliation; if the destination stores distinct values or rules, handle duplicate values across occurrences before removing a detection still supported by another eligible occurrence.
+An untagged eligible attribute remains in the regular set regardless of age; a tagged one is included only while its event passes the publication cutoff.
+The tag filter can also match attribute tags, so reserve this label for the intended feed policy and inspect where it is attached.
+
+::: {.callout-note}
+The historical recipe uses `"last": "30d"`; `last` is an alias for **event publication time**, so the example uses the explicit `publish_timestamp` name.
+It does not mean imported in the past 30 days, last observed in the past 30 days, or created in the past 30 days.
+Republishing an old event can bring all of its otherwise eligible attributes back into the recent set.
+This matters especially for a **Fixed event** feed that republishes one growing event on every pull.
+Use an observation-time policy or an appropriate [decaying model](../decaying-models/index.qmd#decay-export-policy) when publication recency does not express the lifetime you need.
+:::
+
+Rebuild or reconcile the destination's managed set on each scheduled run, withdrawing entries that no longer belong to either result.
+A connector that only appends new indicators will retain expired detections even though later exports omit them.
+Finish both queries and all pages successfully before replacing the destination's set; a failed request is not an empty selection.
+Check the union and withdrawals with the destination's actual account and export format, as described in [incremental polling and recovery](#api-incremental-polling) and [consumer verification](../false-positives/index.qmd#fp-verify).
+Older source observations remain searchable in MISP and available for correlation under the instance's access and correlation settings.
+
+The tag attachment and publication-time filter semantics above were checked against the MISP `3.0_wip` [feed importer](https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Model/Feed.php) and [timestamp filter implementation](https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Model/Event.php) at commit `0aaeb964b`.
+Validate the complete policy on your instance before connecting it to operational detection.
+
 ### Poll incrementally and recover {#api-incremental-polling}
 
 A reliable connector needs more than a recurring search:
