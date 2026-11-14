@@ -200,6 +200,19 @@ A result cap is not a substitute for client pagination; an integration should ha
 and empty/error responses. Reassign users before deleting a role. Test a representative regular
 account after a permission change, including an operation that should be refused.
 
+### Separate event creation and publication {#admin-publication-separation}
+
+For an [analyst-to-publisher review process](../using-the-system/index.qmd#publication-review-handoff), give the publisher the access needed to review and publish the organization's event.
+A role name alone does not establish those permissions.
+
+The optional setting `MISP.block_publishing_for_same_creator` defaults to **false**.
+When enabled, the normal publication path rejects the request if the publishing user is the event's recorded creator.
+It compares user identities, rather than organizations or the most recent editor, so define who reviews each revision and how that review is recorded.
+The setting does not create an approval queue, send the manual handoff, or verify delivery to partners.
+
+These checks follow the `3.0_wip` [publication controller](https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Controller/EventsController.php) and [setting definition](https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Model/Server.php).
+Test the creator and publisher accounts, and any API/import or automation paths you use, before relying on the policy.
+
 <a id="tools"></a>
 
 ## Use grouped settings and health checks {#server-settings-and-maintenance}

@@ -50,6 +50,26 @@ The standalone `.mmd` files remain editable; use the renderer below to obtain th
 shared appearance. The book includes the generated SVGs rather than rendering
 Mermaid at page-load time.
 
+## Sequence and state diagrams
+
+Use `sequenceDiagram` for the order of actions between people and MISP, and
+`stateDiagram-v2` for changes to a specific stored state such as publication.
+Keep review procedures, permissions, distribution and delivery outcomes explicit;
+an organizational review stage is not another value of the event's `published` flag.
+Label manual handoffs and configured notifications separately.
+
+All supported diagram types receive the shared Mermaid theme, accessible
+`accTitle`/`accDescr`, native SVG text and branded frame.
+The renderer appends semantic `classDef` declarations only to `flowchart`/`graph`
+sources; that syntax is not valid in sequence diagrams.
+Use Mermaid's diagram-specific notation for actors, notes and alternatives rather
+than adding flowchart classes to sequence sources.
+Avoid literal semicolons in sequence message text because Mermaid treats them as
+statement separators; use words or line breaks instead.
+
+The lifecycle examples in `using-the-system/figures/` and `delegation/figures/`
+have source references in [`event-lifecycle-diagrams.json`](../event-lifecycle-diagrams.json).
+
 ## Regenerate
 
 To regenerate with Quarto **1.9.38**, Python Playwright and Chromium installed:

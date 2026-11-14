@@ -1,0 +1,20 @@
+sequenceDiagram
+  accTitle: Delegation transfers ownership before a separate publication decision
+  accDescr: On one instance, Org A requests delegation of an eligible restricted draft to Org B. The recipient reviews the request and event. Discarding leaves ownership unchanged. Accepting transfers ownership while preserving the event UUID. Acceptance does not publish the event or automatically apply the requested distribution. Org B checks the resulting content and audience before explicitly publishing. Org A may lose access after the transfer.
+  actor A as Source (Org A)
+  participant M as MISP
+  actor B as Recipient (Org B)
+  A->>M: Request delegation of eligible draft
+  Note over A,M: Target organization is local
+  B->>M: Review request and event content
+  alt Discard the request
+    B->>M: Discard delegation
+    M-->>B: Ownership remains with Org A
+  else Accept the handover
+    B->>M: Accept delegation
+    M-->>B: Ownership transferred and UUID retained
+    Note over M,B: Acceptance does not publish
+    B->>M: Check saved audience and content
+    B->>M: Set approved audience and publish when ready
+  end
+  Note over A,B: Org A may lose access after transfer

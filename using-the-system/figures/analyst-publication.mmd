@@ -1,0 +1,19 @@
+sequenceDiagram
+  accTitle: An analyst hands an event to an authorized publisher
+  accDescr: Alice creates an organization-only draft. Alice manually asks Bob in the same organization to review it. Bob inspects the event, returns corrections when needed, or checks the intended audience and publishes. Bob verifies the operation and any background jobs. The handoff is a team process, not an automatic approval queue, and publication does not override distribution.
+  actor A as Alice (Org A)
+  participant M as MISP
+  actor B as Bob (Org A, publisher)
+  A->>M: Create and populate a draft
+  Note over A,M: Organization-only distribution
+  A-->>B: Manual review handoff with event UUID
+  B->>M: Inspect evidence and intended audience
+  alt Corrections needed
+    B-->>A: Return feedback
+    A->>M: Revise the draft
+  else Ready to publish
+    B->>M: Confirm audience and publish
+    M-->>B: Operation result or queued job
+    B->>M: Verify publication and job results
+  end
+  Note over A,B: Review coordination is a team procedure

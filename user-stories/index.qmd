@@ -28,6 +28,9 @@ working integration.
 |---|---|
 | Triage an observable or alert | [Investigate a value](#stories-investigate) |
 | Coordinate an incident | [Build a shared assessment](#stories-incident) |
+| Hand a draft to a publisher | [Analyst review and publication sequence](../using-the-system/index.qmd#publication-review-handoff) |
+| Ask another owner to correct an attribute | [Proposal review sequence](../using-the-system/index.qmd#proposal-review-sequence) |
+| Transfer event ownership locally | [Delegation sequence](../delegation/index.qmd#delegation-sequence) |
 | Describe malware or infrastructure | [Structure the evidence](#stories-structure) |
 | Curate intelligence for detection | [Prepare a useful export](#stories-detection) |
 | Evaluate external intelligence | [Compare before importing](#stories-feeds) |

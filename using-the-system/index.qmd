@@ -31,6 +31,13 @@ Distribution controls access. **Unpublished does not mean private**: unless your
 Use **Your organisation only** for work that must remain within your organization.
 After edits, check for unpublished or pending changes and republish when those changes are ready.
 
+![The event's publication flag has two states. Review is a team procedure, distribution controls access in either state, and unpublishing does not recall shared copies.](figures/event-publication-state.svg)
+
+This diagram tracks the stored `published` flag, rather than the **Analysis level** or an approval queue.
+A normal event edit or acceptance of an attribute proposal can return a published event to unpublished.
+Check the specific operation's result: a separately stored Note or sighting is not interchangeable with editing event content.
+The examples here follow MISP `3.0_wip` [commit `0aaeb964b`](https://github.com/MISP/MISP/commit/0aaeb964b4e2330d081d8b36050744df3ebe0819); [source checks and diagram provenance](../assets/event-lifecycle-diagrams.json) record the scope.
+
 ## Creating an event {#creating-an-event}
 
 Open **Data points → Events** and choose **Add event**.
@@ -257,6 +264,18 @@ Delivery to another instance depends on synchronization and proposal settings; c
 
 Use [Analyst Data](../analyst-data/index.qmd) for an additional assessment or caveat that does not replace the observation, and an [extension](../extended-events/index.qmd) for a separate contribution with its own lifecycle.
 
+#### Follow a proposal through review {#proposal-review-sequence}
+
+In this example, an analyst in Org B can see an event created by Org A and has permission to submit a proposal.
+Org A's reviewer has access to accept or discard it and to publish the resulting event.
+The diagram uses one instance; across instances, verify proposal synchronization and receipt before expecting the owner to act.
+
+![A proposal preserves the original attribute until an authorized owner accepts it. Acceptance applies the correction and unpublishes the event for review and republication; discarding leaves the source content unchanged.](figures/proposal-review.svg)
+
+Submitting a proposal does not itself publish a correction or change ownership.
+After acceptance, inspect the saved attribute and event state, then republish when the corrected event is ready.
+Check [delivery and recipient visibility](../sharing/index.qmd#sharing-synchronization) separately.
+
 ### Sightings
 
 A sighting records an observation, a false-positive assessment, or an expiration.
@@ -282,6 +301,23 @@ See [Delegation](../delegation/index.qmd) for eligibility, requested distributio
 
 Publication marks a reviewed version as ready for sharing and triggers configured synchronization behavior.
 You need publication permission as well as access to modify the event; event creation permission alone is insufficient.
+
+### Review with another analyst {#publication-review-handoff}
+
+Alice and Bob work in the same organization.
+Alice creates an organization-only draft and sends Bob its UUID through their agreed task or communication channel.
+Bob has permission to inspect and publish the organization's event; a role that can edit only its own events is insufficient for this example.
+
+![Alice hands a draft to Bob for review. Bob returns corrections or confirms the audience and requests publication, then checks the result. The manual handoff is distinct from MISP's publication and notification actions.](figures/analyst-publication.svg)
+
+The handoff and correction request are team procedures; the diagram does not create a built-in approval queue.
+After corrections, repeat the review until the event is ready.
+Bob checks evidence, markings, IDS eligibility and the intended distribution using the [pre-publication checklist](../best-practices/index.qmd#before-you-publish).
+Publishing an organization-only event does not widen its audience: make any approved distribution change deliberately.
+Where required, an administrator can configure [creator/publisher separation](../administration/index.qmd#admin-publication-separation).
+Optional [workflow rules](../workflows/index.qmd#workflow-blocking) can complement the process, but their triggers and actions must be configured and tested separately.
+
+### Confirm publication and verify the outcome {#publication-outcome}
 
 In the 3.0 interface, **Publish** opens a confirmation with an optional notification switch.
 The normal **Publish** path starts with notifications off; enabling the switch changes the action to **Publish & notify**.

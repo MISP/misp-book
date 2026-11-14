@@ -113,6 +113,13 @@
       "viewBox": "0 0 310.625 794.9999389648438"
     },
     {
+      "source": "delegation/figures/delegation-handoff.mmd",
+      "file": "delegation/figures/delegation-handoff.svg",
+      "source_sha256": "2d6161a1d848cbe2257ac3706d08d4afd9a6ab307ef5fe2f838f546241a1cb18",
+      "sha256": "f00bb68a58803fe320f396c96d5aea4f73d10809c8276d0d13733599352f626d",
+      "viewBox": "0 0 1097.5 902"
+    },
+    {
       "source": "faq/figures/diagnose-before-changing.mmd",
       "file": "faq/figures/diagnose-before-changing.svg",
       "source_sha256": "4526d3bfeb4d4b764b0c855a426e255293c49127bf80d40d1555e29f725a065e",
@@ -209,6 +216,27 @@
       "source_sha256": "316c3652e4ff7d5562f1e6023cd6d13ca43244c992a11ab7ffe62796102a76a2",
       "sha256": "4ebaf299a1cbf3e0fb93efa93a04c2ef6d0bd94922f3a3acc807a2b6533d199d",
       "viewBox": "0 0 1021.875 434.3999938964844"
+    },
+    {
+      "source": "using-the-system/figures/analyst-publication.mmd",
+      "file": "using-the-system/figures/analyst-publication.svg",
+      "source_sha256": "8f5b4c1046ef5d33e72691c59c62c054a14300e933128b2c017ca415a715eccf",
+      "sha256": "987ffa3245a0a7ecb75d12fe16d5417a1f8a0220417a0766df774e14dc7614dd",
+      "viewBox": "0 0 1001 853"
+    },
+    {
+      "source": "using-the-system/figures/event-publication-state.mmd",
+      "file": "using-the-system/figures/event-publication-state.svg",
+      "source_sha256": "fca5f684372fe848998eb16477b36ed5d1f0fd26c3690e0d497b7055a47762c4",
+      "sha256": "03be74417dcfae7bfab4ca1d136cb0012eae355c82851201c5e37f33b11e396c",
+      "viewBox": "0 0 775.828125 654.2000122070312"
+    },
+    {
+      "source": "using-the-system/figures/proposal-review.mmd",
+      "file": "using-the-system/figures/proposal-review.svg",
+      "source_sha256": "e8510db7d563edaff7ec15df606732d835a47ad8d7118ece11f74c294161b6ae",
+      "sha256": "aed8109b8fe450f92c432840e80897a7b8d3490a1152144e67ab5802405d2377",
+      "viewBox": "0 0 953 804"
     },
     {
       "source": "warninglists/figures/warninglist-review.mmd",

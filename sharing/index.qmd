@@ -299,9 +299,12 @@ distribution and signing behaviour for the deployed version.
 
 ### Proposals
 
-Use [proposals](../using-the-system/index.qmd) to request attribute additions or changes without
+Use [proposals](../using-the-system/index.qmd#proposal-review-sequence) to request attribute additions or changes without
 taking over the event. The owner reviews them. Use [sightings](../sightings/index.qmd) to record
 observations, false positives or expiry, and Analyst Data for an assessment or relationship.
+
+The [proposal review sequence](../using-the-system/index.qmd#proposal-review-sequence) shows acceptance, discard and republication.
+For a transfer of responsibility between local organizations, follow the [delegation sequence](../delegation/index.qmd#delegation-sequence).
 
 <a id="forums--threats"></a>
 

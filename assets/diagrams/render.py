@@ -30,8 +30,13 @@ def main():
         page.set_content('<html><head></head><body></body></html>')
         page.add_script_tag(path=str(args.mermaid_js))
         for source in sorted(ROOT.glob('*/figures/*.mmd')):
-            if re.search(r'\bclassDef\b|\b(?:fill|stroke|color):|%%\{', source.read_text()):
+            source_text = source.read_text()
+            if re.search(r'\bclassDef\b|\b(?:fill|stroke|color):|%%\{', source_text):
                 raise ValueError(f'{source}: use shared theme classes instead of local styling')
+            # classDef is flowchart syntax; sequence diagrams reject it. Other
+            # diagram types still receive the shared Mermaid theme and frame.
+            if re.search(r'^\s*(?:flowchart|graph)\b', source_text, re.MULTILINE):
+                source_text += '\n' + classes
             svg = page.evaluate(r"""async ({source, id, theme, logo}) => {
               mermaid.initialize({...theme.mermaid, deterministicIDSeed:id});
               const result = await mermaid.render(id, source);
@@ -96,7 +101,7 @@ def main():
               graph.setAttribute('viewBox', `0 0 ${totalWidth} ${totalHeight}`);
               graph.setAttribute('style', `background:${frame.background};max-width:100%;height:auto`);
               return graph.outerHTML;
-            }""", {"source": source.read_text() + '\n' + classes,
+            }""", {"source": source_text,
                     "id": "misp-" + source.parent.parent.name + '-' + source.stem,
                     "theme": theme, "logo": logo})
             root = ET.fromstring(svg)
