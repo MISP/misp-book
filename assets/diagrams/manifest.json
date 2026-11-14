@@ -2,7 +2,7 @@
   "renderer": "Mermaid bundled with Quarto 1.9.38; Chromium via Playwright",
   "mermaid_js_sha256": "07e37dfa97b337ccc85365d57eddf99b9706f09db3b59b260d0333b23b343c4b",
   "theme": "assets/diagrams/theme.json",
-  "theme_sha256": "23a9f9318ecb8a8686d3b93509e46052dd225dbda10859b6b8236a6560694bc1",
+  "theme_sha256": "a7f95e82542d007f5acd3b963873a3c1a029b843ded9786583580121ddb46e34",
   "logo": "assets/diagrams/misp-logo.svg",
   "logo_sha256": "8189fee49314db2a4c4480268987cb8762660dc29649529129be83534eeab209",
   "accessibility": "Each diagram has accTitle/accDescr, SVG text labels and explicit arrow labels; HTML labels are disabled for Typst compatibility.",
@@ -115,9 +115,9 @@
     {
       "source": "delegation/figures/delegation-handoff.mmd",
       "file": "delegation/figures/delegation-handoff.svg",
-      "source_sha256": "2d6161a1d848cbe2257ac3706d08d4afd9a6ab307ef5fe2f838f546241a1cb18",
-      "sha256": "f00bb68a58803fe320f396c96d5aea4f73d10809c8276d0d13733599352f626d",
-      "viewBox": "0 0 1097.5 902"
+      "source_sha256": "cd2985d234501b9b90dda97064726b29c1a882e8e740f6e019eab381aa67e22c",
+      "sha256": "07244ce69a17a8a4cd05acdbc4025738b06e549cacd7067fc260751b5cedff09",
+      "viewBox": "0 0 1174 823"
     },
     {
       "source": "faq/figures/diagnose-before-changing.mmd",
@@ -220,9 +220,9 @@
     {
       "source": "using-the-system/figures/analyst-publication.mmd",
       "file": "using-the-system/figures/analyst-publication.svg",
-      "source_sha256": "8f5b4c1046ef5d33e72691c59c62c054a14300e933128b2c017ca415a715eccf",
-      "sha256": "987ffa3245a0a7ecb75d12fe16d5417a1f8a0220417a0766df774e14dc7614dd",
-      "viewBox": "0 0 1001 853"
+      "source_sha256": "5263a5e7b68b5f52d22da935a969145031bd3d07eabd2ed5526c5c799fa992ff",
+      "sha256": "25af413e90fd542ee9e23c53a3d6c6fe5b99768935865b8cc6400fd26e4a0905",
+      "viewBox": "0 0 1057 774"
     },
     {
       "source": "using-the-system/figures/event-publication-state.mmd",
@@ -234,9 +234,9 @@
     {
       "source": "using-the-system/figures/proposal-review.mmd",
       "file": "using-the-system/figures/proposal-review.svg",
-      "source_sha256": "e8510db7d563edaff7ec15df606732d835a47ad8d7118ece11f74c294161b6ae",
-      "sha256": "aed8109b8fe450f92c432840e80897a7b8d3490a1152144e67ab5802405d2377",
-      "viewBox": "0 0 953 804"
+      "source_sha256": "1f64abf85fda70fc782dc50fd49907cf62d1d7e49e0bb2ac2deb2c5de943144e",
+      "sha256": "e08ef7593fbbbe6f5b6ec1bdc32917fbae2a312a4abeb3ca0c372565eb25e5df",
+      "viewBox": "0 0 1034 725"
     },
     {
       "source": "warninglists/figures/warninglist-review.mmd",
