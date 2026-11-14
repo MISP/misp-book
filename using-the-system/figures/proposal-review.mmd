@@ -1,0 +1,18 @@
+sequenceDiagram
+  accTitle: Another organization proposes a correction for the owner to review
+  accDescr: On one instance, an analyst in Org B submits an attribute proposal to an event created by Org A. Saving the proposal does not modify the original attribute. An authorized publisher in Org A inspects the proposal and either accepts it, applying the change and unpublishing the event, or discards it, leaving the source content unchanged. Accepted changes require review and explicit republication. Cross-instance proposal delivery depends on synchronization settings.
+  actor C as Analyst (Org B)
+  participant M as MISP
+  actor O as Publisher (Org A)
+  C->>M: Submit attribute proposal
+  M-->>C: Proposal saved for review
+  Note over C,M: Original attribute remains unchanged
+  O->>M: Inspect proposal and source evidence
+  alt Accept the correction
+    O->>M: Accept proposal
+    M-->>O: Change applied and event unpublished
+    O->>M: Review changed event and republish
+  else Discard the proposal
+    O->>M: Discard proposal
+    M-->>O: Source content remains unchanged
+  end
