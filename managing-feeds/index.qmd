@@ -83,6 +83,12 @@ Set it before fetching, confirm the tag on resulting events, and review previous
 The label itself does not expire or delete anything.
 Keep correlation enabled and review **Delta merge** or other deletion settings if the aim is to retain history.
 
+Open **Sync → Servers & Feeds → Feeds** and choose **Add Feed** to open the dialog shown below.
+
+![The MISP 3.0 feed form staged with Default tag expireMeInAMonth, automatic publication off, and correlation enabled. This synthetic feed definition is an unsaved example, not an operational source.](figures/misp3-feed-export-tag.png)
+
+This capture uses [`3.0_wip` commit `0aaeb964b`](https://github.com/MISP/MISP/commit/0aaeb964b4e2330d081d8b36050744df3ebe0819); the [capture record](../assets/feed-export-screenshots.json) identifies its fixture and settings.
+
 The [two-query export recipe](../automation/index.qmd#api-feed-export-policy) combines eligible data outside this tag with tagged data published in the past 30 days.
 Its cutoff uses event publication time; a repeatedly republished fixed event can keep older attributes eligible.
 For indicator relevance based on observations and configured evidence, consider [decay filtering](../decaying-models/index.qmd#decay-export-policy).

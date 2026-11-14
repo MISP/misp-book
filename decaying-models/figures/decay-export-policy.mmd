@@ -1,0 +1,9 @@
+flowchart TB
+  accTitle: Use decay as an alternative detection selection policy
+  accDescr: Retained observations remain in MISP for correlation. Inspect a model's applicability and scores with includeDecayScore, then explicitly apply excludeDecayed alongside the consumer's baseline filters. Review missing scores and type mappings rather than treating them as fresh data. Complete the export and reconcile the destination to withdraw detections that no longer match. This policy uses attribute relevance rather than the tag recipe's event publication window.
+  S["Retained MISP observations<br/>Correlation remains available"]
+  S -->|"Inspect representative attributes"| M["Choose applicable models<br/>Check mappings and includeDecayScore"]
+  M -->|"Verify missing and multiple scores"| Q["Apply excludeDecayed explicitly<br/>Keep the consumer's baseline filters"]
+  Q -->|"Complete all export pages"| D["Reconcile managed detections<br/>Withdraw entries that stop matching"]
+  class S,M,Q accent;
+  class D success;

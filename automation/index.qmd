@@ -204,6 +204,12 @@ Keep older imported observations in MISP for investigation and correlation, whil
 The following two-query policy includes all otherwise eligible data outside a tagged feed, plus that feed's recently published events.
 It filters the export without deleting source records or changing their IDS or correlation flags.
 
+![Two complete queries feed one managed detection set. Keep MISP history, use the same baseline filters, fix the publication cutoff once per run, and withdraw detections outside the union.](figures/feed-export-policy.svg)
+
+The screenshots in this recipe use MISP **3.0.0**, [`3.0_wip` commit `0aaeb964b`](https://github.com/MISP/MISP/commit/0aaeb964b4e2330d081d8b36050744df3ebe0819), in light mode.
+They show staged requests with an authorization placeholder, not submitted exports or detector results.
+See the [capture record](../assets/feed-export-screenshots.json) for revision and fixture details.
+
 1. Ask a site administrator to set the feed's **Default tag** to a dedicated label such as `expireMeInAMonth`; see [Managing Feeds](../managing-feeds/index.qmd#feed-export-policy).
    If a **Default tag collection** is configured, include the label in that collection, which takes precedence over the single default tag.
    This example label is a local policy marker, not a built-in expiration action.
@@ -239,7 +245,37 @@ It filters the export without deleting source records or changing their IDS or c
 }
 ```
 
-Use the [request helper](#api-first-request) to send each body to **`/attributes/restSearch`**:
+For a scheduled export, compute the absolute publication cutoff **once at the start of the run**, before requesting any pages.
+For example, replace the relative value in `recent-feed.json` with a fixed Unix timestamp:
+
+```bash
+python3 - <<'PY'
+import json
+import time
+from pathlib import Path
+
+path = Path("recent-feed.json")
+query = json.loads(path.read_text())
+query["publish_timestamp"] = int(time.time()) - 30 * 24 * 60 * 60
+path.write_text(json.dumps(query, indent=2) + "\n")
+PY
+```
+
+Reuse this same numeric cutoff on every page and retry in that run.
+Resolving `"30d"` separately for each request can shift the selected set as events age out.
+A fixed cutoff avoids that moving time boundary; it does not make pagination over concurrently modified data an immutable snapshot.
+
+In **API → REST client**, choose **POST**, enter `/attributes/restSearch`, and paste each body in the request editor.
+The first request omits the policy tag and has no time cutoff:
+
+![The MISP 3.0 REST client staged with the regular-data query: published IDS attributes, NOT expireMeInAMonth, and page 1. No time restriction or live key is present.](figures/misp3-export-regular-query.png)
+
+The second includes the tag and the run's fixed publication cutoff:
+
+![The MISP 3.0 REST client staged with the tagged-feed query and a numeric publication cutoff. Use the same cutoff on every page in that run; the request has not been sent.](figures/misp3-export-recent-query.png)
+
+Use your own key when actually sending the requests, following [authentication and headers](#api-headers).
+For a script, use the [request helper](#api-first-request) to send each body to **`/attributes/restSearch`**:
 
 ```bash
 misp_api POST /attributes/restSearch --data @regular-data.json
