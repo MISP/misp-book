@@ -1,0 +1,14 @@
+flowchart TB
+  accTitle: Combine two exports while retaining feed history
+  accDescr: MISP retains imported history for correlation. The exporter applies the same account visibility, publication, IDS and source filters to two requests. The first excludes the feed policy tag without a time cutoff. The second includes that tag and applies one absolute publication cutoff computed at the start of the run. After all pages of both requests succeed, their union replaces or reconciles the destination's managed detections. A request failure leaves the previous destination set in place.
+  S["MISP imported observations<br/>History stays available for correlation"]
+  S -->|"Read without deleting"| B["Same baseline filters<br/>Account scope · published · IDS"]
+  B -->|"Query 1"| A["Without expireMeInAMonth<br/>No publication cutoff"]
+  B -->|"Query 2"| T["With expireMeInAMonth<br/>Published since fixed cutoff"]
+  A -->|"Every page succeeds"| U["Union of both complete results<br/>Reconcile UUIDs and duplicate values"]
+  T -->|"Every page succeeds"| U
+  U -->|"Replace or reconcile managed set"| D["SIEM / NIDS detections<br/>Withdraw entries outside the union"]
+  B -. "Any request fails" .-> F["Keep previous destination set<br/>Retry the export"]
+  class S,B,A,T accent;
+  class U,D success;
+  class F caution;

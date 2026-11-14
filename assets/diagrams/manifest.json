@@ -36,6 +36,13 @@
       "viewBox": "0 0 1003.921875 452"
     },
     {
+      "source": "automation/figures/feed-export-policy.mmd",
+      "file": "automation/figures/feed-export-policy.svg",
+      "source_sha256": "94de215c4d5490fe6530d4ff66265512bd32a4f9ad2f53e44091d64638d0d90f",
+      "sha256": "b39d917a19453c80db097b5719cbcb26b29eb9a1accff64737d13d4d71436139",
+      "viewBox": "0 0 817.0859375 879.800048828125"
+    },
+    {
       "source": "automation/figures/incremental-polling.mmd",
       "file": "automation/figures/incremental-polling.svg",
       "source_sha256": "2bb8c7e2fd8f9e37d9aabba968fb3b76d4a9bf292f2814bdb121c73e6c629101",
@@ -97,6 +104,13 @@
       "source_sha256": "b4eb9e3c9b86106c32662a190f554ea2360147cd032d00496e6e4a5ec41da210",
       "sha256": "1f3cfeafe9e15c169f2cf9e8aef9a7e7086c4a9ec6cd25e0933d28037be26479",
       "viewBox": "0 0 938.5625 434.3999938964844"
+    },
+    {
+      "source": "decaying-models/figures/decay-export-policy.mmd",
+      "file": "decaying-models/figures/decay-export-policy.svg",
+      "source_sha256": "6f0713d5e3ddbb31763ab6fe733f90498533141c090f9653fc86e20220faf099",
+      "sha256": "4c4fe410c28e0604b10aebf91df28b31f2f4ed1b9b6caeb4c7da7374dfcf4778",
+      "viewBox": "0 0 310.625 794.9999389648438"
     },
     {
       "source": "faq/figures/diagnose-before-changing.mmd",

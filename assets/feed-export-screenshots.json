@@ -1,0 +1,114 @@
+{
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "0aaeb964b4e2330d081d8b36050744df3ebe0819",
+  "misp_version": "3.0.0",
+  "theme": "Overmind, light",
+  "generated_at": "2026-11-14T17:44:49.686255+00:00",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "runtime_note": "Existing local capture instance, updated to the pinned 3.0_wip checkout. The mounted FeedsController.php and Event.php hashes were compared with the host checkout. PHP development server and existing isolated MariaDB/Redis fixture services were restarted.",
+  "submodules": {
+    "app/Lib/cakephp": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "app/files/misp-iconify": "191c7481a4dea3aad043e579ec3e6af8dc41e1e6"
+  },
+  "capture_method": "Chromium via Playwright against the running application. Feed form captured from its real modal through Feeds > Add Feed, rather than opening the modal fragment as a standalone page. REST bodies were entered in the editor; its native resize handle was dragged to show the complete query. No image retouching or injected CSS.",
+  "fixture": {
+    "feed_name": "Documentation: 30-day export policy",
+    "source_format": "csv",
+    "url": "https://feed.example.org/indicators.csv",
+    "default_tag": "expireMeInAMonth",
+    "default_tag_collection": null,
+    "distribution": 0,
+    "auto_publish": false,
+    "disable_correlation": false,
+    "override_ids": true,
+    "feed_saved": false,
+    "feed_fetched": false,
+    "rest_requests_sent": false,
+    "authorization_placeholder": "YOUR_API_KEY",
+    "fixed_publish_timestamp": 1792086246,
+    "regular_query": {
+      "returnFormat": "json",
+      "published": true,
+      "to_ids": true,
+      "tags": {
+        "NOT": [
+          "expireMeInAMonth"
+        ]
+      },
+      "limit": 100,
+      "page": 1
+    },
+    "recent_query": {
+      "returnFormat": "json",
+      "published": true,
+      "to_ids": true,
+      "tags": {
+        "OR": [
+          "expireMeInAMonth"
+        ]
+      },
+      "limit": 100,
+      "page": 1,
+      "publish_timestamp": 1792086246
+    }
+  },
+  "configuration_notes": [
+    "The recipe requests are staged, not evidence of detector results or a live export.",
+    "The local fixture uses loopback HTTP; documentation integrations require HTTPS with certificate verification.",
+    "No credentials are committed. The only new fixture record is the local example policy tag."
+  ],
+  "captures": [
+    {
+      "file": "managing-feeds/figures/misp3-feed-export-tag.png",
+      "url": "/feeds/index",
+      "description": "Unsaved Add Feed dialog opened from the feed list, with policy tag expireMeInAMonth, distribution 0, correlation enabled, IDS override on, and auto publish off.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1900
+      },
+      "scale": 1,
+      "image_size": {
+        "width": 1140,
+        "height": 1820
+      },
+      "sha256": "fc01d5d96dd68c2aa62ce8d2cfaccafce41bef54c081de0d869859466f4ee63e"
+    },
+    {
+      "file": "automation/figures/misp3-export-regular-query.png",
+      "url": "/api/rest",
+      "description": "Unsent POST /attributes/restSearch excluding expireMeInAMonth, published and IDS enabled, without a time cutoff.",
+      "role": "Site administrator",
+      "selector": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "8f39d4a8d72c7798021d3a0c1126adbc7ea9efedf894c1edaced804c819387e7"
+    },
+    {
+      "file": "automation/figures/misp3-export-recent-query.png",
+      "url": "/api/rest",
+      "description": "Unsent POST /attributes/restSearch including expireMeInAMonth and one absolute publication cutoff, with published and IDS enabled.",
+      "role": "Site administrator",
+      "selector": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "644bde35a7b9e0b3974343ab70225ea9e6a79bd06f54f7603d98221ec4d713ff"
+    }
+  ]
+}
