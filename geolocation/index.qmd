@@ -80,7 +80,9 @@ Its SHA-256 is:
 
 ### Enable the handlers and review the results
 
-1. Have an administrator connect the [module service](../modules/index.qmd#modules-service-checks), enable the Import and Export families, then enable `gpx_import` and `gpx_export` in **Server Settings & Maintenance → Plugin settings**.
+1. Have a site administrator connect the [module service](../modules/index.qmd#modules-service-checks) and open **Administration → Server Settings & Maintenance → Integrations**.
+   On **Import modules**, configure and enable the Import service and `gpx_import`; on **Export modules**, configure and enable the Export service and `gpx_export`.
+   See [Configure MISP 3.0](../modules/index.qmd#modules-configuration) for the service URL, port and per-module settings.
    Confirm both identifiers appear in the running service's `/modules` response.
    These handlers run locally and require no provider account or external lookup.
 2. Create an event with distribution **Your organisation only** for the exercise.
