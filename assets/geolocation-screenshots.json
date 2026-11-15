@@ -75,7 +75,8 @@
     "Exact Python block in the chapter executed against the running MISP and module service, using local deployment URLs and credentials supplied outside source; same GPX bytes/hash.",
     "GeoJSON derivative uploaded, reviewed and saved through actual UI: 2 objects (1 geojson + 1 geolocation), 21 attributes, 1 contains reference. No datetime relations inferred from observed_at property.",
     "GeoJSON saved event with attachment data exported through running /query: byte-identical to derivative.",
-    "Native Show on map loads the original GPX attachment, reports 1 track (solid), draws the route and loads 12 final-zoom basemap tiles."
+    "Native Show on map loads the original GPX attachment, reports 1 track (solid), draws the route and loads 12 final-zoom basemap tiles.",
+    "Additional single-point map: first GPX-derived geolocation (object 8) opened through its actual object action menu; native dialog showed one marker, no line/circle geometry, coordinate readout 37.981504, 23.760233 and 12 loaded basemap tiles. No object data was changed."
   ],
   "limitations": [
     "The pinned core events/exportModule/gpx_export/17 action returned HTTP 200 application/gpx+xml with zero bytes. Event::export does not request attachment data and the current export handlers do not supply fetch_options; module error data is not rendered by this action. The chapter gives the tested attachment-aware API path.",
@@ -185,6 +186,36 @@
         "height": 902
       },
       "sha256": "c3006b03660559e7a266367462a1fc02429c2e99f7768ceefadba8d8b000eadb"
+    },
+    {
+      "file": "geolocation/figures/misp3-location-map.png",
+      "description": "Native Show on map dialog for the first saved GPX-derived geolocation, with one marker and its coordinate readout. No accuracy radius is supplied by this observation.",
+      "url": "/events/view/17/object:8#tab-objects",
+      "role": "Site administrator",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "sha256": "bbd9a4296aa4b4c4ad032a351a93137af14d22c087543467dbe9cf2910647cb2",
+      "captured_at": "2026-11-15T09:14:57.716735+00:00",
+      "source_object_id": 8,
+      "source_context": "GPX track 1 segment 1 point 1, from the already documented public Morning_Walk.gpx fixture",
+      "map_spec": {
+        "kind": "point",
+        "lat": "37.9815040",
+        "lon": "23.7602330",
+        "radius": ""
+      },
+      "tile_url": "https://a.tile.openstreetmap.fr",
+      "loaded_tiles": 12,
+      "visible_markers": 1,
+      "visible_geometry_paths": 0,
+      "coordinate_readout": "37.981504, 23.760233",
+      "image_size": {
+        "width": 800,
+        "height": 604
+      },
+      "selector": ".modal.show .modal-content"
     }
   ],
   "book_validation": {
@@ -196,9 +227,9 @@
     ],
     "pdf_smoke": "Passed",
     "upstream_module_tests": "294 passed",
-    "offline_internal_links": "6790 links checked, 0 errors",
-    "html_layout": "1440px and 390px viewports: 7 images loaded, no document horizontal overflow",
-    "review": "Screenshots and shared-theme Mermaid figure visually inspected; chapter PDF pages inspected."
+    "offline_internal_links": "6793 links checked, 0 errors",
+    "html_layout": "1440px and 390px viewports: 8 images loaded, no document horizontal overflow",
+    "review": "Screenshots and shared-theme Mermaid figure visually inspected; the additional single-point map and caption were checked in the rendered PDF and its unchanged screenshot bytes verified in EPUB."
   },
   "public_fixture_verification": {
     "public_repository": "MISP/misp-modules",

@@ -127,6 +127,13 @@ From an object's three-dot action menu in the Objects tab, choose **Show on map*
 The current interface supports coordinate-bearing `geolocation` objects, `gpx` and `geojson` attachments, and `uav` flight paths.
 It draws GPX tracks as solid lines and distinguishes routes; a point with an accuracy radius can show its uncertainty circle.
 
+Open **Show on map** on the first `geolocation` object to inspect one observation at `37.9815040, 23.7602330`.
+The map displays a single marker and a coordinate readout for the selected point.
+
+![MISP's native Show on map dialog displays the first imported geolocation as a single marker, with its coordinates below the map.](figures/misp3-location-map.png)
+
+Open the parent `gpx` object's map to inspect the complete recorded track.
+
 ![MISP's native Show on map dialog reads the stored GPX attachment and draws its single track over OpenStreetMap tiles.](figures/misp3-gpx-map.png)
 
 The General tab also provides geographic object views, but these are bounded summaries.
@@ -141,7 +148,7 @@ Apply the event/object/attribute distribution and any sharing-group policy to th
 See [Sharing](../sharing/index.qmd) for those controls.
 Map tile requests also reveal the viewed area to the configured tile provider; use the deployment's approved service.
 
-The captured map uses `https://a.tile.openstreetmap.fr` as the configured tile URL.
+The captured maps use `https://a.tile.openstreetmap.fr` as the configured tile URL.
 Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright); the humanitarian style is by the [Humanitarian OpenStreetMap Team](https://www.hotosm.org/) and the tiles are hosted by [OpenStreetMap France](https://www.openstreetmap.fr/).
 
 ## Use GeoJSON for geographic geometry {#geo-geojson}
