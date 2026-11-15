@@ -1,0 +1,211 @@
+{
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "0aaeb964b4e2330d081d8b36050744df3ebe0819",
+  "misp_version": "3.0.0",
+  "theme": "Overmind, light",
+  "generated_at": "2026-11-15T08:21:03.859825+00:00",
+  "misp_modules": {
+    "commit": "47eb69eab4ab1da6f6464992bd8e470e602ac800",
+    "pymisp_version": "2.5.34.4",
+    "catalogue_whitelist": [
+      "gpx_import",
+      "gpx_export",
+      "geojson_import",
+      "geojson_export",
+      "csvimport",
+      "extract_url_components"
+    ],
+    "runtime_note": "Current upstream handler code copied unchanged into the existing Python 3.12 module container. A loader wrapper restricts discovery to the listed handlers; it does not rewrite their requests or responses."
+  },
+  "object_templates": {
+    "reference_commit": "b22919c9fccef9f73964f5bea0c8548ebe3cbf13",
+    "checked_core_submodule": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326",
+    "registered_versions": {
+      "geolocation": 8,
+      "gpx": 1,
+      "geojson": 1
+    },
+    "note": "GPX definition in the checked core submodule matches current upstream. Module-side PyMISP bundles all required templates."
+  },
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "capture_method": "Chromium via Playwright against the running application; real modal upload and review, final UI save, REST verification, native map action. No image retouching, injected CSS, mocked responses or fabricated tiles.",
+  "network_notes": [
+    "Local service hostnames were added to the proxy bypass list so MISP can reach the module service. Existing network proxy settings were otherwise retained.",
+    "Map enabled; Geolocation_url=https://a.tile.openstreetmap.fr. The default geo.circl.lu tile service timed out in the capture environment.",
+    "Chromium uses the managed network proxy and SPKI pins for its installed CA certificates. Production API example retains requests certificate verification.",
+    "Map data: OpenStreetMap contributors; HOT style: Humanitarian OpenStreetMap Team; tiles: OpenStreetMap France. Attribution links appear in the chapter."
+  ],
+  "fixture": {
+    "file": "geolocation/examples/Morning_Walk.gpx",
+    "source": "User-supplied upload, byte-identical to misp-modules/tests/fixtures/gpx/Morning_Walk.gpx at the pinned commit.",
+    "sha256": "77e36202f8bb56cbc31c5bf5cc1ab104841a368c0c9e206853a9110f1b6170a8",
+    "bytes": 197419,
+    "tracks": 1,
+    "segments": 1,
+    "points": 606,
+    "routes": 0,
+    "waypoints": 0,
+    "first_timestamp": "2026-11-13T05:52:57Z",
+    "last_timestamp": "2026-11-13T06:52:26Z",
+    "bounds": {
+      "min_latitude": 37.981504,
+      "max_latitude": 38.012107,
+      "min_longitude": 23.760233,
+      "max_longitude": 23.785524
+    }
+  },
+  "geojson_derivative": {
+    "file": "geolocation/examples/Morning_Walk.geojson",
+    "sha256": "d5e205b58d7f6f2edf4b1f28bd61b8eca682afaeb20ffa5c1a26b057ac39621c",
+    "features": 2,
+    "geometry_types": [
+      "Point",
+      "LineString"
+    ],
+    "positions": 607,
+    "note": "First point plus all 606 track positions, with reported elevation. A teaching derivative; sensor extensions, GPX segment semantics and all timestamps are not transferred."
+  },
+  "verified_behavior": [
+    "Upstream pytest tests/test_gpx_import.py tests/test_gpx_export.py tests/test_geojson.py: 294 passed, one importlib deprecation warning.",
+    "GPX selected/uploaded through Populate from, reviewed and saved through actual UI: 607 objects (1 gpx + 606 geolocation), 4263 attributes, 606 contains references. Every contains target matches one saved location UUID.",
+    "All imported GPX attributes to_ids=false; event distribution=0, unpublished.",
+    "First track point: 37.9815040,23.7602330,altitude=135.8; epsg=4326; spacial-reference=WGS84 EPSG:4326; first-seen=last-seen=2026-11-13T05:52:57Z. Object generic Seen fields remain empty.",
+    "GPX event fetched through events/restSearch with withAttachments=true, sent to gpx_export through running /query: 197419 bytes, SHA-256 identical to source. No duplicate waypoints.",
+    "Exact Python block in the chapter executed against the running MISP and module service, using local deployment URLs and credentials supplied outside source; same GPX bytes/hash.",
+    "GeoJSON derivative uploaded, reviewed and saved through actual UI: 2 objects (1 geojson + 1 geolocation), 21 attributes, 1 contains reference. No datetime relations inferred from observed_at property.",
+    "GeoJSON saved event with attachment data exported through running /query: byte-identical to derivative.",
+    "Native Show on map loads the original GPX attachment, reports 1 track (solid), draws the route and loads 12 final-zoom basemap tiles."
+  ],
+  "limitations": [
+    "The pinned core events/exportModule/gpx_export/17 action returned HTTP 200 application/gpx+xml with zero bytes. Event::export does not request attachment data and the current export handlers do not supply fetch_options; module error data is not rendered by this action. The chapter gives the tested attachment-aware API path.",
+    "External IP geolocation providers were documented from source, not queried or simulated.",
+    "Combined event geographic overview is capped at 200 objects per template. Screenshot uses the dataset map, which reads the full attachment.",
+    "No event was published or synchronized. Private local training events remain only on the isolated capture instance."
+  ],
+  "source_references": [
+    "app/Controller/EventsController.php: importModule and exportModule",
+    "app/Model/Event.php: export",
+    "app/Lib/Tools/EventOverview/EventObjectViewsTool.php",
+    "app/View/Themed/Overmind/Elements/Objects/object_map_button.ctp",
+    "app/webroot/js/object-map.js",
+    "misp_modules/modules/import_mod/gpx_import.py",
+    "misp_modules/modules/export_mod/gpx_export.py",
+    "misp_modules/modules/import_mod/geojson_import.py",
+    "misp_modules/modules/export_mod/geojson_export.py",
+    "misp_modules/modules/expansion/{geoip_city,geoip_country,geoip_asn,ip2locationio,ipgeolocation,geoplugin}.py"
+  ],
+  "captures": [
+    {
+      "file": "geolocation/figures/misp3-gpx-upload.png",
+      "description": "GPX file selected in the actual Populate from modal, before running the handler.",
+      "url": "/events/view/17",
+      "role": "Site administrator",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "image_size": {
+        "width": 1140,
+        "height": 830
+      },
+      "sha256": "b83e51c35cd64178c55d245928d2e3ffbf6de355ca8b86aacf188a208cb3a18d"
+    },
+    {
+      "file": "geolocation/figures/misp3-gpx-review.png",
+      "description": "Full-file review before saving: 607 objects, 4263 attributes.",
+      "url": "/events/importModule/gpx_import/17",
+      "role": "Site administrator",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "image_size": {
+        "width": 1140,
+        "height": 902
+      },
+      "sha256": "afcfe5f5826a206878821046b00c435c90ef7a3bf75baac9d1850b884cb291f1"
+    },
+    {
+      "file": "geolocation/figures/misp3-gpx-object.png",
+      "description": "Saved dataset filtered and expanded in the event Objects tab; 21 attributes and 606 outgoing references.",
+      "url": "/objects/view/614",
+      "role": "Site administrator",
+      "viewport": {
+        "width": 1440,
+        "height": 1500
+      },
+      "image_size": {
+        "width": 1440,
+        "height": 1500
+      },
+      "sha256": "16feca1d9d402b09c7655c647715c92c10dfabf292e2f234a9a3ac224f7bcf9b"
+    },
+    {
+      "file": "geolocation/figures/misp3-location-object.png",
+      "description": "First saved track observation with coordinates, CRS, elevation and datetime relations; object Seen metadata remains empty.",
+      "url": "/objects/view/8",
+      "role": "Site administrator",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e1888e9aa85361264e8cbb8555c06516b5d5ec9f278164d9988b30b595c4cb4c"
+    },
+    {
+      "file": "geolocation/figures/misp3-gpx-map.png",
+      "description": "Native object action Show on map reads the attachment and draws one complete track; 12 final-zoom map tiles loaded.",
+      "url": "/events/view/17/object:614#tab-objects",
+      "role": "Site administrator",
+      "viewport": {
+        "width": 1440,
+        "height": 1500
+      },
+      "image_size": {
+        "width": 800,
+        "height": 604
+      },
+      "sha256": "8cdd9c4065752867832ff15c2ca9d127baaaf96fc61172e06d5d0a1b8a93cc54"
+    },
+    {
+      "file": "geolocation/figures/misp3-geojson-review.png",
+      "description": "Actual comparison import review: one Point observation plus dataset retaining Point and LineString; 2 objects and 21 attributes.",
+      "url": "/events/importModule/geojson_import/18",
+      "role": "Site administrator",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "image_size": {
+        "width": 1140,
+        "height": 902
+      },
+      "sha256": "c3006b03660559e7a266367462a1fc02429c2e99f7768ceefadba8d8b000eadb"
+    }
+  ],
+  "book_validation": {
+    "quarto_version": "1.9.38",
+    "formats": [
+      "html",
+      "typst/pdf",
+      "epub"
+    ],
+    "pdf_smoke": "Passed",
+    "upstream_module_tests": "294 passed",
+    "offline_internal_links": "6790 links checked, 0 errors",
+    "html_layout": "1440px and 390px viewports: 7 images loaded, no document horizontal overflow",
+    "review": "Screenshots and shared-theme Mermaid figure visually inspected; chapter PDF pages inspected."
+  },
+  "public_fixture_verification": {
+    "public_repository": "MISP/misp-modules",
+    "public_path": "tests/fixtures/gpx/Morning_Walk.gpx",
+    "public_commit": "47eb69eab4ab1da6f6464992bd8e470e602ac800",
+    "github_api_blob_sha": "6ab6e42eabbf497f834ce101cff9d4a34a2106a6",
+    "uploaded_file_git_blob_sha": "6ab6e42eabbf497f834ce101cff9d4a34a2106a6",
+    "result": "GitHub fetch_file returned this public blob SHA; local git hash-object on the uploaded file returned the identical SHA. The documented coordinates, timestamps and map geometry come from the already-public fixture, with no additional private track data."
+  }
+}

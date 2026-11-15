@@ -10,6 +10,8 @@ Use it to turn observations into structured context, exchange data with other to
 The Python service can also be used independently through its HTTP API, a dedicated website or a command-line client.
 For examples spanning SOC/SOAR, existing data pipelines and other CTI platforms, see the [TIP integration capability guide](../what-misp-can-do/index.qmd#tip-modules-integrations).
 
+For geographic datasets, see the [geolocation and movement use case](../geolocation/index.qmd): GPX/GeoJSON import and export, preserved attachments, map views and IP geolocation enrichment.
+
 Start with the [module catalogue](https://misp-project.org/modules/) to find an integration, then check what your running service actually provides.
 A module may process data locally, query a provider or submit information to another system; its input contract and effects determine how to use it.
 

@@ -1,0 +1,14 @@
+flowchart TB
+  accTitle: Preserve a geographic dataset and link its observations
+  accDescr: A GPX file is reviewed after import. One dataset stores the original attachment and contains linked geolocation observations. The map reads the attachment, and GPX export preserves it without duplicating linked points. Standalone points can also be exported as waypoints.
+  A[GPX file] -->|gpx_import| R[Review module results]
+  R -->|save| D[gpx dataset object]
+  D -->|attachment and hashes| F[Original bytes, tracks and extensions]
+  D -->|contains| P["geolocation observations<br/>Coordinates and observation times"]
+  F -->|Show on map| M[Track representation]
+  F -->|gpx_export| E[GPX download]
+  P -.->|already in dataset: skip duplicates| E
+  S[Standalone geolocation] -->|export as waypoint| E
+  class A,R,D accent;
+  class F,P,S muted;
+  class E success;
