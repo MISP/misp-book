@@ -11,6 +11,7 @@ These references cover authentication, access-control inspection, companion proj
 background processing. Use the installed branch's settings and implementation together with
 the deployment's configuration process; service paths and role IDs are not universal defaults.
 The [MISP as a Threat Intelligence Platform](../what-misp-can-do/index.qmd) annex maps practical outcomes to capabilities and implementation chapters.
+For the project's origins, community, CIRCL stewardship and open standards, read [MISP: A Community History, 2011–2026](../history/index.qmd).
 The [glossary](../glossary.qmd#glossary-a-c) explains the terminology used throughout the guide.
 
 ::: {.callout-note}
