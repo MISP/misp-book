@@ -2,6 +2,8 @@
 title: "Acknowledgements"
 ---
 
+The [historical appendix](../history/index.qmd) traces the project's origins, CIRCL stewardship and the community behind its software and standards.
+
 The MISP User Guide is a collaborative effort involving contributors to [MISP](https://github.com/MISP), including:
 
 - Belgian Ministry of Defence (CERT)

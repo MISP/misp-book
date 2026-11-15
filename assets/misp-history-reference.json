@@ -1,0 +1,384 @@
+{
+  "chapter": "history/index.qmd",
+  "coverage_end": "2026-11-15",
+  "reviewed_on": "2026-11-15",
+  "sources": [
+    {
+      "id": "origins",
+      "url": "https://www.misp-project.org/who/",
+      "supports": "Founding account and early contributors."
+    },
+    {
+      "id": "governance",
+      "url": "https://www.misp-project.org/governance/",
+      "supports": "Community input, prioritization, CIRCL resources and funding."
+    },
+    {
+      "id": "circl",
+      "url": "https://www.circl.lu/services/misp-malware-information-sharing-platform/",
+      "supports": "CIRCL development and community operation; broad intelligence scope."
+    },
+    {
+      "id": "circl-institution",
+      "url": "https://www.circl.lu/",
+      "supports": "CIRCL role and Luxembourg House of Cybersecurity relationship."
+    },
+    {
+      "id": "sponsors",
+      "url": "https://www.misp-project.org/thanks/",
+      "supports": "Wider sponsorship and sustainability support."
+    },
+    {
+      "id": "stewardship-case-study",
+      "url": "https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/document/case-study-misp",
+      "supports": "2026-09-25 interview-based account of the transition to CIRCL stewardship."
+    },
+    {
+      "id": "drafts-2016",
+      "url": "https://www.misp-project.org/2016/10/21/MISP-Internet-Drafts-Published.html/",
+      "supports": "2016-10-21 format documentation milestone."
+    },
+    {
+      "id": "galaxy-2016",
+      "url": "https://www.misp-project.org/2016/12/07/MISP.2.4.56.released.html/",
+      "supports": "Galaxy introduction in 2.4.56."
+    },
+    {
+      "id": "objects-2017",
+      "url": "https://www.misp-project.org/2017/09/18/MISP.2.4.80.released.html/",
+      "supports": "Object templates and relationships in 2.4.80."
+    },
+    {
+      "id": "standards-history",
+      "url": "https://www.misp-standard.org/about/",
+      "supports": "2016 documentation, 2017 templates and 2019 standards initiative; five standards by November 2019."
+    },
+    {
+      "id": "published-standards",
+      "url": "https://www.misp-standard.org/standards/",
+      "supports": "Scope of current published MISP specifications."
+    },
+    {
+      "id": "standards-process",
+      "url": "https://www.misp-standard.org/committee/",
+      "supports": "Open participation, proposals, review and Internet-Draft publication."
+    },
+    {
+      "id": "release-2024",
+      "url": "https://www.misp-project.org/2024/11/19/MISP.2.5.2.released.html/",
+      "supports": "2.5 modernization, community feedback and independent knowledge-library versioning."
+    },
+    {
+      "id": "early-access-2026",
+      "url": "https://www.misp-project.org/2026/10/16/misp.3.0-early-access.html/",
+      "supports": "Announcement date 2026-10-16; features, evaluation status and hack.lu reveal trailer."
+    },
+    {
+      "id": "hacklu-2026",
+      "url": "https://hack.lu/blog/hack.lu-2026-agenda-is-live/",
+      "supports": "20th edition held 2026-10-20 through 2026-10-23 in Luxembourg."
+    }
+  ],
+  "website_snapshot": {
+    "repository": "MISP/misp-website",
+    "commit": "505e3e28354e9141c4de1523e5c0911632c45d74",
+    "files": [
+      {
+        "path": "content/blog/MISP-Internet-Drafts-Published.md",
+        "sha": "44561042fbd3da4e2d70dfefd08a39e58b29f8f2",
+        "url": "https://github.com/MISP/misp-website/blob/505e3e28354e9141c4de1523e5c0911632c45d74/content/blog/MISP-Internet-Drafts-Published.md"
+      },
+      {
+        "path": "content/blog/MISP.2.4.56.released.md",
+        "sha": "d7f29beb120f7a41ac7a94f959a1d827136b31e3",
+        "url": "https://github.com/MISP/misp-website/blob/505e3e28354e9141c4de1523e5c0911632c45d74/content/blog/MISP.2.4.56.released.md"
+      },
+      {
+        "path": "content/blog/MISP.2.4.80.released.md",
+        "sha": "e60d791504cda03db885d71827a33324970fba5c",
+        "url": "https://github.com/MISP/misp-website/blob/505e3e28354e9141c4de1523e5c0911632c45d74/content/blog/MISP.2.4.80.released.md"
+      },
+      {
+        "path": "content/blog/MISP.2.5.2.released.md",
+        "sha": "7cc56850265fd66ddf6ac27db7644bb353c8d1d7",
+        "url": "https://github.com/MISP/misp-website/blob/505e3e28354e9141c4de1523e5c0911632c45d74/content/blog/MISP.2.5.2.released.md"
+      },
+      {
+        "path": "content/blog/MISP.3.0-early-access.md",
+        "sha": "2d4e40d6f21a26866e89e29a16a302806b9d4cea",
+        "url": "https://github.com/MISP/misp-website/blob/505e3e28354e9141c4de1523e5c0911632c45d74/content/blog/MISP.3.0-early-access.md"
+      },
+      {
+        "path": "content/governance.md",
+        "sha": "c1427688fc025e4e2a35a12f499397646b1a3563",
+        "url": "https://github.com/MISP/misp-website/blob/505e3e28354e9141c4de1523e5c0911632c45d74/content/governance.md"
+      },
+      {
+        "path": "content/who.md",
+        "sha": "e103d8a4d7f72ff5ad9ece81b552472df061b734",
+        "url": "https://github.com/MISP/misp-website/blob/505e3e28354e9141c4de1523e5c0911632c45d74/content/who.md"
+      }
+    ]
+  },
+  "repository_selection": {
+    "method": "Public organization repository catalogue retrieved on the review date, followed by repository README review. Selection is representative, not a complete catalogue or a compatibility/maturity guarantee. Repository creation timestamps were not used as software release dates.",
+    "catalogue_url": "https://github.com/orgs/MISP/repositories",
+    "repositories": [
+      {
+        "name": "MISP",
+        "url": "https://github.com/MISP/MISP",
+        "default_branch": "2.5",
+        "description": "MISP (core software) - Open Source Threat Intelligence and Sharing Platform",
+        "readme_blob_sha": "238d18884b7a7fb789c48ec99ada71fc1183f3c4",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "MISP-Fleet-Commander",
+        "url": "https://github.com/MISP/MISP-Fleet-Commander",
+        "default_branch": "main",
+        "description": "Web application to manage your MISP communities easily",
+        "readme_blob_sha": "ef61b0ee335cc66f1f72bf6c649e5b430706019e",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "PyMISP",
+        "url": "https://github.com/MISP/PyMISP",
+        "default_branch": "main",
+        "description": "Python library using the MISP Rest API",
+        "readme_blob_sha": "b55a67f483fbdb947515007cd5b2b4337b8d28e0",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "RustMISP",
+        "url": "https://github.com/MISP/RustMISP",
+        "default_branch": "main",
+        "description": "Rust implementation of PyMISP",
+        "readme_blob_sha": "9a9b8f0083a9bb552b9e2f62030f3cc7530592f5",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "bsimvis",
+        "url": "https://github.com/MISP/bsimvis",
+        "default_branch": "main",
+        "description": "BSimVis is a tool to analyze similarities across a collection of binaries, based on Ghidra analyzers and the BSim (Behavioral Similarity) plugin. It provides an API and Web interface to upload large quantities of decompiled binaries and BSim feature vectors to a Kvrocks database for similarity analysis, function diffing, and family clustering.",
+        "readme_blob_sha": "03576549bfda8b11a90514a506c598ef0ddf2f00",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "cti-transmute",
+        "url": "https://github.com/MISP/cti-transmute",
+        "default_branch": "main",
+        "description": "An online service for converting cyber threat intelligence format, built to promote interoperability and seamless data exchange",
+        "readme_blob_sha": "7f149d9eea6ddf62035a946a4779fac5274e1968",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-airgap",
+        "url": "https://github.com/MISP/misp-airgap",
+        "default_branch": "main",
+        "description": "Scripts to deploy and update MISP in air-gapped environments",
+        "readme_blob_sha": "0392bb8a6f4980977c0c3b9592c1de4b59fc2cab",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-book",
+        "url": "https://github.com/MISP/misp-book",
+        "default_branch": "main",
+        "description": "Everything about MISP",
+        "readme_blob_sha": null,
+        "book_source": true,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-docker",
+        "url": "https://github.com/MISP/misp-docker",
+        "default_branch": "master",
+        "description": "A production ready Dockered MISP",
+        "readme_blob_sha": "4675d637bb9726357a4d5eb987982ad01203610c",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-engineering-bay",
+        "url": "https://github.com/MISP/misp-engineering-bay",
+        "default_branch": "main",
+        "description": "Whether you are a threat intelligence analyst crafting new object templates, a developer extending MISP's data model, or a maintainer reviewing community contributions, the tools in this repository aim to reduce friction and eliminate the need to manually work with raw data formats.",
+        "readme_blob_sha": "ea9cb40517104041d5799ec89ca8a8a609a390ac",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-event-templates",
+        "url": "https://github.com/MISP/misp-event-templates",
+        "default_branch": "main",
+        "description": "A community-maintained, versioned library of event templates for the MISP threat-intelligence sharing platform.",
+        "readme_blob_sha": "6a2f7894d3841707922ac90696b4c553c328d18a",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-feedback",
+        "url": "https://github.com/MISP/misp-feedback",
+        "default_branch": "main",
+        "description": "A high-performance warninglist lookup engine that checks indicators of compromise (IOCs) against MISP warninglists. It identifies false positives by matching values against 120+ curated lists of known-good infrastructure: cloud provider IP ranges, top domain rankings, public DNS resolvers, certificate authorities, and more.",
+        "readme_blob_sha": "cd376b2e74c0530b520fd773a3f8a75d0a1278a8",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-galaxy",
+        "url": "https://github.com/MISP/misp-galaxy",
+        "default_branch": "main",
+        "description": "Clusters and elements to attach to MISP events or attributes (like threat actors)",
+        "readme_blob_sha": "8d8fcd1972890741602268b709c9ff6bd27d70f5",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-galaxy-mcp",
+        "url": "https://github.com/MISP/misp-galaxy-mcp",
+        "default_branch": "main",
+        "description": "A small Model Context Protocol (MCP) server for searching the MISP galaxy knowledge base.",
+        "readme_blob_sha": "0e46ec785905cdc664fe756fc42b1391ce25a0d5",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-global-search",
+        "url": "https://github.com/MISP/misp-global-search",
+        "default_branch": "main",
+        "description": "A global search of all MISP galaxy, objects and taxonomy.",
+        "readme_blob_sha": "dd4cf4032135b5c72faf83e1f2b38ecae0159c9a",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-mcp",
+        "url": "https://github.com/MISP/misp-mcp",
+        "default_branch": "main",
+        "description": "Turn your MISP into an MCP service",
+        "readme_blob_sha": "d24fa2d817d9b8023b3fd7b87309ac0724398e52",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-modules",
+        "url": "https://github.com/MISP/misp-modules",
+        "default_branch": "main",
+        "description": "Modules for expansion services, enrichment, import and export in MISP and other tools.",
+        "readme_blob_sha": "2a7249996f6e55c9b20eec98214b3757cb0d3f50",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-noticelist",
+        "url": "https://github.com/MISP/misp-noticelist",
+        "default_branch": "main",
+        "description": "Notice lists to inform users of MISP about legal or technical implication for some attributes, categories and objects",
+        "readme_blob_sha": "718b30637605a2589fdf16ba43595156a1d2e67e",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-objects",
+        "url": "https://github.com/MISP/misp-objects",
+        "default_branch": "main",
+        "description": "Definition, description and relationship types of MISP objects ",
+        "readme_blob_sha": "9b379f49a5d7daa4d6c973bcca3df9dc9cb4a2e5",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-playbooks",
+        "url": "https://github.com/MISP/misp-playbooks",
+        "default_branch": "main",
+        "description": "MISP Playbooks",
+        "readme_blob_sha": "946cd1be501cdb78789aa6fa58ad8329b47bc31e",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-rfc",
+        "url": "https://github.com/MISP/misp-rfc",
+        "default_branch": "main",
+        "description": "Specifications used in the MISP project including MISP core format",
+        "readme_blob_sha": "0787738b1789c3e18a808309585c352a57ea12f4",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-stix",
+        "url": "https://github.com/MISP/misp-stix",
+        "default_branch": "main",
+        "description": "MISP-STIX-Converter - Python library to handle the conversion between MISP and STIX formats",
+        "readme_blob_sha": "8b7437293e8add0a39d354b6de9d730e571cb5b5",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-taxonomies",
+        "url": "https://github.com/MISP/misp-taxonomies",
+        "default_branch": "main",
+        "description": "Taxonomies used in MISP taxonomy system and can be used by other information sharing tool.",
+        "readme_blob_sha": "f49994d0b438fc2100129e3a05993f5063c188c4",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-training",
+        "url": "https://github.com/MISP/misp-training",
+        "default_branch": "main",
+        "description": "MISP trainings, threat intel and information sharing training materials with source code",
+        "readme_blob_sha": "0d446266d9e128795b6a473030566e17aa0caece",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-warninglists",
+        "url": "https://github.com/MISP/misp-warninglists",
+        "default_branch": "main",
+        "description": "Warning lists to inform users of MISP about potential false-positives or other information in indicators",
+        "readme_blob_sha": "5daddc0957f0cb623675537446ad19eb1e361891",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-workbench",
+        "url": "https://github.com/MISP/misp-workbench",
+        "default_branch": "main",
+        "description": "Built for the frontlines of cyber defense, our next-generation MISP empowers edge deployments and threat hunters with fast, lightweight, and actionable intelligence, anytime, anywhere.",
+        "readme_blob_sha": "9e0f231fe9f07bae2c19584fdcf3cb4e77fb0652",
+        "book_source": false,
+        "archived_at_review": false
+      },
+      {
+        "name": "misp-workflow-blueprints",
+        "url": "https://github.com/MISP/misp-workflow-blueprints",
+        "default_branch": "main",
+        "description": "Library of blueprints usable in MISP Workflows",
+        "readme_blob_sha": "1b8cdba4a30dee5d1b2f2ab71c756ae85ff11a77",
+        "book_source": false,
+        "archived_at_review": false
+      }
+    ]
+  },
+  "editorial_checks": [
+    "The 2011 founding is based on the project account, not the later GitHub repository creation date.",
+    "The initial prototype and the subsequent explicit public AGPL decision are distinguished.",
+    "The objects milestone is identified by year and the project announcement; no exact Git tag publication day is inferred.",
+    "The 16 October 2026 online Early Access announcement is distinguished from hack.lu 20th edition on 20–23 October. The conference presentation is part of the requested historical account, also supported by the announcement linking its hack.lu reveal trailer; no individual presentation day is invented.",
+    "Early Access is described as an evaluation milestone rather than a final production release.",
+    "CIRCL leadership is described alongside international community contributions; practical autonomy is explained through licensing, public formats and independently operated communities.",
+    "The standards initiative and published Internet-Drafts are not described as blanket IETF RFC adoption.",
+    "Core software and ecosystem repositories are not assumed to have identical licenses.",
+    "New companion tools are described as separate projects with their own architectures and release cycles."
+  ],
+  "attribution": "New prose synthesizes facts from the cited sources and the existing book; no website illustrations or long quotations are reproduced."
+}

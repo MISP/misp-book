@@ -1,0 +1,180 @@
+---
+title: "MISP: A Community History, 2011–2026"
+---
+
+MISP began with a practical frustration: useful threat information was difficult to turn into something another analyst or machine could use.
+Between 2011 and 2026, that experiment developed into an international community, an intelligence-sharing platform, reusable knowledge libraries, automation tools and open standards.
+Its scope grew from malware indicators to intelligence about incidents, vulnerabilities, fraud and other domains.
+
+**CIRCL, the Computer Incident Response Center Luxembourg, leads and maintains MISP with its international community.**
+That stewardship gives the project continuity, while open source, shared formats and distributed operation preserve the ability of organizations to run, adapt and connect their own systems.
+The history concerns people and institutions as much as releases: the software became useful because communities contributed their knowledge and experience alongside code.
+
+::: {.callout-note}
+This appendix covers the history through **15 November 2026**.
+MISP 3 Early Access was announced online on **16 October 2026** and presented during **hack.lu's 20th edition, 20–23 October 2026**.
+Early access and a final production release are different milestones.
+The dated sources below preserve that distinction; operational instructions belong in the guide's implementation chapters.
+:::
+
+<!-- Historical claims, repository references and date checks: ../assets/misp-history-reference.json -->
+
+## 2011–2013: from CyDefSIG to a collaborative project {#history-origins}
+
+In May 2011, **Christophe Vandeplas** began a CakePHP prototype at home to make indicators circulating in email and PDF documents usable by machines.
+He named it **CyDefSIG**, for Cyber Defence Signatures.
+He demonstrated it at Belgian Defence in July; official use there followed in August.
+
+NATO took an interest, with a presentation in January 2012 and development support that included **Andrzej Dereszowski**.
+During this early collaboration, the participants chose the **Affero GPL** for public release.
+**Alex Vandurme** proposed the name **Malware Information Sharing Project**, or MISP.
+
+In January 2013, **Andras Iklody** became the main full-time developer, initially employed by NATO.
+Adoption and advocacy by CERT-EU, CIRCL and other response teams widened the community.
+The project's [own history](https://www.misp-project.org/who/) records these beginnings and identifies Iklody as its lead developer at CIRCL.
+
+## Milestones in a growing ecosystem {#history-milestones}
+
+A release history records more than interface changes.
+These milestones show how MISP progressively made classification, context, data modeling and interoperability part of everyday information sharing.
+
+::: {.table-responsive}
+
+| Period | Milestone and significance |
+|---|---|
+| **2011–2013** | CyDefSIG became MISP, with Belgian Defence, NATO and an expanding response-team community contributing to its early development. See the [founding account](https://www.misp-project.org/who/). |
+| **2016** | On 21 October, the project [announced Internet-Drafts](https://www.misp-project.org/2016/10/21/MISP-Internet-Drafts-Published.html/) for its core and taxonomy formats. In December, [MISP 2.4.56 introduced Galaxy](https://www.misp-project.org/2016/12/07/MISP.2.4.56.released.html/), making shared contextual knowledge available alongside indicators. |
+| **2017** | [MISP 2.4.80 introduced objects](https://www.misp-project.org/2017/09/18/MISP.2.4.80.released.html/): related attributes could be modeled together through public templates and linked to other observations. The community could contribute representations without changing the core software for each new entity. |
+| **2019** | The [MISP Standard initiative](https://www.misp-standard.org/about/) gave the evolving formats a dedicated standards structure. Core, object-template, taxonomy, galaxy and SightingDB specifications were published by November 2019. |
+| **2024–2026** | The 2.5 series modernized the application while the knowledge libraries continued to evolve. The [November 2024 release account](https://www.misp-project.org/2024/11/19/MISP.2.5.2.released.html/) documents PHP 8-related work, richer workflows and independently versioned Galaxy, object and taxonomy libraries. |
+| **October 2026** | [MISP 3 Early Access](https://www.misp-project.org/2026/10/16/misp.3.0-early-access.html/) brought the next generation to community testing, alongside [hack.lu's 20th edition](https://hack.lu/blog/hack.lu-2026-agenda-is-live/). |
+
+:::
+
+The platform's broader identity followed its use.
+MISP now supports intelligence beyond malware, including fraud, vulnerability and physical-security information, as described by [CIRCL](https://www.circl.lu/services/misp-malware-information-sharing-platform/).
+The book's [geolocation use case](../geolocation/index.qmd) illustrates how the same structured model can preserve observations and their provenance outside a conventional indicator list.
+
+## CIRCL stewardship and practical autonomy {#history-stewardship}
+
+CIRCL is the project's primary steward, maintaining the software and supporting the people and infrastructure needed for its continued development.
+The European Commission's [2026 OSOR case study](https://interoperable-europe.ec.europa.eu/collection/open-source-observatory-osor/document/case-study-misp), informed by an interview with CIRCL, describes the gradual transition from the early Belgian Defence and NATO involvement to CIRCL's leadership.
+CIRCL is part of the Luxembourg House of Cybersecurity and also operates sharing communities, bringing operational experience back into development.
+
+This sustained public-interest stewardship matters because an intelligence-sharing capability needs maintenance across funding cycles, staff changes and changing threats.
+The project's [governance model](https://www.misp-project.org/governance/) describes how the core team gathers operational needs and prioritizes work across communities.
+CIRCL's support, other public funding and contributions from organizations and individuals help sustain that work; the [sponsors page](https://www.misp-project.org/thanks/) records the wider support network.
+
+Autonomy comes from combining that stewardship with freedoms that remain available to everyone using the project.
+An organization can operate its own instance, decide its sharing relationships, inspect the code, develop integrations and retain its data in documented formats.
+It can choose support arrangements and contribute improvements through public repositories.
+The platform's [distribution and synchronization mechanisms](../sharing/index.qmd) support independently operated communities rather than requiring every participant to place its intelligence in one central service.
+
+These choices reduce dependence on any one supplier or exclusive service and allow multiple actors to sustain and extend the work.
+CIRCL provides a durable center of expertise while the code, formats and reusable knowledge remain available to a much wider set of implementers, operators and contributors.
+Maintaining this autonomy also means investing in documentation, training, review and new maintainers, so that knowledge of the system can be shared as readily as its source code.
+
+## A community that builds both tools and knowledge {#history-community}
+
+MISP's community contributes through many kinds of work: incident-response experience, bug reports, security research, code review, translations, documentation, training and the maintenance of shared vocabularies and datasets.
+A new object template or a corrected Galaxy relationship can help many organizations without requiring a new core feature.
+An operator who explains a difficult deployment or an analyst who reports a confusing workflow contributes to the same engineering process.
+
+The [governance model](https://www.misp-project.org/governance/) explicitly draws input from user groups, GitHub discussions, training and community gatherings.
+The [November 2024 release account](https://www.misp-project.org/2024/11/19/MISP.2.5.2.released.html/) provides a concrete example: discussions at hack.lu and the CTI Summit informed subsequent development work.
+Conferences, summits and hackathons are therefore part of how operational needs become software and shared practice.
+
+There are also many communities using MISP, each with its own trust relationships and purpose.
+Sharing technology helps them exchange structured information while keeping responsibility for their own assessment and distribution decisions.
+This combination of technical interoperability and human trust is central to the project's value.
+
+The [Who page](https://www.misp-project.org/who/), [contributor history](https://github.com/MISP/MISP/graphs/contributors) and this guide's [acknowledgements](../acknowledgements/index.qmd) recognize different parts of that collective work.
+They complement one another: repository commits cannot record every useful conversation, operational test or act of community support.
+
+## Open source as a continuing commitment {#history-open-source}
+
+The early decision to publish under the Affero GPL established a deliberate commitment to collaborative development and reuse.
+The core [MISP software](https://github.com/MISP/MISP) is released under the GNU AGPLv3.
+The wider ecosystem uses repository-specific software and content licenses; shared data, client libraries and documentation need not have the same license as the core application.
+Their published terms are part of what makes reuse possible across organizations and tools.
+
+The commitment extends beyond making a web application available.
+It includes the formats needed to exchange intelligence, the knowledge libraries needed to interpret it, the interfaces needed to automate work, and the documentation needed to operate and improve the whole system.
+The aim is a complete, reusable chain from collecting observations to modeling, assessing, sharing and applying intelligence.
+The guide's [capability overview](../what-misp-can-do/index.qmd) describes how those parts work together in practice.
+
+This is especially important for intelligence at large.
+Different communities need different entities, vocabularies and analytical methods.
+Open templates and standards let those communities develop their models while retaining a common way to exchange information.
+They also let organizations build new tools around the same knowledge instead of having to recreate it inside a closed product.
+
+## The shared building blocks {#history-building-blocks}
+
+Four companion projects illustrate how MISP grew into an ecosystem.
+Their separate repositories allow knowledge, models and integrations to evolve alongside the application and to be reused elsewhere.
+
+::: {.table-responsive}
+
+| Project | Contribution to the shared capability |
+|---|---|
+| [MISP Taxonomies](https://github.com/MISP/misp-taxonomies) | Machine-readable classification vocabularies for markings, confidence, source assessment and many other purposes. They give communities a common language while allowing local choices. See [Taxonomies](../taxonomy/index.qmd). |
+| [MISP Galaxy](https://github.com/MISP/misp-galaxy) | Shared contextual knowledge about actors, tools, techniques and other entities, including relationships and alternative names. See [Galaxy](../galaxy/index.qmd). |
+| [MISP Objects](https://github.com/MISP/misp-objects) | Public templates for grouping related observations and describing their relationships. Communities can contribute models for their own domains. See [MISP Objects](../misp-objects/index.qmd). |
+| [misp-modules](https://github.com/MISP/misp-modules) | Extensible enrichment, import, export and workflow services, usable through an independent API as well as with MISP. They connect different sources and operational tools. See [Modules](../modules/index.qmd). |
+
+:::
+
+By 2026, the [MISP organization](https://github.com/MISP) contained many other projects supporting this shared capability.
+The following selection shows the breadth of the ecosystem; it is not a claim that every component has the same maturity or release cycle.
+Repository READMEs and this book's implementation chapters describe their current scope.
+
+::: {.table-responsive}
+
+| Area | Representative projects and their role |
+|---|---|
+| Programmatic access | [PyMISP](https://github.com/MISP/PyMISP) and [RustMISP](https://github.com/MISP/RustMISP) provide client libraries for working with the MISP API. |
+| Quality and context | [Warninglists](https://github.com/MISP/misp-warninglists) identify values needing additional attention; [Noticelists](https://github.com/MISP/misp-noticelist) communicate technical or legal considerations. A list match still needs interpretation. |
+| Interoperability | [misp-stix](https://github.com/MISP/misp-stix) supplies format-conversion libraries; [CTI-Transmute](https://github.com/MISP/cti-transmute) makes MISP/STIX conversion available through a service that can also be run locally. |
+| Repeatable work | [Event Templates](https://github.com/MISP/misp-event-templates), [Workflow Blueprints](https://github.com/MISP/misp-workflow-blueprints) and [Playbooks](https://github.com/MISP/misp-playbooks) capture reusable structures and procedures. See [Event Templates](../event-templates/index.qmd) and [Workflows](../workflows/index.qmd). |
+| Independent operation | [misp-docker](https://github.com/MISP/misp-docker), [misp-airgap](https://github.com/MISP/misp-airgap) and [Fleet Commander](https://github.com/MISP/MISP-Fleet-Commander) support deployment, isolated environments and the management of multiple instances. |
+| Focused analysis | [MISP Workbench](https://github.com/MISP/misp-workbench) provides a separate MISP-compatible stack for ingesting, correlating and analyzing intelligence. It is a distinct project with its own architecture. |
+| Creating shared content | [Engineering Bay](https://github.com/MISP/misp-engineering-bay) provides tools for creating and validating ecosystem content, including object templates and Galaxy definitions. |
+| Finding and checking knowledge | [Global Search](https://github.com/MISP/misp-global-search) searches the shared Galaxy, object and taxonomy resources; [MISP Feedback](https://github.com/MISP/misp-feedback) provides a warninglist lookup service and CLI. |
+| New interfaces to intelligence | [misp-mcp](https://github.com/MISP/misp-mcp) exposes read-only access to a MISP instance through the Model Context Protocol; [misp-galaxy-mcp](https://github.com/MISP/misp-galaxy-mcp) searches a local Galaxy knowledge base. |
+| Binary research | [BSimVis](https://github.com/MISP/bsimvis) supports similarity analysis, function comparison and clustering using Ghidra-derived binary features, illustrating the wider range of research tools developed in the organization. |
+| Learning and continuity | [MISP Training](https://github.com/MISP/misp-training) and the [MISP Book](https://github.com/MISP/misp-book) make practical knowledge available for study, adaptation and teaching. |
+
+:::
+
+## MISP Standard: interoperability beyond one implementation {#history-standards}
+
+The software and the standards serve complementary purposes.
+The application implements useful workflows; documented formats let other software exchange and interpret the resulting information.
+The [2016 Internet-Draft announcement](https://www.misp-project.org/2016/10/21/MISP-Internet-Drafts-Published.html/) describes an implementation-led approach: real uses and working code informed the specifications, with integrator feedback helping refine them.
+
+The [MISP Standard initiative](https://www.misp-standard.org/about/) developed a dedicated structure in 2019 to sustain that work.
+Its [published specifications](https://www.misp-standard.org/standards/) describe the core exchange format, object templates, taxonomies, galaxies and sightings, and also address threat-actor naming.
+The [misp-rfc repository](https://github.com/MISP/misp-rfc) holds specification sources and Internet-Drafts intended to support other implementations.
+The [committee charter](https://www.misp-standard.org/committee/) describes open participation, proposals, review and publication.
+
+This separation is important for autonomy.
+A community can reuse a vocabulary, an object model or an exchange format without adopting every part of the MISP application.
+Different tools can participate in a shared information space, and a data producer can preserve meaning beyond the lifetime of a particular interface or deployment.
+The standards initiative explicitly addresses cybersecurity, fraud, vulnerabilities, DFIR and broader intelligence disciplines.
+Interoperability thus serves both the existing platform and communities building different tools around the same public formats.
+
+## 2026: early access at the 20th edition of hack.lu {#history-2026}
+
+The next major milestone was **MISP 3 Early Access**, announced on **16 October 2026** and presented during the **20th edition of hack.lu in Luxembourg, 20–23 October 2026**.
+The [announcement](https://www.misp-project.org/2026/10/16/misp.3.0-early-access.html/) includes the hack.lu reveal trailer; the [conference announcement](https://hack.lu/blog/hack.lu-2026-agenda-is-live/) records the edition and dates.
+
+The new version brought the Overmind interface to the foreground, added Value Intelligence, Analyst Profiles and richer persistent investigation graphs, and emphasized continuity with existing APIs and synchronization partners.
+These developments connected individual observations, assessment and investigation more closely, while building on years of shared models and integrations.
+See [Value Intelligence](../value-intelligence/index.qmd), [Analyst Profiles](../analyst-profiles/index.qmd) and [Pivoting](../pivoting/index.qmd) for the workflows documented in this guide.
+
+Early access invited the community to test real workloads and help shape the next release.
+It was an evaluation milestone rather than a final production launch.
+That invitation continued a pattern present since the first operational users: development advances through the experiences of the people who use the system.
+
+Across fifteen years, CIRCL and the community built a shared body of software, standards, knowledge and practice whose participants can contribute on their own terms.
+That work continues through [contributions](../contributing/index.qmd): improving a format, maintaining a library, documenting a workflow, testing a release or helping another organization begin sharing.
