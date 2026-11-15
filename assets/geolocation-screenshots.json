@@ -72,7 +72,7 @@
     "All imported GPX attributes to_ids=false; event distribution=0, unpublished.",
     "First track point: 37.9815040,23.7602330,altitude=135.8; epsg=4326; spacial-reference=WGS84 EPSG:4326; first-seen=last-seen=2026-11-13T05:52:57Z. Object generic Seen fields remain empty.",
     "GPX event fetched through events/restSearch with withAttachments=true, sent to gpx_export through running /query: 197419 bytes, SHA-256 identical to source. No duplicate waypoints.",
-    "Exact Python block in the chapter executed against the running MISP and module service, using local deployment URLs and credentials supplied outside source; same GPX bytes/hash.",
+    "Original Python example (before the attachment-scope revision) executed against the running MISP and module service, using local deployment URLs and credentials supplied outside source; same GPX bytes/hash.",
     "GeoJSON derivative uploaded, reviewed and saved through actual UI: 2 objects (1 geojson + 1 geolocation), 21 attributes, 1 contains reference. No datetime relations inferred from observed_at property.",
     "GeoJSON saved event with attachment data exported through running /query: byte-identical to derivative.",
     "Native Show on map loads the original GPX attachment, reports 1 track (solid), draws the route and loads 12 final-zoom basemap tiles.",
@@ -238,5 +238,42 @@
     "github_api_blob_sha": "6ab6e42eabbf497f834ce101cff9d4a34a2106a6",
     "uploaded_file_git_blob_sha": "6ab6e42eabbf497f834ce101cff9d4a34a2106a6",
     "result": "GitHub fetch_file returned this public blob SHA; local git hash-object on the uploaded file returned the identical SHA. The documented coordinates, timestamps and map geometry come from the already-public fixture, with no additional private track data."
+  },
+  "export_example_validation": {
+    "checked_at": "2026-11-15T10:01:47.803506+00:00",
+    "python_code_sha256": "bba39a36477ff97beaa1a3f39c68b7b92a2da9f838a3431f76b502ad7c55559a",
+    "method": "Executed the exact revised chapter Python block against the running MISP and misp-modules service. Requests were observed and asserted, not mocked. Repeated with only object_name changed to geolocation, as documented.",
+    "fixture": "Private unpublished local event containing one GPX dataset, one geolocation from the public Morning Walk source, and one unrelated event attachment with a test sentinel. No record was published or synchronized.",
+    "request_checks": [
+      "Both modes use events/restSearch with withAttachments=false.",
+      "Dataset mode downloads only the selected GPX object attachment through attributes/download.",
+      "Point mode issues no attributes/download request and forwards no attachment data fields.",
+      "The module payload contains only the selected Object array; no event-level Attribute array or MISP API key is forwarded.",
+      "The unrelated attachment ID and sentinel data are absent from the module payload in both cases."
+    ],
+    "results": [
+      {
+        "selection": "gpx",
+        "attachment_downloads": 1,
+        "forwarded_objects": 1,
+        "track_points": 606,
+        "waypoints": 0,
+        "unrelated_attachment_downloaded": false,
+        "unrelated_attachment_forwarded": false,
+        "bytes": 197419,
+        "sha256": "77e36202f8bb56cbc31c5bf5cc1ab104841a368c0c9e206853a9110f1b6170a8"
+      },
+      {
+        "selection": "geolocation",
+        "attachment_downloads": 0,
+        "forwarded_objects": 1,
+        "track_points": 0,
+        "waypoints": 1,
+        "unrelated_attachment_downloaded": false,
+        "unrelated_attachment_forwarded": false,
+        "bytes": 289,
+        "sha256": "1fd4d4f4621edc1623d11167897ab7c63a264b1ac2d2bc28cabf9578df790d51"
+      }
+    ]
   }
 }

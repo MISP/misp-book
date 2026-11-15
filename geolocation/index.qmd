@@ -79,7 +79,8 @@ The screenshots retain their earlier source pins; NMEA/KML behavior was checked 
 
 All handlers in this table process files locally, with no provider account or external lookup.
 Import results require review and a final save in MISP.
-Exports need event attachment data, as shown in the [API example](#geo-export).
+Exports of stored datasets need the selected datasets' attachment bytes, as shown in the [API example](#geo-export).
+Exports of standalone `geolocation` objects need no attachments; send only the selected location objects.
 
 ::: {.table-responsive}
 
@@ -289,15 +290,21 @@ Deleted records are excluded.
 ::: {.callout-warning}
 At the pinned `3.0_wip` commit, the event's `/events/exportModule/gpx_export/{eventId}` action did not fetch attachment bytes and returned an empty download in this exercise.
 The same attachment-data requirement applies to stored GeoJSON, NMEA and KML/KMZ datasets; use the attachment-aware API path for them as well.
-Use an event fetch with attachment data and call the module API directly as below; verify the file before relying on the UI export action on another deployment.
+Fetch the selected dataset attachments and call the module API directly as below; verify the file before relying on the UI export action on another deployment.
 This is an observed snapshot limitation, not evidence of an empty source track.
 :::
 
-The following Python example requires `requests`, a MISP API key authorized to read the event and its attachments, and access to the module service.
+The following Python example requires `requests`, a MISP API key authorized to read the selected objects and any dataset attachments being exported, and access to the module service.
 Set `MISP_URL`, `MISP_API_KEY`, `MISP_EVENT_ID` and `MISP_MODULES_URL` in the environment.
 Use HTTPS with certificate verification for MISP, and keep the module service on an approved private connection.
-Choose the module identifier and output extension from the [file-module table](#geo-file-modules): for example `geojson_export` with `.geojson`, `nmea_export` with `.zip`, or `kmz_export` with `.kmz`.
+Choose the module identifier, dataset `object_name` and output extension from the [file-module table](#geo-file-modules): for example `geojson_export` with `geojson` and `.geojson`, `nmea_export` with `nmea` and `.zip`, or `kmz_export` with `kml` and `.kmz`.
 The selected exporter must support the event's dataset objects; changing a filename extension does not convert an unsupported source format.
+
+The example selects the event's `gpx` dataset objects, fetches their attachment bytes individually and forwards only those objects.
+For an export of location objects alone, set `object_name = "geolocation"` and use GPX, GeoJSON, KML or KMZ; that path downloads no attachments.
+NMEA export requires `nmea` dataset objects.
+If only a subset of the matching objects is intended, also restrict the selection by object UUID before downloading or forwarding data.
+The event search deliberately uses `withAttachments: false` in both cases, so unrelated event files are not fetched or sent to the module service.
 
 ```python
 import base64
@@ -308,14 +315,17 @@ import requests
 
 misp_url = os.environ["MISP_URL"].rstrip("/")
 modules_url = os.environ["MISP_MODULES_URL"].rstrip("/")
+headers = {
+    "Authorization": os.environ["MISP_API_KEY"],
+    "Accept": "application/json",
+}
+export_module = "gpx_export"
+object_name = "gpx"
 response = requests.post(
     f"{misp_url}/events/restSearch",
-    headers={
-        "Authorization": os.environ["MISP_API_KEY"],
-        "Accept": "application/json",
-    },
+    headers=headers,
     json={"eventid": os.environ["MISP_EVENT_ID"],
-          "withAttachments": True},
+          "withAttachments": False},
     timeout=120,
 )
 response.raise_for_status()
@@ -323,9 +333,35 @@ events = response.json()["response"]
 if not events:
     raise ValueError("No readable event returned")
 
+objects = [
+    obj
+    for event in events
+    for obj in event["Event"].get("Object", [])
+    if obj["name"] == object_name
+]
+if not objects:
+    raise ValueError("No matching objects selected")
+
+for obj in objects:
+    for attribute in obj.get("Attribute", []):
+        attribute.pop("data", None)
+        if (object_name != "geolocation"
+                and attribute["object_relation"] == "attachment"
+                and attribute["type"] == "attachment"):
+            download = requests.get(
+                f"{misp_url}/attributes/download/{attribute['id']}",
+                headers=headers,
+                timeout=120,
+            )
+            download.raise_for_status()
+            attribute["data"] = base64.b64encode(
+                download.content
+            ).decode("ascii")
+
 response = requests.post(
     f"{modules_url}/query",
-    json={"module": "gpx_export", "data": events},
+    json={"module": export_module,
+          "data": {"Event": {"Object": objects}}},
     timeout=120,
 )
 response.raise_for_status()
@@ -340,8 +376,10 @@ if not payload:
 Path("export.gpx").write_bytes(payload)
 ```
 
-The complete imported Morning Walk event, fetched with attachment data, exported through `/query` to **197,419 bytes with the same SHA-256 as the input**.
+With the Morning Walk dataset selected, this example exported through `/query` to **197,419 bytes with the same SHA-256 as the input**.
 It still contains 606 track points and no duplicated waypoints.
+The location-only setting exported one waypoint without downloading any attachments in a separate check.
+An unrelated event attachment was neither fetched nor forwarded in either check.
 This verifies the preserved-source round trip; it does not establish that every later edit to derived objects is reflected in that source.
 The GPX handlers limit decoded source/output size to **20 MiB** and points to **10,000**; the GeoJSON handlers also limit features/coordinate positions and nesting.
 Check the maintained [GPX import](https://github.com/MISP/misp-modules/blob/47eb69eab4ab1da6f6464992bd8e470e602ac800/documentation/import_mod/gpx_import.md), [GPX export](https://github.com/MISP/misp-modules/blob/47eb69eab4ab1da6f6464992bd8e470e602ac800/documentation/export_mod/gpx_export.md), [GeoJSON import](https://github.com/MISP/misp-modules/blob/47eb69eab4ab1da6f6464992bd8e470e602ac800/documentation/import_mod/geojson_import.md) and [GeoJSON export](https://github.com/MISP/misp-modules/blob/47eb69eab4ab1da6f6464992bd8e470e602ac800/documentation/export_mod/geojson_export.md) contracts when preparing larger datasets.
