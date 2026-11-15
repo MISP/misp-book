@@ -31,7 +31,12 @@ $endif$
     block(inset: 1pt, width: 100%, below: 0pt,
       block(fill: tint, width: 100%, inset: (x: 10pt, top: 8pt, bottom: 4pt))[#if icon != none [#icon ]#title]) +
     if body != [] {
-      block(inset: 1pt, width: 100%, block(fill: tint, width: 100%, inset: (x: 10pt, top: 0pt, bottom: 9pt), body))
+      // Scope prose overrides inside the body; the outer blocks are inspected
+      // by Quarto when it adds referenced callout titles and counters.
+      block(inset: 1pt, width: 100%, block(fill: tint, width: 100%, inset: (x: 10pt, top: 0pt, bottom: 9pt))[
+        #set par(justify: false, first-line-indent: 0pt)
+        #body
+      ])
     }
   )
 }
@@ -48,7 +53,7 @@ $endif$
     #set text(font: "Source Code Pro", size: 8.5pt)
     // Typst raw text defaults to 0.8em; keep highlighted tokens at a readable 8.5pt.
     #show raw: set text(size: 8.5pt / 0.8)
-    #set par(leading: 0.4em, spacing: 0pt)
+    #set par(justify: false, leading: 0.4em, spacing: 0pt, first-line-indent: 0pt)
     #lines.join()
   ]
 }

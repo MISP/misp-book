@@ -71,13 +71,17 @@
   show ref: set text(fill: accent)
   show raw: set text(font: "Source Code Pro", size: 8.5pt / 0.8)
   show raw.where(block: true): set block(fill: surface, inset: 10pt, radius: 3pt, breakable: true)
+  show raw.where(block: true): set par(justify: false, first-line-indent: 0pt)
   set list(indent: 12pt, body-indent: 6pt, spacing: 4pt)
   set enum(indent: 12pt, body-indent: 6pt, spacing: 4pt)
   set terms(spacing: 8pt)
+  show list: set par(justify: false, first-line-indent: 0pt)
+  show enum: set par(justify: false, first-line-indent: 0pt)
+  show terms: set par(justify: false, first-line-indent: 0pt)
   set figure(gap: 7pt)
   show figure: set align(center)
   show figure.caption: set text(size: 8.5pt, fill: muted)
-  show figure.caption: set par(justify: false, leading: 0.4em)
+  show figure.caption: set par(justify: false, leading: 0.4em, first-line-indent: 0pt)
   set figure(numbering: n => {
     let pattern = if state("appendix-state", none).get() != none { "A.1" } else { "1.1" }
     numbering(pattern, counter(heading).get().first(), n)
@@ -103,8 +107,9 @@
     it
   }
   show table: set text(size: 9pt)
-  show table: set par(leading: 0.4em, spacing: 4pt)
+  show table: set par(justify: false, leading: 0.4em, spacing: 4pt, first-line-indent: 0pt)
   show table.cell.where(y: 0): set text(fill: white, weight: "semibold")
+  show heading: set par(justify: false, first-line-indent: 0pt)
   show heading.where(level: 2): set text(size: 17pt, weight: "semibold", fill: ink)
   show heading.where(level: 3): set text(size: 12.5pt, weight: "semibold", fill: ink)
   show heading.where(level: 4): set text(size: 11pt, weight: "semibold", fill: muted)
@@ -180,5 +185,8 @@
     outline(title: [Contents], depth: contents-depth, indent: 0pt)
   }
   pagebreak(weak: true)
+  // Apply prose styling after the cover and contents. Keep structured content's
+  // own alignment and indentation through the scoped show rules above.
+  set par(justify: true, spacing: 1.2em, first-line-indent: (amount: 1.25em, all: true))
   body
 }

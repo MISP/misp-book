@@ -12,6 +12,10 @@ The result is `_book/book.pdf`. No LaTeX installation or live MISP service is ne
 - `misp-book.typ` controls the selectable-text cover, A4 page geometry, running
   headers/footers, part/chapter pages, contents, headings, tables and figure captions.
   It uses the existing MISP logo and the site's navy/teal palette.
+  Body prose is justified to both margins, with a 1.25em first-line indent on every
+  paragraph and 1.2em paragraph spacing. The cover and contents retain their own
+  layout; headings, lists, tables, captions, callouts and code retain their existing
+  alignment and do not inherit the prose indent.
 - `typst-show.typ` replaces Quarto's Orange Book presentation while retaining the
   generated definitions for links, cross-references and chapter/appendix counters.
   Callouts retain their labels and highlighted code retains its tokens and line breaks.
@@ -50,6 +54,8 @@ to the book and writes to the ignored `_book-pdf-smoke/` directory. It exercises
 referenced notes/warnings, figure/table references, quoted/escaped JSON values and
 numbered highlighted code, plus small, wide, tall and explicitly sized screenshots.
 It does not add test content to the published book. When reviewing its PDF, check
+the justified prose, paragraph gaps and first-line indents, plus the hanging indents
+of wrapped, nested and multi-paragraph list items. Also check
 that the referenced note retains its explicit title and that the small screenshots
 leave room for their captions and surrounding prose without enlarging the UI text.
 
