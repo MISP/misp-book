@@ -22,6 +22,47 @@ values in a private unpublished event; no example requires enabling IDS or publi
 
 ## Choose and populate a template {#objects-use}
 
+Start with a sentence describing what the source establishes: "this domain resolved to this address at this time" or "this message included this file."
+That statement helps you choose both the object boundary and the template.
+Several templates may accept the same value; the best fit preserves the observation's meaning, relationships and useful context.
+
+### Compare candidate templates {#objects-selection}
+
+1. **Identify the entity or observation.** Group properties of the same file, message or network observation.
+   Use separate objects for distinct entities, and [references](#object-references-and-relationships) for supported relationships between them.
+   A single independently useful data point can remain a [standalone attribute](../categories-and-types/index.qmd#types-selection).
+2. **Read the template's purpose and relation descriptions.** Search the installed catalogue by name and meta-category, then inspect the [template details](#objects-maintenance).
+   Prefer the template whose purpose matches the evidence; a shared field name alone is insufficient.
+3. **Compare the available fields and their roles.** Check relation names, underlying types, units, allowed values and multiplicity.
+   Prefer a more specific template when its additional structure expresses facts you actually know and your consumers can use it.
+   More available fields do not by themselves make a template a better choice.
+4. **Check the minimum requirements.** Confirm that the evidence satisfies `required` and `requiredOneOf` without guessing.
+   Leave unknown optional properties absent; a suggested value is not an observation.
+5. **Check the intended consumer.** Confirm that your search, export or receiving tool uses the chosen relations and preserves the context you need.
+   Composite attributes such as `ip-dst|port` can serve consumers that expect them; document why you need a second representation if you retain both.
+
+For example, `domain-ip` and `ip-port` both accept domains, addresses and ports.
+Choose `domain-ip` for a domain/address association in a time frame, and `ip-port` for an address or hostname and port observed together.
+If the source contains both a DNS answer and a separate connection observation, keep those observations distinguishable, including their sources and times.
+The common address can support investigation without proving that the connection used that DNS answer.
+
+::: {.table-responsive}
+
+| What the source establishes | Starting representation | Context to preserve |
+|---|---|---|
+| A domain resolved to an address | `domain-ip` object with `domain` and `ip` | Resolver/source and the observation window. |
+| A connection had a destination address and port | `ip-port` object with `ip-dst` and `dst-port` | Endpoint roles, protocol if known, source and time. |
+| A file had a name, hash and size | `file` object with the known relations | Which file the properties describe, hash algorithm and size in bytes. |
+| An email included a separately described file | `email` and `file` objects with a supported directional reference | Message evidence and the basis for identifying the included file. |
+| A report lists a domain without an address association | Standalone `domain` attribute | Source and the role stated by the report. |
+
+:::
+
+These are starting points, not an exhaustive catalogue or a requirement to create several objects for every input.
+The relation examples below follow the book's [pinned template revision](https://github.com/MISP/misp-objects/tree/5b17a1e03ada9dee01a64bd91c34a5f1ea42e326/objects); inspect the definitions installed on your instance.
+
+### Populate and review the form {#objects-populate}
+
 From an event, choose **Add Object**. Search the template picker and use its meta-category and
 description to select the intended representation. A meta-category such as `network` groups
 object templates; it is not the same field as an attribute category such as Network activity.
@@ -59,6 +100,71 @@ its parent. A populated field or template default does not establish detection v
 
 For a worked example combining `geolocation`, `gpx` and `geojson`, see [Representing Geolocation and Movement](../geolocation/index.qmd).
 The use case explains coordinate systems, observation times, dataset references and source-preserving export.
+
+## Encode the information at the right scope {#objects-encoding}
+
+Map each fact to a defined relation whose meaning and underlying attribute type match it.
+The relation names the property's role inside the object; the type controls value validation and normalization.
+For example, `ip-port` relation `dst-port` uses type `port`, while `email` relation `from` uses type `email-src`.
+Keep the value itself limited to that property: enter `443` as the port and put an explanation of the observation in a comment or report.
+See [Categories and Types](../categories-and-types/index.qmd#attribute-categories-vs-types) for valid type/category combinations.
+
+- **Preserve roles and units.** Keep source and destination distinct, use the stated hash algorithm, and convert units only when the conversion is justified and recorded.
+  Record a file's size in bytes in `size-in-bytes`; a rounded size from a report may be better retained in the narrative than presented as an exact byte count.
+- **Preserve which values belong together.** Use repeatable relations only for properties of the same modeled observation.
+  Repeating two addresses and two ports does not encode which address used which port.
+  Use separate objects when the source establishes separate endpoint pairs, files, messages or observation windows.
+- **Keep source and time context.** Use comments and source references for provenance, and `first_seen` / `last_seen` for the observation window where known.
+  A template relation such as `send-date` describes a different fact from when you observed or imported the message.
+  When a template also offers `first-seen` / `last-seen` relations, check their meaning and how your importer/exporter maps them; avoid conflicting copies of the same time.
+- **Put classification and knowledge context in their own fields.** Use [taxonomy tags](../taxonomy/index.qmd#taxonomy-machine-tags) for classification and [galaxy clusters](../galaxy/index.qmd#galaxy-concepts) for relevant reusable knowledge.
+  Choose their attachment scope according to the claim.
+- **Separate evidence from analysis.** Use an [Event Report](../event-reports/index.qmd) for the account of the investigation and [Analyst Data](../analyst-data/index.qmd) for assessments, uncertainty or competing interpretations.
+  An inferred relationship needs its basis recorded; a matching value alone is insufficient.
+- **Review operational settings separately.** Set distribution, `to_ids` and correlation behavior for the saved attributes.
+  A valid object or a suspicious-looking value does not automatically justify detection use.
+
+### Worked example: a destination observation {#objects-encoding-example}
+
+A synthetic network log records a connection to destination `192.0.2.10`, TCP port `443`, at `2026-01-15T10:30:00Z`.
+It identifies neither a domain nor an application protocol, and provides no verdict about the activity.
+An `ip-port` object preserves the destination tuple:
+
+::: {.table-responsive}
+
+| Source fact | Where to record it | Example value |
+|---|---|---|
+| Destination address | Relation `ip-dst`, type `ip-dst` | `192.0.2.10` |
+| Destination port | Relation `dst-port`, type `port` | `443` |
+| Transport protocol | Relation `protocol`, type `text` | `tcp` |
+| One observed connection time | Object `first_seen` and `last_seen` metadata | Both `2026-01-15T10:30:00Z` |
+| Provenance | Object comment and retained source evidence | `Synthetic network log, row 7; destination tuple as recorded.` |
+
+:::
+
+Leave the domain absent and do not infer HTTPS solely from port `443`.
+For this training example, use **Your organisation only**, let the attributes inherit their parent audience, and keep IDS off.
+After saving, inspect the relation names, types, values, timestamps and flags; check the intended export as well if another tool will consume it.
+
+If row 8 records `192.0.2.20` on port `8443`, create a separate observation rather than adding both addresses and ports to the first object.
+That preserves the two endpoint pairs without implying four possible combinations.
+
+### Worked example: an email and its file {#objects-encoding-email}
+
+A synthetic message from `sender@example.org`, with subject `Training document`, contains a file named `exercise.txt`.
+Create an `email` object with `from` (type `email-src`) and `subject` (type `email-subject`).
+Create a `file` object with `filename` and any verified hashes or byte size of that same file.
+Add a directional reference from the email to the file using a relationship supported by the installed catalogue, such as `includes`, and record that the original message establishes the inclusion.
+Preserve the message as source evidence when available and permitted; the email's `attachment` relation records an attachment name, while `eml` can hold the original message as an attachment.
+Keep the interpretation and any uncertainty in a report or Note, and review each attribute's detection and sharing settings.
+
+### When no template fits {#objects-no-fit}
+
+First check whether an appropriate template is installed and active, and whether the [catalogue needs updating](#objects-maintenance).
+If a suitable model is unavailable, preserve the source and encode the facts you can accurately represent as typed attributes or smaller related objects.
+Record the mapping limitation in a report or Note.
+Use a template's free-text relation for appropriate supplementary context, while keeping properties that need typed search or export in defined relations.
+For a recurring gap, propose an extension to an existing template or [author a reusable template](#objects-authoring), with example evidence and consumer requirements.
 
 ## Identity and MISP 3.0 values {#objects-identities}
 
