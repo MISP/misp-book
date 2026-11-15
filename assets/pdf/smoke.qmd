@@ -2,6 +2,26 @@
 title: PDF regression checks
 ---
 
+## Paragraph layout
+
+Body paragraphs should align with both margins and start with the same first-line indent, including this first paragraph after a heading.
+This sentence continues the same paragraph so its wrapped lines return to the normal left margin.
+
+A second paragraph should have a visible gap above it and the same first-line indent.
+Inline **emphasis**, `literal_code` and a [link](https://www.misp-project.org) should preserve the paragraph's alignment.
+
+- A wrapped bullet should keep its hanging indent rather than inherit the body paragraph's first-line indent.
+  This continuation stays aligned with the text of the bullet.
+
+  A second paragraph in the bullet should also align with its text.
+
+  - A nested bullet should retain its additional indentation when its text wraps onto another line.
+
+1. A wrapped numbered item should align its continuation with the item text and retain the normal marker position.
+2. A second numbered item should keep the same alignment.
+
+The paragraph after the lists should return to justified prose with the same first-line indent and paragraph spacing as the paragraphs above.
+
 ## Referenced callouts
 
 See @nte-layout-note and @fig-layout-example and @tbl-layout-example.
