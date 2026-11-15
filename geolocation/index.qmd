@@ -18,6 +18,7 @@ Select an image to enlarge it.
 :::
 
 <!-- Source pins, fixture statistics, checks and screenshot hashes: ../assets/geolocation-screenshots.json -->
+<!-- Refreshed module inventory and source hashes: ../assets/geolocation-modules-reference.json -->
 
 ## Choose the geographic object {#geo-objects}
 
@@ -31,11 +32,15 @@ Use a dataset object as well when the source has a path, geometry or metadata wo
 | `geolocation` | One location observation or a reported place | Latitude/longitude, optional altitude, place names, reference system, observation times and accuracy where known. A country-only object is valid but cannot supply a coordinate marker. |
 | `gpx` | GPS waypoints, routes and tracks | Original GPX attachment, hashes, metadata, counts, bounds and time extent. The import module also creates linked `geolocation` observations. |
 | `geojson` | Points, lines, polygons and geometry collections | Original GeoJSON attachment, hashes, feature count, geometry types and bounds. Point geometries also produce linked `geolocation` objects. |
+| `nmea` | NMEA 0183 receiver sentence logs | Original checksummed log, sentence/fix counts, talkers, bounds and dated time extent; valid GGA/RMC/GLL positions become linked geolocations. |
+| `kml` | KML documents and KMZ packages | Original XML or complete archive, assets, geometry/observation counts and bounds; Point and `gx:Track` observations become linked geolocations. |
 | `uav` | A documented unmanned aircraft observation | A specialized object with a `flight-path` attachment that the map can read as GPX. Use it when the evidence concerns a UAV; a generic walk belongs in `gpx`. |
 
 :::
 
 The object definitions checked here are `geolocation` **v8**, `gpx` **v1** and `geojson` **v1** in [misp-objects](https://github.com/MISP/misp-objects/tree/b22919c9fccef9f73964f5bea0c8548ebe3cbf13/objects).
+The additional `nmea` **v1** and `kml` **v1** templates were checked at [misp-objects commit `092484900`](https://github.com/MISP/misp-objects/tree/0924849002dfa706e165698908d389c2b5bcd88a/objects).
+The NMEA and KML importers bundle their dataset templates for older PyMISP installations; install matching templates in MISP for editor/display support.
 Administrators should update the instance's object templates and the module service's PyMISP templates when these objects are missing.
 Updating one catalogue does not update the other.
 
@@ -60,6 +65,41 @@ Record the source and the relationship to the observed entity, for example a loc
 A directional object reference expresses that relationship; equal coordinates or a shared country do not establish that two records concern the same entity.
 The coordinate and time relations in this template disable exact-value correlation by default, and MISP correlation is not a spatial-distance search.
 See [Correlation](../correlation/index.qmd) for how investigative links are computed.
+
+## Geographic module inventory {#geo-modules}
+
+This inventory was checked against [misp-modules commit `84327b2c8`](https://github.com/MISP/misp-modules/tree/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules).
+It covers **four dedicated geographic importers**, **five geographic exporters**, the **13 enrichment modules that explicitly create `geolocation` objects**, and the additional geographic context described below.
+The [source audit](../assets/geolocation-modules-reference.json) records identifiers, families, configuration names and file hashes, including the GoAML address mapping.
+Generic serializers such as CSV can also carry geolocation objects when configured for their schema.
+Check your running `/modules` catalogue: source availability does not prove that a handler or its dependencies are installed, enabled or configured on your instance.
+The screenshots retain their earlier source pins; NMEA/KML behavior was checked with the refreshed module tests, and provider output mappings were reviewed in source without making provider calls.
+
+### Geographic file import and export {#geo-file-modules}
+
+All handlers in this table process files locally, with no provider account or external lookup.
+Import results require review and a final save in MISP.
+Exports need event attachment data, as shown in the [API example](#geo-export).
+
+::: {.table-responsive}
+
+| Identifier | Input | MISP result or exported file |
+|---|---|---|
+| `gpx_import` | GPX 1.0/1.1 XML | `gpx` dataset plus linked waypoint, route-point and track-point geolocations. |
+| `geojson_import` | GeoJSON geometry, Feature or FeatureCollection | `geojson` dataset; Point/MultiPoint observations become linked geolocations, while lines and polygons remain geometry. |
+| `nmea_import` | Checksummed ASCII NMEA 0183 sentence log | `nmea` dataset plus valid GGA/RMC/GLL position observations; fix quality, talker and source sentence remain context. |
+| `kml_import` | KML XML **or KMZ** archive, detected from content | `kml` dataset plus Point and nonempty `gx:Track` observations; KMZ assets remain in the attachment. This handler imports both formats. |
+| `gpx_export` | `gpx` datasets and standalone geolocations | GPX; a single stored dataset can be returned unchanged, and standalone points become waypoints. |
+| `geojson_export` | `geojson` datasets and standalone geolocations | GeoJSON; a single stored dataset can be returned unchanged, and standalone locations become Point features. |
+| `nmea_export` | `nmea` dataset attachments | **ZIP of separate original logs**, with each member's bytes unchanged. It does not synthesize NMEA sentences from geolocations. |
+| `kml_export` | One stored KML dataset, or standalone geolocations | KML XML; preserves one stored KML unchanged when no extra points are needed. Use `kmz_export` for KMZ input, multiple datasets or a dataset plus extra points. |
+| `kmz_export` | KML/KMZ datasets and standalone geolocations | KMZ; preserves a single KMZ unchanged when possible, or packages source documents/assets separately and adds standalone Point Placemarks. |
+
+:::
+
+For NMEA details, see the maintained [import](https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/documentation/import_mod/nmea_import.md) and [export](https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/documentation/export_mod/nmea_export.md) contracts.
+For KML/KMZ, see the [shared importer](https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/documentation/import_mod/kml_import.md) and [KML/KMZ exporters](https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/documentation/export_mod/kml_export.md).
+There is no separate `kmz_import` identifier in this snapshot; use `kml_import`.
 
 ## Import the Morning Walk GPX {#geo-gpx-import}
 
@@ -187,22 +227,58 @@ It does **not** infer `first-seen` from an arbitrary property such as `observed_
 Polygon holes, lines and other source geometry remain available through the original attachment and its map representation.
 For boundaries or areas of interest, retain that geometry rather than replacing it with a centroid that implies a precise observation.
 
+## Import NMEA receiver logs and KML/KMZ packages {#geo-nmea-kml}
+
+The upstream [receiver log](https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/tests/fixtures/nmea/receiver.nmea) and [mixed KML fixture](https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/tests/fixtures/kml/mixed.kml) provide small test inputs for these importers.
+
+Enable `nmea_import` on **Integrations → Import modules** and `nmea_export` on **Export modules**.
+Upload an ASCII receiver log or paste its sentence text, then review the `nmea` dataset and linked positions before saving.
+Checksums are mandatory for every sentence, including unsupported sentence types.
+Invalid/no-fix positions are counted and retained in the source without creating a location observation.
+Other messages, including proprietary sentences and AIS encapsulation, remain in the attachment without being decoded as positions.
+Repeated observations remain separate; the importer does not fuse GGA, RMC and GLL into one fix.
+
+RMC and ZDA establish dates; subsequent GGA/GLL times use the dated context of the same talker, with continuous-stream rollover handling.
+Undated positions retain time-of-day as context with a warning, instead of taking a date from the host clock.
+GGA mean-sea-level height becomes WGS84 ellipsoid `altitude` only when the reported geoid separation is also present in meters, by adding the two values.
+HDOP stays contextual and is not converted into `accuracy-radius`.
+Keep each original log: `nmea_export` returns separate ZIP members to avoid combining independent receivers' date context.
+
+Enable `kml_import`, `kml_export` and `kmz_export` on their respective integration pages.
+Upload KML or KMZ through **Kml Import**, or paste KML XML, then review the `kml` dataset and extracted observations.
+The importer recognizes Point, LineString, LinearRing, Polygon, MultiGeometry and `gx:Track`/`gx:MultiTrack` geometry.
+Only Point geometries and nonempty track samples become geolocations; line/polygon vertices contribute to counts and bounds.
+Complete timezone-qualified observation times become datetime relations; partial or timezone-less times remain context.
+KML height and altitude mode also remain context, since sea-level/ground-relative heights cannot be assigned directly to WGS84 ellipsoid `altitude`.
+
+For KMZ, the original archive retains styles, icons, overlays and other assets.
+The parser follows local KML NetworkLinks inside the package, with cycle detection, and warns about unresolved links; it never fetches remote resources or extracts archive members to disk.
+Use `kmz_export` to retain assets and separate source-document style scopes when combining datasets.
+The importers enforce bounded parsing and return errors rather than partial results for invalid supported content; consult their contracts for framing and size limits.
+
+The pinned MISP UI shown in this chapter maps `geolocation`, GPX, GeoJSON and UAV flight paths.
+It does not provide the same dataset-map action for `nmea` or `kml` objects.
+Inspect their derived geolocation markers, or open an exported file in a suitable geographic application.
+
 ## Export without losing the source {#geo-export}
 
 `gpx_export` includes stored `gpx` attachments and standalone coordinate-bearing `geolocation` objects.
 `geojson_export` similarly includes stored `geojson` datasets and standalone locations.
+`kml_export`/`kmz_export` exchange `kml` datasets and standalone geolocations; `nmea_export` preserves original `nmea` logs in a ZIP.
 These exporters include contextual data even when **For IDS** is off.
-Neither is a general-purpose converter of every object type: for example, GPX export does not consume a `geojson` attachment, and GeoJSON export does not consume a `gpx` attachment.
+Each exporter accepts specific object types: for example, GPX export does not consume a `geojson` attachment, and GeoJSON export does not consume a `gpx` attachment.
 
 ::: {.callout-important}
 The preserved attachment is authoritative.
-For a single dataset with no additional standalone points, the corresponding exporter returns its bytes unchanged.
-Its `contains`-linked geolocations are skipped to avoid duplicates.
+For one GPX, GeoJSON, KML or KMZ dataset with no additional standalone points, the corresponding exporter can return its bytes unchanged.
+Those dataset exporters skip `contains`-linked geolocations to avoid duplicates.
+NMEA export returns a ZIP whose individual log members retain the source bytes.
 Editing or deleting a derived location does **not** rewrite or redact the dataset attachment.
-Export selected geolocation objects alone to use their current values, or prepare and re-import a revised dataset when the track/area itself must change.
+To export current derived coordinates, select the geolocation objects alone and use GPX, GeoJSON, KML or KMZ.
+Prepare and re-import a revised dataset when the track, area or receiver log itself must change.
 :::
 
-Standalone locations become GPX waypoints or GeoJSON Point features.
+Standalone locations become GPX waypoints, GeoJSON Point features or KML Point Placemarks, depending on the selected exporter.
 Multiple datasets or additional standalone points require a combined output; original formatting may then change.
 GPX combination preserves routes, tracks, segments and extensions; GeoJSON combination preserves source features and records collection metadata under `misp:source-datasets`.
 Place-only geolocations are skipped with a warning, incomplete coordinate pairs cause an error, and non-WGS84 reference systems are rejected.
@@ -212,7 +288,7 @@ Deleted records are excluded.
 
 ::: {.callout-warning}
 At the pinned `3.0_wip` commit, the event's `/events/exportModule/gpx_export/{eventId}` action did not fetch attachment bytes and returned an empty download in this exercise.
-The equivalent risk applies to stored GeoJSON datasets.
+The same attachment-data requirement applies to stored GeoJSON, NMEA and KML/KMZ datasets; use the attachment-aware API path for them as well.
 Use an event fetch with attachment data and call the module API directly as below; verify the file before relying on the UI export action on another deployment.
 This is an observed snapshot limitation, not evidence of an empty source track.
 :::
@@ -220,7 +296,8 @@ This is an observed snapshot limitation, not evidence of an empty source track.
 The following Python example requires `requests`, a MISP API key authorized to read the event and its attachments, and access to the module service.
 Set `MISP_URL`, `MISP_API_KEY`, `MISP_EVENT_ID` and `MISP_MODULES_URL` in the environment.
 Use HTTPS with certificate verification for MISP, and keep the module service on an approved private connection.
-For GeoJSON, change the module identifier to `geojson_export` and the output filename accordingly.
+Choose the module identifier and output extension from the [file-module table](#geo-file-modules): for example `geojson_export` with `.geojson`, `nmea_export` with `.zip`, or `kmz_export` with `.kmz`.
+The selected exporter must support the event's dataset objects; changing a filename extension does not convert an unsupported source format.
 
 ```python
 import base64
@@ -279,16 +356,51 @@ Record the provider/database version, lookup time, source IP attribute and avail
 
 | Module identifier | Source/configuration | Result and limitation |
 |---|---|---|
-| `geoip_city` | Local MaxMind GeoIP2/GeoLite2 City MMDB; `local_geoip_db` or `local_geolite_db`, plus the `geoip2` dependency | A related geolocation with available city, region, country, coordinates and accuracy radius in kilometers. It is a database estimate. |
-| `geoip_country` | Local MaxMind Country MMDB; the same path settings and dependency | Country context in a geolocation object; no precise position is implied. |
-| `geoip_asn` | Local MaxMind ASN MMDB | An **asn** object for network ownership/routing context, rather than a physical geolocation. |
-| `ip2locationio` | IP2Location.io API; config `key` | A geolocation linked to the input IP through `locates`; the lookup sends the IP to the provider. |
-| `ipgeolocation` | IPGeolocation API with `api_key`, or local databases through `mmdb_paths` | Geographic context and, depending on available data, provider/network objects. Local database mode takes precedence when configured; API fields depend on the plan. |
-| `geoplugin` | geoPlugin HTTPS API; config `api_key` | Available location context for public IPv4 input, linked to the original attribute. No usable location is guaranteed. |
+| `geoip_city` | Local MaxMind GeoIP2/GeoLite2 City MMDB; `local_geoip_db` or `local_geolite_db`, plus `geoip2` | Available city, region, country, coordinates and accuracy radius in kilometers. |
+| `geoip_country` | Local MaxMind Country MMDB; the same path settings and dependency | Country-level geolocation; a coordinate marker is not guaranteed. |
+| `geoplugin` | geoPlugin HTTPS API; `api_key` | Available location and accuracy context for public IPv4, linked to the input attribute. |
+| `ip2locationio` | IP2Location.io API; `key` | Location fields linked to the input IP through `locates`; subscription controls available fields. |
+| `ipgeolocation` | IPGeolocation API with `api_key`, or local databases in `mmdb_paths` | Geographic/network context; local database mode takes precedence. API fields depend on the plan. |
+| `ipinfo` | IPinfo API; `token`, `api` (`legacy`, `lite` or `lookup`) | Country/place data and optional coordinates. Lite supplies country/continent context without city coordinates. |
+| `ipapi_is` | ipapi.is API; optional `api_key` | Available location, ASN and provider intelligence; keyless operation has reduced data and limits. |
+| `mmdb_lookup` | MMDB HTTP server; `custom_API`, `db_source_filter`, `max_country_info_qt` | Country data and **country-average coordinates**, plus ASN. Defaults to CIRCL's public service; it does not directly open a local MMDB file. |
+| `censys_enrich` | Censys API; `api_id`, `api_secret`, Censys client dependency | A geolocation when a host/website response contains location data; certificate-only results need not contain a location. |
+| `lamis_network` | Lamis Network API; `api_key`, `risk_threshold`, `timeout` | Country/code and city in a geolocation object; the current mapping does not add latitude/longitude. |
+| `modat` | MODAT Magnify API; `apikey` and query controls | Host geographic context, with coordinates and accuracy radius when present, linked to infrastructure observations. |
+| `urlscan` | urlscan.io search API; `apikey` | Scan-host country/city context linked to the resolved infrastructure; the current geolocation mapping does not add coordinates. |
+| `whoisfreaks` | WhoisFreaks API; `apikey` | IP lookup can create a geolocation from country, region, city and coordinates, alongside WHOIS/security context. Domain lookups follow a different output path. |
 
 :::
 
 Verify the running catalogue, dependencies and provider configuration before enabling a handler, then use the attribute's enrichment action and review returned objects before saving.
 The [Modules chapter](../modules/index.qmd) covers administration, review and troubleshooting.
+The 13 handlers above are the enrichment modules that explicitly construct the `geolocation` template in the checked source snapshot.
+Some return only a place name; the presence of that object does not imply a usable map point.
 No external geolocation provider was queried for this exercise; the screenshots show GPX-derived evidence, not enrichment results.
 When a lookup is imprecise or conflicts with another source, retain both sources and explain the assessment in an [Analyst Data Note](../analyst-data/index.qmd) rather than overwriting an observed track with an estimate.
+
+## Other modules carrying geographic context {#geo-other-modules}
+
+Some integrations use other object templates or text fields for geographic information.
+Their output needs its own interpretation before being promoted to a coordinate observation.
+
+::: {.table-responsive}
+
+| Module identifier | Geographic context and boundary |
+|---|---|
+| `goamlimport`, `goamlexport` | Import/export GoAML financial-report address structures through `geolocation` objects and their references. These mappings cover city, region, country, address and ZIP code; they do not import GPS tracks or infer coordinates. |
+| `shodan` | Country, city and available latitude/longitude in an `ip-api-address` object. |
+| `crowdsec` | Country/code, city and available coordinates in `crowdsec-ip-context`. |
+| `hyasinsight` | HYAS-specific objects, including **Mobile Geolocation Information** and geographic fields in other result types; endpoint/source semantics vary. |
+| `ipqs_fraud_and_risk_scoring`{.text-wrap .text-break} | Geographic fields in the IPQS-specific result object, alongside risk-scoring data. |
+| `greynoise` | Source/destination country context in GreyNoise objects; it does not create a `geolocation` point. |
+| `onyphe_full` | Network/service country context in ONYPHE results, including `ip-port` and service objects. |
+| `ptrclassify` | City/region/country hints in `ptrclassify` objects from hostname rules. Rule-derived hints are not verified positions. |
+| `countrycode` | Country text derived from a domain's country-code TLD; domain registration naming does not establish hosting location. |
+| `phone_number_info`{.text-wrap .text-break} | Country/area from numbering-plan metadata in `phone-number` and text output; this is allocation geography, not a subscriber's physical location. |
+| `geoip_asn` | ASN objects from a local MaxMind ASN MMDB. This is network ownership/routing context, not a physical position. |
+
+:::
+
+For provider-backed handlers, check the accepted input types, configuration and disclosure behavior in the running catalogue before invoking them.
+An IP, hostname, phone number or provider-derived country field can be useful context without establishing where a person or device was physically observed.

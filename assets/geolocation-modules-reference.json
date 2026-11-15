@@ -1,0 +1,701 @@
+{
+  "repository": "https://github.com/MISP/misp-modules",
+  "commit": "84327b2c85062c048e7818c2d42cd8e19402f71b",
+  "checked_at": "2026-11-15T09:41:37.980497+00:00",
+  "scope": "Dedicated geographic import/export handlers, enrichment modules explicitly constructing geolocation objects, GoAML geographic address mappings, and the listed companion modules carrying geographic fields or location hints. Generic serializers are described separately; this is not a list of every module returning an arbitrary country-valued field.",
+  "method": [
+    "Enumerated every Python module and searched geolocation, geojson, latitude, longitude, countrycode, country-name and country-code.",
+    "Parsed object constructors and module metadata with Python AST without importing provider modules; all 17 literal geolocation constructors correspond to 4 geographic importers and 13 enrichments.",
+    "Inspected dynamic constructors and adjacent context mappings, including GoAML location_mapping, provider-specific result objects and country/phone/PTR hints.",
+    "Reviewed maintained NMEA/KML documentation and implementation for archive behavior, checksum/date/altitude semantics, export input types and module identifiers."
+  ],
+  "counts": {
+    "geographic_import": 4,
+    "geographic_export": 5,
+    "geolocation_enrichment": 13,
+    "goaml_address_mapping": 2,
+    "other_geographic_context": 10
+  },
+  "modules": [
+    {
+      "identifier": "gpx_import",
+      "family": "import_mod",
+      "coverage": "geographic_import",
+      "source_path": "misp_modules/modules/import_mod/gpx_import.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/import_mod/gpx_import.py",
+      "source_sha256": "3311d3b2198fded2ab736344f3d699fa21ef4e99e9a1839846f3d70a56e08471",
+      "configuration": [],
+      "input_contract": {
+        "inputSource": [
+          "file",
+          "paste"
+        ],
+        "output": [
+          "MISP objects"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "geojson_import",
+      "family": "import_mod",
+      "coverage": "geographic_import",
+      "source_path": "misp_modules/modules/import_mod/geojson_import.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/import_mod/geojson_import.py",
+      "source_sha256": "ec516cb8d6240089c4b6f66f8d8f500b9b45a8925424c58e18ab496add9e9313",
+      "configuration": [],
+      "input_contract": {
+        "inputSource": [
+          "file",
+          "paste"
+        ],
+        "output": [
+          "MISP objects"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "nmea_import",
+      "family": "import_mod",
+      "coverage": "geographic_import",
+      "source_path": "misp_modules/modules/import_mod/nmea_import.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/import_mod/nmea_import.py",
+      "source_sha256": "b986a5cc62b796b4cae3e5685c8ed8b651f7aba96ade0ab764e55cd0c53dd210",
+      "configuration": [],
+      "input_contract": {
+        "inputSource": [
+          "file",
+          "paste"
+        ],
+        "output": [
+          "MISP objects"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "kml_import",
+      "family": "import_mod",
+      "coverage": "geographic_import",
+      "source_path": "misp_modules/modules/import_mod/kml_import.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/import_mod/kml_import.py",
+      "source_sha256": "2b1dca7ef4a8a81e6213b598bcfd58da7c7f6366e9a4b00231fb26d4c7325ca7",
+      "configuration": [],
+      "input_contract": {
+        "inputSource": [
+          "file",
+          "paste"
+        ],
+        "output": [
+          "MISP objects"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "gpx_export",
+      "family": "export_mod",
+      "coverage": "geographic_export",
+      "source_path": "misp_modules/modules/export_mod/gpx_export.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/export_mod/gpx_export.py",
+      "source_sha256": "8abaaa0b6e059974361b006265671385fb7e75893369a9c7a60ee608f2dc0770",
+      "configuration": [],
+      "input_contract": null
+    },
+    {
+      "identifier": "geojson_export",
+      "family": "export_mod",
+      "coverage": "geographic_export",
+      "source_path": "misp_modules/modules/export_mod/geojson_export.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/export_mod/geojson_export.py",
+      "source_sha256": "88cb683febf836ac51fe2cb88d4510c755d1bc43bad15ca6ee1c4bfc336a0a5d",
+      "configuration": [],
+      "input_contract": null
+    },
+    {
+      "identifier": "nmea_export",
+      "family": "export_mod",
+      "coverage": "geographic_export",
+      "source_path": "misp_modules/modules/export_mod/nmea_export.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/export_mod/nmea_export.py",
+      "source_sha256": "99a3c6550f9780cd377ef0004867ca0bae1827728cfd632423acd028d88c59b8",
+      "configuration": [],
+      "input_contract": null
+    },
+    {
+      "identifier": "kml_export",
+      "family": "export_mod",
+      "coverage": "geographic_export",
+      "source_path": "misp_modules/modules/export_mod/kml_export.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/export_mod/kml_export.py",
+      "source_sha256": "5edfcea8bad0664473eabb2f7cbf6b4aa44a33490cd75f5aa558b27f9c3f9886",
+      "configuration": [],
+      "input_contract": null
+    },
+    {
+      "identifier": "kmz_export",
+      "family": "export_mod",
+      "coverage": "geographic_export",
+      "source_path": "misp_modules/modules/export_mod/kmz_export.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/export_mod/kmz_export.py",
+      "source_sha256": "909ef9f7427b493eaf1cf580beb71fd41a7337dd88761861b4012c8ce035efff",
+      "configuration": [],
+      "input_contract": null
+    },
+    {
+      "identifier": "censys_enrich",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/censys_enrich.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/censys_enrich.py",
+      "source_sha256": "0dceeb753bce7ba81127fb183ac0e499d98949c39641cc7372f09932b146233d",
+      "configuration": [
+        "api_id",
+        "api_secret"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "domain",
+          "hostname",
+          "hostname|port",
+          "domain|ip",
+          "ip-dst|port",
+          "ip-src|port",
+          "x509-fingerprint-md5",
+          "x509-fingerprint-sha1",
+          "x509-fingerprint-sha256"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "geoip_city",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/geoip_city.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/geoip_city.py",
+      "source_sha256": "2efe8a02d497f74c9f7da0d2f4b7d811b19fc870b27b45664123834699a101b1",
+      "configuration": [
+        "local_geoip_db",
+        "local_geolite_db"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "domain|ip"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "geoip_country",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/geoip_country.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/geoip_country.py",
+      "source_sha256": "3d57c13a798e77419b06f363aeae78cf52e288eb5475a82c0ff97f5f8cf58efb",
+      "configuration": [
+        "local_geoip_db",
+        "local_geolite_db"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "domain|ip"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "geoplugin",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/geoplugin.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/geoplugin.py",
+      "source_sha256": "6fc8a84783210682e4c8618942c118f42c6cef22df5175a3431b9fcfa0c45cb6",
+      "configuration": [
+        "api_key"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "domain|ip"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "ip2locationio",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/ip2locationio.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/ip2locationio.py",
+      "source_sha256": "b10f3cf1ecfdefce22ff7263de4f99551e93ad824184d9b172d2a722bc86b64a",
+      "configuration": [
+        "key"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "ipapi_is",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/ipapi_is.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/ipapi_is.py",
+      "source_sha256": "22704df57fdebecdf7853f61c539c9921a77eb5f30c76ae25a8da35ae06c40ed",
+      "configuration": [
+        "api_key"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "ipgeolocation",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/ipgeolocation.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/ipgeolocation.py",
+      "source_sha256": "6c02787cb49cb2fa3c2ee7e40bb42e57e0da92ca237177ba1676ce008f6f2403",
+      "configuration": [
+        "api_key",
+        "mmdb_paths",
+        "include",
+        "cache_ttl"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "ip-src|port",
+          "ip-dst|port",
+          "domain|ip"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "ipinfo",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/ipinfo.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/ipinfo.py",
+      "source_sha256": "31aa8354b8ee7673721258e6e34244829ddc86dcd1f288d8d0c002d3c5c89549",
+      "configuration": [
+        "token",
+        "api"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "lamis_network",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/lamis_network.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/lamis_network.py",
+      "source_sha256": "1371426bcd2a98fadce163ce86249e504d8cb8b6139e071ce3c447a94748af59",
+      "configuration": [
+        "api_key",
+        "risk_threshold",
+        "timeout"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "mmdb_lookup",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/mmdb_lookup.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/mmdb_lookup.py",
+      "source_sha256": "442adf7f4d099694bc4bfadf752b64867a2dcd637705c9cc26161c7486e6ecb7",
+      "configuration": [
+        "custom_API",
+        "db_source_filter",
+        "max_country_info_qt"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-src|port",
+          "ip-dst",
+          "ip-dst|port"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "modat",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/modat.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/modat.py",
+      "source_sha256": "7c8310883517764eeefaffc8a3005271a76219555abdb4ba1ba1710cb902cd2f",
+      "configuration": [
+        "apikey",
+        "max_results",
+        "page_size",
+        "timeout",
+        "include_dns",
+        "reverse_dns"
+      ],
+      "input_contract": "Computed in source; inspect referenced file."
+    },
+    {
+      "identifier": "urlscan",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/urlscan.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/urlscan.py",
+      "source_sha256": "ba01a99c56a1a29d25801f061a192c69afa1843eacf7be27a98d18f84ca26e40",
+      "configuration": [
+        "apikey"
+      ],
+      "input_contract": {
+        "input": [
+          "hostname",
+          "domain",
+          "ip-src",
+          "ip-dst",
+          "url"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "whoisfreaks",
+      "family": "expansion",
+      "coverage": "geolocation_enrichment",
+      "source_path": "misp_modules/modules/expansion/whoisfreaks.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/whoisfreaks.py",
+      "source_sha256": "5cbe13fc4e3445b2dcbd7c454058e79c02dfa4c59cfeacebeaa7491288151ce2",
+      "configuration": [
+        "apikey"
+      ],
+      "input_contract": {
+        "input": [
+          "domain",
+          "ip-src",
+          "ip-dst",
+          "ip"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "goamlimport",
+      "family": "import_mod",
+      "coverage": "goaml_address_mapping",
+      "source_path": "misp_modules/modules/import_mod/goamlimport.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/import_mod/goamlimport.py",
+      "source_sha256": "5117e29f85109c30fc3d2a04d5f91248db567a6c4367a0be1fc100e65ba90c04",
+      "configuration": [],
+      "input_contract": {
+        "inputSource": [
+          "file"
+        ],
+        "output": [
+          "MISP objects"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "goamlexport",
+      "family": "export_mod",
+      "coverage": "goaml_address_mapping",
+      "source_path": "misp_modules/modules/export_mod/goamlexport.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/export_mod/goamlexport.py",
+      "source_sha256": "599be18e42b36a147b2383dfb7ee1cd96b67d99220a30e0934cea1cc17b84ef9",
+      "configuration": [
+        "rentity_id"
+      ],
+      "input_contract": {
+        "input": [
+          "MISPEvent"
+        ],
+        "output": [
+          "xml file"
+        ]
+      }
+    },
+    {
+      "identifier": "shodan",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/shodan.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/shodan.py",
+      "source_sha256": "bd4855b85b23fbf1808ee1086c409171be183790a229f3564426288c123250be",
+      "configuration": [
+        "apikey"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "crowdsec",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/crowdsec.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/crowdsec.py",
+      "source_sha256": "727848c9da7e7da91d87c8b9af3fc5f0724aa869d6ef7ebd67fc8e4e764b3e47",
+      "configuration": [
+        "api_key",
+        "add_reputation_tag",
+        "add_behavior_tag",
+        "add_classification_tag",
+        "add_mitre_technique_tag",
+        "add_cve_tag"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-dst",
+          "ip-src"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "hyasinsight",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/hyasinsight.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/hyasinsight.py",
+      "source_sha256": "53469b3c9eefd5512f46190b5b49ad92832eac586fdf5325c9c93297078649af",
+      "configuration": [
+        "apikey"
+      ],
+      "input_contract": "Computed in source; inspect referenced file."
+    },
+    {
+      "identifier": "ipqs_fraud_and_risk_scoring",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/ipqs_fraud_and_risk_scoring.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/ipqs_fraud_and_risk_scoring.py",
+      "source_sha256": "ca3a37a1a5614bc358ef5a1680e8d8e0f4815b654f8e8b1bb9a21849583a7d84",
+      "configuration": [
+        "apikey",
+        "base_url",
+        "poll_delay"
+      ],
+      "input_contract": "Computed in source; inspect referenced file."
+    },
+    {
+      "identifier": "greynoise",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/greynoise.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/greynoise.py",
+      "source_sha256": "5c48d3c13f7c1400fcb7ea9a68b0ba6ef83ab486cdc982bf8c4b65ddbcb027d2",
+      "configuration": [
+        "api_key"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "vulnerability"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "onyphe_full",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/onyphe_full.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/onyphe_full.py",
+      "source_sha256": "182583927543b0abdeedc376ba87789b5d7c4d2ce23edcbf3ed908dbb39078d4",
+      "configuration": [
+        "apikey",
+        "limit",
+        "categories",
+        "timeout",
+        "since"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "hostname",
+          "domain",
+          "url",
+          "cpe",
+          "x509-fingerprint-sha256",
+          "x509-fingerprint-sha1",
+          "x509-fingerprint-md5"
+        ],
+        "output": [
+          "hostname",
+          "domain",
+          "ip-src",
+          "ip-dst",
+          "url",
+          "port",
+          "comment"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "ptrclassify",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/ptrclassify.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/ptrclassify.py",
+      "source_sha256": "0a5aaf6d168cf8a7072ce60d2e7981c641fe62942eacbc200f2802e6ada76c31",
+      "configuration": [
+        "nameserver"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "domain|ip",
+          "hostname",
+          "domain"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "countrycode",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/countrycode.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/countrycode.py",
+      "source_sha256": "696efe2672545e24179f6f3ac861b16deb6edbcaa11a04e694c2c31c90c02f46",
+      "configuration": [],
+      "input_contract": {
+        "input": [
+          "hostname",
+          "domain"
+        ]
+      }
+    },
+    {
+      "identifier": "phone_number_info",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/phone_number_info.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/phone_number_info.py",
+      "source_sha256": "a3c4705b6ca270454db76fb2bc45b0efc451183cd8820aefedb5deb90c502c8e",
+      "configuration": [
+        "default_region",
+        "language"
+      ],
+      "input_contract": {
+        "input": [
+          "phone-number",
+          "whois-registrant-phone"
+        ],
+        "output": [
+          "MISP objects",
+          "text"
+        ],
+        "format": "misp_standard"
+      }
+    },
+    {
+      "identifier": "geoip_asn",
+      "family": "expansion",
+      "coverage": "other_geographic_context",
+      "source_path": "misp_modules/modules/expansion/geoip_asn.py",
+      "source_url": "https://github.com/MISP/misp-modules/blob/84327b2c85062c048e7818c2d42cd8e19402f71b/misp_modules/modules/expansion/geoip_asn.py",
+      "source_sha256": "4be4572666923ed8dfd24d9101fcf833b8110f0b11ac9396d6ed8eceb348583f",
+      "configuration": [
+        "local_geoip_db",
+        "local_geolite_db"
+      ],
+      "input_contract": {
+        "input": [
+          "ip-src",
+          "ip-dst",
+          "domain|ip"
+        ],
+        "format": "misp_standard"
+      }
+    }
+  ],
+  "shared_implementation": [
+    {
+      "path": "misp_modules/lib/nmea0183.py",
+      "sha256": "0290e03265c08c348ca3dc03638b1a14e51dba48908337358562e225ed750338"
+    },
+    {
+      "path": "misp_modules/lib/kml.py",
+      "sha256": "1ef835ea41fe1dce254b7b292afe6c4199012ba03f25d076c92177624e8d11a8"
+    },
+    {
+      "path": "misp_modules/lib/kml_exporter.py",
+      "sha256": "1c60633a37c1b75ff5c77a87c3bd2de3f373a8456830637d314533b463ccac6f"
+    }
+  ],
+  "object_templates": {
+    "repository": "MISP/misp-objects",
+    "commit": "0924849002dfa706e165698908d389c2b5bcd88a",
+    "nmea": {
+      "version": 1,
+      "uuid": "4e177821-a927-4f11-a8ff-1232e8faf968"
+    },
+    "kml": {
+      "version": 1,
+      "uuid": "bb8f51a6-f1d5-45ff-b893-2bf58e0e0276"
+    },
+    "module_bundles": "misp_modules/data/{nmea,kml}/definition.json; compared with the pinned upstream definitions"
+  },
+  "validation": {
+    "upstream_tests": [
+      "tests/test_nmea.py",
+      "tests/test_kml.py",
+      "tests/test_gpx_import.py",
+      "tests/test_gpx_export.py",
+      "tests/test_geojson.py"
+    ],
+    "test_result": "554 passed; one importlib deprecation warning",
+    "provider_lookups": "No live external provider calls; provider output/configuration descriptions are source-reviewed.",
+    "ui_note": "The existing screenshots retain their original core/modules pins in geolocation-screenshots.json. No NMEA/KML dataset map is claimed for that pinned core UI.",
+    "book_formats": [
+      "HTML",
+      "PDF (Typst)",
+      "EPUB"
+    ],
+    "pdf_smoke": "Passed",
+    "offline_internal_links": "6808 checked, zero errors",
+    "responsive_layout": "1440px and 390px: no document horizontal overflow, all 8 existing figures loaded",
+    "inventory_consistency": "All 34 identifiers occur in the chapter and all module file hashes match the pinned source checkout; bundled NMEA/KML templates match the referenced misp-objects definitions."
+  }
+}
