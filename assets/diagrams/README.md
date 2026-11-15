@@ -24,6 +24,15 @@ The [`misp-logo.svg`](misp-logo.svg) artwork is copied unchanged from
 Credit: **MISP contributors**. See the MISP project's
 [logo license (CC BY 4.0)](https://github.com/MISP/MISP/blob/99ebee729702c560528f9788953719bda68aa1c1/INSTALL/logos/README.md).
 
+The logo is also byte-identical to the official [Visual Identity 2.0 horizontal
+screen SVG](https://github.com/MISP/visual-identity/blob/e3f4a3e93d39a9bf7d8d3cb907e31af77e755ebd/2.0/misp/1_horizontal/2_screen/svg/misp-logo-main-rvb-_hori-.svg)
+(Git blob `a314fcc39ec8af82faa694e6e79bb980388c6adb`).
+Sequence role cards draw on that asset's cyan (`#19c9f0`), teal (`#0091b0`,
+`#0ca5c6`, `#00708d`) and deep blue (`#02394a`).
+Pale surfaces and muted lifelines are derived tints, rather than additional
+official palette colors. Attribution and reuse terms are described in the
+[visual identity repository](https://github.com/MISP/visual-identity/blob/e3f4a3e93d39a9bf7d8d3cb907e31af77e755ebd/README.md).
+
 Use these shared classes in a source, without copying color definitions:
 
 ```text
@@ -49,6 +58,38 @@ and Mermaid initialization directives out of those sources so styling cannot dri
 The standalone `.mmd` files remain editable; use the renderer below to obtain the
 shared appearance. The book includes the generated SVGs rather than rendering
 Mermaid at page-load time.
+
+## Sequence and state diagrams
+
+Use `sequenceDiagram` for the order of actions between people and MISP, and
+`stateDiagram-v2` for changes to a specific stored state such as publication.
+Keep review procedures, permissions, distribution and delivery outcomes explicit;
+an organizational review stage is not another value of the event's `published` flag.
+Label manual handoffs and configured notifications separately.
+
+Represent people with `participant` role cards rather than UML stick figures.
+Put the name or responsibility on the first line and role/organization context on
+the second, using `<br/>` for native SVG line breaks.
+For example, `participant A as Alice<br/>Analyst · Org A` keeps the person distinct
+from the `participant M as MISP` system without relying on an icon.
+The shared sequence theme uses rounded role cards with cyan accent rules,
+semibold titles, teal metadata and muted lifelines.
+The MISP platform card uses deep blue with white text, while people use pale
+surfaces. Participant labels remain explicit, so color is supplementary.
+Informational notes use the same blue family.
+Participants appear once at the top instead of repeating at the bottom.
+
+All supported diagram types receive the shared Mermaid theme, accessible
+`accTitle`/`accDescr`, native SVG text and branded frame.
+The renderer appends semantic `classDef` declarations only to `flowchart`/`graph`
+sources; that syntax is not valid in sequence diagrams.
+Use Mermaid's diagram-specific notation for actors, notes and alternatives rather
+than adding flowchart classes to sequence sources.
+Avoid literal semicolons in sequence message text because Mermaid treats them as
+statement separators; use words or line breaks instead.
+
+The lifecycle examples in `using-the-system/figures/` and `delegation/figures/`
+have source references in [`event-lifecycle-diagrams.json`](../event-lifecycle-diagrams.json).
 
 ## Regenerate
 

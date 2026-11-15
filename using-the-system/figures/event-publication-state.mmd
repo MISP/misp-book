@@ -1,0 +1,17 @@
+stateDiagram-v2
+  accTitle: Event publication is separate from review and delivery
+  accDescr: A newly created draft is unpublished. Successful authorized publication marks it published. An edit that unpublishes the event, an accepted attribute proposal, or explicit unpublishing returns it to the unpublished state. Review is an organizational step, not a third value of the published field. Unpublishing does not recall previously shared copies, and distribution controls access independently.
+  state "Unpublished" as U
+  state "Published" as P
+  [*] --> U: Create draft
+  U --> P: Authorized publication succeeds
+  P --> U: Unpublishing edit or accepted proposal
+  P --> U: Explicit unpublish
+  note right of U
+    Review is a team procedure.
+    Unpublished does not mean private.
+  end note
+  note right of P
+    Delivery and alerts need verification.
+    Unpublish does not recall copies.
+  end note

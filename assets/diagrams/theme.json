@@ -21,6 +21,12 @@
       "fontSize": "16px"
     },
     "themeCSS": ".node rect, .node polygon, .node path { stroke-width: 1.4px; } .cluster rect { stroke-width: 1px; } .flowchart-link { stroke-width: 1.4px; }",
+    "sequence": {
+      "width": 230,
+      "height": 72,
+      "actorMargin": 50,
+      "mirrorActors": false
+    },
     "flowchart": {
       "htmlLabels": false,
       "curve": "linear",
@@ -29,6 +35,35 @@
       "rankSpacing": 42,
       "useMaxWidth": false
     }
+  },
+  "sequenceThemeVariables": {
+    "actorBkg": "#eef8fb",
+    "actorBorder": "#0091b0",
+    "actorTextColor": "#02394a",
+    "actorLineColor": "#8fb7c3",
+    "signalColor": "#00708d",
+    "signalTextColor": "#02394a",
+    "noteBkgColor": "#eef8fb",
+    "noteBorderColor": "#0ca5c6",
+    "noteTextColor": "#02394a",
+    "labelBoxBkgColor": "#e6f4f7",
+    "labelBoxBorderColor": "#0091b0",
+    "labelTextColor": "#02394a",
+    "loopTextColor": "#02394a"
+  },
+  "sequenceCards": {
+    "systemLabel": "MISP",
+    "systemFill": "#02394a",
+    "systemText": "#ffffff",
+    "accent": "#19c9f0",
+    "titleWeight": 600,
+    "detailColor": "#00708d"
+  },
+  "sequenceIdentity": {
+    "name": "MISP Visual Identity 2.0",
+    "source": "https://github.com/MISP/visual-identity/tree/e3f4a3e93d39a9bf7d8d3cb907e31af77e755ebd/2.0/misp",
+    "paletteSource": "RGB colors in the official horizontal screen SVG",
+    "surfaceColors": "Pale surfaces and muted lifelines are derived tints."
   },
   "classes": {
     "accent": "fill:#e3f2f5,stroke:#007f99,color:#203344,stroke-width:1.8px",

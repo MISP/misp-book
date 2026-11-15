@@ -30,15 +30,24 @@ def main():
         page.set_content('<html><head></head><body></body></html>')
         page.add_script_tag(path=str(args.mermaid_js))
         for source in sorted(ROOT.glob('*/figures/*.mmd')):
-            if re.search(r'\bclassDef\b|\b(?:fill|stroke|color):|%%\{', source.read_text()):
+            source_text = source.read_text()
+            if re.search(r'\bclassDef\b|\b(?:fill|stroke|color):|%%\{', source_text):
                 raise ValueError(f'{source}: use shared theme classes instead of local styling')
+            # classDef is flowchart syntax; sequence diagrams reject it. Other
+            # diagram types still receive the shared Mermaid theme and frame.
+            if re.search(r'^\s*(?:flowchart|graph)\b', source_text, re.MULTILINE):
+                source_text += '\n' + classes
             svg = page.evaluate(r"""async ({source, id, theme, logo}) => {
-              mermaid.initialize({...theme.mermaid, deterministicIDSeed:id});
+              const sequence = /^\s*sequenceDiagram\b/m.test(source);
+              const options = sequence ? {...theme.mermaid,
+                themeVariables:{...theme.mermaid.themeVariables, ...theme.sequenceThemeVariables}}
+                : theme.mermaid;
+              mermaid.initialize({...options, deterministicIDSeed:id});
               const result = await mermaid.render(id, source);
               document.body.innerHTML = result.svg;
               await document.fonts.ready;
               // Explicit SVG geometry also works in Typst; CSS rx/ry do not.
-              for (const [selector, radius] of [['.node rect', theme.shapes.nodeRadius],
+              for (const [selector, radius] of [['.node rect, rect.actor', theme.shapes.nodeRadius],
                 ['.cluster rect', theme.shapes.clusterRadius]]) {
                 for (const rect of document.querySelectorAll(selector)) {
                   rect.setAttribute('rx', radius);
@@ -60,6 +69,15 @@ def main():
               }
               const graph = document.querySelector('svg');
               const [x, y, width, height] = graph.getAttribute('viewBox').split(/\s+/).map(Number);
+              // Mermaid leaves unmirrored lifelines longer than its viewBox.
+              // Bound them before adding the branded frame and its padding.
+              if (sequence) {
+                for (const line of graph.querySelectorAll('line.actor-line')) {
+                  if (Number(line.getAttribute('y2')) > y + height) {
+                    line.setAttribute('y2', y + height);
+                  }
+                }
+              }
               const frame = theme.frame;
               const totalWidth = Math.max(width + 2 * frame.padding,
                 frame.logoWidth + 2 * frame.padding);
@@ -71,6 +89,29 @@ def main():
                 for (const [key, value] of Object.entries(attrs)) el.setAttribute(key, value);
                 return el;
               };
+              if (sequence) {
+                const cards = theme.sequenceCards;
+                for (const rect of graph.querySelectorAll('rect.actor')) {
+                  const labels = [...rect.parentNode.querySelectorAll('text.actor')];
+                  const system = labels[0]?.textContent.trim() === cards.systemLabel;
+                  if (system) rect.style.setProperty('fill', cards.systemFill, 'important');
+                  const x = Number(rect.getAttribute('x'));
+                  const y = Number(rect.getAttribute('y'));
+                  const h = Number(rect.getAttribute('height'));
+                  const accent = element('line', {x1:x+10, x2:x+10, y1:y+12,
+                    y2:y+h-12, stroke:cards.accent, 'stroke-width':3,
+                    'aria-hidden':'true'});
+                  rect.after(accent);
+                  labels.forEach((label, index) => {
+                    const color = system ? cards.systemText : index === 0
+                      ? theme.sequenceThemeVariables.actorTextColor : cards.detailColor;
+                    for (const text of [label, ...label.querySelectorAll('tspan')]) {
+                      text.style.setProperty('fill', color, 'important');
+                      if (index === 0) text.style.setProperty('font-weight', cards.titleWeight);
+                    }
+                  });
+                }
+              }
               // Keep the diagram's accessible title/description and stylesheet at the root.
               const contents = element('g', {class:'misp-diagram-content',
                 transform:`translate(${(totalWidth-width)/2-x},${graphTop-y})`});
@@ -96,7 +137,7 @@ def main():
               graph.setAttribute('viewBox', `0 0 ${totalWidth} ${totalHeight}`);
               graph.setAttribute('style', `background:${frame.background};max-width:100%;height:auto`);
               return graph.outerHTML;
-            }""", {"source": source.read_text() + '\n' + classes,
+            }""", {"source": source_text,
                     "id": "misp-" + source.parent.parent.name + '-' + source.stem,
                     "theme": theme, "logo": logo})
             root = ET.fromstring(svg)

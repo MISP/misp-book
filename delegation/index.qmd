@@ -70,6 +70,18 @@ The transferred event retains its UUID, but its local numeric ID can change.
 Use the resulting event link or UUID to find it, and confirm ownership, access, attachments, reports, and annotations after the handover.
 The original organization can lose access when it is no longer the owner and the distribution remains organization-only.
 
+### Follow the ownership handoff {#delegation-sequence}
+
+The source and recipient below are two local organizations on the same instance.
+The source has permission to request delegation and uses an eligible organization-only draft; the recipient has the permissions needed to accept it and subsequently publish.
+The sequence summarizes the separate decisions described above.
+
+![Delegation separates requesting, reviewing and accepting an ownership transfer from the recipient's later audience and publication decisions. Discarding leaves ownership unchanged; acceptance preserves the UUID and can remove the original organization's access.](figures/delegation-handoff.svg)
+
+After acceptance, check the saved ownership, content and distribution rather than treating the requested audience as already applied.
+Verify publication and any synchronization jobs separately when the recipient is ready to share.
+The sequence follows `3.0_wip` [commit `0aaeb964b`](https://github.com/MISP/MISP/commit/0aaeb964b4e2330d081d8b36050744df3ebe0819); see the [source checks](../assets/event-lifecycle-diagrams.json).
+
 ## After the handover
 
 Agree who will respond to corrections, sightings, and partner questions.

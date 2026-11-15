@@ -1,0 +1,108 @@
+{
+  "issue": "https://github.com/MISP/misp-book/issues/106",
+  "misp_repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "0aaeb964b4e2330d081d8b36050744df3ebe0819",
+  "validation_scope": "Source-reviewed examples for one MISP instance. Rendering and book-format checks exercise the documentation, not a new live publication, proposal or delegation integration test.",
+  "assumptions": [
+    "Alice and Bob share Org A. Bob can review and publish that organization's event. Their review handoff is manual.",
+    "The proposal author in Org B can see the event and submit a proposal. Org A has the permissions to accept/discard and publish. Cross-instance proposal transport is outside the sequence.",
+    "The delegation source and recipient are local organizations. The source uses an eligible organization-only draft. Recipient review/acceptance and later publication remain separate.",
+    "Publication state, analysis level, distribution, IDS eligibility, notification preferences and successful delivery are separate decisions."
+  ],
+  "checked_behavior": [
+    "Normal event-form editing clears published. Accepted attribute proposals apply the change and call unpublishEvent. The diagrams avoid the historical assertion that every kind of attached-data change is an event edit.",
+    "Publication permission and event access are checked. The optional block_publishing_for_same_creator setting defaults false and compares the publisher with the recorded event creator.",
+    "publishRouter can enqueue a job. The published flag alone does not establish delivery to a remote instance or detector.",
+    "Delegation transfer changes org_id and orgc_id and saves the event with its UUID. Acceptance does not itself execute publication or apply the requested distribution."
+  ],
+  "sources": [
+    {
+      "file": "app/Controller/EventsController.php",
+      "url": "https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Controller/EventsController.php",
+      "functions_or_settings": [
+        "edit",
+        "publish",
+        "alert",
+        "__prepareForPublish"
+      ],
+      "sha256": "cad23b53c1c00762d859bfcab8cfa584196598f24f53b3278b113b9fdf88dddb"
+    },
+    {
+      "file": "app/Model/Event.php",
+      "url": "https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Model/Event.php",
+      "functions_or_settings": [
+        "publishRouter",
+        "publish",
+        "unpublishEvent"
+      ],
+      "sha256": "b2cf4f72a3f3d43f443bdd08b1f9ac1a752146d942f08d1562fe897adbb45ad5"
+    },
+    {
+      "file": "app/Model/ShadowAttribute.php",
+      "url": "https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Model/ShadowAttribute.php",
+      "functions_or_settings": [
+        "acceptProposal",
+        "discardProposal"
+      ],
+      "sha256": "334d4c1d872874b9a20151128f8cbef4349ee54b5352e1307c4f7184faa74ee9"
+    },
+    {
+      "file": "app/Controller/ShadowAttributesController.php",
+      "url": "https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Controller/ShadowAttributesController.php",
+      "functions_or_settings": [
+        "__accept",
+        "__canModifyEvent"
+      ],
+      "sha256": "9c7e08b870bfa31afb49a8c564a81d5090074c265dd685eff33a735409465581"
+    },
+    {
+      "file": "app/Model/EventDelegation.php",
+      "url": "https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Model/EventDelegation.php",
+      "functions_or_settings": [
+        "transferEvent"
+      ],
+      "sha256": "3150b00a2f8d802e69fb35b73b9fcb5485f5fd641ba96fdfca0efd32606942ea"
+    },
+    {
+      "file": "app/Controller/EventDelegationsController.php",
+      "url": "https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Controller/EventDelegationsController.php",
+      "functions_or_settings": [
+        "delegateEvent",
+        "acceptDelegation"
+      ],
+      "sha256": "f22aee5129ab60d0e407db744fe380769d8e13b5a7da370489054bee577130c3"
+    },
+    {
+      "file": "app/Model/Server.php",
+      "url": "https://github.com/MISP/MISP/blob/0aaeb964b4e2330d081d8b36050744df3ebe0819/app/Model/Server.php",
+      "functions_or_settings": [
+        "block_publishing_for_same_creator"
+      ],
+      "sha256": "663de1aed513358027c2751fb75569f75d9711469d678882e23c8f090f35e2f6"
+    }
+  ],
+  "diagrams": [
+    {
+      "source": "using-the-system/figures/event-publication-state.mmd",
+      "placement": "Using the System / The event lifecycle",
+      "type": "stateDiagram-v2"
+    },
+    {
+      "source": "using-the-system/figures/analyst-publication.mmd",
+      "placement": "Using the System / Publishing an event / Review with another analyst",
+      "type": "sequenceDiagram"
+    },
+    {
+      "source": "using-the-system/figures/proposal-review.mmd",
+      "placement": "Using the System / Proposing changes / Follow a proposal through review",
+      "type": "sequenceDiagram"
+    },
+    {
+      "source": "delegation/figures/delegation-handoff.mmd",
+      "placement": "Delegation / Answer a delegation request / Follow the ownership handoff",
+      "type": "sequenceDiagram"
+    }
+  ],
+  "artifact_hashes": "assets/diagrams/manifest.json"
+}
