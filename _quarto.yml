@@ -71,6 +71,7 @@ book:
       chapters:
         - false-positives/index.qmd
         - pivoting/index.qmd
+        - geolocation/index.qmd
     - part: "Sharing & Synchronisation"
       chapters:
         - sharing/index.qmd

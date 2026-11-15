@@ -134,6 +134,13 @@
       "viewBox": "0 0 612.59375 590.5999755859375"
     },
     {
+      "source": "geolocation/figures/geolocation-import-export.mmd",
+      "file": "geolocation/figures/geolocation-import-export.svg",
+      "source_sha256": "2540cc3c1e0c4168652d9fb68e1754bf80e6790fad000ea15ffd3d77c1b8b686",
+      "sha256": "2efff5486ec2f68c35f8d1bac4e31a59920d51338832046e6535782b5322c732",
+      "viewBox": "0 0 905.0234375 722.4000244140625"
+    },
+    {
       "source": "managing-feeds/figures/cache-or-import.mmd",
       "file": "managing-feeds/figures/cache-or-import.svg",
       "source_sha256": "887e49b1f1b653ab2b0a049059cc0bd0a2ba6bead13e19b3c86b5c365b77b19c",

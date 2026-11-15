@@ -57,6 +57,9 @@ its parent. A populated field or template default does not establish detection v
 
 ![The object review step summarizes the draft; the final save has not been submitted.](figures/misp3-object-review.png)
 
+For a worked example combining `geolocation`, `gpx` and `geojson`, see [Representing Geolocation and Movement](../geolocation/index.qmd).
+The use case explains coordinate systems, observation times, dataset references and source-preserving export.
+
 ## Identity and MISP 3.0 values {#objects-identities}
 
 ![A template defines the shape, an object instance holds observed attributes, and a directional object reference links it to another observed entity.](figures/object-structure.svg)
