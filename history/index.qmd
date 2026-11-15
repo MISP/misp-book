@@ -29,9 +29,11 @@ NATO took an interest, with a presentation in January 2012 and development suppo
 During this early collaboration, the participants chose the **Affero GPL** for public release.
 **Alex Vandurme** proposed the name **Malware Information Sharing Project**, or MISP.
 
-In January 2013, **Andras Iklody** became the main full-time developer, initially employed by NATO.
+In January 2013, **Andras Iklody** became the main full-time developer of MISP, initially at NATO.
+A decisive step came when **Alexandre Dulaunoy** met Iklody and proposed that he work full-time on the project at **CIRCL**.
+With CIRCL providing an institutional home and sustained support for that work, development accelerated.
 Adoption and advocacy by CERT-EU, CIRCL and other response teams widened the community.
-The project's [own history](https://www.misp-project.org/who/) records these beginnings and identifies Iklody as its lead developer at CIRCL.
+The project's [own history](https://www.misp-project.org/who/) documents the January 2013 milestone and identifies Iklody as its lead developer at CIRCL.
 
 ## Milestones in a growing ecosystem {#history-milestones}
 
@@ -83,6 +85,11 @@ An operator who explains a difficult deployment or an analyst who reports a conf
 The [governance model](https://www.misp-project.org/governance/) explicitly draws input from user groups, GitHub discussions, training and community gatherings.
 The [November 2024 release account](https://www.misp-project.org/2024/11/19/MISP.2.5.2.released.html/) provides a concrete example: discussions at hack.lu and the CTI Summit informed subsequent development work.
 Conferences, summits and hackathons are therefore part of how operational needs become software and shared practice.
+
+**[MISP-NG](https://www.circl.lu/projects/eu/misp-ng/)** helped extend the ecosystem to meet the needs of a wider range of users across Europe.
+Supported by the European Union's **Connecting Europe Facility (CEF)** under [project 2016-LU-IA-0098](https://www.circl.lu/services/training-initiative/), it combined development with community expansion and practical training.
+Those training sessions were also opportunities to gather feedback, understand different operational needs and collect ideas for MISP's evolution.
+Learning to use the platform and helping shape its next capabilities became connected activities: experience from European users fed back into the project.
 
 There are also many communities using MISP, each with its own trust relationships and purpose.
 Sharing technology helps them exchange structured information while keeping responsibility for their own assessment and distribution decisions.

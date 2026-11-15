@@ -77,6 +77,16 @@
       "id": "hacklu-2026",
       "url": "https://hack.lu/blog/hack.lu-2026-agenda-is-live/",
       "supports": "20th edition held 2026-10-20 through 2026-10-23 in Luxembourg."
+    },
+    {
+      "id": "misp-ng",
+      "url": "https://www.circl.lu/projects/eu/misp-ng/",
+      "supports": "MISP-NG ecosystem development, training and expansion of the European MISP community."
+    },
+    {
+      "id": "misp-ng-cef-training",
+      "url": "https://www.circl.lu/services/training-initiative/",
+      "supports": "CEF funding under project 2016-LU-IA-0098 and MISP training."
     }
   ],
   "website_snapshot": {
@@ -378,7 +388,20 @@
     "CIRCL leadership is described alongside international community contributions; practical autonomy is explained through licensing, public formats and independently operated communities.",
     "The standards initiative and published Internet-Drafts are not described as blanket IETF RFC adoption.",
     "Core software and ecosystem repositories are not assumed to have identical licenses.",
-    "New companion tools are described as separate projects with their own architectures and release cycles."
+    "New companion tools are described as separate projects with their own architectures and release cycles.",
+    "The CIRCL meeting and acceleration account incorporates the historical clarification supplied for this appendix; it is not attributed to the Who page.",
+    "MISP-NG CEF funding, training and European community expansion are supported by CIRCL project pages; the feedback and ideas account also incorporates the supplied historical clarification."
   ],
-  "attribution": "New prose synthesizes facts from the cited sources and the existing book; no website illustrations or long quotations are reproduced."
+  "attribution": "New prose synthesizes facts from the cited sources and the existing book; no website illustrations or long quotations are reproduced.",
+  "author_supplied_clarifications": [
+    {
+      "provided_on": "2026-11-15",
+      "context": "Historical additions requested during review of the appendix.",
+      "details": [
+        "Alexandre Dulaunoy met Andras Iklody and proposed full-time work on MISP at CIRCL; this institutional support accelerated development.",
+        "MISP-NG helped extend MISP for a wider range of European users; training gathered operational feedback and ideas for the evolution of the project."
+      ],
+      "date_handling": "January 2013 refers to the start of Iklody as main full-time developer in the published project history. No exact date is assigned to the meeting or move to CIRCL."
+    }
+  ]
 }
