@@ -1,0 +1,16 @@
+flowchart TD
+  accTitle: Reviewed indicators drive a scoped hunt and evidence feedback loop
+  accDescr: Validated MISP selectors are exported into queries or intelligence lists. The analyst checks scope before separate publication and execution. Results return with host, query, time and coverage context. Response decisions and reassessment follow review.
+  A[Validated selectors with source references] -->|Choose question and target platform| B[Generate queries or intelligence lists]
+  B -->|Inspect types and expected matches| C[Review scope and expiry]
+  C -->|Approved delivery| D[Publish or upload to destination]
+  D -->|Separate configuration and execution| E[Run scoped hunt]
+  E -->|Export host and query context with times| F[Import and review results in MISP]
+  F -->|Finding needs action| G[Review containment decision]
+  F -->|Record evidence and search coverage| H[Update assessment and selectors]
+  H -->|Refine the question| A
+  G -->|Record actual action and outcome| H
+  class A,B,F accent;
+  class C,G caution;
+  class D,E muted;
+  class H success;

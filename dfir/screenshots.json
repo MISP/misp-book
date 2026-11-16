@@ -1,0 +1,153 @@
+{
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "misp_version": "3.0.0",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "capture_method": "Chromium via Playwright against the running application. Real modal/file upload, handler preview, final UI Import, REST verification and native object expansion. No image retouching, mocked responses or injected styling.",
+  "runtime_note": "Restored isolated documentation containers. Application code and CakePHP come from the recorded checkout; its existing database was preserved. Container PHP used the mapped workspace owner for restored bind-mount access. Local service names were appended to the inherited proxy bypass list.",
+  "misp_modules": {
+    "repository": "https://github.com/MISP/misp-modules",
+    "commit": "d7ec36544576f2523e320ce9200d0f18d12e11c7",
+    "pymisp_version": "2.5.34.4",
+    "runtime_note": "Unmodified upstream Python package copied into the existing Python 3.12 module container. A loader wrapper restricted discovery to the nine DFIR handlers and extract_url_components; no requests/responses or handler code rewritten. Only evtx_findings_import and timesketch_export executed for this example.",
+    "discovered_modules": [
+      "autopsy_import",
+      "evtx_findings_import",
+      "osquery_import",
+      "suricata_import",
+      "timesketch_import",
+      "timesketch_export",
+      "velociraptor_import",
+      "volatility3_import",
+      "zeek_import",
+      "extract_url_components"
+    ]
+  },
+  "fixture": {
+    "source": "Authored synthetic Hayabusa-shaped JSONL; no Hayabusa or Chainsaw execution and no EVTX acquired.",
+    "file": "dfir/examples/hayabusa-selected.jsonl",
+    "sha256": "e093cfa27c3118adc46a2c967031c11bda9721e66f8075d152b9b1de90957818",
+    "bytes": 564,
+    "event_id": 17,
+    "event_info": "DFIR exercise: selected Windows log findings",
+    "organization": "MISP Documentation",
+    "setup_account": "analyst@example.org",
+    "date": "2026-11-15",
+    "source_time_utc": "2026-11-15T09:20:00Z",
+    "distribution": 0,
+    "published": false,
+    "rule_status": "test",
+    "review_status": "unreviewed",
+    "object_template_note": "windows-event-log-detection and windows-event-log-record templates copied unchanged from the pinned misp-modules data package into the isolated core template directory and registered with Admin updateObjectTemplates. Existing file template version 25 reused."
+  },
+  "verification": {
+    "event_id": 17,
+    "distribution": 0,
+    "published": false,
+    "objects": 3,
+    "object_attributes": 28,
+    "all_non_ids": true,
+    "all_non_correlating": true,
+    "references_resolve": true,
+    "source_attachment_byte_identical": true,
+    "exported_timeline_observations": 2,
+    "timestamp_utc": "2026-11-15T09:20:00Z",
+    "timeline_export_sha256": "3879be6ce416e7263bdfa4367b721d0819c093d1372b7f2131a10b293c9cbf3a",
+    "raw_misp_timeline_export_error": "No supported timestamped observations selected.",
+    "compatibility_step": "Normalized two explicit compact UTC offsets (+0000 to +00:00) in an export-only copy; MISP records unchanged."
+  },
+  "limitations": [
+    "Only the Windows finding import and the normalized Timesketch JSONL export were exercised live; the complete module inventory is a source audit.",
+    "Direct timeline export of the saved MISP compact UTC datetime offsets fails at this module revision. The documented helper normalizes explicit offsets in an export-only copy; original MISP records remain unchanged.",
+    "No Timesketch server upload, memory acquisition, real endpoint collection, packet analysis, external enrichment, IOC publication, containment or messaging was performed.",
+    "Imported raw fields and screenshots are synthetic, not operational evidence."
+  ],
+  "shots": [
+    {
+      "file": "dfir/figures/misp3-dfir-import.png",
+      "url": "/events/view/17",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1400
+      },
+      "description": "Real enabled import form with synthetic file selected; this second form capture was discarded without submitting.",
+      "sha256": "fe27bff112f4feff72f395c5e1b92b18ebe2597cab3bd6d079248411ed1618ea",
+      "captured_at": "2026-11-15T21:49:22.684001+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 1126
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-dfir-review.png",
+      "url": "/events/view/17",
+      "selector": "Viewport showing the real Import results modal",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "description": "Real handler output displayed in MISP before the final Import action; 3 objects, 28 attributes.",
+      "sha256": "278c0261222a455cc160f377a2227dd92477aed2faf2b83994fd0248fc16926e",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "captured_at": "2026-11-15T21:47:13.343854+00:00",
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-dfir-finding.png",
+      "url": "/events/view/17#tab-objects",
+      "selector": "[data-oi-expand=\"9\"]",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "description": "Saved detection with its native object attributes expanded; full-page screenshot.",
+      "sha256": "2d9374b811c029e160e613d61ced30b30ad49423de1e4eb7210ea2936fffeba9",
+      "captured_at": "2026-11-15T21:49:23.554951+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1417
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-dfir-record.png",
+      "url": "/events/view/17#tab-objects",
+      "selector": "[data-oi-expand=\"10\"]",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "description": "Saved record with its native object attributes expanded; full-page screenshot.",
+      "sha256": "4077b5a156cfe5f679225d73c4cfe26584ae49c1a72bd67778f1f82f4b98b7b2",
+      "captured_at": "2026-11-15T21:49:24.832921+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1417
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    }
+  ],
+  "source_checks": [
+    "app/Controller/EventsController.php: importModule, resolvedMISPFormat and upload_analysis_file",
+    "app/View/Themed/Overmind/Events/populate_from.ctp",
+    "app/View/Themed/Overmind/Elements/Events/import_module_form.ctp",
+    "misp_modules/modules/import_mod/evtx_findings_import.py",
+    "misp_modules/modules/export_mod/timesketch_export.py",
+    "misp_modules/lib/timesketch_exchange.py",
+    "documentation/import_mod/*.md and documentation/export_mod/*.md at pinned revision"
+  ],
+  "upstream_bug_fix": {
+    "pull_request": "https://github.com/MISP/misp-modules/pull/1140",
+    "commit": "148f28042f98a7dd162866446bea8600d0ff6bf9",
+    "validation": "117 Timesketch tests pass on Python 3.10.22 and Python 3.12.14, including regressions that failed before the fix. The unmodified saved MISP event exports two exact observations through the patched Python handler without preprocessing. Compact suffixes are normalized before parsing for Python 3.10 compatibility. The captured service remains on its recorded unmodified source snapshot.",
+    "review_followup_commit": "59323dfc600a88358f2ffb3a3cf68dfc0bf53472"
+  },
+  "baseline_configuration_restored": true
+}

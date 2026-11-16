@@ -120,6 +120,27 @@
       "viewBox": "0 0 1174 823"
     },
     {
+      "source": "dfir/figures/dfir-hunt-loop.mmd",
+      "file": "dfir/figures/dfir-hunt-loop.svg",
+      "source_sha256": "606ab17696e231fe130fc74341465d9344e159652cc13f5786edc9eecdfbe48b",
+      "sha256": "206abc3ac60894260cef9b4fcc38760833a1feb3ac56b5d086b3f9c1beb27171",
+      "viewBox": "0 0 617.48828125 1204.5999755859375"
+    },
+    {
+      "source": "dfir/figures/dfir-lifecycle.mmd",
+      "file": "dfir/figures/dfir-lifecycle.svg",
+      "source_sha256": "107b5d94b55a4977bd62995c23c258db18043c71d9ca20669ed218e2743658fc",
+      "sha256": "87aee2fa1514c592ed22c5a5ae7d075a808863df1e1c4e5df73d57e0fded6782",
+      "viewBox": "0 0 811.90234375 1102.199951171875"
+    },
+    {
+      "source": "dfir/figures/dfir-timeline.mmd",
+      "file": "dfir/figures/dfir-timeline.svg",
+      "source_sha256": "9bec34de55a67218001d2e243acd53e574f90bb2772908b98a6c96f5f879f321",
+      "sha256": "7426a013ba1e81d21afa7f17e342e894334d79df6911eb62db9a173f5cbeb5c0",
+      "viewBox": "0 0 1128 677"
+    },
+    {
       "source": "faq/figures/diagnose-before-changing.mmd",
       "file": "faq/figures/diagnose-before-changing.svg",
       "source_sha256": "4526d3bfeb4d4b764b0c855a426e255293c49127bf80d40d1555e29f725a065e",

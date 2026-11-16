@@ -69,6 +69,7 @@ book:
         - noticelists/index.qmd
     - part: "Use Cases"
       chapters:
+        - dfir/index.qmd
         - false-positives/index.qmd
         - pivoting/index.qmd
         - geolocation/index.qmd

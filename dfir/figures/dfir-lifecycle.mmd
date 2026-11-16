@@ -1,0 +1,17 @@
+flowchart TD
+  accTitle: MISP in a digital forensics and incident response investigation
+  accDescr: Evidence is collected and retained outside MISP. Selected exports enter MISP with provenance, analysts validate observations, and reviewed outputs reach hunting or response tools. Results inform further collection and reassessment.
+  A[Acquire and preserve evidence] -->|Retain originals and chain of custody| B[Evidence repository]
+  A -->|Export selected results| C[Import observations into MISP]
+  B -.->|Case reference and integrity hash| C
+  C -->|Preserve source records and time meaning| D[Validate and assess findings]
+  D -->|Question about a selector| E[Approved enrichment and correlation]
+  E -->|Context and alternative explanations| D
+  D -->|Evidence supports a scoped action| F[Review hunt or response output]
+  F -->|Deploy with scope and expiry| G[Hunting and response platforms]
+  G -->|Return results and coverage| H[Reassess and document outcome]
+  H -->|New evidence question| A
+  class A,C,D accent;
+  class B,E muted;
+  class F caution;
+  class G,H success;

@@ -12,6 +12,8 @@ For examples spanning SOC/SOAR, existing data pipelines and other CTI platforms,
 
 For geographic datasets, see the [geolocation and movement use case](../geolocation/index.qmd): GPX, GeoJSON, NMEA and KML/KMZ import/export, preserved attachments, map views and a source-checked inventory of geographic enrichment modules.
 
+For selected forensic evidence, see [Digital Forensics and Incident Response](../dfir/index.qmd): Windows findings, memory, endpoint and network imports, evidence provenance, timeline exchange and scoped hunting, with a complete candidate module inventory.
+
 Start with the [module catalogue](https://misp-project.org/modules/) to find an integration, then check what your running service actually provides.
 A module may process data locally, query a provider or submit information to another system; its input contract and effects determine how to use it.
 
