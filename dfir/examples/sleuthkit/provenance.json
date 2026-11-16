@@ -1,0 +1,60 @@
+{
+  "fixture": "Authored synthetic ext2 filesystem; no acquired victim data or malware.",
+  "image": {
+    "file": "filesystem.img",
+    "sha256": "3be3d59ae46ba47971ac79ca064ceef5c754975e936a39d6f589b146f3c3344e",
+    "bytes": 4194304,
+    "format": "raw filesystem, ext2; filesystem begins at byte 0; no partition table",
+    "uuid": "72e7a756-f09d-4b99-b84a-83f098dc5664",
+    "label": "DFIR_SAMPLE"
+  },
+  "sleuthkit_version": "The Sleuth Kit ver 4.12.1",
+  "e2fsprogs_version": "debugfs 1.47.2 (1-Jan-2025)\n\tUsing EXT2FS Library version 1.47.2",
+  "timezone": "UTC",
+  "locale": "C",
+  "timeline_window": "2026-11-16..2026-11-17",
+  "file": {
+    "path": "/case/notes.txt",
+    "inode": "13",
+    "uid": 1000,
+    "gid": 1000,
+    "bytes": 47,
+    "sha256": "879b8acc00d213bc50850f3dfdc22441edc5c890a9308a4186be310e2ed2356c",
+    "mtime": "2026-11-16T09:20:00Z",
+    "ctime": "2026-11-16T09:23:00Z",
+    "atime": "2026-11-16T09:25:00Z",
+    "creation_time": "not available from this ext2 fixture"
+  },
+  "construction": "Created with mke2fs and populated through debugfs without mounting. File timestamps were explicitly assigned for the teaching example, rather than observed on an investigated device.",
+  "analysis": "fls and mactime read the image/bodyfile; icat recovered the selected inode byte-identically to notes.txt. Only the /case/notes.txt bodyfile record was passed to mactime. An explicit date range excludes the unknown birth-time sentinel from the MISP upload; the full bodyfile preserves its zero value.",
+  "files": {
+    "filesystem.body": {
+      "bytes": 273,
+      "sha256": "c958ed8895d6dc6d8619d1eda8339a49c2acf96ff62b7615a51aee24ea30d763"
+    },
+    "filesystem.img.gz": {
+      "bytes": 4547,
+      "sha256": "7c7058d928d2bb9a972cd9165274d9937d30adcb9831a6e0623cde82347841e3"
+    },
+    "filesystem.img.sha256": {
+      "bytes": 81,
+      "sha256": "fbe729eb4b3b6d6ab952ec19a197274cf22370df5f5a6782dbc2e46025fd444c"
+    },
+    "notes-timeline.csv": {
+      "bytes": 274,
+      "sha256": "1783d94a6aed1dea3a21c50595ba3d86da948e1976f38ffb5b794c6cd3a4eae7"
+    },
+    "notes-timeline.txt": {
+      "bytes": 285,
+      "sha256": "29f8bda6c5ce80b12bc63c72b872f55b5218de1ebf7e8de7f60ea16bc4aa3139"
+    },
+    "notes.body": {
+      "bytes": 82,
+      "sha256": "71c3b8752903e5cfea158bd100c351caf533d9ea162d625033256e710142a9d5"
+    },
+    "notes.txt": {
+      "bytes": 47,
+      "sha256": "879b8acc00d213bc50850f3dfdc22441edc5c890a9308a4186be310e2ed2356c"
+    }
+  }
+}

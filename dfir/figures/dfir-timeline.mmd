@@ -1,0 +1,16 @@
+sequenceDiagram
+  accTitle: Selected findings exchanged between a timeline and MISP
+  accDescr: An analyst exports selected Timesketch or Plaso findings, imports them into MISP with source provenance, reviews the observations, and exports supported timestamped observations. Upload and access configuration remain separate actions in Timesketch.
+  participant A as Analyst<br/>Investigation team
+  participant T as Timeline tool<br/>Timesketch or Plaso
+  participant M as MISP
+  A->>T: Select a relevant time window and findings
+  T-->>A: Export records with source IDs and time semantics
+  A->>M: Import using timesketch_import
+  M-->>A: Preview observations and retained provenance
+  A->>M: Review and save the selected findings
+  A->>M: Request timesketch_export for selected observations
+  M-->>A: JSONL with activity times and MISP references
+  Note over A,T: Review content and choose the destination audience
+  A->>T: Upload through the normal timeline import
+  T-->>A: Inspect ingestion results and possible duplicates

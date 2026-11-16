@@ -1,0 +1,2009 @@
+{
+  "repository": "https://github.com/MISP/misp-modules",
+  "commit": "f4899ad42ac074de672ed32485223badb8680a45",
+  "reviewed_on": "2026-11-16",
+  "total": 331,
+  "families": {
+    "Import": 33,
+    "Expansion": 240,
+    "Export": 39,
+    "Action": 19
+  },
+  "scope": "Every production .py handler directly in expansion, import_mod, export_mod and action_mod; underscore-prefixed helpers and non-.py skeletons excluded.",
+  "excluded_handlers": [
+    "import_blueprint",
+    "testaction",
+    "testexport",
+    "testimport"
+  ],
+  "method": "Static AST extraction of source-declared metadata without executing handlers. Four dynamic action descriptions are manually summarized from the handler contract. Inputs/requirements may be incomplete when declarations are dynamic; follow the linked source. Source presence does not establish installed dependencies, compatibility, provider availability or organization enablement.",
+  "csv_sha256": "0cd3faa0de4a625bd879658bd58e5e27118094d7fdfa74aff0c4ff1454adb194",
+  "modules": [
+    {
+      "family": "Import",
+      "module": "adtimeline_import",
+      "source": "misp_modules/modules/import_mod/adtimeline_import.py",
+      "sha256": "ad2669034dbd46b58a17f2a5c6a32a4101b4c75f381d599544b9016e85f8f38f"
+    },
+    {
+      "family": "Import",
+      "module": "anyrun_sandbox_import",
+      "source": "misp_modules/modules/import_mod/anyrun_sandbox_import.py",
+      "sha256": "b8ac135c28eeece64bd6c2be68088755fa6d817fccc3429f7bb2ffec88d0cf03"
+    },
+    {
+      "family": "Import",
+      "module": "autopsy_import",
+      "source": "misp_modules/modules/import_mod/autopsy_import.py",
+      "sha256": "ba0025d74ff65027d280ab4f8ff474ce16562da931aa38d4bd7292d5965b30ec"
+    },
+    {
+      "family": "Import",
+      "module": "cof2misp",
+      "source": "misp_modules/modules/import_mod/cof2misp.py",
+      "sha256": "a0d632f2f8af59d2a852979a78325e683f681d7b5e0f1bed58cf9fd893e5d776"
+    },
+    {
+      "family": "Import",
+      "module": "csvimport",
+      "source": "misp_modules/modules/import_mod/csvimport.py",
+      "sha256": "ca085e0cb5ac0c09c2deec47bc5035938b305b20de6f4b97bf56cbe7c8eb9705"
+    },
+    {
+      "family": "Import",
+      "module": "cuckooimport",
+      "source": "misp_modules/modules/import_mod/cuckooimport.py",
+      "sha256": "96dd6ef52f89260f07aa5ddc7ea1de276a5823d733858de68fc29d49c29f3dbd"
+    },
+    {
+      "family": "Import",
+      "module": "darkmoon_import",
+      "source": "misp_modules/modules/import_mod/darkmoon_import.py",
+      "sha256": "4cecbe92f33c5841d89cfaf9354cf33342b03f1992d8217bcf5b062c224b5ac7"
+    },
+    {
+      "family": "Import",
+      "module": "dmarc_import",
+      "source": "misp_modules/modules/import_mod/dmarc_import.py",
+      "sha256": "154761783f2b6ca47b1cb6f924f5b6873928a0a13e3ee089742d5aeb8cdbfd46"
+    },
+    {
+      "family": "Import",
+      "module": "email_import",
+      "source": "misp_modules/modules/import_mod/email_import.py",
+      "sha256": "c615b0e92ee4d38cebdd83e217d0920a04d34cec468b26ba27daf9e1c52c42f2"
+    },
+    {
+      "family": "Import",
+      "module": "evtx_findings_import",
+      "source": "misp_modules/modules/import_mod/evtx_findings_import.py",
+      "sha256": "95cf3ab6c7a03b4f5c479d4f02d69444223ad649fbfdd4c78b2bffcfc14b7769"
+    },
+    {
+      "family": "Import",
+      "module": "geojson_import",
+      "source": "misp_modules/modules/import_mod/geojson_import.py",
+      "sha256": "ec516cb8d6240089c4b6f66f8d8f500b9b45a8925424c58e18ab496add9e9313"
+    },
+    {
+      "family": "Import",
+      "module": "goamlimport",
+      "source": "misp_modules/modules/import_mod/goamlimport.py",
+      "sha256": "5117e29f85109c30fc3d2a04d5f91248db567a6c4367a0be1fc100e65ba90c04"
+    },
+    {
+      "family": "Import",
+      "module": "gpx_import",
+      "source": "misp_modules/modules/import_mod/gpx_import.py",
+      "sha256": "3311d3b2198fded2ab736344f3d699fa21ef4e99e9a1839846f3d70a56e08471"
+    },
+    {
+      "family": "Import",
+      "module": "joe_import",
+      "source": "misp_modules/modules/import_mod/joe_import.py",
+      "sha256": "459f28ebab972eb1f60cd3e5ec05d34e434e4823014e37ce15a09e1b96a28c5b"
+    },
+    {
+      "family": "Import",
+      "module": "kml_import",
+      "source": "misp_modules/modules/import_mod/kml_import.py",
+      "sha256": "2b1dca7ef4a8a81e6213b598bcfd58da7c7f6366e9a4b00231fb26d4c7325ca7"
+    },
+    {
+      "family": "Import",
+      "module": "lastline_import",
+      "source": "misp_modules/modules/import_mod/lastline_import.py",
+      "sha256": "a1ff0e715dd1d5a8701855fa0d5ce4a9c72dcef1a80280500ad0b695d27ced73"
+    },
+    {
+      "family": "Import",
+      "module": "mispjson",
+      "source": "misp_modules/modules/import_mod/mispjson.py",
+      "sha256": "a5ca4e4bb9b26a71db43c4b5624de8adeb701deef3bda57fa3b654af2508ae8f"
+    },
+    {
+      "family": "Import",
+      "module": "nmea_import",
+      "source": "misp_modules/modules/import_mod/nmea_import.py",
+      "sha256": "b986a5cc62b796b4cae3e5685c8ed8b651f7aba96ade0ab764e55cd0c53dd210"
+    },
+    {
+      "family": "Import",
+      "module": "ocr",
+      "source": "misp_modules/modules/import_mod/ocr.py",
+      "sha256": "26f96426a2751544bb8057cb7f10ad03033eececcdf9febe9c7329fab0b29ad0"
+    },
+    {
+      "family": "Import",
+      "module": "openiocimport",
+      "source": "misp_modules/modules/import_mod/openiocimport.py",
+      "sha256": "33b1ec59f6266991f5cb366bf34594c5b2bc6febd4f17ef5b3ce9ea17c2fde43"
+    },
+    {
+      "family": "Import",
+      "module": "osquery_import",
+      "source": "misp_modules/modules/import_mod/osquery_import.py",
+      "sha256": "71d9338f47fcc14f8f33e1222e29434056a94ff9710f30fb8c54c0b18461bd1b"
+    },
+    {
+      "family": "Import",
+      "module": "pcap_import",
+      "source": "misp_modules/modules/import_mod/pcap_import.py",
+      "sha256": "d37a32d4330bbae7984ec16dbb1669caa0174b6c96634d7ebae5ccf6938e1bc4"
+    },
+    {
+      "family": "Import",
+      "module": "socradar_taxii_feed",
+      "source": "misp_modules/modules/import_mod/socradar_taxii_feed.py",
+      "sha256": "2a2384cc8f61cf53fea9d080a9b746036742748c9a6c62f31871486b219cd8d1"
+    },
+    {
+      "family": "Import",
+      "module": "suricata_import",
+      "source": "misp_modules/modules/import_mod/suricata_import.py",
+      "sha256": "f3c3441fb70977f1bb65d45ac04c351ff10cdae060a6336f62ae8b1cddbf84f6"
+    },
+    {
+      "family": "Import",
+      "module": "taxii21",
+      "source": "misp_modules/modules/import_mod/taxii21.py",
+      "sha256": "6eddc3d61b80c4643c816eeb4c61dbf4272bf028377449f7e8d3316e1f702830"
+    },
+    {
+      "family": "Import",
+      "module": "threatanalyzer_import",
+      "source": "misp_modules/modules/import_mod/threatanalyzer_import.py",
+      "sha256": "d7553755a076054c371e23ff79143decc34e37ab202ab424b6793d76b859322f"
+    },
+    {
+      "family": "Import",
+      "module": "timesketch_import",
+      "source": "misp_modules/modules/import_mod/timesketch_import.py",
+      "sha256": "41201d28f11f2af4d93539acd26780d6a05b693da3609a62f70910c5565e19ad"
+    },
+    {
+      "family": "Import",
+      "module": "url_import",
+      "source": "misp_modules/modules/import_mod/url_import.py",
+      "sha256": "feabdb79ecfe036325b24ec92b0c9a5d3257b7e0e9a40057674a8545f1721fe2"
+    },
+    {
+      "family": "Import",
+      "module": "velociraptor_import",
+      "source": "misp_modules/modules/import_mod/velociraptor_import.py",
+      "sha256": "f6cb7558c518f291801df69bffd5c926d43d1782ce3479d62c2f8faffd084317"
+    },
+    {
+      "family": "Import",
+      "module": "vmray_import",
+      "source": "misp_modules/modules/import_mod/vmray_import.py",
+      "sha256": "51d8e0380ff481759d06be364b2c04373c916882dd4b3cd0d6c37141922a737e"
+    },
+    {
+      "family": "Import",
+      "module": "vmray_summary_json_import",
+      "source": "misp_modules/modules/import_mod/vmray_summary_json_import.py",
+      "sha256": "69d1f91c1dccbf638f60ababd117ca5e61b36770601310f3cb87f9ab374a6a62"
+    },
+    {
+      "family": "Import",
+      "module": "volatility3_import",
+      "source": "misp_modules/modules/import_mod/volatility3_import.py",
+      "sha256": "aa11cc51714ebcb9c8a24be46632ae501090aaa9b97aa0c9700e3776aacdfe22"
+    },
+    {
+      "family": "Import",
+      "module": "zeek_import",
+      "source": "misp_modules/modules/import_mod/zeek_import.py",
+      "sha256": "7391ef750c76ff0d81e611d1e3b4dd55b12c0b3a933bfbf0167063c641f1c3b6"
+    },
+    {
+      "family": "Expansion",
+      "module": "abuseipdb",
+      "source": "misp_modules/modules/expansion/abuseipdb.py",
+      "sha256": "e464f9cb2ef56b99082018206ed1e5bc9b0e9d48380b8837d2a47d59be479055"
+    },
+    {
+      "family": "Expansion",
+      "module": "alphaMountain",
+      "source": "misp_modules/modules/expansion/alphaMountain.py",
+      "sha256": "39b1b3cf9551aece0d8efe6b7c9e920638a4b3eed67f26cb63faf540c66d6c7c"
+    },
+    {
+      "family": "Expansion",
+      "module": "anyrun_lookup",
+      "source": "misp_modules/modules/expansion/anyrun_lookup.py",
+      "sha256": "1bb4150e06fc7e064bf95d9bc87b3341f96bb13aa9d33850542329c07da39fec"
+    },
+    {
+      "family": "Expansion",
+      "module": "anyrun_sandbox_submit",
+      "source": "misp_modules/modules/expansion/anyrun_sandbox_submit.py",
+      "sha256": "e8101cda37461a043238f838b8b578cade6de67395de2dcef4ce03dcb8a65f4c"
+    },
+    {
+      "family": "Expansion",
+      "module": "apifreaks",
+      "source": "misp_modules/modules/expansion/apifreaks.py",
+      "sha256": "cbaa0e70b8a0f90f30b3b550974f0642881b7a310506893f804bb0ed380f2199"
+    },
+    {
+      "family": "Expansion",
+      "module": "apiosintds",
+      "source": "misp_modules/modules/expansion/apiosintds.py",
+      "sha256": "846e82d2b74dc31b720d28c81b91338fe72050883de6ec96e323067f6cac489a"
+    },
+    {
+      "family": "Expansion",
+      "module": "apivoid",
+      "source": "misp_modules/modules/expansion/apivoid.py",
+      "sha256": "c579c0100786bedb1156d33c0c0bf300f1b760f11bcfe46d34a03ad71a8c0684"
+    },
+    {
+      "family": "Expansion",
+      "module": "assemblyline_query",
+      "source": "misp_modules/modules/expansion/assemblyline_query.py",
+      "sha256": "b3b7bfa7b2ff1a3f065c11ce02bee689c88a7e3c7517969dcf78771358a7952d"
+    },
+    {
+      "family": "Expansion",
+      "module": "assemblyline_submit",
+      "source": "misp_modules/modules/expansion/assemblyline_submit.py",
+      "sha256": "79c5924c74b306e43e4a74ec5d9e0a06bf2d7cbd410f474af82a718b0d5ebe2c"
+    },
+    {
+      "family": "Expansion",
+      "module": "backscatter_io",
+      "source": "misp_modules/modules/expansion/backscatter_io.py",
+      "sha256": "4da47061c5540652a58eb76f35ed12da150b2555a063ec5654e532cbcdd7923f"
+    },
+    {
+      "family": "Expansion",
+      "module": "bgpranking",
+      "source": "misp_modules/modules/expansion/bgpranking.py",
+      "sha256": "d0fe93bb0ef7d11aabc7c10bdaa3f7cefea7e2a3513997c9a61548728fd97539"
+    },
+    {
+      "family": "Expansion",
+      "module": "bingraph",
+      "source": "misp_modules/modules/expansion/bingraph.py",
+      "sha256": "51303392c331c9889e470152555257ffedfdde44897cdd4d667930c50feb85a1"
+    },
+    {
+      "family": "Expansion",
+      "module": "btc_scam_check",
+      "source": "misp_modules/modules/expansion/btc_scam_check.py",
+      "sha256": "c32acc5656cc27bda68fe34e72aacda105480ed439eaaaaad741b0ac8f28f8d7"
+    },
+    {
+      "family": "Expansion",
+      "module": "btc_steroids",
+      "source": "misp_modules/modules/expansion/btc_steroids.py",
+      "sha256": "05d2fc3c254fd64c9be5a8cba46dc6d1e2065644d9f5207eed0bcc448193c9ae"
+    },
+    {
+      "family": "Expansion",
+      "module": "cape_sandbox",
+      "source": "misp_modules/modules/expansion/cape_sandbox.py",
+      "sha256": "eb69cb933c3c616b9ec7c50a4c67b6625b2526503eb8245e53b5bc9a991eec93"
+    },
+    {
+      "family": "Expansion",
+      "module": "cccs_yara",
+      "source": "misp_modules/modules/expansion/cccs_yara.py",
+      "sha256": "35d7757c4d86080363f80ee7bd5abfd851ec8892bf2739f9238f796fd4f0dd1a"
+    },
+    {
+      "family": "Expansion",
+      "module": "censys_enrich",
+      "source": "misp_modules/modules/expansion/censys_enrich.py",
+      "sha256": "0dceeb753bce7ba81127fb183ac0e499d98949c39641cc7372f09932b146233d"
+    },
+    {
+      "family": "Expansion",
+      "module": "censys_enrichmentapis",
+      "source": "misp_modules/modules/expansion/censys_enrichmentapis.py",
+      "sha256": "887d4fb2d16f19e88029f5103a179385a022b9b9e80bfc46803def05c377ca5d"
+    },
+    {
+      "family": "Expansion",
+      "module": "circl_passivedns",
+      "source": "misp_modules/modules/expansion/circl_passivedns.py",
+      "sha256": "e1b568a1ae9e7f22f53926998e67470b21b5b87fda771befb6ca711fd9c6f8fc"
+    },
+    {
+      "family": "Expansion",
+      "module": "circl_passivessl",
+      "source": "misp_modules/modules/expansion/circl_passivessl.py",
+      "sha256": "963eca91e9eef1857e109f177d0280f1b7b393a4a5b0949be967485798e05427"
+    },
+    {
+      "family": "Expansion",
+      "module": "cisco_psirt",
+      "source": "misp_modules/modules/expansion/cisco_psirt.py",
+      "sha256": "3a6a44ca31a4a289042034779f4eb9dec6fcaf95067456bb6e2f2b37e6dee155"
+    },
+    {
+      "family": "Expansion",
+      "module": "cisco_umbrella",
+      "source": "misp_modules/modules/expansion/cisco_umbrella.py",
+      "sha256": "87f97a515eee5de789e9a1861f582a444216e2b5f889b99e022c678b14198750"
+    },
+    {
+      "family": "Expansion",
+      "module": "clamav",
+      "source": "misp_modules/modules/expansion/clamav.py",
+      "sha256": "37daef5e9447d2a2ff93420fe9e72292ec544fef236722ee3e3cd505316d5a00"
+    },
+    {
+      "family": "Expansion",
+      "module": "cluster25_expand",
+      "source": "misp_modules/modules/expansion/cluster25_expand.py",
+      "sha256": "4d929b16ee9f8444d8c9d174826d93515bc86c7510a6d18a9d73bd97324b5e1d"
+    },
+    {
+      "family": "Expansion",
+      "module": "convert_markdown_to_pdf",
+      "source": "misp_modules/modules/expansion/convert_markdown_to_pdf.py",
+      "sha256": "57debcc7c41807c30b6497ef2fdb258803d8cb693ab8c25a3a2afab03bc6376a"
+    },
+    {
+      "family": "Expansion",
+      "module": "cortex_xdr_ioc_lookup",
+      "source": "misp_modules/modules/expansion/cortex_xdr_ioc_lookup.py",
+      "sha256": "2d063ce82c92aab73cf837d070e619401a4c233a980ad15415b60d0b290b4cca"
+    },
+    {
+      "family": "Expansion",
+      "module": "cortex_xsoar_indicator_lookup",
+      "source": "misp_modules/modules/expansion/cortex_xsoar_indicator_lookup.py",
+      "sha256": "bf46830ce90da6102302b7cff9993344f339ae651aa5cd025be589b8ee8ab03c"
+    },
+    {
+      "family": "Expansion",
+      "module": "countrycode",
+      "source": "misp_modules/modules/expansion/countrycode.py",
+      "sha256": "696efe2672545e24179f6f3ac861b16deb6edbcaa11a04e694c2c31c90c02f46"
+    },
+    {
+      "family": "Expansion",
+      "module": "cpe",
+      "source": "misp_modules/modules/expansion/cpe.py",
+      "sha256": "fe83a21e80a4bb44ac66a3023a757edf08b962f01b5b4d652bb8a9f0704b8998"
+    },
+    {
+      "family": "Expansion",
+      "module": "criminal_ip",
+      "source": "misp_modules/modules/expansion/criminal_ip.py",
+      "sha256": "2681126c45450762804939bd3511baebb8cafd604c079a1bd68c0e1e051d1b9e"
+    },
+    {
+      "family": "Expansion",
+      "module": "crowdsec",
+      "source": "misp_modules/modules/expansion/crowdsec.py",
+      "sha256": "727848c9da7e7da91d87c8b9af3fc5f0724aa869d6ef7ebd67fc8e4e764b3e47"
+    },
+    {
+      "family": "Expansion",
+      "module": "crowdstrike_falcon",
+      "source": "misp_modules/modules/expansion/crowdstrike_falcon.py",
+      "sha256": "46f36f5745e9b269f82b5308cb4ba9e1c01da112e06ef1d5d3f9c2d65e869b01"
+    },
+    {
+      "family": "Expansion",
+      "module": "cuckoo_submit",
+      "source": "misp_modules/modules/expansion/cuckoo_submit.py",
+      "sha256": "dd74d80516f74f37eee15c55d1f668c7687379cfa641976b35ba2d5b60d65559"
+    },
+    {
+      "family": "Expansion",
+      "module": "cve",
+      "source": "misp_modules/modules/expansion/cve.py",
+      "sha256": "8f3fc9a0780730111e5eb675d3813b00429739794b3787857062ae0283cfb5ef"
+    },
+    {
+      "family": "Expansion",
+      "module": "cve_advanced",
+      "source": "misp_modules/modules/expansion/cve_advanced.py",
+      "sha256": "a416b4237d0c629555f6f946b85663a704e573b2ded029988ce1b3ca1743dc7c"
+    },
+    {
+      "family": "Expansion",
+      "module": "cytomic_orion",
+      "source": "misp_modules/modules/expansion/cytomic_orion.py",
+      "sha256": "8675c7ebb753e706815be4a9658c4946e452381b3ee448df9a481c29cde6614e"
+    },
+    {
+      "family": "Expansion",
+      "module": "darkeye",
+      "source": "misp_modules/modules/expansion/darkeye.py",
+      "sha256": "ee3ee7c7cf9d03fbb1a1c073752baa33a72224642110d8deb3869bb592f6965b"
+    },
+    {
+      "family": "Expansion",
+      "module": "dbl_spamhaus",
+      "source": "misp_modules/modules/expansion/dbl_spamhaus.py",
+      "sha256": "cb1ffd2bfa40e2fce50b7a1f3a8a1619ee8372f1e010cc1fe4569b35917b4ba1"
+    },
+    {
+      "family": "Expansion",
+      "module": "dectrax",
+      "source": "misp_modules/modules/expansion/dectrax.py",
+      "sha256": "6f575137623166146f363cf3e50d6e4f2faead3888ab1b2cae08476a30fc4873"
+    },
+    {
+      "family": "Expansion",
+      "module": "dns",
+      "source": "misp_modules/modules/expansion/dns.py",
+      "sha256": "67b223191ef166ab4773b472b79b7aa47ddf38e70cd8ccb3db2b4fb655d5c8dc"
+    },
+    {
+      "family": "Expansion",
+      "module": "dns_query",
+      "source": "misp_modules/modules/expansion/dns_query.py",
+      "sha256": "88aa8c762260b85b978048cc4913be09d7fea54c1eb9d58436a26373551985dc"
+    },
+    {
+      "family": "Expansion",
+      "module": "dnslytics",
+      "source": "misp_modules/modules/expansion/dnslytics.py",
+      "sha256": "bfe59d7142988e0cf682e5296462afe3438d5543d10038b8c59574d2f12f0dd2"
+    },
+    {
+      "family": "Expansion",
+      "module": "dnstwist",
+      "source": "misp_modules/modules/expansion/dnstwist.py",
+      "sha256": "d5a89e7b52172e131957dfa496ec890d64ec8f5b6ba4a3e4af35d17b1d2ff825"
+    },
+    {
+      "family": "Expansion",
+      "module": "docx_enrich",
+      "source": "misp_modules/modules/expansion/docx_enrich.py",
+      "sha256": "cf0efc10457ad7d2a728af7990fb98d293a6c09bfe9e9b94756acdc64606e029"
+    },
+    {
+      "family": "Expansion",
+      "module": "domaintools",
+      "source": "misp_modules/modules/expansion/domaintools.py",
+      "sha256": "f2a04c6941ce1ae61e60050564962c5377b68fc2321fe25923aba5b3edb3ac27"
+    },
+    {
+      "family": "Expansion",
+      "module": "domaintools_iris_enrich",
+      "source": "misp_modules/modules/expansion/domaintools_iris_enrich.py",
+      "sha256": "2246c4827b1228215e29233b2761813cf19f73edb7f47f66ced215ecff6b0730"
+    },
+    {
+      "family": "Expansion",
+      "module": "domaintools_iris_investigate",
+      "source": "misp_modules/modules/expansion/domaintools_iris_investigate.py",
+      "sha256": "0de41ad3a0e046b5f5f716de5eee313f22933643f95afe74b22dd11fd6d8ef4a"
+    },
+    {
+      "family": "Expansion",
+      "module": "domaintools_iris_pivot",
+      "source": "misp_modules/modules/expansion/domaintools_iris_pivot.py",
+      "sha256": "ec2a2bc53bcbf173b5185cdc9f4bc507b050430e7684ea7deefe64c3460ea522"
+    },
+    {
+      "family": "Expansion",
+      "module": "dshield",
+      "source": "misp_modules/modules/expansion/dshield.py",
+      "sha256": "6cb4ec9d906e15b41a2b6f3bf0902c4b41eae8136c5cae01ac7832fe7a8f570f"
+    },
+    {
+      "family": "Expansion",
+      "module": "duckduckgo_search",
+      "source": "misp_modules/modules/expansion/duckduckgo_search.py",
+      "sha256": "37e36400398d01d09f2dcb665dfc7062c46629c5f48897bbc3a1012508844be2"
+    },
+    {
+      "family": "Expansion",
+      "module": "email_security_check",
+      "source": "misp_modules/modules/expansion/email_security_check.py",
+      "sha256": "a29541ba8380283a47a9559676261483eedf8b09ab5261d94a093622cadb90bd"
+    },
+    {
+      "family": "Expansion",
+      "module": "eql",
+      "source": "misp_modules/modules/expansion/eql.py",
+      "sha256": "cbf51dcb98f05e18ddc9105cda15c99da3cc0d1e14dee41d67d76a181dc86800"
+    },
+    {
+      "family": "Expansion",
+      "module": "eset_report",
+      "source": "misp_modules/modules/expansion/eset_report.py",
+      "sha256": "bd8ba1be7c7f6b6d8e80b6f5358eac9d806643caa50ea0c5370f769ad40e1acd"
+    },
+    {
+      "family": "Expansion",
+      "module": "eupi",
+      "source": "misp_modules/modules/expansion/eupi.py",
+      "sha256": "87373c16df96f95021c4e98af3cfae5f7b0646f2ec7a0834f0c2598a3599f3b7"
+    },
+    {
+      "family": "Expansion",
+      "module": "extract_url_components",
+      "source": "misp_modules/modules/expansion/extract_url_components.py",
+      "sha256": "3e4c4b2382f5e6eb8eea3fdf316cc5e86a8917cc8d1ee9b4c563636fe0715586"
+    },
+    {
+      "family": "Expansion",
+      "module": "extuno",
+      "source": "misp_modules/modules/expansion/extuno.py",
+      "sha256": "0727247d6caa64a16320f5919afa1e169c85a463d83a13dec61309ed267262ad"
+    },
+    {
+      "family": "Expansion",
+      "module": "farsight_passivedns",
+      "source": "misp_modules/modules/expansion/farsight_passivedns.py",
+      "sha256": "960b655db15ef2c241604f214232d27214a14842c2d85ab60810e05c38e6720b"
+    },
+    {
+      "family": "Expansion",
+      "module": "first_epss",
+      "source": "misp_modules/modules/expansion/first_epss.py",
+      "sha256": "ffd306497451bfd1f50066ae01b51c422f83738f6625818a547d37364c828660"
+    },
+    {
+      "family": "Expansion",
+      "module": "flowintel",
+      "source": "misp_modules/modules/expansion/flowintel.py",
+      "sha256": "648846ffa2953eb71c3ebdc80d367d504dab9f8cb650e1a7e2d6db30ddf605e0"
+    },
+    {
+      "family": "Expansion",
+      "module": "flowtriq",
+      "source": "misp_modules/modules/expansion/flowtriq.py",
+      "sha256": "f0eafd7c469192c85c9ba8f6ff3d02f74b48c0a6cafe3b8cd51e05fbbe93cbde"
+    },
+    {
+      "family": "Expansion",
+      "module": "fortisandbox",
+      "source": "misp_modules/modules/expansion/fortisandbox.py",
+      "sha256": "8f580e89f5b22ca40ec0ef8a17472b299c71bd2ce25084c9d6dfa6f8275a0dcc"
+    },
+    {
+      "family": "Expansion",
+      "module": "gcve_cpe",
+      "source": "misp_modules/modules/expansion/gcve_cpe.py",
+      "sha256": "cc50c8659e663b71e57127ece93e715e3b82ac2935994f5ed3a8a4fe364257be"
+    },
+    {
+      "family": "Expansion",
+      "module": "geoip_asn",
+      "source": "misp_modules/modules/expansion/geoip_asn.py",
+      "sha256": "4be4572666923ed8dfd24d9101fcf833b8110f0b11ac9396d6ed8eceb348583f"
+    },
+    {
+      "family": "Expansion",
+      "module": "geoip_city",
+      "source": "misp_modules/modules/expansion/geoip_city.py",
+      "sha256": "2efe8a02d497f74c9f7da0d2f4b7d811b19fc870b27b45664123834699a101b1"
+    },
+    {
+      "family": "Expansion",
+      "module": "geoip_country",
+      "source": "misp_modules/modules/expansion/geoip_country.py",
+      "sha256": "3d57c13a798e77419b06f363aeae78cf52e288eb5475a82c0ff97f5f8cf58efb"
+    },
+    {
+      "family": "Expansion",
+      "module": "geoplugin",
+      "source": "misp_modules/modules/expansion/geoplugin.py",
+      "sha256": "6fc8a84783210682e4c8618942c118f42c6cef22df5175a3431b9fcfa0c45cb6"
+    },
+    {
+      "family": "Expansion",
+      "module": "glimps_malware",
+      "source": "misp_modules/modules/expansion/glimps_malware.py",
+      "sha256": "45ac7c395e224d057674f48376ee630b13453fc29e51fc8ae8f6dd83cb403fbb"
+    },
+    {
+      "family": "Expansion",
+      "module": "google_safe_browsing",
+      "source": "misp_modules/modules/expansion/google_safe_browsing.py",
+      "sha256": "a49ff35ece9e09f6eece31c94d7654612bae3b4b131592f1586df2c5933338d7"
+    },
+    {
+      "family": "Expansion",
+      "module": "google_threat_intelligence",
+      "source": "misp_modules/modules/expansion/google_threat_intelligence.py",
+      "sha256": "edd3da913ed3efcd96d8570ccf5ba0d1aa427a3c60c7c74a27f4774079f3d10c"
+    },
+    {
+      "family": "Expansion",
+      "module": "greynoise",
+      "source": "misp_modules/modules/expansion/greynoise.py",
+      "sha256": "5c48d3c13f7c1400fcb7ea9a68b0ba6ef83ab486cdc982bf8c4b65ddbcb027d2"
+    },
+    {
+      "family": "Expansion",
+      "module": "greynoise_vuln",
+      "source": "misp_modules/modules/expansion/greynoise_vuln.py",
+      "sha256": "40fd0361e728b3bf1cb416344f58906ae4a90edb1c873862b3cbd8f94a9362c3"
+    },
+    {
+      "family": "Expansion",
+      "module": "hashdd",
+      "source": "misp_modules/modules/expansion/hashdd.py",
+      "sha256": "d5b1158c1741fca181965205a888bdea87d0f850d8de97103963256054b691d7"
+    },
+    {
+      "family": "Expansion",
+      "module": "hashlookup",
+      "source": "misp_modules/modules/expansion/hashlookup.py",
+      "sha256": "3b79446271499ab29c94cb110dc096d8b96c5da598f5f82b0202244f01b92809"
+    },
+    {
+      "family": "Expansion",
+      "module": "hibp",
+      "source": "misp_modules/modules/expansion/hibp.py",
+      "sha256": "f6857cb3222b1ff614ff5ce2f8ac771e6999a5d884b7fa0ecda3e21cbabcd3ce"
+    },
+    {
+      "family": "Expansion",
+      "module": "hostio",
+      "source": "misp_modules/modules/expansion/hostio.py",
+      "sha256": "ec9b38a05d9458f1bcfa76aabbb88103febf9f92dc5e258e69079cca90034a25"
+    },
+    {
+      "family": "Expansion",
+      "module": "html_to_markdown",
+      "source": "misp_modules/modules/expansion/html_to_markdown.py",
+      "sha256": "73a139c4b51abadb77474d6e0b725d679850a5f4870f6d6bc381811f581d41de"
+    },
+    {
+      "family": "Expansion",
+      "module": "hyasinsight",
+      "source": "misp_modules/modules/expansion/hyasinsight.py",
+      "sha256": "53469b3c9eefd5512f46190b5b49ad92832eac586fdf5325c9c93297078649af"
+    },
+    {
+      "family": "Expansion",
+      "module": "hybrid_analysis",
+      "source": "misp_modules/modules/expansion/hybrid_analysis.py",
+      "sha256": "42ef1a35eaa9033249eaafd6aefc86e619c4cc731951958658efdfb74e83941b"
+    },
+    {
+      "family": "Expansion",
+      "module": "hygiene",
+      "source": "misp_modules/modules/expansion/hygiene.py",
+      "sha256": "760ce323cf0ace98966a79bcc555571009bb61a63f0c3f207d2f8b1c760205d9"
+    },
+    {
+      "family": "Expansion",
+      "module": "import_external_reference",
+      "source": "misp_modules/modules/expansion/import_external_reference.py",
+      "sha256": "0571b7c56dc9ee76cfc23b8462fba9335d986cc520db72a44e3dbf6035bbcbcc"
+    },
+    {
+      "family": "Expansion",
+      "module": "intel471",
+      "source": "misp_modules/modules/expansion/intel471.py",
+      "sha256": "4dd0d2b174211c8ee50ce7940b6d1e7373450432dd6778f14cf6885014adc80e"
+    },
+    {
+      "family": "Expansion",
+      "module": "intel471_hunt",
+      "source": "misp_modules/modules/expansion/intel471_hunt.py",
+      "sha256": "7cab0aa32934a42b3c53d9ffff4cae64d1ca7c9966083252d53026171150f9b6"
+    },
+    {
+      "family": "Expansion",
+      "module": "intezer",
+      "source": "misp_modules/modules/expansion/intezer.py",
+      "sha256": "a44e850da5da86de14fab1771bf0d4c22f7fbc43b45840cd7ba4371dc40500cf"
+    },
+    {
+      "family": "Expansion",
+      "module": "ip2locationio",
+      "source": "misp_modules/modules/expansion/ip2locationio.py",
+      "sha256": "b10f3cf1ecfdefce22ff7263de4f99551e93ad824184d9b172d2a722bc86b64a"
+    },
+    {
+      "family": "Expansion",
+      "module": "ipapi_is",
+      "source": "misp_modules/modules/expansion/ipapi_is.py",
+      "sha256": "22704df57fdebecdf7853f61c539c9921a77eb5f30c76ae25a8da35ae06c40ed"
+    },
+    {
+      "family": "Expansion",
+      "module": "ipasn",
+      "source": "misp_modules/modules/expansion/ipasn.py",
+      "sha256": "6e69350c32ff53356c135f8aafe5fee5f6754827b5b3a552ef244f01e5c0c793"
+    },
+    {
+      "family": "Expansion",
+      "module": "ipgeolocation",
+      "source": "misp_modules/modules/expansion/ipgeolocation.py",
+      "sha256": "6c02787cb49cb2fa3c2ee7e40bb42e57e0da92ca237177ba1676ce008f6f2403"
+    },
+    {
+      "family": "Expansion",
+      "module": "ipinfo",
+      "source": "misp_modules/modules/expansion/ipinfo.py",
+      "sha256": "31aa8354b8ee7673721258e6e34244829ddc86dcd1f288d8d0c002d3c5c89549"
+    },
+    {
+      "family": "Expansion",
+      "module": "ipqs_fraud_and_risk_scoring",
+      "source": "misp_modules/modules/expansion/ipqs_fraud_and_risk_scoring.py",
+      "sha256": "ca3a37a1a5614bc358ef5a1680e8d8e0f4815b654f8e8b1bb9a21849583a7d84"
+    },
+    {
+      "family": "Expansion",
+      "module": "iprep",
+      "source": "misp_modules/modules/expansion/iprep.py",
+      "sha256": "c9391f04bfd747b46b865251bbb7caa3aed0a05621f15a09876ee29715d7b80c"
+    },
+    {
+      "family": "Expansion",
+      "module": "ismalicious",
+      "source": "misp_modules/modules/expansion/ismalicious.py",
+      "sha256": "775f2b788354d77db84ccd8a3732460c98d9584a64a82f79cf7eea5a5f1e7b61"
+    },
+    {
+      "family": "Expansion",
+      "module": "ivre",
+      "source": "misp_modules/modules/expansion/ivre.py",
+      "sha256": "d7eda9162554369147d9e572e652f516875900e36df747eb2e59921dc7824579"
+    },
+    {
+      "family": "Expansion",
+      "module": "jinja_template_rendering",
+      "source": "misp_modules/modules/expansion/jinja_template_rendering.py",
+      "sha256": "393adb1c23d7bffbdbd0a73fc80cf345b9ed9d3de024b86d5777951cd2c6e28a"
+    },
+    {
+      "family": "Expansion",
+      "module": "joesandbox_query",
+      "source": "misp_modules/modules/expansion/joesandbox_query.py",
+      "sha256": "40f5b76be7f2d44504f3d710bb557404790675fceac7043b785a2fa5e615edcb"
+    },
+    {
+      "family": "Expansion",
+      "module": "joesandbox_submit",
+      "source": "misp_modules/modules/expansion/joesandbox_submit.py",
+      "sha256": "b9a5d928d37fdd28945149c2e38063234047b66686e3e503166e0e12e948542d"
+    },
+    {
+      "family": "Expansion",
+      "module": "kaspersky",
+      "source": "misp_modules/modules/expansion/kaspersky.py",
+      "sha256": "252cc36dd7293e95eaf3761a3c3128240c8594e4a5d67ff47e0f7a3d1488171f"
+    },
+    {
+      "family": "Expansion",
+      "module": "lamis_network",
+      "source": "misp_modules/modules/expansion/lamis_network.py",
+      "sha256": "1371426bcd2a98fadce163ce86249e504d8cb8b6139e071ce3c447a94748af59"
+    },
+    {
+      "family": "Expansion",
+      "module": "lastinfosec",
+      "source": "misp_modules/modules/expansion/lastinfosec.py",
+      "sha256": "071ccbbe5c85b1309e93639e706db01cfd8ca6debb2f69908c21c171b3d8aa88"
+    },
+    {
+      "family": "Expansion",
+      "module": "lastline_query",
+      "source": "misp_modules/modules/expansion/lastline_query.py",
+      "sha256": "144efbbd5ed7c6e73b3a76604989eeaa1ae857850303b28d2c2e331638348ff0"
+    },
+    {
+      "family": "Expansion",
+      "module": "lastline_submit",
+      "source": "misp_modules/modules/expansion/lastline_submit.py",
+      "sha256": "7b0cf2aa7a100cdc11d7fcb5516ad3c141054e817ea923d44d36055b8e76e23c"
+    },
+    {
+      "family": "Expansion",
+      "module": "lookyloo",
+      "source": "misp_modules/modules/expansion/lookyloo.py",
+      "sha256": "0dfd12df1279d61e0e18ddaf3e99b4fb8b3e11099a8a7f9894ae6ce25e233272"
+    },
+    {
+      "family": "Expansion",
+      "module": "lookyloo_capture",
+      "source": "misp_modules/modules/expansion/lookyloo_capture.py",
+      "sha256": "c6ab3ae1952356778f885327865eea8660697a9dd7f773ac4687276b84171299"
+    },
+    {
+      "family": "Expansion",
+      "module": "macaddress_io",
+      "source": "misp_modules/modules/expansion/macaddress_io.py",
+      "sha256": "8cc953a3076f3b5fe9df32861038f6b9288c0d7422652eaa28ab58565845360b"
+    },
+    {
+      "family": "Expansion",
+      "module": "macadress_com",
+      "source": "misp_modules/modules/expansion/macadress_com.py",
+      "sha256": "db6a7240b64b350bd438309570d3e49d6b1cb193fa2ff360bdc596da411a1e4e"
+    },
+    {
+      "family": "Expansion",
+      "module": "macvendors",
+      "source": "misp_modules/modules/expansion/macvendors.py",
+      "sha256": "bf8d05496b55f62e269b42eefa6c2bec7a1352b5e9679180dd8fd2059f42396e"
+    },
+    {
+      "family": "Expansion",
+      "module": "malbeacon",
+      "source": "misp_modules/modules/expansion/malbeacon.py",
+      "sha256": "311a3d7f15c40cf1c987f1d587c262885c24d7fc1851948f45c1352c3e26ca8c"
+    },
+    {
+      "family": "Expansion",
+      "module": "malpedia",
+      "source": "misp_modules/modules/expansion/malpedia.py",
+      "sha256": "1d76821b96beb1a3e1b439b2dc8e9c244551d01956157bade00f642dd12d7cee"
+    },
+    {
+      "family": "Expansion",
+      "module": "malshare_upload",
+      "source": "misp_modules/modules/expansion/malshare_upload.py",
+      "sha256": "7ec9b2ee1c75c39281340b855a3f42449e4b386e31b520a9e1388a96ababa3d8"
+    },
+    {
+      "family": "Expansion",
+      "module": "malwagon",
+      "source": "misp_modules/modules/expansion/malwagon.py",
+      "sha256": "9b31d166af2e987b899309888670e47f48c56472da2002d58f3cd57e1e7cbad0"
+    },
+    {
+      "family": "Expansion",
+      "module": "malwagon_submit",
+      "source": "misp_modules/modules/expansion/malwagon_submit.py",
+      "sha256": "f6f2a69d76039e78577226f1897d494e35e9bd20488527c3cdf514b72cac5df6"
+    },
+    {
+      "family": "Expansion",
+      "module": "malwarebazaar",
+      "source": "misp_modules/modules/expansion/malwarebazaar.py",
+      "sha256": "098f34e10127ddf5ba05446901144e95f3ce613d9feef250234574fac46a6ed1"
+    },
+    {
+      "family": "Expansion",
+      "module": "manalyze",
+      "source": "misp_modules/modules/expansion/manalyze.py",
+      "sha256": "787f9dbf8f3b38e7b8cb22a5f27df05a80964d166a34f7387c8b141a93404214"
+    },
+    {
+      "family": "Expansion",
+      "module": "mcafee_insights_enrich",
+      "source": "misp_modules/modules/expansion/mcafee_insights_enrich.py",
+      "sha256": "2cbe951e31f107296d691002501a11f28f68f2de2e8fc37f7653e2dc3691c1de"
+    },
+    {
+      "family": "Expansion",
+      "module": "metras",
+      "source": "misp_modules/modules/expansion/metras.py",
+      "sha256": "b701775ba02950c2f5d74d8c310d2de39edb165ccdca53dab50b244c81235210"
+    },
+    {
+      "family": "Expansion",
+      "module": "mmdb_lookup",
+      "source": "misp_modules/modules/expansion/mmdb_lookup.py",
+      "sha256": "442adf7f4d099694bc4bfadf752b64867a2dcd637705c9cc26161c7486e6ecb7"
+    },
+    {
+      "family": "Expansion",
+      "module": "mobsf",
+      "source": "misp_modules/modules/expansion/mobsf.py",
+      "sha256": "5a6c127ea220d1d601a8f302ed54923009d57d9a546b797dd5535d3eada2f20a"
+    },
+    {
+      "family": "Expansion",
+      "module": "modat",
+      "source": "misp_modules/modules/expansion/modat.py",
+      "sha256": "7c8310883517764eeefaffc8a3005271a76219555abdb4ba1ba1710cb902cd2f"
+    },
+    {
+      "family": "Expansion",
+      "module": "mwdb",
+      "source": "misp_modules/modules/expansion/mwdb.py",
+      "sha256": "75f44f77bf8c341e53ba0cc64a665219cef7382927a71b7ad97aa928649d52ca"
+    },
+    {
+      "family": "Expansion",
+      "module": "mwdb_query",
+      "source": "misp_modules/modules/expansion/mwdb_query.py",
+      "sha256": "1bf9a6aeea64b624521c45d473ba1c6952bef968f61e3bca002d7307936d2545"
+    },
+    {
+      "family": "Expansion",
+      "module": "n8n_data_table_lookup",
+      "source": "misp_modules/modules/expansion/n8n_data_table_lookup.py",
+      "sha256": "aef9e4c41ff59deab417e7548995a6e6363509b63d6b4772adbe75fbc2b134cf"
+    },
+    {
+      "family": "Expansion",
+      "module": "netapi",
+      "source": "misp_modules/modules/expansion/netapi.py",
+      "sha256": "797f84e267bbd89f1720934a9948ede830e186c45db9abd741d2b08cd901ab3b"
+    },
+    {
+      "family": "Expansion",
+      "module": "neutrino",
+      "source": "misp_modules/modules/expansion/neutrino.py",
+      "sha256": "349dfced7e5d2d8ef02752dd8ffb1fb32c5cb6b37d31a031c84846f70c0f1baf"
+    },
+    {
+      "family": "Expansion",
+      "module": "ocr_enrich",
+      "source": "misp_modules/modules/expansion/ocr_enrich.py",
+      "sha256": "314d26efd767e32a1b30215bca519f96f4c48e32595c679be5872242e58d28d3"
+    },
+    {
+      "family": "Expansion",
+      "module": "ods_enrich",
+      "source": "misp_modules/modules/expansion/ods_enrich.py",
+      "sha256": "db0f13e4da58ab07321578e895788ec2d011716c517000bb627f08ab8645aa41"
+    },
+    {
+      "family": "Expansion",
+      "module": "odt_enrich",
+      "source": "misp_modules/modules/expansion/odt_enrich.py",
+      "sha256": "100e9784932fe14f8da8e24608f4a9318e1a39d4b748085e63fde495a02f8694"
+    },
+    {
+      "family": "Expansion",
+      "module": "onion_lookup",
+      "source": "misp_modules/modules/expansion/onion_lookup.py",
+      "sha256": "7f5a9a790b7f5c4dcbe701c55075c5837f4aaccd15bf285b8fefa24dc33d8bac"
+    },
+    {
+      "family": "Expansion",
+      "module": "onyphe",
+      "source": "misp_modules/modules/expansion/onyphe.py",
+      "sha256": "1966f3cc702461759b42a14491aa93c6ab82bc3fb3d6af91239ae2dc85ce4bfe"
+    },
+    {
+      "family": "Expansion",
+      "module": "onyphe_full",
+      "source": "misp_modules/modules/expansion/onyphe_full.py",
+      "sha256": "182583927543b0abdeedc376ba87789b5d7c4d2ce23edcbf3ed908dbb39078d4"
+    },
+    {
+      "family": "Expansion",
+      "module": "opencti",
+      "source": "misp_modules/modules/expansion/opencti.py",
+      "sha256": "f749d07d9a9e7fa701190bf8506888f8b9d10a09549f6648086f5259f6b48815"
+    },
+    {
+      "family": "Expansion",
+      "module": "orange_cyberdefense",
+      "source": "misp_modules/modules/expansion/orange_cyberdefense.py",
+      "sha256": "96942eb81169933d72d664a3e0351ddcc02bb8e204a894926b4147a57e8fba3e"
+    },
+    {
+      "family": "Expansion",
+      "module": "orion_malware",
+      "source": "misp_modules/modules/expansion/orion_malware.py",
+      "sha256": "458dfca1c74f0124cd2c72e6c7624b0a875e66121df337b4e12c7a6ea22c28dc"
+    },
+    {
+      "family": "Expansion",
+      "module": "osint_industries",
+      "source": "misp_modules/modules/expansion/osint_industries.py",
+      "sha256": "0df260aa24062a13d63b2e791536eb4effa90db456b9732ecdafbc6d2d8f9d64"
+    },
+    {
+      "family": "Expansion",
+      "module": "otilabs",
+      "source": "misp_modules/modules/expansion/otilabs.py",
+      "sha256": "e1f27e981ed8573f30f6660401a4bc883a9d51014510c6e315c1626d46d52600"
+    },
+    {
+      "family": "Expansion",
+      "module": "otx",
+      "source": "misp_modules/modules/expansion/otx.py",
+      "sha256": "f991e58a3ee9120fd35ad4b82ceed61b0147a1651717f515fe7600bf0d5b9cd3"
+    },
+    {
+      "family": "Expansion",
+      "module": "paloalto_wildfire",
+      "source": "misp_modules/modules/expansion/paloalto_wildfire.py",
+      "sha256": "bef7ce35fa72ffe8d5712183ce7f4a1463d9f879f7739c8ccdbe1b2cbae300cd"
+    },
+    {
+      "family": "Expansion",
+      "module": "pandora_submit",
+      "source": "misp_modules/modules/expansion/pandora_submit.py",
+      "sha256": "762249dcb86b696f4dd692f4bf189ade1161add52befbbf0d053dd66d64090fc"
+    },
+    {
+      "family": "Expansion",
+      "module": "passive_ssh",
+      "source": "misp_modules/modules/expansion/passive_ssh.py",
+      "sha256": "f268ef41acb66c549650bd6d252765ada77e9bc9af7e36b97249b59e7d19c4bb"
+    },
+    {
+      "family": "Expansion",
+      "module": "passivetotal",
+      "source": "misp_modules/modules/expansion/passivetotal.py",
+      "sha256": "b62c3ad9695c1849916be94a943326eb77215d614196681d7cda297c9d7a1628"
+    },
+    {
+      "family": "Expansion",
+      "module": "pdf_enrich",
+      "source": "misp_modules/modules/expansion/pdf_enrich.py",
+      "sha256": "589a7013d3d484f2af4127fe01d1f40bef109c7fbfa7e5c0dfeecf83f4c8913f"
+    },
+    {
+      "family": "Expansion",
+      "module": "pgp_keyserver",
+      "source": "misp_modules/modules/expansion/pgp_keyserver.py",
+      "sha256": "1318a7548e2ffee5724e424d512d0457575767a31ab3ab8257d4edc283a96fe3"
+    },
+    {
+      "family": "Expansion",
+      "module": "phishunt",
+      "source": "misp_modules/modules/expansion/phishunt.py",
+      "sha256": "b81d88c7d8e07932d86d3f345a0738cb021d5d90f82654040890918e994ee21a"
+    },
+    {
+      "family": "Expansion",
+      "module": "phone_number_info",
+      "source": "misp_modules/modules/expansion/phone_number_info.py",
+      "sha256": "a3c4705b6ca270454db76fb2bc45b0efc451183cd8820aefedb5deb90c502c8e"
+    },
+    {
+      "family": "Expansion",
+      "module": "plum_island",
+      "source": "misp_modules/modules/expansion/plum_island.py",
+      "sha256": "472bd49622911efdf0c5524ff5496a795a7415841efe70aa12164f44e0631903"
+    },
+    {
+      "family": "Expansion",
+      "module": "plum_island_search",
+      "source": "misp_modules/modules/expansion/plum_island_search.py",
+      "sha256": "c43695f4ff9b058780b022e2c5139e237ef0bc2c4b476fdbaaeab9f2543ea2ab"
+    },
+    {
+      "family": "Expansion",
+      "module": "polyswarm",
+      "source": "misp_modules/modules/expansion/polyswarm.py",
+      "sha256": "84ecdf9bae87d7df8f07afa8d2340117e99c91846250e0519c0b0c274468d365"
+    },
+    {
+      "family": "Expansion",
+      "module": "polyswarm_sandbox",
+      "source": "misp_modules/modules/expansion/polyswarm_sandbox.py",
+      "sha256": "f006c9ff3eeb46d3fd3a98d2d6e6b97bf49c37f9f0037f6aa1f7b0e6e1fb5c9f"
+    },
+    {
+      "family": "Expansion",
+      "module": "pptx_enrich",
+      "source": "misp_modules/modules/expansion/pptx_enrich.py",
+      "sha256": "5335dcaa7185fa891b332910682b85b3af9d5ac1a337fe6699114c8c99efe006"
+    },
+    {
+      "family": "Expansion",
+      "module": "proofpoint_et_intelligence",
+      "source": "misp_modules/modules/expansion/proofpoint_et_intelligence.py",
+      "sha256": "d9b7dfdd61a7c24ffb5421546ba4d41234d551310af278d713b5bda96048a11f"
+    },
+    {
+      "family": "Expansion",
+      "module": "ptrclassify",
+      "source": "misp_modules/modules/expansion/ptrclassify.py",
+      "sha256": "0a5aaf6d168cf8a7072ce60d2e7981c641fe62942eacbc200f2802e6ada76c31"
+    },
+    {
+      "family": "Expansion",
+      "module": "pulsedive",
+      "source": "misp_modules/modules/expansion/pulsedive.py",
+      "sha256": "c7562476eac033150f92fdf169eefa087e3971a81dad4aa507ce4e1e1d8362d2"
+    },
+    {
+      "family": "Expansion",
+      "module": "qintel_qsentry",
+      "source": "misp_modules/modules/expansion/qintel_qsentry.py",
+      "sha256": "b6bfdabdf4fdb81d6fb3f9f95c307e3384276f0fe0909f4c20de492d476d4038"
+    },
+    {
+      "family": "Expansion",
+      "module": "qrcode",
+      "source": "misp_modules/modules/expansion/qrcode.py",
+      "sha256": "62b600cc0e09f73d932f0cfb5cd061864df4614bdad2778fc89ce60124b09dd9"
+    },
+    {
+      "family": "Expansion",
+      "module": "qualys_cve",
+      "source": "misp_modules/modules/expansion/qualys_cve.py",
+      "sha256": "f7d86abb817b044aa5c8d419094aafa31905f7012e01a89f4a28552aaab71d73"
+    },
+    {
+      "family": "Expansion",
+      "module": "ransomcoindb",
+      "source": "misp_modules/modules/expansion/ransomcoindb.py",
+      "sha256": "d5e6c10f7ade94d876c82f63d6e43b13d8551b71fc3c265ae069a1d655c1e438"
+    },
+    {
+      "family": "Expansion",
+      "module": "ransomlook",
+      "source": "misp_modules/modules/expansion/ransomlook.py",
+      "sha256": "000f394bbea277819a6a5e2f50eb65580f1ca807e034d9ca034b1a9c959dbee0"
+    },
+    {
+      "family": "Expansion",
+      "module": "rapid7_attackerkb",
+      "source": "misp_modules/modules/expansion/rapid7_attackerkb.py",
+      "sha256": "019cdde0468ce2c3fd67d82c927db5818f1ad9094d5bad9ce91bcd89ec6d5cd1"
+    },
+    {
+      "family": "Expansion",
+      "module": "rbl",
+      "source": "misp_modules/modules/expansion/rbl.py",
+      "sha256": "6c32214fb0b853c8c7ff2ba2e4f511cf342f8aef1685f810942a1a6b2f95d4b2"
+    },
+    {
+      "family": "Expansion",
+      "module": "rdap",
+      "source": "misp_modules/modules/expansion/rdap.py",
+      "sha256": "9e10f0e4c4879faededc6dcd1a63bdb2d461d22eebda6e20d1cd20a8d3db4597"
+    },
+    {
+      "family": "Expansion",
+      "module": "recordedfuture",
+      "source": "misp_modules/modules/expansion/recordedfuture.py",
+      "sha256": "7b110a1654e00a8f701ce5c092fb7c3e777339660624db1bef893f267e2e3b91"
+    },
+    {
+      "family": "Expansion",
+      "module": "reversedns",
+      "source": "misp_modules/modules/expansion/reversedns.py",
+      "sha256": "e184cf492a9ab30495a9e6abbf4e889c22b79581d30b0c777778326ab3e2f110"
+    },
+    {
+      "family": "Expansion",
+      "module": "reversinglabs_malware_presence",
+      "source": "misp_modules/modules/expansion/reversinglabs_malware_presence.py",
+      "sha256": "736c9c9fabcca41c595a947a16fd02079e2dbbd28ecb4e122d1b0efbdb8363fe"
+    },
+    {
+      "family": "Expansion",
+      "module": "reversinglabs_spectra_analyze",
+      "source": "misp_modules/modules/expansion/reversinglabs_spectra_analyze.py",
+      "sha256": "89dd4daf015c95d4adf6942a0abf8520a6c94bdb01da2048a2e5d224dbd5ace7"
+    },
+    {
+      "family": "Expansion",
+      "module": "reversinglabs_spectra_intel_submission",
+      "source": "misp_modules/modules/expansion/reversinglabs_spectra_intel_submission.py",
+      "sha256": "872ecc46f5c4fe2fcd89255e9e521ef5881e562bbebc11ab5bb85d818cee3707"
+    },
+    {
+      "family": "Expansion",
+      "module": "ripestat",
+      "source": "misp_modules/modules/expansion/ripestat.py",
+      "sha256": "a972c5114a8440148180e1d2efbb51ebf421a4e6c9c8e09d23608bc237b62d8c"
+    },
+    {
+      "family": "Expansion",
+      "module": "rst_cs_beacon",
+      "source": "misp_modules/modules/expansion/rst_cs_beacon.py",
+      "sha256": "0834be47aab24f868e80d27c90afb2bf24c65cadbfd00d34e17ef92d50d15ce5"
+    },
+    {
+      "family": "Expansion",
+      "module": "rst_favicon",
+      "source": "misp_modules/modules/expansion/rst_favicon.py",
+      "sha256": "225fffde347b0d4caf14dc4e30fb2fc762b663116c2a204a93dbf2c0dfd2b43d"
+    },
+    {
+      "family": "Expansion",
+      "module": "rst_html",
+      "source": "misp_modules/modules/expansion/rst_html.py",
+      "sha256": "4197189e4b1973d33bbe9b68bc30205aaef49c06c35d0230b402875973418e05"
+    },
+    {
+      "family": "Expansion",
+      "module": "rst_ioc",
+      "source": "misp_modules/modules/expansion/rst_ioc.py",
+      "sha256": "abf9a7c2114cd27cb4683e5b6afd374f94578bfb685f77a67e89eb78c862c252"
+    },
+    {
+      "family": "Expansion",
+      "module": "rst_noise_control",
+      "source": "misp_modules/modules/expansion/rst_noise_control.py",
+      "sha256": "f0d816b70ca601b337995f050c97d8422dec8ba71c332fa605ca079708f81c55"
+    },
+    {
+      "family": "Expansion",
+      "module": "rst_screenshot",
+      "source": "misp_modules/modules/expansion/rst_screenshot.py",
+      "sha256": "54824e65c303903fdf23656522f806abc64b9504117d69e37e9cfebd85a0633d"
+    },
+    {
+      "family": "Expansion",
+      "module": "rst_ssl",
+      "source": "misp_modules/modules/expansion/rst_ssl.py",
+      "sha256": "66cf2377cda05ddf3790990030a4814935ec6d1db4dbaada665976017f3fcbf0"
+    },
+    {
+      "family": "Expansion",
+      "module": "rst_whois",
+      "source": "misp_modules/modules/expansion/rst_whois.py",
+      "sha256": "86d71c9b8dd02d0d89e55b525d1c006d58d10d9f6ff063e76cd3e558a0f7d6af"
+    },
+    {
+      "family": "Expansion",
+      "module": "rulezet_validator",
+      "source": "misp_modules/modules/expansion/rulezet_validator.py",
+      "sha256": "df314ea0157b925fd51ee53c6e05cff3fa458926a0f408f35563973331cf6ad7"
+    },
+    {
+      "family": "Expansion",
+      "module": "scanmalware",
+      "source": "misp_modules/modules/expansion/scanmalware.py",
+      "sha256": "55f6f4ccde2af7e9ce68966940e6934d31d0b0971bbc5230e13baec7447d783e"
+    },
+    {
+      "family": "Expansion",
+      "module": "securitytrails",
+      "source": "misp_modules/modules/expansion/securitytrails.py",
+      "sha256": "1990d1b216e7719fd0bd97ff235f2b704a650b31882cd01afbb63b34e29297ab"
+    },
+    {
+      "family": "Expansion",
+      "module": "shadowtrackr",
+      "source": "misp_modules/modules/expansion/shadowtrackr.py",
+      "sha256": "6d3402578c0361ec9b4b3bd28a6807e06511e116b94c31923bc70c4825d5b9ad"
+    },
+    {
+      "family": "Expansion",
+      "module": "sherlock",
+      "source": "misp_modules/modules/expansion/sherlock.py",
+      "sha256": "ac13d43dfb5395a64e804efa7532e638a975e78bc1f8d45ffef06e8fd07996d1"
+    },
+    {
+      "family": "Expansion",
+      "module": "shodan",
+      "source": "misp_modules/modules/expansion/shodan.py",
+      "sha256": "bd4855b85b23fbf1808ee1086c409171be183790a229f3564426288c123250be"
+    },
+    {
+      "family": "Expansion",
+      "module": "shodan_internetdb",
+      "source": "misp_modules/modules/expansion/shodan_internetdb.py",
+      "sha256": "3e95f7d682f4806899f88c9f9238efd88d457e2cf85acfe98fc1ff38f2a40df5"
+    },
+    {
+      "family": "Expansion",
+      "module": "shuffle_datastore_lookup",
+      "source": "misp_modules/modules/expansion/shuffle_datastore_lookup.py",
+      "sha256": "2c4e892518b386965ec35aeee370bacf824999b6b6fd78e4b57c7e29bee51607"
+    },
+    {
+      "family": "Expansion",
+      "module": "siberkapan",
+      "source": "misp_modules/modules/expansion/siberkapan.py",
+      "sha256": "ff5129442c581b27c4f71fa63373cdcad2234a92d03081ee6879d31db661db52"
+    },
+    {
+      "family": "Expansion",
+      "module": "sigma_queries",
+      "source": "misp_modules/modules/expansion/sigma_queries.py",
+      "sha256": "f017f11575b3f0c525af71b440fd7fc2211a303e37a19aab8f0dd747dc6189b4"
+    },
+    {
+      "family": "Expansion",
+      "module": "sigma_syntax_validator",
+      "source": "misp_modules/modules/expansion/sigma_syntax_validator.py",
+      "sha256": "5b516a84f38562aa670aa36d48409a714652fa0b933c00b073ca6fbac23a1e53"
+    },
+    {
+      "family": "Expansion",
+      "module": "sigmf_expand",
+      "source": "misp_modules/modules/expansion/sigmf_expand.py",
+      "sha256": "e78201d0ad8b04857fc2000626b0c6a36c9111091a0e905b4ac3a44e39f48675"
+    },
+    {
+      "family": "Expansion",
+      "module": "silentpush",
+      "source": "misp_modules/modules/expansion/silentpush.py",
+      "sha256": "03bc9e9e37ff4644b9f524aa5cd4ff431c27c82f2b6578271e0092825f201c48"
+    },
+    {
+      "family": "Expansion",
+      "module": "sochain",
+      "source": "misp_modules/modules/expansion/sochain.py",
+      "sha256": "377a8d36cc148b0b1cb89cc511f2bfa0e68a00e63e6dd89adb783e7ac6a2b924"
+    },
+    {
+      "family": "Expansion",
+      "module": "socialscan",
+      "source": "misp_modules/modules/expansion/socialscan.py",
+      "sha256": "89a7fbd04c5487cf5860d256805d3eb522b2a1af4b511c864b23a932c6ba691f"
+    },
+    {
+      "family": "Expansion",
+      "module": "socradar_lookup",
+      "source": "misp_modules/modules/expansion/socradar_lookup.py",
+      "sha256": "904139ecbc9d3f3e49531d82cc43f52d645b4037fcea53b50443e4c1e6bfc5d1"
+    },
+    {
+      "family": "Expansion",
+      "module": "sophoslabs_intelix",
+      "source": "misp_modules/modules/expansion/sophoslabs_intelix.py",
+      "sha256": "2a9a4a8096340e29ef5a69293d06ecd3f26ac0e6596a9c69cd648e4751f9d565"
+    },
+    {
+      "family": "Expansion",
+      "module": "sourcecache",
+      "source": "misp_modules/modules/expansion/sourcecache.py",
+      "sha256": "65016f19137a29334eaf7d59f5306a72fbfed7458b484d702a5ccb4c7ae7b02b"
+    },
+    {
+      "family": "Expansion",
+      "module": "spamcop",
+      "source": "misp_modules/modules/expansion/spamcop.py",
+      "sha256": "0ccb742bdbf3ba53e8bfb432214de7c2ad68d83a77923a4d0335fcaf0b7d670b"
+    },
+    {
+      "family": "Expansion",
+      "module": "ssh_fingerprint",
+      "source": "misp_modules/modules/expansion/ssh_fingerprint.py",
+      "sha256": "154cf6a6fdae0e0ee14fff0a5263a0a2d3ac4d3d5dbe93ff6c8b9acbafc41aac"
+    },
+    {
+      "family": "Expansion",
+      "module": "ssllabs",
+      "source": "misp_modules/modules/expansion/ssllabs.py",
+      "sha256": "c2d296dafd9ee0f2369e3a2c945c425e911d5565c88abcf1234b850e66e5763f"
+    },
+    {
+      "family": "Expansion",
+      "module": "stairwell",
+      "source": "misp_modules/modules/expansion/stairwell.py",
+      "sha256": "d424aa2a8801a5a6125b464371dc90eff3b1320d6c463fc94967dccfcf196b2e"
+    },
+    {
+      "family": "Expansion",
+      "module": "stix2_pattern",
+      "source": "misp_modules/modules/expansion/stix2_pattern.py",
+      "sha256": "de65ec7adac076ebe9223886fe2ad2135b6a92e30aa0f8f8c863c5a4b67140c9"
+    },
+    {
+      "family": "Expansion",
+      "module": "stix2_pattern_syntax_validator",
+      "source": "misp_modules/modules/expansion/stix2_pattern_syntax_validator.py",
+      "sha256": "8f6beda87a90b9ccab76d9d96defe05ffb25df475749b39fc9aa4023d90cff7f"
+    },
+    {
+      "family": "Expansion",
+      "module": "team_cymru_scout",
+      "source": "misp_modules/modules/expansion/team_cymru_scout.py",
+      "sha256": "3599162c5b077503c76ed85a6bc69637daa4be7d9548ae783239a0cc495577f1"
+    },
+    {
+      "family": "Expansion",
+      "module": "team_cymru_scout_search",
+      "source": "misp_modules/modules/expansion/team_cymru_scout_search.py",
+      "sha256": "359e8499542ee6911ef6376508e2c985a4d10404dbf589220080ed0f58ba648c"
+    },
+    {
+      "family": "Expansion",
+      "module": "threatcrowd",
+      "source": "misp_modules/modules/expansion/threatcrowd.py",
+      "sha256": "071c9a5b51ea3254cadb8e4903d62abb66deb8c48b24a32fcee9f85663261209"
+    },
+    {
+      "family": "Expansion",
+      "module": "threatfox",
+      "source": "misp_modules/modules/expansion/threatfox.py",
+      "sha256": "bbb76a58595f733d02ac4398f96c892907bab7b5976678f213cdee386d8c6a32"
+    },
+    {
+      "family": "Expansion",
+      "module": "threatminer",
+      "source": "misp_modules/modules/expansion/threatminer.py",
+      "sha256": "5940d016f3a9877cc4f325b36b28e0e9bab242597aeeac8defd7c37b0290c1ad"
+    },
+    {
+      "family": "Expansion",
+      "module": "tines_record_lookup",
+      "source": "misp_modules/modules/expansion/tines_record_lookup.py",
+      "sha256": "43d0f18018b2deb69e6d892db509dfc1526fbe283b85afcaaeea01464bb275f6"
+    },
+    {
+      "family": "Expansion",
+      "module": "tls_certificate_check",
+      "source": "misp_modules/modules/expansion/tls_certificate_check.py",
+      "sha256": "7d60b31d098feab5181cb1d443b26da6275edaeddefd562277d1c9376b2ed1ce"
+    },
+    {
+      "family": "Expansion",
+      "module": "torq_observable_lookup",
+      "source": "misp_modules/modules/expansion/torq_observable_lookup.py",
+      "sha256": "6975ae2a25462968bc08d9719507dc7e906d073ffd3cd4b69ce884b029a74a10"
+    },
+    {
+      "family": "Expansion",
+      "module": "triage_query",
+      "source": "misp_modules/modules/expansion/triage_query.py",
+      "sha256": "6a6a1f7c50efcca13e46930055acd88dcdfc8ca4c76becec7a406e1d840a4d17"
+    },
+    {
+      "family": "Expansion",
+      "module": "triage_submit",
+      "source": "misp_modules/modules/expansion/triage_submit.py",
+      "sha256": "7f5617213d56dde19c65d702d1bbe37acfe2c9cb8c271789c7ee181ecdb7a987"
+    },
+    {
+      "family": "Expansion",
+      "module": "trustar_enrich",
+      "source": "misp_modules/modules/expansion/trustar_enrich.py",
+      "sha256": "3e9df50b7f3ae866b7414828e39a415eb58c78eea9ca09633bebb50754a273a2"
+    },
+    {
+      "family": "Expansion",
+      "module": "tweetfeed",
+      "source": "misp_modules/modules/expansion/tweetfeed.py",
+      "sha256": "90dac80cf3ab298fb2dc2bb4053cd6e7f68df33172961b2b225fdb4a1056e093"
+    },
+    {
+      "family": "Expansion",
+      "module": "unpac_me",
+      "source": "misp_modules/modules/expansion/unpac_me.py",
+      "sha256": "87546d13d11ab3c7c6370d0038fb5b92aec7fe09aadc6c5064d1e6c868dfd506"
+    },
+    {
+      "family": "Expansion",
+      "module": "url_dns",
+      "source": "misp_modules/modules/expansion/url_dns.py",
+      "sha256": "0012f1f4534d9ffc38f9c398a720d0ac58887383f615ce36521e7dfcc3cfb9dd"
+    },
+    {
+      "family": "Expansion",
+      "module": "url_shortener",
+      "source": "misp_modules/modules/expansion/url_shortener.py",
+      "sha256": "05b877032733f169302e852c1c3d5339b04a7b4faf6008ff56047239fb54951b"
+    },
+    {
+      "family": "Expansion",
+      "module": "urlhaus",
+      "source": "misp_modules/modules/expansion/urlhaus.py",
+      "sha256": "bf568eb55fbfe7a2a1413f80ffde56667ecd74889499d2a6360ba7aff8ee9443"
+    },
+    {
+      "family": "Expansion",
+      "module": "urlscan",
+      "source": "misp_modules/modules/expansion/urlscan.py",
+      "sha256": "ba01a99c56a1a29d25801f061a192c69afa1843eacf7be27a98d18f84ca26e40"
+    },
+    {
+      "family": "Expansion",
+      "module": "validin",
+      "source": "misp_modules/modules/expansion/validin.py",
+      "sha256": "61bfbb1bf5b26a8fcdc1f9a609af7f39ef2fb6153616454ac473939c98942e4e"
+    },
+    {
+      "family": "Expansion",
+      "module": "variotdbs",
+      "source": "misp_modules/modules/expansion/variotdbs.py",
+      "sha256": "4f5c03105b975ac26e9223dc956a914f0e09a80767357fd0ce20d69c76feb4c7"
+    },
+    {
+      "family": "Expansion",
+      "module": "virustotal",
+      "source": "misp_modules/modules/expansion/virustotal.py",
+      "sha256": "ffb33f7871a2cd02f397cd4b28f36538d87ad44b4ace216946d83f830a07d512"
+    },
+    {
+      "family": "Expansion",
+      "module": "virustotal_downloader",
+      "source": "misp_modules/modules/expansion/virustotal_downloader.py",
+      "sha256": "30e5433ee96306956ef5161049739db628c7aa9e9c13e8fddbce8bc035f57d4c"
+    },
+    {
+      "family": "Expansion",
+      "module": "virustotal_public",
+      "source": "misp_modules/modules/expansion/virustotal_public.py",
+      "sha256": "2f4fd905b5bb8b57161ee8e923c624efd6ccf7a1ced58f5679f2c95b6046726e"
+    },
+    {
+      "family": "Expansion",
+      "module": "virustotal_upload",
+      "source": "misp_modules/modules/expansion/virustotal_upload.py",
+      "sha256": "5071d0f31b82082c89c7c44f55943485d1f51c643f544c2d767f4c06fac5a8c9"
+    },
+    {
+      "family": "Expansion",
+      "module": "vmray_analyzer",
+      "source": "misp_modules/modules/expansion/vmray_analyzer.py",
+      "sha256": "79d776758f98d3b56603802680bda8e45f490c96a9439f8b8544b9d3254dd595"
+    },
+    {
+      "family": "Expansion",
+      "module": "vmray_submit",
+      "source": "misp_modules/modules/expansion/vmray_submit.py",
+      "sha256": "010ca9b4e9bac0217530e31c67e8c704dc7a7d1a739479278471cf27e3c91126"
+    },
+    {
+      "family": "Expansion",
+      "module": "vmware_nsx",
+      "source": "misp_modules/modules/expansion/vmware_nsx.py",
+      "sha256": "c09d9d0183353f497682c45979f238ae3aeba5d668ddbc535096ad8cafaee97a"
+    },
+    {
+      "family": "Expansion",
+      "module": "vuldb",
+      "source": "misp_modules/modules/expansion/vuldb.py",
+      "sha256": "97b55fffee6af48edbc7872a748fce507c816d9fefb1fda415e4342b68ad7357"
+    },
+    {
+      "family": "Expansion",
+      "module": "vulndb",
+      "source": "misp_modules/modules/expansion/vulndb.py",
+      "sha256": "2119808f75ea76533126386e3441cb0979f2cfd4cf026832e3cc3c441890f95a"
+    },
+    {
+      "family": "Expansion",
+      "module": "vulnerability_lookup",
+      "source": "misp_modules/modules/expansion/vulnerability_lookup.py",
+      "sha256": "493bbe4076cf23eb25ad9e9a7c3838594cf739b5207b9de8c73bb86b31c045cd"
+    },
+    {
+      "family": "Expansion",
+      "module": "vulners",
+      "source": "misp_modules/modules/expansion/vulners.py",
+      "sha256": "b7901fa9eada1a4a981a918f782f1c4058b25da082b07320b62a97ce6ddab905"
+    },
+    {
+      "family": "Expansion",
+      "module": "vysion",
+      "source": "misp_modules/modules/expansion/vysion.py",
+      "sha256": "b292306e1af17dfdef60e1280e626e83303ed3766f8a3c287b32385eeb7e6615"
+    },
+    {
+      "family": "Expansion",
+      "module": "webarchive",
+      "source": "misp_modules/modules/expansion/webarchive.py",
+      "sha256": "f8066cd4d61dbb64c54246e8375b632d87652004b42c1ac925c44d47172dcb10"
+    },
+    {
+      "family": "Expansion",
+      "module": "whisper",
+      "source": "misp_modules/modules/expansion/whisper.py",
+      "sha256": "83cfbcf62e833ccf13a8f5eff0e3beed4813a140522358666a7aaecd39b174b7"
+    },
+    {
+      "family": "Expansion",
+      "module": "whois",
+      "source": "misp_modules/modules/expansion/whois.py",
+      "sha256": "c018a585d61e4ada963b5349b260a3ab2081b0a096d093426bdb2a8553f4fc63"
+    },
+    {
+      "family": "Expansion",
+      "module": "whoisfreaks",
+      "source": "misp_modules/modules/expansion/whoisfreaks.py",
+      "sha256": "5cbe13fc4e3445b2dcbd7c454058e79c02dfa4c59cfeacebeaa7491288151ce2"
+    },
+    {
+      "family": "Expansion",
+      "module": "wiki",
+      "source": "misp_modules/modules/expansion/wiki.py",
+      "sha256": "cc0633999aac9f2f4ccacf143f0cbd4a1d50d053982d0164a50791f1d324012f"
+    },
+    {
+      "family": "Expansion",
+      "module": "xforceexchange",
+      "source": "misp_modules/modules/expansion/xforceexchange.py",
+      "sha256": "0bb0dc5eb7aaf5cc074af8c3e30b711e6850db65283ec6a768ddb82ec0b74e15"
+    },
+    {
+      "family": "Expansion",
+      "module": "xlsx_enrich",
+      "source": "misp_modules/modules/expansion/xlsx_enrich.py",
+      "sha256": "d69f2734832559909d5720dc761ccfea0e9e174fef976f366dc1500d50c3d508"
+    },
+    {
+      "family": "Expansion",
+      "module": "xposedornot",
+      "source": "misp_modules/modules/expansion/xposedornot.py",
+      "sha256": "bd782d6ff17bd2f5b669238e05b95d97f53f39ba3da72044fabd6334f3fd3669"
+    },
+    {
+      "family": "Expansion",
+      "module": "yara_query",
+      "source": "misp_modules/modules/expansion/yara_query.py",
+      "sha256": "2158856c3cf4ee7ee3cbbb501a2337c17f7a7590de355fd04893b392fb8f22dc"
+    },
+    {
+      "family": "Expansion",
+      "module": "yara_syntax_validator",
+      "source": "misp_modules/modules/expansion/yara_syntax_validator.py",
+      "sha256": "d38b96ebacaac8f66d93dfcdd9b6b784a95d55ace4eef5f9336f12120bb22a27"
+    },
+    {
+      "family": "Expansion",
+      "module": "yeti",
+      "source": "misp_modules/modules/expansion/yeti.py",
+      "sha256": "e7d62988cfb93348be9ac367136c18498a0956c6bd46d3ffb9bbaeac132ffb0b"
+    },
+    {
+      "family": "Expansion",
+      "module": "zetalytics",
+      "source": "misp_modules/modules/expansion/zetalytics.py",
+      "sha256": "514e8b04b22f97213daba439e45775344ef8c9c4f1cc1aad56464a6deaa4e92c"
+    },
+    {
+      "family": "Expansion",
+      "module": "zoomeye",
+      "source": "misp_modules/modules/expansion/zoomeye.py",
+      "sha256": "7d1563b41e537a7ee348965a0fbff0987ba71f4839617f9f9edc94075154087e"
+    },
+    {
+      "family": "Export",
+      "module": "bpf_export",
+      "source": "misp_modules/modules/export_mod/bpf_export.py",
+      "sha256": "25e6b9a7b4a688bd0ef7e4f9e516c37a121c4dbf2c9c0b642f84556bc37c294c"
+    },
+    {
+      "family": "Export",
+      "module": "cef_export",
+      "source": "misp_modules/modules/export_mod/cef_export.py",
+      "sha256": "7505ce1dcfa0646297a5fe5e1767b7640dc52972d6d8d8b7c3e21499d645c511"
+    },
+    {
+      "family": "Export",
+      "module": "cisco_acl_export",
+      "source": "misp_modules/modules/export_mod/cisco_acl_export.py",
+      "sha256": "43c801397cdda02af761b498da43f5ad092dc7ea75c4da31737b98f6f5680c87"
+    },
+    {
+      "family": "Export",
+      "module": "cisco_asa_export",
+      "source": "misp_modules/modules/export_mod/cisco_asa_export.py",
+      "sha256": "5df1d7c7901644f849a601e83ad87f48ced274bdbfd01af74f8654088b87d5a3"
+    },
+    {
+      "family": "Export",
+      "module": "cisco_firesight_manager_ACL_rule_export",
+      "source": "misp_modules/modules/export_mod/cisco_firesight_manager_ACL_rule_export.py",
+      "sha256": "f8d4603f054993b89d5478de5697c309b673d0cbebb3e12ce9e0347989638c78"
+    },
+    {
+      "family": "Export",
+      "module": "csv_export",
+      "source": "misp_modules/modules/export_mod/csv_export.py",
+      "sha256": "0945b92be93bc85770acbd9b6533f89b4a3fc278a78137235fe651d052f66161"
+    },
+    {
+      "family": "Export",
+      "module": "defender_endpoint_export",
+      "source": "misp_modules/modules/export_mod/defender_endpoint_export.py",
+      "sha256": "598ad619332c9ec58944b55a10554357d26c10831c6559c4674caaf66f679733"
+    },
+    {
+      "family": "Export",
+      "module": "elastic_ecs_export",
+      "source": "misp_modules/modules/export_mod/elastic_ecs_export.py",
+      "sha256": "43b04e4796ba7679021351ffc6e4d5017c59d48e60eef99b5492f2dbd0fa4a91"
+    },
+    {
+      "family": "Export",
+      "module": "fortios_export",
+      "source": "misp_modules/modules/export_mod/fortios_export.py",
+      "sha256": "0384b785352e0bb5462a29c893c1d5d2978bb3dff57038b9cc2e7cd633912cf6"
+    },
+    {
+      "family": "Export",
+      "module": "geojson_export",
+      "source": "misp_modules/modules/export_mod/geojson_export.py",
+      "sha256": "88cb683febf836ac51fe2cb88d4510c755d1bc43bad15ca6ee1c4bfc336a0a5d"
+    },
+    {
+      "family": "Export",
+      "module": "goamlexport",
+      "source": "misp_modules/modules/export_mod/goamlexport.py",
+      "sha256": "599be18e42b36a147b2383dfb7ee1cd96b67d99220a30e0934cea1cc17b84ef9"
+    },
+    {
+      "family": "Export",
+      "module": "gpx_export",
+      "source": "misp_modules/modules/export_mod/gpx_export.py",
+      "sha256": "8abaaa0b6e059974361b006265671385fb7e75893369a9c7a60ee608f2dc0770"
+    },
+    {
+      "family": "Export",
+      "module": "junos_export",
+      "source": "misp_modules/modules/export_mod/junos_export.py",
+      "sha256": "0a8f811a16a9ca4fdba21ad486b2b0df24eb881068ebf361173aec298c0221cd"
+    },
+    {
+      "family": "Export",
+      "module": "kml_export",
+      "source": "misp_modules/modules/export_mod/kml_export.py",
+      "sha256": "5edfcea8bad0664473eabb2f7cbf6b4aa44a33490cd75f5aa558b27f9c3f9886"
+    },
+    {
+      "family": "Export",
+      "module": "kmz_export",
+      "source": "misp_modules/modules/export_mod/kmz_export.py",
+      "sha256": "909ef9f7427b493eaf1cf580beb71fd41a7337dd88761861b4012c8ce035efff"
+    },
+    {
+      "family": "Export",
+      "module": "liteexport",
+      "source": "misp_modules/modules/export_mod/liteexport.py",
+      "sha256": "8dd696601002229ced97ad78a3d8e026b3fc737cbcc3ebfb3ea851f83853d51b"
+    },
+    {
+      "family": "Export",
+      "module": "mass_eql_export",
+      "source": "misp_modules/modules/export_mod/mass_eql_export.py",
+      "sha256": "17c77d02a22bb13f38677e1959c3dd8ab8507ad47ae5517ea64d6427cd369532"
+    },
+    {
+      "family": "Export",
+      "module": "mikrotik_export",
+      "source": "misp_modules/modules/export_mod/mikrotik_export.py",
+      "sha256": "c5581700e1c39eded8763e6879cf8f4219bb423d33b2efcced37fd1dfe8ce3b4"
+    },
+    {
+      "family": "Export",
+      "module": "netfilter_export",
+      "source": "misp_modules/modules/export_mod/netfilter_export.py",
+      "sha256": "7ec92cac048eb379f1155dc7a2fef09b4d18e2446407e49efba93b66ee4234bf"
+    },
+    {
+      "family": "Export",
+      "module": "nexthinkexport",
+      "source": "misp_modules/modules/export_mod/nexthinkexport.py",
+      "sha256": "8209a1609e970315b5166f15bd647b8df92c1f7b989bbc7505fe7246481d07a9"
+    },
+    {
+      "family": "Export",
+      "module": "nmea_export",
+      "source": "misp_modules/modules/export_mod/nmea_export.py",
+      "sha256": "99a3c6550f9780cd377ef0004867ca0bae1827728cfd632423acd028d88c59b8"
+    },
+    {
+      "family": "Export",
+      "module": "osqueryexport",
+      "source": "misp_modules/modules/export_mod/osqueryexport.py",
+      "sha256": "c9cc3f800b5bd93d9e283ab2ac52aa469de6266bebdc91a138ccf467c8662c2b"
+    },
+    {
+      "family": "Export",
+      "module": "owasp_crs_export",
+      "source": "misp_modules/modules/export_mod/owasp_crs_export.py",
+      "sha256": "a0e2653e966bbcf272bb279fd484dddb82bce6cce516dccab5b7b827be289a8c"
+    },
+    {
+      "family": "Export",
+      "module": "panos_export",
+      "source": "misp_modules/modules/export_mod/panos_export.py",
+      "sha256": "2c28dfd2e8e3a7dd0cf36400b3d396acf6f209ceb973fb386424b8485a04201d"
+    },
+    {
+      "family": "Export",
+      "module": "pdfexport",
+      "source": "misp_modules/modules/export_mod/pdfexport.py",
+      "sha256": "d55ef6d92d982b25f5096a0fd365e173c4c4c88c7ee27b25a8f0c4dd0654c6d5"
+    },
+    {
+      "family": "Export",
+      "module": "pf_export",
+      "source": "misp_modules/modules/export_mod/pf_export.py",
+      "sha256": "091f6f558523b58038d2c4d27f762c6e97eb74f7b5106a63579698242e77305c"
+    },
+    {
+      "family": "Export",
+      "module": "qradar_reference_set_export",
+      "source": "misp_modules/modules/export_mod/qradar_reference_set_export.py",
+      "sha256": "5967bc64a517f73874fd19c3d4999063c59110411b837db4360111687bc0cff8"
+    },
+    {
+      "family": "Export",
+      "module": "sigma_export",
+      "source": "misp_modules/modules/export_mod/sigma_export.py",
+      "sha256": "67f3c802459d610a29fef1f9de3ce813ac5c7c39a2c2a7a922d47248880219b8"
+    },
+    {
+      "family": "Export",
+      "module": "splunk_export",
+      "source": "misp_modules/modules/export_mod/splunk_export.py",
+      "sha256": "e57e2fad251a496f43e780c019ccc48b9e23e6f023f5b4841d831bf7e45e2410"
+    },
+    {
+      "family": "Export",
+      "module": "squid_export",
+      "source": "misp_modules/modules/export_mod/squid_export.py",
+      "sha256": "5e608ca7c6bd7fc53b2efeedfbe9e9410615bab195bf9cb24d31f84701825d0a"
+    },
+    {
+      "family": "Export",
+      "module": "stix2_pattern_export",
+      "source": "misp_modules/modules/export_mod/stix2_pattern_export.py",
+      "sha256": "eaa8e1c6891fe00083364a5a29c0f2fdd61330056ef20d04687dd9267d897766"
+    },
+    {
+      "family": "Export",
+      "module": "threatStream_misp_export",
+      "source": "misp_modules/modules/export_mod/threatStream_misp_export.py",
+      "sha256": "140ba90d662ea70d780cb0a00a26b63c642a1243f3d9d45dccb73141fc829e4e"
+    },
+    {
+      "family": "Export",
+      "module": "threat_connect_export",
+      "source": "misp_modules/modules/export_mod/threat_connect_export.py",
+      "sha256": "b077e8fe477302f108a399e92d3c3417b9df40484ed82eae1f5252a98b025040"
+    },
+    {
+      "family": "Export",
+      "module": "timesketch_export",
+      "source": "misp_modules/modules/export_mod/timesketch_export.py",
+      "sha256": "88d30faa6e833d7ab92743a32c45da753c2508143f7430557916b65be1feed80"
+    },
+    {
+      "family": "Export",
+      "module": "virustotal_collections",
+      "source": "misp_modules/modules/export_mod/virustotal_collections.py",
+      "sha256": "b1120d4be67ee01a00814c5d0f2789cf34a0c32321917a19e10d69b31c1a7dbf"
+    },
+    {
+      "family": "Export",
+      "module": "vt_graph",
+      "source": "misp_modules/modules/export_mod/vt_graph.py",
+      "sha256": "02469fbfb8b8d5d903ad80a0f5c69c7ddd8956e61a6faf7f10870c4c201357de"
+    },
+    {
+      "family": "Export",
+      "module": "wazuh_cdb_export",
+      "source": "misp_modules/modules/export_mod/wazuh_cdb_export.py",
+      "sha256": "c5a3d9e80e7cb0385b46aa977495817c8a699b77caaf2c70e3c6a1b8ae0f6025"
+    },
+    {
+      "family": "Export",
+      "module": "yara_export",
+      "source": "misp_modules/modules/export_mod/yara_export.py",
+      "sha256": "bd73f1f0dfdb702e72f9edf59ae8ed5d6e116554e4bdbc31a89629d398a548af"
+    },
+    {
+      "family": "Export",
+      "module": "zeek_intel_export",
+      "source": "misp_modules/modules/export_mod/zeek_intel_export.py",
+      "sha256": "d5eb526731cdc517427f504f2113f77548409643eeaca2af0ad74e6d98e1ec52"
+    },
+    {
+      "family": "Action",
+      "module": "cortex_xdr_ioc_publish",
+      "source": "misp_modules/modules/action_mod/cortex_xdr_ioc_publish.py",
+      "sha256": "d1402f1f8e309405ce0db8b2dbf573ea0bcbdfa79009ef22ae197800f2f9e89d"
+    },
+    {
+      "family": "Action",
+      "module": "cortex_xsoar_incident_create",
+      "source": "misp_modules/modules/action_mod/cortex_xsoar_incident_create.py",
+      "sha256": "5f0a6a114c03cf0746711ed7a2e220202627a7a1a748a9c8f07936b5975cdd48"
+    },
+    {
+      "family": "Action",
+      "module": "crowdstrike_ioc_publish",
+      "source": "misp_modules/modules/action_mod/crowdstrike_ioc_publish.py",
+      "sha256": "e76e177b68cbdf934e99d4564545ec2a3481eb05e23d2c09da92d73ce380d2eb"
+    },
+    {
+      "family": "Action",
+      "module": "doppel_alert_takedown",
+      "source": "misp_modules/modules/action_mod/doppel_alert_takedown.py",
+      "sha256": "4229a757363873738eb4e6d247893734f436fc9ad9765cd75570ed628025876c"
+    },
+    {
+      "family": "Action",
+      "module": "export_sentinel",
+      "source": "misp_modules/modules/action_mod/export_sentinel.py",
+      "sha256": "2a2ed2b2a48d30faec4fd110c9483f36fe9b39220859409c855931498f8c0fa3"
+    },
+    {
+      "family": "Action",
+      "module": "irc",
+      "source": "misp_modules/modules/action_mod/irc.py",
+      "sha256": "85150b5d4dfba36ffc4d8a259aa21453eade61c8a2c1abe7f861752ec8d25a2e"
+    },
+    {
+      "family": "Action",
+      "module": "matrix",
+      "source": "misp_modules/modules/action_mod/matrix.py",
+      "sha256": "c0db02da6ffad90e60aa66151771f02a23b9ddb1327cf2c0433d256987e78b04"
+    },
+    {
+      "family": "Action",
+      "module": "mattermost",
+      "source": "misp_modules/modules/action_mod/mattermost.py",
+      "sha256": "0bc02b1577e63a5b6079bdde1aa1e1b58e3ad45be2952cc187b1c84646792dd5"
+    },
+    {
+      "family": "Action",
+      "module": "n8n_webhook",
+      "source": "misp_modules/modules/action_mod/n8n_webhook.py",
+      "sha256": "cc6924e282dcba6d8270b489963a30948855603097ad09ddfa74124d9e035f30"
+    },
+    {
+      "family": "Action",
+      "module": "nextcloud_talk",
+      "source": "misp_modules/modules/action_mod/nextcloud_talk.py",
+      "sha256": "3b3244a7f9b5ac9faac951cc2d3d6b576ee3d3ef3694f0d6607826f91a0ff0d7"
+    },
+    {
+      "family": "Action",
+      "module": "osquery_pack_publish",
+      "source": "misp_modules/modules/action_mod/osquery_pack_publish.py",
+      "sha256": "701af1ec0b0fe3e43dedfcae4a0c0bd8625c62aa1c7f8ca9fa6dfead65695876"
+    },
+    {
+      "family": "Action",
+      "module": "qradar_reference_set_publish",
+      "source": "misp_modules/modules/action_mod/qradar_reference_set_publish.py",
+      "sha256": "3235ca6076e2253696530e58781f5b8ed6a2022734db6760c5d74be0af9bf38f"
+    },
+    {
+      "family": "Action",
+      "module": "sentinelone_ioc_publish",
+      "source": "misp_modules/modules/action_mod/sentinelone_ioc_publish.py",
+      "sha256": "fe39d29f8db14e4f48d1a3eae859b637c7607b9b5dffe12a768c838f8ca4f790"
+    },
+    {
+      "family": "Action",
+      "module": "shuffle_workflow_execute",
+      "source": "misp_modules/modules/action_mod/shuffle_workflow_execute.py",
+      "sha256": "b54b3ab128d2fdf81e00805da4223f671bfec6a39e1cb50344a08749059a2f7b"
+    },
+    {
+      "family": "Action",
+      "module": "signal",
+      "source": "misp_modules/modules/action_mod/signal.py",
+      "sha256": "13d05bc202cf3f66a86aebfc2fc9b371acae224b0b4c163771a183a72b7bae5f"
+    },
+    {
+      "family": "Action",
+      "module": "slack",
+      "source": "misp_modules/modules/action_mod/slack.py",
+      "sha256": "96cb111723afc106291583ba461f51bbdb15d5235c38d386bd4f523b209beb1a"
+    },
+    {
+      "family": "Action",
+      "module": "tines_case_create",
+      "source": "misp_modules/modules/action_mod/tines_case_create.py",
+      "sha256": "d5b19e8556a711253c1cd7bbb217a1d3a6495fe335d516e72a1e828c915d40f2"
+    },
+    {
+      "family": "Action",
+      "module": "torq_case_create",
+      "source": "misp_modules/modules/action_mod/torq_case_create.py",
+      "sha256": "b5bf6285b878f978a3854fc0073120d447d727a6c6b4618422d4ebf799ac0e25"
+    },
+    {
+      "family": "Action",
+      "module": "wazuh_cdb_publish",
+      "source": "misp_modules/modules/action_mod/wazuh_cdb_publish.py",
+      "sha256": "59435ca7ad06aaed40f2e4657614dc57a84144cb82e867aa7db542b121e0505e"
+    }
+  ]
+}

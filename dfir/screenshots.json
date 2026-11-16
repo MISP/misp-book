@@ -1,0 +1,777 @@
+{
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "misp_version": "3.0.0",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "capture_method": "Chromium via Playwright against the running application. Real modal/file upload, handler preview, final UI Import, REST verification and native object expansion. No image retouching, mocked responses or injected styling.",
+  "runtime_note": "Restored isolated documentation containers. Application code and CakePHP come from the recorded checkout; its existing database was preserved. Container PHP used the mapped workspace owner for restored bind-mount access. Local service names were appended to the inherited proxy bypass list.",
+  "misp_modules": {
+    "repository": "https://github.com/MISP/misp-modules",
+    "commit": "d7ec36544576f2523e320ce9200d0f18d12e11c7",
+    "pymisp_version": "2.5.34.4",
+    "runtime_note": "Unmodified upstream Python package copied into the existing Python 3.12 module container. A loader wrapper restricted discovery to the nine DFIR handlers and extract_url_components; no requests/responses or handler code rewritten. Only evtx_findings_import and timesketch_export executed for this example.",
+    "discovered_modules": [
+      "autopsy_import",
+      "evtx_findings_import",
+      "osquery_import",
+      "suricata_import",
+      "timesketch_import",
+      "timesketch_export",
+      "velociraptor_import",
+      "volatility3_import",
+      "zeek_import",
+      "extract_url_components"
+    ]
+  },
+  "fixture": {
+    "source": "Authored synthetic Hayabusa-shaped JSONL; no Hayabusa or Chainsaw execution and no EVTX acquired.",
+    "file": "dfir/examples/hayabusa-selected.jsonl",
+    "sha256": "e093cfa27c3118adc46a2c967031c11bda9721e66f8075d152b9b1de90957818",
+    "bytes": 564,
+    "event_id": 17,
+    "event_info": "DFIR exercise: selected Windows log findings",
+    "organization": "MISP Documentation",
+    "setup_account": "analyst@example.org",
+    "date": "2026-11-15",
+    "source_time_utc": "2026-11-15T09:20:00Z",
+    "distribution": 0,
+    "published": false,
+    "rule_status": "test",
+    "review_status": "unreviewed",
+    "object_template_note": "windows-event-log-detection and windows-event-log-record templates copied unchanged from the pinned misp-modules data package into the isolated core template directory and registered with Admin updateObjectTemplates. Existing file template version 25 reused."
+  },
+  "verification": {
+    "event_id": 17,
+    "distribution": 0,
+    "published": false,
+    "objects": 3,
+    "object_attributes": 28,
+    "all_non_ids": true,
+    "all_non_correlating": true,
+    "references_resolve": true,
+    "source_attachment_byte_identical": true,
+    "exported_timeline_observations": 2,
+    "timestamp_utc": "2026-11-15T09:20:00Z",
+    "timeline_export_sha256": "3879be6ce416e7263bdfa4367b721d0819c093d1372b7f2131a10b293c9cbf3a",
+    "raw_misp_timeline_export_error": "No supported timestamped observations selected.",
+    "compatibility_step": "Normalized two explicit compact UTC offsets (+0000 to +00:00) in an export-only copy; MISP records unchanged."
+  },
+  "limitations": [
+    "Windows-finding import, normalized Timesketch export, native Mactime import, PCAP import/analysis, ADTimeline import and the native MISP timeline were exercised live with synthetic data. The complete module inventory is a source audit.",
+    "Direct timeline export of the saved MISP compact UTC datetime offsets fails at this module revision. The documented helper normalizes explicit offsets in an export-only copy; original MISP records remain unchanged.",
+    "Imported raw fields and screenshots are synthetic, not operational evidence.",
+    "No Timesketch server upload, real memory acquisition, real endpoint collection, live packet capture, external enrichment, IOC publication, containment or messaging was performed. TShark analyzed only the authored PCAP."
+  ],
+  "shots": [
+    {
+      "file": "dfir/figures/misp3-dfir-import.png",
+      "url": "/events/view/17",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1400
+      },
+      "description": "Real enabled import form with synthetic file selected; this second form capture was discarded without submitting.",
+      "sha256": "fe27bff112f4feff72f395c5e1b92b18ebe2597cab3bd6d079248411ed1618ea",
+      "captured_at": "2026-11-15T21:49:22.684001+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 1126
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-dfir-review.png",
+      "url": "/events/view/17",
+      "selector": "Viewport showing the real Import results modal",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "description": "Real handler output displayed in MISP before the final Import action; 3 objects, 28 attributes.",
+      "sha256": "278c0261222a455cc160f377a2227dd92477aed2faf2b83994fd0248fc16926e",
+      "image_size": {
+        "width": 1440,
+        "height": 1000
+      },
+      "captured_at": "2026-11-15T21:47:13.343854+00:00",
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-dfir-finding.png",
+      "url": "/events/view/17#tab-objects",
+      "selector": "[data-oi-expand=\"9\"]",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "description": "Saved detection with its native object attributes expanded; full-page screenshot.",
+      "sha256": "2d9374b811c029e160e613d61ced30b30ad49423de1e4eb7210ea2936fffeba9",
+      "captured_at": "2026-11-15T21:49:23.554951+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1417
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-dfir-record.png",
+      "url": "/events/view/17#tab-objects",
+      "selector": "[data-oi-expand=\"10\"]",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "description": "Saved record with its native object attributes expanded; full-page screenshot.",
+      "sha256": "4077b5a156cfe5f679225d73c4cfe26584ae49c1a72bd67778f1f82f4b98b7b2",
+      "captured_at": "2026-11-15T21:49:24.832921+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1417
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-sleuthkit-upload.png",
+      "url": "/events/view/18",
+      "description": "Native Populate from forensic analysis section with the Sleuth Kit human-readable timeline selected.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "captured_at": "2026-11-16T05:17:11.103817+00:00",
+      "sha256": "eacb98a8195b570bfa51d6f0f68c31e316beb76fb3b84b837cbebf01b5c0c997",
+      "image_size": {
+        "width": 1140,
+        "height": 666
+      },
+      "role": "Site administrator, MISP Documentation organization",
+      "capture_method": "DOM screenshot of the actual native MISP modal; no retouching."
+    },
+    {
+      "file": "dfir/figures/misp3-sleuthkit-review.png",
+      "url": "/events/view/18",
+      "description": "Real Mactime preview with three selected activity rows for one file; modification, metadata change and access remain distinct.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "captured_at": "2026-11-16T05:17:12.159839+00:00",
+      "sha256": "a839bf58497012b1f41e598cf1c55b05fa6f527d37d52a30009caace0d5cc939",
+      "image_size": {
+        "width": 1140,
+        "height": 420
+      },
+      "role": "Site administrator, MISP Documentation organization",
+      "capture_method": "DOM screenshot of the actual native MISP modal; no retouching."
+    },
+    {
+      "file": "dfir/figures/misp3-sleuthkit-object.png",
+      "url": "/events/view/18#tab-objects",
+      "description": "Saved mactime-timeline-analysis object for the inode metadata-change observation with path, time, size, permissions and original timeline attachment.",
+      "viewport": {
+        "width": 1440,
+        "height": 950
+      },
+      "captured_at": "2026-11-16T05:19:48.188195+00:00",
+      "sha256": "f4f9e272df193c82a244a085b9f89372c8cf575f6e356f7495ded799c230a3a3",
+      "image_size": {
+        "width": 1440,
+        "height": 950
+      },
+      "role": "Site administrator, MISP Documentation organization",
+      "capture_method": "Native 1440x950 viewport screenshot after expanding the metadata-change object; no retouching."
+    },
+    {
+      "file": "dfir/figures/misp3-pcap-import.png",
+      "url": "/events/view/19",
+      "description": "Native PCAP import form with the authored capture selected; the handler uses its default 60-second timeout.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "captured_at": "2026-11-16T05:40:25.528309+00:00",
+      "sha256": "3c88db26a0ab748e0c1ef88febb4d220cc30041748de40e6113f640ad8ec8b2b",
+      "image_size": {
+        "width": 1140,
+        "height": 666
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-pcap-review.png",
+      "url": "/events/view/19",
+      "description": "Real parser result: capture metadata, two network connections, one reconstructed file and ten standalone network observations. File IDS defaults were cleared through the native controls before saving.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1400
+      },
+      "captured_at": "2026-11-16T05:48:19.727199+00:00",
+      "sha256": "82369e5f0696eb0f67c716461cd9fa5d55ddd22506b080ce987a62a4043a487c",
+      "capture_note": "A second native preview was captured after all seven file IDS flags were cleared and the accordions collapsed. This preview was discarded; the previously saved case remains unchanged.",
+      "image_size": {
+        "width": 1140,
+        "height": 996
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-pcap-connection.png",
+      "url": "/events/view/19#tab-objects",
+      "description": "Saved TCP connection with endpoints, ports, packet bounds, protocol and directional packet counts.",
+      "viewport": {
+        "width": 1440,
+        "height": 1250
+      },
+      "capture_method": "Native viewport screenshot after expanding the selected object; no retouching.",
+      "captured_at": "2026-11-16T05:43:42.552033+00:00",
+      "sha256": "50c6b699d599ad8e9356395c2f975f22558b213c77fba816ee32d6341577f17f",
+      "image_size": {
+        "width": 1440,
+        "height": 1250
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-pcap-file.png",
+      "url": "/events/view/19#tab-objects",
+      "description": "Saved reconstructed notice.txt object with its hashes, 49-byte size and sample attachment; the IDS flags were cleared before import.",
+      "viewport": {
+        "width": 1440,
+        "height": 1250
+      },
+      "capture_method": "Native viewport screenshot after expanding the selected object; no retouching.",
+      "captured_at": "2026-11-16T05:43:43.821196+00:00",
+      "sha256": "6aca4b1f2aa7886e5883d41990224cf09806f65940d9b9f85538ab53e64fcfab",
+      "image_size": {
+        "width": 1440,
+        "height": 1250
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-adtimeline-import.png",
+      "url": "/events/view/20",
+      "description": "Native ADTimeline import form with the selected synthetic CSV, domain scope and collection server.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "captured_at": "2026-11-16T08:28:00.344175+00:00",
+      "sha256": "9cb9b3650c8e1a0ce6c009a6cfca2a67bcb2bd4db8119d52e16014390924c4cb",
+      "image_size": {
+        "width": 1140,
+        "height": 896
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-adtimeline-review.png",
+      "url": "/events/view/20",
+      "description": "Real ADTimeline result: one source file and two unreviewed replication metadata objects. The importer returned every IDS flag off.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1400
+      },
+      "captured_at": "2026-11-16T08:33:25.235336+00:00",
+      "sha256": "a9b8d3a3d9b0130878f8800ab82c6abb96a24b28787b05465ae3b97c1c32ac50",
+      "capture_note": "A second native preview was captured after the accordions collapsed; every IDS flag remained off as returned by the module. This preview was discarded; the previously saved case remains unchanged.",
+      "image_size": {
+        "width": 1140,
+        "height": 468
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-adtimeline-membership.png",
+      "url": "/events/view/20#tab-objects",
+      "description": "Saved removed group-member link with raw/normalized change times, collection context, exact USNs and unreviewed status.",
+      "viewport": {
+        "width": 1440,
+        "height": 2050
+      },
+      "capture_method": "Native viewport screenshot after expanding the selected object; no retouching.",
+      "captured_at": "2026-11-16T08:32:55.079665+00:00",
+      "sha256": "cc71aecfde96b7e3892f8da7bfc88ee9a15a00c745b42cd02d5c3f72d933fa05",
+      "image_size": {
+        "width": 1440,
+        "height": 2050
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-timeline-seen.png",
+      "url": "/events/view/21#tab-timeline",
+      "description": "Seen basis with a full interval, expanded file-object children, a one-sided observation and an undated-item notice.",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "captured_at": "2026-11-16T08:42:48.723203+00:00",
+      "capture_method": "Native viewport screenshot after normal timeline controls; no retouching or injected data/style.",
+      "sha256": "e0f26dcef9907a4bbcc6f2717e7e6ff1e743a4e952f642aff9fe8fba4f84f76d",
+      "image_size": {
+        "width": 1440,
+        "height": 900
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-timeline-filter.png",
+      "url": "/events/view/21#tab-timeline",
+      "description": "Native timeline filter limits the dated rows to the file object and its dated children; the observation basis remains Seen.",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "captured_at": "2026-11-16T08:42:48.997049+00:00",
+      "capture_method": "Native viewport screenshot after normal timeline controls; no retouching or injected data/style.",
+      "sha256": "e98aa7468467c9d0c0a5de49982722a4b1ab6ebdadf75716477de8f3a9ec442b",
+      "image_size": {
+        "width": 1440,
+        "height": 900
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-timeline-edit-seen.png",
+      "url": "/events/view/21#tab-timeline",
+      "description": "Modified basis with the native Seen dates editor open for the fictional domain; no changes are saved.",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "captured_at": "2026-11-16T08:42:49.586069+00:00",
+      "capture_method": "Native viewport screenshot after normal timeline controls; no retouching or injected data/style.",
+      "sha256": "5520b3a8ac7728e182c673c8f0def43bff8c9396d0e3a6a3176cae134d4c0560",
+      "image_size": {
+        "width": 1440,
+        "height": 900
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-timeline-adtimeline-undated.png",
+      "url": "/events/view/20#tab-timeline",
+      "description": "ADTimeline event has three objects without first/last-seen metadata. Its preserved datetime-valued attributes do not automatically place those objects on the Seen timeline.",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "captured_at": "2026-11-16T08:42:51.234984+00:00",
+      "capture_method": "Native viewport screenshot after normal timeline controls; no retouching or injected data/style.",
+      "sha256": "233f9eb1c86f3be92b4ef3cccc3ec1d0911e07a49c38c5653a4b31ea7d023418",
+      "image_size": {
+        "width": 1440,
+        "height": 900
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    }
+  ],
+  "source_checks": [
+    "app/Controller/EventsController.php: importModule, resolvedMISPFormat and upload_analysis_file",
+    "app/View/Themed/Overmind/Events/populate_from.ctp",
+    "app/View/Themed/Overmind/Elements/Events/import_module_form.ctp",
+    "misp_modules/modules/import_mod/evtx_findings_import.py",
+    "misp_modules/modules/export_mod/timesketch_export.py",
+    "misp_modules/lib/timesketch_exchange.py",
+    "documentation/import_mod/*.md and documentation/export_mod/*.md at pinned revision",
+    "app/View/Themed/Overmind/Events/mactime_resolution.ctp: whitespace parser, row selection and form submission",
+    "app/Controller/EventsController.php::upload_analysis_file: object attributes, complete uploaded text attachments and ordering references",
+    "misp_modules/modules/import_mod/pcap_import.py at the pinned commit: offline dissection, capture/flow identities, payload matching and limits",
+    "app/View/Themed/Overmind/Events/resolved_misp_format.ctp: native IDS review and omission of reference comments"
+  ],
+  "upstream_bug_fix": {
+    "pull_request": "https://github.com/MISP/misp-modules/pull/1140",
+    "commit": "148f28042f98a7dd162866446bea8600d0ff6bf9",
+    "validation": "117 Timesketch tests pass on Python 3.10.22 and Python 3.12.14, including regressions that failed before the fix. The unmodified saved MISP event exports two exact observations through the patched Python handler without preprocessing. Compact suffixes are normalized before parsing for Python 3.10 compatibility. The captured service remains on its recorded unmodified source snapshot.",
+    "review_followup_commit": "59323dfc600a88358f2ffb3a3cf68dfc0bf53472"
+  },
+  "baseline_configuration_restored": true,
+  "filesystem_fixture": {
+    "fixture": "Authored synthetic ext2 filesystem; no acquired victim data or malware.",
+    "image": {
+      "file": "filesystem.img",
+      "sha256": "3be3d59ae46ba47971ac79ca064ceef5c754975e936a39d6f589b146f3c3344e",
+      "bytes": 4194304,
+      "format": "raw filesystem, ext2; filesystem begins at byte 0; no partition table",
+      "uuid": "72e7a756-f09d-4b99-b84a-83f098dc5664",
+      "label": "DFIR_SAMPLE"
+    },
+    "sleuthkit_version": "The Sleuth Kit ver 4.12.1",
+    "e2fsprogs_version": "debugfs 1.47.2 (1-Jan-2025)\n\tUsing EXT2FS Library version 1.47.2",
+    "timezone": "UTC",
+    "locale": "C",
+    "timeline_window": "2026-11-16..2026-11-17",
+    "file": {
+      "path": "/case/notes.txt",
+      "inode": "13",
+      "uid": 1000,
+      "gid": 1000,
+      "bytes": 47,
+      "sha256": "879b8acc00d213bc50850f3dfdc22441edc5c890a9308a4186be310e2ed2356c",
+      "mtime": "2026-11-16T09:20:00Z",
+      "ctime": "2026-11-16T09:23:00Z",
+      "atime": "2026-11-16T09:25:00Z",
+      "creation_time": "not available from this ext2 fixture"
+    },
+    "construction": "Created with mke2fs and populated through debugfs without mounting. File timestamps were explicitly assigned for the teaching example, rather than observed on an investigated device.",
+    "analysis": "fls and mactime read the image/bodyfile; icat recovered the selected inode byte-identically to notes.txt. Only the /case/notes.txt bodyfile record was passed to mactime. An explicit date range excludes the unknown birth-time sentinel from the MISP upload; the full bodyfile preserves its zero value.",
+    "files": {
+      "filesystem.body": {
+        "bytes": 273,
+        "sha256": "c958ed8895d6dc6d8619d1eda8339a49c2acf96ff62b7615a51aee24ea30d763"
+      },
+      "filesystem.img.gz": {
+        "bytes": 4547,
+        "sha256": "7c7058d928d2bb9a972cd9165274d9937d30adcb9831a6e0623cde82347841e3"
+      },
+      "filesystem.img.sha256": {
+        "bytes": 81,
+        "sha256": "fbe729eb4b3b6d6ab952ec19a197274cf22370df5f5a6782dbc2e46025fd444c"
+      },
+      "notes-timeline.csv": {
+        "bytes": 274,
+        "sha256": "1783d94a6aed1dea3a21c50595ba3d86da948e1976f38ffb5b794c6cd3a4eae7"
+      },
+      "notes-timeline.txt": {
+        "bytes": 285,
+        "sha256": "29f8bda6c5ce80b12bc63c72b872f55b5218de1ebf7e8de7f60ea16bc4aa3139"
+      },
+      "notes.body": {
+        "bytes": 82,
+        "sha256": "71c3b8752903e5cfea158bd100c351caf533d9ea162d625033256e710142a9d5"
+      },
+      "notes.txt": {
+        "bytes": 47,
+        "sha256": "879b8acc00d213bc50850f3dfdc22441edc5c890a9308a4186be310e2ed2356c"
+      }
+    },
+    "misp_event": {
+      "id": 18,
+      "info": "DFIR filesystem exercise: Sleuth Kit timeline",
+      "organization": "MISP Documentation",
+      "date": "2026-11-16",
+      "distribution": 0,
+      "published": false,
+      "object_template": "mactime-timeline-analysis version 1"
+    }
+  },
+  "filesystem_verification": {
+    "event_id": 18,
+    "distribution": 0,
+    "published": false,
+    "objects": 3,
+    "attributes": 18,
+    "all_non_ids": true,
+    "ordering_references": 4,
+    "references_resolve": true,
+    "all_source_attachment_text_matches_after_line_ending_normalization": true,
+    "source_attachment_line_endings": "CRLF after the core form round trip; original mactime output uses LF",
+    "datetime_values_match_UTC_source": true,
+    "image_integrity_unchanged_by_analysis": true,
+    "fls_bodyfile_reproduced": true,
+    "text_and_csv_mactime_outputs_reproduced": true,
+    "icat_recovered_bytes_match": true,
+    "unknown_birth_time_not_imported": true,
+    "original_text_bytes": 285,
+    "attached_text_bytes": 288,
+    "attachment_sha256": "09939744bceaf134b9cbf4678bb3db32dae769fd8704fdc1d3c15d4a73eae60e"
+  },
+  "pcap_fixture": {
+    "fixture": "Authored synthetic Ethernet/IPv4 DNS and plaintext HTTP packets, generated without opening network connections.",
+    "capture": {
+      "file": "download-example.pcap",
+      "format": "PCAP 2.4, little-endian, microsecond timestamp resolution, Ethernet link type",
+      "bytes": 1185,
+      "sha256": "8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3",
+      "packets": 12,
+      "first_UTC": "2026-11-16T10:00:00Z",
+      "last_UTC": "2026-11-16T10:00:01.900000Z"
+    },
+    "participants": {
+      "requestor": "192.0.2.10",
+      "resolver": "192.0.2.53",
+      "HTTP_responder": "198.51.100.20",
+      "DNS_question_and_HTTP_Host": "updates.example"
+    },
+    "streams": [
+      {
+        "transport": "udp",
+        "stream_id": "0",
+        "first_frame": 1,
+        "last_frame": 2,
+        "source": "192.0.2.10:49153",
+        "destination": "192.0.2.53:53",
+        "packet_counts": [
+          1,
+          1
+        ]
+      },
+      {
+        "transport": "tcp",
+        "stream_id": "0",
+        "first_frame": 3,
+        "last_frame": 12,
+        "source": "192.0.2.10:49152",
+        "destination": "198.51.100.20:80",
+        "packet_counts": [
+          6,
+          4
+        ]
+      }
+    ],
+    "payload": {
+      "file": "notice.txt",
+      "bytes": 49,
+      "sha256": "280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516",
+      "HTTP_request_frame": 6,
+      "HTTP_response_and_completion_frame": 7,
+      "completion_UTC": "2026-11-16T10:00:01.400000Z"
+    },
+    "tshark_version": "4.4.19",
+    "PyMISP_version": "2.5.34.4",
+    "misp_modules_package_version": "3.1.4",
+    "module": {
+      "repository": "https://github.com/MISP/misp-modules",
+      "commit": "d7ec36544576f2523e320ce9200d0f18d12e11c7",
+      "path": "misp_modules/modules/import_mod/pcap_import.py",
+      "handler_version": "1.1",
+      "sha256": "d37a32d4330bbae7984ec16dbb1669caa0174b6c96634d7ebae5ccf6938e1bc4"
+    },
+    "module_result_note": "module-response.json is a serialized, otherwise unedited result from a separate offline API run of the same capture. UUIDs can differ from the saved UI event; compare capture, transport/stream and payload identities. Original file IDS defaults remain visible in that source response.",
+    "capture_method": "The original UI import used the real PCAP handler and native file upload/review/save. Seven file IDS defaults were cleared with native review controls. A subsequent preview was captured for layout and discarded without modifying the saved event.",
+    "runtime": {
+      "image": "python@sha256:4840d514c583a4d3d8cad3940e68dee6f0f6f3635c12fcd0a3d74c21a5b93a54",
+      "python": "3.12",
+      "note": "Fresh isolated Python service with the pinned source and dependencies installed. A wrapper restricts discovery to pcap_import; it does not rewrite requests, responses or handler code. TShark runs offline with name resolution disabled."
+    },
+    "tool_outputs": [
+      {
+        "file": "packet-summary.txt",
+        "command": "tshark -n -t ud -r download-example.pcap"
+      },
+      {
+        "file": "conversations.txt",
+        "command": "tshark -n -r download-example.pcap -q -z conv,tcp -z conv,udp"
+      }
+    ],
+    "tool_output_formatting": "Trailing display padding was removed from text CLI outputs; the capture, reconstructed bytes and timestamp values are unchanged.",
+    "verification": {
+      "event_id": 19,
+      "organization_only": true,
+      "published": false,
+      "objects": 4,
+      "object_attributes": 43,
+      "standalone_attributes": 10,
+      "all_53_attributes_non_ids_after_review": true,
+      "file_IDS_defaults_cleared_in_UI": 7,
+      "packet_count": 12,
+      "capture_bytes": 1185,
+      "capture_sha256": "8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3",
+      "capture_filename_in_saved_metadata": "download-example.pcap",
+      "capture_times_UTC": [
+        "2026-11-16T10:00:00Z",
+        "2026-11-16T10:00:01.900000Z"
+      ],
+      "payload_bytes": 49,
+      "payload_sha256": "280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516",
+      "TCP_payload_completion_frame": 7,
+      "payload_observation_UTC": "2026-11-16T10:00:01.400000Z",
+      "references_resolve": 29,
+      "capture_generator_byte_identical": true,
+      "downloaded_sample_unpacks_to_original_payload": true,
+      "detailed_payload_frame_proof": "Verified in the module API result from a separate run of the same capture; saved MISP reference targets and types remain, but the pinned review UI omits reference comments.",
+      "analysis_scope": "Synthetic DNS and plaintext HTTP only. No live capture, DNS lookup, URL fetch, sample execution, external enrichment or publication."
+    },
+    "files": {
+      "README.md": {
+        "bytes": 2239,
+        "sha256": "9a58617cfc714e15991d25528f5dde82d4ae30e75360ec4a4d4cca48920cbcd8"
+      },
+      "conversations.txt": {
+        "bytes": 1264,
+        "sha256": "0f0a0b214743a1786db1d1e012e6f150119dd69a5b4b92142f2a2982bbcd1f8a"
+      },
+      "download-example.pcap": {
+        "bytes": 1185,
+        "sha256": "8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3"
+      },
+      "download-example.pcap.sha256": {
+        "bytes": 88,
+        "sha256": "d7702bf5cc6dc3ecf3f10b11ce95b2df7718953d2e9f523d4b4f944e8247684c"
+      },
+      "generate_capture.py": {
+        "bytes": 4139,
+        "sha256": "300688b348d5426964239d9c0f8e4538708d00391dff2649666954362a5b3be0"
+      },
+      "module-response.json": {
+        "bytes": 36389,
+        "sha256": "5fe8863aa6e2b8617247db2e6c871bdf7cad452973316194e1ad4f2419810329"
+      },
+      "notice.txt": {
+        "bytes": 49,
+        "sha256": "280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516"
+      },
+      "packet-summary.txt": {
+        "bytes": 1424,
+        "sha256": "0bc22ebdffe65b3485fa08fdf4c2faae8fb9311fec23609fe6a7060579b3f5df"
+      }
+    },
+    "misp_event": {
+      "id": 19,
+      "info": "DFIR PCAP exercise: DNS and HTTP download",
+      "date": "2026-11-16",
+      "distribution": 0,
+      "published": false,
+      "templates": {
+        "pcap-metadata": 3,
+        "network-connection": 7,
+        "file": 25
+      }
+    }
+  },
+  "adtimeline_example": {
+    "fixture": "Selected synthetic replication metadata; no live AD collection or directory modification.",
+    "source": {
+      "repository": "https://github.com/MISP/misp-modules",
+      "commit": "f4899ad42ac074de672ed32485223badb8680a45",
+      "file": "tests/fixtures/adtimeline/timeline_example.test.csv",
+      "sha256": "f206def2b682217ca18bb0a3b7766a4ca228bf80247e167e92b91f41593f24e1",
+      "credit": "MISP contributors, AGPLv3; upstream fixture and producer linked in README.md.",
+      "serialization": "PowerShell 7.4.6 Export-Csv, semicolon delimiter, NoTypeInformation, UTF-8 BOM and CRLF.",
+      "producer_execution_note": "PowerShell serialization is recorded by the upstream project; not rerun for this chapter.",
+      "ADTimeline_contract_commit": "fa570aa15a03614b8dd1ea956abb556f47f4f453"
+    },
+    "selection": {
+      "file": "timeline_selected.csv",
+      "data_records": [
+        1,
+        2
+      ],
+      "bytes": 1183,
+      "sha256": "ddc6daef55bd41ef0256e20b2354aaa2800d9eb8a99aff5d83adcc6ef820def7",
+      "method": "Header and first two data records retained byte-for-byte. The fixture has no multiline records; third altRecipient record excluded."
+    },
+    "module": {
+      "name": "adtimeline_import",
+      "handler_version": "1.0",
+      "repository": "https://github.com/MISP/misp-modules",
+      "commit": "f4899ad42ac074de672ed32485223badb8680a45",
+      "handler_sha256": "ad2669034dbd46b58a17f2a5c6a32a4101b4c75f381d599544b9016e85f8f38f",
+      "template_sha256": "d7e7922d9559f5b80f02e7dddf1236138348bee322125555cbe9228c21bcf424",
+      "template_version": 1,
+      "config": {
+        "domain_scope": "example.test",
+        "collection_server": "dc02.example.test"
+      }
+    },
+    "runtime": {
+      "python": "3.12",
+      "PyMISP": "2.5.34.4",
+      "note": "Unmodified pinned package copied into the isolated Python container. A loader restricts discovery to adtimeline_import; no handler, request or response rewriting.",
+      "MISP_core_branch": "3.0_wip",
+      "MISP_core_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+      "template_registration": "Bundled ad-replication-metadata v1 copied unchanged into the isolated core template catalog and registered with Admin updateObjectTemplates. Existing file v25 reused."
+    },
+    "module_response": {
+      "file": "module-response.json",
+      "sha256": "c4ec0ed094b6eab2865c0fda03745efb0625df9f53534d0d698b741560e7b1ff",
+      "note": "Serialized result from a separate real HTTP API run with identical bytes, filename and context. Stable object UUIDs match the native saved event."
+    },
+    "verification": {
+      "event_id": 20,
+      "distribution": 0,
+      "published": false,
+      "objects": 3,
+      "attributes": 53,
+      "references_resolve": 2,
+      "all_non_ids": true,
+      "all_non_correlating": true,
+      "source_attachment_byte_identical": true,
+      "module_UUIDs_match_saved_objects": true,
+      "unreviewed_observations": 2,
+      "large_counters_preserved_as_exact_text": true,
+      "raw_and_normalized_times_preserved": true,
+      "warnings": [],
+      "input_bytes": 1183,
+      "input_sha256": "ddc6daef55bd41ef0256e20b2354aaa2800d9eb8a99aff5d83adcc6ef820def7"
+    },
+    "limits": [
+      "Synthetic CSV import only; no Windows ADTimeline execution, live LDAP, NTDS acquisition or directory response was tested.",
+      "Imported metadata does not establish an actor, maliciousness, before/after ACL values or complete directory history.",
+      "No external enrichment, publication, messaging or automated response was performed."
+    ]
+  },
+  "native_timeline_example": {
+    "fixture": "Authored MISP event; observation times are fictional. No collection, traffic or file acquisition.",
+    "file": "event-input.json",
+    "sha256": "4cafd3513c57dc26d309c4b08f5764c0e837e22c1d98fe0741a337cbfa4cffe2",
+    "MISP": {
+      "branch": "3.0_wip",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+      "version": "3.0.0",
+      "theme": "Overmind, light",
+      "source": [
+        {
+          "path": "app/Lib/Tools/EventOverview/EventSeenTimelineTool.php",
+          "sha256": "1869515f812b022091c7ace04dcd71789f0301206c969a39cdf46402104515ad"
+        },
+        {
+          "path": "app/webroot/js/event-seen-timeline.js",
+          "sha256": "54141c6484c6737993734f1a06ba34ddc47b1448d41074d8f75784318a00c74f"
+        },
+        {
+          "path": "app/View/Themed/Overmind/Elements/Events/View/event_timeline.ctp",
+          "sha256": "716b84155c4f61bf7fc88cebaa07fe8a6612731aed78f41c7e54c860285f3747"
+        }
+      ]
+    },
+    "verification": {
+      "event_id": 21,
+      "distribution": 0,
+      "published": false,
+      "objects": 1,
+      "standalone_attributes": 3,
+      "object_attributes": 3,
+      "all_non_ids": true,
+      "all_non_correlating": true,
+      "seen": {
+        "top_level_dated_rows": 3,
+        "dated_file_children": 2,
+        "undated_standalone_rows": 1
+      },
+      "modified": {
+        "top_level_dated_rows": 4,
+        "dated_file_children": 3,
+        "UTC_day": "2026-11-16"
+      },
+      "created": {
+        "top_level_dated_rows": 4,
+        "dated_file_children": 3,
+        "UTC_day": "2026-11-16"
+      },
+      "file_filter_rows": 1,
+      "day_window_2026_11_13_rows": 2,
+      "value_search_rows": 1,
+      "ADTimeline_seen_undated_objects": 3,
+      "datetime_values_not_automatically_seen": true,
+      "native_seen_editor_write_verified": true,
+      "fixture_first_seen_restored": "2026-11-14T10:00:00Z",
+      "last_seen_remained_unset": true,
+      "scope": "Only the isolated, authored teaching event; no imported evidence observations edited."
+    },
+    "limits": [
+      "UI exercised with a site-administrator account in the isolated documentation instance.",
+      "Overview-strip activation, access/extension scoping and response caps were source-reviewed, not demonstrated with a large-event or multi-role fixture.",
+      "The editor uses UTC; MISP creation/modification times depend on when the example is saved and will differ between instances.",
+      "No imported ADTimeline or PCAP observations were edited for the native timeline exercise."
+    ]
+  }
+}

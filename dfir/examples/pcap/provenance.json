@@ -1,0 +1,141 @@
+{
+  "fixture": "Authored synthetic Ethernet/IPv4 DNS and plaintext HTTP packets, generated without opening network connections.",
+  "capture": {
+    "file": "download-example.pcap",
+    "format": "PCAP 2.4, little-endian, microsecond timestamp resolution, Ethernet link type",
+    "bytes": 1185,
+    "sha256": "8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3",
+    "packets": 12,
+    "first_UTC": "2026-11-16T10:00:00Z",
+    "last_UTC": "2026-11-16T10:00:01.900000Z"
+  },
+  "participants": {
+    "requestor": "192.0.2.10",
+    "resolver": "192.0.2.53",
+    "HTTP_responder": "198.51.100.20",
+    "DNS_question_and_HTTP_Host": "updates.example"
+  },
+  "streams": [
+    {
+      "transport": "udp",
+      "stream_id": "0",
+      "first_frame": 1,
+      "last_frame": 2,
+      "source": "192.0.2.10:49153",
+      "destination": "192.0.2.53:53",
+      "packet_counts": [
+        1,
+        1
+      ]
+    },
+    {
+      "transport": "tcp",
+      "stream_id": "0",
+      "first_frame": 3,
+      "last_frame": 12,
+      "source": "192.0.2.10:49152",
+      "destination": "198.51.100.20:80",
+      "packet_counts": [
+        6,
+        4
+      ]
+    }
+  ],
+  "payload": {
+    "file": "notice.txt",
+    "bytes": 49,
+    "sha256": "280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516",
+    "HTTP_request_frame": 6,
+    "HTTP_response_and_completion_frame": 7,
+    "completion_UTC": "2026-11-16T10:00:01.400000Z"
+  },
+  "tshark_version": "4.4.19",
+  "PyMISP_version": "2.5.34.4",
+  "misp_modules_package_version": "3.1.4",
+  "module": {
+    "repository": "https://github.com/MISP/misp-modules",
+    "commit": "d7ec36544576f2523e320ce9200d0f18d12e11c7",
+    "path": "misp_modules/modules/import_mod/pcap_import.py",
+    "handler_version": "1.1",
+    "sha256": "d37a32d4330bbae7984ec16dbb1669caa0174b6c96634d7ebae5ccf6938e1bc4"
+  },
+  "module_result_note": "module-response.json is a serialized, otherwise unedited result from a separate offline API run of the same capture. UUIDs can differ from the saved UI event; compare capture, transport/stream and payload identities. Original file IDS defaults remain visible in that source response.",
+  "capture_method": "The original UI import used the real PCAP handler and native file upload/review/save. Seven file IDS defaults were cleared with native review controls. A subsequent preview was captured for layout and discarded without modifying the saved event.",
+  "runtime": {
+    "image": "python@sha256:4840d514c583a4d3d8cad3940e68dee6f0f6f3635c12fcd0a3d74c21a5b93a54",
+    "python": "3.12",
+    "note": "Fresh isolated Python service with the pinned source and dependencies installed. A wrapper restricts discovery to pcap_import; it does not rewrite requests, responses or handler code. TShark runs offline with name resolution disabled."
+  },
+  "tool_outputs": [
+    {
+      "file": "packet-summary.txt",
+      "command": "tshark -n -t ud -r download-example.pcap"
+    },
+    {
+      "file": "conversations.txt",
+      "command": "tshark -n -r download-example.pcap -q -z conv,tcp -z conv,udp"
+    }
+  ],
+  "tool_output_formatting": "Trailing display padding was removed from text CLI outputs; the capture, reconstructed bytes and timestamp values are unchanged.",
+  "verification": {
+    "event_id": 19,
+    "organization_only": true,
+    "published": false,
+    "objects": 4,
+    "object_attributes": 43,
+    "standalone_attributes": 10,
+    "all_53_attributes_non_ids_after_review": true,
+    "file_IDS_defaults_cleared_in_UI": 7,
+    "packet_count": 12,
+    "capture_bytes": 1185,
+    "capture_sha256": "8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3",
+    "capture_filename_in_saved_metadata": "download-example.pcap",
+    "capture_times_UTC": [
+      "2026-11-16T10:00:00Z",
+      "2026-11-16T10:00:01.900000Z"
+    ],
+    "payload_bytes": 49,
+    "payload_sha256": "280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516",
+    "TCP_payload_completion_frame": 7,
+    "payload_observation_UTC": "2026-11-16T10:00:01.400000Z",
+    "references_resolve": 29,
+    "capture_generator_byte_identical": true,
+    "downloaded_sample_unpacks_to_original_payload": true,
+    "detailed_payload_frame_proof": "Verified in the module API result from a separate run of the same capture; saved MISP reference targets and types remain, but the pinned review UI omits reference comments.",
+    "analysis_scope": "Synthetic DNS and plaintext HTTP only. No live capture, DNS lookup, URL fetch, sample execution, external enrichment or publication."
+  },
+  "files": {
+    "README.md": {
+      "bytes": 2239,
+      "sha256": "9a58617cfc714e15991d25528f5dde82d4ae30e75360ec4a4d4cca48920cbcd8"
+    },
+    "conversations.txt": {
+      "bytes": 1264,
+      "sha256": "0f0a0b214743a1786db1d1e012e6f150119dd69a5b4b92142f2a2982bbcd1f8a"
+    },
+    "download-example.pcap": {
+      "bytes": 1185,
+      "sha256": "8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3"
+    },
+    "download-example.pcap.sha256": {
+      "bytes": 88,
+      "sha256": "d7702bf5cc6dc3ecf3f10b11ce95b2df7718953d2e9f523d4b4f944e8247684c"
+    },
+    "generate_capture.py": {
+      "bytes": 4139,
+      "sha256": "300688b348d5426964239d9c0f8e4538708d00391dff2649666954362a5b3be0"
+    },
+    "module-response.json": {
+      "bytes": 36389,
+      "sha256": "5fe8863aa6e2b8617247db2e6c871bdf7cad452973316194e1ad4f2419810329"
+    },
+    "notice.txt": {
+      "bytes": 49,
+      "sha256": "280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516"
+    },
+    "packet-summary.txt": {
+      "bytes": 1424,
+      "sha256": "0bc22ebdffe65b3485fa08fdf4c2faae8fb9311fec23609fe6a7060579b3f5df"
+    }
+  }
+}

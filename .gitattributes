@@ -1,3 +1,6 @@
 
 # Preserve the exact upstream font license bytes recorded in the manifest.
 assets/pdf/fonts/*LICENSE.md -text -whitespace
+
+# Preserve the PowerShell CSV fixture's BOM and CRLF bytes used for evidence hashes.
+dfir/examples/adtimeline/timeline_selected.csv -text -whitespace
