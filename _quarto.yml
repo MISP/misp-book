@@ -6,6 +6,9 @@ book:
   title: "MISP User Guide"
   subtitle: "MISP Intelligence Sharing Platform"
   author: "The MISP Project & Contributors"
+  editor:
+    - literal: "CIRCL Computer Incident Response Center Luxembourg"
+  isbn: "978-99987-458-0-3"
   date: today
   favicon: assets/misp-2-verti.png
   cover-image: cover.jpg
