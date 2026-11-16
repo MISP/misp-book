@@ -1,0 +1,920 @@
+{
+  "checked_at": "2026-11-16",
+  "sources": [
+    {
+      "repository": "https://github.com/MISP/misp-modules",
+      "commit": "34821068f6dc2e3259b92ede81568bf766dc9091"
+    },
+    {
+      "repository": "https://github.com/MISP/misp-objects",
+      "commit": "199f8fcbb4b33c81b95e485d59508191b1df422d"
+    },
+    {
+      "repository": "https://github.com/MISP/misp-galaxy",
+      "commit": "6d78ff22dd1986ffd1a74bd720e635991a52e91a"
+    },
+    {
+      "repository": "https://github.com/MISP/misp-taxonomies",
+      "commit": "3bb56dbbf54131f4305dfff30dc6c00a622a673f"
+    }
+  ],
+  "scope": "New disinformation use-case chapter, selected module contracts, real MISP UI on synthetic evidence, and one offline content-comparison example.",
+  "misp": {
+    "version": "3.0.0",
+    "branch": "3.0_wip",
+    "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "role": "Site administrator",
+    "theme": "light",
+    "environment": "isolated documentation fixture",
+    "published": false,
+    "distribution": "0 / Your organisation only",
+    "runtime": "Existing compatible Docker/PHP runtime with the pinned application mounted; not a released MISP 3.0 image."
+  },
+  "fixture": {
+    "events": {
+      "seed": {
+        "id": 17,
+        "uuid": "1c7c392c-89a3-47b6-acea-dcbd2813f7f4"
+      },
+      "amplification": {
+        "id": 18,
+        "uuid": "ec30f64e-79f5-4efb-8e91-0a515ecd778d"
+      },
+      "control": {
+        "id": 19,
+        "uuid": "56295d15-8651-46f5-80cb-939dc9f1b43f"
+      }
+    },
+    "hash": "97459d3f158571f9b39e6e1fcff445fe8827ec98adbaeb736458fcf9e483451f",
+    "hash_attribute_uuid": "18e5c7a6-b63e-44d3-bd49-6d05c028dc5c",
+    "report_id": 2,
+    "note_uuid": "aace2c87-858b-4f45-9d32-8312df55e8f0",
+    "relationship_uuid": "ef6c8d12-5eca-41ee-8ce0-87b359f1ca9b"
+  },
+  "verification": {
+    "seed": {
+      "related_event_ids": [
+        18
+      ],
+      "published": false,
+      "distribution": 0,
+      "standalone_values": [
+        "water-alert.example",
+        "97459d3f158571f9b39e6e1fcff445fe8827ec98adbaeb736458fcf9e483451f"
+      ],
+      "galaxy_tags": [
+        "misp-galaxy:disarm-techniques=\"Impersonate Existing Organisation\""
+      ]
+    },
+    "amplification": {
+      "related_event_ids": [
+        17
+      ],
+      "published": false,
+      "distribution": 0,
+      "standalone_values": [
+        "97459d3f158571f9b39e6e1fcff445fe8827ec98adbaeb736458fcf9e483451f",
+        "water-alert.example",
+        "https://civic-mirror.example/articles/water-notice",
+        "https://messenger.example/synthetic-channel/002"
+      ],
+      "galaxy_tags": [
+        "misp-galaxy:disarm-techniques=\"Post across Platform\""
+      ]
+    },
+    "control": {
+      "related_event_ids": [],
+      "published": false,
+      "distribution": 0,
+      "standalone_values": [
+        "A separate fictional conversation about water service.",
+        "independent-discussion.example"
+      ],
+      "galaxy_tags": []
+    },
+    "sightings": [
+      {
+        "Sighting": {
+          "id": 12,
+          "attribute_id": 72,
+          "event_id": 17,
+          "org_id": 1,
+          "date_sighting": 1794306600,
+          "uuid": "1acb7f80-ec6a-447b-8535-3c76ee4fa91b",
+          "source": "Synthetic documentation observer",
+          "type": 0
+        },
+        "Organisation": {
+          "name": "MISP Documentation"
+        }
+      },
+      {
+        "Sighting": {
+          "id": 11,
+          "attribute_id": 72,
+          "event_id": 17,
+          "org_id": 1,
+          "date_sighting": 1794298200,
+          "uuid": "e71a444c-ed72-4b09-be05-3f01b157f4e5",
+          "source": "Synthetic documentation observer",
+          "type": 0
+        },
+        "Organisation": {
+          "name": "MISP Documentation"
+        }
+      }
+    ]
+  },
+  "capture_method": "Chromium via Python Playwright; native viewport screenshots after waiting for content and completed transitions. Element captures are identified individually. No retouching or fabricated UI. Shared browser startup failed, so the existing project browser runner was used for repeatable captures.",
+  "screenshots": [
+    {
+      "file": "disinformation/figures/misp3-disinfo-overview.png",
+      "url": "/events/view/17",
+      "description": "Initial-publication event with its linked assessment and private distribution.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": false,
+      "sha256": "7fb346ffcf68234fd232aa72d98b2022535fed458c51c19056ffaad0759163ee",
+      "captured_at": "2026-11-16T21:23:50.037759+00:00"
+    },
+    {
+      "file": "disinformation/figures/misp3-disinfo-objects.png",
+      "url": "/events/view/17#tab-objects",
+      "description": "Four structured object types in the synthetic investigation.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": false,
+      "sha256": "10aa5dc0197bf6eb7fcbf9b958b9fbd46573ea2c60e7db2f4adb600ec7f17824",
+      "captured_at": "2026-11-16T21:23:50.509184+00:00"
+    },
+    {
+      "file": "disinformation/figures/misp3-disinfo-narrative.png",
+      "url": "/events/view/17#tab-objects",
+      "description": "Expanded narrative properties, original source context and correlation controls.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": false,
+      "sha256": "f47e29282472119a50ec96d9494b0c18b344138e0e5eb5c61b23dae1de5e6d0e",
+      "captured_at": "2026-11-16T21:23:50.806348+00:00"
+    },
+    {
+      "file": "disinformation/figures/misp3-disinfo-correlation.png",
+      "url": "/events/view/17#tab-correlation",
+      "description": "Native correlation graph and matching event, connecting the domain and document hash.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": false,
+      "sha256": "73a6af4939ddaeac8b4d3726cd514c3ae10696edda830cb7a148def24d67dc7d",
+      "captured_at": "2026-11-16T21:23:51.406867+00:00"
+    },
+    {
+      "file": "disinformation/figures/misp3-disinfo-timeline.png",
+      "url": "/events/view/17#tab-timeline",
+      "description": "Seen timeline with the synthetic observation windows.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": true,
+      "sha256": "fa07aa4182ddc7c11061b2e1f41ab88d7e816cfd0d188d78de1e2e9575ae9a1a",
+      "captured_at": "2026-11-16T21:23:51.781418+00:00"
+    },
+    {
+      "file": "disinformation/figures/misp3-disinfo-assessment.png",
+      "url": "/events/view/17",
+      "description": "Event Assessment note and authored relationship, preserving uncertainty about attribution.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": true,
+      "sha256": "9454a03be01feabe8fc75840e1533df285db050c14a8dfa48bea85f2561fb554",
+      "captured_at": "2026-11-16T21:23:53.366328+00:00"
+    },
+    {
+      "file": "disinformation/figures/misp3-disinfo-sightings.png",
+      "url": "/events/view/17#tab-attributes (Sighting details for attribute 72)",
+      "description": "Native sighting journal showing two synthetic observations of the PDF hash at their verified UTC observation times.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": true,
+      "sha256": "c03f4a70000db388df3d89dad92aa5d0b00c8898dc6e94294d206909a55eed5e",
+      "captured_at": "2026-11-16T21:25:30.353483+00:00"
+    },
+    {
+      "file": "disinformation/figures/misp3-disinfo-report.png",
+      "url": "/eventReports/view/2",
+      "description": "Rendered synthetic assessment with live evidence references and open questions.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": false,
+      "sha256": "79ed8a640da959242767f8a7b3b6bd281e6f40907d620b2d7623c5dc932838e7",
+      "captured_at": "2026-11-16T21:23:55.370474+00:00"
+    },
+    {
+      "file": "disinformation/figures/misp3-disinfo-disarm.png",
+      "url": "/galaxy_clusters/view/3705",
+      "description": "Installed DISARM T0099.003 cluster and source metadata.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "element_capture": false,
+      "sha256": "eb7f8fb1d6ee3d99df52cdf39a6623ae12793f832c9f6c2928a6329e65661bd9",
+      "captured_at": "2026-11-16T21:23:56.390560+00:00"
+    }
+  ],
+  "modules": [
+    {
+      "identifier": "circl_passivedns",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/circl_passivedns.py",
+      "source_sha256": "8413ff4f71305a2e61a04c424940a8d030f159bbce93621304c0611c9c1eec7c",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "hostname",
+            "domain",
+            "ip-src",
+            "ip-dst",
+            "ip-src|port",
+            "ip-dst|port"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleinfo": {
+          "version": "0.2",
+          "author": "Alexandre Dulaunoy",
+          "description": "Module to access CIRCL Passive DNS.",
+          "module-type": [
+            "expansion",
+            "hover"
+          ],
+          "name": "CIRCL Passive DNS",
+          "logo": "passivedns.png",
+          "requirements": [
+            "pypdns: Passive DNS python library",
+            "A CIRCL passive DNS account with username & password"
+          ],
+          "features": "This module takes a hostname, domain or ip-address (ip-src or ip-dst) attribute as input, and queries the CIRCL Passive DNS REST API to get the asssociated passive dns entries and return them as MISP objects.\n\nTo make it work a username and a password are thus required to authenticate to the CIRCL Passive DNS API.",
+          "references": [
+            "https://www.circl.lu/services/passive-dns/",
+            "https://datatracker.ietf.org/doc/draft-dulaunoy-dnsop-passive-dns-cof/"
+          ],
+          "input": "Hostname, domain, or ip-address attribute.",
+          "output": "",
+          "ouput": "Passive DNS objects related to the input attribute."
+        },
+        "moduleconfig": [
+          "username",
+          "password"
+        ]
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "circl_passivessl",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/circl_passivessl.py",
+      "source_sha256": "d06aa0ad4b7cd61c506c22e8422bd1008a7c5c14c5082b3098ce5edf5c425509",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "ip-src",
+            "ip-dst",
+            "ip-src|port",
+            "ip-dst|port"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleinfo": {
+          "version": "0.2",
+          "author": "Rapha\u00ebl Vinot",
+          "description": "Modules to access CIRCL Passive SSL.",
+          "module-type": [
+            "expansion",
+            "hover"
+          ],
+          "name": "CIRCL Passive SSL",
+          "logo": "passivessl.png",
+          "requirements": [
+            "pypssl: Passive SSL python library",
+            "A CIRCL passive SSL account with username & password"
+          ],
+          "features": "This module takes an ip-address (ip-src or ip-dst) attribute as input, and queries the CIRCL Passive SSL REST API to gather the related certificates and return the corresponding MISP objects.\n\nTo make it work a username and a password are required to authenticate to the CIRCL Passive SSL API.",
+          "references": [
+            "https://www.circl.lu/services/passive-ssl/"
+          ],
+          "input": "IP address attribute.",
+          "output": "x509 certificate objects seen by the IP address(es)."
+        },
+        "moduleconfig": [
+          "username",
+          "password"
+        ]
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "content_fingerprint",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/content_fingerprint.py",
+      "source_sha256": "df6302c75d10c7a7d183b5733fa19c8fdf04a6b415bec4d8f42401c36cbcabf4",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "text",
+            "attachment"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleconfig": [
+          "content_type",
+          "reference",
+          "sample_interval",
+          "max_frames",
+          "timeout"
+        ],
+        "moduleinfo": {
+          "version": "1.0",
+          "author": "MISP Project",
+          "name": "Content fingerprint",
+          "description": "Fingerprint text, images and video, and compare supplied content with a reference item.",
+          "module-type": [
+            "expansion"
+          ],
+          "requirements": [
+            "pymisp",
+            "FFmpeg and ffprobe >= 5 on PATH for image/video input",
+            "Bundled content-fingerprint object template"
+          ],
+          "references": [
+            "https://ffmpeg.org/ffmpeg.html",
+            "https://doi.org/10.1145/509907.509965"
+          ],
+          "features": "Offline SHA-256, Unicode-normalised text hashes, word-shingle SimHash and perceptual image/video frame hashes. Records algorithm versions, parameters, decoder version and sample timestamps. An optional reference returns distances, shared text shingles or aligned video frames. All derived attributes use to_ids=false. See https://github.com/MISP/misp-modules/blob/main/documentation/expansion/content_fingerprint.md.",
+          "input": "A text attribute or base64 image/video/text attachment; optional reference attribute.",
+          "output": "content-fingerprint objects and an optional annotation object containing pairwise similarity evidence."
+        }
+      },
+      "validation": "handler executed offline for synthetic text pairs"
+    },
+    {
+      "identifier": "extract_url_components",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/extract_url_components.py",
+      "source_sha256": "055d0073a2614e9d8bf55c8d1fc5ec696ea7534e3b309562481052ca13f13e99",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "url"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleinfo": {
+          "version": "1",
+          "author": "MISP Team",
+          "description": "Extract URL components",
+          "module-type": [
+            "expansion",
+            "hover"
+          ],
+          "name": "URL Components Extractor",
+          "logo": "",
+          "requirements": [],
+          "features": "",
+          "references": [],
+          "input": "",
+          "output": ""
+        },
+        "moduleconfig": []
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "html_to_markdown",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/html_to_markdown.py",
+      "source_sha256": "da77930788234493a824146c0e64eda7f1e42e48a87babb977a47ef07ad54d63",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "url"
+          ],
+          "output": [
+            "text"
+          ]
+        },
+        "moduleinfo": {
+          "version": "0.1",
+          "author": "Sami Mokaddem",
+          "description": "Expansion module to fetch the html content from an url and convert it into markdown.",
+          "module-type": [
+            "expansion"
+          ],
+          "name": "HTML to Markdown",
+          "logo": "",
+          "requirements": [
+            "The markdownify python library"
+          ],
+          "features": "The module take an URL as input and the HTML content is fetched from it. This content is then converted into markdown that is returned as text.",
+          "references": [],
+          "input": "URL attribute.",
+          "output": "Markdown content converted from the HTML fetched from the url."
+        }
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "import_external_reference",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/import_external_reference.py",
+      "source_sha256": "58308d92d5cb9d9b77334fd7edc210e3eb4f0baee66120d4d972dd88561fdb74",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "url"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleconfig": [
+          "max_size_mb"
+        ],
+        "moduleinfo": {
+          "version": "1",
+          "author": "MISP Project",
+          "name": "Import External Reference",
+          "description": "Capture a public web reference as Markdown or a PDF attachment.",
+          "module-type": [
+            "expansion"
+          ],
+          "logo": "",
+          "requirements": [
+            "urllib3",
+            "certifi",
+            "beautifulsoup4",
+            "markdownify"
+          ],
+          "features": "Downloads a public HTTP(S) URL on ports 80 or 443, with a 30-second wall-clock deadline and at most five redirects. Resolves and validates every hop, connects directly to the validated public address and verifies TLS against the original hostname. Private, reserved and mixed public/private DNS answers are rejected. No proxy or browser is used. max_size_mb defaults to 5 (1-25), enforced while streaming content. HTML is converted into Markdown; PDFs are preserved. Returns a page-capture object referencing the URL attribute.",
+          "references": [
+            "https://www.misp-project.org/objects.html#_page_capture"
+          ],
+          "input": "url MISP attribute.",
+          "output": "Referenced enrichment objects and pivotable attributes."
+        }
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "lookyloo",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/lookyloo.py",
+      "source_sha256": "dbd3f8d0eaa44281299582a38b2c646f582deb34669b3402ab0ebe35cf5c680b",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "ip-src",
+            "ip-dst",
+            "domain|ip",
+            "domain",
+            "hostname",
+            "url",
+            "sha512",
+            "filename|sha512",
+            "uuid"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleinfo": {
+          "version": "1.0",
+          "author": "MISP Project",
+          "name": "Lookyloo lookup",
+          "description": "Find Lookyloo captures by UUID or containing an IP, hostname, URL, resource hash or favicon hash.",
+          "module-type": [
+            "expansion"
+          ],
+          "requirements": [
+            "requests",
+            "A Lookyloo instance; API key optional",
+            "lookyloo-capture object template (bundled)"
+          ],
+          "references": [
+            "https://lookyloo.circl.lu/doc/"
+          ],
+          "features": "Pivot on existing captures using ip_info, hostname_info, url_info, hash_info and favicon_info. Optionally enrich matching captures, including native MISP export content. UUID attributes retrieve the specific capture directly. All new attributes use to_ids=false.",
+          "input": "IPv4/IPv6, domain, hostname, URL, SHA-512 or capture UUID attribute.",
+          "output": "Related lookyloo-capture objects and observed URL/file objects, with optional capture enrichment."
+        }
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "lookyloo_capture",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/lookyloo_capture.py",
+      "source_sha256": "3b87e3b8ecbde137cca4646abed2d7b0eb1b1e3f085d31333a860d07a170c7a9",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "link",
+            "url",
+            "text",
+            "uuid"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleinfo": {
+          "version": "1.0",
+          "author": "MISP Project",
+          "name": "Lookyloo capture",
+          "description": "Enrich a Lookyloo capture link or UUID with observed resources and analysis context.",
+          "module-type": [
+            "expansion"
+          ],
+          "requirements": [
+            "requests",
+            "A Lookyloo instance; API key optional",
+            "lookyloo-capture object template (bundled)"
+          ],
+          "references": [
+            "https://lookyloo.circl.lu/doc/"
+          ],
+          "features": "Retrieve capture metadata, status, redirects, IPs, hostnames, URLs, SHA-512 hashes, statistics, cached module results and comparables. Optional cookies, favicons, extended JSON, native MISP attributes, objects and attachments, and contact lookup. Links to screenshot and binary exports are returned.",
+          "input": "Lookyloo /tree/<uuid> link or a text or uuid attribute containing a capture UUID.",
+          "output": "lookyloo-capture, url, file, image and optional cookie objects, contact attributes and native MISP content."
+        }
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "ocr_enrich",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/ocr_enrich.py",
+      "source_sha256": "67c7cb967d4e95bfade9d836a0e027bff6ef6b158cbeb7ab47f4f42cb3ccbf7c",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "attachment"
+          ],
+          "output": [
+            "freetext"
+          ]
+        },
+        "moduleinfo": {
+          "version": "0.2",
+          "author": "Sascha Rommelfangen",
+          "description": "Module to process some optical character recognition on pictures.",
+          "module-type": [
+            "expansion"
+          ],
+          "name": "OCR Enrich",
+          "logo": "",
+          "requirements": [
+            "cv2: The OpenCV python library."
+          ],
+          "features": "The module takes an attachment attributes as input and process some optical character recognition on it. The text found is then passed to the Freetext importer to extract potential IoCs.",
+          "references": [],
+          "input": "A picture attachment.",
+          "output": "Text and freetext fetched from the input picture."
+        },
+        "moduleconfig": []
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "pdf_enrich",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/pdf_enrich.py",
+      "source_sha256": "6e0f404fd4cdf444710e5aec3caa5e22007f803872958d96bd8f8116fb3472d8",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "attachment"
+          ],
+          "output": [
+            "freetext",
+            "text"
+          ]
+        },
+        "moduleinfo": {
+          "version": "0.1",
+          "author": "Sascha Rommelfangen",
+          "description": "Module to extract freetext from a PDF document.",
+          "module-type": [
+            "expansion"
+          ],
+          "name": "PDF Enrich",
+          "logo": "pdf.jpg",
+          "requirements": [
+            "pdftotext: Python library to extract text from PDF."
+          ],
+          "features": "The module reads the text contained in a PDF document. The result is passed to the freetext import parser so IoCs can be extracted out of it.",
+          "references": [],
+          "input": "Attachment attribute containing a PDF document.",
+          "output": "Text and freetext parsed from the document."
+        },
+        "moduleconfig": []
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "rdap",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/rdap.py",
+      "source_sha256": "48ed596e6e11e18e0653737b024f9308243b92a99abfda4c19509b882b44e4f6",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "domain",
+            "hostname",
+            "ip-src",
+            "ip-dst",
+            "url"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleinfo": {
+          "version": 2,
+          "author": "Ali Bhutto",
+          "description": "An expansion module to query the public RDAP bootstrap (rdap.org) for registration data of a domain, hostname, IP address or URL. RDAP (Registration Data Access Protocol, RFC 9082/9083) is the free, unauthenticated and structured successor to WHOIS.",
+          "module-type": [
+            "expansion",
+            "hover"
+          ],
+          "name": "RDAP Lookup",
+          "logo": "",
+          "requirements": [],
+          "features": "The module takes a domain, hostname, IP address or URL attribute as input, resolves a URL to its host, and queries the rdap.org bootstrap which redirects to the authoritative RDAP server for the object. The registrar, registration and expiration dates, name servers, status and registrant information are parsed into a MISP whois object. A hostname, subdomain or URL host is looked up at its registered domain (ICANN section of the Public Suffix List), and the object's comment says so.",
+          "references": [
+            "https://about.rdap.org/",
+            "https://rdap.org/"
+          ],
+          "input": "A domain, hostname, IP address or URL attribute.",
+          "output": "A whois object holding the registration data returned by RDAP."
+        },
+        "moduleconfig": []
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "rst_screenshot",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/rst_screenshot.py",
+      "source_sha256": "3f4187568235492b74da49e31d9021bb8663966c9fb01caf1f1a46459434e958",
+      "metadata": {
+        "moduleinfo": {
+          "version": "0.2",
+          "author": "RST Cloud",
+          "description": "Capture a page screenshot (first/full/last frame) of a URL/IP target via RST Scan API.",
+          "module-type": [
+            "expansion"
+          ],
+          "name": "RST Cloud Screenshot",
+          "requirements": [
+            "An RST Cloud API key.",
+            "rstapi>=1.2.0 (PyPI)."
+          ],
+          "features": "Renders the target page and returns a PNG screenshot as an image MISP object (inline in MISP). Configurable frame: first, full (default), or last.",
+          "references": [
+            "https://api.rstcloud.net/",
+            "https://pypi.org/project/rstapi/"
+          ],
+          "input": "URL, domain, hostname, or IP attribute (optional port via config).",
+          "output": "image MISP object with PNG attachment linked to the enriched attribute."
+        },
+        "moduleconfig": [
+          "api_key",
+          "base_url",
+          "frame",
+          "port",
+          "timeout"
+        ]
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "socialscan",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/socialscan.py",
+      "source_sha256": "06c82f607c8184308deff6b422afeb7f8dcb9c7c92048d6b3a73524075388de5",
+      "metadata": {
+        "moduleinfo": {
+          "version": "2",
+          "author": "Christian Studer",
+          "description": "A hover module to get information on the availability of an email address or username on some online platforms.",
+          "module-type": [
+            "hover"
+          ],
+          "name": "Socialscan Lookup",
+          "logo": "",
+          "requirements": [
+            "The socialscan python library"
+          ],
+          "features": "The module takes an email address or username as input and check its availability on some online platforms. The results for each platform are then returned to see if the email address or the username is used, available or if there is an issue with it.",
+          "references": [
+            "https://github.com/iojw/socialscan"
+          ],
+          "input": "An email address or usename attribute.",
+          "output": "One user-account object per online platform the email address or username has an account on."
+        },
+        "mispattributes": {
+          "input": [
+            "github-username",
+            "target-user",
+            "email",
+            "email-src",
+            "email-dst",
+            "target-email",
+            "whois-registrant-email"
+          ],
+          "format": "misp_standard"
+        },
+        "moduleconfig": []
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "urlscan",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/urlscan.py",
+      "source_sha256": "cc882abf1012598c1a47b10f89a0a062f3abb864ed680edb55793c46022638a0",
+      "metadata": {
+        "moduleinfo": {
+          "version": "0.2",
+          "author": "Dave Johnson",
+          "description": "An expansion module to query urlscan.io.",
+          "module-type": [
+            "expansion"
+          ],
+          "name": "URLScan Lookup",
+          "logo": "urlscan.jpg",
+          "requirements": [
+            "An access to the urlscan.io API"
+          ],
+          "features": "This module takes a MISP attribute as input and queries urlscan.io with it.\n\nThe scan result is returned as the objects it describes - the url and the domain-ip it resolved to, where it is hosted, the certificate it presented, the screenshot urlscan took and any verdict against it - rather than as a flat list of attributes that drops the relationships between them.",
+          "references": [
+            "https://urlscan.io/"
+          ],
+          "input": "A domain, hostname or url attribute.",
+          "output": "url, domain-ip, geolocation, asn, x509, image and reputation objects describing the scan."
+        },
+        "moduleconfig": [
+          "apikey"
+        ],
+        "mispattributes": {
+          "input": [
+            "hostname",
+            "domain",
+            "ip-src",
+            "ip-dst",
+            "url"
+          ],
+          "format": "misp_standard"
+        }
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "whois",
+      "family": "expansion",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/expansion/whois.py",
+      "source_sha256": "5cbecae50ef499c5a5495f50d84018e995bdfa21b9a08233e71b47c0c05ca7f4",
+      "metadata": {
+        "mispattributes": {
+          "input": [
+            "domain",
+            "ip-src",
+            "ip-dst"
+          ],
+          "output": [
+            "freetext"
+          ]
+        },
+        "moduleinfo": {
+          "version": "0.2",
+          "author": "Rapha\u00ebl Vinot",
+          "description": "Module to query a local instance of uwhois (https://github.com/rafiot/uwhoisd). It returns the registration record as raw text; the rdap module answers the same question as a structured whois object, over an unauthenticated protocol and without a local server, and is the better choice wherever RDAP covers the registry.",
+          "module-type": [
+            "expansion"
+          ],
+          "name": "Whois Lookup",
+          "logo": "",
+          "requirements": [
+            "uwhois: A whois python library"
+          ],
+          "features": "This module takes a domain or IP address attribute as input and queries a 'Univseral Whois proxy server' to get the correct details of the Whois query on the input value (check the references for more details about this whois server).",
+          "references": [
+            "https://github.com/Lookyloo/uwhoisd",
+            "https://about.rdap.org/"
+          ],
+          "input": "A domain or IP address attribute.",
+          "output": "Text describing the result of a whois request for the input value. See the rdap module for objects."
+        },
+        "moduleconfig": [
+          "server",
+          "port"
+        ]
+      },
+      "validation": "source review; provider/runtime not executed"
+    },
+    {
+      "identifier": "ocr",
+      "family": "import_mod",
+      "source": "https://github.com/MISP/misp-modules/blob/34821068f6dc2e3259b92ede81568bf766dc9091/misp_modules/modules/import_mod/ocr.py",
+      "source_sha256": "20d482da940f1c792d0f3de91a1ae7de691faaca1aeb9a7b498153ecc7a0caab",
+      "metadata": {
+        "moduleinfo": {
+          "version": "0.2",
+          "author": "Alexandre Dulaunoy",
+          "description": "Optical Character Recognition (OCR) module for MISP.",
+          "module-type": [
+            "import"
+          ],
+          "name": "OCR Import",
+          "logo": "",
+          "requirements": [],
+          "features": "The module tries to recognize some text from an image and import the result as a freetext attribute, there is then no special feature asked to users to make it work.",
+          "references": [],
+          "input": "Image",
+          "output": "freetext MISP attribute"
+        },
+        "moduleconfig": []
+      },
+      "validation": "source review; provider/runtime not executed"
+    }
+  ],
+  "fingerprint_example": {
+    "execution": "Unmodified upstream content_fingerprint handler, loaded from the pinned downloaded source with its bundled object template in a minimal local package; PyMISP 2.5.34.4. Not a MISP module-service or MISP enrichment-UI execution.",
+    "positive": {
+      "algorithm": "simhash64",
+      "content_type": "text",
+      "decision_rule": {
+        "max_hamming": 10,
+        "min_distinct_shingles_per_item": 3,
+        "min_jaccard": 0.5
+      },
+      "exact_match": false,
+      "hamming_distance": 4,
+      "interpretation": "Candidate content similarity, not proof of common authorship or ownership.",
+      "jaccard": 0.8901098901098901,
+      "matching_shingle_examples": [
+        "a controlled training exercise analysts",
+        "about the identity of its",
+        "account distributes the document and",
+        "an impersonating account distributes the",
+        "analysts preserve the original file"
+      ],
+      "normalised_match": false,
+      "reference_sha256": "7174f4e5ae7a37ff4d733a62746272b27dd12d3cf23e79279a7ca1b950018df7",
+      "schema_version": 1,
+      "shared_shingles": 81,
+      "similar": true,
+      "source_sha256": "7125cec68ef9949e393d1b5c7673874dc2fdb2d3ae63d5f07ec58ab2913fd77a",
+      "usable": true,
+      "version": "v1-u15.0.0"
+    },
+    "negative": {
+      "algorithm": "simhash64",
+      "content_type": "text",
+      "decision_rule": {
+        "max_hamming": 10,
+        "min_distinct_shingles_per_item": 3,
+        "min_jaccard": 0.5
+      },
+      "exact_match": false,
+      "hamming_distance": 32,
+      "interpretation": "Candidate content similarity, not proof of common authorship or ownership.",
+      "jaccard": 0.0,
+      "matching_shingle_examples": [],
+      "normalised_match": false,
+      "reference_sha256": "cc2c744f969b1b04f63757e3f68d84a8ed13a7691d6082849ffa69e502814239",
+      "schema_version": 1,
+      "shared_shingles": 0,
+      "similar": false,
+      "source_sha256": "7125cec68ef9949e393d1b5c7673874dc2fdb2d3ae63d5f07ec58ab2913fd77a",
+      "usable": true,
+      "version": "v1-u15.0.0"
+    },
+    "media_executed": false,
+    "external_queries": false
+  },
+  "findings": {
+    "urlscan": "The reviewed request() posts directly to /api/v1/scan/ with URL and no explicit visibility, then polls the result; it is not an existing-results-only lookup.",
+    "lookyloo": "Reviewed lookyloo and lookyloo_capture paths retrieve existing capture data; fresh collection is separate.",
+    "socialscan": "Availability/occupied account hints do not prove a common identity or collect a campaign history.",
+    "content_fingerprint": "Native equality correlation and explicit pairwise approximate comparison are distinct."
+  },
+  "license": "New chapter and captures follow the MISP User Guide dual AGPLv3 / CC BY-SA 4.0 terms; upstream sources retain their own licenses."
+}

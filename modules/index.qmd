@@ -14,6 +14,8 @@ For geographic datasets, see the [geolocation and movement use case](../geolocat
 
 For selected forensic evidence, see [Digital Forensics and Incident Response](../dfir/index.qmd): Windows findings, memory, endpoint and network imports, evidence provenance, timeline exchange and scoped hunting, with a complete candidate module inventory.
 
+For narrative and influence-operation investigations, see [Tracking Disinformation Campaigns](../disinformation/index.qmd): structured claims and evidence, DISARM classification, content comparison, sightings, and cross-event correlation, with a source-reviewed selection of relevant modules.
+
 Start with the [module catalogue](https://misp-project.org/modules/) to find an integration, then check what your running service actually provides.
 A module may process data locally, query a provider or submit information to another system; its input contract and effects determine how to use it.
 
