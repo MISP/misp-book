@@ -1,0 +1,72 @@
+{
+  "fixture": "Selected synthetic replication metadata; no live AD collection or directory modification.",
+  "source": {
+    "repository": "https://github.com/MISP/misp-modules",
+    "commit": "f4899ad42ac074de672ed32485223badb8680a45",
+    "file": "tests/fixtures/adtimeline/timeline_example.test.csv",
+    "sha256": "f206def2b682217ca18bb0a3b7766a4ca228bf80247e167e92b91f41593f24e1",
+    "credit": "MISP contributors, AGPLv3; upstream fixture and producer linked in README.md.",
+    "serialization": "PowerShell 7.4.6 Export-Csv, semicolon delimiter, NoTypeInformation, UTF-8 BOM and CRLF.",
+    "producer_execution_note": "PowerShell serialization is recorded by the upstream project; not rerun for this chapter.",
+    "ADTimeline_contract_commit": "fa570aa15a03614b8dd1ea956abb556f47f4f453"
+  },
+  "selection": {
+    "file": "timeline_selected.csv",
+    "data_records": [
+      1,
+      2
+    ],
+    "bytes": 1183,
+    "sha256": "ddc6daef55bd41ef0256e20b2354aaa2800d9eb8a99aff5d83adcc6ef820def7",
+    "method": "Header and first two data records retained byte-for-byte. The fixture has no multiline records; third altRecipient record excluded."
+  },
+  "module": {
+    "name": "adtimeline_import",
+    "handler_version": "1.0",
+    "repository": "https://github.com/MISP/misp-modules",
+    "commit": "f4899ad42ac074de672ed32485223badb8680a45",
+    "handler_sha256": "ad2669034dbd46b58a17f2a5c6a32a4101b4c75f381d599544b9016e85f8f38f",
+    "template_sha256": "d7e7922d9559f5b80f02e7dddf1236138348bee322125555cbe9228c21bcf424",
+    "template_version": 1,
+    "config": {
+      "domain_scope": "example.test",
+      "collection_server": "dc02.example.test"
+    }
+  },
+  "runtime": {
+    "python": "3.12",
+    "PyMISP": "2.5.34.4",
+    "note": "Unmodified pinned package copied into the isolated Python container. A loader restricts discovery to adtimeline_import; no handler, request or response rewriting.",
+    "MISP_core_branch": "3.0_wip",
+    "MISP_core_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "template_registration": "Bundled ad-replication-metadata v1 copied unchanged into the isolated core template catalog and registered with Admin updateObjectTemplates. Existing file v25 reused."
+  },
+  "module_response": {
+    "file": "module-response.json",
+    "sha256": "c4ec0ed094b6eab2865c0fda03745efb0625df9f53534d0d698b741560e7b1ff",
+    "note": "Serialized result from a separate real HTTP API run with identical bytes, filename and context. Stable object UUIDs match the native saved event."
+  },
+  "verification": {
+    "event_id": 20,
+    "distribution": 0,
+    "published": false,
+    "objects": 3,
+    "attributes": 53,
+    "references_resolve": 2,
+    "all_non_ids": true,
+    "all_non_correlating": true,
+    "source_attachment_byte_identical": true,
+    "module_UUIDs_match_saved_objects": true,
+    "unreviewed_observations": 2,
+    "large_counters_preserved_as_exact_text": true,
+    "raw_and_normalized_times_preserved": true,
+    "warnings": [],
+    "input_bytes": 1183,
+    "input_sha256": "ddc6daef55bd41ef0256e20b2354aaa2800d9eb8a99aff5d83adcc6ef820def7"
+  },
+  "limits": [
+    "Synthetic CSV import only; no Windows ADTimeline execution, live LDAP, NTDS acquisition or directory response was tested.",
+    "Imported metadata does not establish an actor, maliciousness, before/after ACL values or complete directory history.",
+    "No external enrichment, publication, messaging or automated response was performed."
+  ]
+}

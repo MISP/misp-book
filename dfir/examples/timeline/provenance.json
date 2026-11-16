@@ -1,0 +1,65 @@
+{
+  "fixture": "Authored MISP event; observation times are fictional. No collection, traffic or file acquisition.",
+  "file": "event-input.json",
+  "sha256": "4cafd3513c57dc26d309c4b08f5764c0e837e22c1d98fe0741a337cbfa4cffe2",
+  "MISP": {
+    "branch": "3.0_wip",
+    "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+    "version": "3.0.0",
+    "theme": "Overmind, light",
+    "source": [
+      {
+        "path": "app/Lib/Tools/EventOverview/EventSeenTimelineTool.php",
+        "sha256": "1869515f812b022091c7ace04dcd71789f0301206c969a39cdf46402104515ad"
+      },
+      {
+        "path": "app/webroot/js/event-seen-timeline.js",
+        "sha256": "54141c6484c6737993734f1a06ba34ddc47b1448d41074d8f75784318a00c74f"
+      },
+      {
+        "path": "app/View/Themed/Overmind/Elements/Events/View/event_timeline.ctp",
+        "sha256": "716b84155c4f61bf7fc88cebaa07fe8a6612731aed78f41c7e54c860285f3747"
+      }
+    ]
+  },
+  "verification": {
+    "event_id": 21,
+    "distribution": 0,
+    "published": false,
+    "objects": 1,
+    "standalone_attributes": 3,
+    "object_attributes": 3,
+    "all_non_ids": true,
+    "all_non_correlating": true,
+    "seen": {
+      "top_level_dated_rows": 3,
+      "dated_file_children": 2,
+      "undated_standalone_rows": 1
+    },
+    "modified": {
+      "top_level_dated_rows": 4,
+      "dated_file_children": 3,
+      "UTC_day": "2026-11-16"
+    },
+    "created": {
+      "top_level_dated_rows": 4,
+      "dated_file_children": 3,
+      "UTC_day": "2026-11-16"
+    },
+    "file_filter_rows": 1,
+    "day_window_2026_11_13_rows": 2,
+    "value_search_rows": 1,
+    "ADTimeline_seen_undated_objects": 3,
+    "datetime_values_not_automatically_seen": true,
+    "native_seen_editor_write_verified": true,
+    "fixture_first_seen_restored": "2026-11-14T10:00:00Z",
+    "last_seen_remained_unset": true,
+    "scope": "Only the isolated, authored teaching event; no imported evidence observations edited."
+  },
+  "limits": [
+    "UI exercised with a site-administrator account in the isolated documentation instance.",
+    "Overview-strip activation, access/extension scoping and response caps were source-reviewed, not demonstrated with a large-event or multi-role fixture.",
+    "The editor uses UTC; MISP creation/modification times depend on when the example is saved and will differ between instances.",
+    "No imported ADTimeline or PCAP observations were edited for the native timeline exercise."
+  ]
+}

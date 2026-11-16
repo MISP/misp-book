@@ -22,3 +22,10 @@ Its README and provenance record describe the fixed teaching timestamps, image i
 
 `pcap/` contains an authored DNS/HTTP capture, its deterministic generator, actual TShark outputs, the recovered text payload and a pre-review module result.
 The chapter follows that capture through native PCAP import, connection analysis and verification of the reconstructed file.
+
+`adtimeline/` contains the selected first two records of the misp-modules project's synthetic, PowerShell-serialized ADTimeline CSV fixture and a real parser response.
+The chapter follows native import, source-attachment verification and analysis of an ACL-related last change and a removed member link.
+No Active Directory collection or modification took place; source attribution, selection and runtime checks are recorded in that example's README and provenance.
+
+`timeline/` contains a separate authored MISP event for comparing native Seen, Modified and Created views.
+Its fictional observation intervals, missing endpoint and undated field demonstrate timeline behavior without changing the forensic import examples.

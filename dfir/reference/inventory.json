@@ -1,10 +1,10 @@
 {
   "repository": "https://github.com/MISP/misp-modules",
-  "commit": "d7ec36544576f2523e320ce9200d0f18d12e11c7",
-  "reviewed_on": "2026-11-15",
-  "total": 330,
+  "commit": "f4899ad42ac074de672ed32485223badb8680a45",
+  "reviewed_on": "2026-11-16",
+  "total": 331,
   "families": {
-    "Import": 32,
+    "Import": 33,
     "Expansion": 240,
     "Export": 39,
     "Action": 19
@@ -17,8 +17,14 @@
     "testimport"
   ],
   "method": "Static AST extraction of source-declared metadata without executing handlers. Four dynamic action descriptions are manually summarized from the handler contract. Inputs/requirements may be incomplete when declarations are dynamic; follow the linked source. Source presence does not establish installed dependencies, compatibility, provider availability or organization enablement.",
-  "csv_sha256": "c071c82a587c9f8196716c8cb46711b748f14c61318effa1b032c435842e2a70",
+  "csv_sha256": "0cd3faa0de4a625bd879658bd58e5e27118094d7fdfa74aff0c4ff1454adb194",
   "modules": [
+    {
+      "family": "Import",
+      "module": "adtimeline_import",
+      "source": "misp_modules/modules/import_mod/adtimeline_import.py",
+      "sha256": "ad2669034dbd46b58a17f2a5c6a32a4101b4c75f381d599544b9016e85f8f38f"
+    },
     {
       "family": "Import",
       "module": "anyrun_sandbox_import",

@@ -1,0 +1,77 @@
+{
+  "Event": {
+    "info": "DFIR timeline exercise: three clocks and observation windows",
+    "date": "2026-11-16",
+    "distribution": 0,
+    "threat_level_id": 4,
+    "analysis": 1,
+    "published": false,
+    "Attribute": [
+      {
+        "type": "domain",
+        "category": "Network activity",
+        "value": "updates.example",
+        "first_seen": "2026-11-12T09:00:00Z",
+        "last_seen": "2026-11-14T09:30:00Z",
+        "to_ids": false,
+        "disable_correlation": true,
+        "comment": "Authored timeline documentation fixture; no observation or collection performed."
+      },
+      {
+        "type": "ip-dst",
+        "category": "Network activity",
+        "value": "203.0.113.25",
+        "first_seen": "2026-11-14T10:00:00Z",
+        "to_ids": false,
+        "disable_correlation": true,
+        "comment": "Authored timeline documentation fixture; no observation or collection performed."
+      },
+      {
+        "type": "text",
+        "category": "Other",
+        "value": "Undated teaching observation",
+        "to_ids": false,
+        "disable_correlation": true,
+        "comment": "Authored timeline documentation fixture; no observation or collection performed."
+      }
+    ],
+    "Object": [
+      {
+        "name": "file",
+        "meta-category": "file",
+        "template_uuid": "688c46fb-5edb-40a3-8273-1af7923e2215",
+        "template_version": 25,
+        "comment": "Authored teaching object. Seen times describe fictional observations, not a file lifetime.",
+        "first_seen": "2026-11-13T10:00:00Z",
+        "last_seen": "2026-11-14T08:00:00Z",
+        "Attribute": [
+          {
+            "object_relation": "filename",
+            "type": "filename",
+            "value": "timeline-example.txt",
+            "first_seen": "2026-11-13T10:00:00Z",
+            "last_seen": "2026-11-14T08:00:00Z",
+            "to_ids": false,
+            "disable_correlation": true
+          },
+          {
+            "object_relation": "fullpath",
+            "type": "text",
+            "value": "C:\\Lab\\timeline-example.txt",
+            "first_seen": "2026-11-13T11:00:00Z",
+            "last_seen": "2026-11-13T11:00:00Z",
+            "to_ids": false,
+            "disable_correlation": true
+          },
+          {
+            "object_relation": "modification-time",
+            "type": "datetime",
+            "value": "2026-11-12T08:00:00Z",
+            "to_ids": false,
+            "disable_correlation": true
+          }
+        ]
+      }
+    ]
+  }
+}

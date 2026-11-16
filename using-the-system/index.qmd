@@ -215,7 +215,7 @@ It is not a statement that its indicators are benign or independently verified; 
 | **Reports** | Open and manage the event's Markdown reports. |
 | **Correlation** | Investigate other events sharing values with this one. |
 | **Pivot Explorer** | Explore relationships between event entities. |
-| **Timeline** | Inspect temporal context where observation times are available. |
+| **Timeline** | Compare Seen, Modified and Created clocks; see the [DFIR timeline exercise](../dfir/index.qmd#dfir-misp-timeline) for interpretation and screenshots. |
 | **History** | Review changes and their authorship. |
 
 Tabs and actions can vary with features, permissions, and the selected view.

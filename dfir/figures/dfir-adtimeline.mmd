@@ -1,0 +1,13 @@
+flowchart TD
+  accTitle: Active Directory metadata leads require corroboration
+  accDescr: Collect ADTimeline output outside MISP, preserve its evidence provenance, and select native CSV records. Import and review replication metadata in MISP. Compare directory snapshots, audit logs and endpoint observations before recording an assessment and planning an approved response.
+  A[ADTimeline collection<br/>Online or offline directory analysis] -->|Preserve outputs and collection context| B[Evidence repository<br/>CSV, inventories and logs]
+  B -->|Select bounded timeline records| C[adtimeline_import<br/>Source file and unreviewed observations]
+  C -->|Review DN, attribute, times and scoped counters| D[Directory-change analysis]
+  E[Directory snapshots<br/>Audit and endpoint evidence] -->|Corroborate state, actor and impact| D
+  D -->|Record evidence and remaining gaps| F[Analyst assessment in MISP]
+  F -->|Define verified state and impact| G[Approved directory response]
+  F -->|Request missing evidence| B
+  class A,C,D accent;
+  class B,E muted;
+  class G caution;

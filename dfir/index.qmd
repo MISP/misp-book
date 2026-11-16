@@ -10,13 +10,14 @@ Use it to preserve the context of selected evidence, compare observations across
 Acquire disk images, memory and endpoint collections with the appropriate forensic tools; retain the authoritative evidence and chain of custody in the case's evidence repository.
 MISP holds the selected intelligence and its provenance, rather than replacing that repository or a case-management system.
 
-Worked examples cover selected Windows findings, a Sleuth Kit filesystem timeline and a DNS/HTTP packet capture.
+Worked examples cover selected Windows findings, Active Directory replication metadata, a Sleuth Kit filesystem timeline and a DNS/HTTP packet capture.
 It also covers memory, endpoint, network, email, mobile and cloud investigations, and provides a complete source inventory of candidate **misp-modules** across import, expansion, export and action families.
 
 ::: {.callout-note}
 The screenshots show the running MISP **3.0.0** interface from [`3.0_wip` commit `99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1), with the light theme and a site-administrator account in an isolated documentation instance.
 The Windows finding is synthetic: it does not demonstrate an intrusion or execution of Hayabusa against real EVTX evidence.
-The module contracts and inventory follow [misp-modules commit `d7ec3654`](https://github.com/MISP/misp-modules/tree/d7ec36544576f2523e320ce9200d0f18d12e11c7).
+The Windows, filesystem and PCAP exercises retain their recorded [misp-modules revision `d7ec3654`](https://github.com/MISP/misp-modules/tree/d7ec36544576f2523e320ce9200d0f18d12e11c7).
+The ADTimeline exercise and updated inventory follow [commit `f4899ad4`](https://github.com/MISP/misp-modules/tree/f4899ad42ac074de672ed32485223badb8680a45), which includes the new importer merged in [PR #1141](https://github.com/MISP/misp-modules/pull/1141).
 MISP and misp-modules have separate release cycles; check your service's `GET /modules`, dependencies, object templates and organization permissions before using a listed module.
 :::
 
@@ -131,6 +132,7 @@ The complete module inventory at the end of this chapter links to each handler a
 | Module | Accepted evidence exchange | DFIR use and important boundary |
 |---|---|---|
 | `evtx_findings_import` | Hayabusa JSON streams, JSON/JSONL or supported CSV; Chainsaw hunt JSON/JSONL. | Preserve rule matches and linked Windows event context. EVTX binaries and Chainsaw search/dump output are outside its detection contract. |
+| `adtimeline_import` | Native ADTimeline semicolon-delimited `timeline_*.csv`, with required DN, attribute and last-originating-change fields. | Preserve unreviewed AD replication metadata, linked-value times and source bytes. Does not connect to AD, execute PowerShell, import ADobjects XML or identify the modifying actor. |
 | `volatility3_import` | Native Volatility 3 JSON/JSONL, including nested renderer rows; explicit plugin identity required. | Supported Windows process, command-line, socket, malfind and YARA result mappings. Does not read memory images, execute plugins or cover every Volatility plugin. |
 | `velociraptor_import` | Offline JSON/JSONL/CSV result tables with artifact/source identity and collection context. | Map supported process, service, netstat and file artifacts; preserve other rows as source results. Does not run VQL, contact a server or import collection ZIPs. |
 | `osquery_import` | Native event/batch differential logs and snapshot JSON/JSONL; explicit context for ad-hoc rows. | Preserve host/query identity, execution time, additions/removals and export source maps. Does not execute SQL or infer a no-match result from silence. |
@@ -154,6 +156,97 @@ An analyst-supplied default for one client or collection must not overwrite the 
 For osquery, preserve the exporter-generated `sources` map so a scheduled query can be traced back to its originating MISP event, object and attribute.
 The importer cannot recover those references from a hashed query name alone.
 
+### Active Directory analysis with ADTimeline {#dfir-adtimeline}
+
+Use [ANSSI-FR's ADTimeline](https://github.com/ANSSI-FR/ADTimeline) when the question concerns changes to directory permissions, privileged group membership, delegation, Group Policy or other collected directory objects.
+ADTimeline reads replication metadata and exports a **partial timeline of last changes** to replicated attributes, with linked-value history where available.
+It can provide useful leads when event-log coverage is incomplete, but it does not reconstruct every intervening change or establish that a change was malicious.
+The new **`adtimeline_import`** module brings selected native CSV records into MISP as `ad-replication-metadata` objects, linked to an attached source `file`.
+
+![An analyst collects ADTimeline output, imports selected replication metadata into MISP, compares it with directory snapshots and audit evidence, and records a supported assessment before response.](figures/dfir-adtimeline.svg)
+
+#### Collect and select the directory evidence {#dfir-adtimeline-collection}
+
+Run ADTimeline separately, following its [Windows prerequisites and online/offline collection instructions](https://github.com/ANSSI-FR/ADTimeline/blob/fa570aa15a03614b8dd1ea956abb556f47f4f453/README.md).
+Record the ADTimeline version, collection time, domain/forest scope, queried server, collection privileges and any omitted or inaccessible objects.
+For an offline directory database, retain its image/database and transaction-log provenance alongside the analysis-copy reference.
+The MISP module reads the supplied export locally; it performs no LDAP queries, remote retrieval or PowerShell execution.
+
+Preserve the original `timeline_<domain>.csv`, collection log and separate `ADobjects_*.xml` / `gcADobjects_*.xml` inventories in the evidence repository.
+The importer accepts the **timeline CSV only**, not those XML inventories, Splunk search exports or an `ntds.dit` database.
+Select records that answer a bounded question, and retain the original export reference and selection method alongside the uploaded slice's hash.
+The reviewed handler accepts at most **10 MiB and 1,000 data records** per import; split larger exports at CSV-record boundaries, preserving the header and quoting.
+Native CSV uses a semicolon delimiter and supports quoted/multiline values; UTF-8 with or without a BOM and BOM-marked UTF-16 are accepted.
+Each record needs `DN`, `pszAttributeName` and `ftimeLastOriginatingChange`; unknown columns remain in `raw-record`.
+
+This [selected teaching CSV](examples/adtimeline/timeline_selected.csv) contains the first two data records of the module project's [PowerShell-serialized synthetic fixture](https://github.com/MISP/misp-modules/tree/f4899ad42ac074de672ed32485223badb8680a45/tests/fixtures/adtimeline).
+Its BOM, quoting and retained records are byte-preserved; no live AD collection took place.
+The question is: **what does this slice establish about an ACL-related change and a removed group-membership link, and what evidence is still needed?**
+The [example provenance](examples/adtimeline/provenance.json) records the selection, source hashes, module revision and live MISP checks.
+
+#### Import and inspect the replication metadata {#dfir-adtimeline-import}
+
+An administrator must install the current service with PyMISP, enable import services and enable `adtimeline_import` for the intended users.
+The handler bundles the `ad-replication-metadata` template for parsing; also ensure the MISP instance recognizes that template before saving.
+For these screenshots, the unchanged bundled **version 1** definition was registered in the isolated MISP instance, alongside its existing `file` template version 25.
+See the [ADTimeline import contract](https://github.com/MISP/misp-modules/blob/f4899ad42ac074de672ed32485223badb8680a45/documentation/import_mod/adtimeline_import.md) for the complete limits and field mappings.
+
+Create an organization-only, unpublished event, choose **Import → Adtimeline Import**, and upload `timeline_selected.csv`.
+Set **domain_scope** to `example.test` and **collection_server** to `dc02.example.test`, then choose **Run Adtimeline Import**.
+These optional fields describe the collection context: the module does not infer a domain by splitting a distinguished name.
+Only apply a shared collection-server value when it is valid for all records in the supplied slice.
+
+![The native ADTimeline import dialog receives the selected synthetic CSV and explicit domain and LDAP collection-server context.](figures/misp3-adtimeline-import.png)
+
+The real review contains **three objects and 53 attributes**: one source `file` and two replication-metadata observations.
+Each observation has a `derived-from` reference to the source, a one-based CSV **data-record index**, the source SHA-256, all raw column values and an initial `unreviewed` status.
+The index counts CSV records, not physical text lines, which matters for multiline values.
+All returned attributes have IDS matching and correlation disabled; keep these settings while reviewing the evidence.
+The service response reports two records and no warnings for this fixture; consult `summary`, `warnings` and any `error` in the API response when validating other exports.
+
+![The actual ADTimeline result preview contains a source file and two unreviewed replication-metadata objects, with 53 attributes ready for review.](figures/misp3-adtimeline-review.png)
+
+Before saving, compare the source digest, affected DN, replicated attribute, raw and normalized times, linked DN, server context and counters with the source export.
+Saving this fixture preserves the **1,183-byte CSV attachment byte-for-byte**, including its BOM and line endings; downloading it reproduces SHA-256 `ddc6daef55bd41ef0256e20b2354aaa2800d9eb8a99aff5d83adcc6ef820def7`.
+The [recorded module response](examples/adtimeline/module-response.json) comes from a separate API run with the same filename, bytes and context; its stable object UUIDs match the saved example.
+Stable identities do not by themselves establish how every MISP import path will handle a repeated submission; inspect the destination before importing again.
+
+#### Analyze changes and corroborate the conclusion {#dfir-adtimeline-analysis}
+
+Both observations concern `CN=Synthetic,OU=Lab,DC=example,DC=test`, with a last-originating-change time of **2 January 2026, 03:04:05 UTC**.
+The fixture deliberately uses large textual USNs to test preservation; their magnitude is not an anomaly finding.
+
+::: {.table-responsive}
+
+| Observation or field | What this slice supports | Follow-up needed |
+|---|---|---|
+| `nTSecurityDescriptor`, version `3` | A reported last change to that attribute at the supplied time. | Compare security descriptors, owners and ACEs in appropriate directory snapshots or retained audit evidence. The metadata supplies no before/after ACL or modifying user. |
+| `member` with linked DN `CN=Target,DC=example,DC=test` | A linked-value creation time of **1 January 2026, 00:00 UTC** and deletion time of **2 January, 03:04:05 UTC**. | Establish the group's privileges and the target's identity, then look for supported membership-change audit events and authorized change records. The two endpoints do not prove continuous effective privilege or use of it. |
+| Originating DSA DN and invocation ID | The reported originating directory-server context. | Compare with the relevant DC inventory and its historical incarnation; the server is not the authenticated actor. |
+| Originating USN `18446744073709551610`; local USN `9007199254740993` | Exact counters preserved as text. | Scope the former to the originating server/invocation and the latter to the LDAP collection server. USNs are not global timestamps or counters comparable across unrelated DCs. |
+| Collected `Name`, `SamAccountName`, DN and SID | Identity context as supplied by the export. | Account for renames, object lifetime and collection scope. The object's account name does not name the person who made the change. |
+
+:::
+
+![The saved member-link observation retains the affected object, collection context, raw and normalized times, exact USNs and unreviewed status, with IDS matching disabled.](figures/misp3-adtimeline-membership.png)
+
+Keep timestamp meanings separate: `change-time` normalizes `ftimeLastOriginatingChange`, `object-created` represents `WhenCreated`, and `link-created` / `link-deleted` represent linked-value times.
+The module always retains nonempty raw timestamp text, but normalizes only supported ISO timestamps with seconds, an explicit known timezone and at most six fractional digits.
+Ambiguous, timezone-free or unsupported values remain raw and produce warnings.
+The FILETIME sentinel `1601-01-01T00:00:00Z` remains raw without a normalized time; it must not become a real deletion date.
+For `altRecipient` records, the native `Member` column maps to a linked recipient DN, not a group-membership claim.
+Removed links and collected deletion metadata remain evidence; importing them never instructs MISP to delete data.
+
+Corroborate the directory lead with available DC Security events, ADTimeline object inventories, relevant GPO/SYSVOL evidence, administrative change records and endpoint activity.
+For example, examine Event ID **5136** for directory-object modifications and the applicable group-membership events for the group's type/scope, where auditing and retention provide them.
+Use `evtx_findings_import` for supported Hayabusa/Chainsaw findings from those logs, and endpoint importers for related host observations; preserve native source record IDs and link the reviewed observations explicitly.
+Matching times alone do not prove that two changes share an actor or purpose, and missing audit events do not establish that no change occurred.
+At the reviewed revision, `timesketch_export` has no dedicated mapping for `ad-replication-metadata` times; do not assume it will export this object's `change-time` without a separately validated mapping.
+
+Record the supported conclusion and remaining gaps in an Event Report or Analyst Data.
+For this fixture, the conclusion remains **two unreviewed metadata observations requiring corroboration**, with no demonstrated malicious actor, privilege use or compromise.
+Any restoration of membership, ACLs or delegation belongs in the approved directory-response process, supported by verified state and impact analysis.
+
 ### Timeline reconstruction {#dfir-timeline}
 
 Use `timesketch_import` to bring a selected timeline slice and its annotations into the investigation.
@@ -168,7 +261,7 @@ Its source IDs, tags and distribution fields are descriptive metadata; configure
 Repeated uploads can create duplicate timeline entries.
 
 ::: {.callout-important}
-At the screenshot revision, MISP serializes these two saved activity times with the compact offset `+0000`, while the reviewed Timesketch exporter requires the colon form `+00:00`.
+In the Windows exercise, MISP serializes these two saved activity times with the compact offset `+0000`, while that exercise's pinned `d7ec3654` Timesketch exporter requires the colon form `+00:00`.
 A direct export of the saved example therefore returns `No supported timestamped observations selected` with two timestamp warnings.
 This incompatibility is fixed by merged [misp-modules PR #1140](https://github.com/MISP/misp-modules/pull/1140); updated services accept these offsets directly.
 The [example export helper](examples/export_timeline.py) normalizes only explicit compact offsets on datetime attributes in an export-only copy, leaving the original event/export unchanged and unknown offsets unresolved.
@@ -421,6 +514,84 @@ The capture alone does not establish file execution, persistence, compromise or 
 This case uses plaintext HTTP; the handler does not decrypt HTTPS traffic.
 Record the assessment and next scoping question in the Event Report before promoting any selector to hunting or response content.
 
+## Explore observations with MISP's timeline {#dfir-misp-timeline}
+
+MISP's event **Timeline** tab helps compare observation windows, inspect an object's dated attributes, filter relevant items and return to their records for review.
+In the pinned MISP 3.0 Overmind interface, **Seen**, **Modified** and **Created** choose different clocks for placing rows.
+The choice is remembered in the browser, so check the active button before interpreting a chart.
+This view uses the current event and, when viewing event extensions together, the accessible events in that extension view; it is not a search across every event in MISP.
+
+::: {.table-responsive}
+
+| Timeline basis | What places a row | DFIR interpretation |
+|---|---|---|
+| **Seen** | Attribute/object `first_seen` and `last_seen` metadata; an object also spans its dated children. | Compare reported observation windows. These are not automatically the datetime values stored in an object's attributes. |
+| **Modified** | The MISP attribute/object's last modification timestamp; an object includes its attributes' modification times. | Inspect the latest recorded changes to MISP content. This is neither source activity time nor a complete edit history; use **History** for audit context. |
+| **Created** | When this MISP instance created an attribute; objects span their attributes' creation times. | Inspect data arrival/creation in this instance, not file creation, AD object creation or the original observation time. Attributes predating MISP 3.0 may have no creation timestamp. |
+
+:::
+
+### Read ranges, endpoints and undated items {#dfir-misp-timeline-seen}
+
+The [timeline teaching event](examples/timeline/event-input.json) is a separate authored fixture, with fictional observations on **12–14 November 2026**.
+It was saved in an organization-only, unpublished event on **16 November**, so its Seen dates differ from its MISP creation/modification dates.
+No domain lookup, network connection or file collection produced these example intervals.
+
+Open the event and choose **Timeline → Seen**.
+The domain `updates.example` has both observation endpoints, the file object has a range with two dated children, and `203.0.113.25` has only a first-seen value.
+An item with a missing endpoint displays **not recorded**; the one-sided marker does not supply an invented last observation.
+The standalone text observation has no seen dates, so MISP counts it in the undated notice and offers a link to list it.
+That notice counts undated top-level rows, not every undated attribute inside a dated object.
+
+![MISP's Seen timeline shows the authored domain interval, an expanded file with two dated children, a first-only IP observation and an undated-item notice.](figures/misp3-timeline-seen.png)
+
+Expand the file row with its chevron to compare the filename interval with the path's single-time observation.
+Hover over a row or marker to inspect full UTC dates and its recorded metadata; the date columns may show only times of day when the selected window is short.
+The object envelope covers its own dates and the dated attributes visible to the reader, so it need not describe one continuous activity.
+A first/last-seen span also does not establish continuous traffic, execution or compromise throughout the gap.
+Click a row to open the corresponding record in **Objects** or **Attributes**, where its source and analytical context can be checked.
+
+### Filter and narrow the investigation window {#dfir-misp-timeline-filter}
+
+Use **Search values…** for a value of interest, or open **Filters** to select standalone attribute/object rows, a type or object name, and a category.
+An extension view also offers a source-event filter.
+For this fixture, **Type or object → file** retains the file row and its dated children; the active filter chip and row count describe the reduced view.
+Reset filters when returning to the full set of dated rows.
+
+![The native timeline Filters panel selects the file object type while retaining the Seen basis; the displayed row set is limited to that object and its dated children.](figures/misp3-timeline-filter.png)
+
+For longer spans or a capped result, MISP shows an **Activity across the event** overview strip.
+Drag across it to select a date window and inspect the rows beneath it; use **Show the whole span** or reset the strip to restore the full window.
+The overview uses buckets and a square-root height scale: it summarizes rows seen in a period, rather than proving a count of packets, logons or distinct incidents.
+At this revision, a response lists at most **2,000 top-level rows** and marks capped results; narrow the window or filters before drawing conclusions from missing rows.
+Counts, object children and dates also depend on the reader's access and current event/extension scope.
+
+### Review observation metadata without confusing the clocks {#dfir-misp-timeline-edit}
+
+Choose **Modified** to place the same teaching records on their MISP modification day instead of their fictional activity days.
+For a user allowed to modify the event, the calendar action beside a row opens **Seen dates**, where first/last-seen metadata can be set or corrected in UTC.
+Saving is a real MISP edit and updates modification time; it does not rewrite a datetime-valued attribute such as a file's `modification-time`.
+The editor rejects a last-seen value preceding first-seen, and an unknown endpoint should remain blank.
+Use source-supported observation times and record the reason for a correction; the shortcut to copy modification time is appropriate only when that is actually the intended observation time.
+
+![The Modified timeline places the teaching records on their MISP edit day and opens the native Seen dates editor for the domain's separate observation interval.](figures/misp3-timeline-edit-seen.png)
+
+The **Created** view places this fixture's attributes on their creation day in the documentation instance.
+Its file object still stores a separate datetime-valued `modification-time` of **12 November, 08:00 UTC**, which is not used to place that field in Seen without first/last-seen metadata.
+The UI exercise verified a temporary first-seen correction on the synthetic IP through the native editor, then restored the original value while leaving last-seen unset.
+The pictured domain editor was closed without saving.
+
+The ADTimeline example makes the distinction especially visible: its two observations preserve `change-time`, object-creation and link times, but the importer does not assign first/last-seen metadata.
+Consequently, **Seen reports three undated objects**, including the source file, even though meaningful source dates remain inside those objects.
+This does not mean the evidence is timeless or the import failed.
+
+![The saved ADTimeline event has no Seen timeline rows because its three objects lack observation metadata; the source datetime fields remain preserved in the objects.](figures/misp3-timeline-adtimeline-undated.png)
+
+If the investigation requires a directory change on the Seen timeline, explicitly map a validated change observation to its own observation point and document that choice, retaining the original raw/normalized time fields and source reference.
+Do not combine an object's creation time and a member-link deletion time into an unsupported activity interval.
+Use the [timeline exchange workflow](#dfir-timeline) for supported Timesketch/Plaso interchange; importing a datetime field, displaying an observation in MISP and exporting it to another timeline have separate mappings.
+The [timeline fixture provenance](examples/timeline/provenance.json) records these live checks and the pinned [timeline implementation](https://github.com/MISP/MISP/blob/99ebee729702c560528f9788953719bda68aa1c1/app/Lib/Tools/EventOverview/EventSeenTimelineTool.php).
+
 ## Enrich a selector without losing its meaning {#dfir-enrichment}
 
 Choose an enrichment module to answer a question about a selected hash, address, domain, URL, certificate or rule.
@@ -499,6 +670,7 @@ See [Workflows](../workflows/index.qmd) for MISP workflow configuration and [Fal
 | Suspected ransomware | Selected `evtx_findings_import`, `velociraptor_import`, `volatility3_import` results; hash/report lookups; `ransomlook` for public context. | Which hosts show observed execution, encryption or lateral movement? Are public extortion claims independently corroborated? |
 | Phishing or business-email compromise | `email_import`, `dmarc_import`, `qrcode`, document parsers and approved URL/DNS/report lookups. | What is the original message provenance? Which recipients interacted, and what identity/audit logs support account misuse? |
 | Memory-resident execution | `volatility3_import` with process/socket/malfind/YARA context, endpoint exports and reviewed YARA hunts. | Are findings from the same image and process lifetime? Do suspicious regions have corroborating execution evidence? |
+| Active Directory change or suspected persistence | `adtimeline_import` for selected replication metadata, `evtx_findings_import` for supported audit findings and endpoint imports for corroboration. | What changed, on which object and server, and what independently supports attribution or impact? Preserve linked-value time semantics and distinguish collected state from historical values. |
 | Network intrusion or suspected exfiltration | `zeek_import`, `suricata_import`, bounded `pcap_import`, historical DNS/TLS context and timeline exchange. | Is traffic direction established? Are capture gaps or encryption limiting visibility, and do timestamps align with endpoint evidence? |
 | Mobile/device investigation | `autopsy_import` selected artifacts, `mobsf` for an authorized app-analysis path, and geographic importers where relevant. | Does the adapter preserve device/source identity and timestamp semantics? Does app presence establish execution or user action? |
 | Cloud or SaaS incident | Selected audit exports mapped through `csvimport`/`mispjson`, compatible timeline imports and platform-context lookups. | Who collected the records, from which tenant/account and time window? Preserve immutable resource/session identifiers; do not assume a generic CSV importer performs cloud acquisition. |
@@ -507,7 +679,7 @@ See [Workflows](../workflows/index.qmd) for MISP workflow configuration and [Fal
 
 ## Complete module inventory {#dfir-module-inventory}
 
-The following inventory covers **330 production Python handlers** in the four module families at the reviewed misp-modules revision: 32 import, 240 expansion, 39 export and 19 action modules.
+The following inventory covers **331 production Python handlers** in the four module families at misp-modules revision `f4899ad4`: 33 import, 240 expansion, 39 export and 19 action modules.
 It excludes private/helper files, skeletons, `import_blueprint` and the three `test*` handlers.
 It is deliberately broad: specialized financial, geographic, identity and reporting modules may support a particular investigation even when they are not forensic parsers.
 Use the earlier process tables to select a path, then follow the handler link and check its contract and runtime availability.
@@ -524,7 +696,8 @@ The [inventory provenance](reference/inventory.json) records the reviewed commit
 - [MISP Objects](../misp-objects/index.qmd), [Categories and Types](../categories-and-types/index.qmd) and [Correlation](../correlation/index.qmd) for representation and comparison.
 - [Value Intelligence](../value-intelligence/index.qmd) and [Pivoting](../pivoting/index.qmd) for contextual analysis of selected values.
 - [Automation](../automation/index.qmd) and [PyMISP](../pymisp/index.qmd) for repeatable integrations.
-- [The reviewed module documentation](https://github.com/MISP/misp-modules/tree/d7ec36544576f2523e320ce9200d0f18d12e11c7/documentation) for importer selection, timestamp handling, limits, external effects and output contracts.
+- [The reviewed module documentation](https://github.com/MISP/misp-modules/tree/f4899ad42ac074de672ed32485223badb8680a45/documentation) for importer selection, timestamp handling, limits, external effects and output contracts.
+- [ADTimeline's collection and analysis guide](https://github.com/ANSSI-FR/ADTimeline/blob/fa570aa15a03614b8dd1ea956abb556f47f4f453/README.md) for directory collection scope and replication-metadata interpretation.
 
-The editable Mermaid sources are [the DFIR lifecycle](figures/dfir-lifecycle.mmd), [timeline exchange](figures/dfir-timeline.mmd) and [the hunting feedback loop](figures/dfir-hunt-loop.mmd).
+The editable Mermaid sources are [the DFIR lifecycle](figures/dfir-lifecycle.mmd), [Active Directory analysis](figures/dfir-adtimeline.mmd), [timeline exchange](figures/dfir-timeline.mmd) and [the hunting feedback loop](figures/dfir-hunt-loop.mmd).
 Their committed SVGs use the book's shared theme for HTML, PDF and EPUB.

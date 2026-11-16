@@ -2,7 +2,7 @@
 
 The chapter includes `_module-reference.qmd`; `modules.csv` supplies the fuller metadata download.
 `inventory.json` records the source commit, family counts and source-file hashes.
-All 330 production handlers in the reviewed revision are retained as candidates, including case-specific utilities and legacy integrations.
+All 331 production handlers in the reviewed revision are retained as candidates, including case-specific utilities and legacy integrations.
 Presence in this inventory is not a runtime test, compatibility guarantee or recommendation to enable every module.
 
 To regenerate from a local checkout, run from the book root:

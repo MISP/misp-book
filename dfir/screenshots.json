@@ -59,7 +59,7 @@
     "compatibility_step": "Normalized two explicit compact UTC offsets (+0000 to +00:00) in an export-only copy; MISP records unchanged."
   },
   "limitations": [
-    "Windows-finding import, normalized Timesketch export, native Mactime import, and PCAP import/analysis were exercised live with synthetic data. The complete module inventory is a source audit.",
+    "Windows-finding import, normalized Timesketch export, native Mactime import, PCAP import/analysis, ADTimeline import and the native MISP timeline were exercised live with synthetic data. The complete module inventory is a source audit.",
     "Direct timeline export of the saved MISP compact UTC datetime offsets fails at this module revision. The documented helper normalizes explicit offsets in an export-only copy; original MISP records remain unchanged.",
     "Imported raw fields and screenshots are synthetic, not operational evidence.",
     "No Timesketch server upload, real memory acquisition, real endpoint collection, live packet capture, external enrichment, IOC publication, containment or messaging was performed. TShark analyzed only the authored PCAP."
@@ -250,6 +250,126 @@
       "image_size": {
         "width": 1440,
         "height": 1250
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-adtimeline-import.png",
+      "url": "/events/view/20",
+      "description": "Native ADTimeline import form with the selected synthetic CSV, domain scope and collection server.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1200
+      },
+      "captured_at": "2026-11-16T08:28:00.344175+00:00",
+      "sha256": "9cb9b3650c8e1a0ce6c009a6cfca2a67bcb2bd4db8119d52e16014390924c4cb",
+      "image_size": {
+        "width": 1140,
+        "height": 896
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-adtimeline-review.png",
+      "url": "/events/view/20",
+      "description": "Real ADTimeline result: one source file and two unreviewed replication metadata objects. The importer returned every IDS flag off.",
+      "selector": ".modal.show .modal-content",
+      "viewport": {
+        "width": 1440,
+        "height": 1400
+      },
+      "captured_at": "2026-11-16T08:33:25.235336+00:00",
+      "sha256": "a9b8d3a3d9b0130878f8800ab82c6abb96a24b28787b05465ae3b97c1c32ac50",
+      "capture_note": "A second native preview was captured after the accordions collapsed; every IDS flag remained off as returned by the module. This preview was discarded; the previously saved case remains unchanged.",
+      "image_size": {
+        "width": 1140,
+        "height": 468
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-adtimeline-membership.png",
+      "url": "/events/view/20#tab-objects",
+      "description": "Saved removed group-member link with raw/normalized change times, collection context, exact USNs and unreviewed status.",
+      "viewport": {
+        "width": 1440,
+        "height": 2050
+      },
+      "capture_method": "Native viewport screenshot after expanding the selected object; no retouching.",
+      "captured_at": "2026-11-16T08:32:55.079665+00:00",
+      "sha256": "cc71aecfde96b7e3892f8da7bfc88ee9a15a00c745b42cd02d5c3f72d933fa05",
+      "image_size": {
+        "width": 1440,
+        "height": 2050
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-timeline-seen.png",
+      "url": "/events/view/21#tab-timeline",
+      "description": "Seen basis with a full interval, expanded file-object children, a one-sided observation and an undated-item notice.",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "captured_at": "2026-11-16T08:42:48.723203+00:00",
+      "capture_method": "Native viewport screenshot after normal timeline controls; no retouching or injected data/style.",
+      "sha256": "e0f26dcef9907a4bbcc6f2717e7e6ff1e743a4e952f642aff9fe8fba4f84f76d",
+      "image_size": {
+        "width": 1440,
+        "height": 900
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-timeline-filter.png",
+      "url": "/events/view/21#tab-timeline",
+      "description": "Native timeline filter limits the dated rows to the file object and its dated children; the observation basis remains Seen.",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "captured_at": "2026-11-16T08:42:48.997049+00:00",
+      "capture_method": "Native viewport screenshot after normal timeline controls; no retouching or injected data/style.",
+      "sha256": "e98aa7468467c9d0c0a5de49982722a4b1ab6ebdadf75716477de8f3a9ec442b",
+      "image_size": {
+        "width": 1440,
+        "height": 900
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-timeline-edit-seen.png",
+      "url": "/events/view/21#tab-timeline",
+      "description": "Modified basis with the native Seen dates editor open for the fictional domain; no changes are saved.",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "captured_at": "2026-11-16T08:42:49.586069+00:00",
+      "capture_method": "Native viewport screenshot after normal timeline controls; no retouching or injected data/style.",
+      "sha256": "5520b3a8ac7728e182c673c8f0def43bff8c9396d0e3a6a3176cae134d4c0560",
+      "image_size": {
+        "width": 1440,
+        "height": 900
+      },
+      "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-timeline-adtimeline-undated.png",
+      "url": "/events/view/20#tab-timeline",
+      "description": "ADTimeline event has three objects without first/last-seen metadata. Its preserved datetime-valued attributes do not automatically place those objects on the Seen timeline.",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "captured_at": "2026-11-16T08:42:51.234984+00:00",
+      "capture_method": "Native viewport screenshot after normal timeline controls; no retouching or injected data/style.",
+      "sha256": "233f9eb1c86f3be92b4ef3cccc3ec1d0911e07a49c38c5653a4b31ea7d023418",
+      "image_size": {
+        "width": 1440,
+        "height": 900
       },
       "role": "Site administrator, MISP Documentation organization"
     }
@@ -516,5 +636,142 @@
         "file": 25
       }
     }
+  },
+  "adtimeline_example": {
+    "fixture": "Selected synthetic replication metadata; no live AD collection or directory modification.",
+    "source": {
+      "repository": "https://github.com/MISP/misp-modules",
+      "commit": "f4899ad42ac074de672ed32485223badb8680a45",
+      "file": "tests/fixtures/adtimeline/timeline_example.test.csv",
+      "sha256": "f206def2b682217ca18bb0a3b7766a4ca228bf80247e167e92b91f41593f24e1",
+      "credit": "MISP contributors, AGPLv3; upstream fixture and producer linked in README.md.",
+      "serialization": "PowerShell 7.4.6 Export-Csv, semicolon delimiter, NoTypeInformation, UTF-8 BOM and CRLF.",
+      "producer_execution_note": "PowerShell serialization is recorded by the upstream project; not rerun for this chapter.",
+      "ADTimeline_contract_commit": "fa570aa15a03614b8dd1ea956abb556f47f4f453"
+    },
+    "selection": {
+      "file": "timeline_selected.csv",
+      "data_records": [
+        1,
+        2
+      ],
+      "bytes": 1183,
+      "sha256": "ddc6daef55bd41ef0256e20b2354aaa2800d9eb8a99aff5d83adcc6ef820def7",
+      "method": "Header and first two data records retained byte-for-byte. The fixture has no multiline records; third altRecipient record excluded."
+    },
+    "module": {
+      "name": "adtimeline_import",
+      "handler_version": "1.0",
+      "repository": "https://github.com/MISP/misp-modules",
+      "commit": "f4899ad42ac074de672ed32485223badb8680a45",
+      "handler_sha256": "ad2669034dbd46b58a17f2a5c6a32a4101b4c75f381d599544b9016e85f8f38f",
+      "template_sha256": "d7e7922d9559f5b80f02e7dddf1236138348bee322125555cbe9228c21bcf424",
+      "template_version": 1,
+      "config": {
+        "domain_scope": "example.test",
+        "collection_server": "dc02.example.test"
+      }
+    },
+    "runtime": {
+      "python": "3.12",
+      "PyMISP": "2.5.34.4",
+      "note": "Unmodified pinned package copied into the isolated Python container. A loader restricts discovery to adtimeline_import; no handler, request or response rewriting.",
+      "MISP_core_branch": "3.0_wip",
+      "MISP_core_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+      "template_registration": "Bundled ad-replication-metadata v1 copied unchanged into the isolated core template catalog and registered with Admin updateObjectTemplates. Existing file v25 reused."
+    },
+    "module_response": {
+      "file": "module-response.json",
+      "sha256": "c4ec0ed094b6eab2865c0fda03745efb0625df9f53534d0d698b741560e7b1ff",
+      "note": "Serialized result from a separate real HTTP API run with identical bytes, filename and context. Stable object UUIDs match the native saved event."
+    },
+    "verification": {
+      "event_id": 20,
+      "distribution": 0,
+      "published": false,
+      "objects": 3,
+      "attributes": 53,
+      "references_resolve": 2,
+      "all_non_ids": true,
+      "all_non_correlating": true,
+      "source_attachment_byte_identical": true,
+      "module_UUIDs_match_saved_objects": true,
+      "unreviewed_observations": 2,
+      "large_counters_preserved_as_exact_text": true,
+      "raw_and_normalized_times_preserved": true,
+      "warnings": [],
+      "input_bytes": 1183,
+      "input_sha256": "ddc6daef55bd41ef0256e20b2354aaa2800d9eb8a99aff5d83adcc6ef820def7"
+    },
+    "limits": [
+      "Synthetic CSV import only; no Windows ADTimeline execution, live LDAP, NTDS acquisition or directory response was tested.",
+      "Imported metadata does not establish an actor, maliciousness, before/after ACL values or complete directory history.",
+      "No external enrichment, publication, messaging or automated response was performed."
+    ]
+  },
+  "native_timeline_example": {
+    "fixture": "Authored MISP event; observation times are fictional. No collection, traffic or file acquisition.",
+    "file": "event-input.json",
+    "sha256": "4cafd3513c57dc26d309c4b08f5764c0e837e22c1d98fe0741a337cbfa4cffe2",
+    "MISP": {
+      "branch": "3.0_wip",
+      "commit": "99ebee729702c560528f9788953719bda68aa1c1",
+      "version": "3.0.0",
+      "theme": "Overmind, light",
+      "source": [
+        {
+          "path": "app/Lib/Tools/EventOverview/EventSeenTimelineTool.php",
+          "sha256": "1869515f812b022091c7ace04dcd71789f0301206c969a39cdf46402104515ad"
+        },
+        {
+          "path": "app/webroot/js/event-seen-timeline.js",
+          "sha256": "54141c6484c6737993734f1a06ba34ddc47b1448d41074d8f75784318a00c74f"
+        },
+        {
+          "path": "app/View/Themed/Overmind/Elements/Events/View/event_timeline.ctp",
+          "sha256": "716b84155c4f61bf7fc88cebaa07fe8a6612731aed78f41c7e54c860285f3747"
+        }
+      ]
+    },
+    "verification": {
+      "event_id": 21,
+      "distribution": 0,
+      "published": false,
+      "objects": 1,
+      "standalone_attributes": 3,
+      "object_attributes": 3,
+      "all_non_ids": true,
+      "all_non_correlating": true,
+      "seen": {
+        "top_level_dated_rows": 3,
+        "dated_file_children": 2,
+        "undated_standalone_rows": 1
+      },
+      "modified": {
+        "top_level_dated_rows": 4,
+        "dated_file_children": 3,
+        "UTC_day": "2026-11-16"
+      },
+      "created": {
+        "top_level_dated_rows": 4,
+        "dated_file_children": 3,
+        "UTC_day": "2026-11-16"
+      },
+      "file_filter_rows": 1,
+      "day_window_2026_11_13_rows": 2,
+      "value_search_rows": 1,
+      "ADTimeline_seen_undated_objects": 3,
+      "datetime_values_not_automatically_seen": true,
+      "native_seen_editor_write_verified": true,
+      "fixture_first_seen_restored": "2026-11-14T10:00:00Z",
+      "last_seen_remained_unset": true,
+      "scope": "Only the isolated, authored teaching event; no imported evidence observations edited."
+    },
+    "limits": [
+      "UI exercised with a site-administrator account in the isolated documentation instance.",
+      "Overview-strip activation, access/extension scoping and response caps were source-reviewed, not demonstrated with a large-event or multi-role fixture.",
+      "The editor uses UTC; MISP creation/modification times depend on when the example is saved and will differ between instances.",
+      "No imported ADTimeline or PCAP observations were edited for the native timeline exercise."
+    ]
   }
 }
