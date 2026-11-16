@@ -10,7 +10,7 @@ Use it to preserve the context of selected evidence, compare observations across
 Acquire disk images, memory and endpoint collections with the appropriate forensic tools; retain the authoritative evidence and chain of custody in the case's evidence repository.
 MISP holds the selected intelligence and its provenance, rather than replacing that repository or a case-management system.
 
-This chapter follows a Windows investigation from selected log findings to validation, timeline analysis and hunting.
+This chapter follows selected Windows findings and a worked Sleuth Kit filesystem timeline through validation, analysis and hunting.
 It also covers memory, endpoint, network, email, mobile and cloud investigations, and provides a complete source inventory of candidate **misp-modules** across import, expansion, export and action families.
 
 ::: {.callout-note}
@@ -179,7 +179,7 @@ For an older service that requires the workaround, save one selected MISP event 
 
 ```sh
 # Requires Python requests and a service exposing timesketch_export.
-python export_timeline.py selected-event.json observations.jsonl
+python dfir/examples/export_timeline.py selected-event.json observations.jsonl
 ```
 
 Set `MISP_MODULES_URL` when that service uses a different base URL.
@@ -191,9 +191,96 @@ When selection excludes rows, `timesketch_import` and `autopsy_import` omit the 
 The network importers also document selection-aware attachment handling.
 Check each module's response and retain the authoritative full export in the evidence system.
 
-MISP's **Populate from…** dialog also exposes a core **Forensic analysis → Mactime** path, separate from misp-modules.
-Use its own review flow for the supported filesystem timeline input; it is not an EVTX, memory or Plaso acquisition tool.
-See [Populate from](../using-the-system/index.qmd#populate-from) for the interface context.
+### Filesystem timeline with The Sleuth Kit {#dfir-sleuthkit}
+
+Use a filesystem timeline to ask which recorded file timestamps fall within the investigation window, then keep their meanings distinct when importing them.
+This worked example follows `/case/notes.txt` from a synthetic filesystem image through Sleuth Kit output to MISP's native **Forensic analysis → Mactime** review.
+This core import path is separate from misp-modules and does not acquire or examine the filesystem image itself.
+
+The [compressed example image](examples/sleuthkit/filesystem.img.gz) contains a 4 MiB ext2 filesystem with one harmless 47-byte text file in `/case`.
+The image was authored with e2fsprogs **1.47.2**, and the file's timestamps were explicitly assigned for this exercise.
+The [provenance record](examples/sleuthkit/provenance.json) records the image hash, inode, tool versions and output hashes.
+All three screenshots below use the same pinned MISP `3.0_wip` revision as the Windows example; the filesystem event is organization-only and unpublished.
+
+#### Produce and inspect the evidence timeline {#dfir-sleuthkit-output}
+
+The following commands run from the book root with **The Sleuth Kit 4.12.1** installed.
+They decompress the synthetic image into the working directory, extract filesystem metadata with `fls`, and select one file before running `mactime`.
+The image contains a filesystem starting at byte zero, so this example needs no partition offset; a partitioned evidence image requires the appropriate filesystem offset.
+The `-m /` option supplies the path prefix for bodyfile output; it does not mount the image.
+The [Sleuth Kit `fls`](https://www.sleuthkit.org/sleuthkit/man/fls.html) and [`mactime`](https://www.sleuthkit.org/sleuthkit/man/mactime.html) manuals describe the output and date-range options.
+
+```sh
+mkdir -p work/dfir-sleuthkit
+gzip -dc dfir/examples/sleuthkit/filesystem.img.gz > work/dfir-sleuthkit/filesystem.img
+cd work/dfir-sleuthkit
+sha256sum filesystem.img
+fls -r -m / -z UTC filesystem.img > filesystem.body
+awk -F '|' '$2 == "/case/notes.txt"' filesystem.body > notes.body
+LC_ALL=C mactime -b notes.body -z UTC 2026-11-16..2026-11-17 > notes-timeline.txt
+```
+
+Compare the image digest with the [recorded SHA-256](examples/sleuthkit/filesystem.img.sha256).
+The complete [bodyfile](examples/sleuthkit/filesystem.body) preserves filesystem metadata, while the [selected bodyfile](examples/sleuthkit/notes.body) retains inode **13**, UID/GID **1000**, size **47**, permissions and the file's timestamp fields.
+The bodyfile's leading hash field is `0`, meaning no file-content hash was supplied by this `fls` command; it is not an integrity digest for the file.
+Reading inode 13 with `icat filesystem.img 13` recovers the same bytes as the [harmless source file](examples/sleuthkit/notes.txt).
+
+The actual [human-readable Mactime output](examples/sleuthkit/notes-timeline.txt) is:
+
+```text
+Mon Nov 16 2026 09:20:00       47 m... -/rrw-r----- 1000     1000     13       /case/notes.txt
+Mon Nov 16 2026 09:23:00       47 ..c. -/rrw-r----- 1000     1000     13       /case/notes.txt
+Mon Nov 16 2026 09:25:00       47 .a.. -/rrw-r----- 1000     1000     13       /case/notes.txt
+```
+
+Every displayed time is **UTC** because `mactime` was run with `-z UTC`.
+The activity columns use **MACB** order: modification, access, metadata change and birth.
+
+::: {.table-responsive}
+
+| Time on 16 November 2026, UTC | Flag | What the timestamp represents |
+|---|---|---|
+| 09:20:00 | `m...` | Recorded file-content modification time. |
+| 09:23:00 | `..c.` | Recorded inode metadata-change time; `ctime` does not mean file creation. |
+| 09:25:00 | `.a..` | Recorded access time, whose interpretation depends on the filesystem and collection context. |
+
+:::
+
+This ext2 fixture supplies no birth time.
+Its bodyfile preserves a zero birth-time value, and an unbounded `mactime` run displays an unknown-date placeholder for that field.
+The explicit date window excludes that placeholder from the upload rather than turning it into an invented creation time.
+A timestamp sequence alone does not establish who acted, execution of the file, or malicious activity; this example's values were assigned deliberately.
+
+For analysis in a spreadsheet or another parser, `mactime -d` produces the [companion CSV](examples/sleuthkit/notes-timeline.csv).
+Upload the **human-readable `.txt` output** to the pinned MISP Mactime form: its parser expects the default whitespace layout, not CSV or `fls` bodyfile rows.
+Check every previewed path, activity and time, especially when a larger output contains grouped timestamps or filenames with spaces.
+
+#### Review and save the filesystem observations {#dfir-sleuthkit-misp}
+
+Create an organization-only event for the filesystem question.
+Choose **Import → Forensic analysis → Mactime**, select `notes-timeline.txt`, and choose **Upload analysis file**.
+See [Populate from](../using-the-system/index.qmd#populate-from) for the surrounding import controls.
+
+![The MISP 3.0 Forensic analysis section accepts the selected human-readable Sleuth Kit timeline for the filesystem exercise.](figures/misp3-sleuthkit-upload.png)
+
+Review the three rows for `/case/notes.txt`, with activity **Modified**, **Changed** and **Accessed**, before selecting them and choosing **Create objects**.
+The review's **Time accessed** column is a generic heading in this interface: use the **Activity** value to interpret each timestamp, including the metadata-change row.
+
+![MISP previews the three actual Mactime output rows, preserving the file path, activity, timestamp, size and permissions before object creation.](figures/misp3-sleuthkit-review.png)
+
+The core importer creates one `mactime-timeline-analysis` object per selected row.
+In this example, the three objects contain **18 attributes** in total, with IDS disabled.
+Each object retains the path, its activity and datetime, size, permissions, and the **complete uploaded timeline text** as an attachment.
+Select the permitted file/time scope before uploading: checking fewer rows in this review does not remove unselected source lines from that attachment.
+In the tested browser form, LF line endings became CRLF in the attached text, so the attachment is not byte-identical to the original `mactime` output.
+Keep the original export and its hash in the evidence repository rather than substituting the imported attachment for it.
+Correlation settings remain separate; this core path does not automatically disable them as some dedicated evidence modules do.
+
+![The saved metadata-change object retains its activity, datetime, source timeline attachment, permissions, size and file path, with IDS disabled.](figures/misp3-sleuthkit-object.png)
+
+The importer links adjacent selected rows with `preceded-by` and `followed-by` references.
+These links reflect the submitted row order, not independently established causal relationships.
+Retain the image hash and case reference separately from the timeline attachment's hash, and record the timestamp interpretation in the event's report.
 
 ### Network and email investigations {#dfir-network-email}
 

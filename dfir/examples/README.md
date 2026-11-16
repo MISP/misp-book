@@ -16,3 +16,6 @@ Choose the input event and destination service according to the case's handling 
 
 Versions, input hashes, live verification and screenshot provenance are recorded in `../screenshots.json`.
 The module source inventory and reviewed revision are in `../reference/`.
+
+`sleuthkit/` contains a compressed, authored ext2 filesystem and actual Sleuth Kit bodyfile/text/CSV outputs for one selected file.
+Its README and provenance record describe the fixed teaching timestamps, image integrity, tool versions and native MISP Mactime import exercise.

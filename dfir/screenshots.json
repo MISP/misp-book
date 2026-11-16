@@ -59,7 +59,7 @@
     "compatibility_step": "Normalized two explicit compact UTC offsets (+0000 to +00:00) in an export-only copy; MISP records unchanged."
   },
   "limitations": [
-    "Only the Windows finding import and the normalized Timesketch JSONL export were exercised live; the complete module inventory is a source audit.",
+    "The Windows-finding import, normalized Timesketch JSONL export, and native Mactime import were exercised live. Sleuth Kit fls/icat/mactime analyzed only the authored ext2 fixture. The complete module inventory is a source audit.",
     "Direct timeline export of the saved MISP compact UTC datetime offsets fails at this module revision. The documented helper normalizes explicit offsets in an export-only copy; original MISP records remain unchanged.",
     "No Timesketch server upload, memory acquisition, real endpoint collection, packet analysis, external enrichment, IOC publication, containment or messaging was performed.",
     "Imported raw fields and screenshots are synthetic, not operational evidence."
@@ -132,6 +132,57 @@
         "height": 1417
       },
       "role": "Site administrator, MISP Documentation organization"
+    },
+    {
+      "file": "dfir/figures/misp3-sleuthkit-upload.png",
+      "url": "/events/view/18",
+      "description": "Native Populate from forensic analysis section with the Sleuth Kit human-readable timeline selected.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "captured_at": "2026-11-16T05:17:11.103817+00:00",
+      "sha256": "eacb98a8195b570bfa51d6f0f68c31e316beb76fb3b84b837cbebf01b5c0c997",
+      "image_size": {
+        "width": 1140,
+        "height": 666
+      },
+      "role": "Site administrator, MISP Documentation organization",
+      "capture_method": "DOM screenshot of the actual native MISP modal; no retouching."
+    },
+    {
+      "file": "dfir/figures/misp3-sleuthkit-review.png",
+      "url": "/events/view/18",
+      "description": "Real Mactime preview with three selected activity rows for one file; modification, metadata change and access remain distinct.",
+      "viewport": {
+        "width": 1440,
+        "height": 1100
+      },
+      "captured_at": "2026-11-16T05:17:12.159839+00:00",
+      "sha256": "a839bf58497012b1f41e598cf1c55b05fa6f527d37d52a30009caace0d5cc939",
+      "image_size": {
+        "width": 1140,
+        "height": 420
+      },
+      "role": "Site administrator, MISP Documentation organization",
+      "capture_method": "DOM screenshot of the actual native MISP modal; no retouching."
+    },
+    {
+      "file": "dfir/figures/misp3-sleuthkit-object.png",
+      "url": "/events/view/18#tab-objects",
+      "description": "Saved mactime-timeline-analysis object for the inode metadata-change observation with path, time, size, permissions and original timeline attachment.",
+      "viewport": {
+        "width": 1440,
+        "height": 950
+      },
+      "captured_at": "2026-11-16T05:19:48.188195+00:00",
+      "sha256": "f4f9e272df193c82a244a085b9f89372c8cf575f6e356f7495ded799c230a3a3",
+      "image_size": {
+        "width": 1440,
+        "height": 950
+      },
+      "role": "Site administrator, MISP Documentation organization",
+      "capture_method": "Native 1440x950 viewport screenshot after expanding the metadata-change object; no retouching."
     }
   ],
   "source_checks": [
@@ -141,7 +192,9 @@
     "misp_modules/modules/import_mod/evtx_findings_import.py",
     "misp_modules/modules/export_mod/timesketch_export.py",
     "misp_modules/lib/timesketch_exchange.py",
-    "documentation/import_mod/*.md and documentation/export_mod/*.md at pinned revision"
+    "documentation/import_mod/*.md and documentation/export_mod/*.md at pinned revision",
+    "app/View/Themed/Overmind/Events/mactime_resolution.ctp: whitespace parser, row selection and form submission",
+    "app/Controller/EventsController.php::upload_analysis_file: object attributes, complete uploaded text attachments and ordering references"
   ],
   "upstream_bug_fix": {
     "pull_request": "https://github.com/MISP/misp-modules/pull/1140",
@@ -149,5 +202,95 @@
     "validation": "117 Timesketch tests pass on Python 3.10.22 and Python 3.12.14, including regressions that failed before the fix. The unmodified saved MISP event exports two exact observations through the patched Python handler without preprocessing. Compact suffixes are normalized before parsing for Python 3.10 compatibility. The captured service remains on its recorded unmodified source snapshot.",
     "review_followup_commit": "59323dfc600a88358f2ffb3a3cf68dfc0bf53472"
   },
-  "baseline_configuration_restored": true
+  "baseline_configuration_restored": true,
+  "filesystem_fixture": {
+    "fixture": "Authored synthetic ext2 filesystem; no acquired victim data or malware.",
+    "image": {
+      "file": "filesystem.img",
+      "sha256": "3be3d59ae46ba47971ac79ca064ceef5c754975e936a39d6f589b146f3c3344e",
+      "bytes": 4194304,
+      "format": "raw filesystem, ext2; filesystem begins at byte 0; no partition table",
+      "uuid": "72e7a756-f09d-4b99-b84a-83f098dc5664",
+      "label": "DFIR_SAMPLE"
+    },
+    "sleuthkit_version": "The Sleuth Kit ver 4.12.1",
+    "e2fsprogs_version": "debugfs 1.47.2 (1-Jan-2025)\n\tUsing EXT2FS Library version 1.47.2",
+    "timezone": "UTC",
+    "locale": "C",
+    "timeline_window": "2026-11-16..2026-11-17",
+    "file": {
+      "path": "/case/notes.txt",
+      "inode": "13",
+      "uid": 1000,
+      "gid": 1000,
+      "bytes": 47,
+      "sha256": "879b8acc00d213bc50850f3dfdc22441edc5c890a9308a4186be310e2ed2356c",
+      "mtime": "2026-11-16T09:20:00Z",
+      "ctime": "2026-11-16T09:23:00Z",
+      "atime": "2026-11-16T09:25:00Z",
+      "creation_time": "not available from this ext2 fixture"
+    },
+    "construction": "Created with mke2fs and populated through debugfs without mounting. File timestamps were explicitly assigned for the teaching example, rather than observed on an investigated device.",
+    "analysis": "fls and mactime read the image/bodyfile; icat recovered the selected inode byte-identically to notes.txt. Only the /case/notes.txt bodyfile record was passed to mactime. An explicit date range excludes the unknown birth-time sentinel from the MISP upload; the full bodyfile preserves its zero value.",
+    "files": {
+      "filesystem.body": {
+        "bytes": 273,
+        "sha256": "c958ed8895d6dc6d8619d1eda8339a49c2acf96ff62b7615a51aee24ea30d763"
+      },
+      "filesystem.img.gz": {
+        "bytes": 4547,
+        "sha256": "7c7058d928d2bb9a972cd9165274d9937d30adcb9831a6e0623cde82347841e3"
+      },
+      "filesystem.img.sha256": {
+        "bytes": 81,
+        "sha256": "fbe729eb4b3b6d6ab952ec19a197274cf22370df5f5a6782dbc2e46025fd444c"
+      },
+      "notes-timeline.csv": {
+        "bytes": 274,
+        "sha256": "1783d94a6aed1dea3a21c50595ba3d86da948e1976f38ffb5b794c6cd3a4eae7"
+      },
+      "notes-timeline.txt": {
+        "bytes": 285,
+        "sha256": "29f8bda6c5ce80b12bc63c72b872f55b5218de1ebf7e8de7f60ea16bc4aa3139"
+      },
+      "notes.body": {
+        "bytes": 82,
+        "sha256": "71c3b8752903e5cfea158bd100c351caf533d9ea162d625033256e710142a9d5"
+      },
+      "notes.txt": {
+        "bytes": 47,
+        "sha256": "879b8acc00d213bc50850f3dfdc22441edc5c890a9308a4186be310e2ed2356c"
+      }
+    },
+    "misp_event": {
+      "id": 18,
+      "info": "DFIR filesystem exercise: Sleuth Kit timeline",
+      "organization": "MISP Documentation",
+      "date": "2026-11-16",
+      "distribution": 0,
+      "published": false,
+      "object_template": "mactime-timeline-analysis version 1"
+    }
+  },
+  "filesystem_verification": {
+    "event_id": 18,
+    "distribution": 0,
+    "published": false,
+    "objects": 3,
+    "attributes": 18,
+    "all_non_ids": true,
+    "ordering_references": 4,
+    "references_resolve": true,
+    "all_source_attachment_text_matches_after_line_ending_normalization": true,
+    "source_attachment_line_endings": "CRLF after the core form round trip; original mactime output uses LF",
+    "datetime_values_match_UTC_source": true,
+    "image_integrity_unchanged_by_analysis": true,
+    "fls_bodyfile_reproduced": true,
+    "text_and_csv_mactime_outputs_reproduced": true,
+    "icat_recovered_bytes_match": true,
+    "unknown_birth_time_not_imported": true,
+    "original_text_bytes": 285,
+    "attached_text_bytes": 288,
+    "attachment_sha256": "09939744bceaf134b9cbf4678bb3db32dae769fd8704fdc1d3c15d4a73eae60e"
+  }
 }
