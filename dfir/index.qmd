@@ -10,7 +10,7 @@ Use it to preserve the context of selected evidence, compare observations across
 Acquire disk images, memory and endpoint collections with the appropriate forensic tools; retain the authoritative evidence and chain of custody in the case's evidence repository.
 MISP holds the selected intelligence and its provenance, rather than replacing that repository or a case-management system.
 
-This chapter follows selected Windows findings and a worked Sleuth Kit filesystem timeline through validation, analysis and hunting.
+Worked examples cover selected Windows findings, a Sleuth Kit filesystem timeline and a DNS/HTTP packet capture.
 It also covers memory, endpoint, network, email, mobile and cloud investigations, and provides a complete source inventory of candidate **misp-modules** across import, expansion, export and action families.
 
 ::: {.callout-note}
@@ -308,6 +308,118 @@ Other intake paths cover sandbox results and existing intelligence:
 | Validate exposure/remediation hypotheses | `darkmoon_import` imports the producer's penetration-test findings; those findings are not incident evidence by themselves. |
 
 :::
+
+### PCAP case with DNS and HTTP {#dfir-pcap}
+
+Start with a question that the supplied capture can answer: **did `192.0.2.10` request `/case/notice.txt` from `updates.example`, and which file bytes can be recovered?**
+The [example PCAP](examples/pcap/download-example.pcap) is authored teaching data, generated without transmitting packets.
+It contains **12 Ethernet/IPv4 packets**, two transport streams and one harmless HTTP response, using reserved example addresses and a `.example` domain.
+Its timestamps were assigned explicitly, from **16 November 2026, 10:00:00.000000 to 10:00:01.900000 UTC**.
+The [generator](examples/pcap/generate_capture.py) reproduces the capture byte-for-byte; [provenance](examples/pcap/provenance.json) records input/output hashes, tool versions and the live import checks.
+
+#### Establish the packet evidence {#dfir-pcap-evidence}
+
+On an analysis workstation with TShark installed, run these commands from the book root.
+Use a fresh export directory for each analysis run so previous files do not mix with the recovered content.
+The `-n` option disables name resolution, and `-r` reads the supplied capture rather than capturing live traffic.
+This example was dissected with **TShark 4.4.19**.
+
+```sh
+mkdir -p work/dfir-pcap/http-files
+sha256sum dfir/examples/pcap/download-example.pcap
+tshark -n -r dfir/examples/pcap/download-example.pcap -q -z conv,udp -z conv,tcp
+tshark -n -r dfir/examples/pcap/download-example.pcap \
+  --export-objects http,work/dfir-pcap/http-files -q
+sha256sum work/dfir-pcap/http-files/notice.txt
+```
+
+The capture is **1,185 bytes**, with SHA-256:
+
+```text
+8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3
+```
+
+The actual [packet summary](examples/pcap/packet-summary.txt) and [conversation statistics](examples/pcap/conversations.txt) provide the following evidence.
+All times below are UTC on 16 November 2026.
+
+::: {.table-responsive}
+
+| Frame | Time | Observed packet content |
+|---|---|---|
+| 1 | 10:00:00.000000 | `192.0.2.10:49153` asks resolver `192.0.2.53:53` for an A record for `updates.example`. |
+| 2 | 10:00:00.100000 | The DNS response contains A address `198.51.100.20`. |
+| 3 | 10:00:01.000000 | The observed TCP handshake begins with a SYN from `192.0.2.10:49152` to `198.51.100.20:80`. |
+| 6 | 10:00:01.300000 | The HTTP request is `GET /case/notice.txt`, with Host `updates.example` and User-Agent `MISP-DFIR-Example/1.0`. |
+| 7 | 10:00:01.400000 | An HTTP `200 OK` response supplies the complete 49-byte text payload. |
+| 12 | 10:00:01.900000 | The final observed TCP ACK follows connection teardown. |
+
+:::
+
+#### Import and review the capture {#dfir-pcap-import}
+
+An administrator must enable `pcap_import` and install its dependencies on the **misp-modules service**, including TShark 4.0 or newer and the PyMISP helpers required by the handler.
+See [Modules](../modules/index.qmd#modules-service) and the [PCAP import contract](https://github.com/MISP/misp-modules/blob/d7ec36544576f2523e320ce9200d0f18d12e11c7/documentation/import_mod/pcap_import.md).
+The handler processes the supplied capture offline; it does not fetch the HTTP URL or resolve the domain.
+Use a bounded capture that fits its 50 MiB input limit and the configured processing timeout.
+
+Create an organization-only event for the packet question, then choose **Import → Pcap Import**, select `download-example.pcap` and choose **Run Pcap Import**.
+These screenshots use the same pinned MISP `3.0_wip` revision as the preceding exercises, with a separate PCAP event that remains unpublished.
+
+![The enabled PCAP import form receives the authored capture through MISP 3.0's native event import controls.](figures/misp3-pcap-import.png)
+
+The real result contains **four objects**: one `pcap-metadata`, two `network-connection` objects and one reconstructed `file`.
+It also proposes **ten standalone network attributes**; the review's total of **53 attributes** includes 43 inside the objects.
+Review the audience, values, observation times, references and IDS flags before saving.
+Network observations arrive with IDS off, but the reconstructed file has seven IDS flags enabled by its file template in this runtime.
+Clear those flags for this context-only exercise, then choose **Import**; the saved example has IDS off on all 53 attributes.
+
+![MISP's real PCAP result preview groups capture metadata, the two connections and the recovered file, alongside the extracted network observations.](figures/misp3-pcap-review.png)
+
+#### Analyze the connections and recovered content {#dfir-pcap-analysis}
+
+First, inspect `pcap-metadata` and compare its SHA-256, 1,185-byte size, 12-packet count and first/last packet times with the original capture.
+This object describes the uploaded bytes; the module does **not** attach the original PCAP again.
+Retain that file in the evidence repository with the case reference.
+
+Next, inspect the two connection objects.
+The DNS flow is `192.0.2.10:49153 → 192.0.2.53:53`, while the HTTP flow is `192.0.2.10:49152 → 198.51.100.20:80`.
+The DNS answer address is an observation within the DNS exchange, not the DNS flow's destination endpoint.
+Both are stream **0** within their own transport: identify a stream by **capture hash, transport and stream index**, not by the index alone.
+
+![The saved TCP connection retains endpoints, ports, HTTP/TCP protocol context, packet bounds, and counts of six packets in the source direction and four in the reverse direction.](figures/misp3-pcap-connection.png)
+
+The HTTP connection spans **10:00:01.000000–10:00:01.900000**, with six source-direction and four reverse-direction packets.
+The module orients endpoints by the first observed packet; the visible SYN and subsequent HTTP request support the client role in this particular capture.
+A capture beginning midstream would need additional evidence before making that inference.
+Event-level values are deduplicated, so a value's first/last-seen interval can span several packets or flows; use the connection objects for flow-specific bounds.
+
+Finally, inspect the reconstructed `notice.txt` object.
+Its size is **49 bytes**, and its SHA-256 matches the [independently exported payload](examples/pcap/notice.txt):
+
+```text
+280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516
+```
+
+The module matches the exact HTTP payload bytes to TCP stream 0 and completion frame **7**.
+The file attributes' observation interval is therefore **10:00:01.400000** at both endpoints, rather than the entire connection's duration.
+The file object links back to its capture metadata and connection with `derived-from` references.
+
+![The recovered notice.txt object retains its content hashes, 49-byte size and sample attachment, with the teaching example's IDS flags disabled.](figures/misp3-pcap-file.png)
+
+This file object uses MISP's `malware-sample` storage representation even though the payload is harmless teaching text.
+The normal sample download is packaged as an encrypted ZIP; compare the hash of the unpacked 49-byte content, rather than the ZIP wrapper, with the recovered payload.
+The live check unpacked that download and verified the bytes match `notice.txt` exactly.
+
+At this core revision, the import review preserves reference targets and relationship types but omits the module's reference comments.
+The [recorded module API result](examples/pcap/module-response.json), from a separate offline run of the same capture, retains the detailed frame/payload provenance before review.
+Its generated UUIDs can differ from those in the saved event; compare capture hashes, transport/stream keys and payload hashes.
+Keep that provenance with the original capture when detailed frame-level references are required, rather than assuming every module field survived the UI round trip.
+
+The supported conclusion is that the synthetic client requested this URL and received the recovered bytes within the supplied packet window.
+HTTP reassembly does not establish that the client wrote a file to disk.
+The capture alone does not establish file execution, persistence, compromise or activity outside that window.
+This case uses plaintext HTTP; the handler does not decrypt HTTPS traffic.
+Record the assessment and next scoping question in the Event Report before promoting any selector to hunting or response content.
 
 ## Enrich a selector without losing its meaning {#dfir-enrichment}
 

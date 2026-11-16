@@ -1,0 +1,836 @@
+{
+  "results": {
+    "uuid": "6e8553c4-72ee-4142-a691-8aa57cafc761",
+    "Attribute": [
+      {
+        "uuid": "4e79a04f-b31d-58d2-962c-e8a1649e99c2",
+        "type": "ip-src",
+        "value": "192.0.2.10",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:00+00:00",
+        "last_seen": "2026-11-16T10:00:01.900000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"ip.src\"]}"
+      },
+      {
+        "uuid": "0c629e57-3d2d-53c0-a326-54fc688b4883",
+        "type": "ip-dst",
+        "value": "192.0.2.53",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:00+00:00",
+        "last_seen": "2026-11-16T10:00:00+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"ip.dst\"]}"
+      },
+      {
+        "uuid": "cc3d19cc-dc24-53ef-9c4b-809c0cc34fa6",
+        "type": "domain",
+        "value": "updates.example",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:00+00:00",
+        "last_seen": "2026-11-16T10:00:00.100000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"dns.qry.name\", \"dns.resp.name\"]}"
+      },
+      {
+        "uuid": "73f60449-da92-5ef0-9d94-0528925a9c2e",
+        "type": "ip-src",
+        "value": "192.0.2.53",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:00.100000+00:00",
+        "last_seen": "2026-11-16T10:00:00.100000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"ip.src\"]}"
+      },
+      {
+        "uuid": "2ab155bf-0e44-557a-accb-8c4832a1b7e4",
+        "type": "ip-dst",
+        "value": "192.0.2.10",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:00.100000+00:00",
+        "last_seen": "2026-11-16T10:00:01.800000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"ip.dst\"]}"
+      },
+      {
+        "uuid": "d241b24c-5227-5f19-8d21-7a9b726c5aa2",
+        "type": "ip-dst",
+        "value": "198.51.100.20",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:00.100000+00:00",
+        "last_seen": "2026-11-16T10:00:01.900000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"dns.a\", \"ip.dst\"]}"
+      },
+      {
+        "uuid": "cb9e561b-ec4a-5d22-9d6a-427848f7adc2",
+        "type": "ip-src",
+        "value": "198.51.100.20",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:01.100000+00:00",
+        "last_seen": "2026-11-16T10:00:01.800000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"ip.src\"]}"
+      },
+      {
+        "uuid": "800b6547-62d7-5280-8834-3bc30e3d37b1",
+        "type": "url",
+        "value": "http://updates.example/case/notice.txt",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:01.300000+00:00",
+        "last_seen": "2026-11-16T10:00:01.400000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"http.request.full_uri\"]}"
+      },
+      {
+        "uuid": "557c0946-74d7-5797-9629-cdd8acc33005",
+        "type": "hostname",
+        "value": "updates.example",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:01.300000+00:00",
+        "last_seen": "2026-11-16T10:00:01.300000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"http.host\"]}"
+      },
+      {
+        "uuid": "0ac86341-de3c-541a-b7e4-50ad6d0b6f34",
+        "type": "user-agent",
+        "value": "MISP-DFIR-Example/1.0",
+        "category": "Network activity",
+        "to_ids": false,
+        "disable_correlation": false,
+        "first_seen": "2026-11-16T10:00:01.300000+00:00",
+        "last_seen": "2026-11-16T10:00:01.300000+00:00",
+        "comment": "Observed in PCAP {\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"fields\": [\"http.user_agent\"]}"
+      }
+    ],
+    "Object": [
+      {
+        "name": "pcap-metadata",
+        "meta-category": "network",
+        "template_uuid": "0784aefa-ec3a-4eca-a431-c31ed7058bd3",
+        "description": "Network packet capture metadata",
+        "template_version": "3",
+        "uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+        "ObjectReference": [
+          {
+            "uuid": "7dd1c45c-9d63-4d07-a345-849b0224fd88",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+            "relationship_type": "contains",
+            "comment": "udp.stream=0"
+          },
+          {
+            "uuid": "0cd8f531-724c-4f66-97ee-370bcf24f26a",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "relationship_type": "contains",
+            "comment": "tcp.stream=0"
+          },
+          {
+            "uuid": "e442d466-0451-417a-a4bf-c1de0d373e8b",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "4e79a04f-b31d-58d2-962c-e8a1649e99c2",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"1\", \"3\", \"5\", \"6\", \"8\", \"9\", \"12\"], \"fields\": [\"ip.src\"]}"
+          },
+          {
+            "uuid": "3277914f-53a8-45d1-9564-ad4058bb5d4f",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "0c629e57-3d2d-53c0-a326-54fc688b4883",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"1\"], \"fields\": [\"ip.dst\"]}"
+          },
+          {
+            "uuid": "7cd18543-58d0-43d5-9fb2-6572115623a2",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "cc3d19cc-dc24-53ef-9c4b-809c0cc34fa6",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"1\", \"2\"], \"fields\": [\"dns.qry.name\", \"dns.resp.name\"]}"
+          },
+          {
+            "uuid": "933130a9-5537-414a-a9f7-e4a33ff08d96",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "73f60449-da92-5ef0-9d94-0528925a9c2e",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"2\"], \"fields\": [\"ip.src\"]}"
+          },
+          {
+            "uuid": "65f7b99f-2cc5-4d96-8f27-6336893a7054",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "2ab155bf-0e44-557a-accb-8c4832a1b7e4",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"2\", \"4\", \"7\", \"10\", \"11\"], \"fields\": [\"ip.dst\"]}"
+          },
+          {
+            "uuid": "3bae11be-763a-4568-a37f-01019ffe5152",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "d241b24c-5227-5f19-8d21-7a9b726c5aa2",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"2\", \"3\", \"5\", \"6\", \"8\", \"9\", \"12\"], \"fields\": [\"dns.a\", \"ip.dst\"]}"
+          },
+          {
+            "uuid": "939e1689-3c18-4cb1-a426-eb1b2061ceb7",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "cb9e561b-ec4a-5d22-9d6a-427848f7adc2",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"4\", \"7\", \"10\", \"11\"], \"fields\": [\"ip.src\"]}"
+          },
+          {
+            "uuid": "176ae038-a873-410d-8ab8-48eba44f33b9",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "800b6547-62d7-5280-8834-3bc30e3d37b1",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"6\", \"7\"], \"fields\": [\"http.request.full_uri\"]}"
+          },
+          {
+            "uuid": "9327103f-1636-46c5-9acb-f074356adf30",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "557c0946-74d7-5797-9629-cdd8acc33005",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"6\"], \"fields\": [\"http.host\"]}"
+          },
+          {
+            "uuid": "b1e7ff8b-4ab2-4260-ae0a-60dd58ba2c98",
+            "object_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "referenced_uuid": "0ac86341-de3c-541a-b7e4-50ad6d0b6f34",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"6\"], \"fields\": [\"http.user_agent\"]}"
+          }
+        ],
+        "Attribute": [
+          {
+            "uuid": "6d62d299-21a4-4f0f-9ddd-1eda217aedad",
+            "object_relation": "file-format",
+            "value": "PCAP",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "85fa7df2-82f1-40e6-97c2-57a533f9a3ad",
+            "object_relation": "file-name",
+            "value": "download-example.pcap",
+            "type": "filename",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Payload delivery"
+          },
+          {
+            "uuid": "e13e5b18-ff79-4be6-b165-0219d470cf0d",
+            "object_relation": "file-size-in-bytes",
+            "value": "1185",
+            "type": "size-in-bytes",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "892b1967-d84d-4fc6-b758-0c45c7ae4583",
+            "object_relation": "file-hash-md5",
+            "value": "3286585b8b47674e9e529a171bc20a85",
+            "type": "md5",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Payload delivery"
+          },
+          {
+            "uuid": "f29e83a0-3a18-42d7-8088-9f1b4d603ec5",
+            "object_relation": "file-hash-sha1",
+            "value": "c16a4745d41d0b742bb3dc7cf90496a64e17d009",
+            "type": "sha1",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Payload delivery"
+          },
+          {
+            "uuid": "b18bdffe-6762-4791-bc57-196c0017b616",
+            "object_relation": "file-hash-sha256",
+            "value": "8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3",
+            "type": "sha256",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Payload delivery"
+          },
+          {
+            "uuid": "e13b3611-c1ae-4339-886b-2302c637b4d8",
+            "object_relation": "captured-packets",
+            "value": "12",
+            "type": "counter",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "2235826e-e088-4507-88eb-e80cbc3c47fb",
+            "object_relation": "first-packet-seen",
+            "value": "2026-11-16T10:00:00+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "ff77a3e0-5700-4c80-81af-7b8e721fcec9",
+            "object_relation": "last-packet-seen",
+            "value": "2026-11-16T10:00:01.900000+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "4bc48c00-1a15-41f5-a55b-5193308d0581",
+            "object_relation": "elapsed-time",
+            "value": "1.900000000",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "56b2c0f3-3acd-465a-8e11-9dd3d9e09ec8",
+            "object_relation": "text",
+            "value": "{\"description\": \"Hashes identify exact uploaded bytes. Times are capture observations, not message dates.\", \"unassigned_packets\": []}",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0"
+      },
+      {
+        "name": "network-connection",
+        "meta-category": "network",
+        "template_uuid": "af16764b-f8e5-4603-9de1-de34d272f80b",
+        "description": "A local or remote network connection.",
+        "template_version": "7",
+        "uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+        "ObjectReference": [
+          {
+            "uuid": "420636d5-e2d7-4d43-9064-f24c42178d4b",
+            "object_uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+            "referenced_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "relationship_type": "derived-from",
+            "comment": "Source capture; stream IDs are capture-scoped."
+          },
+          {
+            "uuid": "97bc2ead-c301-47d0-84aa-9600a112ebb7",
+            "object_uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+            "referenced_uuid": "4e79a04f-b31d-58d2-962c-e8a1649e99c2",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"1\"], \"fields\": [\"ip.src\"]}"
+          },
+          {
+            "uuid": "40625e42-b4f7-436b-962d-50ca53ca780d",
+            "object_uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+            "referenced_uuid": "0c629e57-3d2d-53c0-a326-54fc688b4883",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"1\"], \"fields\": [\"ip.dst\"]}"
+          },
+          {
+            "uuid": "0daff90c-35d9-4cf8-952f-6a1349162afa",
+            "object_uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+            "referenced_uuid": "cc3d19cc-dc24-53ef-9c4b-809c0cc34fa6",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"1\", \"2\"], \"fields\": [\"dns.qry.name\", \"dns.resp.name\"]}"
+          },
+          {
+            "uuid": "ba2b4622-a999-46ac-aaa7-9cdda9fc500a",
+            "object_uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+            "referenced_uuid": "73f60449-da92-5ef0-9d94-0528925a9c2e",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"2\"], \"fields\": [\"ip.src\"]}"
+          },
+          {
+            "uuid": "0e7a8a07-5cd7-4e3a-902f-7bc619f89fa9",
+            "object_uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+            "referenced_uuid": "2ab155bf-0e44-557a-accb-8c4832a1b7e4",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"2\"], \"fields\": [\"ip.dst\"]}"
+          },
+          {
+            "uuid": "697965b5-5171-4ca9-9f93-6fcbb34d18af",
+            "object_uuid": "54b5723c-4461-527c-927e-fafeae11a600",
+            "referenced_uuid": "d241b24c-5227-5f19-8d21-7a9b726c5aa2",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"2\"], \"fields\": [\"dns.a\"]}"
+          }
+        ],
+        "Attribute": [
+          {
+            "uuid": "f1728d2d-18e2-41c9-b3b3-9f76d7409eed",
+            "object_relation": "layer4-protocol",
+            "value": "UDP",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "e87d6016-63a9-44ae-a4b7-3302ff69e96f",
+            "object_relation": "ip-src",
+            "value": "192.0.2.10",
+            "type": "ip-src",
+            "category": "Network activity",
+            "disable_correlation": false,
+            "to_ids": false,
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "f498517a-b2a8-4ee6-966c-d7ebf9ea8f59",
+            "object_relation": "src-port",
+            "value": "49153",
+            "type": "port",
+            "category": "Network activity",
+            "disable_correlation": false,
+            "to_ids": false,
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "4d7659ae-a576-455f-9042-09d0aab9364e",
+            "object_relation": "ip-dst",
+            "value": "192.0.2.53",
+            "type": "ip-dst",
+            "category": "Network activity",
+            "disable_correlation": false,
+            "to_ids": false,
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "e53e172b-e314-4997-ac6b-7b25b109846c",
+            "object_relation": "dst-port",
+            "value": "53",
+            "type": "port",
+            "category": "Network activity",
+            "disable_correlation": false,
+            "to_ids": false,
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "52565752-6bd2-4b9f-896f-2a7705b52950",
+            "object_relation": "layer3-protocol",
+            "value": "IPv4",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "0a2c2cfe-313b-40ca-956a-7271a19bf327",
+            "object_relation": "first-packet-seen",
+            "value": "2026-11-16T10:00:00+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "948fd737-bd36-4525-b90c-68c929f9fec3",
+            "object_relation": "last-packet-seen",
+            "value": "2026-11-16T10:00:00.100000+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "7e7acb2d-5f91-4070-8234-7cace5a1bd48",
+            "object_relation": "src-packets-count",
+            "value": "1",
+            "type": "counter",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "7b659fbb-c064-41d0-8f11-c3d5ea7cead4",
+            "object_relation": "dst-packets-count",
+            "value": "1",
+            "type": "counter",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          },
+          {
+            "uuid": "f1b75eec-925b-42d5-b07b-96c8eb205d79",
+            "object_relation": "layer7-protocol",
+            "value": "DNS",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:00+00:00",
+            "last_seen": "2026-11-16T10:00:00.100000+00:00"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0",
+        "comment": "{\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"transport\": \"udp\", \"stream_id\": \"0\", \"orientation\": \"First observed packet; not an assertion of client/server or connection initiation.\", \"packets\": [{\"frame_number\": \"1\", \"time_epoch\": \"1794823200.000000000\"}, {\"frame_number\": \"2\", \"time_epoch\": \"1794823200.100000000\"}], \"unoriented_packets\": 0}"
+      },
+      {
+        "name": "network-connection",
+        "meta-category": "network",
+        "template_uuid": "af16764b-f8e5-4603-9de1-de34d272f80b",
+        "description": "A local or remote network connection.",
+        "template_version": "7",
+        "uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+        "ObjectReference": [
+          {
+            "uuid": "4c8a9296-fc24-4ee5-b03c-3549f1bdba3a",
+            "object_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "referenced_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "relationship_type": "derived-from",
+            "comment": "Source capture; stream IDs are capture-scoped."
+          },
+          {
+            "uuid": "281e7065-b3e1-4d4f-93c5-6fbe41b356f9",
+            "object_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "referenced_uuid": "4e79a04f-b31d-58d2-962c-e8a1649e99c2",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"3\", \"5\", \"6\", \"8\", \"9\", \"12\"], \"fields\": [\"ip.src\"]}"
+          },
+          {
+            "uuid": "dd644a43-8da2-434c-bb53-eca544bb8e37",
+            "object_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "referenced_uuid": "d241b24c-5227-5f19-8d21-7a9b726c5aa2",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"3\", \"5\", \"6\", \"8\", \"9\", \"12\"], \"fields\": [\"ip.dst\"]}"
+          },
+          {
+            "uuid": "fe14399b-4d73-4cb3-b22f-8ab0d04e8cf1",
+            "object_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "referenced_uuid": "cb9e561b-ec4a-5d22-9d6a-427848f7adc2",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"4\", \"7\", \"10\", \"11\"], \"fields\": [\"ip.src\"]}"
+          },
+          {
+            "uuid": "4a488884-993a-4ea0-b33d-3239d76e3874",
+            "object_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "referenced_uuid": "2ab155bf-0e44-557a-accb-8c4832a1b7e4",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"4\", \"7\", \"10\", \"11\"], \"fields\": [\"ip.dst\"]}"
+          },
+          {
+            "uuid": "84053377-9137-4ee2-8fa3-71487309e2bb",
+            "object_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "referenced_uuid": "800b6547-62d7-5280-8834-3bc30e3d37b1",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"6\", \"7\"], \"fields\": [\"http.request.full_uri\"]}"
+          },
+          {
+            "uuid": "e4c13592-1d96-44a9-87db-598aced738dd",
+            "object_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "referenced_uuid": "557c0946-74d7-5797-9629-cdd8acc33005",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"6\"], \"fields\": [\"http.host\"]}"
+          },
+          {
+            "uuid": "373c1bfe-78f5-411b-a4e9-e829888ef228",
+            "object_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "referenced_uuid": "0ac86341-de3c-541a-b7e4-50ad6d0b6f34",
+            "relationship_type": "contains",
+            "comment": "{\"frames\": [\"6\"], \"fields\": [\"http.user_agent\"]}"
+          }
+        ],
+        "Attribute": [
+          {
+            "uuid": "e4a8634c-2902-4861-b9cd-9908cc521ce0",
+            "object_relation": "layer4-protocol",
+            "value": "TCP",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "8a8b5624-b16d-4fb5-ba07-d67024c751ae",
+            "object_relation": "ip-src",
+            "value": "192.0.2.10",
+            "type": "ip-src",
+            "category": "Network activity",
+            "disable_correlation": false,
+            "to_ids": false,
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "a0aa123a-8988-4380-babf-717fdeccafea",
+            "object_relation": "src-port",
+            "value": "49152",
+            "type": "port",
+            "category": "Network activity",
+            "disable_correlation": false,
+            "to_ids": false,
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "de9ce3be-d235-4e42-817b-b3d35a271d12",
+            "object_relation": "ip-dst",
+            "value": "198.51.100.20",
+            "type": "ip-dst",
+            "category": "Network activity",
+            "disable_correlation": false,
+            "to_ids": false,
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "0692e92c-9b43-4509-b369-8f3eda0df3a1",
+            "object_relation": "dst-port",
+            "value": "80",
+            "type": "port",
+            "category": "Network activity",
+            "disable_correlation": false,
+            "to_ids": false,
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "132e57a2-2374-483e-a03c-332cd0aa8ea2",
+            "object_relation": "layer3-protocol",
+            "value": "IPv4",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "482854c1-010d-4ecd-8185-c217d8f735bd",
+            "object_relation": "first-packet-seen",
+            "value": "2026-11-16T10:00:01+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "7d1e7105-c59d-4db7-8c14-e1b6f91d5c50",
+            "object_relation": "last-packet-seen",
+            "value": "2026-11-16T10:00:01.900000+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "07ff937c-1f09-4855-8b3f-cfdca442bfb0",
+            "object_relation": "src-packets-count",
+            "value": "6",
+            "type": "counter",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "341dae6a-9cf7-4ddf-bd54-a7798382d066",
+            "object_relation": "dst-packets-count",
+            "value": "4",
+            "type": "counter",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          },
+          {
+            "uuid": "5622a80f-9c1c-4a86-b975-90a582e850e0",
+            "object_relation": "layer7-protocol",
+            "value": "HTTP",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01+00:00",
+            "last_seen": "2026-11-16T10:00:01.900000+00:00"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0",
+        "comment": "{\"capture_sha256\": \"8364adeccca609aa1e3d542aa1fc63da2fb9d518490c29518b46d8b2412104a3\", \"transport\": \"tcp\", \"stream_id\": \"0\", \"orientation\": \"First observed packet; not an assertion of client/server or connection initiation.\", \"packets\": [{\"frame_number\": \"3\", \"time_epoch\": \"1794823201.000000000\"}, {\"frame_number\": \"4\", \"time_epoch\": \"1794823201.100000000\"}, {\"frame_number\": \"5\", \"time_epoch\": \"1794823201.200000000\"}, {\"frame_number\": \"6\", \"time_epoch\": \"1794823201.300000000\"}, {\"frame_number\": \"7\", \"time_epoch\": \"1794823201.400000000\"}, {\"frame_number\": \"8\", \"time_epoch\": \"1794823201.500000000\"}, {\"frame_number\": \"9\", \"time_epoch\": \"1794823201.600000000\"}, {\"frame_number\": \"10\", \"time_epoch\": \"1794823201.700000000\"}, {\"frame_number\": \"11\", \"time_epoch\": \"1794823201.800000000\"}, {\"frame_number\": \"12\", \"time_epoch\": \"1794823201.900000000\"}], \"unoriented_packets\": 0}"
+      },
+      {
+        "name": "file",
+        "meta-category": "file",
+        "template_uuid": "688c46fb-5edb-40a3-8273-1af7923e2215",
+        "description": "File object describing a file with meta-information",
+        "template_version": "25",
+        "uuid": "1d7c1a8f-93af-4190-8cad-665d933e02db",
+        "ObjectReference": [
+          {
+            "uuid": "a7506a39-c7ed-412c-8669-81c259159228",
+            "object_uuid": "1d7c1a8f-93af-4190-8cad-665d933e02db",
+            "referenced_uuid": "bc42f1bd-b7b5-5575-9aa4-8c04f46135ce",
+            "relationship_type": "derived-from",
+            "comment": "Capture of reconstructed content."
+          },
+          {
+            "uuid": "0d424e27-4e1a-411f-968f-b140a4c433c6",
+            "object_uuid": "1d7c1a8f-93af-4190-8cad-665d933e02db",
+            "referenced_uuid": "29e6b867-8f8a-5431-9f32-adceb7c2aadf",
+            "relationship_type": "derived-from",
+            "comment": "{\"payload_sha256\": \"280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516\", \"completion_frames\": [\"7\"], \"basis\": \"Exact HTTP payload bytes observed on this stream.\"}"
+          }
+        ],
+        "Attribute": [
+          {
+            "uuid": "350811d8-1ad6-4f8d-9fd6-2e3673814f23",
+            "object_relation": "filename",
+            "value": "notice.txt",
+            "type": "filename",
+            "category": "Payload delivery",
+            "disable_correlation": true,
+            "to_ids": true,
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "uuid": "2757e780-d5d8-4f32-b919-518752d32383",
+            "object_relation": "size-in-bytes",
+            "value": "49",
+            "type": "size-in-bytes",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "uuid": "0bdbe92c-b82e-4cef-b3c9-4da176ab2747",
+            "object_relation": "entropy",
+            "value": 4.3386011703809055,
+            "type": "float",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other",
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "uuid": "554b82e6-fbef-4b76-8b5d-37b33e84b3ce",
+            "object_relation": "md5",
+            "value": "d4002ceae871244ecfa1b30dcac828de",
+            "type": "md5",
+            "disable_correlation": false,
+            "to_ids": true,
+            "category": "Payload delivery",
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "uuid": "45ecc3c1-e86a-4dfa-95df-df2a588284c8",
+            "object_relation": "sha1",
+            "value": "7a088868180f763879bb7ebcc704ffc087cde539",
+            "type": "sha1",
+            "disable_correlation": false,
+            "to_ids": true,
+            "category": "Payload delivery",
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "uuid": "418fbcbd-9781-497f-8dd7-59c6da03f0e2",
+            "object_relation": "sha256",
+            "value": "280b6cfbb18139c732a360926bb99beef5e8fdd5070f591d77972f92aa4f3516",
+            "type": "sha256",
+            "disable_correlation": false,
+            "to_ids": true,
+            "category": "Payload delivery",
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "uuid": "b76b1a86-c49d-4df4-96e8-3d2667c3ff45",
+            "object_relation": "sha512",
+            "value": "22d647df51ceec15d16b65aa3181fceb9384d1ec71004968d2ae5e991138c01d884a6cf9351e4b4e187ffd75f18765312627004189bff9d4a656b50c4449350b",
+            "type": "sha512",
+            "disable_correlation": false,
+            "to_ids": true,
+            "category": "Payload delivery",
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "data": "UENBUCBkb2N1bWVudGF0aW9uIGZpeHR1cmUuIFRoaXMgaXMgbm90IG1hbHdhcmUuCg==",
+            "uuid": "bc336b1d-bdb9-4052-8d77-bd1ff4213bf8",
+            "object_relation": "malware-sample",
+            "value": "notice.txt",
+            "type": "malware-sample",
+            "disable_correlation": true,
+            "to_ids": true,
+            "category": "Payload delivery",
+            "malware_filename": "notice.txt",
+            "encrypt": true,
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "uuid": "2d151872-ad1c-4169-96ba-d4207c746d14",
+            "object_relation": "mimetype",
+            "value": "text/plain",
+            "type": "mime-type",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Artifacts dropped",
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          },
+          {
+            "uuid": "1efdb98a-dc7d-4963-90a2-0951be7df730",
+            "object_relation": "ssdeep",
+            "value": "3:PFApRBQDMcmMKLKTwn:PFYulwn",
+            "type": "ssdeep",
+            "disable_correlation": false,
+            "to_ids": true,
+            "category": "Payload delivery",
+            "first_seen": "2026-11-16T10:00:01.400000+00:00",
+            "last_seen": "2026-11-16T10:00:01.400000+00:00"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0",
+        "magic_db": null,
+        "comment": "HTTP object reassembled from PCAP"
+      }
+    ]
+  }
+}

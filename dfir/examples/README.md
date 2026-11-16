@@ -19,3 +19,6 @@ The module source inventory and reviewed revision are in `../reference/`.
 
 `sleuthkit/` contains a compressed, authored ext2 filesystem and actual Sleuth Kit bodyfile/text/CSV outputs for one selected file.
 Its README and provenance record describe the fixed teaching timestamps, image integrity, tool versions and native MISP Mactime import exercise.
+
+`pcap/` contains an authored DNS/HTTP capture, its deterministic generator, actual TShark outputs, the recovered text payload and a pre-review module result.
+The chapter follows that capture through native PCAP import, connection analysis and verification of the reconstructed file.
