@@ -5,7 +5,7 @@ format:
     lightbox: true
 ---
 
-[**misp-modules**](https://github.com/MISP/misp-modules/) extends MISP with **300+ modules** for enrichment, import, export and workflow actions.
+[**misp-modules**](https://github.com/MISP/misp-modules/) extends MISP with **300+ modules** for enrichment, import, export, workflow actions and feed gathering.
 Use it to turn observations into structured context, exchange data with other tools, and automate well-defined tasks without changing MISP's core code.
 The Python service can also be used independently through its HTTP API, a dedicated website or a command-line client.
 For examples spanning SOC/SOAR, existing data pipelines and other CTI platforms, see the [TIP integration capability guide](../what-misp-can-do/index.qmd#tip-modules-integrations).
@@ -20,11 +20,14 @@ Start with the [module catalogue](https://misp-project.org/modules/) to find an 
 A module may process data locally, query a provider or submit information to another system; its input contract and effects determine how to use it.
 
 ::: {.callout-note}
-The MISP interface examples follow **3.0.0**, `3.0_wip` commit `99ebee729`.
+Except for the gathering walkthrough below, the MISP interface examples follow **3.0.0**, `3.0_wip` commit `99ebee729`.
 Service guidance was checked against [misp-modules `8548067a`](https://github.com/MISP/misp-modules/tree/8548067afbb14c2a089c41105ec18b06ef71ab79), whose package metadata declares **3.1.3**.
 The catalogue and service have their own release cycle: a listed module is not necessarily installed, configured or enabled for every organization.
 Select a figure to enlarge it.
 :::
+
+The [gathering walkthrough](#modules-gathering) covers the newer **`develop`** integration, checked at [MISP `19d8ed798`](https://github.com/MISP/MISP/commit/19d8ed79823affc498b686ee81bbefca84043eec) and [misp-modules `36d7a513`](https://github.com/MISP/misp-modules/commit/36d7a513f6e1730d363deb8e7d45811fd6d1d892).
+Its screenshots use **MISP 2.5.51, Overmind theme**, on that `develop` commit; verify that both deployed components include gathering contract **version 2**.
 
 ## Find a module in the catalogue {#modules-catalogue}
 
@@ -32,6 +35,7 @@ The [live catalogue](https://misp-project.org/modules/) is the starting point fo
 Search by provider, module name, input type or requirement, and filter by expansion, import, export or action.
 Open a module's details to inspect its supported inputs and outputs, dependencies, configuration, references and source code.
 The exact count changes as modules are added; the upstream catalogue does not describe what is installed on a particular service.
+For the new gathering family, also consult the maintained [gathering module documentation](https://github.com/MISP/misp-modules/blob/main/documentation/mkdocs/gathering.md).
 
 Choose by the task and the result you need:
 
@@ -39,6 +43,7 @@ Choose by the task and the result you need:
 |---|---|
 | Understand an indicator | Start with URL parsing, DNS/passive DNS, vulnerability or reputation expansion. Check supported attribute types, local versus external processing, and returned objects/references. |
 | Bring data into an event | Choose an import module for the source format or service. Check file/text/remote input, required options and the proposed MISP data. |
+| Collect a source as complete events | Choose a [gathering producer](#modules-gathering) and configure it as a feed source. Check collection parameters, event identity, revision storage and feed import policy. |
 | Produce data for another tool | Choose an export module for the destination format. Check event input, filtering, output encoding and information the format cannot preserve. |
 | Automate a response | Choose an action module and a matching workflow. Check the trigger, configuration, side effects, and whether the module offers a dry run. |
 
@@ -58,6 +63,7 @@ Use the catalogue for discovery, the module documentation for its contract, and 
 | **Import** | Parses an external file, text or service response into MISP data. |
 | **Export** | Serializes MISP data into another format. |
 | **Action** | Executes a task, commonly from a configured workflow; it may change other systems. |
+| **Gathering** | Collects a source into a standard MISP feed ZIP through a background job. MISP imports its events through the feed workflow; available in the checked `develop` integration. |
 
 Within MISP's **Enrichment** settings, expansion modules can advertise expansion, hover or both.
 Hover supplies lookup context without automatically saving an event update; expansion and hover are capabilities of this family.
@@ -234,6 +240,132 @@ For exports, choose **Download as**, select the required format/module and check
 For workflow actions, follow the [workflow configuration guidance](../workflows/index.qmd#workflow-modules) and test the action's intended effects before enabling a trigger.
 Module-backed enrichment, notifications and publication to another system have different execution and review paths.
 
+## Gather a source into a MISP feed {#modules-gathering}
+
+A gathering module produces complete events from a source, with stable identifiers and revision timestamps for repeated collection.
+Use expansion to enrich an existing observation, import to parse supplied data, and gathering to maintain a source through [feed fetching](../managing-feeds/index.qmd).
+Source-specific retrieval and conversion run in misp-modules; MISP applies its existing feed filters, distribution policy and UUID/timestamp rules to add, update or skip events.
+The configured feed persists between pulls; generation does not create a temporary feed definition for each request.
+
+### Configure the WithAName producer {#modules-gathering-withaname}
+
+The first producer, **WithAName** (API identifier **`withaname`**), reads DDoSia configuration snapshots from [witha.name/data](https://witha.name/data/).
+It retrieves the published configurations without contacting the systems listed as targets.
+Each snapshot becomes one event containing `ddos-config` objects for target rules, a source link and a canonical JSON attachment preserving random substitution definitions and unmapped fields.
+
+As a site administrator on a MISP revision with the gathering integration:
+
+1. Run a misp-modules revision containing `gathering/withaname.py` and verify `withaname` in `GET /modules`.
+   Its descriptor must advertise `type: gathering`, `meta.module-type: ["gathering"]` and `mispattributes.gathering_version: 2`.
+2. In MISP's server settings, enable `Plugin.Gathering_services_enable`{.text-wrap .text-break}, set `Plugin.Gathering_services_url`{.text-wrap .text-break} and `Plugin.Gathering_services_port`{.text-wrap .text-break}, then enable `Plugin.Gathering_withaname_enabled`{.text-wrap .text-break}.
+   Apply the module's organization restriction where needed; discovery honors normal module access restrictions.
+3. Add a feed and choose **Input Source → MISP modules**, then **Gathering module → WithAName**.
+   The checked Classic and Overmind forms provide a **Gathering parameters (JSON object)** field.
+   The source format is **MISP**, caching is disabled and no source URL is required: the producer knows its source.
+4. Enter a small explicit UTC date window, such as the example below, and choose the feed's distribution, filters and publication policy.
+   For this walkthrough, use **Your organisation only** and **Unpublish events** while assessing the source.
+   Enable the feed, save it and fetch that feed alone for the first import.
+5. Follow the fetch/job outcome and inspect the resulting event, its source attachment, objects and detection flags before scheduling recurring pulls.
+   Fetching can save events directly through the feed importer; it does not use the single-attribute enrichment review dialog.
+
+Paste this object into **Gathering parameters** to select snapshots observed on June 24, 2023 (UTC):
+
+```json
+{
+  "date_from": "2023-06-24",
+  "date_to": "2023-06-25",
+  "max_events": 0,
+  "deduplicate_entries": true
+}
+```
+
+![The saved WithAName feed configuration in MISP develop's Overmind theme: MISP modules input, the withaname producer, a one-day UTC window, caching disabled, Unpublish events enabled and organization-only distribution.](figures/gathering-withaname-configuration.png)
+
+| Parameter | Meaning |
+|---|---|
+| `date_from` | Inclusive UTC observation date (`YYYY-MM-DD`); defaults to yesterday. |
+| `date_to` | Exclusive UTC observation date; defaults to tomorrow. With both dates omitted, the window covers yesterday and today. |
+| `max_events` | Non-negative integer budget; `0` collects all matching snapshots. Exceeding a positive budget fails generation instead of truncating the feed. |
+| `deduplicate_entries` | Boolean, default `true`; collapses identical rules within a snapshot. Rules for the same host remain separate when their meaning differs. |
+
+::: {.callout-important}
+The listed systems are **DDoS victim targets**.
+The producer sets `to_ids: false` and `disable_correlation: true` on all generated attributes; preserve this distinction when assessing or sharing the results.
+Placeholders in target rules remain literal, and the attachment preserves their definitions.
+:::
+
+Stable UUIDs and persisted revision timestamps let overlapping date windows reuse unchanged events and update corrected source content.
+Changing `deduplicate_entries` selects a separate view identity, so choose it before repeated ingestion.
+Normal MISP merge semantics apply: a corrected rule can receive a new object UUID while an older rule remains in an imported event; the producer emits no deletion tombstones.
+
+The local verification collected **5 events, 137 `ddos-config` objects and 1,517 attributes** from this date window.
+All events remained unpublished, and every generated attribute retained disabled IDS export and correlation.
+These are actual public-source results from the capture date; a later collection can differ if the source changes.
+
+![Five imported WithAName DDoSia snapshot events in MISP develop, each marked Unpublished, with its source observation timestamp and attribute/object counts.](figures/gathering-withaname-events.png)
+
+The saved feed and import shown here were created through MISP's authenticated REST API; the screenshots show the real saved configuration and event list.
+For the same setup, send this JSON to **MISP `POST /feeds/add`** using the [MISP API authentication headers](../automation/index.qmd#api-headers):
+
+```json
+{
+  "Feed": {
+    "name": "WithAName configurations",
+    "provider": "WithAName",
+    "input_source": "misp-modules",
+    "source_format": "misp",
+    "enabled": true,
+    "caching_enabled": false,
+    "distribution": "0",
+    "settings": {
+      "unpublish_event": true,
+      "gathering": {
+        "module": "withaname",
+        "parameters": {
+          "date_from": "2023-06-24",
+          "date_to": "2023-06-25",
+          "max_events": 0,
+          "deduplicate_entries": true
+        }
+      }
+    }
+  }
+}
+```
+
+Use the returned feed ID with **MISP `POST /feeds/fetchFromFeed/<feed-id>`** to start ingestion.
+These MISP routes persist a feed and its imported events; the standalone module-service request [below](#modules-api-gathering) produces an archive.
+The [capture record](../assets/gathering-reference.json) identifies revisions, source parameters, checks and remaining validation limits.
+
+### Generation, storage and operating limits {#modules-gathering-operations}
+
+The gathering lifecycle has five stages:
+
+1. MISP submits `operation: prepare` to the module service's `/query` and receives a small job descriptor.
+2. It polls the job until generation is ready or failed.
+3. It streams the ready binary ZIP to a private local workspace, verifies its size and SHA256, and validates/extracts the feed files.
+4. It imports one event file at a time through the existing feed importer.
+5. It removes the workspace and releases the module job, including on failure or timeout.
+
+Generation runs independently of the submission HTTP timeout.
+For long collections, use MISP background feed jobs and allow sufficient worker/queue execution time.
+`Plugin.Gathering_generation_timeout`{.text-wrap .text-break} controls MISP's generation wait budget (default **86400 seconds**); `Plugin.Gathering_timeout`{.text-wrap .text-break} and per-module timeouts cover submission.
+PHP's **curl** and **zip** extensions are required, and MISP needs writable temporary storage for both the ZIP and expanded feed.
+MISP defaults to **10 GiB** compressed and expanded budgets and **256 MiB** per file, configurable through `Plugin.Gathering_max_archive_bytes`{.text-wrap .text-break}, `Plugin.Gathering_max_expanded_bytes`{.text-wrap .text-break} and `Plugin.Gathering_max_event_bytes`{.text-wrap .text-break}.
+The importer reads event content one event at a time; the largest event must still fit in memory, and some filename metadata grows with file count.
+
+Set the module service's `MISP_MODULES_GATHERING_STATE_DIR`{.text-wrap .text-break} to durable, service-owned storage and preserve its SQLite revision index across upgrades and restarts.
+That index ensures corrected historical events receive newer timestamps than previously imported versions.
+Replicas serving the same feed need the same conversion version and shared storage suitable for SQLite locking, or one designated producer.
+Ready artifacts survive restarts with durable storage; interrupted generation fails and must be retried from the source.
+The service has bounded workers/queue, generation and disk budgets, and artifact retention; see the maintained [gathering guide](https://github.com/MISP/misp-modules/blob/main/documentation/mkdocs/gathering-guide.md) for settings.
+
+The checked integration supports **import and preview**; keep feed caching/lookup disabled.
+Daily aggregation and protected-event signatures are outside the first producer's scope.
+If a module is missing from the picker, check family enablement, module enablement, organization restrictions and contract version before debugging source retrieval.
+Query statistics measure submission; use the generation job status and feed import outcome to establish completion.
+For direct clients, follow the [gathering API lifecycle](#modules-api-gathering).
+
 ## Use modules without a MISP instance {#modules-standalone}
 
 The [standalone misp-modules website](https://github.com/MISP/misp-modules/tree/main/website) is a separate client of the service.
@@ -357,6 +489,66 @@ Check their metadata and documentation instead of reusing this body for every fa
 An **HTTP 200 response can still contain a module error** in `error` or `errors`.
 Check the JSON body as well as the HTTP status; an empty result, a failed query and a successful proposal have different meanings.
 
+### Request a gathering feed directly {#modules-api-gathering}
+
+After confirming version-2 discovery, save this request as `gathering-request.json`:
+
+```json
+{
+  "module": "withaname",
+  "operation": "prepare",
+  "parameters": {
+    "date_from": "2023-06-24",
+    "date_to": "2023-06-25",
+    "max_events": 0,
+    "deduplicate_entries": true
+  },
+  "config": {}
+}
+```
+
+Submitting this request contacts the public source and starts background generation:
+
+```sh
+curl --fail --silent --show-error \
+  http://127.0.0.1:6666/query \
+  -H 'Content-Type: application/json' \
+  --data @gathering-request.json
+```
+
+Check the body for an error before using its `job_id`.
+A successful response has `gathering_version: 2`, `source_format: "misp"` and a status such as `queued`.
+Substitute the returned 64-character hexadecimal job ID below, and poll until `ready` or `failed`:
+
+```sh
+job_id='<returned-job-id>'
+curl --fail --silent --show-error \
+  "http://127.0.0.1:6666/gathering/jobs/$job_id"
+```
+
+When ready, record `archive_size`, `sha256`, `event_count` and `expires_at`, then download the binary artifact:
+
+```sh
+curl --fail --silent --show-error \
+  "http://127.0.0.1:6666/gathering/jobs/$job_id/feed.zip" \
+  --output feed.zip
+```
+
+Verify the downloaded size and SHA256 against the ready metadata before consuming it.
+The ZIP contains `manifest.json` and one `<event-uuid>.json` per event, each using the standard `{"Event": {...}}` wrapper.
+The query response contains job metadata; the feed is delivered through the binary download endpoint.
+Release the job after use, including failed or abandoned attempts:
+
+```sh
+curl --fail --silent --show-error --request DELETE \
+  "http://127.0.0.1:6666/gathering/jobs/$job_id"
+```
+
+Direct clients should put cleanup in a `finally` block; deleting a running job requests cooperative cancellation.
+Unclaimed terminal jobs expire according to service retention.
+Keep job IDs within the trusted service connection: they grant access to their artifacts.
+This standalone workflow produces a feed archive; importing it into MISP requires the configured [gathering feed workflow](#modules-gathering-withaname) or another standard feed consumer.
+
 ### Diagnose a missing module or failed request {#modules-troubleshooting}
 
 Work from the service towards the user interface:
@@ -405,13 +597,18 @@ misp-modules -l 127.0.0.1 -p 6666 --custom /opt/misp-custom-modules
 ```
 
 Use an available port if another service is running.
-The supported directory names are `expansion`, `import_mod`, `export_mod` and `action_mod`.
+The supported directory names are `expansion`, `import_mod`, `export_mod`, `action_mod` and, in revisions with gathering support, `gathering`.
 The loader discovers `.py` files automatically and ignores names beginning with `_`; do not add a module to `__all__`.
 Use a unique identifier: a custom module with the same identifier as an installed module replaces it in that service.
 
 Restart after code changes, verify discovery with `/modules`, then send a synthetic request to `/query` and inspect its full result.
 Once the service works, configure the matching MISP family and enable the module as described [above](#modules-configuration).
 Contributing a file, installing it in the running service and enabling it in MISP are separate steps.
+
+For a gathering producer, advertise contract version **2** and a parameter schema, submit background work through `get_jobs().submit(...)`, and pass each complete event to `FeedBuilder.add(event, source_timestamp)`.
+The framework creates the manifest and ZIP; the producer supplies stable UUIDs, meaningful revisions and cooperative cancellation checks.
+Follow the [gathering contributor guidance](https://github.com/MISP/misp-modules/blob/main/documentation/mkdocs/gathering-guide.md#durable-revisions-and-additional-producers) and test retries, corrections, reordered input, limits and cleanup.
+Additional producers use the same MISP integration without source-specific converter code in core.
 
 ### Build with AI assistance {#modules-ai-development}
 

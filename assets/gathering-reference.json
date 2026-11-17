@@ -1,0 +1,110 @@
+{
+  "checked_at": "2026-11-17",
+  "scope": "Gathering version-2 documentation, live WithAName collection, MISP feed ingestion and screenshots. Earlier MISP 3.0 examples retain their separate provenance.",
+  "misp": {
+    "repository": "https://github.com/MISP/MISP",
+    "branch": "develop",
+    "commit": "19d8ed79823affc498b686ee81bbefca84043eec",
+    "version": "2.5.51",
+    "theme": "Overmind, light",
+    "role": "Site administrator in an isolated local documentation database",
+    "cakephp_commit": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "object_templates_commit": "952f59a8b57d8a8f82084759e0f6cfcda027f1df",
+    "source_reference": "design-doc/misp-modules/gathering-feeds.md"
+  },
+  "module_service": {
+    "repository": "https://github.com/MISP/misp-modules",
+    "branch": "main",
+    "commit": "36d7a513f6e1730d363deb8e7d45811fd6d1d892",
+    "module": "withaname",
+    "contract_version": 2,
+    "source_references": [
+      "documentation/mkdocs/gathering-guide.md",
+      "misp_modules/modules/gathering/withaname.py",
+      "misp_modules/lib/gathering.py"
+    ],
+    "runtime": "Checked-out module source running with the existing Python 3.12 documentation-container dependencies; current proxy and CA bundle supplied, with TLS verification enabled."
+  },
+  "collection": {
+    "source": "https://witha.name/data/",
+    "parameters": {
+      "date_from": "2023-06-24",
+      "date_to": "2023-06-25",
+      "max_events": 0,
+      "deduplicate_entries": true
+    },
+    "data": "Actual public historical source configurations; no synthetic replacement or source-response mocking. Listed target systems were not contacted.",
+    "feed_input_source": "misp-modules",
+    "feed_source_format": "misp",
+    "feed_distribution": "0",
+    "feed_caching_enabled": false,
+    "feed_unpublish_event": true,
+    "feed_id": 3
+  },
+  "verification": {
+    "version_2_discovery_observed": true,
+    "feed_created_via": "Authenticated MISP POST /feeds/add",
+    "feed_fetched_via": "Authenticated MISP POST /feeds/fetchFromFeed/3, synchronous MISP importer with background generation in misp-modules",
+    "fetch_success": true,
+    "event_count": 5,
+    "ddos_config_object_count": 137,
+    "attribute_count": 1517,
+    "published_events": 0,
+    "attributes_with_to_ids_true": 0,
+    "attributes_with_disable_correlation_true": 1517,
+    "job_lifecycle_observed": [
+      "POST /query",
+      "GET /gathering/jobs/<job_id>",
+      "GET /gathering/jobs/<job_id>/feed.zip",
+      "DELETE /gathering/jobs/<job_id>"
+    ],
+    "remaining_limits": [
+      "The saved form was inspected in Overmind; saving from that modal was not exercised. Classic browser form submission returned a CSRF error in the local fixture, so feed creation and fetch used the authenticated API. No form security checks were disabled.",
+      "Database-backed scheduled background feed workers were not exercised.",
+      "Restart recovery, historical source corrections and large-feed budgets were source-reviewed rather than rerun for this documentation change."
+    ],
+    "same_window_retry_passed": true,
+    "unchanged_event_uuids_timestamps_and_counts": true,
+    "events": 5,
+    "objects": 137,
+    "attributes": 1517,
+    "events_published": 0,
+    "attributes_with_ids_enabled": 0,
+    "attributes_with_correlation_disabled": 1517
+  },
+  "capture_method": "Headless system Chromium via Playwright against the running local MISP application. Actual saved feed edit modal and actual imported event list; no DOM data substitution, image generation or image retouching.",
+  "shots": [
+    {
+      "file": "modules/figures/gathering-withaname-configuration.png",
+      "url": "/feeds/index -> /feeds/edit/3",
+      "description": "Saved feed opened in the actual Overmind edit modal; the screenshot stops before Save Changes.",
+      "viewport": {
+        "width": 1440,
+        "height": 1600
+      },
+      "device_scale_factor": 1,
+      "image_size": {
+        "width": 1440,
+        "height": 1600
+      },
+      "captured_at": "2026-11-17T21:42:39.532652+00:00",
+      "sha256": "d87eb671dc1b5e499bde7efafd738380d3a7e0d3803ee1544699db8cd61afc54"
+    },
+    {
+      "file": "modules/figures/gathering-withaname-events.png",
+      "url": "/events/index",
+      "description": "Actual imported snapshot events with timestamps, unpublished state, and attribute/object counts.",
+      "viewport": {
+        "width": 1600,
+        "height": 850
+      },
+      "device_scale_factor": 1,
+      "image_size": {
+        "width": 1600,
+        "height": 850
+      },
+      "captured_at": "2026-11-17T21:42:41.403565+00:00",
+      "sha256": "07d56898b45e87e5388ddbe94f63896bd7c7de74b5f4485850ee400ab7ac71a6"
+    }
+  ]
+}
