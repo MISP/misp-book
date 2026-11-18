@@ -74,5 +74,6 @@
     "type_metadata_url": "https://raw.githubusercontent.com/MISP/MISP/refs/heads/3.0_wip/describeTypes.json",
     "external_provider_queries": false
   },
-  "new_ui_provenance": "assets/modules-ui-screenshots.json"
+  "new_ui_provenance": "assets/modules-ui-screenshots.json",
+  "gathering_reference": "assets/gathering-reference.json"
 }

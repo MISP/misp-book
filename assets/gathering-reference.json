@@ -1,0 +1,112 @@
+{
+  "checked_at": "2026-11-18",
+  "scope": "Gathering version-2 documentation, live WithAName collection, MISP 3.0 feed ingestion and refreshed screenshots. Other chapter examples retain their separately recorded revisions.",
+  "misp": {
+    "repository": "https://github.com/MISP/MISP",
+    "branch": "3.0_wip",
+    "commit": "3c0e326d5ebfd2b181e317af52aef0a8e5746634",
+    "version": "3.0.0",
+    "theme": "Overmind, light",
+    "role": "Site administrator in an isolated local documentation database",
+    "cakephp_commit": "90abd8c3ed72624909d8d737b12d7bd621d43bf2",
+    "object_templates_commit": "5b17a1e03ada9dee01a64bd91c34a5f1ea42e326",
+    "source_reference": "design-doc/misp-modules/gathering-feeds.md"
+  },
+  "module_service": {
+    "repository": "https://github.com/MISP/misp-modules",
+    "branch": "main",
+    "commit": "f103724ca40f08b24b00d4d36d72d1d7fdf872ac",
+    "module": "withaname",
+    "contract_version": 2,
+    "source_references": [
+      "documentation/mkdocs/gathering-guide.md",
+      "misp_modules/modules/gathering/withaname.py",
+      "misp_modules/lib/gathering.py"
+    ],
+    "runtime": "Checked-out module source running with the existing Python 3.12 documentation-container dependencies; current proxy and CA bundle supplied, with TLS verification enabled."
+  },
+  "collection": {
+    "source": "https://witha.name/data/",
+    "parameters": {
+      "date_from": "2023-06-24",
+      "date_to": "2023-06-25",
+      "max_events": 0,
+      "deduplicate_entries": true
+    },
+    "data": "Actual public historical source configurations; no synthetic replacement or source-response mocking. Listed target systems were not contacted.",
+    "feed_input_source": "misp-modules",
+    "feed_source_format": "misp",
+    "feed_distribution": "0",
+    "feed_caching_enabled": false,
+    "feed_unpublish_event": true,
+    "feed_id": 3
+  },
+  "verification": {
+    "version_2_discovery_observed": true,
+    "feed_created_via": "Authenticated MISP POST /feeds/add in a fresh MISP 3.0 database",
+    "feed_fetched_via": "Authenticated MISP POST /feeds/fetchFromFeed/3, synchronous MISP importer with background generation in misp-modules",
+    "fetch_success": true,
+    "event_count": 5,
+    "ddos_config_object_count": 137,
+    "attribute_count": 1517,
+    "published_events": 0,
+    "attributes_with_to_ids_true": 0,
+    "attributes_with_disable_correlation_true": 1517,
+    "job_lifecycle_observed": [
+      "POST /query",
+      "GET /gathering/jobs/<job_id>",
+      "GET /gathering/jobs/<job_id>/feed.zip",
+      "DELETE /gathering/jobs/<job_id>"
+    ],
+    "gathering_contract_tests": {
+      "command": "php app/Vendor/bin/phpunit app/Test/GatheringFeedTest.php",
+      "passed": 19,
+      "skipped": 1,
+      "assertions": 76,
+      "skip_reason": "Optional GATHERING_TEST_ARCHIVE fixture was not supplied."
+    },
+    "source_availability": "The public source intermittently exceeded the producer's 15-second read timeout. Failed generation was reported to MISP and its job was released; a subsequent live attempt completed successfully.",
+    "remaining_limits": [
+      "The saved Overmind form was inspected without submitting changes; feed creation and fetch were validated through the authenticated API.",
+      "Database-backed scheduled background feed workers were not exercised.",
+      "Restart recovery, historical source corrections and large-feed budgets were source-reviewed rather than rerun for this documentation change."
+    ],
+    "same_window_retry_passed": true,
+    "unchanged_event_uuids_timestamps_and_counts": true
+  },
+  "capture_method": "Headless system Chromium via Playwright against the running local MISP application. Actual saved feed edit modal and actual imported event list; no DOM data substitution, image generation or image retouching.",
+  "shots": [
+    {
+      "file": "modules/figures/gathering-withaname-configuration.png",
+      "url": "/feeds/index -> /feeds/edit/3",
+      "description": "Saved MISP 3.0 feed opened in the actual edit modal; the screenshot stops before Save Changes.",
+      "viewport": {
+        "width": 1440,
+        "height": 1600
+      },
+      "device_scale_factor": 1,
+      "image_size": {
+        "width": 1440,
+        "height": 1600
+      },
+      "captured_at": "2026-11-18T07:41:30.121974+00:00",
+      "sha256": "08a634e6f8d336a0a7c9970ee669d3c459086221697b0a7255fe066612053ab8"
+    },
+    {
+      "file": "modules/figures/gathering-withaname-events.png",
+      "url": "/events/index",
+      "description": "Actual imported MISP 3.0 snapshot events. The built-in column chooser hides tags/galaxies, correlations, reports and last-change columns to keep source timestamps readable.",
+      "viewport": {
+        "width": 1600,
+        "height": 850
+      },
+      "device_scale_factor": 1,
+      "image_size": {
+        "width": 1600,
+        "height": 850
+      },
+      "captured_at": "2026-11-18T07:44:27.854365+00:00",
+      "sha256": "ca39ded71650aeed1a64302f3db883949afcc430bff80a1c0899f31432391886"
+    }
+  ]
+}
