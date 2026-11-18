@@ -29,6 +29,7 @@ for current setup instructions.
 | Mechanism | Suitable use | Check first |
 |---|---|---|
 | [REST API](../automation/index.qmd) / [PyMISP](../pymisp/index.qmd) | Query, ingest, export and orchestrate with an API account. | Account permissions, distribution, filters, pagination and retry/removal handling. |
+| [MispQL](../mispql/index.qmd) | Query and export with SQL-like statements in interactive sessions or shell jobs. | MISP 3.0 complex-query support and role permission; read-only operations, bounded results and external scheduling. |
 | [Native MISP synchronization](../sharing/index.qmd) | Exchange eligible intelligence with another MISP instance. | Peer identity, direction, feature support, distribution and sharing groups. |
 | STIX / TAXII | Exchange with platforms using those standards. | Exact STIX/TAXII version, conversion coverage and the receiving platform's contract. |
 | [Modules](../modules/index.qmd) | Enrichment, import/export conversion or workflow actions. | Enabled family/module, dependencies, provider/data scope and organisation restrictions. |

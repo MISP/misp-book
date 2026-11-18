@@ -1,0 +1,301 @@
+---
+title: "MispQL for Querying and Exporting Intelligence"
+---
+
+[MispQL](https://github.com/MISP/MispQL) is a command-line client that searches MISP with an SQL-like language.
+Use it for interactive investigation, repeatable reports, and shell scripts that export selected intelligence.
+It translates a `WHERE` expression into MISP's REST `query` tree, so MISP evaluates the conditions on the server under the API account's permissions.
+The client is read-only: creating events, tagging attributes, submitting sightings, and other writes require the [REST API](../automation/index.qmd) or [PyMISP](../pymisp/index.qmd).
+
+::: {.callout-note}
+This chapter describes MispQL **1.0.0**, [revision `1c61209`](https://github.com/MISP/MispQL/tree/1c6120912168e8bd1bef69966ecf8a8f6f0a3af8).
+It requires Python **3.11 or later** and a **MISP 3.0 server with complex-query support**.
+Check the running server's discovery endpoints as described below; an older deployment may not have this feature even if it reports version 3.0.
+:::
+
+## Prepare the account and client {#mispql-setup}
+
+Use an API account whose organisation, role, and visibility match the intended report or integration.
+Create its key following [Configure an automation account](../automation/index.qmd#api-authentication).
+The role needs the **Complex query** permission (`perm_complex_query`), unless it is a site administrator.
+The permission is off by default and is required for every `WHERE`, `SHOW TABLES`, and `DESCRIBE`, and for all searches outside attributes, events, objects, and galaxy clusters.
+A read-only authentication key can be used for these searches; it does not replace the role permission.
+
+Install from the upstream source in a virtual environment:
+
+```bash
+git clone https://github.com/MISP/MispQL.git
+cd MispQL
+python3 -m venv .venv
+.venv/bin/pip install .
+source .venv/bin/activate
+mispql --version
+```
+
+For repeatable deployments, record the tested source revision and lock the Python dependencies.
+See the [upstream installation instructions](https://github.com/MISP/MispQL#install) for changes to the installation procedure.
+
+### Configure a connection {#mispql-configuration}
+
+Save a TOML configuration as `~/.config/mispql/config.toml`, creating its parent directory if needed:
+
+```toml
+[default]
+url = "https://misp.example.org"
+verify_ssl = true
+timeout = 300
+```
+
+Store the API key separately in a file readable only by the integration account, for example `/run/secrets/mispql-key`, and pass its path with `--key-file`.
+Alternatively, add `key = "YOUR_API_KEY"` to the profile and protect the configuration with `chmod 600`.
+Keep certificate verification enabled; for a private certificate authority, set `verify_ssl` to the path of its CA bundle.
+
+```bash
+mispql --config ~/.config/mispql/config.toml \
+  --key-file /run/secrets/mispql-key
+```
+
+With no input file or `-e` option, a terminal session opens the interactive prompt.
+Without a configured key, the client asks for one at the terminal.
+For unattended jobs, supply it through configuration, a key file, or the `MISPQL_KEY` environment variable.
+`MISPQL_URL` overrides the configured URL; these are MispQL's variables, distinct from the `MISP_URL` and `MISP_KEY` used in this book's other examples.
+
+The first configuration found wins: `--config`, then `$MISPQL_CONFIG`, then `config.toml` next to the package, then `~/.config/mispql/config.toml`.
+Use an explicit `--config` path in automated jobs to make the selected configuration clear.
+
+## Discover the server and run a query {#mispql-first-query}
+
+At the prompt, run:
+
+```sql
+WHOAMI;
+SHOW TABLES;
+DESCRIBE attributes;
+```
+
+`WHOAMI` identifies the selected account and instance.
+`SHOW TABLES` discovers the searchable tables; `DESCRIBE` asks MISP for a table's filter fields, types, allowed operators, sort fields, and active query limits.
+These commands also check feature availability and permissions before you build a script.
+End interactive statements with `;`; Tab completes keywords, table names, and discovered fields, and `quit` leaves the prompt.
+
+Find up to 20 recently modified domains or destination IP addresses:
+
+```sql
+SELECT uuid, event_id, type, value, Event.info, Tag FROM attributes
+WHERE type IN ('domain', 'ip-dst') AND timestamp >= '7d'
+ORDER BY id LIMIT 20 FORMAT table;
+```
+
+`timestamp` here means the attribute's last modification time, not its observation time.
+Use `event_timestamp` for changes to its event or `publish_timestamp` for event publication.
+Nested output columns such as `Event.info` retrieve related data; `Tag` renders tag names in one cell.
+Filter fields and output columns are different contracts: use `eventinfo` in a condition, for example `WHERE eventinfo LIKE '%phishing%'`, and `Event.info` as an attribute output column.
+
+The client knows eleven tables: `attributes`, `events`, `objects`, `galaxy_clusters`, `event_reports`, `notes`, `opinions`, `relationships`, `collections`, `tags`, and `organisations`.
+They map to REST resources, not direct database tables.
+MispQL does not provide arbitrary SQL joins, `GROUP BY`, or write statements.
+
+### Combine conditions {#mispql-conditions}
+
+Use `AND`, `OR`, `NOT`, and parentheses to express conditions across supported fields:
+
+```sql
+SELECT uuid, info, Orgc.name FROM events
+WHERE published = TRUE AND date >= '30d'
+  AND (type = 'btc' OR object_name = 'bank-account')
+ORDER BY event_id DESC LIMIT 20 FORMAT table;
+```
+
+This selects published events dated within the last 30 days that contain a visible Bitcoin attribute or bank-account object.
+`date` is the event date, which can differ from the time of creation, modification, or publication.
+For individual matching observations, query `attributes`; selecting an event by an attribute condition does not turn its output into an attribute-only result.
+
+- Quote strings: `type = 'domain'`.
+  Keep integers unquoted (`id > 50000`) and use `TRUE` or `FALSE` for booleans.
+- Use `IN`, `NOT IN`, `=`, `!=` (or `<>`), and the comparisons that `DESCRIBE` permits for the field.
+  Relative timestamp values include `'7d'`, `'12h'`, and `'30m'`; event dates accept `'YYYY-MM-DD'` or relative days.
+- Use `LIKE` or `NOT LIKE` for leading or trailing `%` wildcards, such as `value LIKE '%.example.org'`.
+  A suffix pattern does not include the apex `example.org`; add a separate equality condition when needed.
+- Negated conditions can also match empty fields.
+  On events and objects, conditions on child attributes accept positive operators only, and negated tags have special output-filtering rules.
+  Follow the server's [complex-query reference](https://github.com/MISP/MISP/blob/3.0_wip/docs/restsearch-complex-query.md) rather than assuming full SQL semantics.
+
+A handling tag is a selection condition, not an access-control rule.
+Excluding `tlp:red`, for example, does not by itself make all remaining results suitable for a public destination.
+
+### Count and page results {#mispql-pagination}
+
+For a monitoring metric, ask the server to count matches:
+
+```sql
+SELECT COUNT(*) FROM attributes
+WHERE type = 'domain' AND timestamp >= '1d';
+```
+
+`COUNT(*)` prints one number and requires a `WHERE`; it takes no `LIMIT`, `OFFSET`, `ORDER BY`, or `FORMAT`.
+For events, the client obtains the total from `X-Result-Count` on a one-event metadata request; other tables use the count response format.
+
+For a second page of 100 attributes, use an offset of 100:
+
+```sql
+SELECT uuid, type, value FROM attributes
+WHERE timestamp >= '7d'
+ORDER BY id LIMIT 100 OFFSET 100;
+```
+
+`LIMIT` bounds one result, not an automatic export of all matches.
+Aligned offsets map to MISP's `limit` and `page`; unaligned offsets for JSON, table, or flat output can require two requests and local slicing.
+MISP export formats require an offset that is a multiple of the limit.
+Use a supported deterministic ordering for paging; objects cannot be sorted.
+Changing data can shift pages, so recurring integrations still need the [checkpoint, overlap, and reconciliation design](../automation/index.qmd#api-incremental-polling) used for REST polling.
+Fix the time window for a multipage run instead of recalculating relative cutoffs between pages.
+
+## Select an output format {#mispql-output}
+
+::: {.table-responsive}
+
+| Query form | Result and use |
+|---|---|
+| `SELECT *` with no `FORMAT` | JSON rows from MISP, including nested content; suitable when retaining record structure. |
+| A column list with no `FORMAT` | A JSON array of objects containing those columns; convenient for `jq` or a small adapter. |
+| `FORMAT table` | A readable terminal table; without a column list, uses default columns. |
+| `FORMAT flat` | CSV with headers and flattened columns; lists of child records are omitted. |
+| `SELECT * ... FORMAT stix2`, `text`, `xlsx`, or another MISP format | MISP generates the export and the client writes it unchanged; support depends on the endpoint. |
+
+:::
+
+An explicit column list supports JSON, `table`, or `flat`, rather than MISP's native export formats.
+For example, save a bounded STIX 2 event export with:
+
+```bash
+mispql -e "SELECT * FROM events
+  WHERE published = TRUE AND tags = 'tlp:clear' AND date >= '7d'
+  LIMIT 50 FORMAT stix2;" > events.stix2.json
+```
+
+Use `FORMAT xlsx` for a spreadsheet where supported.
+`FORMAT flat` writes values literally, including text that spreadsheet software could interpret as formulas.
+
+## Run a repeatable shell job {#mispql-shell}
+
+The client accepts statements through `-e`, a `.mql` file, or standard input.
+For a small hourly report, save this single statement as `/srv/mispql/recent-domains.mql`:
+
+```sql
+SELECT uuid, event_id, value, timestamp FROM attributes
+WHERE published = TRUE AND tags = 'tlp:clear'
+  AND type = 'domain' AND timestamp >= '1d'
+ORDER BY id LIMIT 1000;
+```
+
+Install the client environment and configuration under `/srv/mispql` for this example, with the key at `/run/secrets/mispql-key`.
+Run a wrapper that replaces the previous report only after a successful query:
+
+```bash
+#!/bin/sh
+set -eu
+umask 077
+output=/srv/mispql/recent-domains.json
+temporary=$(mktemp "${output}.XXXXXX")
+trap 'rm -f "$temporary"' EXIT HUP INT TERM
+
+/srv/mispql/.venv/bin/mispql \
+  --config /srv/mispql/config.toml \
+  --key-file /run/secrets/mispql-key \
+  /srv/mispql/recent-domains.mql > "$temporary"
+
+mv "$temporary" "$output"
+```
+
+Save the wrapper as `/srv/mispql/export-recent-domains.sh` and make it executable.
+An integration account's crontab could run it hourly with:
+
+```cron
+0 * * * * /srv/mispql/export-recent-domains.sh
+```
+
+Results go to stdout and diagnostics to stderr.
+The client checks the whole script's syntax and compilation before sending requests, then stops at the first execution failure.
+Exit codes are `0` for success, `1` for a failed statement, `2` for usage/input/configuration errors, `130` for interruption, and `141` for an early-closed output pipe.
+Monitor failures in the job runner and prevent overlapping runs if execution may exceed the interval.
+
+This report contains at most 1,000 rows and uses a rolling one-day modification window; it is not a complete change feed.
+A full exporter must page all matches, preserve UUIDs, handle deletions and lost visibility, and reconcile downstream state.
+Multiple result statements print successive outputs rather than one combined JSON array; use one result query per file intended as a JSON artifact.
+
+### Query several instances or accounts {#mispql-profiles}
+
+Add named TOML profiles for other instances or accounts, then start with `--profile reporting` or switch interactively with `USE reporting;`.
+`SHOW DATABASES;` lists configured profiles and checks their identities; a MispQL database is a URL/key profile, not a database-server connection.
+Each profile has its own credentials and permissions, and queries run on one selected profile at a time.
+Environment overrides and `--key-file` apply only to the starting profile; configure credentials for every other profile separately.
+Switching profiles does not join data across instances.
+
+## Inspect the REST request {#mispql-rest}
+
+Use `--dry-run` to inspect a request without a server connection or API key:
+
+```bash
+mispql --dry-run -e "SELECT uuid, value FROM attributes
+  WHERE type = 'domain' AND timestamp >= '7d' LIMIT 100;"
+```
+
+The search compiles to `POST /attributes/restSearch` with this body:
+
+```json
+{
+  "returnFormat": "json",
+  "limit": 100,
+  "page": 1,
+  "query": {
+    "AND": [
+      {"type": "domain"},
+      {"timestamp": {">=": "7d"}}
+    ]
+  }
+}
+```
+
+MISP filters the records; MispQL projects `uuid` and `value` into the output locally.
+The same JSON `query` tree can be sent by a REST client or a Python integration against a supporting MISP server.
+MispQL makes these requests easier to write; the complex-query capability belongs to MISP rather than being exclusive to this client.
+A dry run checks local syntax and compilation, but cannot validate server-specific fields, permission, or export support.
+Use a small live query and `DESCRIBE` before scheduling it.
+
+## Choose an automation technique {#mispql-comparison}
+
+Choose MispQL when the task is to select and present intelligence and SQL-like expressions make that selection easier to maintain.
+Choose a broader integration mechanism when the task also needs writes, event triggers, conversion, or delivery state.
+
+::: {.table-responsive}
+
+| Technique | Best fit | Relationship to MispQL |
+|---|---|---|
+| **MispQL** | Interactive investigation, bounded reports, and shell exports with boolean conditions. | Read-only API client; needs server complex-query support and external scheduling. |
+| [REST API](../automation/index.qmd) | Direct HTTP integrations, complete request controls, reads and writes. | Can use the same complex-query tree; also exposes operations and output parameters outside MispQL's grammar. |
+| [PyMISP](../pymisp/index.qmd) | Python services that search, transform, create/update records, or submit sightings. | Adds Python data models and helpers; better suited to custom state, retries, and write logic. Check the installed client's support for new API features. |
+| [Workflows and blueprints](../workflows/index.qmd) | MISP triggers, conditional actions, and blocking publication or save checks. | Run within MISP's workflow execution model; MispQL has no trigger graph or policy-enforcement hook. |
+| [MISP modules](../modules/index.qmd) | Enrichment, import/export conversion, and supported workflow actions. | Add processing capabilities; MispQL searches existing data and uses the server's available export formats. |
+| [ZeroMQ and Kafka](../misp-zmq/index.qmd) | Activity-driven processing with low latency. | Notifications trigger consumers; MispQL polls current state. Streams need their own access boundary and recovery design; ZeroMQ has no durable replay. |
+| [Feeds](../managing-feeds/index.qmd) and [native synchronization](../sharing/index.qmd) | Ingest published sources or exchange eligible intelligence with a MISP peer. | Provide exchange mechanisms; a MispQL export alone does not implement feed hosting or synchronization. |
+| [External connectors](../connectors/index.qmd) | Maintain a product-specific integration with a SIEM, EDR, SOAR, or another platform. | May consume query output, but must still map identities, updates, removals, and delivery failures. |
+
+:::
+
+For example, use MispQL plus a scheduler for a recent-domain report, PyMISP for an ingestion service that creates events and reports sightings, and a workflow for a publication check.
+For a notification-driven connector, use the stream to trigger work and scoped REST searches to fetch and reconcile current records.
+These techniques can be combined: the choice of query language does not replace the integration's lifecycle design.
+
+## Diagnose a failed query {#mispql-troubleshooting}
+
+- **HTTP 403:** check the selected profile, key restrictions, API account, and **Complex query** role permission.
+  Organisation-index restrictions can also block organisation searches.
+- **Missing discovery endpoint:** check that the installed server includes complex-query support; use classic REST/PyMISP filters on deployments without it.
+- **Invalid field, operator, or sort:** use `DESCRIBE` for that table and check the highlighted condition.
+  Response column names are not automatically valid filters or sort fields.
+- **Query limit or timeout:** narrow the event/time scope and reduce boolean nesting or `IN` list sizes.
+  The server defaults are five nesting levels, 50 nodes, 100 values per list, and 1,024 characters per string; discovery reports the active limits.
+  A small result limit alone does not prevent an expensive database scan.
+- **Empty or incomplete output:** check visibility, date versus modification time, format flattening, and page boundaries before broadening access.
+
+See the [MispQL guide](https://github.com/MISP/MispQL/blob/main/site/guide.html) for table-specific examples and the [MISP complex-query reference](https://github.com/MISP/MISP/blob/3.0_wip/docs/restsearch-complex-query.md) for server semantics, permissions, and limits.
