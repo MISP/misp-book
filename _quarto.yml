@@ -86,6 +86,7 @@ book:
     - part: "Automation & Integration"
       chapters:
         - automation/index.qmd
+        - mispql/index.qmd
         - pymisp/index.qmd
         - misp-zmq/index.qmd
         - modules/index.qmd
