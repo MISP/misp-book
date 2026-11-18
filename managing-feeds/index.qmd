@@ -9,9 +9,9 @@ Feeds let you look up or import intelligence from a published source without con
 two-way MISP connection. A feed can contain **MISP events**, **free text** or **CSV**. Its
 definition records where to get the data, how to parse it and what to do with the result.
 
-On MISP's **`develop`** branch, [gathering modules](../modules/index.qmd#modules-gathering) can also generate complete MISP feeds from a source.
+[Gathering modules](../modules/index.qmd#modules-gathering) can also generate complete MISP feeds from a source.
 The first producer collects [witha.name DDoSia configurations](../modules/index.qmd#modules-gathering-withaname); configure **Input Source → MISP modules** and fetch through the normal feed importer.
-This newer integration supports import and preview with caching disabled; the MISP 3.0 screenshots below show the earlier feed interface.
+Gathering feeds support import and preview with caching disabled.
 
 ::: {.callout-note}
 Instructions and screenshots use MISP **3.0.0**, the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
