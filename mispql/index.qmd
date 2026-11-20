@@ -2,13 +2,13 @@
 title: "MispQL for Querying and Exporting Intelligence"
 ---
 
-[MispQL](https://github.com/MISP/MispQL) is a command-line client that searches MISP with an SQL-like language.
-Use it for interactive investigation, repeatable reports, and shell scripts that export selected intelligence.
+[MispQL](https://github.com/MISP/MispQL) searches MISP with an SQL-like language.
+Use the command-line client for interactive investigation, repeatable reports, and shell exports, or embed the Python library in an integration.
 It translates a `WHERE` expression into MISP's REST `query` tree, so MISP evaluates the conditions on the server under the API account's permissions.
-The client is read-only: creating events, tagging attributes, submitting sightings, and other writes require the [REST API](../automation/index.qmd) or [PyMISP](../pymisp/index.qmd).
+MispQL is read-only. Use the [REST API](../automation/index.qmd) or [PyMISP](../pymisp/index.qmd) to create events, tag attributes, submit sightings, or perform other writes.
 
 ::: {.callout-note}
-This chapter describes MispQL **1.0.0**, [revision `1c61209`](https://github.com/MISP/MispQL/tree/1c6120912168e8bd1bef69966ecf8a8f6f0a3af8).
+This chapter describes MispQL **1.0.0** at [revision `ce8b779`](https://github.com/MISP/MispQL/tree/ce8b779e43425f1473cbe4f0c9e22999c98b46be), which includes the Python library API.
 It requires Python **3.11 or later** and a **MISP 3.0 server with complex-query support**.
 Check the running server's discovery endpoints as described below; an older deployment may not have this feature even if it reports version 3.0.
 :::
@@ -75,8 +75,12 @@ DESCRIBE attributes;
 
 `WHOAMI` identifies the selected account and instance.
 `SHOW TABLES` discovers the searchable tables; `DESCRIBE` asks MISP for a table's filter fields, types, allowed operators, sort fields, and active query limits.
-These commands also check feature availability and permissions before you build a script.
+`SHOW TABLES` and `DESCRIBE` also check feature availability and permissions before you build a script.
 End interactive statements with `;`; Tab completes keywords, table names, and discovered fields, and `quit` leaves the prompt.
+
+Before sending a search with a `WHERE` clause, the CLI calls `GET /attributes/queryDescribe` and requires an HTTP 200 reply listing the server's searchable tables.
+It reuses a successful check while that connection stays active. After `USE` opens a connection, its first filtered search checks again.
+The search stops if the check fails, since a server without complex-query support can silently ignore the filter and return unfiltered rows or a total count.
 
 Find up to 20 recently modified domains or destination IP addresses:
 
@@ -257,10 +261,54 @@ The search compiles to `POST /attributes/restSearch` with this body:
 ```
 
 MISP filters the records; MispQL projects `uuid` and `value` into the output locally.
-The same JSON `query` tree can be sent by a REST client or a Python integration against a supporting MISP server.
-MispQL makes these requests easier to write; the complex-query capability belongs to MISP rather than being exclusive to this client.
-A dry run checks local syntax and compilation, but cannot validate server-specific fields, permission, or export support.
+The same JSON `query` tree can be sent by a REST client or a [Python integration](#mispql-python) against a supporting MISP server.
+A dry run checks local syntax and compilation. A live request is needed to check server-specific fields, permissions, and export support.
 Use a small live query and `DESCRIBE` before scheduling it.
+
+## Use MispQL from Python {#mispql-python}
+
+The `mispql` library compiles statements and interprets MISP's replies using only the Python standard library.
+Your application supplies the HTTP transport, credentials, TLS settings, and timeouts.
+For a library-only install, run `python -m pip install --no-deps .` from the MispQL checkout in your virtual environment.
+The example below uses `requests` for HTTP. Install it with `python -m pip install requests` if you skipped the CLI dependencies, and set `MISP_URL` and `MISP_KEY` for the example's API account.
+
+```python
+import os
+
+import mispql
+import requests
+
+base_url = os.environ["MISP_URL"].rstrip("/")
+[statement] = mispql.compile(
+    "SELECT COUNT(*) FROM attributes WHERE type = 'domain' AND timestamp >= '1d';"
+)
+exchange = mispql.Exchange(statement.plan)
+
+with requests.Session() as session:
+    session.headers.update({
+        "Authorization": os.environ["MISP_KEY"],
+        "Accept": "application/json",
+    })
+    while not exchange.done:
+        request = exchange.request
+        response = session.request(
+            request.method, base_url + request.path, json=request.body, timeout=30
+        )
+        exchange.receive(response.status_code, response.headers, response.content)
+
+print(exchange.result)
+```
+
+`compile()` returns one `Statement` per input statement, with its parsed syntax tree, source offsets, and request plan.
+The `Exchange` yields each request in order, including any extra page needed for an unaligned `OFFSET`.
+Pass HTTP error replies to `receive()` as well so it can report server validation errors as `QueryErrors` and other request failures as `ClientError`.
+The result is an integer for the count above, a list of rows for a JSON search, or the response body for a MISP-native export.
+To project columns as the CLI does, call `mispql.flatten(row)` and select the keys your application needs.
+`USE`, `SHOW DATABASES`, and `WHOAMI` are CLI connection commands.
+
+Each filtered `Exchange` checks complex-query support by default and raises `NoComplexQueries` if the probe fails, before yielding the search request.
+Use `Exchange(plan, check_support=False)` only after your application has verified support for that server and API key with `mispql.check_support(status, body)`.
+See the [upstream Python API documentation](https://github.com/MISP/MispQL#as-a-python-library) for result types and error handling.
 
 ## Choose an automation technique {#mispql-comparison}
 
@@ -271,7 +319,7 @@ Choose a broader integration mechanism when the task also needs writes, event tr
 
 | Technique | Best fit | Relationship to MispQL |
 |---|---|---|
-| **MispQL** | Interactive investigation, bounded reports, and shell exports with boolean conditions. | Read-only API client; needs server complex-query support and external scheduling. |
+| **MispQL** | Interactive investigation, bounded shell reports, and Python integrations that query with boolean conditions. | Read-only. Filtered queries require server complex-query support. Python callers manage HTTP. |
 | [REST API](../automation/index.qmd) | Direct HTTP integrations, complete request controls, reads and writes. | Can use the same complex-query tree; also exposes operations and output parameters outside MispQL's grammar. |
 | [PyMISP](../pymisp/index.qmd) | Python services that search, transform, create/update records, or submit sightings. | Adds Python data models and helpers; better suited to custom state, retries, and write logic. Check the installed client's support for new API features. |
 | [Workflows and blueprints](../workflows/index.qmd) | MISP triggers, conditional actions, and blocking publication or save checks. | Run within MISP's workflow execution model; MispQL has no trigger graph or policy-enforcement hook. |
@@ -288,9 +336,11 @@ These techniques can be combined: the choice of query language does not replace 
 
 ## Diagnose a failed query {#mispql-troubleshooting}
 
-- **HTTP 403:** check the selected profile, key restrictions, API account, and **Complex query** role permission.
-  Organisation-index restrictions can also block organisation searches.
-- **Missing discovery endpoint:** check that the installed server includes complex-query support; use classic REST/PyMISP filters on deployments without it.
+- A **404 from `GET /attributes/queryDescribe`** indicates missing complex-query support at that URL.
+  Check the instance URL and version. On deployments without support, use classic REST or PyMISP filters.
+- A **403 from `GET /attributes/queryDescribe`** can indicate missing support or that the key lacks permission to use it.
+  Check the selected profile, key restrictions, API account, and **Complex query** role permission.
+  A 403 on an organization search can also come from organization-index restrictions.
 - **Invalid field, operator, or sort:** use `DESCRIBE` for that table and check the highlighted condition.
   Response column names are not automatically valid filters or sort fields.
 - **Query limit or timeout:** narrow the event/time scope and reduce boolean nesting or `IN` list sizes.
