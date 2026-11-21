@@ -1,0 +1,106 @@
+# Schema for the cite-this extension
+$schema: https://m.canouil.dev/quarto-wizard/assets/schema/v2/extension-schema.json
+
+options:
+  position:
+    type: string
+    default: floating
+    enum: [sidebar, margin-sidebar, floating, navbar, title, inline, none]
+    description: "Where the citation widget is placed on the page."
+  corner:
+    type: string
+    default: bottom-right
+    enum: [bottom-right, bottom-left, top-right, top-left]
+    description: "Screen corner used when position is floating."
+  scope:
+    type: string
+    default: both
+    enum: [both, work, page]
+    description: "Whether citations are offered for the whole work, the current page, or both."
+  default-scope:
+    type: string
+    default: page
+    enum: [page, work]
+    description: "Scope pre-selected in the widget when scope is both."
+  styles:
+    type: array
+    default: [apa, abnt, ieee, mla, harvard]
+    description: "Citation styles offered to the reader: a bundled style name or a path to a custom .csl file."
+    items:
+      type: string
+      examples: [apa, abnt, ieee, mla, harvard, vancouver, chicago]
+  use-document-csl:
+    type: boolean
+    default: true
+    description: "Allow the document's csl field to act as the default style."
+  default-style:
+    type: string
+    default: apa
+    description: "Citation style pre-selected in the widget: a bundled style name or a path to a custom .csl file."
+    examples: [apa, abnt, ieee, mla, harvard, vancouver, chicago]
+  access-date:
+    type: string
+    default: build
+    description: "Access date shown in citations: 'build' for the render date or a fixed YYYY-MM-DD date."
+  actions:
+    type: array
+    default: [text, bibtex, download]
+    description: "Actions exposed by the widget."
+    items:
+      type: string
+      enum: [text, bibtex, download]
+  show-label:
+    type: boolean
+    default: true
+    description: "Show the widget's textual label."
+  remember-choice:
+    type: boolean
+    default: true
+    description: "Remember the reader's chosen style and scope across pages."
+  formats:
+    type: array
+    default: [html]
+    description: "Output formats the widget is rendered in."
+    items:
+      type: string
+      enum: [html]
+  collapsed:
+    type: boolean
+    default: false
+    description: "Start the widget in a collapsed state."
+  label:
+    type: [string, "null"]
+    description: "Custom label text for the widget."
+  bibtex:
+    type: object
+    description: "BibTeX entry generation settings."
+    properties:
+      type:
+        type: string
+        default: misc
+        description: "BibTeX entry type used for generated references."
+      key:
+        type: string
+        default: "{author}{year}{title}"
+        description: "Template used to build the BibTeX citation key."
+      filename:
+        type: string
+        default: "{key}.bib"
+        description: "Template used to build the downloaded BibTeX file name."
+
+shortcodes:
+  cite-this:
+    description: "Insert an inline citation widget for the current page or work."
+    arguments:
+      - name: scope
+        type: string
+        enum: [page, work]
+        description: "Scope of the inline citation: the current page or the whole work."
+    attributes:
+      style:
+        type: string
+        examples: [apa, abnt, ieee, mla, harvard, vancouver, chicago]
+        description: "Citation style used by this inline widget: a bundled style name or a path to a custom .csl file."
+      collapsed:
+        type: boolean
+        description: "Start this inline widget in a collapsed state."

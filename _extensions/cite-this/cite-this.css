@@ -1,0 +1,588 @@
+/* cite-this — usa apenas variáveis do Bootstrap para acompanhar o tema do
+   Quarto, inclusive a alternância entre claro e escuro. */
+
+.cite-this {
+  --cite-this-gap: .35rem;
+  --cite-this-radius: .5rem;
+  --cite-this-surface: var(--bs-body-bg, #fff);
+  --cite-this-surface-muted: rgba(127, 127, 127, .12);
+  --cite-this-surface-muted: color-mix(
+    in srgb,
+    var(--bs-body-color, currentColor) 12%,
+    var(--bs-body-bg, #fff)
+  );
+  --cite-this-surface-active: rgba(127, 127, 127, .2);
+  --cite-this-surface-active: color-mix(
+    in srgb,
+    var(--bs-body-color, currentColor) 20%,
+    var(--bs-body-bg, #fff)
+  );
+  --cite-this-border-color: rgba(127, 127, 127, .35);
+  --cite-this-border-color: color-mix(
+    in srgb,
+    var(--bs-body-color, currentColor) 34%,
+    transparent
+  );
+  font-size: .875rem;
+  color: var(--bs-body-color, inherit);
+}
+
+.cite-this[hidden] { display: none; }
+
+.cite-this-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--cite-this-gap);
+  /* nowrap sempre: um trilho que quebra em várias linhas é o próprio
+     defeito que este arquivo existe para evitar (ver .cite-this-collapsible
+     abaixo — max-width: 0 combinado com wrap era o que inflava a altura do
+     gatilho colapsado a até quatro linhas de botão). */
+  flex-wrap: nowrap;
+}
+
+.cite-this-label {
+  font-weight: 500;
+  margin-inline-end: .15rem;
+}
+
+/* Gatilho colapsado (fora do modo inline, que nunca colapsa — ele é
+   conteúdo do corpo do texto, não um controle de canto de tela). A marca É
+   a ação: nenhum ícone puramente decorativo. O primeiro botão do grupo —
+   copiar a citação, na ordem em que widget.lua monta os botões — é o que
+   fica visível em repouso. No desktop, hover/foco abre o restante; em
+   dispositivos sem hover, cite-this.js controla .is-expanded por clique e
+   torna os controles recolhidos inert. */
+.cite-this--mount .cite-this-collapsible {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cite-this-gap);
+  flex-wrap: nowrap;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  /* A largura muda imediatamente para que a própria área de :hover não se
+     desloque durante uma animação e entre num ciclo abre/fecha (o "tremor"
+     mais visível nas posições navbar e floating). A opacidade ainda suaviza
+     a aparição sem alterar a geometria sob o ponteiro. */
+  transition: opacity .12s ease;
+}
+
+.cite-this--mount.is-expanded .cite-this-collapsible,
+.cite-this--mount.is-panel-open .cite-this-collapsible {
+  max-width: 40rem;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Desktop conserva a interação original por hover e foco. Restringir a
+   dispositivos que realmente têm hover evita o :hover "grudado" após um
+   toque em celulares. */
+@media (hover: hover) {
+  .cite-this--mount .cite-this-actions:hover .cite-this-collapsible,
+  .cite-this--mount .cite-this-actions:focus-within .cite-this-collapsible {
+    max-width: 40rem;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* Na navbar do Quarto, .quarto-navbar-tools contém links inline. Como a raiz
+   do widget é uma <div>, o display:block padrão a empurrava para uma segunda
+   linha, abaixo de GitHub e do seletor de tema. Participa da mesma linha e
+   mantém o rótulo em uma linha para a barra não mudar de altura no hover. */
+.navbar .quarto-navbar-tools .cite-this--mount {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  vertical-align: middle;
+}
+
+.navbar .cite-this--mount .cite-this-btn {
+  min-width: 0;
+  min-height: 0;
+  height: 1.5rem;
+  padding: 0 .25rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  line-height: 1.5;
+}
+
+.navbar .cite-this--mount .cite-this-btn:hover,
+.navbar .cite-this--mount .cite-this-btn:focus-visible {
+  background: transparent;
+  color: var(--bs-navbar-hover-color, inherit);
+}
+
+.navbar .cite-this--mount .cite-this-btn > .cite-this-icon,
+.navbar .cite-this--mount .cite-this-done > .cite-this-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.navbar .cite-this--mount .cite-this-collapsible > .cite-this-label {
+  max-width: none;
+  white-space: nowrap;
+}
+
+/* Rótulo em duas linhas ("Cite" / "this", "Como" / "citar" etc.): container
+   estreito o bastante para forçar a quebra no espaço entre as duas
+   palavras, em qualquer idioma — sem depender de chaves novas no i18n.lua.
+   Escopado ao gatilho colapsável; o rótulo do modo inline (mesma classe,
+   dentro de .cite-this-head) fica de fora e continua numa linha só. */
+.cite-this--mount .cite-this-collapsible > .cite-this-label {
+  display: inline-block;
+  /* min-width: 0 desfaz o mínimo automático de item flex (min-width: auto),
+     que senão ignora o max-width abaixo e nunca deixa o texto quebrar —
+     o item flex insistiria em ficar largo o bastante pro conteúdo caber
+     numa linha só. */
+  min-width: 0;
+  /* 2.85em cabe a palavra isolada mais larga dos três idiomas embutidos
+     ("Como"/"Cómo", ~2.5em) mas não a frase inteira em nenhum deles
+     ("Cite this" é a mais estreita, ~3.4em) — força a quebra em duas
+     linhas sempre, sem quebrar no meio de uma palavra. */
+  max-width: 2.85em;
+  font-size: .75rem;
+  line-height: 1.15;
+  text-align: center;
+  white-space: normal;
+}
+
+.cite-this-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: .25rem .4rem;
+  border: 1px solid transparent;
+  border-radius: var(--cite-this-radius);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+
+.cite-this-btn::-webkit-details-marker { display: none; }
+
+.cite-this-btn:hover,
+.cite-this-btn:focus-visible {
+  background: var(--bs-secondary-bg, rgba(127, 127, 127, .14));
+  border-color: var(--bs-border-color, rgba(127, 127, 127, .3));
+}
+
+.cite-this-btn:focus-visible {
+  outline: 2px solid var(--bs-link-color, #0d6efd);
+  outline-offset: 1px;
+}
+
+.cite-this-icon { flex: none; }
+
+/* Confirmação de cópia: o check substitui o ícone por um instante. */
+.cite-this-done { display: none; }
+.cite-this-btn.is-copied > .cite-this-icon:first-child { display: none; }
+.cite-this-btn.is-copied .cite-this-done { display: inline-flex; }
+.cite-this-btn.is-copied { color: var(--bs-success, #198754); }
+
+/* Região de status, só para leitor de tela: anuncia a cópia sem afetar o
+   layout. Técnica padrão de "visually hidden" (clip a 1px, sem display:none,
+   que sumiria também para tecnologia assistiva). */
+.cite-this-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Menu de opções */
+.cite-this-menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.cite-this-menu > summary.cite-this-btn { margin: 0; }
+
+/* <form> que cite-this.js injeta em memória (nunca submetido) só para dar
+   a cada widget seu próprio escopo de radio button group; não deve gerar
+   caixa própria nem afetar o posicionamento absoluto do painel. */
+.cite-this-formscope { display: contents; }
+
+.cite-this-panel {
+  /* Recuo sem JavaScript: preso ao contexto de recorte de .cite-this-menu
+     (position: relative), mas continua legível e alcançável via teclado —
+     só perde a garantia de nunca ser cortado por overflow de um ancestral.
+     Com JavaScript, cite-this.js promove o painel para o top layer via
+     Popover API (quando suportada) ou recalcula estas mesmas coordenadas
+     como position: fixed; ver a regra [popover] abaixo e a ressalva sobre
+     ancestrais com transform/filter/will-change no comentário de
+     positionPanel() em cite-this.js. */
+  position: absolute;
+  z-index: 1080;
+  inset-inline-start: 0;
+  top: calc(100% + .25rem);
+  min-width: 16rem;
+  max-width: min(22rem, 90vw);
+  padding: .6rem .75rem;
+  border: 1px solid var(--bs-border-color, rgba(127, 127, 127, .3));
+  border-radius: var(--cite-this-radius);
+  background: var(--bs-body-bg, #fff);
+  /* A regra nativa de [popover] define color: CanvasText. Em temas escuros
+     isso produz texto preto sobre o fundo escuro herdado do Bootstrap.
+     Reafirma a cor do mesmo contexto temático usado pelo background. */
+  color: var(--bs-body-color, inherit);
+  box-shadow: 0 .5rem 1.5rem rgba(0, 0, 0, .18);
+}
+
+/* Aprimoramento progressivo: cite-this.js só adiciona o atributo popover
+   quando detecta suporte (HTMLElement.prototype.showPopover). A regra do
+   user-agent para [popover] fixa position: fixed; inset: 0; margin: auto —
+   o que centralizaria o painel na viewport. Encerramos o inset/margin e
+   deixamos position: fixed valer (a especificidade de classe+atributo
+   supera tanto a regra do user agent quanto o position: absolute acima);
+   left/top exatos vêm de cite-this.js via estilo inline, que sempre vence.
+   Sem JavaScript esse atributo nunca existe, e o <details> funciona como
+   sempre funcionou. */
+.cite-this-panel[popover] {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+}
+
+.cite-this-panel.cite-this-panel--flip-up {
+  box-shadow: 0 -.5rem 1.5rem rgba(0, 0, 0, .18);
+}
+
+.cite-this-group {
+  border: 0;
+  margin: 0 0 .5rem;
+  padding: 0;
+}
+
+.cite-this-group legend {
+  float: none;
+  width: auto;
+  margin: 0 0 .2rem;
+  padding: 0;
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  opacity: .7;
+}
+
+.cite-this-option {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  min-height: 2rem;
+  margin: 0 .6rem .2rem 0;
+  cursor: pointer;
+}
+
+/* Alguns temas do Bootswatch (notadamente Sketchy) zeram width/height de
+   todo input[type="radio"] e desenham o controle em ::before. Dentro do
+   inline-flex acima, o pseudo-elemento não reserva espaço e acaba por cima
+   do rótulo; no esquema escuro ele ainda conserva as cores fixas do tema
+   claro. Restaura o controle nativo, com dimensões explícitas, e neutraliza
+   esses pseudo-elementos globais. */
+.cite-this-option > input[type="radio"] {
+  position: static;
+  flex: 0 0 1rem;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  -webkit-appearance: radio;
+  appearance: auto;
+  border: initial;
+  background: initial;
+  accent-color: var(--bs-link-color, #0d6efd);
+}
+
+.cite-this-option > input[type="radio"]::before,
+.cite-this-option > input[type="radio"]::after {
+  display: none;
+  content: none;
+}
+
+.cite-this-preview {
+  margin-top: .5rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--bs-border-color, rgba(127, 127, 127, .25));
+  font-family: var(--bs-font-serif, Georgia, "Times New Roman", serif);
+  font-size: .8125rem;
+  line-height: 1.45;
+  padding-inline-start: 1.2em;
+  text-indent: -1.2em;
+  max-height: 9rem;
+  overflow-y: auto;
+}
+
+/* Superfície em pílula das posições flutuante, title e das duas sidebars:
+   quando o controle está recolhido, envolve só o botão principal e lê como
+   um círculo; quando abre, a mesma borda cresce para uma elipse sem trocar
+   de componente. Os seletores direcionais cobrem HTML experimental antigo. */
+.cite-this--floating,
+.cite-this--mount[data-position="title"],
+.cite-this--mount[data-position="sidebar"],
+.cite-this--mount[data-position="margin-sidebar"],
+.cite-this--mount[data-position="sidebar-left"],
+.cite-this--mount[data-position="sidebar-right"] {
+  box-sizing: border-box;
+  width: max-content;
+  max-width: 100%;
+  padding: .3rem;
+  border: 1px solid var(--bs-border-color, rgba(127, 127, 127, .3));
+  border-radius: 999px;
+  background: var(--bs-body-bg, #fff);
+  box-shadow: 0 .35rem 1rem rgba(0, 0, 0, .16);
+}
+
+/* Afasta as pílulas da borda interna das colunas para que o halo da sombra
+   não seja cortado nem se misture com o limite da sidebar. */
+.cite-this--mount[data-position="sidebar"],
+.cite-this--mount[data-position="margin-sidebar"],
+.cite-this--mount[data-position="sidebar-left"],
+.cite-this--mount[data-position="sidebar-right"] {
+  margin-inline-start: .5rem;
+}
+
+/* Na navegação esquerda, separa o controle da lista de capítulos. */
+#quarto-sidebar .cite-this--mount[data-position="sidebar"],
+#quarto-sidebar .cite-this--mount[data-position="sidebar-left"] {
+  margin-block-start: .75rem;
+}
+
+/* O item recolhido ainda contém .cite-this-collapsible com largura zero.
+   Sem esta regra, o gap do flex reserva espaço para esse item invisível e
+   transforma o suposto círculo numa elipse. O respiro reaparece somente no
+   estado aberto. */
+.cite-this--floating .cite-this-actions,
+.cite-this--mount[data-position="title"] .cite-this-actions,
+.cite-this--mount[data-position="sidebar"] .cite-this-actions,
+.cite-this--mount[data-position="margin-sidebar"] .cite-this-actions,
+.cite-this--mount[data-position="sidebar-left"] .cite-this-actions,
+.cite-this--mount[data-position="sidebar-right"] .cite-this-actions {
+  gap: 0;
+}
+
+.cite-this--floating.is-expanded .cite-this-collapsible,
+.cite-this--floating.is-panel-open .cite-this-collapsible,
+.cite-this--mount[data-position="title"].is-expanded .cite-this-collapsible,
+.cite-this--mount[data-position="title"].is-panel-open .cite-this-collapsible,
+.cite-this--mount[data-position="sidebar"].is-expanded .cite-this-collapsible,
+.cite-this--mount[data-position="sidebar"].is-panel-open .cite-this-collapsible,
+.cite-this--mount[data-position="margin-sidebar"].is-expanded .cite-this-collapsible,
+.cite-this--mount[data-position="margin-sidebar"].is-panel-open .cite-this-collapsible,
+.cite-this--mount[data-position="sidebar-left"].is-expanded .cite-this-collapsible,
+.cite-this--mount[data-position="sidebar-left"].is-panel-open .cite-this-collapsible,
+.cite-this--mount[data-position="sidebar-right"].is-expanded .cite-this-collapsible,
+.cite-this--mount[data-position="sidebar-right"].is-panel-open .cite-this-collapsible {
+  margin-inline-start: var(--cite-this-gap);
+}
+
+@media (hover: hover) {
+  .cite-this--floating .cite-this-actions:hover .cite-this-collapsible,
+  .cite-this--floating .cite-this-actions:focus-within .cite-this-collapsible,
+  .cite-this--mount[data-position="title"] .cite-this-actions:hover .cite-this-collapsible,
+  .cite-this--mount[data-position="title"] .cite-this-actions:focus-within .cite-this-collapsible,
+  .cite-this--mount[data-position="sidebar"] .cite-this-actions:hover .cite-this-collapsible,
+  .cite-this--mount[data-position="sidebar"] .cite-this-actions:focus-within .cite-this-collapsible,
+  .cite-this--mount[data-position="margin-sidebar"] .cite-this-actions:hover .cite-this-collapsible,
+  .cite-this--mount[data-position="margin-sidebar"] .cite-this-actions:focus-within .cite-this-collapsible,
+  .cite-this--mount[data-position="sidebar-left"] .cite-this-actions:hover .cite-this-collapsible,
+  .cite-this--mount[data-position="sidebar-left"] .cite-this-actions:focus-within .cite-this-collapsible,
+  .cite-this--mount[data-position="sidebar-right"] .cite-this-actions:hover .cite-this-collapsible,
+  .cite-this--mount[data-position="sidebar-right"] .cite-this-actions:focus-within .cite-this-collapsible {
+    margin-inline-start: var(--cite-this-gap);
+  }
+}
+
+/* Posição flutuante */
+.cite-this--floating {
+  position: fixed;
+  z-index: 1070;
+}
+
+.cite-this--floating[data-corner="bottom-right"] { inset: auto 1rem 1rem auto; }
+.cite-this--floating[data-corner="bottom-left"]  { inset: auto auto 1rem 1rem; }
+.cite-this--floating[data-corner="top-right"]    { inset: 1rem 1rem auto auto; }
+.cite-this--floating[data-corner="top-left"]     { inset: 1rem auto auto 1rem; }
+
+/* Posição title: cite-this.js injeta logo abaixo de div.quarto-title, dentro
+   de #title-block-header. Um respiro separa o widget do título acima e da
+   meta (autor/data) abaixo. */
+#title-block-header > .cite-this--mount {
+  display: block;
+  margin: .75rem 0 1.25rem;
+}
+
+/* Bloco inline */
+.cite-this--inline {
+  margin: 1.5rem 0;
+  border: 1px solid var(--cite-this-border-color);
+  border-radius: var(--cite-this-radius);
+  background: var(--cite-this-surface);
+  color: var(--bs-body-color, inherit);
+  overflow: hidden;
+}
+
+.cite-this-head,
+.cite-this-bar,
+.cite-this-foot {
+  display: flex;
+  align-items: center;
+  gap: var(--cite-this-gap);
+  flex-wrap: wrap;
+  padding: .5rem .75rem;
+}
+
+.cite-this-head {
+  background: var(--cite-this-surface-muted);
+  border-bottom: 1px solid var(--cite-this-border-color);
+}
+
+.cite-this-head .cite-this-label { display: inline-flex; align-items: center; gap: .35rem; }
+
+.cite-this-bar {
+  background: var(--cite-this-surface);
+  border-bottom: 1px solid var(--cite-this-border-color);
+}
+
+.cite-this-bar--collapsed {
+  column-gap: .6rem;
+  background: var(--cite-this-surface);
+}
+
+.cite-this-bar--collapsed > .cite-this-tabs + .cite-this-tabs {
+  padding-inline-start: .6rem;
+  border-inline-start: 1px solid var(--cite-this-border-color);
+}
+
+.cite-this-tabs { display: inline-flex; gap: .15rem; }
+
+.cite-this-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  min-height: 2rem;
+  padding: .25rem .55rem;
+  border: 0;
+  border-radius: var(--cite-this-radius);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: .8125rem;
+}
+
+.cite-this-tab[aria-selected="true"] {
+  background: var(--cite-this-surface-active);
+  color: var(--bs-body-color, inherit);
+  font-weight: 600;
+}
+
+.cite-this-select {
+  margin-inline-start: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-size: .8125rem;
+}
+
+.cite-this-select select {
+  border: 1px solid var(--cite-this-border-color);
+  border-radius: .35rem;
+  background: var(--cite-this-surface);
+  color: var(--bs-body-color, inherit);
+  padding: .1rem .3rem;
+}
+
+.cite-this-body {
+  padding: .85rem .75rem;
+  background: var(--cite-this-surface);
+  color: var(--bs-body-color, inherit);
+}
+
+/* Recuo pendente: dá o peso visual de uma referência de verdade. */
+.cite-this-rendered {
+  font-family: var(--bs-font-serif, Georgia, "Times New Roman", serif);
+  line-height: 1.5;
+  padding-inline-start: 1.4em;
+  text-indent: -1.4em;
+}
+
+.cite-this-variant pre.cite-this-text {
+  margin: 0;
+  padding: .6rem .7rem;
+  border-radius: .35rem;
+  background: var(--cite-this-surface-muted);
+  color: var(--bs-body-color, inherit);
+  font-size: .8125rem;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.cite-this-foot { justify-content: flex-end; }
+
+.cite-this-collapse { margin: 0; }
+
+.cite-this-collapse > summary {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  min-height: 3rem;
+  padding: .55rem .85rem;
+  cursor: pointer;
+  color: var(--bs-body-color, inherit);
+  font-weight: 600;
+  list-style: none;
+  user-select: none;
+  transition: background-color .15s ease;
+}
+
+.cite-this-collapse > summary::-webkit-details-marker { display: none; }
+.cite-this-collapse > summary::marker { content: ""; }
+
+.cite-this-collapse > summary:hover,
+.cite-this-collapse > summary:focus-visible {
+  background: var(--cite-this-surface-muted);
+}
+
+.cite-this-collapse > summary:focus-visible {
+  outline: 2px solid var(--bs-link-color, #0d6efd);
+  outline-offset: -3px;
+}
+
+.cite-this-collapse[open] > summary {
+  border-bottom: 1px solid var(--bs-border-color, rgba(127, 127, 127, .25));
+}
+
+.cite-this-collapse > summary::after {
+  content: "";
+  width: .5rem;
+  height: .5rem;
+  margin-inline-start: auto;
+  border-inline-end: 1.5px solid currentColor;
+  border-block-end: 1.5px solid currentColor;
+  opacity: .7;
+  transform: rotate(45deg);
+  transition: transform .15s ease;
+}
+
+.cite-this-collapse[open] > summary::after { transform: rotate(225deg); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cite-this-btn { transition: none; }
+  .cite-this--mount .cite-this-collapsible { transition: none; }
+}

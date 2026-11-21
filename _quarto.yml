@@ -5,7 +5,7 @@ project:
 book:
   title: "MISP User Guide"
   subtitle: "MISP Intelligence Sharing Platform"
-  author: "The MISP Project & Contributors"
+  author: &book-author "The MISP Project & Contributors"
   editor:
     - literal: &book-editor "CIRCL Computer Incident Response Center Luxembourg"
   isbn: "978-99987-458-0-3"
@@ -122,8 +122,20 @@ book:
 execute:
   freeze: true
 
+# Vendored from lsbjordao/quarto-cite-this at 0525fbf (version 1.0.4).
+extensions:
+  cite-this:
+    default-scope: work
+    work:
+      author: &citation-author
+        literal: *book-author
+    page:
+      author: *citation-author
+
 format:
   html:
+    filters:
+      - cite-this
     grid:
       sidebar-width: 260px
       body-width: 850px
