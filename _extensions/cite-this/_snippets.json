@@ -1,0 +1,29 @@
+{
+  "Cite this (inline)": {
+    "prefix": "cite-this",
+    "body": ["{{< cite-this >}}"],
+    "description": "Insert an inline citation widget for the current page."
+  },
+  "Cite this (work scope)": {
+    "prefix": "cite-this-work",
+    "body": ["{{< cite-this work >}}"],
+    "description": "Insert an inline citation widget scoped to the whole work."
+  },
+  "Cite this (with style)": {
+    "prefix": "cite-this-style",
+    "body": ["{{< cite-this ${1|page,work|} style=${2|apa,abnt,ieee,mla,harvard,vancouver,chicago|} >}}"],
+    "description": "Insert an inline citation widget with an explicit scope and style."
+  },
+  "Cite this configuration": {
+    "prefix": "cite-this-config",
+    "body": [
+      "extensions:",
+      "  cite-this:",
+      "    position: ${1|floating,sidebar,margin-sidebar,navbar,title,inline,none|}",
+      "    scope: ${2|both,page,work|}",
+      "    default-style: ${3|apa,abnt,ieee,mla,harvard,vancouver,chicago|}",
+      "    styles: [apa, abnt, ieee, mla, harvard]"
+    ],
+    "description": "Add a cite-this configuration block to _quarto.yml or front matter."
+  }
+}
