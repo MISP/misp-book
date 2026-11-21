@@ -1,0 +1,42 @@
+{
+  "misp_version": "3.0.0",
+  "misp_branch": "3.0_wip",
+  "misp_commit": "6c6e4c5c7f93a47e8213277ad43b2c90550c8d28",
+  "misp_modules_commit": "4d78a17046c7dc4a43ca4d6f958ecb3ba586c9f4",
+  "misp_objects_commit": "21565115fbd57825d3aa17bf9bc081ce72dc0d9e",
+  "misp_taxonomies_commit": "27a72012c540af6db256462ba5f95767d5ed4c39",
+  "event_uuid": "863d82bf-2d62-5113-be27-791ac723494b",
+  "capture_method": "Chromium captures from an isolated MISP instance with the fictional, unpublished Greyhaven event. The reviewed-export screenshot is a browser rendering of the downloaded Markdown.",
+  "screenshots": [
+    {
+      "file": "figures/cited-event-report.png",
+      "view": "Event Report with native references and Analyst Data",
+      "sha256": "dc9e381ec6510621b9c14237e91ab6b65bb7da26de00cdc53269b7d5aad97d61"
+    },
+    {
+      "file": "figures/download-event.png",
+      "view": "Download event dialog with Intelligence Briefing Export",
+      "sha256": "87cff27676f096f5478c0bb9643fbde4797395cf67e0fe89a4cec8856240e92f"
+    },
+    {
+      "file": "figures/event-overview.png",
+      "view": "Event overview and relationship graph",
+      "sha256": "ad07115034fd031e0ecf19d7adce810b1282e87bf0790f590e79394cb24345f9"
+    },
+    {
+      "file": "figures/judgment-tags.png",
+      "view": "Attribute search displaying the likelihood and confidence tags on the two judgment statements",
+      "sha256": "8d4c17dab2cfb905058175b5655d69487ffd31bab71422ef0545db256b88c7c0"
+    },
+    {
+      "file": "figures/receipt-reconciliation.png",
+      "view": "Event Report with the six-site receipt table",
+      "sha256": "d480cae8e723d054a456121eaf2d4533730391dd6ab5ff4d6b8838d12accdbfb"
+    },
+    {
+      "file": "figures/reviewed-export.png",
+      "view": "Rendered Markdown downloaded from the exporter after approval",
+      "sha256": "0ff9ee248e9b0b86fdbf251916b741b2f4e67968082eabf3a7cd43eed43acf15"
+    }
+  ]
+}

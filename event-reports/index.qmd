@@ -115,6 +115,8 @@ The editor's **Menu** offers downloads where available:
 Review the exported file before handing it over.
 A raw UUID reference in Markdown will not resolve in an unrelated editor, and a download containing expanded values needs the same handling review as any other shared document.
 
+For a briefing with numbered evidence citations, judgment confidence and a recorded approval, follow the [IC Analytic Standards use case](../ic-analytic-standards/index.qmd#ic-standards-export).
+
 ## Distribution, visibility and sync
 
 A report supports distribution levels **0–4** and **Inherit event**.
