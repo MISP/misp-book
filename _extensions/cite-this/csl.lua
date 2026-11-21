@@ -21,22 +21,39 @@ local function exists(path)
 end
 
 function M.resolve_styles(cfg, meta, script_file)
-  local list, seen = {}, {}
+  local list, seen_paths, used_names = {}, {}, {}
   local style_dir = M.style_dir(script_file)
+  local document_style
+
+  local function unique_name(name)
+    local candidate, suffix = name, 2
+    while used_names[candidate] do
+      candidate = name .. "-" .. suffix
+      suffix = suffix + 1
+    end
+    used_names[candidate] = true
+    return candidate
+  end
 
   local function add(name, path, label, is_document)
-    if not path or path == "" or seen[path] then return end
+    if not path or path == "" or seen_paths[path] then return end
     if not exists(path) then
       util.warn(("estilo CSL não encontrado: %s (%s)"):format(name, path))
       return
     end
-    seen[path] = true
-    list[#list + 1] = {
+    seen_paths[path] = true
+    local style = {
       name = name,
       path = path,
       label = label or LABELS[name] or name,
       is_document = is_document or nil,
     }
+    if is_document then
+      document_style = style
+    else
+      style.name = unique_name(name)
+      list[#list + 1] = style
+    end
   end
 
   if cfg["use-document-csl"] and meta and meta.csl then
@@ -57,7 +74,11 @@ function M.resolve_styles(cfg, meta, script_file)
     end
   end
 
-  if #list == 0 then
+  if document_style then
+    -- Keep configured style names available to default-style and shortcodes.
+    document_style.name = unique_name(document_style.name)
+    table.insert(list, 1, document_style)
+  elseif #list == 0 then
     add("apa", style_dir .. "apa.csl")
   end
 
