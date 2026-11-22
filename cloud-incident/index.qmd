@@ -1,5 +1,8 @@
 ---
 title: "Investigating a Cloud Incident with MISP"
+format:
+  html:
+    lightbox: true
 ---
 
 Azure raises an alert when someone grants a service principal read access to the `ledgerarchive` storage account.
@@ -42,14 +45,21 @@ d6ab8e23d24d7dc8c9ec8a3df9b2c2aaaada55d3cad590503ed9cea843c90fd7  azure-activity
 
 ## Import into one investigation event
 
-The menu names below follow the guide's MISP 3.0 interface.
-The two imports and the cited Markdown export were exercised offline with PyMISP 2.5.34.4 and [misp-modules revision `0803618`](https://github.com/MISP/misp-modules/tree/0803618b9a948246631e2755723836e9e9d2d2e3).
+The screenshots follow CLD-042 on an isolated MISP 3.0.0 instance in light mode, signed in as a site administrator. [MISP `3.0_wip` revision `99ebee7`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1)
+Both provider imports and the cited Markdown download were tested in this interface with PyMISP 2.5.34.4 and [misp-modules revision `0803618`](https://github.com/MISP/misp-modules/tree/0803618b9a948246631e2755723836e9e9d2d2e3).
 The importers read files already collected from the providers. The exercise requires no cloud credentials.
+
+<!-- Capture details and image checksums: screenshots.json -->
 
 1. Have a site administrator check that the module service advertises `microsoft_audit_import`, `azure_activity_log_import`, and `intelligence_briefing_export` at `GET /modules`. Enable import and export services and those modules for the analyst. Update the MISP object templates so `file`, `cloud-account`, `microsoft-audit-event`, `azure-activity-log-event`, and `intelligence-judgment` are available. [Module configuration](../modules/index.qmd#modules-configuration) · [Object definitions used here](https://github.com/MISP/misp-objects/tree/cadfb75dcc92456bb5570e78be786431edc38d84/objects)
 2. As an analyst who can add events, objects, and reports, create **CLD-042 | Unexpected blob reader assignment**. Set the event date to 20 November, distribution to **Your organisation only**, and analysis to **Ongoing**. Leave the event unpublished.
-3. In the event, open **Import from** (or **Import**) and select the Microsoft identity and audit importer, `microsoft_audit_import`. Upload `entra-signins.json`, enter the reporting tenant above in **Optional reporting tenant UUID**, and leave **Attach the exact source log** off. Run the module. In the preview expect one `microsoft-audit-event`, one `cloud-account`, and one `file`. Check the tenant, hash, and sign-in time, then select and save all three objects. [Microsoft import formats and settings](https://github.com/MISP/misp-modules/blob/0803618b9a948246631e2755723836e9e9d2d2e3/documentation/import_mod/microsoft_audit_import.md)
-4. In the **same event**, run `azure_activity_log_import` with `azure-activity.json`. Leave **Attach the exact source audit log** off. Expect two `azure-activity-log-event` objects and one more `file`. Save all three, including the opening record. [Azure Activity Log import formats and settings](https://github.com/MISP/misp-modules/blob/0803618b9a948246631e2755723836e9e9d2d2e3/documentation/import_mod/azure_activity_log_import.md)
+3. In the event, open **Import from** (or **Import**) and select **Microsoft Audit Import** (`microsoft_audit_import`). Upload `entra-signins.json`, enter the reporting tenant above in **Optional reporting tenant UUID**, and leave **Attach the exact source log** off. Run the module. In the preview expect one `microsoft-audit-event`, one `cloud-account`, and one `file`. Check the tenant, hash, and sign-in time, then choose **Import** to save all three objects. [Microsoft import formats and settings](https://github.com/MISP/misp-modules/blob/0803618b9a948246631e2755723836e9e9d2d2e3/documentation/import_mod/microsoft_audit_import.md)
+
+   ![E1 omits the reporting tenant. Enter its UUID from the collection record and leave the source attachment unchecked.](figures/misp3-entra-import.png){fig-alt="Microsoft Audit Import with the reporting tenant UUID entered, Include_source unchecked, and entra-signins.json selected."}
+
+4. In the **same event**, select **Azure Activity Log Import** (`azure_activity_log_import`) and upload `azure-activity.json`. Leave **Attach the exact source audit log** off. Expect two `azure-activity-log-event` objects and one more `file`. Choose **Import** to save all three, including the opening record. [Azure Activity Log import formats and settings](https://github.com/MISP/misp-modules/blob/0803618b9a948246631e2755723836e9e9d2d2e3/documentation/import_mod/azure_activity_log_import.md)
+
+   ![The E2 review offers three objects to import. Both Azure records name the same grantee.](figures/misp3-azure-import-review.png){fig-alt="Import results for event 17 showing the source file azure-activity.json and two azure-activity-log-event objects, with 65 attributes in total."}
 
 **Checkpoint.** The event should now have six objects and three timed observations.
 Open the closing Azure observation and follow its `extracted-from` reference. The comment **Azure Activity Log record 2** points to the second member of the file's `value` array (`value[1]`).
@@ -75,6 +85,8 @@ Azure's later `submissionTimestamp` records when each entry became available for
 | 09:16:05 | E2, record 2 | `EndRequest` / `Succeeded`, substatus `Created`. The `responseBody` supplies the assigned principal, role definition, assignment ID, and storage-account scope. |
 
 :::
+
+![The Seen timeline places the sign-in first. The two Azure records follow two seconds apart.](figures/misp3-seen-timeline.png){fig-alt="The Seen tab lists one Microsoft observation at 09:14:11 UTC and Azure observations at 09:16:03 and 09:16:05 UTC on November 20."}
 
 **Who made the change?** Compare the Entra `actor-id` with Azure's `caller-object-id`. Both are `7ad614f0-90cf-4e61-ad86-1c68e9d46021`.
 Check that Entra's reporting tenant matches Azure's `caller-tenant-id`. The username and IP also agree.
@@ -105,7 +117,13 @@ In CLD-042 the storage logs and change ticket are outstanding. Record data acces
 1. Add an `intelligence-judgment` object titled **Blob read access was granted**. State that Azure created the Storage Blob Data Reader assignment for the named service principal on `ledgerarchive`. Set `confidence` to **high**. In `confidence-rationale`, cite the successful closing record and its agreement with the request. In `alternative`, record that an approved inventory job could explain the grant and that the change ticket is outstanding.
 2. In **Edit relationships**, add `supported-by` from that judgment to **each of the two Azure observations**. The sign-in provides identity context. The closing response supports the grant itself.
 3. Under **Reports**, add an Event Report named **CLD-042 | Azure role assignment on ledgerarchive** with **Inherit event** distribution. Write for the incident lead. Give the UTC cutoff, tenant and subscription, the three timeline entries, the grant and its scope, and the limits on attribution and data access. Assign the approval check to cloud IAM and the blob-log check to the storage team. In **Edit Content**, use the object picker to cite the judgment, the three observations, and both source files. Save and open each reference in the preview. [Event Report editing and references](../event-reports/index.qmd)
+
+   ![The saved Event Report links the finding to its judgment and each timeline entry to the observation that supports it.](figures/misp3-event-report.png){fig-alt="General tab of the CLD-042 Event Report showing the linked judgment, scope, and three timestamped evidence references."}
+
 4. From the event's **All actions → Download as**, choose **Intelligence Briefing Export** (`intelligence_briefing_export`). Open the downloaded Markdown and follow J1 to S2 and S3, then compare S3's UUID with the closing observation in MISP. The supplied export has **one judgment, five cited sources, and zero structural issues**. Its status is **DRAFT** because the example has no reviewer approval. For a file marked **REVIEWED**, follow the [fingerprint and Analyst Opinion procedure](../ic-analytic-standards/index.qmd#ic-standards-export).
+
+   ![Scroll to Intelligence Briefing Export in the event download dialog to get the cited Markdown.](figures/misp3-briefing-export.png){fig-alt="Download event dialog with the Intelligence Briefing Export action visible at the bottom of the format list." width=500px}
+
 5. If the incident lead needs a PDF of the narrative, open the saved **Event Report → Menu → PDF via print** and choose **Save as PDF** in the browser. **GFM simplified** is also available for readers outside MISP. Open the exported file as a recipient would and check that the case, timestamps, finding, evidence references, and open questions are legible. Store the approved copy and its file hash in the case record. Review tenant IDs, names, IPs, and scope before releasing a copy to a wider audience. [Event Report download options](../event-reports/index.qmd#exporting-a-report)
 
 ::: {.content-visible when-format="html" unless-format="epub"}

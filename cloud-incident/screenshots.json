@@ -1,0 +1,58 @@
+{
+  "misp_version": "3.0.0",
+  "misp_branch": "3.0_wip",
+  "misp_commit": "99ebee729702c560528f9788953719bda68aa1c1",
+  "misp_modules_commit": "0803618b9a948246631e2755723836e9e9d2d2e3",
+  "pymisp_version": "2.5.34.4",
+  "cloud_and_judgment_template_commit": "cadfb75dcc92456bb5570e78be786431edc38d84",
+  "event_uuid": "1f7d3464-85e6-5810-9571-d0bd09a7b80a",
+  "event_report_uuid": "95006cda-7921-55fb-8ae2-7b98085bf73e",
+  "capture_method": "Chromium, light theme, site administrator on the isolated documentation instance. Both example JSON files were submitted and saved through the import dialog into the same unpublished, organization-only event. The judgment, relationships and report from investigation.json were then added via the MISP API. The cited Markdown was downloaded from the event menu.",
+  "screenshots": [
+    {
+      "file": "figures/misp3-entra-import.png",
+      "view": "Microsoft Audit Import with the E1 file and reporting tenant selected",
+      "pixels": [
+        1092,
+        420
+      ],
+      "sha256": "5533e448b6cb3378dc928ac8afd3d81b37164dd42391702df413ab0794bc91da"
+    },
+    {
+      "file": "figures/misp3-azure-import-review.png",
+      "view": "Azure Activity Log Import preview before saving E2",
+      "pixels": [
+        1140,
+        468
+      ],
+      "sha256": "eaaa5992b69884831be4c586dcb773299822e6f7b31f41003a8c00f7fb2db272"
+    },
+    {
+      "file": "figures/misp3-seen-timeline.png",
+      "view": "Seen timeline after adding the judgment and Event Report",
+      "pixels": [
+        1280,
+        645
+      ],
+      "sha256": "77c0997a9e58bde7a60ab7d05ad4c8775196bfde9b93a8421f460226bc21e22d"
+    },
+    {
+      "file": "figures/misp3-event-report.png",
+      "view": "General tab of the saved Event Report with references to the judgment and three observations",
+      "pixels": [
+        1280,
+        863
+      ],
+      "sha256": "f87cf074d18cb1958874998be8fdf6e9022594b396208f033b13e6b6d6b44901"
+    },
+    {
+      "file": "figures/misp3-briefing-export.png",
+      "view": "Download event dialog scrolled to Intelligence Briefing Export",
+      "pixels": [
+        500,
+        518
+      ],
+      "sha256": "2ffb1b21e8ded950fae272a02ab6ed7f57717ec0131fa6df46734b41798e69b3"
+    }
+  ]
+}
