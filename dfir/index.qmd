@@ -673,7 +673,7 @@ See [Workflows](../workflows/index.qmd) for MISP workflow configuration and [Fal
 | Active Directory change or suspected persistence | `adtimeline_import` for selected replication metadata, `evtx_findings_import` for supported audit findings and endpoint imports for corroboration. | What changed, on which object and server, and what independently supports attribution or impact? Preserve linked-value time semantics and distinguish collected state from historical values. |
 | Network intrusion or suspected exfiltration | `zeek_import`, `suricata_import`, bounded `pcap_import`, historical DNS/TLS context and timeline exchange. | Is traffic direction established? Are capture gaps or encryption limiting visibility, and do timestamps align with endpoint evidence? |
 | Mobile/device investigation | `autopsy_import` selected artifacts, `mobsf` for an authorized app-analysis path, and geographic importers where relevant. | Does the adapter preserve device/source identity and timestamp semantics? Does app presence establish execution or user action? |
-| Cloud or SaaS incident | Selected audit exports mapped through `csvimport`/`mispjson`, compatible timeline imports and platform-context lookups. | Who collected the records, from which tenant/account and time window? Preserve immutable resource/session identifiers; do not assume a generic CSV importer performs cloud acquisition. |
+| Cloud or SaaS incident | The [cloud incident exercise](../cloud-incident/index.qmd) imports Microsoft Entra sign-ins and Azure Activity Log records and exports a cited forensic report. | Which account requested the change, who received access, and what evidence would show that it was used? |
 
 :::
 

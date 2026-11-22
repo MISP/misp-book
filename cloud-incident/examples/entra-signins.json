@@ -1,0 +1,17 @@
+{
+  "value": [
+    {
+      "id": "ec2fe290-ce1e-4d0b-8732-061fc728016a",
+      "createdDateTime": "2026-11-20T09:14:11Z",
+      "userId": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+      "userPrincipalName": "alex@tenant.example",
+      "appDisplayName": "Azure Portal",
+      "isInteractive": true,
+      "ipAddress": "192.0.2.41",
+      "correlationId": "dee468fc-31ba-4a46-b8fc-d44ccc264201",
+      "status": {
+        "errorCode": 0
+      }
+    }
+  ]
+}

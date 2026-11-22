@@ -1,0 +1,90 @@
+{
+  "value": [
+    {
+      "eventDataId": "a9051301-c237-4255-a5d4-0bda0c81d2e7",
+      "eventTimestamp": "2026-11-20T09:16:03Z",
+      "submissionTimestamp": "2026-11-20T09:17:50Z",
+      "eventName": {
+        "value": "BeginRequest"
+      },
+      "category": {
+        "value": "Administrative"
+      },
+      "operationName": {
+        "value": "Microsoft.Authorization/roleAssignments/write"
+      },
+      "status": {
+        "value": "Started"
+      },
+      "subscriptionId": "74097513-65cf-4ee6-84cb-7d485f31e831",
+      "caller": "alex@tenant.example",
+      "claims": {
+        "oid": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+        "tid": "d78a81b2-00b7-4e59-8e68-178c4a9c3410"
+      },
+      "httpRequest": {
+        "clientIpAddress": "192.0.2.41"
+      },
+      "correlationId": "cc69b7e8-834d-465e-b7c3-82b57873246f",
+      "operationId": "de6c0df0-53b7-409e-abdb-ab127d8d1749",
+      "resourceId": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+      "authorization": {
+        "action": "Microsoft.Authorization/roleAssignments/write",
+        "scope": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+        "evidence": {
+          "principalId": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+          "principalType": "User",
+          "role": "User Access Administrator"
+        }
+      },
+      "properties": {
+        "requestbody": "{\"properties\":{\"principalId\":\"6ab25386-9a59-465d-998f-9db68ef01272\",\"principalType\":\"ServicePrincipal\",\"roleDefinitionId\":\"/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/providers/Microsoft.Authorization/roleDefinitions/2a2b9908-6ea1-4ae2-8e65-a410df84e7d1\"}}"
+      }
+    },
+    {
+      "eventDataId": "ecb217f6-a70a-4d1b-af68-08e957153218",
+      "eventTimestamp": "2026-11-20T09:16:05Z",
+      "submissionTimestamp": "2026-11-20T09:18:02Z",
+      "eventName": {
+        "value": "EndRequest"
+      },
+      "category": {
+        "value": "Administrative"
+      },
+      "operationName": {
+        "value": "Microsoft.Authorization/roleAssignments/write"
+      },
+      "status": {
+        "value": "Succeeded"
+      },
+      "subscriptionId": "74097513-65cf-4ee6-84cb-7d485f31e831",
+      "caller": "alex@tenant.example",
+      "claims": {
+        "oid": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+        "tid": "d78a81b2-00b7-4e59-8e68-178c4a9c3410"
+      },
+      "httpRequest": {
+        "clientIpAddress": "192.0.2.41"
+      },
+      "correlationId": "cc69b7e8-834d-465e-b7c3-82b57873246f",
+      "operationId": "de6c0df0-53b7-409e-abdb-ab127d8d1749",
+      "resourceId": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+      "authorization": {
+        "action": "Microsoft.Authorization/roleAssignments/write",
+        "scope": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+        "evidence": {
+          "principalId": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+          "principalType": "User",
+          "role": "User Access Administrator"
+        }
+      },
+      "properties": {
+        "statusCode": "Created",
+        "responseBody": "{\"id\":\"/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331\",\"properties\":{\"principalId\":\"6ab25386-9a59-465d-998f-9db68ef01272\",\"principalType\":\"ServicePrincipal\",\"roleDefinitionId\":\"/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/providers/Microsoft.Authorization/roleDefinitions/2a2b9908-6ea1-4ae2-8e65-a410df84e7d1\",\"scope\":\"/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive\"}}"
+      },
+      "subStatus": {
+        "value": "Created"
+      }
+    }
+  ]
+}

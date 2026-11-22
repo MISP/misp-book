@@ -1,0 +1,979 @@
+{
+  "Event": {
+    "uuid": "1f7d3464-85e6-5810-9571-d0bd09a7b80a",
+    "info": "Exercise | CLD-042 | Unexpected blob reader assignment",
+    "date": "2026-11-20",
+    "threat_level_id": "4",
+    "analysis": "1",
+    "distribution": "0",
+    "published": false,
+    "Object": [
+      {
+        "name": "file",
+        "meta-category": "file",
+        "template_uuid": "688c46fb-5edb-40a3-8273-1af7923e2215",
+        "description": "File object describing a file with meta-information",
+        "template_version": "25",
+        "uuid": "68852750-858f-54f2-bf75-0e82410855bd",
+        "Attribute": [
+          {
+            "uuid": "1e70df3d-0dfa-507b-bea5-a7d6af6b29bc",
+            "object_relation": "filename",
+            "value": "entra-signins.json",
+            "type": "filename",
+            "category": "Payload delivery",
+            "disable_correlation": true,
+            "to_ids": false
+          },
+          {
+            "uuid": "b48aa704-3668-56cb-9d7d-e9c6f56726a5",
+            "object_relation": "size-in-bytes",
+            "value": "454",
+            "type": "size-in-bytes",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "b183ca9b-31c8-5840-a88e-725bb784330c",
+            "object_relation": "sha256",
+            "value": "7a1908b3bf28713d753b684e88151ce770a51f31c21df408fcbf63151e4d7208",
+            "type": "sha256",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Payload delivery"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0"
+      },
+      {
+        "name": "microsoft-audit-event",
+        "meta-category": "misc",
+        "template_uuid": "7aeafc08-ccbd-47d7-b7a4-d566e13cf935",
+        "description": "One Microsoft Entra sign-in or directory audit record or Microsoft Purview Unified Audit Log record. Link the originating export and tenant context through object references.",
+        "template_version": "1",
+        "uuid": "400b45f4-1f64-5ecf-9d38-d6923abd0fff",
+        "ObjectReference": [
+          {
+            "uuid": "1ba47890-e27f-58b7-8f8b-75972dbe5806",
+            "object_uuid": "400b45f4-1f64-5ecf-9d38-d6923abd0fff",
+            "referenced_uuid": "68852750-858f-54f2-bf75-0e82410855bd",
+            "relationship_type": "extracted-from",
+            "comment": "Audit record 1"
+          },
+          {
+            "uuid": "b7b35783-4f7b-5432-baee-f1c6f2c1bab7",
+            "object_uuid": "400b45f4-1f64-5ecf-9d38-d6923abd0fff",
+            "referenced_uuid": "c5129e58-4e40-562f-b7f4-5bced65ef650",
+            "relationship_type": "related-to",
+            "comment": "Reporting Microsoft tenant"
+          }
+        ],
+        "Attribute": [
+          {
+            "uuid": "862da4d0-fce0-5713-83d7-09152bd56023",
+            "object_relation": "actor-id",
+            "value": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "d69337f2-54ed-5729-b99e-99f1d4eccbbf",
+            "object_relation": "actor-upn",
+            "value": "alex@tenant.example",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "012cf6ce-b189-5c0d-b40a-201cb8a7f95b",
+            "object_relation": "application-name",
+            "value": "Azure Portal",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "5db8b333-318e-55f2-8e1a-e039d32f66ae",
+            "object_relation": "correlation-id",
+            "value": "dee468fc-31ba-4a46-b8fc-d44ccc264201",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "17bdbb70-9444-50a6-94ae-22354f46150b",
+            "object_relation": "source-address",
+            "value": "192.0.2.41",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "0d71d009-07d4-5911-aeac-e786d600dfe0",
+            "object_relation": "outcome",
+            "value": "success",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "73868a28-8e46-5ae1-865d-400e5e505efb",
+            "object_relation": "result-code",
+            "value": "0",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "1d441a3c-b2ee-5eab-81ea-d6135b56c7da",
+            "object_relation": "interactive",
+            "value": true,
+            "type": "boolean",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "8a257cf1-fa86-537d-9ac5-789a38b78862",
+            "object_relation": "record-id",
+            "value": "ec2fe290-ce1e-4d0b-8732-061fc728016a",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "601e8a06-6f2b-5199-a83d-f40683f32c4f",
+            "object_relation": "log-type",
+            "value": "entra-sign-in",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "06aa80a7-d407-5db5-8bd7-549dccb6da27",
+            "object_relation": "operation",
+            "value": "Sign-in",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "e8700cc5-14b4-5ef0-aaac-a34773124817",
+            "object_relation": "event-time",
+            "value": "2026-11-20T09:14:11+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "2c862031-3570-57b6-b17b-a0bad6a2786d",
+            "object_relation": "event-time-raw",
+            "value": "2026-11-20T09:14:11Z",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "c750a921-a25f-5d80-96a9-3bf1fd3d1f0f",
+            "object_relation": "review-status",
+            "value": "unreviewed",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "8ba06222-e4a9-5537-bbb6-6def4c1ff157",
+            "object_relation": "tenant-id",
+            "value": "d78a81b2-00b7-4e59-8e68-178c4a9c3410",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "554058a6-4d17-5642-b401-79d23894c37f",
+            "object_relation": "source-ip",
+            "value": "192.0.2.41",
+            "type": "ip-src",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Network activity"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0",
+        "first_seen": "2026-11-20T09:14:11+00:00",
+        "last_seen": "2026-11-20T09:14:11+00:00"
+      },
+      {
+        "name": "cloud-account",
+        "meta-category": "misc",
+        "template_uuid": "03789478-6c41-4b8c-93f8-f0d3c4c88b8f",
+        "description": "A cloud or SaaS account, subscription, project, or tenant, with provider and organizational scope. Use user-account for individual security principals. Based on OCSF 1.9.0: https://schema.ocsf.io/1.9.0/objects/account, https://schema.ocsf.io/1.9.0/objects/cloud.",
+        "template_version": "1",
+        "uuid": "c5129e58-4e40-562f-b7f4-5bced65ef650",
+        "Attribute": [
+          {
+            "uuid": "621b283a-c351-5c65-a004-3578a0e84b06",
+            "object_relation": "provider",
+            "value": "Microsoft",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "f6f3ae87-60b9-5197-80bf-90d2a6c37e42",
+            "object_relation": "account-id",
+            "value": "d78a81b2-00b7-4e59-8e68-178c4a9c3410",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0"
+      },
+      {
+        "name": "file",
+        "meta-category": "file",
+        "template_uuid": "688c46fb-5edb-40a3-8273-1af7923e2215",
+        "description": "File object describing a file with meta-information",
+        "template_version": "25",
+        "uuid": "825f048f-e249-52ac-89b5-95de3dac9e1c",
+        "Attribute": [
+          {
+            "uuid": "ca350587-e766-5dcd-bc3a-54d5e34418cb",
+            "object_relation": "filename",
+            "value": "azure-activity.json",
+            "type": "filename",
+            "category": "Payload delivery",
+            "disable_correlation": true,
+            "to_ids": false
+          },
+          {
+            "uuid": "1b7a47fb-9081-55de-b6ec-f87f53e3f015",
+            "object_relation": "sha256",
+            "value": "d6ab8e23d24d7dc8c9ec8a3df9b2c2aaaada55d3cad590503ed9cea843c90fd7",
+            "type": "sha256",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Payload delivery"
+          },
+          {
+            "uuid": "d585a0dc-5c45-5651-8dd9-a42a169a83e1",
+            "object_relation": "size-in-bytes",
+            "value": "4469",
+            "type": "size-in-bytes",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0"
+      },
+      {
+        "name": "azure-activity-log-event",
+        "meta-category": "misc",
+        "template_uuid": "f386076b-de05-4af2-9824-df7e1128a070",
+        "description": "A reported Azure Resource Manager Activity Log event with operation, actor, resource, result and source provenance.",
+        "template_version": "1",
+        "uuid": "b5012152-c35b-5e91-b2e9-75b2a1526e0d",
+        "ObjectReference": [
+          {
+            "uuid": "5e2bcaec-dca5-57ca-be11-3be9849f10b9",
+            "object_uuid": "b5012152-c35b-5e91-b2e9-75b2a1526e0d",
+            "referenced_uuid": "825f048f-e249-52ac-89b5-95de3dac9e1c",
+            "relationship_type": "extracted-from",
+            "comment": "Azure Activity Log record 1"
+          }
+        ],
+        "Attribute": [
+          {
+            "uuid": "187aa952-ea69-50c0-9e74-594f0266b777",
+            "object_relation": "event-id",
+            "value": "a9051301-c237-4255-a5d4-0bda0c81d2e7",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "780d4da9-f08c-5560-aaa0-0198cd65be7e",
+            "object_relation": "event-name",
+            "value": "BeginRequest",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "f3f03b97-2ffb-501d-84bd-d3b3f1422d56",
+            "object_relation": "caller",
+            "value": "alex@tenant.example",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "e6f4024a-f08d-5a37-bcf7-caee21d36375",
+            "object_relation": "operation",
+            "value": "Microsoft.Authorization/roleAssignments/write",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "a1705942-4b92-5fdc-9e38-f06717be073e",
+            "object_relation": "resource-id",
+            "value": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "42c53697-5f3a-5ac1-8fd6-a455a772da8e",
+            "object_relation": "subscription-id",
+            "value": "74097513-65cf-4ee6-84cb-7d485f31e831",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "21d16f66-3a8a-552a-93d2-efd82eeaa873",
+            "object_relation": "category",
+            "value": "Administrative",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "804400af-dd3a-5e23-afb0-9f26e612f6c9",
+            "object_relation": "result",
+            "value": "Started",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "deb5eac9-f813-532b-9aef-3be1825cc493",
+            "object_relation": "correlation-id",
+            "value": "cc69b7e8-834d-465e-b7c3-82b57873246f",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "da100f76-7d87-5528-b160-421b4e6e5873",
+            "object_relation": "operation-id",
+            "value": "de6c0df0-53b7-409e-abdb-ab127d8d1749",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "f67caa56-6a12-5b0a-bad0-11d68a36b1b1",
+            "object_relation": "source-schema",
+            "value": "arm",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "896c51c1-3df0-5c04-85e1-79ccdc5e92f2",
+            "object_relation": "caller-object-id",
+            "value": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "d572ea0f-d58d-5413-93d4-358448bb2a6f",
+            "object_relation": "caller-tenant-id",
+            "value": "d78a81b2-00b7-4e59-8e68-178c4a9c3410",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "565785e1-2dc8-59e3-a3c0-3d0e8f17f4ba",
+            "object_relation": "caller-source",
+            "value": "caller",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "a063c29f-bf7f-5766-a862-96b820e6070a",
+            "object_relation": "caller-address",
+            "value": "192.0.2.41",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "35114891-4f70-50dd-8822-8a11a4b2cd11",
+            "object_relation": "source-ip",
+            "value": "192.0.2.41",
+            "type": "ip-src",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Network activity"
+          },
+          {
+            "uuid": "48366808-5d3d-5d71-b20c-723ea4ff1fcf",
+            "object_relation": "authorization-action",
+            "value": "Microsoft.Authorization/roleAssignments/write",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "e0e3b9b9-861b-517e-a340-ab6ab89290bf",
+            "object_relation": "authorization-scope",
+            "value": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "a956a2de-197a-5e4c-82e2-943948ba00b8",
+            "object_relation": "authorization-role",
+            "value": "User Access Administrator",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "d0900547-844f-59cc-8ee5-e4f5d18b0d0a",
+            "object_relation": "authorization-principal-id",
+            "value": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "5e8af292-c246-506f-8ad6-0cff40b0e19f",
+            "object_relation": "authorization-principal-type",
+            "value": "User",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "1e5e7eab-cf46-54e1-9b59-31c80cecfce0",
+            "object_relation": "assigned-principal-id",
+            "value": "6ab25386-9a59-465d-998f-9db68ef01272",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "a6d59692-4542-5b64-b340-61f4b963c60b",
+            "object_relation": "assigned-principal-type",
+            "value": "ServicePrincipal",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "9a750ce9-6360-5c0a-8cda-424921c94992",
+            "object_relation": "assigned-role-definition-id",
+            "value": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/providers/Microsoft.Authorization/roleDefinitions/2a2b9908-6ea1-4ae2-8e65-a410df84e7d1",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "c36f7073-a421-563f-aa2a-b5932aa733e4",
+            "object_relation": "assignment-source",
+            "value": "requestbody",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "4e69a95d-fd73-542b-a466-fe6814ece331",
+            "object_relation": "event-time",
+            "value": "2026-11-20T09:16:03+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "cdc36c23-3e73-50dd-b91f-8d7a08031aa5",
+            "object_relation": "event-time-raw",
+            "value": "2026-11-20T09:16:03Z",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "0a6550b6-5d57-54e3-a4b3-d4f43a6b03f1",
+            "object_relation": "submission-time",
+            "value": "2026-11-20T09:17:50+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "38ac5cd5-6c07-5354-8531-e2c650c4c503",
+            "object_relation": "submission-time-raw",
+            "value": "2026-11-20T09:17:50Z",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0",
+        "first_seen": "2026-11-20T09:16:03+00:00",
+        "last_seen": "2026-11-20T09:16:03+00:00"
+      },
+      {
+        "name": "azure-activity-log-event",
+        "meta-category": "misc",
+        "template_uuid": "f386076b-de05-4af2-9824-df7e1128a070",
+        "description": "A reported Azure Resource Manager Activity Log event with operation, actor, resource, result and source provenance.",
+        "template_version": "1",
+        "uuid": "e143c2a7-89a2-5630-9061-f6b49adde6ad",
+        "ObjectReference": [
+          {
+            "uuid": "41592318-4182-5d4c-9e2f-489ee18b6f3d",
+            "object_uuid": "e143c2a7-89a2-5630-9061-f6b49adde6ad",
+            "referenced_uuid": "825f048f-e249-52ac-89b5-95de3dac9e1c",
+            "relationship_type": "extracted-from",
+            "comment": "Azure Activity Log record 2"
+          }
+        ],
+        "Attribute": [
+          {
+            "uuid": "a870dc41-3ab7-542d-b62d-c36a366bfec8",
+            "object_relation": "event-id",
+            "value": "ecb217f6-a70a-4d1b-af68-08e957153218",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "7d0e7d75-6736-51d4-b33b-b86f7b94736e",
+            "object_relation": "event-name",
+            "value": "EndRequest",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "4df0020f-aee4-521e-9d54-0cca2c947fb9",
+            "object_relation": "caller",
+            "value": "alex@tenant.example",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "d9a3496b-9ca7-5484-b603-a5bb9b39de89",
+            "object_relation": "operation",
+            "value": "Microsoft.Authorization/roleAssignments/write",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "10790c2e-f9f4-5fa9-b65d-448a1f2ecdda",
+            "object_relation": "resource-id",
+            "value": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "4baaac2b-7976-52e6-9fb4-63d2777f1f62",
+            "object_relation": "subscription-id",
+            "value": "74097513-65cf-4ee6-84cb-7d485f31e831",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "0d7b3865-2e3a-525c-9ed2-e76c84c74afe",
+            "object_relation": "category",
+            "value": "Administrative",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "20f0db94-0233-54b0-8cad-455a055903d3",
+            "object_relation": "result",
+            "value": "Succeeded",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "f2050bf8-0588-58f8-a6ec-cd0736e5c67f",
+            "object_relation": "result-detail",
+            "value": "Created",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "c9bd3d17-a7c2-5fb6-9f37-6a4ee6446aab",
+            "object_relation": "correlation-id",
+            "value": "cc69b7e8-834d-465e-b7c3-82b57873246f",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "2b7fc267-5ad1-5491-a8e4-e46bf98ed9eb",
+            "object_relation": "operation-id",
+            "value": "de6c0df0-53b7-409e-abdb-ab127d8d1749",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "ba478c68-8a4b-5550-a632-443f9dd395ed",
+            "object_relation": "source-schema",
+            "value": "arm",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "42e8475d-e542-5694-b20b-df399cecbdd3",
+            "object_relation": "caller-object-id",
+            "value": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "fb5e5b3c-afae-51be-bd55-82f71ed07c53",
+            "object_relation": "caller-tenant-id",
+            "value": "d78a81b2-00b7-4e59-8e68-178c4a9c3410",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "ffd27428-2571-5071-8fa8-94cedf194549",
+            "object_relation": "caller-source",
+            "value": "caller",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "b0cb6e38-7202-5767-9c7e-70fd954453a4",
+            "object_relation": "caller-address",
+            "value": "192.0.2.41",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "e1c3701c-a633-537b-8600-facba72e6b03",
+            "object_relation": "source-ip",
+            "value": "192.0.2.41",
+            "type": "ip-src",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Network activity"
+          },
+          {
+            "uuid": "6021983b-4d7a-5656-b431-b8f09d89d96d",
+            "object_relation": "status-code",
+            "value": "Created",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "6c413a15-b47d-5379-aa11-aaf06635fb0e",
+            "object_relation": "authorization-action",
+            "value": "Microsoft.Authorization/roleAssignments/write",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "0c784acf-d1bd-5e48-b463-a27c7b8e3ae0",
+            "object_relation": "authorization-scope",
+            "value": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "db89781d-67ca-50af-9175-e1777b176fe1",
+            "object_relation": "authorization-role",
+            "value": "User Access Administrator",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "fd914b0c-2cac-5fd3-b5dd-fde5fa7297a8",
+            "object_relation": "authorization-principal-id",
+            "value": "7ad614f0-90cf-4e61-ad86-1c68e9d46021",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "67460467-b501-57bd-afda-84d2353d0345",
+            "object_relation": "authorization-principal-type",
+            "value": "User",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "9301f362-1e8e-58ae-a713-ac804418659c",
+            "object_relation": "assigned-principal-id",
+            "value": "6ab25386-9a59-465d-998f-9db68ef01272",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "6c08f5be-2130-5697-8817-c547d5488dfa",
+            "object_relation": "assigned-principal-type",
+            "value": "ServicePrincipal",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "1f3599f8-c131-5ba5-a0a1-7837235beb5c",
+            "object_relation": "assigned-role-definition-id",
+            "value": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/providers/Microsoft.Authorization/roleDefinitions/2a2b9908-6ea1-4ae2-8e65-a410df84e7d1",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "9b41d5c3-c7c6-5603-ac0c-eab0a7429188",
+            "object_relation": "assignment-scope",
+            "value": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "47381e55-1252-55b3-a413-130b5e6232e9",
+            "object_relation": "assigned-role-assignment-id",
+            "value": "/subscriptions/74097513-65cf-4ee6-84cb-7d485f31e831/resourceGroups/rg-ledger/providers/Microsoft.Storage/storageAccounts/ledgerarchive/providers/Microsoft.Authorization/roleAssignments/bca03f20-db5b-47ec-9a76-01c00cfbf331",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "27d1d833-6ba9-5cf9-82db-873fe56cd12b",
+            "object_relation": "assignment-source",
+            "value": "responseBody",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "8a6e8860-02ee-5862-a96c-e42f968727d3",
+            "object_relation": "event-time",
+            "value": "2026-11-20T09:16:05+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "69ac41fb-5503-5099-8216-93d11c10e215",
+            "object_relation": "event-time-raw",
+            "value": "2026-11-20T09:16:05Z",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "1c94bbb8-791e-515d-a637-805c9c47d209",
+            "object_relation": "submission-time",
+            "value": "2026-11-20T09:18:02+00:00",
+            "type": "datetime",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "433a6ac6-9bb3-5fc0-b272-85fbfdf3b555",
+            "object_relation": "submission-time-raw",
+            "value": "2026-11-20T09:18:02Z",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0",
+        "first_seen": "2026-11-20T09:16:05+00:00",
+        "last_seen": "2026-11-20T09:16:05+00:00"
+      },
+      {
+        "name": "intelligence-judgment",
+        "meta-category": "misc",
+        "template_uuid": "79562e38-cc69-4580-a382-16f5c8d157c8",
+        "description": "One analyst-authored intelligence judgment with a confidence level, rationale and alternatives. Object and Analyst Relationships can link it to supporting or contrary evidence.",
+        "template_version": "1",
+        "uuid": "031639b1-f1c9-5ffa-96d0-07c2391bf632",
+        "ObjectReference": [
+          {
+            "uuid": "5f4d0c64-8125-5942-9757-a19fcd744247",
+            "object_uuid": "031639b1-f1c9-5ffa-96d0-07c2391bf632",
+            "referenced_uuid": "b5012152-c35b-5e91-b2e9-75b2a1526e0d",
+            "relationship_type": "supported-by"
+          },
+          {
+            "uuid": "e2dbb60e-f505-5155-89f6-c0a2e27d5188",
+            "object_uuid": "031639b1-f1c9-5ffa-96d0-07c2391bf632",
+            "referenced_uuid": "e143c2a7-89a2-5630-9061-f6b49adde6ad",
+            "relationship_type": "supported-by"
+          }
+        ],
+        "Attribute": [
+          {
+            "uuid": "be028eab-8afe-5d94-8545-eaa8be18df92",
+            "object_relation": "title",
+            "value": "Blob read access was granted",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "ef77cebb-bbdb-5e64-900c-0c8a17e624b0",
+            "object_relation": "judgment",
+            "value": "Azure created a Storage Blob Data Reader assignment for service principal 6ab25386-9a59-465d-998f-9db68ef01272 on the ledgerarchive storage account.",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "0b24b93c-ea80-5ffd-96b0-48388208e63f",
+            "object_relation": "confidence",
+            "value": "high",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "7743c572-ccc7-5559-b18f-45232b00787b",
+            "object_relation": "confidence-rationale",
+            "value": "The closing Azure record reports Succeeded and Created. Its response identifies the recipient, role and scope and matches the opening request.",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          },
+          {
+            "uuid": "806b85bf-32bc-5f6b-a8e7-5d8cfdbe2f71",
+            "object_relation": "alternative",
+            "value": "A sanctioned inventory job could explain the grant. The exports contain no change approval or blob access records. Whether the change was authorized or the recipient used it remains open.",
+            "type": "text",
+            "disable_correlation": true,
+            "to_ids": false,
+            "category": "Other"
+          }
+        ],
+        "distribution": "5",
+        "sharing_group_id": "0"
+      }
+    ],
+    "EventReport": [
+      {
+        "uuid": "95006cda-7921-55fb-8ae2-7b98085bf73e",
+        "name": "CLD-042 | Azure role assignment on ledgerarchive",
+        "content": "For the cloud incident lead · 20 November 2026 · Exercise, internal distribution · Assessment at 10:00 UTC.\n\nFinding. @[object](031639b1-f1c9-5ffa-96d0-07c2391bf632) Whether the grant was approved and whether anyone read blobs remain open.\n\nScope. The case covers selected Azure Portal sign-in and Resource Manager records from 09:00 to 09:30 UTC in tenant d78a81b2-00b7-4e59-8e68-178c4a9c3410 and subscription 74097513-65cf-4ee6-84cb-7d485f31e831. All times below are UTC.\n\n09:14:11. Entra recorded a successful interactive sign-in by alex@tenant.example from 192.0.2.41. Entra record 1 @[object](400b45f4-1f64-5ecf-9d38-d6923abd0fff).\n\n09:16:03. Azure recorded the start of a role assignment write. The caller object ID matches the Entra user ID. The request names a different principal as recipient. Activity record 1 @[object](b5012152-c35b-5e91-b2e9-75b2a1526e0d).\n\n09:16:05. Azure recorded Succeeded / Created for the same operation. The response names service principal 6ab25386-9a59-465d-998f-9db68ef01272, the Storage Blob Data Reader role and the ledgerarchive account in rg-ledger. Activity record 2 @[object](e143c2a7-89a2-5630-9061-f6b49adde6ad).\n\nAttribution. The records identify a directory account. The evidence cannot identify the person controlling the session or prove that this particular sign-in supplied the token for the write.\n\nDisposition. The cloud IAM team should verify the assignment and approval with the resource owner. The storage team should preserve and examine blob read logs from the grant onward and record coverage. Containment and data impact are pending.\n\nEvidence E1. entra-signins.json, Graph value[0], SHA-256 7a1908b3bf28713d753b684e88151ce770a51f31c21df408fcbf63151e4d7208. @[object](68852750-858f-54f2-bf75-0e82410855bd)\n\nEvidence E2. azure-activity.json, Resource Manager value[0] and value[1], SHA-256 d6ab8e23d24d7dc8c9ec8a3df9b2c2aaaada55d3cad590503ed9cea843c90fd7. @[object](825f048f-e249-52ac-89b5-95de3dac9e1c)",
+        "distribution": "5",
+        "timestamp": "1795168800"
+      }
+    ]
+  }
+}

@@ -4,3 +4,7 @@ assets/pdf/fonts/*LICENSE.md -text -whitespace
 
 # Preserve the PowerShell CSV fixture's BOM and CRLF bytes used for evidence hashes.
 dfir/examples/adtimeline/timeline_selected.csv -text -whitespace
+
+# Keep the cloud exercise downloads byte-identical to the evidence hashes.
+cloud-incident/examples/*.json text eol=lf
+cloud-incident/examples/forensic-report.md text eol=lf

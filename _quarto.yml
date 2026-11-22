@@ -74,6 +74,7 @@ book:
       chapters:
         - disinformation/index.qmd
         - dfir/index.qmd
+        - cloud-incident/index.qmd
         - false-positives/index.qmd
         - pivoting/index.qmd
         - geolocation/index.qmd
