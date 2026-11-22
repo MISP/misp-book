@@ -122,7 +122,7 @@ In CLD-042 the storage logs and change ticket are outstanding. Record data acces
 
 4. From the event's **All actions → Download as**, choose **Intelligence Briefing Export** (`intelligence_briefing_export`). Open the downloaded Markdown and follow J1 to S2 and S3, then compare S3's UUID with the closing observation in MISP. The supplied export has **one judgment, five cited sources, and zero structural issues**. Its status is **DRAFT** because the example has no reviewer approval. For a file marked **REVIEWED**, follow the [fingerprint and Analyst Opinion procedure](../ic-analytic-standards/index.qmd#ic-standards-export).
 
-   ![Scroll to Intelligence Briefing Export in the event download dialog to get the cited Markdown.](figures/misp3-briefing-export.png){fig-alt="Download event dialog with the Intelligence Briefing Export action visible at the bottom of the format list." width=500px}
+   ![Scroll to Intelligence Briefing Export in the event download dialog to get the cited Markdown.](figures/misp3-briefing-export.png){fig-alt="Download event dialog with the Intelligence Briefing Export action visible at the bottom of the format list."}
 
 5. If the incident lead needs a PDF of the narrative, open the saved **Event Report → Menu → PDF via print** and choose **Save as PDF** in the browser. **GFM simplified** is also available for readers outside MISP. Open the exported file as a recipient would and check that the case, timestamps, finding, evidence references, and open questions are legible. Store the approved copy and its file hash in the case record. Review tenant IDs, names, IPs, and scope before releasing a copy to a wider audience. [Event Report download options](../event-reports/index.qmd#exporting-a-report)
 
