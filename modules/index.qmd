@@ -22,7 +22,8 @@ A module may process data locally, query a provider or submit information to ano
 ::: {.callout-note}
 The MISP interface examples follow **3.0.0**, `3.0_wip` commit `99ebee729`.
 Service guidance was checked against [misp-modules `8548067a`](https://github.com/MISP/misp-modules/tree/8548067afbb14c2a089c41105ec18b06ef71ab79), whose package metadata declares **3.1.3**.
-The gathering walkthrough and screenshots were rechecked with [MISP `3c0e326d`](https://github.com/MISP/MISP/commit/3c0e326d5ebfd2b181e317af52aef0a8e5746634) and [misp-modules `f103724c`](https://github.com/MISP/misp-modules/commit/f103724ca40f08b24b00d4d36d72d1d7fdf872ac).
+The WithAName walkthrough and screenshots use [MISP `3c0e326d`](https://github.com/MISP/MISP/commit/3c0e326d5ebfd2b181e317af52aef0a8e5746634) and [misp-modules `f103724c`](https://github.com/MISP/misp-modules/commit/f103724ca40f08b24b00d4d36d72d1d7fdf872ac).
+The gathering producers, repeat-import behavior and job lifecycle were checked on November 22, 2026 using [misp-modules `2340e235`](https://github.com/MISP/misp-modules/tree/2340e23573203542eaaa6bdb9eb8064a0932ee18) and its test fixtures.
 The catalogue and service have their own release cycle: a listed module is not necessarily installed, configured or enabled for every organization.
 Select a figure to enlarge it.
 :::
@@ -33,7 +34,7 @@ The [live catalogue](https://misp-project.org/modules/) is the starting point fo
 Search by provider, module name, input type or requirement, and filter by expansion, import, export or action.
 Open a module's details to inspect its supported inputs and outputs, dependencies, configuration, references and source code.
 The exact count changes as modules are added; the upstream catalogue does not describe what is installed on a particular service.
-For the new gathering family, also consult the maintained [gathering module documentation](https://github.com/MISP/misp-modules/blob/main/documentation/mkdocs/gathering.md).
+For gathering producers and their parameters, consult the maintained [gathering guide](https://github.com/MISP/misp-modules/blob/main/documentation/mkdocs/gathering-guide.md).
 
 Choose by the task and the result you need:
 
@@ -41,7 +42,7 @@ Choose by the task and the result you need:
 |---|---|
 | Understand an indicator | Start with URL parsing, DNS/passive DNS, vulnerability or reputation expansion. Check supported attribute types, local versus external processing, and returned objects/references. |
 | Bring data into an event | Choose an import module for the source format or service. Check file/text/remote input, required options and the proposed MISP data. |
-| Collect a source as complete events | Choose a [gathering producer](#modules-gathering) and configure it as a feed source. Check collection parameters, event identity, revision storage and feed import policy. |
+| Collect a source as complete events | Choose a [gathering producer](#modules-gathering) and configure it as a feed source. Check collection parameters, source timestamps and feed import policy. |
 | Produce data for another tool | Choose an export module for the destination format. Check event input, filtering, output encoding and information the format cannot preserve. |
 | Automate a response | Choose an action module and a matching workflow. Check the trigger, configuration, side effects, and whether the module offers a dry run. |
 
@@ -244,6 +245,12 @@ A gathering module produces complete events from a source, with stable identifie
 Use expansion to enrich an existing observation, import to parse supplied data, and gathering to maintain a source through [feed fetching](../managing-feeds/index.qmd).
 Source-specific retrieval and conversion run in misp-modules; MISP applies its existing feed filters, distribution policy and UUID/timestamp rules to add, update or skip events.
 The configured feed persists between pulls; generation does not create a temporary feed definition for each request.
+WithAName, BeaconBeagle Gathering and Offensive Agency use public sources and require no provider API key.
+
+Each event and its manifest entry carry two local origin tags, one for the module identifier and one for the provider domain.
+For example, filter on `misp-gathering:module="withaname"` or `misp-gathering:source="witha.name"` to find events from that collection on your instance.
+Ordinary outgoing synchronization omits local tags. Internal sync can include them.
+An event imported before these tags were added receives them through the feed only when MISP accepts a newer revision.
 
 ### Configure the WithAName producer {#modules-gathering-withaname}
 
@@ -292,9 +299,10 @@ The producer sets `to_ids: false` and `disable_correlation: true` on all generat
 Placeholders in target rules remain literal, and the attachment preserves their definitions.
 :::
 
-Stable UUIDs and persisted revision timestamps let overlapping date windows reuse unchanged events and update corrected source content.
-Changing `deduplicate_entries` selects a separate view identity, so choose it before repeated ingestion.
-Normal MISP merge semantics apply: a corrected rule can receive a new object UUID while an older rule remains in an imported event; the producer emits no deletion tombstones.
+For a given `deduplicate_entries` setting, the snapshot filename determines both the event UUID and its UTC revision timestamp.
+Overlapping date windows therefore select the same event.
+If the provider corrects the file under the same name, MISP skips it on a repeat fetch.
+Changing `deduplicate_entries` creates a separate event for the same snapshot, so choose the setting before scheduling the feed.
 
 The local verification collected **5 events, 137 `ddos-config` objects and 1,517 attributes** from this date window.
 All events remained unpublished, and every generated attribute retained disabled IDS export and correlation.
@@ -335,6 +343,62 @@ Use the returned feed ID with **MISP `POST /feeds/fetchFromFeed/<feed-id>`** to 
 These MISP routes persist a feed and its imported events; the standalone module-service request [below](#modules-api-gathering) produces an archive.
 The [capture record](../assets/gathering-reference.json) identifies revisions, source parameters, checks and remaining validation limits.
 
+### Collect BeaconBeagle observations {#modules-gathering-beaconbeagle}
+
+Select **BeaconBeagle Gathering** (`beaconbeagle_gathering`) to import public observations of Cobalt Strike configurations, beacon hosts and command-and-control infrastructure from `beaconbeagle.com`.
+Each decoded configuration hash, beacon IP or C2 record key identifies one event.
+The event includes a source link, the full JSON record and mapped objects such as `malware-config` and `ip-port`.
+The provider can observe legitimate testing infrastructure, and the generated attributes have IDS export disabled.
+
+For example, enter the following **Gathering parameters** to select beacon hosts last observed on November 18 (UTC).
+
+```json
+{
+  "dataset": "beacons",
+  "date_from": "2026-11-18",
+  "date_to": "2026-11-19",
+  "max_events": 100
+}
+```
+
+`dataset` accepts `configs`, `beacons`, `c2` or `all` (default).
+The dates select complete records by latest observation, with an inclusive start and an exclusive end.
+Omitting both dates includes the entire dataset.
+The producer retrieves record details before applying the date filter.
+`page_size` sets the number of records per listing request (1–500, default 100).
+Exceeding a positive `max_events` fails the job. The default of 0 allows all matching events. [BeaconBeagle gathering guide](https://github.com/MISP/misp-modules/blob/2340e23573203542eaaa6bdb9eb8064a0932ee18/documentation/gathering/beaconbeagle.md)
+
+### Collect Offensive Agency exposure reports {#modules-gathering-offensive-agency}
+
+Select **Offensive Agency** (`offensive_agency`) for ONYPHE-based software exposure observations from `offensive.agency`.
+Choose the **Gathering parameters** according to the question you want the feed to answer.
+
+- **What are the latest exposure statistics?** Use `{}` to collect the published report as one dated event, with headline counts and a JSON attachment containing the breakdowns and time series.
+- **Has the tracker observed an IP in my inventory?** Use, for example, `{"asset_ips": ["192.0.2.1"]}`.
+  The producer sends each distinct IPv4 or IPv6 address to the provider and emits an event for each match.
+  A 404 skips that address.
+- **Which hosts appear in the tracker's history?** Use `{"all_hosts": true}` with `asset_ips` empty or omitted.
+  One bulk request includes hosts outside the active window and fails if the decoded response exceeds 64 MiB.
+  The two modes assign different event UUIDs to the same IP, so importing bulk rows preserves the more detailed inventory events.
+
+In a host event, open the `offensive-agency-observation` object for observation dates, network context, framework confidence and the complete `source-record` attachment.
+Linked `domain-ip` and `ip-port` objects describe related names and services when present.
+Check the observation dates against your asset records when assessing exposure, especially for cloud IPs that may have changed hands.
+The producer disables IDS export on all attributes. [Offensive Agency gathering guide](https://github.com/MISP/misp-modules/blob/2340e23573203542eaaa6bdb9eb8064a0932ee18/documentation/mkdocs/gathering-guide.md#offensive-agency)
+
+### What changes on the next fetch? {#modules-gathering-revisions}
+
+Standard gathering jobs use stable UUIDv5 identifiers for events, objects and attributes.
+The producer's UTC source time supplies the event timestamp, publish timestamp, manifest revision and timestamps of the event's objects and attributes.
+WithAName uses the time in the snapshot filename.
+BeaconBeagle uses the latest observation time, falling back to the Unix epoch for an undated record.
+Offensive Agency uses midnight UTC on the report date for statistics or on the last-seen date for a host.
+
+For an event that passes the feed filters, MISP adds a new UUID and updates an existing UUID only if the incoming timestamp exceeds the stored timestamp.
+An identical record, an older record or a correction with the same source time leaves the imported event as it was.
+After upgrading from a producer that assigned revisions locally, compare the two timestamps if an expected update is skipped.
+The source time must advance past the revision MISP already holds. [MISP feed import logic](https://github.com/MISP/MISP/blob/6c6e4c5c7f93a47e8213277ad43b2c90550c8d28/app/Model/Feed.php#L1246-L1266)
+
 ### Generation, storage and operating limits {#modules-gathering-operations}
 
 The gathering lifecycle has five stages:
@@ -352,15 +416,21 @@ PHP's **curl** and **zip** extensions are required, and MISP needs writable temp
 MISP defaults to **10 GiB** compressed and expanded budgets and **256 MiB** per file, configurable through `Plugin.Gathering_max_archive_bytes`{.text-wrap .text-break}, `Plugin.Gathering_max_expanded_bytes`{.text-wrap .text-break} and `Plugin.Gathering_max_event_bytes`{.text-wrap .text-break}.
 The importer reads event content one event at a time; the largest event must still fit in memory, and some filename metadata grows with file count.
 
-Set the module service's `MISP_MODULES_GATHERING_STATE_DIR`{.text-wrap .text-break} to durable, service-owned storage and preserve its SQLite revision index across upgrades and restarts.
-That index ensures corrected historical events receive newer timestamps than previously imported versions.
-Replicas serving the same feed need the same conversion version and shared storage suitable for SQLite locking, or one designated producer.
-Ready artifacts survive restarts with durable storage; interrupted generation fails and must be retried from the source.
+Set `MISP_MODULES_GATHERING_STATE_DIR`{.text-wrap .text-break} to durable, service-owned storage if job status and ready ZIPs must survive restarts.
+Standard jobs ignore legacy `revisions.sqlite3` files.
+Replicas running the same converter on the same input produce the same revisions independently.
+Allow space for both the expanded feed and the ZIP during generation.
+The worker removes the staging files and temporary SQLite manifest index before reporting `ready` or `failed`.
+On failure it also removes the ZIP, so only a ready job has an archive to download.
+Poll, download and release a job on the service that holds its files.
+If generation is interrupted by a restart, submit a new job.
 The service has bounded workers/queue, generation and disk budgets, and artifact retention; see the maintained [gathering guide](https://github.com/MISP/misp-modules/blob/main/documentation/mkdocs/gathering-guide.md) for settings.
 
 The checked integration supports **import and preview**; keep feed caching/lookup disabled.
 Daily aggregation and protected-event signatures are outside the first producer's scope.
 If a module is missing from the picker, check family enablement, module enablement, organization restrictions and contract version before debugging source retrieval.
+If generation succeeds but MISP reports `Gathering archive size or SHA256 mismatch`, compare the downloaded file with the ready job's size and checksum.
+On affected MISP revisions the HTTP client can leave the destination file empty. [MISP streaming download report](https://github.com/MISP/MISP/pull/11312)
 Query statistics measure submission; use the generation job status and feed import outcome to establish completion.
 For direct clients, follow the [gathering API lifecycle](#modules-api-gathering).
 
@@ -604,7 +674,12 @@ Once the service works, configure the matching MISP family and enable the module
 Contributing a file, installing it in the running service and enabling it in MISP are separate steps.
 
 For a gathering producer, advertise contract version **2** and a parameter schema, submit background work through `get_jobs().submit(...)`, and pass each complete event to `FeedBuilder.add(event, source_timestamp)`.
-The framework creates the manifest and ZIP; the producer supplies stable UUIDs, meaningful revisions and cooperative cancellation checks.
+Use `stable_uuid` with a fixed namespace and source key, and scope each child UUID to its parent.
+Keep an attachment's identity stable across changes to its contents.
+Add `origin_tags(module_identifier, source_domain)` to the event, supply the source timestamp and check for cancellation during retrieval.
+The builder collapses identical UUID entries, rejects conflicting ones and writes the manifest and ZIP.
+Custom callers that need to publish same-time corrections can explicitly pass a `RevisionStore` to `FeedBuilder`.
+Replicas using that option need a common store to agree on revisions.
 Follow the [gathering contributor guidance](https://github.com/MISP/misp-modules/blob/main/documentation/mkdocs/gathering-guide.md#durable-revisions-and-additional-producers) and test retries, corrections, reordered input, limits and cleanup.
 Additional producers use the same MISP integration without source-specific converter code in core.
 

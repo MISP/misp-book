@@ -1,6 +1,15 @@
 {
   "checked_at": "2026-11-18",
   "scope": "Gathering version-2 documentation, live WithAName collection, MISP 3.0 feed ingestion and refreshed screenshots. Other chapter examples retain their separately recorded revisions.",
+  "producer_review": {
+    "checked_at": "2026-11-22",
+    "module_service_commit": "2340e23573203542eaaa6bdb9eb8064a0932ee18",
+    "misp_feed_import_commit": "6c6e4c5c7f93a47e8213277ad43b2c90550c8d28",
+    "modules": ["withaname", "beaconbeagle_gathering", "offensive_agency"],
+    "scope": "Source review of the three producers, feed builder, job manager and MISP feed import timestamp comparison. The producer and job tests used upstream fixtures. The live import and screenshot records below are from November 18.",
+    "upstream_test_command": "python -m pytest -q tests/test_gathering.py tests/test_beaconbeagle_gathering.py tests/test_offensive_agency_gathering.py",
+    "upstream_tests_passed": 92
+  },
   "misp": {
     "repository": "https://github.com/MISP/MISP",
     "branch": "3.0_wip",

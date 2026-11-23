@@ -234,7 +234,7 @@ caches and external providers also matter when operating or backing up the servi
 
 ### MISP modules {#glossary-misp-modules}
 
-A companion service providing supported enrichment, import, export or other module operations.
+A companion service that provides enrichment, import, export, workflow actions and feed gathering.
 The service, module dependencies, configuration and provider access must be present for a
 particular action to work. A module result is a sourced claim requiring interpretation, and a
 live lookup can disclose submitted data to a provider. See [Modules](modules/index.qmd#modules-families).

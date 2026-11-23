@@ -9,9 +9,9 @@ Feeds let you look up or import intelligence from a published source without con
 two-way MISP connection. A feed can contain **MISP events**, **free text** or **CSV**. Its
 definition records where to get the data, how to parse it and what to do with the result.
 
-[Gathering modules](../modules/index.qmd#modules-gathering) can also generate complete MISP feeds from a source.
-The first producer collects [witha.name DDoSia configurations](../modules/index.qmd#modules-gathering-withaname); configure **Input Source → MISP modules** and fetch through the normal feed importer.
-Gathering feeds support import and preview with caching disabled.
+Choose **Input Source → MISP modules** to generate a feed of complete events with a gathering producer.
+The Modules chapter covers [WithAName DDoSia snapshots](../modules/index.qmd#modules-gathering-withaname), [BeaconBeagle observations](../modules/index.qmd#modules-gathering-beaconbeagle) and [Offensive Agency exposure reports](../modules/index.qmd#modules-gathering-offensive-agency).
+Gathering feeds support preview and import with caching disabled. On repeat fetches, MISP uses the [event UUID and source timestamp](../modules/index.qmd#modules-gathering-revisions) to decide whether to update an event.
 
 ::: {.callout-note}
 Instructions and screenshots use MISP **3.0.0**, the [`3.0_wip`](https://github.com/MISP/MISP/tree/3.0_wip)
@@ -118,7 +118,7 @@ recognisable name, provider and source location, then set the import behaviour e
 |---|---|
 | **Enabled** | Makes the feed eligible for ingestion. This is independent of caching. |
 | **Caching enabled / Lookup visible** | Choose whether to maintain the lookup cache and who may see its hits. |
-| **Input source / URL** | **Network** fetches over HTTP(S). **Local** reads an approved server-side path, where permitted by instance policy. A native MISP feed normally uses the feed directory's base URL; see the format notes below. |
+| **Input source / URL** | **Network** fetches over HTTP(S). **Local** reads an approved server-side path, where permitted by instance policy. With **MISP modules**, select the gathering producer and enter its parameters. The producer supplies the source. |
 | **Request headers** | Extra headers, one `headername: value` per line, for authenticated sources. Treat the definition and its exports as sensitive when they contain credentials. |
 | **Creator organisation** | The creator of events produced from free-text/CSV data. Confirm it before importing. |
 | **Target event** | A **Fixed event** is updated on later fetches; **New event each pull** creates a fresh event each time. Verify the target ID belongs to the intended event. |
@@ -137,7 +137,7 @@ only for a deliberate one-shot workflow.
 #### Source formats
 
 - **MISP Feed**: a feed directory with `manifest.json` and event JSON files named by UUID.
-  Enter its base URL, such as `https://www.circl.lu/doc/misp/feed-osint`{.text-wrap .text-break}. It is a published
+  For a network feed, enter its base URL, such as `https://www.circl.lu/doc/misp/feed-osint`{.text-wrap .text-break}. It is a published
   snapshot, not a native two-way sync connection. With **Inherit from feed**, usable source
   distribution must be present; missing distribution falls back to organisation-only.
 - **Freetext Parsed Feed**: MISP extracts candidate indicators from the text. Preview the
