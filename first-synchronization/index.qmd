@@ -147,8 +147,24 @@ These controls can remove standalone attributes, attributes inside objects, or e
 Leave type filters off for the first pass unless the receiving scope specifically requires incomplete event records.
 A sync-rule test counts event candidates.
 Inspect a representative received event, including an object with multiple attributes, before relying on type filtering.
-If you later expand the allowed types, verify that already-synced events get refreshed.
-Removing the rule alone does not recover previously omitted content.
+
+#### Recover content omitted by an earlier type filter
+
+Widening a type filter leaves previously synchronized copies incomplete.
+An ordinary sync can skip events whose source timestamp has stayed the same.
+To recover the omitted content, delete the affected copies on the receiving instance and run a full synchronization with the widened rules.
+
+1. Pause scheduled sync for the peer and record the affected event UUIDs.
+   Confirm that the sender still has the published events and the content you need.
+   Back up the receiving instance and preserve any local tags, notes, or other work you need to restore. See [backup and recovery](../administration/index.qmd#admin-backup-recovery).
+2. Save the widened type rules on the connection that applied them.
+   Check that the affected events match the saved selection rules, including any pull time window.
+   For a pull recovery, you can scope the batch by UUID in **Additional sync parameters**.
+3. Use **Delete Event** for the affected copies on the receiving instance.
+   If deletion adds their UUIDs to the [Event Blocklist](../administration/index.qmd#admin-ingestion-controls), remove the entries created for the approved recovery so MISP can receive those events again.
+4. Run **Pull all** on the receiving instance or **Push all** on the sending instance, according to the direction you are repairing.
+   Confirm that the same event UUIDs are back and contain the previously omitted attributes or objects.
+   Restore any temporary event-selection settings before resuming the schedule.
 
 ## Test the rules and run a pilot
 
