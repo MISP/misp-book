@@ -89,14 +89,14 @@ Confirm that tagging and organization filtering are enabled on the source before
 Under **Pull rules → Additional sync parameters**, enter a JSON object for the remote event index.
 These settings are evaluated by the source during a regular full pull and are also used by **Test Pull Rules**.
 
-| Goal | JSON example | What it selects |
-|---|---|---|
-| Start with recently updated events | `{"timestamp": "7d"}` | Events whose modification timestamp falls in the last seven days, including older events edited recently. |
-| Start with recently republished or newly published events | `{"publish_timestamp": "30d"}` | Events whose most recent publication was within 30 days. Republishing an older event can bring it into the window. |
-| Select recently first-published events | `{"firstpublished": "30d"}` | Events whose first recorded publication was within 30 days. This field depends on support from the source version. |
-| Backfill a fixed modification window | `{"timestamp": [1767225600, 1769903999]}` | Events modified in January 2026 UTC, using inclusive Unix timestamp bounds in seconds. |
-| Backfill by the event's recorded date | `{"datefrom": "2026-01-01", "dateuntil": "2026-01-31"}` | Events with an event date in January 2026, including both endpoints. |
-| Target a verified event cohort | `{"eventid": "6fad47cb-c554-43fc-8293-393882be93b3"}` | The eligible event with that UUID. Replace the example with an agreed UUID from the source. |
+| JSON example | What it selects |
+|---|---|
+| `{"timestamp": "7d"}` | Events whose modification timestamp falls in the last seven days, including older events edited recently. |
+| `{"publish_timestamp": "30d"}` | Events whose most recent publication was within 30 days. Republishing an older event can bring it into the window. |
+| `{"firstpublished": "30d"}` | Events whose first recorded publication was within 30 days, if the source version supports this field. |
+| `{"timestamp": [1767225600, 1769903999]}` | Events modified in January 2026 UTC, using inclusive Unix timestamp bounds in seconds. |
+| `{"datefrom": "2026-01-01", "dateuntil": "2026-01-31"}` | Events with an event date in January 2026, including both endpoints. |
+| `{"eventid": "6fad47cb-c554-43fc-8293-393882be93b3"}` | The eligible event with that UUID. Replace the example with an agreed UUID from the source. |
 
 Combine distinct parameters in one JSON object if both criteria should apply.
 A regular pull selects published events, and MISP manages its own pagination.
