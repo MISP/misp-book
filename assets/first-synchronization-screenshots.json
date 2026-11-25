@@ -1,0 +1,129 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "357030ccb6a70b388a3bab6798854eb50dc2588a",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "capture_method": "Unretouched Chromium screenshots via Playwright, using viewport, element and table crops.",
+  "fixture": "Two isolated MISP instances using the pinned source and separate MariaDB schemas and Redis servers. All event data is synthetic. The source offers four published events and one draft, with one published event outside the time window. The receiving connection starts with event sync disabled.",
+  "verification": {
+    "preview_added_no_events": true,
+    "pull_candidate_counts": {
+      "with_rules": 1,
+      "without_rules": 4
+    },
+    "pulled_expected_uuid_only": true,
+    "push_candidate_counts": {
+      "with_rules": 1,
+      "without_rules": 3
+    },
+    "pushed_expected_uuid_only": true,
+    "type_filter_controls_opened_without_saving_a_type_rule": true,
+    "pull_options_used_free_text_after_picker_request_failed": true,
+    "received_pilot_distribution_and_attribute_checked": true,
+    "additional_pull_type_check": "A separate UUID-scoped pull blocked a comment attribute and retained the domain attribute in the same event."
+  },
+  "shots": [
+    {
+      "file": "first-synchronization/figures/remote-event-preview.png",
+      "url": "/servers/previewIndex/1/searchpublished:1",
+      "description": "Remote event preview with the Published filter and four synthetic events.",
+      "role": "Site administrator",
+      "selector": "main",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T07:43:04.648164+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 529
+      },
+      "sha256": "abc83a8aa26719ac5fa11cd4ac8b19ddfb9d6803de6953be286029c91ddbb0aa"
+    },
+    {
+      "file": "first-synchronization/figures/pull-rules.png",
+      "url": "/servers/index",
+      "description": "Pull rules with the pilot and hold tags, creator organization UUID, and a seven-day modification window.",
+      "role": "Site administrator",
+      "selector": "#sgCollapse5 .accordion-body",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T07:43:06.791066+00:00",
+      "image_size": {
+        "width": 1090,
+        "height": 927
+      },
+      "sha256": "3a960512e37ff0d545c766ee43e52d849c6c0905e0818bcfd83832676650af97"
+    },
+    {
+      "file": "first-synchronization/figures/type-filters.png",
+      "url": "/servers/index",
+      "description": "The acknowledgement and the separate attribute and object selectors for pull type filtering.",
+      "role": "Site administrator",
+      "selector": "#typeFilteringSection_pull",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T07:43:06.956562+00:00",
+      "image_size": {
+        "width": 1050,
+        "height": 366
+      },
+      "sha256": "91e38a2f1e474bdc201790a91f6d74b1cefe14eabe886e40fa71f417428055a6"
+    },
+    {
+      "file": "first-synchronization/figures/push-rules.png",
+      "url": "/servers/index",
+      "description": "Push rules with a local partner-export allow tag and a hold block tag.",
+      "role": "Site administrator",
+      "selector": "#sgCollapse5 .accordion-body",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T07:43:12.423566+00:00",
+      "image_size": {
+        "width": 1090,
+        "height": 556
+      },
+      "sha256": "a3713f4128501a651cabcd6082aecb8d84e5c3dae0936bd61632663e80ee1a5d"
+    },
+    {
+      "file": "first-synchronization/figures/test-sync-rules.png",
+      "url": "/servers/index",
+      "description": "Server table showing the results of Test Push Rules and Test Pull Rules.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 382,
+        "y": 266,
+        "width": 263,
+        "height": 308
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1140
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T07:43:53.344155+00:00",
+      "image_size": {
+        "width": 263,
+        "height": 308
+      },
+      "sha256": "b25a27fa18ae2352dcc52e1756bb247199286cdff40452f43a3f3efb3cce51cf"
+    }
+  ]
+}

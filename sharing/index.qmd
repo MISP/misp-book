@@ -100,6 +100,8 @@ to schedule synchronization, and monitor the resulting jobs and logs.
 
 ## Add a remote server {#adding-a-server}
 
+For a staged rollout with a large peer, see [First Synchronization with a Large MISP Instance](../first-synchronization/index.qmd).
+
 As a **site administrator**, open **Sync → Servers & Feeds → Servers** and select **Add Server**.
 The MISP 3.0 form groups the settings into expandable sections. The underlying endpoint is
 `/servers/add`.
