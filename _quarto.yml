@@ -82,6 +82,7 @@ book:
     - part: "Sharing & Synchronisation"
       chapters:
         - sharing/index.qmd
+        - first-synchronization/index.qmd
         - managing-feeds/index.qmd
         - collections/index.qmd
         - cryptographic-keys/index.qmd
