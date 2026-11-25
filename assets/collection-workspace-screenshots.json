@@ -7,10 +7,10 @@
   "theme": "Overmind, light",
   "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
   "capture_method": "Chromium through Playwright, using the running application after Admin runUpgrade applied the merge migrations. The PNGs use recorded viewport, clip, or element captures without retouching.",
-  "fixture": "Two isolated MISP instances with synthetic records and reserved values. The DNS workspace is organization-only. The publication screenshot shows a separate unreleased collection. A recreated three-event example supplies the computed favicon pivots.",
+  "fixture": "Two isolated MISP instances with synthetic records and reserved values. The DNS workspace is organization-only. The publication screenshot shows a separate unreleased collection. The recreated three-event pivot exercise uses the domain-ip objects, selectors, and observation windows documented in the Pivoting chapter.",
   "verification": {
     "workspace": "Added an event with the split control, checked its membership, and saved the collection layout through Pivot Explorer. The layout appeared on the active collection, in the Saved graphs list, and on the saved graph page.",
-    "pivot_explorer": "Fetched one synthetic favicon attribute into review and followed its two computed correlations, including the two matching events.",
+    "pivot_explorer": "Checked the three organization-only events against the documented fixture. The first fetch returned one favicon attribute for review. Fetching Correlations returned the two matching favicon occurrences and their parent events. After ingesting those four records, the rendered graph had three attributes, two events, two correlation edges, and two in-event edges.",
     "collection_publication": "Verified unpublished withholding, publication-triggered push, pending changes waiting for republish, and the destination retaining its copy after unpublish.",
     "compatible_peer_members": [
       "Event",
@@ -114,7 +114,7 @@
     {
       "file": "pivoting/figures/misp3-pivot-correlations.png",
       "url": "/events/view/12#tab-pivot-explorer",
-      "description": "The native Pivot Explorer after ingesting the two computed favicon correlations, with Save as graph in the toolbar.",
+      "description": "The fitted Pivot Explorer canvas has all five nodes in view, with two dashed correlation edges and two solid in-event edges.",
       "role": "Site administrator",
       "selector": "#tab-pivot-explorer",
       "clip": null,
@@ -123,18 +123,18 @@
         "height": 1050
       },
       "scale": 1,
-      "captured_at": "2026-11-25T14:24:12.313454+00:00",
+      "captured_at": "2026-11-25T15:48:38.444085+00:00",
       "image_size": {
         "width": 1416,
         "height": 809
       },
-      "sha256": "75ad6c5e498ab0541d67e8cea3a1069712cc9100f1a2a2389d920eddd7fa1dc4",
+      "sha256": "934f5b3f01a592f320f03c8aa0c9f221e7c94630dd3ca990af17c78175cda3ef",
       "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
     },
     {
       "file": "pivoting/figures/misp3-pivot-review.png",
       "url": "/events/view/12#tab-pivot-explorer",
-      "description": "Event Pivot Explorer reviewing one fetched favicon attribute before it joins the graph.",
+      "description": "The seed event has one domain-ip object. Pivot Explorer is reviewing its one fetched favicon attribute before ingesting it.",
       "role": "Site administrator",
       "selector": null,
       "clip": null,
@@ -143,12 +143,12 @@
         "height": 1050
       },
       "scale": 1,
-      "captured_at": "2026-11-25T14:24:09.869877+00:00",
+      "captured_at": "2026-11-25T15:48:36.417948+00:00",
       "image_size": {
         "width": 1440,
         "height": 1050
       },
-      "sha256": "93d0fd3f069f15e3e44203f73cfe371f39ff2ac8ecdc5391498d2f1874834626",
+      "sha256": "4f4b9e0da9e7451bb71b67b409479566e582631e838e93869d11c844e80c3be5",
       "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
     },
     {

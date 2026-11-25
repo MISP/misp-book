@@ -131,13 +131,14 @@ Likewise, a search that returns either of two values is not an automatic conjunc
 
 Open A's **Pivot Explorer** tab.
 If the canvas is empty, use **Browse event elements**, narrow the search to the favicon value, and choose **Fetch** to review the candidate before adding it.
+Choose **Ingest all 1** to add that single attribute to the canvas.
 Select the source attribute on the canvas, choose **Correlations**, and fetch the related occurrences for review.
 Only add the results useful to the current question.
 In this example, two matching attributes bring their two parent events as context, so the review contains four records rather than four independent observations.
 
-![Pivot Explorer reviews the one narrowed source element before it is added to the canvas. Ingest in this view adds records to the analysis graph rather than creating new source observations.](figures/misp3-pivot-review.png)
+![Review (1) shows the seed event's favicon attribute, filtered by the value `1357913579`, before it is added to the canvas.](figures/misp3-pivot-review.png)
 
-![The native Pivot Explorer after the two computed favicon matches have been reviewed and added. These are investigative connections, not asserted common ownership.](figures/misp3-pivot-correlations.png)
+![Two dashed correlation arrows lead from the seed favicon to the matching attributes in B and C. The two solid in-event links connect those attributes to their parent events.](figures/misp3-pivot-correlations.png)
 
 A blank starting graph does not mean there are no correlations: this interface fetches them from selected elements on the canvas.
 Conversely, an attractive graph layout or a short path does not establish causality.
