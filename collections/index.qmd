@@ -111,6 +111,7 @@ Choose which should follow the change and verify the recipient's view.
 ### Publish changes to a shared collection {#publish-a-collection}
 
 An organization-only collection has no publish step.
+A pull can still retrieve an organization-only collection if its remote account can read it.
 A wider collection requires publication before sync can deliver its current version.
 Edits to the collection or its membership put it back in a pending state, as can changes to shareable graphs or links associated with it.
 A publisher needs edit access to the collection and publication permission.

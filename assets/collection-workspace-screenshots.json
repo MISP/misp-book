@@ -22,7 +22,8 @@
     ],
     "payload": "Both isolated instances ran the pinned branch revision. Push and full pull received all six member types, including stored value text and standalone object contents. The referenced organization-only event stayed on the sender. The released Graph arrived with Analyst Data push enabled, and the pulled collection was locked.",
     "older_peer": "On the pinned build, a collection view request identifying as MISP 2.5.35 returned only Event and GalaxyCluster members. This was a compatibility response check.",
-    "conversion": "Turned a raw value and a standalone object into an unpublished event and checked that the collection held an Attribute and an Object afterward."
+    "conversion": "Turned a raw value and a standalone object into an unpublished event and checked that the collection held an Attribute and an Object afterward.",
+    "organization_only_pull": "A full pull authenticated with access to the organization-only workspace received it as a locked copy even though the original had never been published."
   },
   "shots": [
     {
