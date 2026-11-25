@@ -15,12 +15,12 @@ Your menus can differ with your role, enabled features, and theme.
 Select a screenshot to enlarge it in the website.
 :::
 
-<!-- Screenshot source commits, account roles and capture details: screenshots.json -->
+<!-- Screenshot sources: screenshots.json and ../assets/collection-workspace-screenshots.json -->
 
 ## The top bar
 
 The MISP logo opens your personal homepage, or the instance's default landing page if you have not chosen one.
-The named menus on the left group related tools; the controls on the right open workspaces, news, bookmarks, and your account menu.
+The named menus on the left group related tools; the controls on the right open the workspace dock, news, bookmarks, and your account menu.
 The current menu is highlighted so you can see which part of MISP you are using.
 
 ![Main navigation for a regular User account in the instance's host organization.](figures/misp3-navigation-user.png)
@@ -208,16 +208,18 @@ It changes where the MISP logo takes you and applies to your account.
 
 ### Workspaces
 
-The **Workspace** control opens the current analysis workspace or lets you choose one.
-A workspace provides a graph for bringing related items together while you browse; it is separate from the event's own attributes and reports.
-Make sure the intended workspace is active before using **Add to workspace** controls on other pages.
-Additions are saved as they arrive; use **Save layout** to keep changes to node positions.
+In Overmind, the workspace is the [collection](../collections/index.qmd) you have selected for current work.
+The top bar shows its name and member count, or **No workspace**.
+Open the chip to show the dock, then use its selector to choose a collection you can edit or choose **New collection…**.
+You can also select **Make it my workspace** on a collection page.
+The workspace selection follows your account across tabs, while the collection keeps its own distribution.
 
-![An organization-only example workspace opened alongside the investigation.](figures/misp3-workspace-panel.png)
+![The workspace dock shows the active DNS investigation collection beside an event.](figures/misp3-workspace-panel.png){fig-alt="The main navigation's active collection opens in a dock with graph and list controls."}
 
-Workspaces have their own name and distribution settings.
-The example uses **Your organisation only**, so it can be accessible to other authorized members of your organization.
-Creating or selecting one is optional; you can continue using the event lists and event views without an active workspace.
+Check the active collection before choosing **Add to workspace** on a record.
+Additions go directly into the collection.
+Use **Save as graph…** or **Save layout** to keep the layout separately.
+See [using the working view](../collections/index.qmd#collection-working-view) and [saved graphs](../analyst-data/index.qmd#saved-graphs).
 
 ## Smaller screens and keyboard access
 

@@ -199,7 +199,7 @@ The main tabs separate overview, structured data, narrative, investigation tools
 ### General event information
 
 Use **General** to review the creating organization, distribution, markings, reports, context, inventory, attachments, and assessment.
-The side column contains actions and related collections, events, or workspaces where available.
+The side column contains actions and related records. **In investigations** shows collections that hold the event and saved graphs kept on it.
 Expand **Details** for analysis stage, threat level, correlation, protection, publication, and change information.
 
 A **Protected** event restricts synchronized updates to approved signatories when event signing is configured.
@@ -239,7 +239,7 @@ Follow the related-event link, inspect the matching attributes, and compare sour
 Shared hosting, reused infrastructure, and copied reports can create correlations without establishing a common campaign.
 The [Correlation](../correlation/index.qmd) chapter explains how matches are generated, when they are updated, and how to filter or suppress them.
 
-For work spanning several pages, add relevant material to a [workspace](../general-layout/index.qmd#workspaces).
+For work spanning several pages, use **Add to workspace** to gather material in the [active collection](../general-layout/index.qmd#workspaces).
 For one value across events, use [**Data points → Value Intelligence**](../value-intelligence/index.qmd) and inspect its occurrences and effective analyst profile.
 A workspace connection used while exploring is not automatically an asserted Analyst Data Relationship.
 

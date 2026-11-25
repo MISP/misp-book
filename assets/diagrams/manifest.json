@@ -59,9 +59,9 @@
     {
       "source": "collections/figures/collection-access.mmd",
       "file": "collections/figures/collection-access.svg",
-      "source_sha256": "40fae09280806dc0d2ea3efce128dd7d51e7292bcfa4a3997a4e34ab2924462c",
-      "sha256": "abb39354b754281e9cedced7d8d31736fcd98dae0fd23c2b4273d583d509441c",
-      "viewBox": "0 0 774.453125 463.79998779296875"
+      "source_sha256": "8e102993e2537e2219f013baf5587f08fdb0b3e0025d00c56a95a3dfa73683d9",
+      "sha256": "61e14684443571433257cd97e94bdaa0618302b478b99c1d623a652fc8889cb7",
+      "viewBox": "0 0 769.390625 481.39996337890625"
     },
     {
       "source": "connectors/figures/connector-lifecycle.mmd",

@@ -53,8 +53,7 @@ a new incident.
 Search for the domain, address or hash and inspect the accessible occurrences, source context,
 first/last seen, warninglist hits and sightings. In 3.0, a component value's SHA-256 address can
 anchor research across occurrences while attribute UUIDs retain their individual identities.
-Use a workspace/graph to explore relevant links and record a note, opinion or relationship in
-the appropriate scope. A shared value or graph edge is a lead, not confirmation of causality.
+Gather records in the active collection, explore them with a saved graph, and record a note, opinion or relationship in the appropriate scope. A shared value or graph edge is a lead, not confirmation of causality.
 
 ![The actual 3.0 value view for a reserved training domain, with accessible observation and research context.](figures/misp3-value-research.png)
 

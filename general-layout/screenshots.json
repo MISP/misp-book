@@ -232,24 +232,6 @@
       "sha256": "74234e7be1215c31afcd6eb81396d98149a6a439631776d6bef32feea4967078"
     },
     {
-      "file": "general-layout/figures/misp3-workspace-panel.png",
-      "url": "/events/view/1",
-      "description": "The organisation-only Quick-start investigation workspace containing the fictional event.",
-      "role": "User",
-      "selector": "#ig-so",
-      "viewport": {
-        "width": 1440,
-        "height": 900
-      },
-      "scale": 1,
-      "captured_at": "2026-11-06T09:53:35.537898+00:00",
-      "image_size": {
-        "width": 432,
-        "height": 842
-      },
-      "sha256": "52279d283f8e294e5c15b3b2dd709455f5f5b509a9b7d467ce56b77fda83caf8"
-    },
-    {
       "file": "general-layout/figures/misp3-page-controls.png",
       "url": "/events/index",
       "description": "Event index showing page heading, primary action, search and filter controls, sortable table, result count and pagination.",

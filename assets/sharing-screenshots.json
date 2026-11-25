@@ -283,46 +283,6 @@
       "commit": "4dcd953d1b987c4ce7089c6b9d55237fa81835a8"
     },
     {
-      "file": "collections/figures/misp3-collection.png",
-      "url": "/collections/view/1",
-      "description": "Private dossier with Event, Object, Attribute and AttributeValue references",
-      "role": "Site administrator",
-      "selector": null,
-      "clip": null,
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "scale": 1,
-      "captured_at": "2026-11-06T13:46:06.980517+00:00",
-      "image_size": {
-        "width": 1440,
-        "height": 1000
-      },
-      "sha256": "088eb8729607ddee9e7208ca8783833f744ee002f74e417a9c020b868ace4cc9",
-      "commit": "4dcd953d1b987c4ce7089c6b9d55237fa81835a8"
-    },
-    {
-      "file": "collections/figures/misp3-collection-element.png",
-      "url": "/collections/view/1",
-      "description": "Unsaved element reference; UUID target type detected locally",
-      "role": "Site administrator",
-      "selector": ".modal.show .modal-content",
-      "clip": null,
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "scale": 1,
-      "captured_at": "2026-11-06T13:46:08.496776+00:00",
-      "image_size": {
-        "width": 800,
-        "height": 564
-      },
-      "sha256": "f1c5b48346e5f5ca3399baf65e3e7f13d1a72bdd8fc59750363958d70e7ac151",
-      "commit": "4dcd953d1b987c4ce7089c6b9d55237fa81835a8"
-    },
-    {
       "file": "cryptographic-keys/figures/misp3-protect-event.png",
       "url": "/events/view/9",
       "description": "Protection confirmation for the private unpublished draft",

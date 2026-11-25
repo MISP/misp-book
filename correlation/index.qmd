@@ -126,7 +126,7 @@ A cache hit does not grant access to a remote record or prove that it has been i
 See [Managing Feeds](../managing-feeds/index.qmd) for caching, fetching and the separate import decisions.
 
 For a step-by-step investigation that changes selectors and records uncertainty, continue with the [pivoting use case](../pivoting/index.qmd).
-**Pivot Explorer** and [workspaces](../general-layout/index.qmd#workspaces) can assemble an investigative view; adding a computed edge to a canvas does not create an asserted Analyst Data Relationship.
+**Pivot Explorer** and the [workspace](../general-layout/index.qmd#workspaces) can assemble an investigative view. A [saved graph](../analyst-data/index.qmd#saved-graphs) keeps that view, and an Analyst Data Relationship records an explicit assertion.
 
 ## Advanced correlations {#correlation-advanced}
 

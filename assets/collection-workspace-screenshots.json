@@ -1,0 +1,244 @@
+{
+  "misp_version": "3.0.0",
+  "repository": "https://github.com/MISP/MISP",
+  "branch": "3.0_wip",
+  "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c",
+  "merge": "https://github.com/MISP/MISP/pull/11321",
+  "theme": "Overmind, light",
+  "runtime_image": "ghcr.io/misp/misp-docker/misp-core@sha256:03c0b1d0b9e2e3c8261b987e9e911e8efec139d0ece4337285e5175b68817a31",
+  "capture_method": "Chromium through Playwright, using the running application after Admin runUpgrade applied the merge migrations. The PNGs use recorded viewport, clip, or element captures without retouching.",
+  "fixture": "Two isolated MISP instances with synthetic records and reserved values. The DNS workspace is organization-only. The publication screenshot shows a separate unreleased collection. A recreated three-event example supplies the computed favicon pivots.",
+  "verification": {
+    "workspace": "Added an event with the split control, checked its membership, and saved the collection layout through Pivot Explorer. The layout appeared on the active collection, in the Saved graphs list, and on the saved graph page.",
+    "pivot_explorer": "Fetched one synthetic favicon attribute into review and followed its two computed correlations, including the two matching events.",
+    "collection_publication": "Verified unpublished withholding, publication-triggered push, pending changes waiting for republish, and the destination retaining its copy after unpublish.",
+    "compatible_peer_members": [
+      "Event",
+      "GalaxyCluster",
+      "Attribute",
+      "Object",
+      "AttributeValue",
+      "StandaloneObject"
+    ],
+    "payload": "Both isolated instances ran the pinned branch revision. Push and full pull received all six member types, including stored value text and standalone object contents. The referenced organization-only event stayed on the sender. The released Graph arrived with Analyst Data push enabled, and the pulled collection was locked.",
+    "older_peer": "On the pinned build, a collection view request identifying as MISP 2.5.35 returned only Event and GalaxyCluster members. This was a compatibility response check.",
+    "conversion": "Turned a raw value and a standalone object into an unpublished event and checked that the collection held an Attribute and an Object afterward."
+  },
+  "shots": [
+    {
+      "file": "collections/figures/misp3-collection-element.png",
+      "url": "/collections/view/1",
+      "description": "The collection’s manual Add element dialog for known record addresses.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:17:40.474120+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 546
+      },
+      "sha256": "a327137a907f8b7829c2359761587f8949e75ebe94b6a86dc3e3a728ef6be8ea",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "collections/figures/misp3-collection-publish-review.png",
+      "url": "/collections/view/3",
+      "description": "Publication review showing new members and a value held in a narrower source event.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:17:45.678269+00:00",
+      "image_size": {
+        "width": 800,
+        "height": 764
+      },
+      "sha256": "cf79fb4734436b3b076ec2e0cf7badbb2b2618068c241a1d43f9fb71bfc788f1",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "collections/figures/misp3-collection-working-view.png",
+      "url": "/collections/view/1#tab-pivot-explorer",
+      "description": "Collection Pivot Explorer in Both mode with the saved layout, event and attribute members, and a raw value.",
+      "role": "Site administrator",
+      "selector": "[data-igw-page]",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:17:42.736932+00:00",
+      "image_size": {
+        "width": 1416,
+        "height": 802
+      },
+      "sha256": "5eb0a54bfc67600b29783586ef3b8b0a8d26f7654df58d021ddf4488d7a5393c",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "collections/figures/misp3-collection.png",
+      "url": "/collections/view/1",
+      "description": "Collection overview with the member list, organization-only distribution, and the Pivot Explorer tab.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 56,
+        "width": 1440,
+        "height": 770
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:17:40.090091+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 770
+      },
+      "sha256": "b51f972d20aa0259591d9c2a749a92db4d598f9e0806cbc65a18b56e88f5edca",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "pivoting/figures/misp3-pivot-correlations.png",
+      "url": "/events/view/12#tab-pivot-explorer",
+      "description": "The native Pivot Explorer after ingesting the two computed favicon correlations, with Save as graph in the toolbar.",
+      "role": "Site administrator",
+      "selector": "#tab-pivot-explorer",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:24:12.313454+00:00",
+      "image_size": {
+        "width": 1416,
+        "height": 809
+      },
+      "sha256": "75ad6c5e498ab0541d67e8cea3a1069712cc9100f1a2a2389d920eddd7fa1dc4",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "pivoting/figures/misp3-pivot-review.png",
+      "url": "/events/view/12#tab-pivot-explorer",
+      "description": "Event Pivot Explorer reviewing one fetched favicon attribute before it joins the graph.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:24:09.869877+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 1050
+      },
+      "sha256": "93d0fd3f069f15e3e44203f73cfe371f39ff2ac8ecdc5391498d2f1874834626",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "analyst-data/figures/misp3-saved-graph.png",
+      "url": "/analyst_graphs/view/8debd336-a141-440e-81fe-ecea824a4154",
+      "description": "A saved graph opened on its own page, showing the source collection and saved nodes.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 56,
+        "width": 1440,
+        "height": 880
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:17:44.953882+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 880
+      },
+      "sha256": "d86bd69326b7e3df2ce2bdc42f1fe8706b7c65b156973c635dbcd513cd6d4a83",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "analyst-data/figures/misp3-saved-graphs.png",
+      "url": "/analystData/index/Graph",
+      "description": "The Saved graphs list with the graph laying out the active workspace.",
+      "role": "Site administrator",
+      "selector": null,
+      "clip": {
+        "x": 0,
+        "y": 56,
+        "width": 1440,
+        "height": 698
+      },
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:17:43.440455+00:00",
+      "image_size": {
+        "width": 1440,
+        "height": 698
+      },
+      "sha256": "a3b5d110f41292539788022245e2652870ebd22e8fe6be94e649770670968e99",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "best-practices/figures/misp3-value-collection.png",
+      "url": "/values/view/cGl2b3QuZXhhbXBsZS5vcmc",
+      "description": "The value’s Add to another collection chooser with an existing collection and an optional reason.",
+      "role": "Site administrator",
+      "selector": ".modal.show .modal-content",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:23:32.122825+00:00",
+      "image_size": {
+        "width": 1140,
+        "height": 584
+      },
+      "sha256": "67f163d9f01f8b1afccf7418e07d0eddc1cc0c2a7c41e9016e29df1577784e08",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    },
+    {
+      "file": "general-layout/figures/misp3-workspace-panel.png",
+      "url": "/events/view/11",
+      "description": "The active DNS investigation collection in the workspace dock beside the follow-up event.",
+      "role": "Site administrator",
+      "selector": "#ig-so",
+      "clip": null,
+      "viewport": {
+        "width": 1440,
+        "height": 1050
+      },
+      "scale": 1,
+      "captured_at": "2026-11-25T14:17:39.630371+00:00",
+      "image_size": {
+        "width": 432,
+        "height": 992
+      },
+      "sha256": "89279c5d8d9ee637dd05bf7f266c587062b67acf0701940578ee657c981bfe0b",
+      "commit": "200ca2b3114a7bdc7ae4a21abfdcb088319c800c"
+    }
+  ]
+}

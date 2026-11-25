@@ -13,13 +13,13 @@ This use case applies Alexandre Dulaunoy's [*The Art of Pivoting*](https://githu
 It combines conventional infrastructure observations with uncommon selectors, then validates the results by context, time and provenance.
 
 ::: {.callout-note}
-The screenshots use MISP **3.0.0**, [`3.0_wip` commit `99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1).
+The screenshots use MISP **3.0.0** on `3.0_wip`. The Pivot Explorer figures were refreshed at [`200ca2b3`](https://github.com/MISP/MISP/commit/200ca2b3114a7bdc7ae4a21abfdcb088319c800c).
 The three captures below are constructed local examples, not observations of live sites.
-All names and addresses are reserved for documentation; events, annotations and workspaces are organization-only, unpublished where applicable, and all attributes have IDS off.
+The exercise uses reserved names and addresses, organization-only data, and attributes with IDS off.
 Select an image to enlarge it.
 :::
 
-<!-- Source attribution, fixture checks and screenshot hashes: ../assets/pivoting-screenshots.json -->
+<!-- Source attribution and screenshot provenance: ../assets/pivoting-screenshots.json and ../assets/collection-workspace-screenshots.json -->
 
 ## Set a question and a stopping condition {#pivot-question}
 
@@ -145,8 +145,9 @@ Open the underlying record and inspect how each edge was produced.
 Use the displayed candidate counts and narrowing controls to keep high-cardinality pivots manageable.
 
 For work across pages, create or select an organization-only [workspace](../general-layout/index.qmd#workspaces) and confirm that it is the active destination before using **Add to workspace**.
-Additions are saved as they arrive; use the workspace's save controls for layout changes.
-Workspace membership and exploratory connections do not automatically create Analyst Data Relationships, and the workspace's distribution does not grant access to its source records.
+Additions go straight into the active collection.
+Use **Save as graph…** to retain your investigative view or **Save layout** to update the graph.
+Create an Analyst Data Relationship when you have evidence for a connection. Referenced records continue to use their own access rules.
 
 ## Record the lead, alternatives and stopping reason {#pivot-record}
 

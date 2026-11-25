@@ -220,25 +220,6 @@
         "height": 1000
       },
       "sha256": "0ce4663ee344ca0968571a42c57346305e93bbfeb0cf81518ecd776333fdb6d9"
-    },
-    {
-      "file": "best-practices/figures/misp3-value-collection.png",
-      "url": "/values/view/ZXhhbXBsZS5vcmc%3D",
-      "description": "Collection picker for example.org before submitting its attachment to the organisation-only research collection.",
-      "role": "User (organization 1)",
-      "selector": ".modal.show .modal-content",
-      "clip": null,
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "scale": 1,
-      "captured_at": "2026-11-06T10:44:47.512728+00:00",
-      "image_size": {
-        "width": 1140,
-        "height": 584
-      },
-      "sha256": "954f6ef534ab5d2fa6fa348a6f68a39af591d3e713af60421a0d9544d6971306"
     }
   ],
   "source_reference_note": "Source paths retain their original repository identifiers at the recorded commit for reproducibility."
