@@ -241,9 +241,10 @@ The Collaboration tab also brings together occurrence comments and reports from 
 
 ![Collaboration distinguishes the value-level note from attribute comments and the source event report. Contributions have their own audience.](figures/misp3-analyst.png)
 
-From the header's additional actions, **Add to collection** bookmarks the value in a [collection](../collections/index.qmd) for continued review.
-Collection membership and analyst contributions have their own access rules; neither widens access to the underlying occurrences.
-Use a workspace when you need an investigation canvas, and record an explicit relationship only when evidence supports that claim.
+Use **Add to workspace** in the header to add the value to your active [collection](../collections/index.qmd).
+Open the caret for **Add to another collection…** or **New collection with this…**.
+The collection can disclose the value text to its audience while source occurrences keep their own access rules.
+Record an explicit relationship when the evidence supports the claim.
 
 Finish the investigation with a decision and its limits: what was observed, which source supports it, which enrichment was performed and when, what contradicts the interpretation, and what would justify another review.
 For this exercise, the defensible result is a documented comparison of the three contexts, not a claim that the reserved URL is a real threat.

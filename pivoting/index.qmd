@@ -13,13 +13,13 @@ This use case applies Alexandre Dulaunoy's [*The Art of Pivoting*](https://githu
 It combines conventional infrastructure observations with uncommon selectors, then validates the results by context, time and provenance.
 
 ::: {.callout-note}
-The screenshots use MISP **3.0.0**, [`3.0_wip` commit `99ebee729`](https://github.com/MISP/MISP/commit/99ebee729702c560528f9788953719bda68aa1c1).
+The screenshots use MISP **3.0.0** on `3.0_wip`. The Pivot Explorer figures were refreshed at [`200ca2b3`](https://github.com/MISP/MISP/commit/200ca2b3114a7bdc7ae4a21abfdcb088319c800c).
 The three captures below are constructed local examples, not observations of live sites.
-All names and addresses are reserved for documentation; events, annotations and workspaces are organization-only, unpublished where applicable, and all attributes have IDS off.
+The exercise uses reserved names and addresses, organization-only data, and attributes with IDS off.
 Select an image to enlarge it.
 :::
 
-<!-- Source attribution, fixture checks and screenshot hashes: ../assets/pivoting-screenshots.json -->
+<!-- Source attribution and screenshot provenance: ../assets/pivoting-screenshots.json and ../assets/collection-workspace-screenshots.json -->
 
 ## Set a question and a stopping condition {#pivot-question}
 
@@ -131,13 +131,14 @@ Likewise, a search that returns either of two values is not an automatic conjunc
 
 Open A's **Pivot Explorer** tab.
 If the canvas is empty, use **Browse event elements**, narrow the search to the favicon value, and choose **Fetch** to review the candidate before adding it.
+Choose **Ingest all 1** to add that single attribute to the canvas.
 Select the source attribute on the canvas, choose **Correlations**, and fetch the related occurrences for review.
 Only add the results useful to the current question.
 In this example, two matching attributes bring their two parent events as context, so the review contains four records rather than four independent observations.
 
-![Pivot Explorer reviews the one narrowed source element before it is added to the canvas. Ingest in this view adds records to the analysis graph rather than creating new source observations.](figures/misp3-pivot-review.png)
+![Review (1) shows the seed event's favicon attribute, filtered by the value `1357913579`, before it is added to the canvas.](figures/misp3-pivot-review.png)
 
-![The native Pivot Explorer after the two computed favicon matches have been reviewed and added. These are investigative connections, not asserted common ownership.](figures/misp3-pivot-correlations.png)
+![Two dashed correlation arrows lead from the seed favicon to the matching attributes in B and C. The two solid in-event links connect those attributes to their parent events.](figures/misp3-pivot-correlations.png)
 
 A blank starting graph does not mean there are no correlations: this interface fetches them from selected elements on the canvas.
 Conversely, an attractive graph layout or a short path does not establish causality.
@@ -145,8 +146,9 @@ Open the underlying record and inspect how each edge was produced.
 Use the displayed candidate counts and narrowing controls to keep high-cardinality pivots manageable.
 
 For work across pages, create or select an organization-only [workspace](../general-layout/index.qmd#workspaces) and confirm that it is the active destination before using **Add to workspace**.
-Additions are saved as they arrive; use the workspace's save controls for layout changes.
-Workspace membership and exploratory connections do not automatically create Analyst Data Relationships, and the workspace's distribution does not grant access to its source records.
+Additions go straight into the active collection.
+Use **Save as graph…** to retain your investigative view or **Save layout** to update the graph.
+Create an Analyst Data Relationship when you have evidence for a connection. Referenced records continue to use their own access rules.
 
 ## Record the lead, alternatives and stopping reason {#pivot-record}
 

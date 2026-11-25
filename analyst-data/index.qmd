@@ -18,9 +18,9 @@ The 3.0 interface surfaces event analysis in **Assessment** and value-level anal
 Select a screenshot to enlarge it.
 :::
 
-<!-- Capture source, fixture and image hashes: ../assets/using-misp-screenshots.json -->
+<!-- Screenshot sources: ../assets/using-misp-screenshots.json and ../assets/collection-workspace-screenshots.json -->
 
-There are three types of analyst data:
+There are three kinds of annotation:
 
 - **Note** — free-text commentary, with a language tag.
 - **Opinion** — a numeric agreement score from 0 to 100 plus an optional justification.
@@ -30,6 +30,7 @@ Because each record is identified by its own UUID and carries its creator organi
 data is inherently **federated**: notes, opinions and relationships propagate between instances
 through synchronisation just like events do, letting a whole community build a shared,
 attributable body of analysis around the same intelligence.
+The Analyst Data hub also lists [saved graphs](#saved-graphs).
 
 ::: {.callout-note}
 Creating or editing analyst data requires a role with the **Analyst Data Creator** permission
@@ -37,7 +38,7 @@ Creating or editing analyst data requires a role with the **Analyst Data Creator
 record's distribution).
 :::
 
-## The three types
+## Annotation types {#the-three-types}
 
 ### Notes
 
@@ -101,7 +102,7 @@ Analyst data can be attached to any of the following target types: **Attribute, 
 Report, Galaxy Cluster, Galaxy, Object, Organisation, Sharing Group**, and — because analyst
 data can annotate analyst data — **Note, Opinion and Relationship** themselves. Attaching a note
 or opinion to another note produces a **thread**, so a discussion can build up around a single
-element. The MISP 3.0 development branch also accepts **Collection**, **Workspace**, and
+element. The MISP 3.0 development branch also accepts **Collection**, **Saved graph** (`Graph`), and
 **Attribute Value** (`AttributeValue`) targets. An attribute value identifies the value across
 events rather than one attribute occurrence.
 
@@ -189,6 +190,36 @@ Analyst data is built for federated collaboration:
   at a synchronization boundary; do not assume that All communities or a sharing group is
   decremented like a numeric hop count. Records received from a remote instance are marked
   as *locked* to protect the source copy from unintended local edits.
+
+## Saved graphs {#saved-graphs}
+
+A saved graph keeps the nodes, positions, retained pivots, and hidden items from an investigation.
+It is stored on an event, a galaxy cluster, or a [collection](../collections/index.qmd).
+The collection supplies the current membership when you work in the workspace.
+The saved graph retains its own set of nodes and layout until an editor updates it.
+
+1. Open **Pivot Explorer**, arrange the nodes, and select **Save as graph**.
+2. Name the graph and review its distribution. The default follows the record it is saved on.
+3. Open **Data points → Analyst Data → Saved graphs** and open the graph's row. The **In investigations** card on events or galaxy clusters and the **Saved graphs** card on collections also show graphs connected to the record.
+
+![The Saved graphs list includes the graph used to lay out the active collection, marked Workspace.](figures/misp3-saved-graphs.png){fig-alt="The Saved graphs list shows the DNS pivot graph, its collection, and a Workspace marker."}
+
+When a graph lays out your workspace, use **Save layout** to retain moved nodes or **Save as new graph…** to keep another version.
+Use **Discard** to drop unsaved layout changes.
+If another editor saved the graph in the meantime, the interface lets you reload or explicitly save over their layout.
+Saving a graph requires add and Analyst Data permissions, and editing a saved graph requires your organization to own it.
+Use **Fork** to create a copy that your organization can edit when viewing another organization's graph.
+
+![The saved DNS pivot graph opened from the Saved graphs list.](figures/misp3-saved-graph.png){fig-alt="The saved graph page shows the collection it was drawn on and the nodes preserved in the DNS pivot layout."}
+
+Review the graph's own audience before widening it.
+A graph shared more widely than its source can reveal which records it contains.
+A graph's layout and computed connections support investigation.
+Use an explicit Relationship to record a supported assertion.
+
+The `3.0_wip` merge in [MISP #11321](https://github.com/MISP/MISP/pull/11321) restored the `Graph` type, `/analyst_graphs` controller, and `analyst_graph` synchronization capability.
+Early-access integrations using the temporary Workspace API names need to use these names.
+See [the upstream workspace and saved-graph reference](https://github.com/MISP/MISP/blob/200ca2b3114a7bdc7ae4a21abfdcb088319c800c/docs/workspace-and-saved-graphs.md) for routes and permissions.
 
 ## Analyst Data Blocklist
 

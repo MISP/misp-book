@@ -57,8 +57,7 @@ Use exact identifiers, descriptions, sources and synonyms to distinguish similar
 
 A cluster view exposes its **Elements**, relationships and activity alongside source/identity
 information. Synonyms and references help discovery; they are not independent confirmation of
-a source's assessment. In 3.0, the view also links to workspace/research context. Those records
-retain their own ownership and visibility rules.
+a source's assessment. In 3.0, **In investigations** lists collections that hold the cluster and saved graphs kept on it. Those records retain their own ownership and visibility rules.
 
 ![A neutral country cluster with its metadata and relationships. The example does not assert attribution to a real incident.](figures/misp3-cluster-detail.png)
 

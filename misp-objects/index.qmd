@@ -193,8 +193,8 @@ relation should be supported by the observation, not chosen for a visually pleas
 Object references differ from galaxy-cluster knowledge relationships and Analyst Data
 relationships; use the model appropriate to the statement.
 
-The event graph/workspace can help explore connections, but a graph's layout is not evidence
-of causality. Preserve the source, timestamps, comments and assessment in the underlying records.
+The event's **Pivot Explorer** can help explore connections, and a [saved graph](../analyst-data/index.qmd#saved-graphs) can keep the view.
+Preserve the source, timestamps, comments and assessment in the underlying records.
 
 <a id="editing-objects"></a>
 <a id="object-templates"></a>

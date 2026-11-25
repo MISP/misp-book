@@ -60,9 +60,7 @@ to verify identities. See [connectors](connectors/index.qmd#connectors-mechanism
 
 ### Collection {#glossary-collection}
 
-A curated resource that references supported elements such as events and galaxy clusters.
-Its own access and sharing settings do not flatten the members' visibility or ensure that every
-recipient receives every referenced item. See [Collections](collections/index.qmd#what-a-collection-contains).
+A named set of intelligence members with its own distribution. A member can reference an existing record or hold value text or a standalone object. Shared collections require publication for synchronization. See [Collections](collections/index.qmd#what-a-collection-contains).
 
 <a id="community"></a>
 
@@ -537,10 +535,7 @@ provider. Workflows are distinct from recurring task schedules. See
 
 ### Workspace {#glossary-workspace}
 
-A 3.0 research context for organizing and exploring supported graph elements and relationships.
-Its saved state and visibility are separate from ownership/distribution of the underlying
-records. A layout or edge is an investigative aid rather than evidence of causality. See
-[investigation workflows](user-stories/index.qmd#stories-investigate).
+The active collection selected for current work in Overmind. The dock shows its members alongside the page. A [saved graph](analyst-data/index.qmd#saved-graphs) can keep its layout and the nodes retained from pivots. See [Workspaces](general-layout/index.qmd#workspaces).
 
 ## Maintaining this glossary {#glossary-maintenance}
 

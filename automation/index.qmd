@@ -527,23 +527,25 @@ For example, POST a note to
 }
 ```
 
-Add a value reference with `POST /collectionElements/add/{collection_id}`:
+To store a value in a collection, use `POST /collection_elements/addItems/{collection}`:
 
 ```json
 {
-  "CollectionElement": {
-    "element_type": "AttributeValue",
-    "element_sha256": "SHA256_OF_STORED_VALUE",
-    "description": "Reserved training value, not a maliciousness verdict."
-  }
+  "items": [{"type": "Value", "value": "example.org"}],
+  "description": "Reserved training value for investigation."
 }
 ```
 
-These records have their own distribution. A reference does not give its reader access to the
-source event or reveal a value that the reader cannot resolve through a visible attribute.
-See [Analyst Data](../analyst-data/index.qmd) and [Collections](../collections/index.qmd) for
-visibility and older-peer limitations. Some 3.0 calls are not wrapped by every PyMISP release;
-use documented REST requests for those operations rather than inventing a client method.
+MISP stores this value's text on the collection member. Anyone who can read the collection can read the stored text, even when the source events have a narrower audience.
+Review the collection's distribution before submitting literal values or publishing the collection.
+When `addItems` resolves a supplied SHA-256 address, it also stores the text on the member.
+A hash-only member without stored text still needs a readable attribute to display the text.
+Value-targeted Analyst Data uses a SHA-256 address for its target and resolves that target through a readable attribute.
+Text written in the annotation itself follows the annotation's distribution.
+Existing source event references retain their own access checks.
+
+See [Analyst Data](../analyst-data/index.qmd) and [Collections](../collections/index.qmd) for visibility and peer support.
+Use the documented REST endpoints for operations your PyMISP release has yet to wrap.
 
 The old `/threads/` and `/posts/` discussion API is removed in this branch. Use Analyst Data
 notes/replies on the relevant target. Event reports use `/eventReports/` endpoints for a narrative;

@@ -26,7 +26,7 @@ does not automatically grant the permissions or integrations needed to achieve i
 **Threat intelligence analyst.** Farrah turns observations from several sources into a
 reviewable assessment and a useful set of investigation leads.
 
-**Workflow:** Search values and accessible occurrences, investigate them in a workspace/graph,
+**Workflow:** Search values and accessible occurrences, investigate them in the active collection and save a graph of the relevant pivots,
 structure related observations as objects, and attach sourced taxonomy/galaxy context. Record
 notes, opinions and relationships separately from the underlying facts. Curate findings in a
 report or collection, then prepare an explicitly filtered detection export where justified.

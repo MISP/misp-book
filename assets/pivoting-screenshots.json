@@ -444,44 +444,6 @@
         "height": 740
       },
       "sha256": "9f5833a596892ce6a1e623fb7eab7fcd202980c16294d4bade9663a976029a36"
-    },
-    {
-      "file": "pivoting/figures/misp3-pivot-review.png",
-      "url": "/events/view/14#tab-pivot-explorer",
-      "description": "Pivot Explorer fetches one narrowed event element into review before adding it to the graph. Ingest here means adding to the analysis canvas, not creating a source observation.",
-      "role": "User",
-      "selector": null,
-      "clip": null,
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "scale": 1,
-      "captured_at": "2026-11-07T18:20:40.235522+00:00",
-      "image_size": {
-        "width": 1440,
-        "height": 1000
-      },
-      "sha256": "279347f538bf85c2674e5f9f3f66b57a18d2e68a0e8a6c42f81e25cb11c82bbf"
-    },
-    {
-      "file": "pivoting/figures/misp3-pivot-correlations.png",
-      "url": "/events/view/14#tab-pivot-explorer",
-      "description": "The native Pivot Explorer graph after fetching the two computed favicon correlations. The script did not create analyst relationships or manually drawn links.",
-      "role": "User",
-      "selector": "#tab-pivot-explorer",
-      "clip": null,
-      "viewport": {
-        "width": 1440,
-        "height": 1000
-      },
-      "scale": 1,
-      "captured_at": "2026-11-07T18:20:46.956047+00:00",
-      "image_size": {
-        "width": 1416,
-        "height": 759
-      },
-      "sha256": "fa4281c5d73fdbdbb50d8d064c7ba0c22648393a4738b398cfd198e23971587b"
     }
   ],
   "diagrams": [

@@ -131,8 +131,8 @@ exchanged and offers the available directions:
 | **Events** | **Push / Pull** events with their eligible attributes, objects and tags, subject to synchronization rules. |
 | **Sightings** | **Push** sightings recorded on synchronized events. The pull column says **With events**; there is no separate Pull sightings switch. |
 | **Galaxy clusters** | **Push / Pull** custom galaxy clusters, including those attached to synchronized events. |
-| **Analyst data** | **Push / Pull** notes, opinions and relationships. |
-| **Collections** | **Push / Pull** eligible collections and their element references. A peer without collection-sync support is skipped. |
+| **Analyst data** | **Push / Pull** notes, opinions, relationships, and saved graphs where the peer supports them. |
+| **Collections** | **Push / Pull** eligible collections and supported members. A peer without collection-sync support is skipped. |
 | **Cache remote values** | **Enable** remote-server value caching for correlation lookups without importing the remote events. This is separate from event Pull. |
 
 For collections, set the **Push** and **Pull** switches directly in the **Collections** row and
@@ -159,10 +159,12 @@ attributes, objects and values. A value reference uses the SHA-256 address of th
 it does not identify one particular attribute occurrence. See [Analyst Data](../analyst-data/index.qmd)
 and [Collections](../collections/index.qmd) for the supported targets and payloads.
 
-Native synchronization negotiates peer capabilities.
-Not all MISP 3.0 data can be transferred to every peer: value-targeted Analyst Data and value-addressed
-collection elements are withheld from peers older than 3.0. Check the actual received records
-before treating a mixed-version handover as complete.
+Shared collections require [publication](../collections/index.qmd#publish-a-collection) before their current version synchronizes.
+Pull can also retrieve organization-only collections the remote account can read.
+The peer's capabilities determine what it can receive.
+Peers older than 3.0 can receive event and galaxy cluster members if they support collection sync. Value-targeted Analyst Data requires 3.0.
+A peer must advertise `analyst_graph` to synchronize [saved graphs](../analyst-data/index.qmd#saved-graphs).
+Check the received records before treating a mixed-version handover as complete.
 
 ## Test the connection {#test-connection}
 

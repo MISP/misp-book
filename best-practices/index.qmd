@@ -17,7 +17,7 @@ Available actions depend on your role and the instance's configuration.
 Select a screenshot to enlarge it in the website.
 :::
 
-<!-- Screenshot source commits, fixture and capture details: screenshots.json -->
+<!-- Screenshot sources: screenshots.json and ../assets/collection-workspace-screenshots.json -->
 
 ## Tagging
 
@@ -79,7 +79,7 @@ Before sharing sensitive material, verify visibility with an account from the in
 Check attachments, reports, object attributes, and annotations as well as the event header.
 **Your organisation only** includes other authorized users in your organization; it is not a personal privacy setting.
 
-Notes, Opinions, Relationships, collections, and workspaces have their own sharing settings.
+Notes, Opinions, Relationships, collections, and saved graphs have their own sharing settings.
 Review those settings whenever you copy context into them. Restricting an event does not safely classify text pasted into a more widely shared annotation.
 
 ## Model related properties with objects {#use-objects-instead-of-combined-attributes}
@@ -139,7 +139,7 @@ Co-occurrence alone does not establish causation or attribution.
 Set the annotation's own distribution before saving. Its visibility is independent of the holder event's distribution.
 Do not paste restricted source details into a broader Note or Relationship.
 A value reference resolves to its text only when the reader can access an attribute holding that value; the reference itself does not grant access.
-Value-addressed Analyst Data and collection entries require MISP 3.0 peers and are withheld from older MISP peers during synchronization.
+Value-addressed Analyst Data requires MISP 3.0 peers. Older collection-capable peers receive only event and galaxy cluster members.
 :::
 
 ## Suggest corrections with proposals {#use-proposals-when-possible-to-request-author-to-make-changes-to-an-event}
@@ -160,19 +160,19 @@ Use a Note for additional analysis and an Opinion for an assessment; disagreemen
 
 ## Curate research with collections and workspaces
 
-Use a [collection](../collections/index.qmd) to organize a research dossier or campaign across source events.
-In MISP 3.0, collections can reference individual attributes, objects, and attribute values as well as events and galaxy clusters.
-From Value Intelligence, choose **Add to collection**, select an existing collection or create one, and explain why the value belongs there.
-Membership records research scope; it does not by itself assert that every member is malicious.
+Use a [collection](../collections/index.qmd) to organize a research dossier across source events.
+Make it your [workspace](../general-layout/index.qmd#workspaces) to gather records as you browse.
+In Value Intelligence, choose **Add to workspace** to use the active collection.
+Use the caret and **Add to another collection…** to send a value to a different collection without switching workspaces.
+Add a short reason so the next analyst can see why it belongs.
 
-![Adding example.org to a research collection from Value Intelligence. The picker identifies the value and reminds the analyst that collection membership does not widen its distribution.](figures/misp3-value-collection.png)
+![The alternate collection picker for the reserved value pivot.example.org.](figures/misp3-value-collection.png){fig-alt="The Add to another collection dialog identifies pivot.example.org and provides a collection selector and optional reason."}
 
-A collection's distribution controls the dossier; referenced material keeps its own access rules.
-For value references, the value text does not travel with the reference: a receiving instance needs a visible attribute holding that value to resolve it.
-Check the recipient's view before relying on a collection as a complete handover.
-
-Use a [workspace](../general-layout/index.qmd#workspaces) to explore an investigation graph and collect working material.
-Review its distribution when collaborating. Turn supported conclusions into explicit Relationships, Notes, or an event report so recipients can distinguish the evidence from exploratory connections.
+Named source records still have their own access controls.
+The picker's footer describes the source record's distribution.
+A value member can carry its stored text to the collection's audience, including people who cannot see the source events.
+Review that audience and the disclosure checks in [Review and publish](../collections/index.qmd#publish-a-collection).
+Use a [saved graph](../analyst-data/index.qmd#saved-graphs) to preserve the investigative view, and use Relationships, Notes, or an event report to record the supported conclusions.
 
 ## Before you publish
 
