@@ -3,7 +3,7 @@ title: "Upgrade MISP 2.5 to 3.0"
 ---
 
 This procedure covers a Git-based MISP installation on Ubuntu 24.04 with MariaDB and Supervisor.
-It moves a MISP 2.5 database to the [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip).
+It moves a MISP 2.5 database to the latest revision of the [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip).
 The upgrade also has MySQL and PostgreSQL paths with their own requirements and disk behavior. [Upstream upgrade instructions](https://github.com/MISP/MISP/blob/3.0_wip/docs/UPGRADE.md)
 
 Use `Console/cake Admin runUpgrade` for the database conversion.
@@ -22,7 +22,8 @@ Use `Console/cake Admin runUpgrade` for the database conversion.
 3. Restore a representative copy on an isolated staging instance.
    Give it its own database, Redis and file storage.
    Disable scheduled ingestion and outbound sync and mail so restored jobs or credentials cannot affect real peers.
-   Rehearse the complete procedure with the same `3.0_wip` commit and submodules you will deploy for cutover.
+   Rehearse the complete procedure on the latest `3.0_wip` branch with its matching submodules.
+   Record the revision used for the rehearsal.
 4. Record the elapsed database conversion, the restart and validation time, and the time to recover from backup.
    Check the space available on the database data filesystem and the filesystem used by MariaDB's `tmpdir`.
    See the [timing estimates](#upgrade-25-timing) for the figures to collect.
@@ -56,17 +57,42 @@ Check the exit status and confirm that this backup and the corresponding files c
 For large databases, use the backup method and storage location tested in your rehearsal.
 
 Use the Git checkout owner for Git commands, `www-data` on the Ubuntu installer layout.
-Run `sudo -u www-data git -C /var/www/MISP status --short` and review and preserve any local changes before switching commits.
-The example uses the branch commit checked for this guide. Set `MISP_3_COMMIT` to the exact commit from your own successful rehearsal.
+Run `sudo -u www-data git -C /var/www/MISP status --short` and review and preserve any local changes before switching branches.
+The following commands fetch upstream `3.0_wip` and leave the installation on a local branch that tracks it.
+The fetch configuration also covers repositories originally cloned to track only `2.5`.
 
 ```bash
-cd /var/www/MISP
-MISP_3_COMMIT=200ca2b3114a7bdc7ae4a21abfdcb088319c800c
-sudo -u www-data git fetch origin 3.0_wip
-sudo -u www-data git switch --detach "$MISP_3_COMMIT"
-sudo -u www-data git submodule sync --recursive
-sudo -u www-data git submodule update --init --recursive
+(
+  set -e
+  cd /var/www/MISP
+  misp_fetch_ref='+refs/heads/3.0_wip:refs/remotes/origin/3.0_wip'
+  sudo -u www-data git config --fixed-value --replace-all remote.origin.fetch \
+    "$misp_fetch_ref" "$misp_fetch_ref"
+  sudo -u www-data git fetch origin 3.0_wip
+
+  if sudo -u www-data git show-ref --verify --quiet refs/heads/3.0_wip; then
+    sudo -u www-data git switch 3.0_wip
+  else
+    sudo -u www-data git switch --track -c 3.0_wip origin/3.0_wip
+  fi
+  sudo -u www-data git merge --ff-only origin/3.0_wip
+  if [ "$(sudo -u www-data git rev-parse HEAD)" != \
+       "$(sudo -u www-data git rev-parse origin/3.0_wip)" ]; then
+    echo 'The local 3.0_wip branch has commits ahead of upstream.' >&2
+    exit 1
+  fi
+  sudo -u www-data git branch --set-upstream-to=origin/3.0_wip
+  sudo -u www-data git submodule sync --recursive
+  sudo -u www-data git submodule update --init --recursive
+  sudo -u www-data git status --short --branch
+  sudo -u www-data git rev-parse HEAD
+)
 ```
+
+Continue only if all commands succeeded.
+Resolve any local branch divergence before retrying.
+Compare the reported revision with your rehearsal before running the database upgrade.
+If the branch has advanced, rehearse at the new tip before proceeding.
 
 Keep the instance's database and configuration files, including secret settings and file storage paths.
 Refresh the system, PHP, Composer and Python dependencies for the target checkout using the versions tested in staging.
@@ -153,7 +179,7 @@ Long values, many distinct values or proposals, index changes, slow storage, and
 ### Synthetic rehearsal on MariaDB {#upgrade-25-rehearsal}
 
 A separate rehearsal used the MISP 2.5.53 install schema at legacy database version 159, populated with synthetic events, attributes and proposals. [Source schema](https://github.com/MISP/MISP/blob/d66fb5ce29e7f8209db70380555d80ef93141801/INSTALL/MYSQL.sql)
-The target was the `3.0_wip` commit shown above.
+The target was the version of `3.0_wip` tested on 26 November 2026. [Rehearsal revision](https://github.com/MISP/MISP/commit/200ca2b3114a7bdc7ae4a21abfdcb088319c800c)
 MariaDB 10.11.19 ran in a container with a 2 GiB InnoDB buffer pool on a host allocated four vCPUs and 16 GiB of memory.
 The measurements time the `Admin runUpgrade` command. The database was already loaded and background workers were disabled for the rehearsal.
 

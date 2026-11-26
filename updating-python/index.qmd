@@ -74,13 +74,16 @@ changes; copying its directory to a different host/interpreter is not a reliable
 1. Rehearse on a restored copy; take a consistent backup of the real deployment. Include
    configuration/secrets and attachment storage, not just a package list.
 2. Plan downtime and pause external writers, scheduled ingestion and workers as required by the
-   selected upgrade. Deploy the **tested** application ref and its matching submodule revisions.
+   selected upgrade. Deploy the release or branch you rehearsed and its matching submodules.
 3. Install the required system/Composer/Python dependencies using that release's procedure.
    Updating Python alone does not install PHP extensions or apply database migrations.
-4. Run the planned MISP 3.0 offline upgrade, verify migration/schema state and restart the web
-   PHP runtime and workers with the updated environment.
+4. Apply any database upgrades required by the selected version, verify the schema state and
+   restart the web PHP runtime and workers with the updated environment.
 5. Check representative import/export, attachment and background paths before restoring normal
    ingestion. Retain the new inventory and a tested recovery option.
+
+If you plan to move from MISP 2.5 to the latest `3.0_wip` branch, follow the
+[2.5-to-3.0 upgrade guide](../upgrade-2-5-to-3-0/index.qmd).
 
 For a source checkout's submodules, use its recorded revisions:
 
