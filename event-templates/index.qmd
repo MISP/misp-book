@@ -66,7 +66,7 @@ A creator can import the [complete email-intake example](https://github.com/MISP
 :::
 
 The downloadable template is organization-only, inactive and locally managed by default.
-It requires installed, active `email` and `file` object templates at versions **19 or later** and **25 or later**, respectively.
+Install and activate the latest `email` and `file` definitions from the [MISP object catalogue](../misp-objects/index.qmd#objects-maintenance) before importing.
 Use **Data models → Templates → Event Templates** to inspect the definition and its **Dependencies** tab.
 The [authoring walkthrough](#templates-create) below builds the same structure in the visual editor.
 
@@ -169,7 +169,7 @@ Use the IDs actually shown in your definition when creating JSON references.
 ![The attribute properties map a reporter-friendly label to a specific MISP category/type and an explicit IDS default.](figures/misp3-builder-attribute.png)
 
 For object fields, selecting a template records its UUID and a **minimum version**.
-The event uses a compatible installed template; this is not an exact version lock.
+MISP resolves an active installed definition that meets that minimum.
 The saved object's template version identifies the version actually used.
 A nonempty relations selection limits the relations shown in the form; an empty selection means all template relations, not an object with no fields.
 The installed object's requirements still matter, so retain the relations needed to satisfy them.

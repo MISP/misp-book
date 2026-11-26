@@ -57,7 +57,7 @@ Create the initial event with **Your organisation only** distribution while evid
 Set the event's date for the reporting episode, and record precise observation times on the relevant attributes or objects.
 Preserve platform publication dates and document dates in their own fields.
 Use **Objects** to add structured entities and **Attach** to preserve supporting files.
-The [object-template library](https://github.com/MISP/misp-objects/tree/199f8fcbb4b33c81b95e485d59508191b1df422d/objects) already covers several parts of this investigation:
+Use the latest definitions for these observations. [MISP object catalogue](../misp-objects/index.qmd#objects-maintenance).
 
 ::: {.table-responsive}
 
@@ -195,7 +195,7 @@ They support evidence preparation; none decides whether a statement is true.
 | `html_to_markdown` | Convert fetched HTML to text for reading and further analysis. | Network fetch and Markdown conversion dependencies; does not preserve the full original page or its rendered appearance. |
 | `pdf_enrich` | Extract text from an attached PDF for the freetext importer. | `pdftotext` and supporting dependencies; scanned pages need OCR, and extracted indicators need review. |
 | `ocr_enrich` | Read text from an image attachment and pass it to freetext parsing. | OpenCV, NumPy, pytesseract, and the Tesseract runtime/language data; recognition errors can alter names and URLs. |
-| `content_fingerprint` | Generate exact and approximate fingerprints, with optional pairwise comparison evidence. | Local text processing; image/video require FFmpeg and ffprobe ≥5. Install the bundled `content-fingerprint` template. Similarity requires interpretation. |
+| `content_fingerprint` | Generate exact and approximate fingerprints, with optional pairwise comparison evidence. | Local text processing; image/video require FFmpeg and ffprobe ≥5. Load the current `content-fingerprint` template in MISP. Similarity requires interpretation. |
 
 : Content preservation and extraction modules {tbl-colwidths="[40,28,32]"}
 
