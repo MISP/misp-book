@@ -22,8 +22,8 @@ MISP is a LAMP-stack application.
 The main components for MISP **3.0** are:
 
 - **Operating system**: a current, supported Linux distribution covered by your chosen MISP 3.0 deployment instructions.
-- **PHP 8.x** (`>=8.1, <9.0`; the installers use **PHP 8.3**). The extensions `json`, `mbstring`, `xml`, `dom`, `simplexml`, `pcre` and `curl` are required, and `gd`, `openssl`, `redis`, `zip`, `intl`, `bcmath`, `ssdeep`, `zstd`, `brotli` and `apcu` are recommended.
-- **MariaDB** (or MySQL) for the main database — SSD-backed storage is strongly recommended (see [Database](#database)).
+- **PHP 8.x** (`>=8.1, <9.0`). The Ubuntu installer uses **PHP 8.3**. The extensions `json`, `mbstring`, `xml`, `dom`, `simplexml`, `pcre` and `curl` are required, and `gd`, `openssl`, `redis`, `zip`, `intl`, `bcmath`, `ssdeep`, `zstd`, `brotli` and `apcu` are recommended.
+- **Database**: MariaDB 10.11 or later, MySQL 8.4 or later, or PostgreSQL 16 or later with `pg_trgm`. The Ubuntu installer uses MariaDB. See [Database](#database) for storage guidance.
 - **Redis** — required for caching (feeds, warninglists, exports) and for the background-job system.
 - **Supervisor** — MISP 3.0 runs its Redis-backed **SimpleBackgroundJobs** workers under Supervisor.
 - **Python 3** with a virtual environment for PyMISP and helper scripts, using the selected revision's `requirements.txt`.
@@ -31,6 +31,7 @@ The main components for MISP **3.0** are:
 
 Use the selected revision's [`app/composer.json`](https://github.com/MISP/MISP/blob/3.0_wip/app/composer.json), [`requirements.txt`](https://github.com/MISP/MISP/blob/3.0_wip/requirements.txt), and [installation instructions](https://github.com/MISP/MISP/tree/3.0_wip/INSTALL) for the exact dependencies, web-server configuration, and OS-specific steps.
 See [Updating Python Dependencies](../updating-python/index.qmd) for dependency management.
+For host setup and upgrades, see [Install MISP 3.0 on Ubuntu](../install-ubuntu/index.qmd) and [Upgrade MISP 2.5 to 3.0](../upgrade-2-5-to-3-0/index.qmd).
 
 ## The biggie
 
@@ -62,9 +63,8 @@ To give some indications of some of the operational servers:
 
 ## Database
 
-The main database of MISP relies on MariaDB. Using SSDs is highly recommended to ensure a low latency on the I/O and ensure an efficient access to the database. 
-
-The type of storage used by MariaDB can also have an impact of the latency and disk space used. 
+Use SSD-backed storage to reduce database I/O latency.
+The storage layout also affects free space and latency during an upgrade. See [database upgrade timing and disk space](../upgrade-2-5-to-3-0/index.qmd#upgrade-25-timing).
 
 ## Feed caching
 

@@ -1,0 +1,199 @@
+---
+title: "Upgrade MISP 2.5 to 3.0"
+---
+
+This procedure covers a Git-based MISP installation on Ubuntu 24.04 with MariaDB and Supervisor.
+It moves a MISP 2.5 database to the [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip).
+The upgrade also has MySQL and PostgreSQL paths with their own requirements and disk behavior. [Upstream upgrade instructions](https://github.com/MISP/MISP/blob/3.0_wip/docs/UPGRADE.md)
+
+Use `Console/cake Admin runUpgrade` for the database conversion.
+`INSTALL/UPGRADE.ubuntu2404.sh` is the earlier MISP 2.4-to-2.5 procedure. [Installer and upgrade script scopes](https://github.com/MISP/MISP/blob/3.0_wip/INSTALL/README.md)
+
+## Rehearse and prepare recovery {#upgrade-25-prepare}
+
+1. Bring the source instance to a current 2.5 revision using its normal update procedure.
+   Record its commit, database engine and version, installed PHP runtime, and customizations.
+   Confirm that the destination runs MariaDB 10.11 or later and meets the [3.0 requirements](../requirements/index.qmd).
+   Schedule any required OS or database-server upgrade separately so it can be tested and timed on its own.
+2. Back up the database, application configuration and private keys, custom definitions, and persistent files such as attachments and samples.
+   Include external attachment storage and its configuration if you use it.
+   Record the web server, PHP, Redis and Supervisor settings needed to restore service.
+   Test restoring the 2.5 code and data together.
+3. Restore a representative copy on an isolated staging instance.
+   Give it its own database, Redis and file storage.
+   Disable scheduled ingestion and outbound sync and mail so restored jobs or credentials cannot affect real peers.
+   Rehearse the complete procedure with the same `3.0_wip` commit and submodules you will deploy for cutover.
+4. Record the elapsed database conversion, the restart and validation time, and the time to recover from backup.
+   Check the space available on the database data filesystem and the filesystem used by MariaDB's `tmpdir`.
+   See the [timing estimates](#upgrade-25-timing) for the figures to collect.
+
+## Quiesce 2.5 and stage the 3.0 code {#upgrade-25-deploy}
+
+Put the service behind a maintenance page or restrict upstream web and API traffic.
+Pause sync, feed jobs, scheduled ingestion, and other writers.
+On the Ubuntu installer layout, take MISP offline and stop its Supervisor worker group.
+
+```bash
+cd /var/www/MISP/app
+sudo -u www-data Console/cake Admin live 0
+sudo supervisorctl stop 'misp-workers:*'
+sudo supervisorctl status 'misp-workers:*'
+```
+
+Confirm that the workers are stopped.
+Take the final consistent database and file backup after writers are quiesced.
+Keep external traffic gated until you have restarted the web runtime and verified the upgrade.
+
+For a logical backup on local MariaDB, replace `misp` with your database name and write to a protected backup filesystem.
+
+```bash
+umask 077
+sudo mariadb-dump --single-transaction --quick --hex-blob \
+  --routines --events --triggers misp > "$HOME/misp-2.5-pre-upgrade.sql"
+```
+
+Check the exit status and confirm that this backup and the corresponding files can be restored.
+For large databases, use the backup method and storage location tested in your rehearsal.
+
+Use the Git checkout owner for Git commands, `www-data` on the Ubuntu installer layout.
+Run `sudo -u www-data git -C /var/www/MISP status --short` and review and preserve any local changes before switching commits.
+The example uses the branch commit checked for this guide. Set `MISP_3_COMMIT` to the exact commit from your own successful rehearsal.
+
+```bash
+cd /var/www/MISP
+MISP_3_COMMIT=200ca2b3114a7bdc7ae4a21abfdcb088319c800c
+sudo -u www-data git fetch origin 3.0_wip
+sudo -u www-data git switch --detach "$MISP_3_COMMIT"
+sudo -u www-data git submodule sync --recursive
+sudo -u www-data git submodule update --init --recursive
+```
+
+Keep the instance's database and configuration files, including secret settings and file storage paths.
+Refresh the system, PHP, Composer and Python dependencies for the target checkout using the versions tested in staging.
+For the default Ubuntu layout with Composer and the application virtual environment already installed, install the target dependencies as the application user.
+
+```bash
+sudo -u www-data -H composer --working-dir=/var/www/MISP/app \
+  install --no-dev --no-interaction --prefer-dist
+sudo -u www-data /var/www/MISP/venv/bin/python -m pip install \
+  -r /var/www/MISP/requirements.txt
+sudo -u www-data /var/www/MISP/venv/bin/python -m pip check
+```
+
+Check that the upgraded application can reach the database, Redis and Supervisor with the intended settings.
+See the [dependency chapter](../updating-python/index.qmd) for installations with different paths or packaging.
+
+## Run the offline database upgrade {#upgrade-25-run}
+
+Use `tmux` or `screen` for a long run.
+Run the following in Bash, from the application directory, and keep the migration log private.
+
+```bash
+cd /var/www/MISP/app
+umask 077
+set -o pipefail
+{ time -p sudo -u www-data Console/cake Admin runUpgrade; } \
+  2>&1 | tee "$HOME/misp-3-upgrade.log"
+```
+
+The command sets MISP offline, requests that Supervisor stop the workers, and applies the pending schema updates.
+Where needed it backfills the shared attribute-value table for attributes and proposals, builds the IP facets, and verifies the converted values against the old text before the final migration drops those columns.
+Check the output for worker errors and keep other writers quiesced even if MISP reports that the application is offline.
+On successful completion the command requests a worker restart and brings MISP back online.
+Look for `Upgrade complete.` and record the `real` time from the log.
+
+For long table rebuilds, the CLI reports progress and storage requirements.
+On MariaDB, an administrator can use `SHOW FULL PROCESSLIST` to see a running `ALTER TABLE` and its progress.
+If the run stops, keep traffic gated and inspect the error, migration status and database process list.
+An interrupted client can leave a database statement running. Wait for it to finish before retrying, or have the database administrator deal with it using the [upstream recovery procedure](https://github.com/MISP/MISP/blob/3.0_wip/docs/UPGRADE.md#steps).
+After correcting the cause, rerun `Admin runUpgrade` to continue from the recorded state.
+For rollback, restore the matching 2.5 database, code, files and configuration together while writers remain paused.
+
+## Verify and reopen service {#upgrade-25-verify}
+
+Restart the PHP runtime before reopening access.
+With the Ubuntu installer's Apache module, run `sudo systemctl restart apache2`.
+If your deployment uses PHP-FPM, restart the running PHP-FPM unit for your version.
+
+```bash
+cd /var/www/MISP/app
+sudo -u www-data Console/cake Admin schemaDiagnostics
+sudo -u www-data Console/cake AttributeValue verify
+sudo supervisorctl status 'misp-workers:*'
+```
+
+Confirm that the migration summary shows `Pending: 0` and `Failed: 0`.
+Update database monitoring to use the diagnostic fields `migrations_pending` and `migrations_failed`.
+The legacy `db_version` stays at `159` after the last legacy update.
+The upgrade run verifies the legacy text before it is dropped.
+After the text columns are gone, the standalone `AttributeValue verify` checks the dictionary and reports that the old text is no longer available for comparison.
+Compare selected pre-upgrade events, attributes, proposals, attachments, and API results with their post-upgrade counterparts.
+Verify sign-in, an unpublished test save, a representative background job, and a representative integration before resuming traffic and ingestion.
+
+The migration recreates the correlation tables and queues a full recorrelation.
+Allow time and capacity for it separately. Correlations return while MISP is live, and large instances can take hours to rebuild them.
+If background jobs are disabled, run `Console/cake Admin jobGenerateCorrelation` as the application user after the upgrade.
+When recorrelation finishes, rebuild top correlations and over-correlation counts if needed.
+The optional `LogTables upgrade` is a separate online operation. [Post-upgrade and log table steps](https://github.com/MISP/MISP/blob/3.0_wip/docs/UPGRADE.md)
+
+## Estimate the database time and disk {#upgrade-25-timing}
+
+Measure `Admin runUpgrade` on a restored copy with similar storage, memory, database settings and data.
+Measure backup, restore, deployment, restart and validation separately when reserving a maintenance window.
+Plan separately for recorrelation and any optional log table migration.
+
+The [upstream MariaDB 10.11 measurements](https://github.com/MISP/MISP/blob/3.0_wip/docs/UPGRADE.md#how-long-it-takes-and-what-it-needs) used SSD storage and a 2 GB InnoDB buffer pool.
+A full upgrade with **2 million attributes took 509 seconds**, about **8 minutes 29 seconds**.
+At **8 million attributes**, the `attributes` table rebuild alone took roughly **6 minutes**.
+Upstream estimates **5 hours or more** for the database upgrade at **100 million attributes**.
+That last figure is an extrapolation. It uses about 8,000 attribute rows per second for value backfill and about 21,000 rows per second for the table rewrite once the table exceeds the buffer pool, plus other migration work.
+At 10 million attributes, those rates imply about 29 minutes for those two phases alone.
+Long values, many distinct values or proposals, index changes, slow storage, and database lock waits can increase the time.
+
+### Synthetic rehearsal on MariaDB {#upgrade-25-rehearsal}
+
+A separate rehearsal used the MISP 2.5.53 install schema at legacy database version 159, populated with synthetic events, attributes and proposals. [Source schema](https://github.com/MISP/MISP/blob/d66fb5ce29e7f8209db70380555d80ef93141801/INSTALL/MYSQL.sql)
+The target was the `3.0_wip` commit shown above.
+MariaDB 10.11.19 ran in a container with a 2 GiB InnoDB buffer pool on a host allocated four vCPUs and 16 GiB of memory.
+The measurements time the `Admin runUpgrade` command. The database was already loaded and background workers were disabled for the rehearsal.
+
+::: {.table-responsive}
+
+| Attributes | Proposals | Starting `attributes` size with indexes | Database upgrade |
+|---|---|---|---|
+| 100,000 | 100 | 47 MiB | 12 s |
+| 1,000,000 | 1,000 | 432 MiB | 1 min 19 s |
+
+:::
+
+The fixture included shared values, composite values, IP addresses and ranges, and soft-deleted rows.
+At one million attributes, backfill took 42 seconds and the main `attributes` rebuild took 28 seconds.
+The migration verified the old values before dropping the text columns.
+After the run, attribute and proposal counts matched and schema diagnostics reported zero pending, failed or deferred migrations.
+Both databases had no preexisting correlations, and their starting attribute tables fit inside the buffer pool.
+Use a rehearsal on your own data to size a production window.
+
+### Prepare free space {#upgrade-25-disk}
+
+Include indexes in the starting size of `attributes`.
+For a MariaDB conversion, upstream recommends planning for about **3.5 times that size in additional free space** across the data and temporary filesystems.
+At 100 million attributes, its example needed about **85 GB free in the data directory and 95 GB in `tmpdir`**.
+Check both mount points, plus storage for backups and any retained database logs.
+The upgrader checks free space before rebuilds. The SQL-only `migrationApply --dry-run` skips those checks. [Upstream storage and performance details](https://github.com/MISP/MISP/blob/3.0_wip/docs/UPGRADE.md#how-long-it-takes-and-what-it-needs)
+
+On a staging copy with local MariaDB administrative access, replace `misp` with your schema name to inspect the relevant sizes and directories.
+
+```bash
+sudo mariadb misp <<'SQL'
+SELECT table_name,
+       ROUND((data_length + index_length) / POWER(1024, 3), 2) AS gib
+FROM information_schema.tables
+WHERE table_schema = DATABASE()
+  AND table_name IN ('attributes', 'shadow_attributes');
+SHOW VARIABLES WHERE Variable_name IN ('datadir', 'tmpdir');
+SQL
+```
+
+Use `df -h` on the reported filesystems.
+The table sizes are estimates from MariaDB metadata. Record exact attribute and proposal row counts on the copy if you use those counts for comparisons.
+On Galera, plan the write outage across the cluster during coordinated schema changes. [Cluster upgrade considerations](https://github.com/MISP/MISP/blob/3.0_wip/docs/UPGRADE.md#how-long-it-takes-and-what-it-needs)

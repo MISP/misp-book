@@ -290,7 +290,7 @@ prints planned migration SQL without applying it; on an up-to-date instance it r
 nothing is pending. These checks do not establish that a large upgrade will fit the available
 disk space or complete within the maintenance window.
 
-Use the selected release's upgrade procedure and the [dependency chapter](../updating-python/index.qmd).
+See the [MISP 2.5 to 3.0 upgrade guide](../upgrade-2-5-to-3-0/index.qmd) and the [dependency chapter](../updating-python/index.qmd).
 The current **`Admin runUpgrade`** coordinates an offline upgrade: numeric updates, migrations
 and the attribute-value conversion where due, plus worker stop/restart requests. A failed run
 can leave the instance offline and partially converted; inspect its output and rerun the

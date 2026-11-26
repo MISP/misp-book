@@ -42,6 +42,10 @@ book:
         - get-your-instance/index.qmd
         - quick-start/index.qmd
         - general-layout/index.qmd
+    - part: "Installation Guides"
+      chapters:
+        - install-ubuntu/index.qmd
+        - upgrade-2-5-to-3-0/index.qmd
     - part: "Using MISP"
       chapters:
         - user-management/index.qmd
