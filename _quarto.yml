@@ -45,6 +45,7 @@ book:
     - part: "Installation Guides"
       chapters:
         - install-ubuntu/index.qmd
+        - install-rhel/index.qmd
         - upgrade-2-5-to-3-0/index.qmd
     - part: "Using MISP"
       chapters:

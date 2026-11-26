@@ -5,6 +5,7 @@ title: "Install MISP 3.0 on Ubuntu 24.04 LTS"
 This guide uses the Ubuntu installer on the [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) to create a new, single-host instance.
 The installer sets up Apache, PHP 8.3, MariaDB 10.11 or later, Redis, Supervisor, and MISP's PHP and Python dependencies.
 For an existing MISP 2.5 instance, follow the [2.5 to 3.0 upgrade](../upgrade-2-5-to-3-0/index.qmd).
+For a Red Hat Enterprise Linux host, follow the [RHEL installation guide](../install-rhel/index.qmd).
 
 ::: {.callout-note}
 `3.0_wip` is the development branch for MISP 3.0.

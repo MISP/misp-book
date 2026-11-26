@@ -1,0 +1,318 @@
+---
+title: "Install MISP 3.0 on Red Hat Enterprise Linux"
+---
+
+This guide installs the latest [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) on a clean Red Hat Enterprise Linux server.
+It uses Apache with PHP-FPM, MariaDB, a local Redis-compatible service, and Supervisor.
+The examples use `/var/www/MISP` and the distribution's `apache` account.
+
+::: {.callout-note}
+`3.0_wip` is the MISP 3.0 development branch. Evaluate it on a disposable host before deploying it.
+The experimental `xINSTALL.rhel94.sh` in that branch installs MISP 2.5. Use the manual 3.0 steps below. [RHEL script source](https://github.com/MISP/MISP/blob/3.0_wip/INSTALL/xINSTALL.rhel94.sh)
+:::
+
+The package and application checks used Rocky Linux 9 and AlmaLinux 10 containers with the daemons started directly.
+Validate subscription access, systemd startup, and SELinux enforcement on a registered RHEL test host.
+
+## Choose your RHEL packages {#rhel-install-packages}
+
+Use a current RHEL 9 minor release with the PHP 8.3 stream available, or a current RHEL 10 release.
+PHP 8.3 was introduced in RHEL 9.6.
+MISP 3.0 requires MariaDB 10.11 or later for this database path. [RHEL 9.6 release notes](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/9.6_release_notes/new-features) · [MISP database requirements](../requirements/index.qmd#software-requirements)
+
+::: {.table-responsive}
+
+| Component | RHEL 9.6 or later in the 9 series | RHEL 10 |
+|---|---|---|
+| PHP | AppStream `php:8.3` module stream | PHP 8.3 RPM packages |
+| MariaDB | AppStream `mariadb:10.11` module stream | `mariadb-server` RPM package |
+| Cache and queues | `redis` and `redis.service` | `valkey` and `valkey.service` |
+| Web service | `httpd` and `php-fpm` | `httpd` and `php-fpm` |
+
+:::
+
+MISP connects to Valkey through the PHP Redis extension and the same Redis protocol and settings.
+See the package changes and database instructions from Red Hat. [RHEL 9 MariaDB](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_and_using_database_servers/using-mariadb_configuring-and-using-database-servers) · [RHEL 10 MariaDB](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/configuring_and_using_database_servers/using-mariadb) · [RHEL 10 Valkey](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/considerations_in_adopting_rhel_10/infrastructure-services)
+
+Start with a registered RHEL server that has BaseOS and AppStream enabled.
+Use a `sudo` account, a DNS name, and a trusted TLS certificate and key for that name.
+Keep web access limited to your administration network until the bootstrap password is changed.
+
+Enable CodeReady Linux Builder and the matching EPEL repository through your organization’s approved repository configuration.
+EPEL supplies packages used below, including Supervisor and the fuzzy-hash development library.
+For a Red Hat Subscription Management host with direct access to Fedora EPEL, use the following. [EPEL setup for RHEL](https://docs.fedoraproject.org/en-US/epel/getting-started/)
+
+```bash
+rhel_major=$(rpm -E '%{rhel}')
+sudo subscription-manager repos \
+  --enable="codeready-builder-for-rhel-${rhel_major}-$(arch)-rpms"
+sudo dnf install \
+  "https://dl.fedoraproject.org/pub/epel/epel-release-latest-${rhel_major}.noarch.rpm"
+sudo dnf repolist
+```
+
+On **RHEL 9**, select the MariaDB and PHP streams first, then install MariaDB and Redis.
+
+```bash
+sudo dnf module enable mariadb:10.11 php:8.3
+sudo dnf install mariadb-server redis
+```
+
+On **RHEL 10**, install MariaDB and Valkey.
+
+```bash
+sudo dnf install mariadb-server valkey
+```
+
+On **both releases**, install the common packages and check the PHP client extensions.
+
+```bash
+sudo dnf install git curl ca-certificates openssl unzip file-libs procps-ng iproute \
+  httpd mod_ssl php-cli php-fpm php-mysqlnd php-mbstring php-xml \
+  php-gd php-intl php-bcmath php-pecl-zip php-pecl-redis6 \
+  python3.12 python3.12-pip python3.12-devel gcc ssdeep-devel \
+  policycoreutils-python-utils supervisor
+php --version
+php --ri redis
+php --ri pdo_mysql
+mariadb --version
+```
+
+Ensure the PHP Redis RPM is available for the installed PHP stream.
+If your approved repositories do not provide a matching RPM, have your package administrator supply one built for that PHP version before continuing. [PHP Redis package for EPEL 9](https://packages.fedoraproject.org/pkgs/php-pecl-redis6/php-pecl-redis6/)
+
+## Install MISP and its dependencies {#rhel-install-source}
+
+Install Composer with the verified installer procedure and make its executable available as `/usr/local/bin/composer`.
+Use the signed or checksum-verified download procedure from Composer. [Composer installation and verification](https://getcomposer.org/download/)
+
+Clone the latest `3.0_wip` branch and the submodules selected by that branch.
+
+```bash
+sudo install -d -o apache -g apache -m 0755 /var/www/MISP
+sudo -u apache git clone --branch 3.0_wip --recurse-submodules \
+  https://github.com/MISP/MISP.git /var/www/MISP
+sudo -u apache git -C /var/www/MISP status --short --branch
+sudo -u apache git -C /var/www/MISP rev-parse HEAD
+```
+
+Use a private directory for application data and Composer's state, then install the dependencies for the checkout.
+
+```bash
+sudo install -d -o apache -g apache -m 0750 /var/lib/misp \
+  /var/lib/misp/composer /var/lib/misp/attachments
+sudo -u apache env COMPOSER_HOME=/var/lib/misp/composer \
+  /usr/local/bin/composer --working-dir=/var/www/MISP/app \
+  install --no-dev --no-interaction --prefer-dist
+sudo -u apache env COMPOSER_HOME=/var/lib/misp/composer \
+  /usr/local/bin/composer --working-dir=/var/www/MISP/app \
+  check-platform-reqs --no-dev
+sudo -u apache python3.12 -m venv /var/www/MISP/venv
+sudo -u apache /var/www/MISP/venv/bin/python -m pip install \
+  -r /var/www/MISP/requirements.txt
+sudo -u apache /var/www/MISP/venv/bin/python -m pip check
+```
+
+## Initialize the database and local services {#rhel-install-database}
+
+Before starting MariaDB, set `bind-address=127.0.0.1` in a `[mariadb]` section in `/etc/my.cnf.d/misp.cnf`.
+Keep Redis or Valkey bound to loopback as well.
+Use `systemctl cat redis.service` on RHEL 9 or `systemctl cat valkey.service` on RHEL 10 to locate the service's configuration.
+Start MariaDB and whichever cache service you installed.
+
+```bash
+sudo systemctl enable --now mariadb
+# RHEL 9
+sudo systemctl enable --now redis
+redis-cli ping
+# RHEL 10
+sudo systemctl enable --now valkey
+valkey-cli ping
+```
+
+The selected cache client should return `PONG`.
+Open a local MariaDB administrator session with history disabled for the credential setup.
+
+```bash
+sudo env MYSQL_HISTFILE=/dev/null mariadb
+```
+
+Use the following SQL for a new database.
+Replace the example password with a unique secret and retain it for the application configuration.
+
+```sql
+CREATE DATABASE misp
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
+CREATE USER 'misp'@'localhost' IDENTIFIED BY 'REPLACE_WITH_DATABASE_PASSWORD';
+GRANT ALL PRIVILEGES ON misp.* TO 'misp'@'localhost';
+EXIT;
+```
+
+Load the MariaDB schema from the same checkout and copy the branch's application configuration templates.
+
+```bash
+sudo mariadb misp < /var/www/MISP/INSTALL/MARIADB.sql
+
+for config_name in bootstrap core database config; do
+  sudo install -o apache -g apache -m 0640 \
+    "/var/www/MISP/app/Config/${config_name}.default.php" \
+    "/var/www/MISP/app/Config/${config_name}.php"
+done
+```
+
+Edit `/var/www/MISP/app/Config/database.php` with `sudoedit`.
+Set the default connection's `login` to `misp` and `password` to the database password.
+Keep `host` set to `localhost` for the local socket and `database` set to `misp`.
+
+Edit the corresponding keys inside the `MISP` section of `/var/www/MISP/app/Config/config.php`.
+
+```php
+'baseurl' => 'https://misp.example.org',
+'external_baseurl' => 'https://misp.example.org',
+'osuser' => 'apache',
+'org' => 'Your organization',
+'python_bin' => '/var/www/MISP/venv/bin/python',
+'attachments_dir' => '/var/lib/misp/attachments',
+'redis_host' => '127.0.0.1',
+'background_jobs' => false,
+```
+
+Use your DNS name and organization.
+Keep the default Redis port `6379`.
+Start with jobs disabled while loading the schema and creating the bootstrap administrator.
+Run the application commands as `apache`.
+
+```bash
+sudo -u apache /var/www/MISP/app/Console/cake Admin runUpdates
+sudo sh -c 'umask 077
+runuser -u apache -- /var/www/MISP/app/Console/cake User init \
+  > /root/misp-bootstrap-api-key'
+sudo -u apache /var/www/MISP/app/Console/cake Admin schemaDiagnostics
+```
+
+Confirm that the schema reports `Pending: 0` and `Failed: 0`.
+Protect the generated bootstrap API key.
+
+## Configure SELinux and serve HTTPS {#rhel-install-web}
+
+Keep SELinux enforcing.
+Give Apache write access to application configuration, runtime files, and attachment storage with persistent file contexts.
+The rest of the checkout uses the read-only web content type from the standard `/var/www` policy.
+
+```bash
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/www/MISP/app/(Config|tmp)(/.*)?'
+sudo semanage fcontext -a -t httpd_sys_content_t '/var/lib/misp'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/lib/misp/attachments(/.*)?'
+sudo restorecon -F /var/lib/misp
+sudo restorecon -RF /var/www/MISP /var/lib/misp/attachments
+sudo setsebool -P httpd_can_network_connect_db on
+sudo setsebool -P httpd_can_network_connect on
+```
+
+The database boolean permits the web runtime to access MariaDB.
+The network boolean permits web requests to reach Redis or Valkey and the Supervisor API over TCP, and also permits other outbound web-process connections.
+Apply your site's network policy to the services MISP should access.
+For access errors, inspect SELinux denials and the labeled paths. [Red Hat SELinux documentation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_selinux/index)
+
+Use the distribution's Apache PHP-FPM configuration and the `apache` PHP-FPM pool.
+In `/etc/httpd/conf.d/ssl.conf`, replace the example TLS virtual host block with the following and keep the global TLS settings, including `Listen 443 https`.
+Use your real hostname and paths to the certificate chain and private key.
+
+```apache
+<VirtualHost *:443>
+    ServerName misp.example.org
+    DocumentRoot /var/www/MISP/app/webroot
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/misp-fullchain.pem
+    SSLCertificateKeyFile /etc/pki/tls/private/misp.key
+
+    <Directory /var/www/MISP/app/webroot>
+        Options -Indexes
+        AllowOverride FileInfo
+        Require all granted
+        DirectoryIndex index.php
+    </Directory>
+</VirtualHost>
+```
+
+MISP's `app/webroot/.htaccess` sets the rewrite and authorization rules.
+Check `httpd -M` for `rewrite_module`, `headers_module` and `proxy_fcgi_module`.
+Check that the FPM pool listens on `/run/php-fpm/www.sock` and permits access by `apache`. [Apache and PHP-FPM on RHEL 10](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/installing_and_using_dynamic_programming_languages/using-the-php-scripting-language)
+
+```bash
+sudo restorecon -v /etc/pki/tls/certs/misp-fullchain.pem \
+  /etc/pki/tls/private/misp.key
+sudo php-fpm -t
+sudo httpd -t
+sudo systemctl enable --now php-fpm httpd
+```
+
+If your host uses firewalld, check `sudo firewall-cmd --get-active-zones` and allow the `https` service in the zone restricted to administration traffic during setup.
+Verify the HTTPS certificate and sign in from the restricted administration network.
+The first account is `admin@admin.test` with password `admin`.
+Change it on the first login before granting other clients access.
+
+## Start the background workers {#rhel-install-workers}
+
+Enable Supervisor's authenticated HTTP API on loopback.
+Add or update the following section in `/etc/supervisord.conf`.
+Use a separate secret for the Supervisor password and restrict the file to root.
+
+```ini
+[inet_http_server]
+port=127.0.0.1:9001
+username=supervisor
+password=REPLACE_WITH_SUPERVISOR_PASSWORD
+```
+
+Create `/etc/supervisord.d/misp-workers.ini` with one process per job queue and a separate scheduler process.
+
+```bash
+{
+  printf '%s\n' '[group:misp-workers]' \
+    'programs=default,email,cache,prio,update,scheduler'
+  for worker in default email cache prio update scheduler; do
+    if [ "$worker" = scheduler ]; then
+      cake_command=scheduler_worker
+    else
+      cake_command="start_worker $worker"
+    fi
+    cat <<EOF
+
+[program:$worker]
+command=/var/www/MISP/app/Console/cake $cake_command
+directory=/var/www/MISP
+user=apache
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/www/MISP/app/tmp/logs/$worker-worker.log
+EOF
+  done
+} | sudo tee /etc/supervisord.d/misp-workers.ini > /dev/null
+```
+
+In the `SimpleBackgroundJobs` section of `app/Config/config.php`, set `redis_host` and `supervisor_host` to `127.0.0.1`.
+Keep Supervisor's port `9001` and set `supervisor_user` and `supervisor_password` to match `supervisord.conf`.
+Set `MISP.background_jobs` to `true` and start Supervisor.
+
+```bash
+sudo chmod 0600 /etc/supervisord.conf
+sudo systemctl enable --now supervisord
+sudo supervisorctl status 'misp-workers:*'
+```
+
+All six processes should report `RUNNING`.
+Check the worker and queue status in the MISP administration interface and verify that a background job completes. [Background worker checks](../administration/index.qmd#admin-background-jobs)
+
+## Verify the installation and plan upgrades {#rhel-install-check}
+
+- Check `ss -lnt` for your HTTPS listener and confirm that the database, cache and Supervisor listeners use loopback.
+- Verify the certificate, sign-in and redirects from a client that trusts your CA. Save and search for an unpublished, organization-only test event.
+- Confirm the site organization, distribution defaults, mail settings, and the administrator API key. Check backup and restore before enabling sync or scheduled feeds. [First steps after login](../quick-start/index.qmd#first-steps-after-login)
+
+For an existing MISP 2.5 instance, follow the [offline database upgrade](../upgrade-2-5-to-3-0/index.qmd) for backups, staging and validation.
+On RHEL, run Cake commands as `apache`, use the RHEL service names, and run `sudo systemctl restart php-fpm` after the migration.
+Rehearse on a restored copy to measure the database and maintenance window.
