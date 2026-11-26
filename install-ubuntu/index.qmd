@@ -50,7 +50,7 @@ sudo env \
   bash ./INSTALL.ubuntu2404.sh
 ```
 
-The script fetches `3.0_wip` and initializes its submodules.
+The script clones the latest `3.0_wip` branch on a clean host and initializes its matching submodules.
 For the default local database setup, it loads the branch's `INSTALL/MARIADB.sql` and runs the application updates.
 It configures the HTTPS virtual host with `app/webroot` as its document root and starts the Supervisor-managed workers.
 See the upstream installer for environment overrides and package details. [Ubuntu installer source](https://github.com/MISP/MISP/blob/3.0_wip/INSTALL/INSTALL.ubuntu2404.sh)
@@ -64,6 +64,7 @@ sudo apache2ctl configtest
 sudo systemctl status apache2 mariadb redis-server supervisor --no-pager
 sudo supervisorctl status 'misp-workers:*'
 sudo -u www-data /var/www/MISP/app/Console/cake Admin schemaDiagnostics
+sudo -u www-data git -C /var/www/MISP status --short --branch
 sudo -u www-data git -C /var/www/MISP rev-parse HEAD
 ```
 
