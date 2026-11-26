@@ -1,0 +1,272 @@
+---
+title: "Install MISP 3.0 on Fedora Server 45"
+---
+
+This guide installs the latest [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) on a clean Fedora Server 45 host.
+It uses Fedora's Apache, PHP 8.5 with PHP-FPM, MariaDB 11.8, Valkey, and Supervisor packages. [Fedora Server downloads](https://fedoraproject.org/server/download/)
+
+::: {.callout-note}
+`3.0_wip` is the MISP 3.0 development branch.
+Evaluate it on an isolated host before deployment.
+Use this procedure for a new database. For an existing instance, see [Plan a 2.5 upgrade](#fedora-install-upgrade).
+:::
+
+The package and application checks ran in a Fedora 45 x86_64 container with services started directly.
+Verify systemd startup and SELinux enforcement on your Fedora Server host.
+
+## Prepare the host {#fedora-install-prepare}
+
+Use an administrative account with `sudo`, a DNS name, and a trusted TLS certificate and key for that name.
+Keep web access restricted to administrators until you change the bootstrap password.
+Size the host and database storage for the expected load. [Instance requirements](../requirements/index.qmd)
+
+Use Fedora's packaged MariaDB 11.8 series for this procedure.
+MISP uses Valkey through the PHP Redis extension and Redis settings. [MariaDB 11.8 packages](https://packages.fedoraproject.org/pkgs/mariadb11.8/mariadb11.8-server/) · [Valkey package](https://packages.fedoraproject.org/pkgs/valkey/valkey/)
+
+```bash
+sudo dnf upgrade --refresh
+sudo dnf install ca-certificates composer curl file-libs gcc git gnupg2 httpd iproute \
+  mariadb11.8 mariadb11.8-server mod_ssl openssl php-bcmath php-cli php-fpm php-gd \
+  php-intl php-mbstring php-mysqlnd php-pecl-apcu php-pecl-redis6 php-pecl-zip \
+  php-process php-xml policycoreutils-python-utils procps-ng python3-devel \
+  python3-pip ssdeep-devel supervisor unzip valkey
+php --version
+php --ri redis
+php --ri pdo_mysql
+mariadb --version
+```
+
+Set `memory_limit = 2048M` in `/etc/php.d/99-misp.ini` for the initial definitions import and PHP runtime.
+Check the setting with `php -r 'echo ini_get("memory_limit"), PHP_EOL;'`.
+
+## Install MISP and its dependencies {#fedora-install-source}
+
+Keep the checkout on the `3.0_wip` branch and use its matching submodules.
+Run Git, Composer, Python dependency installation, and Cake commands as `apache`.
+
+```bash
+sudo install -d -o apache -g apache -m 0750 /var/www/MISP /var/lib/misp \
+  /var/lib/misp/composer /var/lib/misp/attachments
+sudo -u apache git clone --branch 3.0_wip --recurse-submodules \
+  https://github.com/MISP/MISP.git /var/www/MISP
+sudo -u apache git -C /var/www/MISP status --short --branch
+
+sudo -u apache env COMPOSER_HOME=/var/lib/misp/composer \
+  composer --working-dir=/var/www/MISP/app install --no-dev --no-interaction --prefer-dist
+sudo -u apache env COMPOSER_HOME=/var/lib/misp/composer \
+  composer --working-dir=/var/www/MISP/app check-platform-reqs --no-dev
+sudo -u apache python3 -m venv /var/www/MISP/venv
+sudo -u apache env HOME=/var/lib/misp /var/www/MISP/venv/bin/python -m pip install \
+  -r /var/www/MISP/requirements.txt
+sudo -u apache /var/www/MISP/venv/bin/python -m pip check
+```
+
+## Initialize MariaDB, Valkey, and MISP {#fedora-install-database}
+
+Create `/etc/my.cnf.d/90-misp.cnf`, owned by root with mode `0644`, to restrict MariaDB to loopback.
+In `/etc/valkey/valkey.conf`, keep `bind 127.0.0.1 -::1` and `protected-mode yes`.
+
+```ini
+[mariadb]
+bind-address=127.0.0.1
+```
+
+Start both services and check for `PONG` from Valkey.
+Open an administrative MariaDB session over its Unix socket with history disabled.
+
+```bash
+sudo systemctl enable --now mariadb valkey
+valkey-cli ping
+sudo env MYSQL_HISTFILE=/dev/null mariadb --protocol=SOCKET
+```
+
+Create the database and the application account for the loopback TCP connection.
+Use a unique password and retain it for the MISP database settings.
+
+```sql
+CREATE DATABASE misp
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
+CREATE USER 'misp'@'127.0.0.1' IDENTIFIED BY 'REPLACE_WITH_DATABASE_PASSWORD';
+GRANT ALL PRIVILEGES ON misp.* TO 'misp'@'127.0.0.1';
+EXIT;
+```
+
+Load the branch's MariaDB schema and copy the configuration templates.
+
+```bash
+sudo mariadb --protocol=SOCKET misp < /var/www/MISP/INSTALL/MARIADB.sql
+for name in bootstrap config core database; do
+  sudo install -o apache -g apache -m 0640 \
+    "/var/www/MISP/app/Config/$name.default.php" "/var/www/MISP/app/Config/$name.php"
+done
+```
+
+In `/var/www/MISP/app/Config/database.php`, set `host` to `127.0.0.1`, `login` to `misp`, and `password` to the database password.
+Keep `database` set to `misp`.
+In `/var/www/MISP/app/Config/config.php`, set the following `MISP` keys using your hostname and organization.
+
+```php
+'baseurl' => 'https://misp.example.org',
+'external_baseurl' => 'https://misp.example.org',
+'org' => 'Your organization',
+'osuser' => 'apache',
+'python_bin' => '/var/www/MISP/venv/bin/python',
+'attachments_dir' => '/var/lib/misp/attachments',
+'redis_host' => '127.0.0.1',
+'background_jobs' => false,
+```
+
+Set `Security.salt` to a unique value from `openssl rand -hex 32` in the same file.
+Keep jobs disabled while applying schema updates, creating the administrator, and importing the bundled definitions.
+
+```bash
+sudo -u apache /var/www/MISP/app/Console/cake Admin runUpdates
+sudo sh -c 'umask 077
+  runuser -u apache -- /var/www/MISP/app/Console/cake User init > /root/misp-bootstrap-api-key'
+sudo -u apache /var/www/MISP/app/Console/cake Admin updateJSON
+sudo -u apache /var/www/MISP/app/Console/cake Admin schemaDiagnostics
+```
+
+Keep the bootstrap API key private.
+Confirm that schema diagnostics report `Pending: 0` and `Failed: 0`.
+
+### Set up the instance signing key {#fedora-install-gnupg}
+
+Create the signing key in a private Bash session and substitute your instance's email address.
+
+```bash
+sudo install -d -o apache -g apache -m 0700 /var/lib/misp/gnupg
+read -r -s -p 'Instance GnuPG passphrase: ' gpg_passphrase
+printf '\n'
+printf '%s\n' "$gpg_passphrase" | sudo -u apache gpg --homedir /var/lib/misp/gnupg \
+  --batch --pinentry-mode loopback --passphrase-fd 0 \
+  --quick-generate-key misp@example.org ed25519 sign never
+unset gpg_passphrase
+sudo -u apache sh -c 'gpg --homedir /var/lib/misp/gnupg --armor --export \
+  misp@example.org > /var/www/MISP/app/webroot/gpg.asc'
+```
+
+Set `GnuPG.homedir`, `GnuPG.email`, and `GnuPG.password` in `app/Config/config.php` to the directory, email address, and passphrase you used.
+Include the key and configuration in your protected backups. [Instance and user keys](../cryptographic-keys/index.qmd)
+
+## Configure SELinux and HTTPS {#fedora-install-web}
+
+Keep SELinux enforcing and set persistent labels for data that PHP must write.
+Use your network policy to limit outbound connections. The SELinux network boolean permits Apache and PHP-FPM to reach local services and make outbound connections for MISP. [Fedora SELinux documentation](https://docs.fedoraproject.org/en-US/quick-docs/selinux-getting-started/)
+
+```bash
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/www/MISP/app/(Config|tmp)(/.*)?'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/www/MISP/app/files/scripts/tmp(/.*)?'
+sudo semanage fcontext -a -t httpd_sys_content_t '/var/lib/misp'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/lib/misp/(attachments|gnupg)(/.*)?'
+sudo restorecon -R /var/www/MISP /var/lib/misp
+sudo setsebool -P httpd_can_network_connect on
+```
+
+In `/etc/httpd/conf.d/ssl.conf`, replace the packaged example `<VirtualHost>` block with the following.
+Keep the global SSL settings and `Listen 443 https`.
+Use your actual hostname, certificate chain, and private key paths.
+
+```apache
+<VirtualHost *:80>
+    ServerName misp.example.org
+    Redirect permanent / https://misp.example.org/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName misp.example.org
+    DocumentRoot /var/www/MISP/app/webroot
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/misp-fullchain.pem
+    SSLCertificateKeyFile /etc/pki/tls/private/misp.key
+
+    <Directory /var/www/MISP/app/webroot>
+        Options -Indexes +FollowSymLinks
+        AllowOverride FileInfo
+        Require all granted
+        DirectoryIndex index.php
+    </Directory>
+</VirtualHost>
+```
+
+Fedora's `/etc/httpd/conf.d/php.conf` passes PHP requests to the packaged FPM pool on `/run/php-fpm/www.sock`.
+Check that `rewrite`, `headers`, and `proxy_fcgi` appear in `sudo httpd -M`.
+Use `AllowOverride FileInfo` to enable the repository's rewrite and API authorization rules.
+
+```bash
+sudo restorecon -v /etc/pki/tls/certs/misp-fullchain.pem /etc/pki/tls/private/misp.key
+sudo php-fpm -t
+sudo httpd -t
+sudo systemctl enable --now php-fpm httpd
+```
+
+If firewalld is active, allow `https` in the zone serving your administration network.
+Allow `http` there if clients will use the redirect. [Fedora firewalld documentation](https://docs.fedoraproject.org/en-US/quick-docs/firewalld/)
+Verify the TLS certificate and sign in as `admin@admin.test` with password `admin`.
+Change the password before granting other clients access. [First steps after login](../quick-start/index.qmd#first-steps-after-login)
+
+## Start and verify the background workers {#fedora-install-workers}
+
+Add the authenticated TCP endpoint below to `/etc/supervisord.conf` and keep it on loopback.
+Keep the packaged Unix socket for local `supervisorctl` commands.
+Choose a separate password for the MISP worker-management API.
+
+```ini
+[inet_http_server]
+port=127.0.0.1:9001
+username=supervisor
+password=REPLACE_WITH_SUPERVISOR_PASSWORD
+```
+
+Create `/etc/supervisord.d/misp-workers.ini` with five queue workers and one dedicated scheduler.
+
+```bash
+{
+  printf '%s\n' '[group:misp-workers]' \
+    'programs=default,email,cache,prio,update,scheduler'
+  for worker in default email cache prio update scheduler; do
+    if [ "$worker" = scheduler ]; then
+      cake_command=scheduler_worker
+    else
+      cake_command="start_worker $worker"
+    fi
+    cat <<EOF
+
+[program:$worker]
+command=/var/www/MISP/app/Console/cake $cake_command
+directory=/var/www/MISP
+user=apache
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/www/MISP/app/tmp/logs/$worker-worker.log
+EOF
+  done
+} | sudo tee /etc/supervisord.d/misp-workers.ini > /dev/null
+```
+
+In the `SimpleBackgroundJobs` section of `app/Config/config.php`, set `redis_host` and `supervisor_host` to `127.0.0.1`.
+Keep `supervisor_port` at `9001` and set `supervisor_user` and `supervisor_password` to match the Supervisor configuration.
+Set `MISP.background_jobs` to `true`.
+
+```bash
+sudo chmod 0600 /etc/supervisord.conf
+sudo systemctl enable --now supervisord
+sudo supervisorctl status 'misp-workers:*'
+sudo -u apache /var/www/MISP/app/Console/cake Admin getWorkers
+sudo systemctl status mariadb valkey php-fpm httpd supervisord --no-pager
+sudo ss -lnt
+```
+
+Check that all six worker processes report `RUNNING` and that MariaDB, Valkey, and Supervisor listen only on loopback.
+Save and search for an unpublished, organization-only test event.
+Verify that a queued job completes before enabling synchronization or scheduled feeds. [Background worker checks](../administration/index.qmd#admin-background-jobs)
+
+## Plan a 2.5 upgrade {#fedora-install-upgrade}
+
+For an existing MISP 2.5 database, use the [offline upgrade procedure](../upgrade-2-5-to-3-0/index.qmd) to back up the instance, rehearse on a restored copy, and run `Admin runUpgrade` on the latest `3.0_wip` checkout.
+Use the `apache` account for MISP commands and restart PHP-FPM with `sudo systemctl restart php-fpm` after the migration.
+Time the conversion on a representative copy to estimate your maintenance window.
