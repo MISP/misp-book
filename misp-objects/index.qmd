@@ -211,8 +211,16 @@ versions, active state, elements and requirements.
 
 ![The ip-port template detail page exposes its requirements and relation definitions.](figures/misp3-object-template.png)
 
-To refresh the catalogue for these examples, first deploy the latest [misp-objects definitions](https://github.com/MISP/misp-objects/tree/main/objects) under `app/files/misp-objects`.
-Then choose **Update Object** in MISP or run `cake Admin updateObjectTemplates <admin-user-id>` to load the definitions into the database.
+Update the `app/files/misp-objects` checkout in your MISP installation with the [latest catalogue](https://github.com/MISP/misp-objects/tree/main/objects).
+In **List Object Templates**, choose **Update Object** to load the definitions into the database.
+To do this from the command line, run the following from the MISP installation directory as the MISP application user.
+Set `ADMIN_USER_ID` to the numeric ID of an existing site administrator.
+
+```bash
+ADMIN_USER_ID=1
+app/Console/cake Admin updateObjectTemplates "$ADMIN_USER_ID"
+```
+
 Confirm that the latest definition for each template you need is active.
 Existing objects retain their recorded template versions.
 

@@ -38,9 +38,10 @@ Use a dataset object as well when the source has a path, geometry or metadata wo
 
 :::
 
-Use the latest definitions from the [MISP object catalogue](../misp-objects/index.qmd#objects-maintenance) to display and edit these objects.
-Keep the module service's PyMISP templates current too, since they are loaded separately from the MISP catalogue.
-The NMEA and KML importers also bundle their dataset templates.
+[Refresh the MISP object catalogue](../misp-objects/index.qmd#objects-maintenance) and confirm that the templates you use are active in MISP for display and editing.
+The upstream catalogue also includes the dataset definitions for NMEA and KML. [NMEA template](https://github.com/MISP/misp-objects/blob/main/objects/nmea/definition.json) · [KML template](https://github.com/MISP/misp-objects/blob/main/objects/kml/definition.json)
+Keep the module service's PyMISP templates current too.
+The NMEA and KML importers bundle their own copies separately from the MISP catalogue.
 
 ### Coordinates, times and uncertainty {#geo-coordinates}
 
