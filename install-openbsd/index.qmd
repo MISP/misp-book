@@ -1,0 +1,290 @@
+---
+title: "Install MISP 3.0 on OpenBSD 8.0"
+---
+
+This guide installs the latest [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) on a clean OpenBSD 8.0 amd64 host.
+It uses the packaged Apache, PHP 8.3, MariaDB, Redis, and Supervisor services. [OpenBSD 8.0 release](https://www.openbsd.org/80.html)
+The setup was exercised in a native OpenBSD 8.0 amd64 virtual machine.
+
+::: {.callout-note}
+`3.0_wip` is the MISP 3.0 development branch.
+Evaluate it on an isolated host before deployment.
+Use these steps for a new database. For an existing MISP 2.5 instance, see [Plan a 2.5 upgrade](#openbsd-install-upgrade).
+:::
+
+## Prepare the host {#openbsd-install-prepare}
+
+Use the default OpenBSD install sets, including `comp80.tgz` for Python extension builds and `xbase80.tgz` for the PHP GD dependencies.
+Make sure the filesystem containing `/var` has space for both the application checkout and MariaDB data, plus temporary space for imports.
+Use a DNS name and a TLS certificate chain and private key for that name.
+Restrict initial HTTPS access to administrators until the bootstrap password is changed. [Instance requirements](../requirements/index.qmd)
+
+Apply the current OpenBSD patches with `syspatch` and reboot if required.
+Run the host commands in a root shell and use `/etc/installurl` to select your package mirror. [OpenBSD package management](https://www.openbsd.org/faq/faq15.html)
+
+```bash
+pkg_add apache-httpd bash composer curl git gnupg mariadb-server redis supervisor \
+  'php-apache%8.3' 'php-curl%8.3' 'php-gd%8.3' 'php-intl%8.3' \
+  'php-pcntl%8.3' 'php-pdo_mysql%8.3' 'php-zip%8.3' pecl83-apcu pecl83-redis \
+  py3-pip py3-jsonschema py3-lxml py3-magic py3-zmq ssdeep unzip--
+```
+
+Select Redis 8 if `pkg_add` prompts for a branch.
+The port provides PHP as `/usr/local/bin/php-8.3`.
+On a clean host, create the `php` link used by MISP's Cake wrapper and enable the extensions from their packaged configuration samples.
+
+```bash
+ln -s /usr/local/bin/php-8.3 /usr/local/bin/php
+for extension in apcu curl gd intl pcntl pdo_mysql redis zip; do
+  ln -s "/etc/php-8.3.sample/$extension.ini" "/etc/php-8.3/$extension.ini"
+done
+php --version
+php --ri pdo_mysql
+php --ri redis
+```
+
+In `/etc/php-8.3.ini`, set `memory_limit = 2048M` for the initial definitions import and PHP runtime.
+
+## Install MISP and its dependencies {#openbsd-install-source}
+
+Use OpenBSD's `www` account for the Git checkout, dependency installation, and Cake commands.
+Run those commands from a directory `www` can access, such as `/var/www`, because `su -m` preserves the working directory.
+Clone the latest branch with the submodules it selects.
+
+```bash
+install -d -o www -g www -m 0750 /var/www/MISP /var/db/misp \
+  /var/db/misp/composer /var/db/misp/attachments
+cd /var/www
+su -m www -c 'env HOME=/var/db/misp git clone --branch 3.0_wip --depth 1 \
+  --recurse-submodules --shallow-submodules \
+  https://github.com/MISP/MISP.git /var/www/MISP'
+su -m www -c 'env HOME=/var/db/misp git -C /var/www/MISP status --short --branch'
+su -m www -c 'env HOME=/var/db/misp COMPOSER_HOME=/var/db/misp/composer \
+  composer --working-dir=/var/www/MISP/app install --no-dev --no-interaction --prefer-dist'
+su -m www -c 'env HOME=/var/db/misp COMPOSER_HOME=/var/db/misp/composer \
+  composer --working-dir=/var/www/MISP/app check-platform-reqs --no-dev'
+```
+
+### Install the Python helpers {#openbsd-install-python}
+
+Create a virtual environment that can use OpenBSD's packaged `pip`, XML, JSON Schema, magic, and ZeroMQ libraries.
+The OpenBSD package set and Python package index used for this guide had no ready-made OpenBSD build of LIEF.
+Use a copy of the checkout's Python requirements with the LIEF line removed.
+Binary metadata extraction that depends on LIEF is unavailable with this setup. [MISP file-object diagnostic](https://github.com/MISP/MISP/blob/3.0_wip/app/files/scripts/generate_file_objects.py)
+
+```bash
+su -m www -c 'env HOME=/var/db/misp python3.14 -m venv \
+  --without-pip --system-site-packages /var/www/MISP/venv'
+awk '$0 !~ /^lief([<>=!~]|$)/' /var/www/MISP/requirements.txt \
+  > /var/db/misp/python-requirements.txt
+chmod 0644 /var/db/misp/python-requirements.txt
+su -m www -c 'env HOME=/var/db/misp CPPFLAGS=-I/usr/local/include \
+  LDFLAGS=-L/usr/local/lib /var/www/MISP/venv/bin/python -m pip install \
+  -r /var/db/misp/python-requirements.txt'
+su -m www -c '/var/www/MISP/venv/bin/python -m pip check'
+```
+
+## Initialize MariaDB, Redis, and MISP {#openbsd-install-database}
+
+In `/etc/my.cnf`, set `bind-address = 127.0.0.1` in the `[mysqld]` section and leave the local socket available.
+In `/etc/redis/redis.conf`, keep Redis bound to loopback with protected mode enabled.
+If the Redis sample enables `loadmodule ./modules/…` for Bloom, Search, JSON, or TimeSeries, comment out those lines. The OpenBSD package tested here lacks those modules, and Redis exits if it tries to load them.
+Create the MariaDB system tables once on the new host and enable both daemons. [OpenBSD service control](https://man.openbsd.org/rcctl.8)
+
+```bash
+mariadb-install-db
+rcctl enable mysqld redis
+rcctl start mysqld redis
+redis-cli ping
+env MYSQL_HISTFILE=/dev/null mariadb --protocol=SOCKET
+```
+
+When Redis is ready, it returns `PONG`.
+In the MariaDB session, create a dedicated database and account for the loopback TCP connection.
+Substitute a unique password and retain it for the database configuration.
+
+```sql
+CREATE DATABASE misp CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
+CREATE USER 'misp'@'127.0.0.1' IDENTIFIED BY 'REPLACE_WITH_DATABASE_PASSWORD';
+GRANT ALL PRIVILEGES ON misp.* TO 'misp'@'127.0.0.1';
+EXIT;
+```
+
+Load the schema from that checkout and copy its application configuration templates.
+
+```bash
+mariadb --protocol=SOCKET misp < /var/www/MISP/INSTALL/MARIADB.sql
+for name in bootstrap config core database; do
+  install -o www -g www -m 0640 \
+    "/var/www/MISP/app/Config/$name.default.php" "/var/www/MISP/app/Config/$name.php"
+done
+```
+
+In `/var/www/MISP/app/Config/database.php`, set `host` to `127.0.0.1`, `login` to `misp`, and `password` to the database password.
+Keep `database` set to `misp`.
+Set these keys in the `MISP` section of `/var/www/MISP/app/Config/config.php`, using your hostname and organization.
+
+```php
+'baseurl' => 'https://misp.example.org',
+'external_baseurl' => 'https://misp.example.org',
+'org' => 'Your organization',
+'osuser' => 'www',
+'python_bin' => '/var/www/MISP/venv/bin/python',
+'attachments_dir' => '/var/db/misp/attachments',
+'redis_host' => '127.0.0.1',
+'background_jobs' => false,
+```
+
+Set `Security.salt` to a unique value from `openssl rand -hex 32` in the same file.
+Keep jobs disabled while you apply schema updates, create the first administrator, and import the bundled definitions.
+
+```bash
+su -m www -c '/var/www/MISP/app/Console/cake Admin runUpdates'
+(umask 077; su -m www -c '/var/www/MISP/app/Console/cake User init' \
+  > /root/misp-bootstrap-api-key)
+su -m www -c '/var/www/MISP/app/Console/cake Admin updateJSON'
+su -m www -c '/var/www/MISP/app/Console/cake Admin schemaDiagnostics'
+```
+
+Keep the bootstrap API key private.
+Wait for `All JSON structures updated` before continuing.
+Confirm that diagnostics show `Pending: 0` and `Failed: 0`.
+
+### Set up the instance signing key {#openbsd-install-gnupg}
+
+Create the instance key in a private Bash session and substitute your instance's email address.
+
+```bash
+install -d -o www -g www -m 0700 /var/db/misp/gnupg
+read -r -s -p 'Instance GnuPG passphrase: ' gpg_passphrase
+printf '\n'
+printf '%s\n' "$gpg_passphrase" | su -m www -c \
+  'gpg --homedir /var/db/misp/gnupg --batch --pinentry-mode loopback --passphrase-fd 0 \
+  --quick-generate-key misp@example.org ed25519 sign never'
+unset gpg_passphrase
+su -m www -c 'gpg --homedir /var/db/misp/gnupg --armor --export \
+  misp@example.org > /var/www/MISP/app/webroot/gpg.asc'
+```
+
+Set `GnuPG.binary` to `/usr/local/bin/gpg` in `app/Config/config.php`.
+Set `GnuPG.homedir`, `GnuPG.email`, and `GnuPG.password` to the directory, address, and passphrase you used.
+Include the key and configuration in your protected backups. [Instance and user keys](../cryptographic-keys/index.qmd)
+
+## Serve MISP over HTTPS {#openbsd-install-web}
+
+This setup uses the `apache2` service from the `apache-httpd` package.
+In `/etc/apache2/httpd2.conf`, enable the `rewrite` and `ssl` modules, keep `headers` and the prefork MPM enabled, and add `Include /etc/apache2/extra/misp.conf`.
+Keep the packaged include for `/var/www/conf/modules/*.conf`.
+
+Create `/var/www/conf/modules/php-8.3.conf` with the PHP module and the handler for PHP scripts.
+
+```apache
+LoadModule php_module /usr/local/lib/apache2/php-8.3/libphp.so
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+```
+
+Create `/etc/apache2/extra/misp.conf`, substituting your DNS name and certificate paths.
+Keep the packaged example SSL configuration disabled so Apache listens on port 443 once.
+
+```apache
+Listen 443
+
+<VirtualHost *:80>
+    ServerName misp.example.org
+    Redirect permanent / https://misp.example.org/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName misp.example.org
+    DocumentRoot /var/www/MISP/app/webroot
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/misp-fullchain.pem
+    SSLCertificateKeyFile /etc/ssl/private/misp.key
+
+    <Directory /var/www/MISP/app/webroot>
+        Options -Indexes +FollowSymLinks
+        AllowOverride FileInfo
+        Require all granted
+        DirectoryIndex index.php
+    </Directory>
+</VirtualHost>
+```
+
+`AllowOverride FileInfo` enables the rewrite and API authorization rules in `app/webroot/.htaccess`.
+Check the configuration and start Apache.
+
+```bash
+apachectl2 configtest
+rcctl enable apache2
+rcctl start apache2
+```
+
+Verify the certificate and HTTP redirect from a trusted client.
+Sign in as `admin@admin.test` with password `admin` and change the password before opening the site to other clients. [First steps after login](../quick-start/index.qmd#first-steps-after-login)
+
+## Start and verify the background workers {#openbsd-install-workers}
+
+Use Supervisor's local Unix socket and give the `www` group access to it.
+In `/etc/supervisord.conf`, edit the existing `[unix_http_server]` section and keep the packaged `[rpcinterface:supervisor]`, `[supervisorctl]`, and `[include]` sections.
+
+```ini
+[unix_http_server]
+file=/var/run/supervisor/supervisor.sock
+chmod=0660
+chown=root:www
+```
+
+Create one worker for each queue and one dedicated scheduler.
+
+```bash
+install -d -m 0755 /etc/supervisord.d
+{
+  printf '%s\n' '[group:misp-workers]' 'programs=default,email,cache,prio,update,scheduler'
+  for worker in default email cache prio update scheduler; do
+    if [ "$worker" = scheduler ]; then
+      cake_command=scheduler_worker
+    else
+      cake_command="start_worker $worker"
+    fi
+    cat <<CONFIG
+
+[program:$worker]
+command=/var/www/MISP/app/Console/cake $cake_command
+directory=/var/www/MISP
+user=www
+environment=PATH="/usr/local/bin:/usr/bin:/bin",HOME="/var/db/misp"
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/www/MISP/app/tmp/logs/$worker-worker.log
+CONFIG
+  done
+} > /etc/supervisord.d/misp-workers.ini
+```
+
+In the `SimpleBackgroundJobs` section of `app/Config/config.php`, set `redis_host` to `127.0.0.1` and `supervisor_host` to `unix:/var/run/supervisor/supervisor.sock`.
+Set `supervisor_user` and `supervisor_password` to empty strings for the local socket.
+Set `MISP.background_jobs` to `true`.
+
+```bash
+rcctl enable supervisord
+rcctl start supervisord
+rcctl order mysqld redis apache2 supervisord
+rcctl check mysqld redis apache2 supervisord
+supervisorctl status 'misp-workers:*'
+netstat -na -f inet -p tcp
+netstat -na -f inet6 -p tcp
+```
+
+Confirm that all six Supervisor processes are running and that MariaDB and Redis listen only on loopback.
+MISP's `Admin getWorkers` uses a `ps` field that OpenBSD lacks, so the reported worker owner can be blank.
+To check ownership, take the PID from `supervisorctl status` and run `ps -o user= -p PID`.
+Save and search for an unpublished, organization-only test event and confirm that a queued job completes. [Background worker checks](../administration/index.qmd#admin-background-jobs)
+
+## Plan a 2.5 upgrade {#openbsd-install-upgrade}
+
+Use the shared [offline 2.5-to-3.0 upgrade](../upgrade-2-5-to-3-0/index.qmd) for backups, rehearsals, and database validation.
+Follow the tracked `3.0_wip` branch, run the Cake commands as `www` with `su -m www -c`, and restart the packaged PHP module with `rcctl restart apache2` after the migration.
+Time `Admin runUpgrade` on a restored copy before estimating your maintenance window.
