@@ -179,6 +179,8 @@ Edit the corresponding keys inside the `MISP` section of `/var/www/MISP/app/Conf
 
 Use your DNS name and organization.
 Keep the default Redis port `6379`.
+Before creating the administrator, generate a unique instance salt with `openssl rand -hex 32` and set `Security.salt` to that value in the same configuration file.
+Keep it private and include the file in instance backups.
 Start with jobs disabled while loading the schema and creating the bootstrap administrator.
 Run the application commands as `apache`.
 
@@ -197,11 +199,14 @@ Protect the generated bootstrap API key.
 
 Keep SELinux enforcing.
 Give Apache write access to application configuration, runtime files, and attachment storage with persistent file contexts.
+The script workspace under `app/files/scripts/tmp` must also be writable for temporary files created by MISP.
 The rest of the checkout uses the read-only web content type from the standard `/var/www` policy.
 
 ```bash
 sudo semanage fcontext -a -t httpd_sys_rw_content_t \
   '/var/www/MISP/app/(Config|tmp)(/.*)?'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/www/MISP/app/files/scripts/tmp(/.*)?'
 sudo semanage fcontext -a -t httpd_sys_content_t '/var/lib/misp'
 sudo semanage fcontext -a -t httpd_sys_rw_content_t \
   '/var/lib/misp/attachments(/.*)?'
