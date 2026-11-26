@@ -9,7 +9,8 @@ production instance; the authoritative, always-current instructions live on the
 [MISP repository](https://github.com/MISP/MISP).
 
 The book's **Installation Guides** cover new installations on [Ubuntu 24.04](../install-ubuntu/index.qmd),
-[Debian 13](../install-debian/index.qmd), and [Red Hat Enterprise Linux 9 and 10](../install-rhel/index.qmd), plus the
+[Debian 13](../install-debian/index.qmd), [Red Hat Enterprise Linux 9 and 10](../install-rhel/index.qmd), and
+[Alpine Linux 3.24](../install-alpine/index.qmd), plus the
 [offline database upgrade from MISP 2.5 to 3.0](../upgrade-2-5-to-3-0/index.qmd).
 
 ## Choosing a deployment method
@@ -18,8 +19,8 @@ The book's **Installation Guides** cover new installations on [Ubuntu 24.04](../
     or [Debian guide](../install-debian/index.qmd) for a clean MISP 3.0 development-branch installation.
     Check the [download page](https://www.misp-project.org/download/) for other
     supported release and operating system combinations.
-*   **Red Hat Enterprise Linux** — follow the [RHEL guide](../install-rhel/index.qmd)
-    for a manual installation of the MISP 3.0 development branch.
+*   **Manual installation** — follow the [RHEL guide](../install-rhel/index.qmd) or the
+    [Alpine guide](../install-alpine/index.qmd) to install the MISP 3.0 development branch.
 *   **Docker** — for MISP 3.0 early access, use the
     [`misp-3.0_wip` branch of misp-docker](https://github.com/MISP/misp-docker/tree/misp-3.0_wip)
     and build the images locally; no pre-built images are published for this deployment.

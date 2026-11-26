@@ -1,0 +1,265 @@
+---
+title: "Install MISP 3.0 on Alpine Linux 3.24"
+---
+
+This guide installs the latest [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) on a clean Alpine Linux 3.24 server.
+Use the current point release of the stable series and apply its security updates. [Alpine Linux releases](https://alpinelinux.org/releases/)
+The manual setup uses Apache with PHP 8.5, MariaDB 11.8, Redis, and Supervisor managed by OpenRC.
+The service commands were tested in an Alpine 3.24.4 x86_64 container.
+
+::: {.callout-note}
+`3.0_wip` is the MISP 3.0 development branch.
+Evaluate it on an isolated host before deployment.
+Use these steps for a new database. For a MISP 2.5 instance, see [Plan a 2.5 upgrade](#alpine-install-upgrade).
+:::
+
+## Prepare the host {#alpine-install-prepare}
+
+Run the host setup commands in a root shell.
+Use a DNS name and a trusted TLS certificate and key for that name.
+Restrict web access to your administration network until you change the bootstrap password.
+Size the host and database storage for the expected load. [Instance requirements](../requirements/index.qmd)
+
+Enable the `v3.24/main` and `v3.24/community` repositories in `/etc/apk/repositories`.
+Install the packages and their OpenRC service definitions. Alpine packages the fuzzy-hash headers used to build `pydeep2` as `libfuzzy2-dev`. [Alpine repositories](https://wiki.alpinelinux.org/wiki/Repositories) · [libfuzzy2-dev](https://pkgs.alpinelinux.org/package/v3.24/community/x86_64/libfuzzy2-dev)
+
+```bash
+apk update
+apk upgrade
+apk add apache2 apache2-openrc apache2-ssl bash build-base ca-certificates \
+  composer curl file git gnupg iproute2 libfuzzy2-dev \
+  mariadb mariadb-client mariadb-openrc openssl procps-ng py3-pip python3-dev \
+  redis redis-openrc supervisor supervisor-openrc unzip \
+  php85-apache2 php85-bcmath php85-ctype php85-dom php85-fileinfo \
+  php85-gd php85-intl php85-mbstring php85-openssl php85-pcntl \
+  php85-pdo_mysql php85-pecl-apcu php85-pecl-redis php85-posix php85-session \
+  php85-simplexml php85-tokenizer php85-xml php85-xmlreader php85-xmlwriter php85-zip
+php --version
+php --ri redis
+php --ri pdo_mysql
+mariadb --version
+```
+
+Set `memory_limit = 2048M` in `/etc/php85/conf.d/99-misp.ini` for the initial import and PHP runtime.
+Alpine's default `128M` can stop `Admin updateJSON` while it loads the bundled definitions.
+Check the effective setting with `php -r 'echo ini_get("memory_limit"), PHP_EOL;'`.
+
+## Install MISP and its dependencies {#alpine-install-source}
+
+Use the `apache` account for the checkout, dependency installation, and Cake commands.
+Clone the branch with the submodules selected by the current checkout.
+
+```bash
+install -d -o apache -g apache -m 0750 /var/www/MISP /var/lib/misp \
+  /var/lib/misp/composer /var/lib/misp/attachments
+su -s /bin/sh apache -c 'git clone --branch 3.0_wip --recurse-submodules \
+  https://github.com/MISP/MISP.git /var/www/MISP'
+su -s /bin/sh apache -c 'git -C /var/www/MISP status --short --branch'
+```
+
+Install and verify the PHP and Python dependencies using the files from that checkout.
+
+```bash
+su -s /bin/sh apache -c 'export COMPOSER_HOME=/var/lib/misp/composer
+  composer --working-dir=/var/www/MISP/app install --no-dev --no-interaction --prefer-dist &&
+  composer --working-dir=/var/www/MISP/app check-platform-reqs --no-dev'
+su -s /bin/sh apache -c 'export HOME=/var/lib/misp
+  python3 -m venv /var/www/MISP/venv &&
+  /var/www/MISP/venv/bin/python -m pip install -r /var/www/MISP/requirements.txt &&
+  /var/www/MISP/venv/bin/python -m pip check'
+```
+
+## Initialize MariaDB, Redis, and MISP {#alpine-install-database}
+
+Keep MariaDB's `skip-networking` setting in `/etc/my.cnf.d/mariadb-server.cnf` so the database is local to the host.
+Keep `/etc/redis.conf` bound to loopback with protected mode enabled.
+Initialize MariaDB once on the new host, start both services, and add them to the OpenRC default runlevel. [Alpine OpenRC commands](https://wiki.alpinelinux.org/wiki/OpenRC)
+
+```bash
+rc-service mariadb setup
+rc-service mariadb start
+rc-service redis start
+rc-update add mariadb default
+rc-update add redis default
+redis-cli ping
+MYSQL_HISTFILE=/dev/null mariadb --protocol=SOCKET
+```
+
+Redis should report `PONG` once it is ready.
+In the MariaDB session, create a new database and application account.
+Substitute a unique password and keep it for the MISP database settings.
+
+```sql
+CREATE DATABASE misp
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
+CREATE USER 'misp'@'localhost' IDENTIFIED BY 'REPLACE_WITH_DATABASE_PASSWORD';
+GRANT ALL PRIVILEGES ON misp.* TO 'misp'@'localhost';
+EXIT;
+```
+
+Load the branch's MariaDB schema and copy the application configuration templates.
+
+```bash
+mariadb --protocol=SOCKET misp < /var/www/MISP/INSTALL/MARIADB.sql
+for name in bootstrap config core database; do
+  install -o apache -g apache -m 0640 \
+    "/var/www/MISP/app/Config/$name.default.php" "/var/www/MISP/app/Config/$name.php"
+done
+```
+
+In `/var/www/MISP/app/Config/database.php`, set the default connection's `login` to `misp` and `password` to the database password.
+Keep `host` set to `localhost` and `database` set to `misp`.
+The Alpine PHP package uses the local MariaDB socket at `/run/mysqld/mysqld.sock` for this connection.
+
+In `/var/www/MISP/app/Config/config.php`, edit the following keys in the `MISP` section and substitute your hostname and organization.
+
+```php
+'baseurl' => 'https://misp.example.org',
+'external_baseurl' => 'https://misp.example.org',
+'org' => 'Your organization',
+'osuser' => 'apache',
+'python_bin' => '/var/www/MISP/venv/bin/python',
+'attachments_dir' => '/var/lib/misp/attachments',
+'redis_host' => '127.0.0.1',
+'background_jobs' => false,
+```
+
+In the same file, set `Security.salt` to a unique value from `openssl rand -hex 32`.
+Keep jobs disabled during initialization.
+Apply the schema updates, create the first administrator, and import the bundled definitions.
+
+```bash
+su -s /bin/sh apache -c '/var/www/MISP/app/Console/cake Admin runUpdates'
+(umask 077; su -s /bin/sh apache -c '/var/www/MISP/app/Console/cake User init' \
+  > /root/misp-bootstrap-api-key)
+su -s /bin/sh apache -c '/var/www/MISP/app/Console/cake Admin updateJSON'
+su -s /bin/sh apache -c '/var/www/MISP/app/Console/cake Admin schemaDiagnostics'
+```
+
+Keep the bootstrap API key private.
+Confirm that the schema diagnostics show `Pending: 0` and `Failed: 0`.
+
+### Set up the instance key {#alpine-install-gnupg}
+
+Create the instance's GnuPG home and signing key in a private terminal.
+Run the following in Bash and substitute your instance's email address.
+
+```bash
+install -d -o apache -g apache -m 0700 /var/lib/misp/gnupg
+read -r -s -p 'Instance GnuPG passphrase: ' gpg_passphrase
+printf '\n'
+printf '%s\n' "$gpg_passphrase" | su -s /bin/sh apache -c \
+  'gpg --homedir /var/lib/misp/gnupg --batch --pinentry-mode loopback --passphrase-fd 0 \
+  --quick-generate-key misp@example.org ed25519 sign never'
+unset gpg_passphrase
+su -s /bin/sh apache -c 'gpg --homedir /var/lib/misp/gnupg --armor --export \
+  misp@example.org > /var/www/MISP/app/webroot/gpg.asc'
+```
+
+Set `GnuPG.homedir`, `GnuPG.email`, and `GnuPG.password` in `app/Config/config.php` to the directory, email address, and passphrase you used.
+Include the private key and configuration in your protected backups. [Instance and user keys](../cryptographic-keys/index.qmd)
+
+## Serve MISP over HTTPS {#alpine-install-web}
+
+Uncomment the `LoadModule rewrite_module` line in `/etc/apache2/httpd.conf`.
+Keep the `headers` module and the prefork MPM enabled for the packaged PHP module.
+In `/etc/apache2/conf.d/ssl.conf`, replace the packaged example `<VirtualHost>` block with the following.
+Keep the global TLS settings, including `Listen 443`, and use your actual hostname and certificate paths.
+
+```apache
+<VirtualHost *:80>
+    ServerName misp.example.org
+    Redirect permanent / https://misp.example.org/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName misp.example.org
+    DocumentRoot /var/www/MISP/app/webroot
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/misp-fullchain.pem
+    SSLCertificateKeyFile /etc/ssl/private/misp.key
+
+    <Directory /var/www/MISP/app/webroot>
+        Options -Indexes +FollowSymLinks
+        AllowOverride FileInfo
+        Require all granted
+        DirectoryIndex index.php
+    </Directory>
+</VirtualHost>
+```
+
+Allow the rewrite and authorization rules in `app/webroot/.htaccess` through `AllowOverride FileInfo`.
+Check the Apache configuration and start the service.
+
+```bash
+rc-service apache2 configtest
+rc-service apache2 start
+rc-update add apache2 default
+```
+
+From a trusted client, confirm that HTTP redirects to HTTPS, verify the certificate, and sign in as `admin@admin.test` with password `admin`.
+Change the password before opening the site to other clients. [First steps after login](../quick-start/index.qmd#first-steps-after-login)
+
+## Start and verify the workers {#alpine-install-workers}
+
+Use Supervisor's local Unix socket for worker management.
+Edit the existing `[unix_http_server]` section of `/etc/supervisord.conf` and keep the packaged `[rpcinterface:supervisor]` and `[supervisorctl]` sections.
+Grant access to the `apache` group and leave the TCP management listener disabled.
+
+```ini
+[unix_http_server]
+file=/run/supervisord.sock
+chmod=0660
+chown=root:apache
+```
+
+Create a Supervisor worker group with one process per queue and one dedicated scheduler.
+
+```bash
+install -d -m 0755 /etc/supervisor.d
+{
+  printf '%s\n' '[group:misp-workers]' \
+    'programs=default,email,cache,prio,update,scheduler'
+  for worker in default email cache prio update scheduler; do
+    if [ "$worker" = scheduler ]; then
+      cake_command=scheduler_worker
+    else
+      cake_command="start_worker $worker"
+    fi
+    cat <<EOF
+
+[program:$worker]
+command=/var/www/MISP/app/Console/cake $cake_command
+directory=/var/www/MISP
+user=apache
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/www/MISP/app/tmp/logs/$worker-worker.log
+EOF
+  done
+} > /etc/supervisor.d/misp-workers.ini
+```
+
+In the `SimpleBackgroundJobs` section of `app/Config/config.php`, set `redis_host` to `127.0.0.1` and `supervisor_host` to `unix:/run/supervisord.sock`.
+Set `supervisor_user` and `supervisor_password` to empty strings for this socket configuration.
+Set `MISP.background_jobs` to `true` and start Supervisor.
+
+```bash
+rc-service supervisord start
+rc-update add supervisord default
+supervisorctl status 'misp-workers:*'
+su -s /bin/sh apache -c '/var/www/MISP/app/Console/cake Admin getWorkers'
+rc-status default
+ss -lnt
+```
+
+Confirm that all six processes are running, Redis listens only on loopback, and MariaDB and Supervisor have no TCP listeners in this setup.
+Save and search for an unpublished, organization-only event and verify that a queued job finishes before enabling synchronization or scheduled feeds. [Background worker checks](../administration/index.qmd#admin-background-jobs)
+
+## Plan a 2.5 upgrade {#alpine-install-upgrade}
+
+For an existing MISP 2.5 instance, follow the [offline database upgrade](../upgrade-2-5-to-3-0/index.qmd) for backups, staging, and validation.
+Use the `apache` account for the MISP commands and the same `misp-workers` group for Supervisor.
+Restart the packaged PHP module with `rc-service apache2 restart` after the migration.
+Time the `Admin runUpgrade` operation on a restored copy to estimate your maintenance window.
