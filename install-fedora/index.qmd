@@ -264,6 +264,7 @@ sudo ss -lnt
 Check that all six worker processes report `RUNNING` and that MariaDB, Valkey, and Supervisor listen only on loopback.
 Save and search for an unpublished, organization-only test event.
 Verify that a queued job completes before enabling synchronization or scheduled feeds. [Background worker checks](../administration/index.qmd#admin-background-jobs)
+Before enabling protected synchronization, verify that the **GnuPG** check reports **OK** under **Administration → Server Settings & Maintenance → Services** with SELinux enforcing. [System health checks](../administration/index.qmd#server-settings-and-maintenance)
 
 ## Plan a 2.5 upgrade {#fedora-install-upgrade}
 
