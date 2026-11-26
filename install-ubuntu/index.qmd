@@ -1,0 +1,79 @@
+---
+title: "Install MISP 3.0 on Ubuntu 24.04 LTS"
+---
+
+This guide uses the Ubuntu installer on the [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) to create a new, single-host instance.
+The installer sets up Apache, PHP 8.3, MariaDB 10.11 or later, Redis, Supervisor, and MISP's PHP and Python dependencies.
+For an existing MISP 2.5 instance, follow the [2.5 to 3.0 upgrade](../upgrade-2-5-to-3-0/index.qmd).
+
+::: {.callout-note}
+`3.0_wip` is the development branch for MISP 3.0.
+Review the source you deploy and evaluate it on a disposable host before putting it into service.
+The installer changes system packages and service configuration, initializes the MISP database, and creates credentials.
+The installer was reviewed on `3.0_wip`. The database initialization and administrator creation were checked separately on MariaDB 10.11.
+:::
+
+## Prepare the host {#ubuntu-install-prepare}
+
+- Start with a clean Ubuntu Server 24.04 LTS host and an account with `sudo`.
+  The guide uses `/var/www/MISP` as the application path and `www-data` as the application user.
+- Choose the HTTPS name analysts and API clients will use and set its DNS record.
+  Keep access restricted during setup and allow the host to reach the package and source repositories used by the installer.
+- Provision a certificate chain and private key for that name.
+  Use a CA that your clients trust and keep the private key readable only by authorized accounts.
+  The installer can generate a self-signed certificate if certificate paths are omitted. Use that option only on a private test host and configure client trust explicitly.
+- Size database storage and memory for your workload, especially when you expect high-volume sharing or correlation. [Instance requirements](../requirements/index.qmd)
+
+## Download and run the installer {#ubuntu-install-run}
+
+Download the branch's script to a file and review it before running it with elevated privileges.
+
+```bash
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+curl --fail --location --output INSTALL.ubuntu2404.sh \
+  https://raw.githubusercontent.com/MISP/MISP/3.0_wip/INSTALL/INSTALL.ubuntu2404.sh
+less INSTALL.ubuntu2404.sh
+```
+
+Set the name, certificate paths and GnuPG identity for your installation.
+The installer uses `MISP_BASEURL` for its own links and redirects.
+Use the URL clients actually reach, including a port if required.
+
+```bash
+sudo env \
+  MISP_DOMAIN=misp.example.org \
+  MISP_BASEURL=https://misp.example.org \
+  PATH_TO_SSL_CERT=/etc/ssl/certs/misp-fullchain.pem \
+  PATH_TO_SSL_KEY=/etc/ssl/private/misp.key \
+  GPG_EMAIL_ADDRESS=misp@example.org \
+  bash ./INSTALL.ubuntu2404.sh
+```
+
+The script fetches `3.0_wip` and initializes its submodules.
+For the default local database setup, it loads the branch's `INSTALL/MARIADB.sql` and runs the application updates.
+It configures the HTTPS virtual host with `app/webroot` as its document root and starts the Supervisor-managed workers.
+See the upstream installer for environment overrides and package details. [Ubuntu installer source](https://github.com/MISP/MISP/blob/3.0_wip/INSTALL/INSTALL.ubuntu2404.sh)
+
+## Check the installation {#ubuntu-install-check}
+
+On the host, check the services, worker group, schema and installed application revision.
+
+```bash
+sudo apache2ctl configtest
+sudo systemctl status apache2 mariadb redis-server supervisor --no-pager
+sudo supervisorctl status 'misp-workers:*'
+sudo -u www-data /var/www/MISP/app/Console/cake Admin schemaDiagnostics
+sudo -u www-data git -C /var/www/MISP rev-parse HEAD
+```
+
+Check that the migration summary shows `Pending: 0` and `Failed: 0`.
+Open your HTTPS URL from an analyst workstation and verify the certificate and redirects.
+Sign in as `admin@admin.test` using the generated credentials in the root-only `/root/misp_settings.txt`.
+The installer log at `/var/log/misp_install.log` can also contain credentials. Keep both files private.
+
+Replace the bootstrap sign-in credentials and review the administrator API key, local organization, distribution defaults, and mail settings.
+Create an unpublished, organization-only event with a harmless test attribute to verify saving and searching.
+Check background jobs and test a backup and restore before enabling sync or automatic ingestion. [First steps after login](../quick-start/index.qmd#first-steps-after-login)
+
+With an existing database, use the [upgrade guide](../upgrade-2-5-to-3-0/index.qmd) to plan downtime, rehearse the conversion, and verify the migrated data.

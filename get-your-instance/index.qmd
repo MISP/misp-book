@@ -6,15 +6,17 @@ This chapter helps you get your own MISP instance up and running. There are
 several ways to deploy MISP depending on whether you want a quick evaluation or a
 production instance; the authoritative, always-current instructions live on the
 [MISP project download page](https://www.misp-project.org/download/) and in the
-[MISP repository](https://github.com/MISP/MISP), so this chapter points you at the
-right option rather than reproducing install steps that change between releases.
+[MISP repository](https://github.com/MISP/MISP).
+
+The book's **Installation Guides** cover a [new Ubuntu 24.04 installation](../install-ubuntu/index.qmd)
+and the [offline database upgrade from MISP 2.5 to 3.0](../upgrade-2-5-to-3-0/index.qmd).
 
 ## Choosing a deployment method
 
-*   **Official installer** — the recommended way to run a production MISP on your
-    own host. MISP provides an installer script and step-by-step guides for the
-    supported operating systems (recent Ubuntu, Debian and RHEL-based
-    distributions). Start from the [download page](https://www.misp-project.org/download/).
+*   **Official installer** — use the [Ubuntu guide](../install-ubuntu/index.qmd)
+    for a clean MISP 3.0 development-branch installation on your own host.
+    Check the [download page](https://www.misp-project.org/download/) for other
+    supported release and operating system combinations.
 *   **Docker** — for MISP 3.0 early access, use the
     [`misp-3.0_wip` branch of misp-docker](https://github.com/MISP/misp-docker/tree/misp-3.0_wip)
     and build the images locally; no pre-built images are published for this deployment.
