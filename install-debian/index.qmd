@@ -1,0 +1,123 @@
+---
+title: "Install MISP 3.0 on Debian 13"
+---
+
+Use this guide to install MISP on a clean Debian 13 “Trixie” server, the current Debian stable series.
+It uses the [Debian 13 installer on `3.0_wip`](https://github.com/MISP/MISP/blob/3.0_wip/INSTALL/INSTALL.debian13.sh) to set up Apache with PHP 8.4, MariaDB 11.8, Redis, and Supervisor.
+Use the current Debian 13 point release with its security updates. [Debian stable release information](https://www.debian.org/releases/stable/)
+
+::: {.callout-note}
+`3.0_wip` is the MISP 3.0 development branch.
+Evaluate the installer on a disposable host before deployment. It updates system packages and service configuration, initializes a new database, and creates credentials.
+For an existing MISP 2.5 database, use the [offline upgrade procedure](../upgrade-2-5-to-3-0/index.qmd).
+:::
+
+## Prepare the host {#debian-install-prepare}
+
+Start with an account with `sudo` and a clean host. The commands use `/var/www/MISP` and the `www-data` account.
+Configure the DNS name that analysts and API clients will use, and provision the certificate chain and its private key for that name.
+Keep access restricted to administrators during setup.
+Size the host and database storage for the expected load. [Instance requirements](../requirements/index.qmd)
+
+Install prerequisites for the installer and its dependency builds.
+The Debian script checks the release with `lsb_release` and uses the `mysql` command supplied by `mariadb-client-compat` on Debian 13.
+
+```bash
+sudo apt-get update
+sudo apt-get install ca-certificates curl openssl gnupg lsb-release \
+  mariadb-client-compat php-pear python3-dev make unzip procps iproute2
+lsb_release -sr
+```
+
+The last command should report `13`. [Debian MariaDB compatibility package](https://packages.debian.org/trixie/mariadb-client-compat)
+
+## Configure the installer {#debian-install-configure}
+
+Download the installer from the current branch and review it in a text editor before running it.
+
+```bash
+curl --fail --location --output INSTALL.debian13.sh \
+  https://raw.githubusercontent.com/MISP/MISP/3.0_wip/INSTALL/INSTALL.debian13.sh
+```
+
+Set the following variables in the downloaded script for your host.
+Use a certificate chain and key readable by the installer, and replace the hostname, paths, and GnuPG identity with your own values.
+
+```bash
+MISP_DOMAIN='misp.example.org'
+MISP_BASEURL="https://${MISP_DOMAIN}"
+PATH_TO_SSL_CERT='/etc/ssl/certs/misp-fullchain.pem'
+PATH_TO_SSL_KEY='/etc/ssl/private/misp.key'
+GPG_EMAIL_ADDRESS='misp@example.org'
+```
+
+The Debian installer assigns these variables inside the script. Edit those assignments directly.
+The generated Apache virtual host serves HTTPS on port 443 and uses `app/webroot` as its document root.
+
+### Check GnuPG and the scheduler {#debian-install-adjustments}
+
+In the downloaded script's **Generating PGP key** section, check that the application user's GnuPG directory is created before key generation and that the batch command uses loopback pinentry.
+If the script lacks those steps, replace its `gpg --quick-generate-key` invocation with the following.
+The directory must already exist when GnuPG starts its agent on Debian 13.
+
+```bash
+sudo install -d -o "$APACHE_USER" -g "$APACHE_USER" -m 0700 \
+  "$MISP_PATH/.gnupg"
+error_check "GnuPG directory creation"
+sudo -u "$APACHE_USER" gpg --homedir "$MISP_PATH/.gnupg" \
+  --quick-generate-key --batch --pinentry-mode loopback \
+  --passphrase "$GPG_PASSPHRASE" "$GPG_EMAIL_ADDRESS" ed25519 sign never \
+  &>> "$logfile"
+```
+
+In the same script, check the two keys below in the generated Supervisor `[program:scheduler]` section.
+Set them to these values if the section uses `start_worker scheduler` or specifies more than one process.
+The dedicated `scheduler_worker` command dispatches scheduled work. [Scheduler implementation](https://github.com/MISP/MISP/blob/3.0_wip/app/Console/Command/SchedulerWorkerShell.php)
+
+```ini
+command=$MISP_PATH/app/Console/cake scheduler_worker
+numprocs=1
+```
+
+## Install and verify MISP {#debian-install-check}
+
+Run the configured script from a private terminal. The installer prints generated credentials during setup.
+
+```bash
+bash -n INSTALL.debian13.sh
+sudo bash ./INSTALL.debian13.sh
+```
+
+The installer checks out `3.0_wip` and initializes its matching submodules.
+It loads `INSTALL/MARIADB.sql`, applies the application updates, and sets up the `misp-workers` group.
+Check the exit status and the installer log if a step fails.
+
+Keep `/root/misp_settings.txt` and `/var/log/misp_install.log` private.
+They can contain passwords and API credentials.
+Restrict the Supervisor configuration file too, since it contains credentials for the local worker-management API.
+Restore private permissions on the GnuPG home after the installer's final permissions pass.
+
+```bash
+sudo chmod 0600 /etc/supervisor/supervisord.conf
+sudo chmod -R go-rwx /var/www/MISP/.gnupg
+sudo apache2ctl configtest
+sudo systemctl status apache2 mariadb redis-server supervisor --no-pager
+sudo supervisorctl status 'misp-workers:*'
+sudo -u www-data /var/www/MISP/app/Console/cake Admin schemaDiagnostics
+sudo -u www-data /var/www/MISP/app/Console/cake Admin getWorkers
+sudo -u www-data git -C /var/www/MISP status --short --branch
+sudo ss -lntp
+```
+
+Confirm that schema diagnostics show `Pending: 0` and `Failed: 0`.
+Check the worker queues and confirm that the scheduler has one running process.
+Verify that MariaDB, Redis, and the Supervisor API are reachable only where required. For the single-host setup, use local connections for these services.
+The installation was tested on Debian 13.8 in a container with services started directly. Use the `systemctl` check above on your Debian host.
+
+Open the HTTPS URL from a trusted client, verify the certificate and redirects, then sign in as `admin@admin.test` with the generated password from `/root/misp_settings.txt`.
+Replace the bootstrap credentials, check the local organization and distribution defaults, and save and search for an unpublished, organization-only test event.
+Verify that a background job completes before enabling sync or scheduled feeds. [First steps after login](../quick-start/index.qmd#first-steps-after-login) · [Background worker checks](../administration/index.qmd#admin-background-jobs)
+
+For an upgrade from 2.5, rehearse on a restored copy using your Debian database and PHP versions.
+Use the latest `3.0_wip` checkout and the offline `Admin runUpgrade` flow in the [upgrade guide](../upgrade-2-5-to-3-0/index.qmd).
+The `www-data` account and `apache2` restart steps apply to this Debian layout.

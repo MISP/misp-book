@@ -8,14 +8,14 @@ production instance; the authoritative, always-current instructions live on the
 [MISP project download page](https://www.misp-project.org/download/) and in the
 [MISP repository](https://github.com/MISP/MISP).
 
-The book's **Installation Guides** cover new installations on [Ubuntu 24.04](../install-ubuntu/index.qmd)
-and [Red Hat Enterprise Linux 9 and 10](../install-rhel/index.qmd), plus the
+The book's **Installation Guides** cover new installations on [Ubuntu 24.04](../install-ubuntu/index.qmd),
+[Debian 13](../install-debian/index.qmd), and [Red Hat Enterprise Linux 9 and 10](../install-rhel/index.qmd), plus the
 [offline database upgrade from MISP 2.5 to 3.0](../upgrade-2-5-to-3-0/index.qmd).
 
 ## Choosing a deployment method
 
 *   **Official installer** — use the [Ubuntu guide](../install-ubuntu/index.qmd)
-    for a clean MISP 3.0 development-branch installation on your own host.
+    or [Debian guide](../install-debian/index.qmd) for a clean MISP 3.0 development-branch installation.
     Check the [download page](https://www.misp-project.org/download/) for other
     supported release and operating system combinations.
 *   **Red Hat Enterprise Linux** — follow the [RHEL guide](../install-rhel/index.qmd)
