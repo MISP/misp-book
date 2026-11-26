@@ -86,6 +86,7 @@ Successful service logons can be routine; the example's informational severity a
 
 An administrator must make the module service reachable, enable import services and enable `evtx_findings_import` for the intended users.
 The [Modules chapter](../modules/index.qmd#modules-service) describes service discovery and configuration.
+Load the latest `file`, `windows-event-log-detection` and `windows-event-log-record` definitions. [Update the MISP object catalogue](../misp-objects/index.qmd#objects-maintenance).
 In the event, choose **Import from** (shown as **Import** in the compact action bar), then **Evtx Findings Import**, the displayed name of the `evtx_findings_import` module in this interface.
 Upload the selected export and run the import to reach MISP's review screen.
 
@@ -187,8 +188,8 @@ The [example provenance](examples/adtimeline/provenance.json) records the select
 #### Import and inspect the replication metadata {#dfir-adtimeline-import}
 
 An administrator must install the current service with PyMISP, enable import services and enable `adtimeline_import` for the intended users.
-The handler bundles the `ad-replication-metadata` template for parsing; also ensure the MISP instance recognizes that template before saving.
-For these screenshots, the unchanged bundled **version 1** definition was registered in the isolated MISP instance, alongside its existing `file` template version 25.
+The handler bundles the `ad-replication-metadata` template for parsing.
+Load the latest `ad-replication-metadata` and `file` definitions in MISP before saving. [Update the MISP object catalogue](../misp-objects/index.qmd#objects-maintenance).
 See the [ADTimeline import contract](https://github.com/MISP/misp-modules/blob/f4899ad42ac074de672ed32485223badb8680a45/documentation/import_mod/adtimeline_import.md) for the complete limits and field mappings.
 
 Create an organization-only, unpublished event, choose **Import → Adtimeline Import**, and upload `timeline_selected.csv`.

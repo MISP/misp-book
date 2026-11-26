@@ -38,11 +38,9 @@ Use a dataset object as well when the source has a path, geometry or metadata wo
 
 :::
 
-The object definitions checked here are `geolocation` **v8**, `gpx` **v1** and `geojson` **v1** in [misp-objects](https://github.com/MISP/misp-objects/tree/b22919c9fccef9f73964f5bea0c8548ebe3cbf13/objects).
-The additional `nmea` **v1** and `kml` **v1** templates were checked at [misp-objects commit `092484900`](https://github.com/MISP/misp-objects/tree/0924849002dfa706e165698908d389c2b5bcd88a/objects).
-The NMEA and KML importers bundle their dataset templates for older PyMISP installations; install matching templates in MISP for editor/display support.
-Administrators should update the instance's object templates and the module service's PyMISP templates when these objects are missing.
-Updating one catalogue does not update the other.
+Use the latest definitions from the [MISP object catalogue](../misp-objects/index.qmd#objects-maintenance) to display and edit these objects.
+Keep the module service's PyMISP templates current too, since they are loaded separately from the MISP catalogue.
+The NMEA and KML importers also bundle their dataset templates.
 
 ### Coordinates, times and uncertainty {#geo-coordinates}
 

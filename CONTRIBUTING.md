@@ -30,6 +30,8 @@ For application defects or changes to a companion project, use that project's re
   Link to maintained component or installation documentation rather than duplicating it.
 - State the version, branch, role, and configuration relevant to a tested procedure.
   Distinguish observed behavior from an unverified assumption or proposed feature.
+- Check object-template examples against the latest upstream definitions and link to the [current catalogue](https://github.com/MISP/misp-objects/tree/main/objects).
+  Omit the template version used for testing from reader-facing instructions.
 - Use sanitized, shareable examples and screenshots; never commit credentials or private records.
   Include meaningful alternative text, captions, and version/provenance details.
 - Follow the [diagram guide](assets/diagrams/README.md) for Mermaid sources, the shared theme, generated SVGs, and the manifest.

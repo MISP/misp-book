@@ -40,10 +40,8 @@ The sixth shows the reviewed Markdown downloaded from that instance.
 ## Open the case
 
 1. Use a MISP `3.0_wip` instance with Event Reports and Analyst Data.
-   For authoring, install the object definitions for `intelligence-report`, `intelligence-source-assessment` and `intelligence-judgment`.
-   If the judgment template is missing, update the deployed object library to a revision containing the judgment template (`2156511` or a descendant).
-   On the MISP object templates page, choose **Update Object** to load the definitions into the database.
-   [Judgment template and revision](https://github.com/MISP/misp-objects/pull/599)
+   For authoring, load the latest `intelligence-report`, `intelligence-source-assessment` and `intelligence-judgment` definitions.
+   [Update the MISP object catalogue](../misp-objects/index.qmd#objects-maintenance).
 2. Use a misp-modules service containing **Cited Intelligence Briefing Export**.
    In the [server's module settings](../modules/index.qmd#modules-configuration), enable `Plugin.Export_services_enable`, point the export URL and port at the service, and enable `Plugin.Export_intelligence_briefing_export_enabled`.
    The service advertises `intelligence_briefing_export` at `GET /modules`.

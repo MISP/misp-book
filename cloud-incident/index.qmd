@@ -51,7 +51,10 @@ The importers read files already collected from the providers. The exercise requ
 
 <!-- Capture details and image checksums: screenshots.json -->
 
-1. Have a site administrator check that the module service advertises `microsoft_audit_import`, `azure_activity_log_import`, and `intelligence_briefing_export` at `GET /modules`. Enable import and export services and those modules for the analyst. Update the MISP object templates so `file`, `cloud-account`, `microsoft-audit-event`, `azure-activity-log-event`, and `intelligence-judgment` are available. [Module configuration](../modules/index.qmd#modules-configuration) · [Object definitions used here](https://github.com/MISP/misp-objects/tree/cadfb75dcc92456bb5570e78be786431edc38d84/objects)
+1. Have a site administrator check that the module service advertises `microsoft_audit_import`, `azure_activity_log_import`, and `intelligence_briefing_export` at `GET /modules`.
+   Enable import and export services and those modules for the analyst.
+   Load the latest `file`, `cloud-account`, `microsoft-audit-event`, `azure-activity-log-event`, and `intelligence-judgment` definitions.
+   [Module configuration](../modules/index.qmd#modules-configuration) · [Update the MISP object catalogue](../misp-objects/index.qmd#objects-maintenance)
 2. As an analyst who can add events, objects, and reports, create **CLD-042 | Unexpected blob reader assignment**. Set the event date to 20 November, distribution to **Your organisation only**, and analysis to **Ongoing**. Leave the event unpublished.
 3. In the event, open **Import from** (or **Import**) and select **Microsoft Audit Import** (`microsoft_audit_import`). Upload `entra-signins.json`, enter the reporting tenant above in **Optional reporting tenant UUID**, and leave **Attach the exact source log** off. Run the module. In the preview expect one `microsoft-audit-event`, one `cloud-account`, and one `file`. Check the tenant, hash, and sign-in time, then choose **Import** to save all three objects. [Microsoft import formats and settings](https://github.com/MISP/misp-modules/blob/0803618b9a948246631e2755723836e9e9d2d2e3/documentation/import_mod/microsoft_audit_import.md)
 

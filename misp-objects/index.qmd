@@ -16,7 +16,7 @@ Templates come from [misp-objects](https://github.com/MISP/misp-objects). Screen
 values in a private unpublished event; no example requires enabling IDS or publishing it.
 :::
 
-<!-- Template pins, creation checks and capture hashes: ../assets/data-model-screenshots.json -->
+<!-- Creation checks and screenshot provenance: ../assets/data-model-screenshots.json -->
 
 <a id="using-objects"></a>
 
@@ -59,7 +59,7 @@ The common address can support investigation without proving that the connection
 :::
 
 These are starting points, not an exhaustive catalogue or a requirement to create several objects for every input.
-The relation examples below follow the book's [pinned template revision](https://github.com/MISP/misp-objects/tree/5b17a1e03ada9dee01a64bd91c34a5f1ea42e326/objects); inspect the definitions installed on your instance.
+Use the [current upstream definitions](https://github.com/MISP/misp-objects/tree/main/objects) for the relation examples below and check that the latest templates are active on your instance.
 
 ### Populate and review the form {#objects-populate}
 
@@ -88,9 +88,8 @@ requirement to fill every possible field.
 
 :::
 
-An object is not inherently required to contain two attributes. The pinned `ip-port` template,
-for example, accepts one of its required-one-of relations; a single `ip-dst` can satisfy that
-rule. A valid object still needs useful context and the template's actual constraints.
+The `ip-port` template accepts a single `ip-dst` because it satisfies the `requiredOneOf` rule.
+Record any additional context the source supports and follow the template's other constraints.
 
 Review values, comments, observation times, distribution and IDS/correlation flags before the
 final save. Object distribution can inherit from the event; child distribution must stay within
@@ -208,15 +207,14 @@ attributes, references and event state; changes can unpublish the event. Deletin
 attribute or object has a different scope, so check the confirmation and any dependent links.
 
 Open **Data models → Templates → List Object Templates** (`/objectTemplates/index`) to inspect installed
-versions, active state, elements and requirements. The template's detail view is a better
-starting point than a fixed example copied from an older installation.
+versions, active state, elements and requirements.
 
 ![The ip-port template detail page exposes its requirements and relation definitions.](figures/misp3-object-template.png)
 
-To update the catalogue, deploy the intended `app/files/misp-objects` revision, then use
-**Update Object** or `cake Admin updateObjectTemplates`. Keep older instance/template version
-relationships in mind when planning migrations. Do not rewrite event data simply to make a
-catalogue version indicator look current.
+To refresh the catalogue for these examples, first deploy the latest [misp-objects definitions](https://github.com/MISP/misp-objects/tree/main/objects) under `app/files/misp-objects`.
+Then choose **Update Object** in MISP or run `cake Admin updateObjectTemplates <admin-user-id>` to load the definitions into the database.
+Confirm that the latest definition for each template you need is active.
+Existing objects retain their recorded template versions.
 
 <a id="creating-object-templates"></a>
 <a id="creating-object"></a>

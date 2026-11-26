@@ -91,6 +91,8 @@ Maintainers review and merge accepted changes.
 ## Add useful examples, screenshots, and diagrams {#contribution-illustrations}
 
 Describe the version or source revision you tested, the role used, and any configuration needed to reproduce a procedure.
+Test object-template examples with the latest upstream definitions and link to the [current catalogue](https://github.com/MISP/misp-objects/tree/main/objects).
+Omit the template version used for testing from the instructions.
 Distinguish current behavior from a proposed feature or an observation from an older branch.
 Link to maintained installation instructions and component documentation rather than copying long procedures that can drift independently.
 
