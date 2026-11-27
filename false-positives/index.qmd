@@ -171,6 +171,7 @@ See [Decaying Models](../decaying-models/index.qmd).
 Fix the source or importer when possible, especially if the problem is a bad field mapping or loss of context.
 Use an administrator's **Import Regexp** control when you deliberately want a matching value rejected or normalized on the applicable input path.
 This is an instance-level intake rule, rather than an event-specific detection exception.
+For API callers, [warninglist enforcement at intake](../warninglists/index.qmd#warninglists-intake) can reject matching values or keep them with **For IDS** off in soft free-text import mode.
 
 For a synthetic rejection test:
 

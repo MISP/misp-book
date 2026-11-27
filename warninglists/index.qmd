@@ -22,24 +22,26 @@ The examples use a synthetic `known` list for reserved documentation domains, wi
 
 ## Where controls act on attribute data {#warninglists-data-flow}
 
-An incoming value can be normalized or rejected before it is saved. Once the attribute is
-stored, review, correlation and export selection use separate controls.
+At intake, Import Regexp can normalize or reject a value. Supported import paths can also
+enforce warninglists before saving. After saving, warning display, correlation and export
+selection use separate controls.
 
 ::: {.content-visible when-format="html:js"}
 <object type="image/svg+xml" data="figures/attribute-data-flow.svg"
         aria-label="Attribute data flow with links to each control"
         style="display: block; width: 100%; max-width: 42rem; margin-inline: auto;">
-  <img src="figures/attribute-data-flow.svg" alt="Intake leads to a saved attribute, which can be checked for warnings, correlated or selected for export." />
+  <img src="figures/attribute-data-flow.svg" alt="Import Regexp and optional warninglist enforcement act at intake. A saved attribute can be checked for warnings, correlated or selected for export." />
 </object>
 :::
 
 ::: {.content-hidden when-format="html:js"}
-![Intake leads to a saved attribute, which can be checked for warnings, correlated or selected for export.](figures/attribute-data-flow.svg)
+![Import Regexp and optional warninglist enforcement act at intake. A saved attribute can be checked for warnings, correlated or selected for export.](figures/attribute-data-flow.svg)
 :::
 
 - [Import Regexp](../false-positives/index.qmd#fp-import) can normalize or reject values on
-  supported intake paths. Attribute capture can also reject a warninglist hit when the caller
-  explicitly enables `enforceWarninglist`.
+  supported intake paths.
+- [Warninglists at intake](#warninglists-intake) can reject a match or, in soft free-text
+  import mode, save it with **For IDS** off.
 - [Attribute settings](../using-the-system/index.qmd#add-attribute) record detection intent
   (**For IDS**) and correlation eligibility separately on the saved occurrence.
 - [Warninglist review](#warninglists-use) checks enabled lists and displays matches for
@@ -51,6 +53,19 @@ stored, review, correlation and export selection use separate controls.
   hits even when **For IDS** is enabled.
 
 Event publication and visibility follow the separate [sharing and distribution rules](../sharing/index.qmd#visibility-of-data---events-objects-and-attributes).
+
+### Enforce warninglists at intake {#warninglists-intake}
+
+These API controls check enabled warninglists that apply to the incoming attribute type,
+regardless of the IDS flag or the `MISP.warning_for_all` display setting. Free-text import
+checks the type inferred by the parser.
+
+- `POST /attributes/add/{eventId}` accepts `"enforceWarninglist": true` in the attribute
+  body. A match is rejected before the attribute is saved.
+- `POST /events/freeTextImport/{eventId}` accepts `adhereToWarninglists` alongside `value` in
+  the request body. Use `true` or `"hard"` to skip matching values, or `"soft"` to save them
+  with **For IDS** off. If omitted or set to `false`, the import saves candidates without
+  this enforcement step. The setting affects the attributes created by that request.
 
 <a id="warning-lists-and-false-positives"></a>
 <a id="usage"></a>

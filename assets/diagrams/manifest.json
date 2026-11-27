@@ -276,9 +276,9 @@
     {
       "source": "warninglists/figures/attribute-data-flow.mmd",
       "file": "warninglists/figures/attribute-data-flow.svg",
-      "source_sha256": "93372df3345b221c46003b0dceddabe7e96a0c491d40b76a8eb0e0db3aa18f85",
-      "sha256": "29b3b03866d9777ff55733ad5de851a188a49a6708b8b93a8fefa885aed9d8d8",
-      "viewBox": "0 0 573.515625 428.5999755859375"
+      "source_sha256": "83368207b2ad031ac2f4453a6fc947ada5739eb17a2d075bf904946c936e7435",
+      "sha256": "b4d0cde6e7e6e0074ac12ec91ed0b563564137a614293f15adce717b37e8d792",
+      "viewBox": "0 0 573.515625 446.20001220703125"
     },
     {
       "source": "warninglists/figures/warninglist-review.mmd",
