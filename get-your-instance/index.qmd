@@ -10,7 +10,8 @@ production instance; the authoritative, always-current instructions live on the
 
 The book's **Installation Guides** cover new installations on [Ubuntu 24.04](../install-ubuntu/index.qmd),
 [Debian 13](../install-debian/index.qmd), [Red Hat Enterprise Linux 9 and 10](../install-rhel/index.qmd),
-[Fedora Server 45](../install-fedora/index.qmd), [Alpine Linux 3.24](../install-alpine/index.qmd), and
+[Fedora Server 45](../install-fedora/index.qmd), [openSUSE Leap 16.1](../install-opensuse/index.qmd),
+[Alpine Linux 3.24](../install-alpine/index.qmd), and
 [OpenBSD 8.0](../install-openbsd/index.qmd), plus the
 [offline database upgrade from MISP 2.5 to 3.0](../upgrade-2-5-to-3-0/index.qmd).
 
@@ -21,7 +22,8 @@ The book's **Installation Guides** cover new installations on [Ubuntu 24.04](../
     Check the [download page](https://www.misp-project.org/download/) for other
     supported release and operating system combinations.
 *   **Manual installation** — follow the [RHEL guide](../install-rhel/index.qmd),
-    [Fedora guide](../install-fedora/index.qmd), [Alpine guide](../install-alpine/index.qmd),
+    [Fedora guide](../install-fedora/index.qmd), [openSUSE guide](../install-opensuse/index.qmd),
+    [Alpine guide](../install-alpine/index.qmd),
     or [OpenBSD guide](../install-openbsd/index.qmd)
     to install the MISP 3.0 development branch.
 *   **Docker** — for MISP 3.0 early access, use the

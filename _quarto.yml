@@ -48,6 +48,7 @@ book:
         - install-debian/index.qmd
         - install-rhel/index.qmd
         - install-fedora/index.qmd
+        - install-opensuse/index.qmd
         - install-alpine/index.qmd
         - install-openbsd/index.qmd
         - upgrade-2-5-to-3-0/index.qmd
