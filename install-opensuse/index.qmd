@@ -1,0 +1,356 @@
+---
+title: "Install MISP 3.0 on openSUSE Leap 16.1"
+---
+
+This guide installs the latest [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) on a traditional, writable openSUSE Leap 16.1 system.
+It uses Apache with PHP 8.5 and PHP-FPM, MariaDB 12.3, Valkey, and an isolated Supervisor environment. [openSUSE Leap 16.1 downloads](https://get.opensuse.org/leap/16.1/) · [Leap 16.1 release announcement](https://news.opensuse.org/2026/11/03/leap-unites-traditional-and-immutable/)
+
+::: {.callout-note}
+`3.0_wip` is the MISP 3.0 development branch.
+Evaluate it on an isolated host before deployment.
+Use these steps for a new database. For MISP 2.5, see [Plan a 2.5 upgrade](#opensuse-install-upgrade).
+:::
+
+The package and application checks used an openSUSE Leap 16.1 x86_64 container with services started directly.
+Verify systemd startup and SELinux enforcement on your target host.
+
+## Prepare the host {#opensuse-install-prepare}
+
+Use an administrative account with `sudo`, a DNS name, and a trusted certificate and key for that name.
+Keep access restricted to administrators until you change the bootstrap password.
+Size the host and storage for the expected load. [Instance requirements](../requirements/index.qmd)
+
+Use the standard Leap 16.1 repository.
+Install the PHP CLI separately from PHP-FPM, and use the same packaged Redis extension for both.
+MISP connects to Valkey through the Redis protocol.
+
+```bash
+sudo zypper refresh
+sudo zypper update
+sudo zypper install apache2 apache2-utils ca-certificates curl file gcc git gpg2 \
+  iproute2 libfuzzy-devel mariadb mariadb-client openssl php8-APCu php8-bcmath \
+  php8-cli php8-ctype php8-curl php8-dom php8-fileinfo php8-fpm php8-gd \
+  php8-iconv php8-intl php8-mbstring php8-mysql php8-openssl php8-pcntl \
+  php8-phar php8-posix php8-redis php8-tokenizer php8-xmlreader php8-xmlwriter \
+  php8-zip php8-zlib policycoreutils-python-utils procps python313 \
+  python313-devel python313-pip unzip valkey
+php --version
+php --ri redis
+php --ri pdo_mysql
+mariadb --version
+```
+
+Set `memory_limit = 2048M` in `/etc/php8/conf.d/99-misp.ini`.
+Leap loads that directory for both CLI and FPM.
+Check the initial definitions import limit with `php -r 'echo ini_get("memory_limit"), PHP_EOL;'`.
+
+## Install MISP and its dependencies {#opensuse-install-source}
+
+Keep the checkout on the `3.0_wip` branch and use its matching submodules.
+Install Composer at `/usr/local/bin/composer` using the verified installer procedure.
+Run Git, Composer, the application virtual environment, and Cake commands as `wwwrun`. [Composer installation and verification](https://getcomposer.org/download/)
+
+```bash
+sudo install -d -o wwwrun -g www -m 0750 /srv/misp /var/lib/misp \
+  /var/lib/misp/composer /var/lib/misp/attachments
+sudo -u wwwrun git clone --branch 3.0_wip --depth 1 --recurse-submodules --shallow-submodules \
+  https://github.com/MISP/MISP.git /srv/misp
+sudo -u wwwrun git -C /srv/misp status --short --branch
+
+sudo -u wwwrun env COMPOSER_HOME=/var/lib/misp/composer \
+  /usr/local/bin/composer --working-dir=/srv/misp/app install --no-dev --no-interaction --prefer-dist
+sudo -u wwwrun env COMPOSER_HOME=/var/lib/misp/composer \
+  /usr/local/bin/composer --working-dir=/srv/misp/app check-platform-reqs --no-dev
+sudo -u wwwrun python3.13 -m venv /srv/misp/venv
+sudo -u wwwrun env HOME=/var/lib/misp /srv/misp/venv/bin/python -m pip install \
+  -r /srv/misp/requirements.txt
+sudo -u wwwrun /srv/misp/venv/bin/python -m pip check
+```
+
+## Initialize MariaDB, Valkey, and MISP {#opensuse-install-database}
+
+Create `/etc/my.cnf.d/90-misp.cnf`, owned by root with mode `0644`, to restrict MariaDB to loopback.
+
+```ini
+[mariadb]
+bind-address=127.0.0.1
+```
+
+Create the Valkey default instance from its packaged sample and create the directories supplied by the package.
+
+```bash
+sudo install -o root -g valkey -m 0640 \
+  /etc/valkey/default.conf.example /etc/valkey/default.conf
+sudo systemd-tmpfiles --create valkey.conf
+```
+
+In `/etc/valkey/default.conf`, keep `bind 127.0.0.1 -::1`, `protected-mode yes`, `daemonize no`, and `supervised systemd`.
+Start MariaDB and `valkey@default.service`, then check for `PONG`.
+Open an administrative MariaDB session over its Unix socket with history disabled.
+
+```bash
+sudo systemctl enable --now mariadb valkey@default.service
+valkey-cli ping
+sudo env MYSQL_HISTFILE=/dev/null mariadb --protocol=SOCKET
+```
+
+Create the database and the application account for the loopback TCP connection.
+Use a unique password and retain it for the MISP database settings.
+
+```sql
+CREATE DATABASE misp
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
+CREATE USER 'misp'@'127.0.0.1' IDENTIFIED BY 'REPLACE_WITH_DATABASE_PASSWORD';
+GRANT ALL PRIVILEGES ON misp.* TO 'misp'@'127.0.0.1';
+EXIT;
+```
+
+Load the branch's MariaDB schema and copy the configuration templates.
+
+```bash
+sudo mariadb --protocol=SOCKET misp < /srv/misp/INSTALL/MARIADB.sql
+for name in bootstrap config core database; do
+  sudo install -o wwwrun -g www -m 0640 \
+    "/srv/misp/app/Config/$name.default.php" "/srv/misp/app/Config/$name.php"
+done
+```
+
+In `/srv/misp/app/Config/database.php`, set `host` to `127.0.0.1`, `login` to `misp`, and `password` to the database password.
+Keep `database` set to `misp`.
+In `/srv/misp/app/Config/config.php`, set the following `MISP` keys using your hostname and organization.
+
+```php
+'baseurl' => 'https://misp.example.org',
+'external_baseurl' => 'https://misp.example.org',
+'org' => 'Your organization',
+'osuser' => 'wwwrun',
+'python_bin' => '/srv/misp/venv/bin/python',
+'attachments_dir' => '/var/lib/misp/attachments',
+'redis_host' => '127.0.0.1',
+'background_jobs' => false,
+```
+
+Set `Security.salt` to a unique value from `openssl rand -hex 32` in the same file.
+Keep jobs disabled while applying schema updates, creating the administrator, and importing the bundled definitions.
+
+```bash
+sudo -u wwwrun /srv/misp/app/Console/cake Admin runUpdates
+sudo sh -c 'umask 077
+  runuser -u wwwrun -- /srv/misp/app/Console/cake User init > /root/misp-bootstrap-api-key'
+sudo -u wwwrun /srv/misp/app/Console/cake Admin updateJSON
+sudo -u wwwrun /srv/misp/app/Console/cake Admin schemaDiagnostics
+```
+
+Keep the bootstrap API key private.
+Confirm that schema diagnostics report `Pending: 0` and `Failed: 0`.
+
+### Set up the instance signing key {#opensuse-install-gnupg}
+
+Create the signing key in a private Bash session and substitute your instance's email address.
+
+```bash
+sudo install -d -o wwwrun -g www -m 0700 /var/lib/misp/gnupg
+read -r -s -p 'Instance GnuPG passphrase: ' gpg_passphrase
+printf '\n'
+printf '%s\n' "$gpg_passphrase" | sudo -u wwwrun gpg --homedir /var/lib/misp/gnupg \
+  --batch --pinentry-mode loopback --passphrase-fd 0 \
+  --quick-generate-key misp@example.org ed25519 sign never
+unset gpg_passphrase
+sudo -u wwwrun sh -c 'gpg --homedir /var/lib/misp/gnupg --armor --export \
+  misp@example.org > /srv/misp/app/webroot/gpg.asc'
+```
+
+Set `GnuPG.homedir`, `GnuPG.email`, and `GnuPG.password` in `app/Config/config.php` to the directory, email address, and passphrase you used.
+Include the key and configuration in your protected backups. [Instance and user keys](../cryptographic-keys/index.qmd)
+
+## Configure SELinux and HTTPS {#opensuse-install-web}
+
+Leap 16.1 uses SELinux by default.
+Keep it enforcing and make the application paths and their writable subdirectories available to the web runtime.
+Label the virtual environment's shared libraries as `lib_t` so Python invoked by PHP-FPM can load its compiled extensions under the default policy.
+The network boolean lets PHP-FPM and Apache connect to local services and make outbound connections for MISP. Use the host's network policy to limit those connections. [Leap security defaults](https://news.opensuse.org/2026/11/03/leap-unites-traditional-and-immutable/)
+
+```bash
+sudo semanage fcontext -a -t httpd_sys_content_t '/srv/misp(/.*)?'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/srv/misp/app/(Config|tmp)(/.*)?'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/srv/misp/app/files/scripts/tmp(/.*)?'
+sudo semanage fcontext -a -f f -t lib_t '/srv/misp/venv/.*\.so(\.[0-9.]+)?'
+sudo semanage fcontext -a -t httpd_sys_content_t '/var/lib/misp'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/lib/misp/(attachments|gnupg)(/.*)?'
+sudo restorecon -R /srv/misp /var/lib/misp
+sudo setsebool -P httpd_can_network_connect on
+```
+
+Use the packaged FPM pool in `/etc/php8/fpm/php-fpm.d/www.conf`.
+Verify that its user is `wwwrun`, its group is `www`, and its listener is `127.0.0.1:9000`.
+Set `listen.allowed_clients = 127.0.0.1` in that pool.
+
+Enable the Apache modules and the packaged SSL flag. The flag enables port 443 through `/etc/apache2/listen.conf`.
+
+```bash
+for module in proxy proxy_fcgi rewrite headers ssl; do
+  sudo a2enmod "$module"
+done
+sudo a2enflag SSL
+```
+
+Create `/etc/apache2/vhosts.d/misp.conf`, using your actual hostname and TLS files.
+The virtual host serves only the application's `app/webroot` directory.
+
+```apache
+<VirtualHost *:80>
+    ServerName misp.example.org
+    Redirect permanent / https://misp.example.org/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName misp.example.org
+    DocumentRoot /srv/misp/app/webroot
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/misp-fullchain.pem
+    SSLCertificateKeyFile /etc/ssl/private/misp.key
+
+    <Directory /srv/misp/app/webroot>
+        Options -Indexes +FollowSymLinks
+        AllowOverride FileInfo
+        Require all granted
+        DirectoryIndex index.php
+        CGIPassAuth On
+    </Directory>
+    <FilesMatch "\.php$">
+        SetHandler "proxy:fcgi://127.0.0.1:9000"
+    </FilesMatch>
+</VirtualHost>
+```
+
+Create the packaged runtime directories, check both configurations, and start the services.
+
+```bash
+sudo systemd-tmpfiles --create apache2.conf php-fpm.conf
+sudo restorecon -v /etc/ssl/certs/misp-fullchain.pem /etc/ssl/private/misp.key
+sudo php-fpm -t --fpm-config /etc/php8/fpm/php-fpm.conf
+sudo /usr/sbin/start_apache2 -t
+sudo /usr/sbin/start_apache2 -M
+sudo systemctl enable --now php-fpm apache2
+```
+
+Check the module list for `proxy_module`, `proxy_fcgi_module`, `rewrite_module`, `headers_module`, and `ssl_module`.
+If firewalld is active, allow `https` in the zone serving your administration network.
+Allow `http` there if clients will use the redirect.
+Verify the certificate and sign in as `admin@admin.test` with password `admin`.
+Change the password before granting other clients access. [First steps after login](../quick-start/index.qmd#first-steps-after-login)
+
+## Start and verify the background workers {#opensuse-install-workers}
+
+Install Supervisor in a separate, root-owned virtual environment.
+
+```bash
+sudo python3.13 -m venv /opt/misp-supervisor
+sudo /opt/misp-supervisor/bin/python -m pip install 'supervisor>=4.3,<5'
+sudo /opt/misp-supervisor/bin/python -m pip check
+sudo install -d -m 0755 /etc/misp-supervisord.d
+sudo install -m 0600 /dev/null /etc/misp-supervisord.conf
+```
+
+Write the following to `/etc/misp-supervisord.conf` and use a separate password generated with `openssl rand -hex 32`.
+MISP uses the authenticated loopback listener. The local command-line client uses a root-only Unix socket.
+
+```ini
+[supervisord]
+logfile=/var/log/misp-supervisord.log
+pidfile=/run/misp-supervisor/supervisord.pid
+
+[inet_http_server]
+port=127.0.0.1:9001
+username=supervisor
+password=REPLACE_WITH_SUPERVISOR_PASSWORD
+
+[unix_http_server]
+file=/run/misp-supervisor/supervisord.sock
+chmod=0600
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory=supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///run/misp-supervisor/supervisord.sock
+
+[include]
+files=/etc/misp-supervisord.d/*.ini
+```
+
+Create `/etc/systemd/system/misp-supervisor.service` so Supervisor runs at boot after the database and Valkey.
+
+```ini
+[Unit]
+Description=MISP background workers and scheduler
+Wants=mariadb.service valkey@default.service
+After=mariadb.service valkey@default.service
+
+[Service]
+Type=simple
+RuntimeDirectory=misp-supervisor
+ExecStart=/opt/misp-supervisor/bin/supervisord --nodaemon -c /etc/misp-supervisord.conf
+KillMode=mixed
+TimeoutStopSec=30s
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Create `/etc/misp-supervisord.d/misp-workers.ini` with five queue workers and one dedicated scheduler.
+
+```bash
+{
+  printf '%s\n' '[group:misp-workers]' \
+    'programs=default,email,cache,prio,update,scheduler'
+  for worker in default email cache prio update scheduler; do
+    if [ "$worker" = scheduler ]; then
+      cake_command=scheduler_worker
+    else
+      cake_command="start_worker $worker"
+    fi
+    cat <<EOF
+
+[program:$worker]
+command=/srv/misp/app/Console/cake $cake_command
+directory=/srv/misp
+process_name=%(program_name)s_%(process_num)02d
+user=wwwrun
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/srv/misp/app/tmp/logs/$worker-worker.log
+EOF
+  done
+} | sudo tee /etc/misp-supervisord.d/misp-workers.ini > /dev/null
+```
+
+In the `SimpleBackgroundJobs` section of `app/Config/config.php`, set `redis_host` and `supervisor_host` to `127.0.0.1`.
+Keep `supervisor_port` at `9001` and set `supervisor_user` and `supervisor_password` to match the Supervisor configuration.
+Set `MISP.background_jobs` to `true`.
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now misp-supervisor.service
+sudo /opt/misp-supervisor/bin/supervisorctl -c /etc/misp-supervisord.conf status 'misp-workers:*'
+sudo -u wwwrun /srv/misp/app/Console/cake Admin getWorkers
+sudo systemctl status mariadb valkey@default php-fpm apache2 misp-supervisor --no-pager
+sudo ss -lnt
+```
+
+Check that all six worker processes report `RUNNING` and that MariaDB, Valkey, PHP-FPM, and the Supervisor API listen only on loopback.
+Save and search for an unpublished, organization-only test event.
+Verify that a queued job completes before enabling synchronization or scheduled feeds. [Background worker checks](../administration/index.qmd#admin-background-jobs)
+Before enabling protected synchronization, verify that the **GnuPG** check reports **OK** under **Administration → Server Settings & Maintenance → Services** with SELinux enforcing. [System health checks](../administration/index.qmd#server-settings-and-maintenance)
+
+## Plan a 2.5 upgrade {#opensuse-install-upgrade}
+
+For an existing MISP 2.5 database, use the [offline upgrade procedure](../upgrade-2-5-to-3-0/index.qmd) to back up the instance, rehearse on a restored copy, and run `Admin runUpgrade` on the latest `3.0_wip` checkout.
+Use the `wwwrun` account for MISP commands and restart PHP-FPM with `sudo systemctl restart php-fpm` after the migration.
+Use `/srv/misp` as the checkout path and run the worker checks with `sudo /opt/misp-supervisor/bin/supervisorctl -c /etc/misp-supervisord.conf`.
+Time the conversion on a representative copy to estimate your maintenance window.
