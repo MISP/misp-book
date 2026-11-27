@@ -60,12 +60,13 @@ These API controls check enabled warninglists that apply to the incoming attribu
 regardless of the IDS flag or the `MISP.warning_for_all` display setting. Free-text import
 checks the type inferred by the parser.
 
-- `POST /attributes/add/{eventId}` accepts `"enforceWarninglist": true` in the attribute
-  body. A match is rejected before the attribute is saved.
-- `POST /events/freeTextImport/{eventId}` accepts `adhereToWarninglists` alongside `value` in
-  the request body. Use `true` or `"hard"` to skip matching values, or `"soft"` to save them
-  with **For IDS** off. If omitted or set to `false`, the import saves candidates without
-  this enforcement step. The setting affects the attributes created by that request.
+- For a POST to `/attributes/add/{eventId}`{.text-wrap .text-break}, set
+  `"enforceWarninglist": true` in the attribute body to reject a match before saving.
+- For a POST to `/events/freeTextImport/{eventId}`{.text-wrap .text-break}, set
+  `adhereToWarninglists` alongside `value` in the request body. Use `true` or `"hard"` to skip
+  matches, or `"soft"` to save them with **For IDS** off. If omitted or set to `false`, the
+  import saves candidates without this enforcement step. The setting affects the attributes
+  created by that request.
 
 <a id="warning-lists-and-false-positives"></a>
 <a id="usage"></a>
