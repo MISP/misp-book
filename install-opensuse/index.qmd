@@ -167,6 +167,7 @@ Include the key and configuration in your protected backups. [Instance and user 
 
 Leap 16.1 uses SELinux by default.
 Keep it enforcing and make the application paths and their writable subdirectories available to the web runtime.
+Label the virtual environment's shared libraries as `lib_t` so Python invoked by PHP-FPM can load its compiled extensions under the default policy.
 The network boolean lets PHP-FPM and Apache connect to local services and make outbound connections for MISP. Use the host's network policy to limit those connections. [Leap security defaults](https://news.opensuse.org/2026/11/03/leap-unites-traditional-and-immutable/)
 
 ```bash
@@ -175,6 +176,7 @@ sudo semanage fcontext -a -t httpd_sys_rw_content_t \
   '/srv/misp/app/(Config|tmp)(/.*)?'
 sudo semanage fcontext -a -t httpd_sys_rw_content_t \
   '/srv/misp/app/files/scripts/tmp(/.*)?'
+sudo semanage fcontext -a -f f -t lib_t '/srv/misp/venv/.*\.so(\.[0-9.]+)?'
 sudo semanage fcontext -a -t httpd_sys_content_t '/var/lib/misp'
 sudo semanage fcontext -a -t httpd_sys_rw_content_t \
   '/var/lib/misp/(attachments|gnupg)(/.*)?'
