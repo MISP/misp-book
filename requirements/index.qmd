@@ -18,10 +18,10 @@ Whilst there is never an ultimate answer to what specifications a system needs, 
 
 ## Software requirements
 
-MISP is a LAMP-stack application.
+MISP is a PHP web application with a relational database and Redis.
 The main components for MISP **3.0** are:
 
-- **Operating system**: a current, supported Linux distribution covered by your chosen MISP 3.0 deployment instructions.
+- **Operating system**: a current release covered by your chosen [MISP 3.0 installation guide](../get-your-instance/index.qmd).
 - **PHP 8.x** (`>=8.1, <9.0`). The Ubuntu installer uses **PHP 8.3**. The extensions `json`, `mbstring`, `xml`, `dom`, `simplexml`, `pcre` and `curl` are required, and `gd`, `openssl`, `redis`, `zip`, `intl`, `bcmath`, `ssdeep`, `zstd`, `brotli` and `apcu` are recommended.
 - **Database**: MariaDB 10.11 or later, MySQL 8.4 or later, or PostgreSQL 16 or later with `pg_trgm`. The Ubuntu installer uses MariaDB. See [Database](#database) for storage guidance.
 - **Redis** — required for caching (feeds, warninglists, exports) and for the background-job system.
