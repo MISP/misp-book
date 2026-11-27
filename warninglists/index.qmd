@@ -25,15 +25,15 @@ The examples use a synthetic `known` list for reserved documentation domains, wi
 An incoming value can be normalized or rejected before it is saved. Once the attribute is
 stored, review, correlation and export selection use separate controls.
 
-::: {.content-visible when-format="html"}
+::: {.content-visible when-format="html:js"}
 <object type="image/svg+xml" data="figures/attribute-data-flow.svg"
         aria-label="Attribute data flow with links to each control"
         style="display: block; width: 100%; max-width: 42rem; margin-inline: auto;">
-  <img src="figures/attribute-data-flow.svg" alt="Intake leads to a saved attribute, which can be checked for warnings, correlated or selected for export.">
+  <img src="figures/attribute-data-flow.svg" alt="Intake leads to a saved attribute, which can be checked for warnings, correlated or selected for export." />
 </object>
 :::
 
-::: {.content-hidden when-format="html"}
+::: {.content-hidden when-format="html:js"}
 ![Intake leads to a saved attribute, which can be checked for warnings, correlated or selected for export.](figures/attribute-data-flow.svg)
 :::
 
