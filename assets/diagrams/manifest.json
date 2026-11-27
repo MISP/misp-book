@@ -274,6 +274,13 @@
       "viewBox": "0 0 1034 725"
     },
     {
+      "source": "warninglists/figures/attribute-data-flow.mmd",
+      "file": "warninglists/figures/attribute-data-flow.svg",
+      "source_sha256": "83368207b2ad031ac2f4453a6fc947ada5739eb17a2d075bf904946c936e7435",
+      "sha256": "b4d0cde6e7e6e0074ac12ec91ed0b563564137a614293f15adce717b37e8d792",
+      "viewBox": "0 0 573.515625 446.20001220703125"
+    },
+    {
       "source": "warninglists/figures/warninglist-review.mmd",
       "file": "warninglists/figures/warninglist-review.svg",
       "source_sha256": "8ad9347e7f06ea1797f37d0a5365d0d6635f13f8639e06d1265ca338b42b4939",

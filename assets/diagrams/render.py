@@ -68,6 +68,16 @@ def main():
                 label.parentNode.insertBefore(background, label);
               }
               const graph = document.querySelector('svg');
+              // Preserve Mermaid's sanitized URLs as native SVG links. When
+              // embedded as an object, open destinations in the book page.
+              const xlink = 'http://www.w3.org/1999/xlink';
+              for (const link of graph.querySelectorAll('a')) {
+                const href = link.getAttributeNS(xlink, 'href');
+                if (href === null) continue;
+                link.removeAttributeNS(xlink, 'href');
+                link.setAttribute('href', href);
+                link.setAttribute('target', '_parent');
+              }
               const [x, y, width, height] = graph.getAttribute('viewBox').split(/\s+/).map(Number);
               // Mermaid leaves unmirrored lifelines longer than its viewBox.
               // Bound them before adding the branded frame and its padding.

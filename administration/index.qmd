@@ -393,9 +393,8 @@ For import regular expressions, preserve the source context, restrict the applic
 test both matching and non-matching inputs. Blank replacements can reject matches. Review how
 normalization affects stored values, value addresses and correlations before rewriting them.
 
-The historical **Signature allowedlist** page/controller is absent in this 3.0 checkout.
-Review detection flags, warninglist-aware export filters and the destination's selection policy
-when replacing an old export setup. A correlation exclusion does not provide the same behaviour.
+If your instance used a legacy **Signature allowedlist**, review the
+[warninglist migration and export behavior](../warninglists/index.qmd#warninglists-allowedlist-migration).
 
 <a id="worker-types"></a>
 <a id="background-processing"></a>

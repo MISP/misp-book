@@ -1,0 +1,15 @@
+flowchart TD
+  accTitle: Where controls act on attribute data
+  accDescr: At intake, Import Regexp can normalize or reject a value. Optional warninglist enforcement can reject hits or save them with IDS off in soft free-text import mode. After saving, the attribute can be checked for warnings, correlated according to correlation settings, or selected according to export filters. Each box links to its guide section.
+  I["Import Regexp"] -->|Pass or normalize| A["Saved attribute"]
+  L["Warninglists<br/>at intake"] -->|Pass or clear IDS| A
+  A -->|Check lists| W["Review<br/>warnings"]
+  A -->|Apply rules| C["Find<br/>correlations"]
+  A -->|Apply filters| E["Select<br/>for export"]
+  class I,L,A accent;
+  click I href "../../false-positives/index.html#fp-import" "Import Regexp"
+  click L href "../index.html#warninglists-intake" "Enforce warninglists at intake"
+  click A href "../../using-the-system/index.html#add-attribute" "Attribute settings"
+  click W href "../index.html#warninglists-use" "Find a list or test a value"
+  click C href "../../correlation/index.html#correlation-controls" "Correlation controls"
+  click E href "../index.html#warninglists-export" "Warnings, IDS flags and exports"
