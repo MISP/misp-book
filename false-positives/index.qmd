@@ -202,7 +202,8 @@ Existing matches may need the separate cleanup action; review its scope before r
 
 Disabling correlation does not clear IDS, record a false-positive sighting or filter a detection export.
 Use the detection controls above when that is the intended outcome.
-The historical **Signature allowedlist** page/controller suggested in older workflows is absent from this MISP 3.0 snapshot; review IDS flags, warninglist-aware selection and destination policy instead of substituting a correlation exclusion.
+For an export that relied on a legacy **Signature allowedlist**, review the
+[warninglist migration and export behavior](../warninglists/index.qmd#warninglists-allowedlist-migration).
 See [correlation administration](../administration/index.qmd#admin-correlations).
 
 ## Verify the correction reaches the consumer {#fp-verify}

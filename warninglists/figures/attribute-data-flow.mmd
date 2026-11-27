@@ -1,0 +1,13 @@
+flowchart TD
+  accTitle: Where controls act on attribute data
+  accDescr: Intake can reject or normalize a value. After saving, the attribute can be checked against enabled warninglists, correlated according to correlation settings, or selected according to export filters. Each box links to its guide section.
+  I["Import Regexp"] -->|Value passes intake| A["Saved attribute"]
+  A -->|Check lists| W["Review<br/>warnings"]
+  A -->|Apply rules| C["Find<br/>correlations"]
+  A -->|Apply filters| E["Select<br/>for export"]
+  class I,A accent;
+  click I href "../../false-positives/index.html#fp-import" "Import Regexp"
+  click A href "../../using-the-system/index.html#add-attribute" "Attribute settings"
+  click W href "../index.html#warninglists-use" "Find a list or test a value"
+  click C href "../../correlation/index.html#correlation-controls" "Correlation controls"
+  click E href "../index.html#warninglists-export" "Warnings, IDS flags and exports"

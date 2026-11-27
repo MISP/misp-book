@@ -3,6 +3,7 @@ title: "Warning Lists"
 format:
   html:
     lightbox: true
+    resources: [figures/attribute-data-flow.svg]
 ---
 
 A warninglist adds context to a value that may need attention: reserved/private addresses,
@@ -18,6 +19,38 @@ The examples use a synthetic `known` list for reserved documentation domains, wi
 :::
 
 <!-- Matching checks, local-list fixture and captures: ../assets/data-model-screenshots.json -->
+
+## Where controls act on attribute data {#warninglists-data-flow}
+
+An incoming value can be normalized or rejected before it is saved. Once the attribute is
+stored, review, correlation and export selection use separate controls.
+
+::: {.content-visible when-format="html"}
+<object type="image/svg+xml" data="figures/attribute-data-flow.svg"
+        aria-label="Attribute data flow with links to each control"
+        style="display: block; width: 100%; max-width: 42rem; margin-inline: auto;">
+  <img src="figures/attribute-data-flow.svg" alt="Intake leads to a saved attribute, which can be checked for warnings, correlated or selected for export.">
+</object>
+:::
+
+::: {.content-hidden when-format="html"}
+![Intake leads to a saved attribute, which can be checked for warnings, correlated or selected for export.](figures/attribute-data-flow.svg)
+:::
+
+- [Import Regexp](../false-positives/index.qmd#fp-import) can normalize or reject values on
+  supported intake paths. Attribute capture can also reject a warninglist hit when the caller
+  explicitly enables `enforceWarninglist`.
+- [Attribute settings](../using-the-system/index.qmd#add-attribute) record detection intent
+  (**For IDS**) and correlation eligibility separately on the saved occurrence.
+- [Warninglist review](#warninglists-use) checks enabled lists and displays matches for
+  investigation. The event view applies its warning display settings.
+- [Correlation controls](../correlation/index.qmd#correlation-controls) govern which
+  occurrences can be linked, including exclusions for noisy values.
+- [Export selection](#warninglists-export) applies the request's filters. On supported
+  `restSearch` exports, `to_ids` selects by detection intent and `enforceWarninglist` can omit
+  hits even when **For IDS** is enabled.
+
+Event publication and visibility follow the separate [sharing and distribution rules](../sharing/index.qmd#visibility-of-data---events-objects-and-attributes).
 
 <a id="warning-lists-and-false-positives"></a>
 <a id="usage"></a>
@@ -88,9 +121,24 @@ the format, enabled lists and source/detection scope explicitly and inspect the 
 selection. A read-only investigation may need the matched context even when a detection export
 should omit it. See [Automation & API](../automation/index.qmd#api-exports).
 
-Do not treat a warninglist as a distribution policy, event blocklist, removed signature
-allowedlist or replacement for reviewing detection content. A private address may be important
-inside an investigation even when it is inappropriate for a public detection feed.
+In JSON tests on MISP 3.0 (`3.0_wip` commit `b415f2206`), `/attributes/restSearch` with
+`enforceWarninglist` also filtered matching attributes with **For IDS** off.
+`/events/restSearch` filtered those same attributes when `MISP.warning_for_all` was enabled.
+Check the endpoint and settings your consumer uses.
+
+### Signature allowedlist migration {#warninglists-allowedlist-migration}
+
+MISP replaced the legacy **Signature allowedlist** in [2.5.50](https://github.com/MISP/MISP/releases/tag/v2.5.50).
+The migration also ships in MISP 3.0. When valid entries exist, it creates an enabled local
+regex warninglist named **Signature allowedlist (migrated)**, in the `false_positive` category
+and applicable to all attribute types. The migration logs invalid regexes it skips. Review
+patterns for composite values such as `filename|sha256`: warninglists check each component
+separately, while the old allowedlist checked the full value.
+
+For a supported export that used the old allowedlist, enable `enforceWarninglist` to omit
+matches from the migrated list. The option evaluates all enabled applicable warninglists, so
+compare the result with an unfiltered export before changing a consumer. Use the actual
+recipient account, filter settings and output format.
 
 <a id="updating-warninglists"></a>
 <a id="managing-warninglists-from-the-gui"></a>
