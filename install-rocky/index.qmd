@@ -244,8 +244,10 @@ sudo setsebool -P httpd_can_network_connect_db on
 sudo setsebool -P httpd_can_network_connect on
 ```
 
-With the stock Rocky Linux targeted policy and its default `httpd_use_gpg` setting, GnuPG and its agent run in the PHP-FPM SELinux domain.
-The `httpd_var_run_t` label allows that domain to create the agent's Unix sockets in the GnuPG home.
+Check `getsebool httpd_use_gpg` on the host. The stock Rocky Linux targeted policy reports `httpd_use_gpg --> off`.
+With that setting, PHP-FPM's `httpd_t` domain can run GnuPG and its agent, and the `httpd_var_run_t` label lets the agent create Unix sockets in its home directory.
+With `httpd_enable_cgi` on, enabling `httpd_use_gpg` moves GnuPG into `gpg_web_t`, which lacks the agent execution and socket creation permissions this setup uses.
+
 The database boolean permits the web process to connect to MariaDB.
 The network boolean permits other outbound connections from the web process, including Redis or Valkey and Supervisor.
 Apply your site's network policy to the services MISP should reach. [SELinux administration](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_selinux/index)
