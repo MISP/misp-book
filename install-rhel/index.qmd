@@ -5,7 +5,7 @@ title: "Install MISP 3.0 on Red Hat Enterprise Linux"
 This guide installs the latest [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) on a clean Red Hat Enterprise Linux server.
 It uses Apache with PHP-FPM, MariaDB, a local Redis-compatible service, and Supervisor.
 The examples use `/var/www/MISP` and the distribution's `apache` account.
-On Fedora, use the [Fedora Server installation guide](../install-fedora/index.qmd).
+For other distributions in this family, see the [AlmaLinux installation guide](../install-almalinux/index.qmd) and the [Fedora Server installation guide](../install-fedora/index.qmd).
 
 ::: {.callout-note}
 `3.0_wip` is the MISP 3.0 development branch. Evaluate it on a disposable host before deploying it.
