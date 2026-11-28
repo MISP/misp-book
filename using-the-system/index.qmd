@@ -319,19 +319,45 @@ Optional [workflow rules](../workflows/index.qmd#workflow-blocking) can compleme
 
 ### Confirm publication and verify the outcome {#publication-outcome}
 
-In the 3.0 interface, **Publish** opens a confirmation with an optional notification switch.
-The normal **Publish** path starts with notifications off; enabling the switch changes the action to **Publish & notify**.
-Review the intended destinations and notification choice before confirming.
+1. Open the reviewed event and select **Publish**.
+2. In the confirmation, review any listed destinations.
+   Leave **Send notification email** off to **Publish**, or turn it on and select **Publish & notify** to request an alert for eligible subscribers.
+3. Confirm publication and check the event's published state.
+   If you expect delivery to a peer, verify receipt there and check the job result if your instance uses background jobs.
 
-![The MISP 3.0 publication confirmation, showing the optional notification setting. This training fixture is not published.](figures/misp3-publish.png)
+![The MISP 3.0 Publish event confirmation with Send notification email switched off.](figures/misp3-publish.png)
 
-Publication, distribution, IDS eligibility, warninglists, and consumer filters are separate decisions.
-An event becoming published does not make every attribute detection-ready or automatically deliver it to every partner.
-With background jobs enabled, check job and synchronization results rather than treating a queued action as completed delivery.
+### Common publication questions {#publication-questions}
 
-**Unpublish** clears the local published state. It does not erase copies already pulled by other instances or retract content already exported into another tool.
+**Who can see my event after I publish it?**
+
+The event's [distribution and sharing group](../sharing/index.qmd#visibility-of-data---events-objects-and-attributes) determine its audience.
+Check the distribution of individual attributes and objects as well.
+
+**Who gets a publication email?**
+
+**Publish & notify** requests an email for users on this instance who subscribed to publication alerts and have access to the event.
+Instance settings and user notification filters can further limit delivery.
+
+**Will my partners receive it or see it in their detection exports?**
+
+Publishing can trigger a push to eligible peers and make an eligible event available for a later pull.
+Delivery depends on the peer's configuration, access, and synchronization rules.
+Detection exports also depend on IDS flags, warninglists, and consumer filters.
+
+**Why did a synced event arrive unpublished or without an alert?**
+
+Check [the peer's Misc settings](../sharing/index.qmd#sync-misc-settings).
+The sending instance can push an event as unpublished, and the pulling instance can suppress alerts for published events it receives by pull.
+
+**What happens when I unpublish an event?**
+
+**Unpublish** clears the local published state. Previously synchronized copies and downstream exports can still contain the event.
 Use the appropriate correction, deletion, and partner-notification process when previously shared intelligence needs to be withdrawn.
-**Publish Sightings** synchronizes sighting updates without treating them as a new event publication.
+
+**How do I share new sightings on an existing event?**
+
+On a published event, use **Publish Sightings** to synchronize sighting updates separately from event publication.
 
 ## Extending events
 

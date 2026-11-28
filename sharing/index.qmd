@@ -113,7 +113,7 @@ The MISP 3.0 form groups the settings into expandable sections. The underlying e
 | **General** | The peer's HTTPS **Base URL** and a recognisable **Instance name**. Leave **Internal instance** off for ordinary partner connections. |
 | **Instance ownership and credentials** | The organisation that **hosts the remote instance**, identified by UUID, and the authentication key issued on that instance. Choose an existing local/known remote organisation or create the remote organisation as appropriate. |
 | **What to synchronise** | Choose the data types and Push/Pull directions agreed with the peer. Configure **Cache remote values** separately. |
-| **Misc settings** | Review event publication/email handling, caching, proxy behaviour and any certificate files. Use a trusted server certificate; do not routinely bypass certificate verification with **Self Signed**. |
+| **Misc settings** | Configure [publication, email, TLS, and proxy behavior](#sync-misc-settings) for this peer. |
 | **Sync rules** | Define push and pull filters separately, then test them against representative data. |
 
 The remote host organisation is used when evaluating sharing-group eligibility. Selecting the
@@ -165,6 +165,21 @@ The peer's capabilities determine what it can receive.
 Peers older than 3.0 can receive event and galaxy cluster members if they support collection sync. Value-targeted Analyst Data requires 3.0.
 A peer must advertise `analyst_graph` to synchronize [saved graphs](../analyst-data/index.qmd#saved-graphs).
 Check the received records before treating a mixed-version handover as complete.
+
+### Publication, email, TLS, and proxy settings {#sync-misc-settings}
+
+Expand **Misc settings** when adding or editing a server.
+The settings apply to the connection saved on this instance.
+The behavior below was verified on two MISP 3.0.0 instances running [`3.0_wip` commit `cd8a4f41`](https://github.com/MISP/MISP/commit/cd8a4f416438174389d57307894039ce0c75f6c9) with dedicated **Sync user** accounts.
+
+| Setting | Effect in MISP 3.0 |
+|---|---|
+| **Unpublish event when pushing** | Sends an eligible published event to this peer as unpublished. The source event stays published, and a pull from this peer preserves the publication state supplied by the source. |
+| **Publish without email** | Suppresses publication alert emails on this instance when it pulls a published event or receives a published update through that pull. The received event stays published. For an incoming push, the receiving instance's own alert settings apply. |
+| **Allow self-signed certificates** | Disables TLS hostname verification for this peer. If no server certificate file is configured for the peer, it also disables certificate verification. Keep this off and use a trusted certificate that matches the peer's hostname. |
+| **Skip proxy (if applicable)** | Makes requests to this peer bypass the outbound proxy configured in MISP. It has an effect only when a proxy is configured. |
+
+For the notification switch used when publishing an event yourself, see [Confirm publication and verify the outcome](../using-the-system/index.qmd#publication-outcome).
 
 ## Test the connection {#test-connection}
 

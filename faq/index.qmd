@@ -253,6 +253,7 @@ distribution/sharing-group eligibility, push/pull enablement, filters and the ac
 A successful connection test alone does not establish event eligibility. A local attachment,
 private analyst record or collection reference has its own sharing rules. See
 [synchronization troubleshooting](../sharing/index.qmd#troubleshooting).
+For publication, notifications, and unpublishing, see [Common publication questions](../using-the-system/index.qmd#publication-questions).
 
 A community relay also has administrators with access to its hosted data. Include the intended
 hosting/recipient organisations and servers in a sharing-group design; it is not a hidden
