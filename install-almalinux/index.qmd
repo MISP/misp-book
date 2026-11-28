@@ -63,7 +63,7 @@ On **both releases**, install the common dependencies and check PHP's database a
 The `/usr/bin/curl` dependency also accepts `curl-minimal` on minimal installations.
 
 ```bash
-sudo dnf install git /usr/bin/curl ca-certificates openssl unzip file-libs procps-ng iproute \
+sudo dnf install git /usr/bin/curl ca-certificates openssl unzip file-libs gnupg2 procps-ng iproute \
   httpd mod_ssl php-cli php-fpm php-mysqlnd php-mbstring php-xml \
   php-gd php-intl php-bcmath php-pecl-zip php-pecl-redis6 \
   python3.12 python3.12-pip python3.12-devel gcc ssdeep-devel \
@@ -73,6 +73,22 @@ php --ri pdo_mysql
 php --ri redis
 mariadb --version
 ```
+
+Set a shared PHP memory limit before running the initialization commands.
+Both the CLI and PHP-FPM load `/etc/php.d/99-misp.ini`.
+A 2 GiB limit gives the initial definitions import and larger MISP jobs room to run. [MISP RPM installation](https://github.com/MISP/MISP-RPM/blob/master/INSTALL.md)
+
+```bash
+sudo tee /etc/php.d/99-misp.ini > /dev/null <<'INI'
+memory_limit = 2048M
+INI
+php -r 'echo ini_get("memory_limit"), PHP_EOL;'
+sudo php-fpm -i | grep '^memory_limit '
+```
+
+Both checks should show `2048M`.
+If the `apache` PHP-FPM pool sets `memory_limit` separately, match the limit in the pool configuration as well.
+Inspect the pool with `sudo php-fpm -tt`.
 
 ## Check out MISP and install its dependencies {#almalinux-install-source}
 
@@ -185,6 +201,31 @@ sudo -u apache /var/www/MISP/app/Console/cake Admin schemaDiagnostics
 
 Confirm that schema diagnostics report zero pending and failed migrations.
 
+### Set up the instance signing key {#almalinux-install-gnupg}
+
+Generate an OpenPGP signing key as `apache` for protected synchronization and signed notifications.
+Use a private Bash session and replace `misp@example.org` with the instance's signing address.
+
+```bash
+sudo install -d -o apache -g apache -m 0700 /var/lib/misp/gnupg
+gpg_email=misp@example.org
+read -r -s -p 'Instance GnuPG passphrase: ' gpg_passphrase
+printf '\n'
+printf '%s\n' "$gpg_passphrase" | sudo -u apache /usr/bin/gpg \
+  --homedir /var/lib/misp/gnupg --batch --pinentry-mode loopback --passphrase-fd 0 \
+  --quick-generate-key "$gpg_email" ed25519 sign never
+unset gpg_passphrase
+sudo -u apache /usr/bin/gpg --homedir /var/lib/misp/gnupg --armor \
+  --output /var/www/MISP/app/webroot/gpg.asc --export "$gpg_email"
+sudo -u apache /usr/bin/gpgconf --homedir /var/lib/misp/gnupg --kill gpg-agent
+```
+
+Stopping the agent from the setup session lets PHP-FPM start it in the web service's SELinux context.
+In `app/Config/config.php`, set `GnuPG.homedir` to `/var/lib/misp/gnupg`, `GnuPG.email` to the signing address, and `GnuPG.password` to the passphrase.
+Keep `GnuPG.binary` set to `/usr/bin/gpg` and leave `GnuPG.sign` enabled for signed email.
+MISP encrypts outgoing OpenPGP email using recipients' public keys.
+Include the instance's private key and configuration in protected backups. [Instance and user keys](../cryptographic-keys/index.qmd)
+
 ## Serve HTTPS with SELinux enforcing {#almalinux-install-web}
 
 Apply persistent SELinux labels to the paths the web process writes to.
@@ -196,12 +237,15 @@ sudo semanage fcontext -a -t httpd_sys_rw_content_t \
 sudo semanage fcontext -a -t httpd_sys_content_t '/var/lib/misp'
 sudo semanage fcontext -a -t httpd_sys_rw_content_t \
   '/var/lib/misp/attachments(/.*)?'
+sudo semanage fcontext -a -t httpd_var_run_t '/var/lib/misp/gnupg(/.*)?'
 sudo restorecon -F /var/lib/misp
-sudo restorecon -RF /var/www/MISP /var/lib/misp/attachments
+sudo restorecon -RF /var/www/MISP /var/lib/misp/attachments /var/lib/misp/gnupg
 sudo setsebool -P httpd_can_network_connect_db on
 sudo setsebool -P httpd_can_network_connect on
 ```
 
+With the stock AlmaLinux targeted policy and its default `httpd_use_gpg` setting, GnuPG and its agent run in the PHP-FPM SELinux domain.
+The `httpd_var_run_t` label allows that domain to create the agent's Unix sockets in the GnuPG home.
 The database boolean permits the web process to connect to MariaDB.
 The network boolean permits other outbound connections from the web process, including Redis or Valkey and Supervisor.
 Apply your site's network policy to the services MISP should reach. [SELinux administration](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_selinux/index)
@@ -297,6 +341,7 @@ Once all six processes report `RUNNING`, check worker status and wait for a test
 
 - Run `ss -lnt` to confirm that MariaDB, Redis or Valkey, and Supervisor are bound to loopback.
 - Check the HTTPS certificate and sign-in from a client that trusts your CA, then create and find a synthetic event with **Your organisation only** distribution.
+- Check that **GnuPG** reports **OK** under **Administration → Server Settings & Maintenance → Services** with SELinux enforcing before using protected synchronization or signed mail. [System health checks](../administration/index.qmd#server-settings-and-maintenance)
 - Verify a completed background job, then review the site organization, distribution defaults, mail settings, and backup and restore procedures before enabling sync or scheduled feeds. [First steps after login](../quick-start/index.qmd#first-steps-after-login)
 
 When migrating from MISP 2.5, use the [offline upgrade guide](../upgrade-2-5-to-3-0/index.qmd).
