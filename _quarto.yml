@@ -52,6 +52,7 @@ book:
         - install-opensuse/index.qmd
         - install-alpine/index.qmd
         - install-openbsd/index.qmd
+        - install-apple-container/index.qmd
         - upgrade-2-5-to-3-0/index.qmd
     - part: "Using MISP"
       chapters:

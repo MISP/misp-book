@@ -1,0 +1,173 @@
+---
+title: "Run MISP 3.0 in Ubuntu on macOS with Apple container"
+---
+
+Use Apple's `container` tool to run a persistent Ubuntu 24.04 LTS container machine on your Mac.
+Ubuntu runs the services that MISP needs, including Apache, MariaDB, Redis, and Supervisor.
+This walkthrough uses the [MISP `3.0_wip` Ubuntu installer](../install-ubuntu/index.qmd#ubuntu-install-run) for a local evaluation instance.
+
+::: {.callout-note}
+You need an Apple silicon Mac with macOS 26 or later and Apple `container` 1.7.1 or later.
+Install Apple's signed package and check which version is installed.
+The commands follow Apple's 1.7.1 reference, and the Ubuntu image recipe was checked on Linux x86_64.
+Verify machine boot, the installer, DNS, and browser access on your Mac. [Apple container requirements](https://github.com/apple/container/blob/1.7.1/README.md#get-started) · [Apple releases](https://github.com/apple/container/releases)
+:::
+
+## Set up the Mac {#apple-container-host}
+
+Run the host commands in a dedicated Terminal tab.
+Container machines can mount your macOS home directory and forward your SSH agent.
+This example disables the home mount and clears the SSH agent environment variable for this tab.
+Use a trusted base image and review the installer before running it with `sudo`. [Apple container machine documentation](https://github.com/apple/container/blob/1.7.1/docs/container-machine.md)
+
+```bash
+unset SSH_AUTH_SOCK
+container --version
+container system start
+```
+
+Use Apple's embedded DNS to give the instance the stable name `misp-ubuntu.test`.
+In `~/.config/container/config.toml` on the Mac, add or update the `[dns]` section.
+If you already configured a local domain and its macOS resolver, skip this setup and substitute that domain throughout the guide.
+
+```toml
+[dns]
+domain = "test"
+```
+
+Restart Apple's container service when you can interrupt any other running containers.
+Register the matching resolver on macOS. [Apple container DNS setup](https://github.com/apple/container/blob/1.7.1/docs/networking.md#set-up-dns-based-container-names)
+
+```bash
+container system stop
+container system start
+sudo container system dns create test
+```
+
+## Build and boot an Ubuntu container machine {#apple-container-machine}
+
+On the Mac, create a dedicated build directory and save the following as `Dockerfile`.
+The official Ubuntu image supplies the Linux filesystem.
+Adding `systemd-sysv` gives the machine the `/sbin/init` entry point required to run Linux services.
+The setup follows Apple's [Ubuntu container machine example](https://github.com/apple/container/blob/1.7.1/docs/container-machine.md#bring-your-own-image).
+
+```dockerfile
+FROM ubuntu:24.04
+
+ENV container=container
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      ca-certificates curl dbus iproute2 less openssl procps sudo systemd systemd-sysv && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN truncate -s 0 /etc/machine-id /var/lib/dbus/machine-id && \
+    systemctl set-default multi-user.target && \
+    systemctl mask dev-hugepages.mount sys-fs-fuse-connections.mount \
+      systemd-update-utmp.service systemd-tmpfiles-setup.service console-getty.service
+
+STOPSIGNAL SIGRTMIN+3
+```
+
+From the build directory on your Mac, build and boot the machine.
+The example allocates four virtual CPUs and 8 GiB of memory. [MISP sizing guidance](../requirements/index.qmd#sizing-your-misp-instance)
+
+```bash
+container build -t local/misp-ubuntu-machine:24.04 .
+container machine create --name misp-ubuntu --cpus 4 --memory 8G \
+  --home-mount none local/misp-ubuntu-machine:24.04
+container machine list
+container machine run -n misp-ubuntu
+```
+
+In the **Ubuntu shell**, check the release, architecture, and init process.
+Continue once Ubuntu reports 24.04, the architecture is `aarch64`, and PID 1 is `systemd`.
+Check that the guest has `sudo` and no forwarded SSH agent.
+
+```bash
+cat /etc/os-release
+uname -m
+ps -p 1 -o comm=
+sudo -n true
+test -z "${SSH_AUTH_SOCK:-}"
+```
+
+If boot or guest setup fails, check `container machine logs --boot misp-ubuntu` from the Mac. [Apple container machine commands](https://github.com/apple/container/blob/1.7.1/docs/command-reference.md#container-machine-management)
+
+## Install MISP inside Ubuntu {#apple-container-install}
+
+From the **Ubuntu shell**, generate a certificate for the lab hostname and keep the private key inside Ubuntu.
+Use a certificate from your organization's CA instead if clients already trust that CA.
+
+```bash
+sudo openssl req -x509 -newkey rsa:2048 -noenc -days 90 \
+  -subj '/CN=misp-ubuntu.test' \
+  -addext 'subjectAltName=DNS:misp-ubuntu.test' \
+  -keyout /etc/ssl/private/misp-ubuntu.key \
+  -out /etc/ssl/certs/misp-ubuntu.crt
+sudo chmod 0600 /etc/ssl/private/misp-ubuntu.key
+sudo chmod 0644 /etc/ssl/certs/misp-ubuntu.crt
+```
+
+Download and review the `3.0_wip` installer inside Ubuntu.
+Use the same hostname in the certificate, the Apache virtual host, and MISP's base URL. [Ubuntu installer options](../install-ubuntu/index.qmd#ubuntu-install-run)
+
+```bash
+cd "$HOME"
+curl --fail --location --output INSTALL.ubuntu2404.sh \
+  https://raw.githubusercontent.com/MISP/MISP/3.0_wip/INSTALL/INSTALL.ubuntu2404.sh
+less INSTALL.ubuntu2404.sh
+sudo env \
+  MISP_DOMAIN=misp-ubuntu.test \
+  MISP_BASEURL=https://misp-ubuntu.test \
+  PATH_TO_SSL_CERT=/etc/ssl/certs/misp-ubuntu.crt \
+  PATH_TO_SSL_KEY=/etc/ssl/private/misp-ubuntu.key \
+  GPG_EMAIL_ADDRESS=misp@misp-ubuntu.test \
+  bash ./INSTALL.ubuntu2404.sh
+```
+
+Check Apache, MariaDB, Redis, the workers, and the application schema inside Ubuntu.
+
+```bash
+sudo apache2ctl configtest
+sudo systemctl is-active apache2 mariadb redis-server supervisor
+sudo supervisorctl status 'misp-workers:*'
+sudo -u www-data /var/www/MISP/app/Console/cake Admin schemaDiagnostics
+sudo -u www-data git -C /var/www/MISP rev-parse HEAD
+```
+
+Check for zero pending and failed migrations and confirm the six workers are running.
+Read the initial account credentials from the root-only `/root/misp_settings.txt` inside Ubuntu.
+The installation log can also contain credentials. [Ubuntu installation checks](../install-ubuntu/index.qmd#ubuntu-install-check)
+
+## Open MISP from the Mac {#apple-container-access}
+
+In the **Mac Terminal**, copy the public certificate out of Ubuntu and use it to verify the first HTTPS request.
+The machine has its own IP address on Apple's default network. Use `misp-ubuntu.test` in the browser and API clients.
+
+```bash
+container machine run -n misp-ubuntu -- cat /etc/ssl/certs/misp-ubuntu.crt > misp-ubuntu.crt
+dscacheutil -q host -a name misp-ubuntu.test
+curl --cacert ./misp-ubuntu.crt --fail --silent --show-error \
+  --output /dev/null https://misp-ubuntu.test/users/login
+```
+
+If name resolution fails, compare the IP shown by `container machine list` with the macOS lookup and check both parts of the [Apple DNS setup](https://github.com/apple/container/blob/1.7.1/docs/networking.md#set-up-dns-based-container-names).
+For browser access with the lab certificate, import its public certificate into your login keychain and set SSL trust for that certificate.
+Open **https://misp-ubuntu.test**, sign in, change the bootstrap password, and create an unpublished, organization-only test event. [Certificate trust in Keychain Access](https://support.apple.com/guide/keychain-access/change-the-trust-settings-of-a-certificate-kyca11871/mac) · [First steps after login](../quick-start/index.qmd#first-steps-after-login)
+
+## Stop, resume, and back up the machine {#apple-container-lifecycle}
+
+Exit the Ubuntu shell when you are done with that session.
+From the Mac, stop the machine when you want to free its resources.
+Opening the machine again starts Ubuntu and its enabled services.
+
+```bash
+container machine stop misp-ubuntu
+container machine run -n misp-ubuntu
+```
+
+The machine preserves its Linux filesystem, including the MISP database and configuration, across stop and start.
+Store [MISP backups](../administration/index.qmd#admin-backup-recovery) outside the machine before deleting it.
+`container machine delete misp-ubuntu` removes its persistent filesystem.
+Remove the lab certificate from your Mac's keychain when you retire the instance.
