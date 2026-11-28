@@ -1,0 +1,303 @@
+---
+title: "Install MISP 3.0 on AlmaLinux"
+---
+
+This guide installs the [MISP `3.0_wip` branch](https://github.com/MISP/MISP/tree/3.0_wip) on a clean AlmaLinux 9 or 10 server.
+It uses Apache with PHP-FPM, MariaDB, Redis or Valkey, and Supervisor.
+The checkout lives in `/var/www/MISP` and runs as the distribution's `apache` account.
+
+::: {.callout-note}
+`3.0_wip` is the MISP 3.0 development branch.
+Evaluate it on an isolated server before deployment.
+For an existing MISP 2.5 database, follow the [offline upgrade guide](../upgrade-2-5-to-3-0/index.qmd).
+:::
+
+The package and application checks used AlmaLinux 9.9 and 10.3 x86_64 containers with services started directly.
+They used MISP [`3.0_wip` commit `cd8a4f41`](https://github.com/MISP/MISP/commit/cd8a4f416438174389d57307894039ce0c75f6c9).
+Verify systemd startup, firewall rules, and SELinux enforcement on the target host.
+
+## Prepare the host and install packages {#almalinux-install-packages}
+
+Use a current AlmaLinux 9 or 10 minor release, a `sudo` account, a DNS name, and a trusted TLS certificate and key for that name.
+Keep web access restricted to administrators until you change the bootstrap password.
+
+Enable CRB and EPEL for your AlmaLinux release.
+EPEL supplies Supervisor and the fuzzy-hash development library.
+These commands use AlmaLinux's BaseOS, AppStream, CRB, and Extras repositories. [AlmaLinux repositories](https://wiki.almalinux.org/repos/AlmaLinux.html) · [Fedora EPEL setup](https://docs.fedoraproject.org/en-US/epel/getting-started/)
+
+```bash
+sudo dnf upgrade --refresh
+sudo dnf install dnf-plugins-core
+sudo dnf config-manager --set-enabled crb
+sudo dnf install epel-release
+sudo dnf repolist
+```
+
+::: {.table-responsive}
+
+| Component | AlmaLinux 9 | AlmaLinux 10 |
+|---|---|---|
+| PHP | Enable the AppStream `php:8.3` stream | Install the distribution's PHP packages |
+| MariaDB | Enable the AppStream `mariadb:10.11` stream | Install `mariadb-server` |
+| Cache and queues | `redis` package and service | `valkey` package and service |
+
+:::
+
+MISP requires MariaDB 10.11 or later for this procedure.
+On AlmaLinux 10, MISP connects to Valkey through the PHP Redis extension and uses the same Redis settings. [MISP software requirements](../requirements/index.qmd#software-requirements)
+
+On **AlmaLinux 9**, select the streams before installing PHP or MariaDB.
+
+```bash
+sudo dnf module enable php:8.3 mariadb:10.11
+sudo dnf install mariadb-server redis
+```
+
+On **AlmaLinux 10**, install MariaDB and Valkey.
+
+```bash
+sudo dnf install mariadb-server valkey
+```
+
+On **both releases**, install the common dependencies and check PHP's database and cache extensions.
+The `/usr/bin/curl` dependency also accepts `curl-minimal` on minimal installations.
+
+```bash
+sudo dnf install git /usr/bin/curl ca-certificates openssl unzip file-libs procps-ng iproute \
+  httpd mod_ssl php-cli php-fpm php-mysqlnd php-mbstring php-xml \
+  php-gd php-intl php-bcmath php-pecl-zip php-pecl-redis6 \
+  python3.12 python3.12-pip python3.12-devel gcc ssdeep-devel \
+  policycoreutils-python-utils supervisor
+php --version
+php --ri pdo_mysql
+php --ri redis
+mariadb --version
+```
+
+## Check out MISP and install its dependencies {#almalinux-install-source}
+
+Install Composer at `/usr/local/bin/composer` using the checksum-verified installer procedure.
+Run Git, Composer, and the Python environment as `apache`. [Composer installation and verification](https://getcomposer.org/download/)
+
+```bash
+sudo install -d -o apache -g apache -m 0755 /var/www/MISP
+sudo install -d -o apache -g apache -m 0750 /var/lib/misp \
+  /var/lib/misp/composer /var/lib/misp/attachments
+sudo -u apache git clone --branch 3.0_wip --depth 1 \
+  --recurse-submodules --shallow-submodules \
+  https://github.com/MISP/MISP.git /var/www/MISP
+sudo -u apache git -C /var/www/MISP rev-parse HEAD
+
+sudo -u apache env COMPOSER_HOME=/var/lib/misp/composer \
+  /usr/local/bin/composer --working-dir=/var/www/MISP/app \
+  install --no-dev --no-interaction --prefer-dist
+sudo -u apache env COMPOSER_HOME=/var/lib/misp/composer \
+  /usr/local/bin/composer --working-dir=/var/www/MISP/app \
+  check-platform-reqs --no-dev
+sudo -u apache python3.12 -m venv /var/www/MISP/venv
+sudo -u apache env HOME=/var/lib/misp /var/www/MISP/venv/bin/python \
+  -m pip install -r /var/www/MISP/requirements.txt
+sudo -u apache /var/www/MISP/venv/bin/python -m pip check
+```
+
+## Initialize MariaDB and MISP {#almalinux-install-database}
+
+Create `/etc/my.cnf.d/90-misp.cnf`, owned by root with mode `0644`, to bind MariaDB to loopback.
+
+```ini
+[mariadb]
+bind-address=127.0.0.1
+```
+
+Keep the cache listener on loopback and protected mode enabled.
+Use `systemctl cat redis.service` on AlmaLinux 9 or `systemctl cat valkey.service` on AlmaLinux 10 to locate the packaged configuration file.
+Start MariaDB and the cache service for your release.
+
+```bash
+sudo systemctl enable --now mariadb
+```
+
+```bash
+# AlmaLinux 9
+sudo systemctl enable --now redis
+redis-cli ping
+```
+
+```bash
+# AlmaLinux 10
+sudo systemctl enable --now valkey
+valkey-cli ping
+```
+
+After the cache returns `PONG`, open a MariaDB administrator session over the local socket with history disabled.
+
+```bash
+sudo env MYSQL_HISTFILE=/dev/null mariadb --protocol=socket
+```
+
+Create the database and a user for the application's loopback TCP connection.
+Replace the placeholder with a unique database password.
+
+```sql
+CREATE DATABASE misp
+    CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci;
+CREATE USER 'misp'@'127.0.0.1' IDENTIFIED BY 'REPLACE_WITH_DATABASE_PASSWORD';
+GRANT ALL PRIVILEGES ON misp.* TO 'misp'@'127.0.0.1';
+EXIT;
+```
+
+Import the schema and copy the application configuration templates from the same checkout.
+
+```bash
+sudo mariadb --protocol=socket misp < /var/www/MISP/INSTALL/MARIADB.sql
+for name in bootstrap core database config; do
+  sudo install -o apache -g apache -m 0640 \
+    "/var/www/MISP/app/Config/$name.default.php" "/var/www/MISP/app/Config/$name.php"
+done
+```
+
+In `/var/www/MISP/app/Config/database.php`, set `host` to `127.0.0.1`, `login` to `misp`, and `password` to the database password.
+Keep `database` set to `misp`.
+
+Update the corresponding keys under `MISP` in `/var/www/MISP/app/Config/config.php`, using your DNS name and organization.
+
+```php
+'baseurl' => 'https://misp.example.org',
+'external_baseurl' => 'https://misp.example.org',
+'org' => 'Your organization',
+'osuser' => 'apache',
+'python_bin' => '/var/www/MISP/venv/bin/python',
+'attachments_dir' => '/var/lib/misp/attachments',
+'redis_host' => '127.0.0.1',
+'background_jobs' => false,
+```
+
+Generate an instance salt with `openssl rand -hex 32` and set `Security.salt` in the same file.
+Run the initialization commands as `apache` and store the bootstrap API key in a root-only file.
+
+```bash
+sudo -u apache /var/www/MISP/app/Console/cake Admin runUpdates
+sudo sh -c 'umask 077
+runuser -u apache -- /var/www/MISP/app/Console/cake User init \
+  > /root/misp-bootstrap-api-key'
+sudo -u apache /var/www/MISP/app/Console/cake Admin schemaDiagnostics
+```
+
+Confirm that schema diagnostics report zero pending and failed migrations.
+
+## Serve HTTPS with SELinux enforcing {#almalinux-install-web}
+
+Apply persistent SELinux labels to the paths the web process writes to.
+The application source under `/var/www` uses the distribution's web content policy.
+
+```bash
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/www/MISP/app/(Config|tmp|files/scripts/tmp)(/.*)?'
+sudo semanage fcontext -a -t httpd_sys_content_t '/var/lib/misp'
+sudo semanage fcontext -a -t httpd_sys_rw_content_t \
+  '/var/lib/misp/attachments(/.*)?'
+sudo restorecon -F /var/lib/misp
+sudo restorecon -RF /var/www/MISP /var/lib/misp/attachments
+sudo setsebool -P httpd_can_network_connect_db on
+sudo setsebool -P httpd_can_network_connect on
+```
+
+The database boolean permits the web process to connect to MariaDB.
+The network boolean permits other outbound connections from the web process, including Redis or Valkey and Supervisor.
+Apply your site's network policy to the services MISP should reach. [SELinux administration](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/10/html/using_selinux/index)
+
+Use the distribution's Apache PHP-FPM integration and the `apache` pool.
+In `/etc/httpd/conf.d/ssl.conf`, replace the example TLS virtual host and keep the global TLS settings, including `Listen 443 https`.
+Use your hostname and the paths to its certificate chain and private key.
+
+```apache
+<VirtualHost *:443>
+    ServerName misp.example.org
+    DocumentRoot /var/www/MISP/app/webroot
+    SSLEngine on
+    SSLCertificateFile /etc/pki/tls/certs/misp-fullchain.pem
+    SSLCertificateKeyFile /etc/pki/tls/private/misp.key
+
+    <Directory /var/www/MISP/app/webroot>
+        Options -Indexes
+        AllowOverride FileInfo
+        Require all granted
+        DirectoryIndex index.php
+    </Directory>
+</VirtualHost>
+```
+
+The checkout's `app/webroot/.htaccess` provides the rewrite and API authorization rules.
+Check that the default FPM pool listens on `/run/php-fpm/www.sock` and allows access by `apache`.
+
+```bash
+sudo restorecon -v /etc/pki/tls/certs/misp-fullchain.pem /etc/pki/tls/private/misp.key
+sudo php-fpm -t
+sudo httpd -t
+sudo systemctl enable --now php-fpm httpd
+```
+
+If you use firewalld, check the active zones with `sudo firewall-cmd --get-active-zones` and allow the HTTPS service in the zone used for administration.
+Sign in over HTTPS as `admin@admin.test` with the bootstrap password `admin`.
+Change the password on first login before granting other clients access.
+
+## Start the background workers {#almalinux-install-workers}
+
+Configure Supervisor's authenticated loopback API in `/etc/supervisord.conf`.
+Add or update the following section with a dedicated password, for example one generated with `openssl rand -hex 24`.
+
+```ini
+[inet_http_server]
+port=127.0.0.1:9001
+username=supervisor
+password=REPLACE_WITH_SUPERVISOR_PASSWORD
+```
+
+Create one worker for each queue and a separate scheduler.
+
+```bash
+{
+  printf '%s\n' '[group:misp-workers]' \
+    'programs=default,email,cache,prio,update,scheduler'
+  for worker in default email cache prio update scheduler; do
+    if [ "$worker" = scheduler ]; then
+      cake_command=scheduler_worker
+    else
+      cake_command="start_worker $worker"
+    fi
+    cat <<EOF
+
+[program:$worker]
+command=/var/www/MISP/app/Console/cake $cake_command
+directory=/var/www/MISP
+user=apache
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/var/www/MISP/app/tmp/logs/$worker-worker.log
+EOF
+  done
+} | sudo tee /etc/supervisord.d/misp-workers.ini > /dev/null
+```
+
+In `app/Config/config.php`, set `SimpleBackgroundJobs.redis_host` and `SimpleBackgroundJobs.supervisor_host` to `127.0.0.1`.
+Set `supervisor_user` and `supervisor_password` in that section to match Supervisor and keep its port at `9001`.
+Set `MISP.background_jobs` to `true`.
+
+```bash
+sudo chmod 0600 /etc/supervisord.conf
+sudo systemctl enable --now supervisord
+sudo systemctl reload php-fpm
+sudo supervisorctl status 'misp-workers:*'
+```
+
+Once all six processes report `RUNNING`, check worker status and wait for a test job to complete in MISP. [Background worker checks](../administration/index.qmd#admin-background-jobs)
+
+## Verify the installation {#almalinux-install-verify}
+
+- Run `ss -lnt` to confirm that MariaDB, Redis or Valkey, and Supervisor are bound to loopback.
+- Check the HTTPS certificate and sign-in from a client that trusts your CA, then create and find a synthetic event with **Your organisation only** distribution.
+- Verify a completed background job, then review the site organization, distribution defaults, mail settings, and backup and restore procedures before enabling sync or scheduled feeds. [First steps after login](../quick-start/index.qmd#first-steps-after-login)
+
+When migrating from MISP 2.5, use the [offline upgrade guide](../upgrade-2-5-to-3-0/index.qmd).
+On AlmaLinux run Cake commands as `apache` and restart `php-fpm` after the migration.
