@@ -31,6 +31,7 @@ The book's **Installation Guides** cover new installations on [Ubuntu 24.04](../
     [`misp-3.0_wip` branch of misp-docker](https://github.com/MISP/misp-docker/tree/misp-3.0_wip)
     and build the images locally; no pre-built images are published for this deployment.
     Follow [Quick Start](../quick-start/index.qmd#start-misp-with-docker) for the configuration and build steps.
+*   **Apple container on macOS** — run an [Ubuntu container machine](../install-apple-container/index.qmd) for local MISP 3.0 evaluation on an Apple silicon Mac.
 *   **Cloud images** — MISP can be deployed from cloud/marketplace images and with
     infrastructure-as-code; see the download page for the current options.
 
